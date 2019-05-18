@@ -60,8 +60,8 @@ public class MachineAccountController extends BaseController {
 	
 	@RequiresPermissions("machine:machineAccount:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(MachineAccount machineAccount, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<MachineAccount> page = machineAccountService.findPage(new Page<MachineAccount>(request, response), machineAccount); 
+	public String list(MachineAccount machineAccount, HttpServletRequest request, HttpServletResponse response, Model model,RedirectAttributes redirectAttributes) {
+		Page<MachineAccount> page = machineAccountService.findPage(new Page<MachineAccount>(request, response), machineAccount);
 		model.addAttribute("page", page);
 		return "modules/machine/machineAccountList";
 	}
