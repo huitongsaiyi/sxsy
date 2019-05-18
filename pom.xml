@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.sayee.sxsy</groupId>
@@ -180,9 +180,9 @@
 
 		<!-- connection pool -->
 		<dependency>
-		     <groupId>com.alibaba</groupId>
-		     <artifactId>druid</artifactId>
-		     <version>${druid.version}</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
 		</dependency>
 
 		<!-- jdbc driver -->
@@ -280,7 +280,7 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			 <version>2.5.1</version>
+			<version>2.5.1</version>
 		</dependency>
 		<!-- CACHE end -->
 
@@ -351,7 +351,7 @@
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-modeler</artifactId>
-            <version>${activiti.version}</version>
+			<version>${activiti.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activiti</groupId>
@@ -408,9 +408,9 @@
 			<version>${commons-codec.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>
-		    <version>${commons-fileupload.version}</version>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${commons-fileupload.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -497,25 +497,20 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.17</version>
+			<version>${poi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.17</version>
+			<version>${poi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml-schemas</artifactId>
-			<version>3.17</version>
+			<version>${poi.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-scratchpad</artifactId>
-            <version>4.1.0</version>
-        </dependency>
 
-        <!-- image util -->
+		<!-- image util -->
 		<dependency>
 			<groupId>com.drewnoakes</groupId>
 			<artifactId>metadata-extractor</artifactId>
@@ -629,18 +624,27 @@
 				</exclusion>
 			</exclusions>
 		</dependency> -->
-		<dependency>
-			<groupId>com.aspose.words</groupId>
-			<artifactId>aspose-words-jdk16</artifactId>
-			<version>RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jacob</groupId>
-			<artifactId>jacob</artifactId>
-			<version>RELEASE</version>
-		</dependency>
+		<!--<dependency>-->
+		<!--<groupId>org.apache.poi</groupId>-->
+		<!--<artifactId>poi</artifactId>-->
+		<!--<version>3.17</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>org.apache.poi</groupId>-->
+		<!--<artifactId>poi-ooxml</artifactId>-->
+		<!--<version>3.17</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>org.apache.poi</groupId>-->
+		<!--<artifactId>poi-ooxml-schemas</artifactId>-->
+		<!--<version>3.17</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>org.apache.poi</groupId>-->
+		<!--<artifactId>poi-scratchpad</artifactId>-->
+		<!--<version>4.1.0</version>-->
+		<!--</dependency>-->
 	</dependencies>
-
 
 	<build>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
@@ -848,7 +852,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- jetty插件
+			<!-- jetty插件 -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -868,8 +872,10 @@
 							<value>${project.build.sourceEncoding}</value>
 						</systemProperty>
 					</systemProperties>
+					<stopKey/>
+					<stopPort/>
 				</configuration>
-			</plugin>-->
+			</plugin>
 
 			<!-- resource插件 -->
 			<plugin>
@@ -909,13 +915,12 @@
 	</build>
 
 
-
 	<!-- 开发者信息 -->
 	<developers>
 		<developer>
-			<id>zf</id>
-			<name>zhangfan</name>
-			<email>zf at 249754722 163.com</email>
+			<id>thinkgem</id>
+			<name>WangZhen</name>
+			<email>thinkgem at 163.com</email>
 			<roles><role>Project lead</role></roles>
 			<timezone>+8</timezone>
 		</developer>

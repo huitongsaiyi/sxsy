@@ -18,6 +18,26 @@
         	return false;
         }
 	</script>
+	<style type="text/css">
+		#contentTable{
+			width:260em;
+			table-layout:fixed;}
+		#contentTable th{
+			text-align:center;/** 设置水平方向居中 */
+			vertical-align:middle;/** 设置垂直方向居中 */
+		}
+		#contentTable td{
+			width: 100%;
+			text-align: center;
+			word-break:keep-all;/* 不换行 */
+			white-space:nowrap;/* 不换行 */
+			overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+			text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+		}
+		#contentTable th:nth-of-type(23){
+			width: 10em;
+		}
+	</style>
 </head>
 <body>
 	<div id="importBox" class="hide">
@@ -39,7 +59,7 @@
 			<li><label>报案时间：</label>
 				<input name="reportingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${machineAccount.reportingTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</li>
 			<li><label>部门：</label>
 				<sys:treeselect id="deptId" name="deptId" value="${machineAccount.deptId}" labelName="" labelValue="${machineAccount.deptId}"
@@ -57,7 +77,7 @@
 			</li>
 			<li><label>起保日期：</label>
 				<input name="startInsuranceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${machineAccount.startInsuranceTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					value="<fmt:formatDate value="${machineAccount.startInsuranceTime}" pattern="yyyy-MM-dd"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li><label>卷宗编号：</label>
@@ -74,7 +94,7 @@
 		<thead>
 			<tr>
 				<th>报案时间</th>
-				<th>部门主键</th>
+				<th>部门名称</th>
 				<th>调解员</th>
 				<th>患者名称</th>
 				<th>医院名称</th>
@@ -228,8 +248,7 @@
 					<fmt:formatDate value="${machineAccount.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="machine:machineAccount:edit"><td>
-    				<a href="${ctx}/machine/machineAccount/form?id=${machineAccount.id}">修改</a>
-					<a href="${ctx}/machine/machineAccount/delete?id=${machineAccount.id}" onclick="return confirmx('确认要删除该台账信息展示吗？', this.href)">删除</a>
+    				<a href="${ctx}/machine/machineAccount/form?id=${machineAccount.id}">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

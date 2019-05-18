@@ -69,7 +69,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="报案时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="报案时间", align=2, sort=25)
+	@ExcelField(title="报案时间", align=2, sort=1)
 	public String getReportingTime() {
 		return reportingTime;
 	}
@@ -79,6 +79,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=32, message="部门主键长度必须介于 0 和 32 之间")
+	@ExcelField(title = "部门", align=2,sort = 2)
 	public String getDeptId() {
 		return deptId;
 	}
@@ -88,6 +89,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=32, message="调解员ID，关联人员表主键长度必须介于 0 和 32 之间")
+	@ExcelField(title = "调解员",align = 2,sort = 3)
 	public String getMediatorId() {
 		return mediatorId;
 	}
@@ -97,7 +99,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=10, message="患者名称长度必须介于 0 和 10 之间")
-	@ExcelField(title="患者名称", align=2, sort=25)
+	@ExcelField(title="患者名称", align=2, sort=4)
 	public String getPatientName() {
 		return patientName;
 	}
@@ -107,7 +109,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=32, message="医院名称。通过主键进行关联长度必须介于 0 和 32 之间")
-	@ExcelField(title="医院名称", align=2, sort=25)
+	@ExcelField(title="医疗机构名称", align=2, sort=5)
 	public String getHospitalId() {
 		return hospitalId;
 	}
@@ -117,7 +119,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=50, message="重大长度必须介于 0 和 50 之间")
-	@ExcelField(title="重大", align=2, sort=25)
+	@ExcelField(title="重大", align=2, sort=6)
 	public String getMajor() {
 		return major;
 	}
@@ -127,7 +129,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=100, message="保险公司名称长度必须介于 0 和 100 之间")
-	@ExcelField(title="保险公司", align=2, sort=25)
+	@ExcelField(title="保险公司", align=2, sort=7)
 	public String getInsuranceCompany() {
 		return insuranceCompany;
 	}
@@ -137,7 +139,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=50, message="保单号长度必须介于 0 和 50 之间")
-	@ExcelField(title="保单号", align=2, sort=25)
+	@ExcelField(title="保单号", align=2, sort=8)
 	public String getPolicyNumber() {
 		return policyNumber;
 	}
@@ -147,7 +149,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="起保日期长度必须介于 0 和 20 之间")
-	@ExcelField(title="起保日期", align=2, sort=25)
+	@ExcelField(title="起保日期", align=2, sort=9)
 	public String getStartInsuranceTime() {
 		return startInsuranceTime;
 	}
@@ -157,7 +159,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="纠纷发生日期长度必须介于 0 和 20 之间")
-	@ExcelField(title="纠纷日期", align=2, sort=25)
+	@ExcelField(title="纠纷日期", align=2, sort=10)
 	public String getDisputesTime() {
 		return disputesTime;
 	}
@@ -167,7 +169,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="出险日期长度必须介于 0 和 20 之间")
-	@ExcelField(title="出险日期", align=2, sort=25)
+	@ExcelField(title="出险时间", align=2, sort=11)
 	public String getRiskTime() {
 		return riskTime;
 	}
@@ -177,7 +179,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=500, message="纠纷概要长度必须介于 0 和 500 之间")
-	@ExcelField(title="纠纷概要", align=2, sort=25)
+	@ExcelField(title="纠纷概要", align=2, sort=12)
 	public String getSummaryOfDisputes() {
 		return summaryOfDisputes;
 	}
@@ -187,6 +189,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=1, message="是否重大 1是 0否长度必须介于 0 和 1 之间")
+	@ExcelField(title = "是否重大",align = 2,sort = 13)
 	public String getIsMajor() {
 		return isMajor;
 	}
@@ -196,7 +199,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=500, message="诊疗方式长度必须介于 0 和 500 之间")
-	@ExcelField(title="诊疗方式", align=2, sort=25)
+	@ExcelField(title="诊疗方式", align=2, sort=14)
 	public String getTreatmentMode() {
 		return treatmentMode;
 	}
@@ -206,7 +209,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=500, message="治疗结果长度必须介于 0 和 500 之间")
-	@ExcelField(title="治疗结果", align=2, sort=25)
+	@ExcelField(title="治疗结果", align=2, sort=15)
 	public String getTreatmentResult() {
 		return treatmentResult;
 	}
@@ -216,7 +219,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=500, message="患方反映焦点长度必须介于 0 和 500 之间")
-	@ExcelField(title="患方反映焦点", align=2, sort=25)
+	@ExcelField(title="患方反映焦点", align=2, sort=16)
 	public String getPatientsReflectFocus() {
 		return patientsReflectFocus;
 	}
@@ -226,7 +229,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=255, message="相关专业长度必须介于 0 和 255 之间")
-	@ExcelField(title="相关专业", align=2, sort=25)
+	@ExcelField(title="相关专业", align=2, sort=17)
 	public String getRelatedMajor() {
 		return relatedMajor;
 	}
@@ -236,7 +239,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="评估时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="评估时间", align=2, sort=25)
+	@ExcelField(title="评估时间", align=2, sort=18)
 	public String getAssessTime() {
 		return assessTime;
 	}
@@ -246,7 +249,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="评估号长度必须介于 0 和 20 之间")
-	@ExcelField(title="评估号", align=2, sort=25)
+	@ExcelField(title="评估号", align=2, sort=19)
 	public String getAssessNumber() {
 		return assessNumber;
 	}
@@ -256,7 +259,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=50, message="责任比例长度必须介于 0 和 50 之间")
-	@ExcelField(title="责任比例", align=2, sort=25)
+	@ExcelField(title="责任比例", align=2, sort=20)
 	public String getDutyRatio() {
 		return dutyRatio;
 	}
@@ -266,7 +269,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="反馈时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="反馈时间", align=2, sort=25)
+	@ExcelField(title="反馈函时间", align=2, sort=21)
 	public String getFeedbackTime() {
 		return feedbackTime;
 	}
@@ -276,7 +279,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="协议号长度必须介于 0 和 20 之间")
-	@ExcelField(title="协议号", align=2, sort=25)
+	@ExcelField(title="协议号", align=2, sort=22)
 	public String getAgreementNumber() {
 		return agreementNumber;
 	}
@@ -286,7 +289,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="签署协议/判决时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="签署协议/判决时间", align=2, sort=25)
+	@ExcelField(title="签署协议/判决时间", align=2, sort=23)
 	public String getRatifyAccord() {
 		return ratifyAccord;
 	}
@@ -296,7 +299,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="协议盖章时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="协议盖章", align=2, sort=25)
+	@ExcelField(title="协议盖章时间", align=2, sort=24)
 	public String getAgreementStampTime() {
 		return agreementStampTime;
 	}
@@ -304,7 +307,9 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	public void setAgreementStampTime(String agreementStampTime) {
 		this.agreementStampTime = agreementStampTime;
 	}
-	
+
+	@Length(min=0,max=20,message = "协议金额长度必须介于 0 和 20 之间")
+	@ExcelField(title = "协议金额",align = 2,sort = 25)
 	public String getAgreementAmount() {
 		return agreementAmount;
 	}
@@ -312,7 +317,9 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	public void setAgreementAmount(String agreementAmount) {
 		this.agreementAmount = agreementAmount;
 	}
-	
+
+	@Length(min=0,max=20,message = "保险金额长度必须介于 0 和 20 之间")
+	@ExcelField(title = "保险金额",align = 2,sort = 26)
 	public String getInsuranceAmount() {
 		return insuranceAmount;
 	}
@@ -322,7 +329,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="交理赔时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="交理赔时间", align=2, sort=25)
+	@ExcelField(title="交理赔时间", align=2, sort=27)
 	public String getClaimSettlementTime() {
 		return claimSettlementTime;
 	}
@@ -332,7 +339,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="赔付时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="赔付时间", align=2, sort=25)
+	@ExcelField(title="赔付时间", align=2, sort=28)
 	public String getCompensateTime() {
 		return compensateTime;
 	}
@@ -342,7 +349,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="流转天数长度必须介于 0 和 20 之间")
-	@ExcelField(title="流转天数", align=2, sort=25)
+	@ExcelField(title="流转天数", align=2, sort=29)
 	public String getFlowDays() {
 		return flowDays;
 	}
@@ -352,7 +359,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="移交人长度必须介于 0 和 20 之间")
-	@ExcelField(title="移交人", align=2, sort=25)
+	@ExcelField(title="移交人", align=2, sort=30)
 	public String getHandOver() {
 		return handOver;
 	}
@@ -362,7 +369,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="归档时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="归档日期", align=2, sort=25)
+	@ExcelField(title="归档日期", align=2, sort=31)
 	public String getArchiveTime() {
 		return archiveTime;
 	}
@@ -372,7 +379,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 	
 	@Length(min=0, max=20, message="卷宗编号长度必须介于 0 和 20 之间")
-	@ExcelField(title="卷宗编号", align=2, sort=25)
+	@ExcelField(title="卷宗编号", align=2, sort=32)
 	public String getFileNumber() {
 		return fileNumber;
 	}
