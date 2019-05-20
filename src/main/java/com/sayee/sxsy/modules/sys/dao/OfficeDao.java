@@ -14,5 +14,10 @@ import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface OfficeDao extends TreeDao<Office> {
-	
+    /**
+     * 根据部门名称获得部门ID
+     * @param name
+     * @return 取不到返回null
+     */
+    public  Office officeId(String name);
 }

@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.machine.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
+import com.sayee.sxsy.modules.sys.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 台账信息展示DAO接口
@@ -14,5 +16,11 @@ import com.sayee.sxsy.modules.machine.entity.MachineAccount;
  */
 @MyBatisDao
 public interface MachineAccountDao extends CrudDao<MachineAccount> {
-	
+    /**
+     * 卷宗编号验重
+     * @param fileNumber
+     * @return
+     */
+    public MachineAccount checkFileNumber(String fileNumber);
+
 }

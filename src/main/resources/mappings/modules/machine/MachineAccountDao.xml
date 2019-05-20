@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.modules.machine.dao.MachineAccountDao">
-    
+
 	<sql id="machineAccountColumns">
 		a.machine_account_id AS "machineAccountId",
 		a.reporting_time AS "reportingTime",
@@ -41,52 +41,54 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		o3.name AS "office.name",
+		u4.name AS "user.name"
 	</sql>
-	
+
 	<sql id="machineAccountJoins">
 		LEFT JOIN sys_office o3 ON o3.id = a.dept_id
 		LEFT JOIN sys_user u4 ON u4.id = a.mediator_id
 	</sql>
-    
+
 	<select id="get" resultType="MachineAccount">
-		SELECT 
-			<include refid="machineAccountColumns"/>
+		SELECT
+		<include refid="machineAccountColumns"/>
 		FROM machine_account a
 		<include refid="machineAccountJoins"/>
 		WHERE a.machine_account_id = #{id}
 	</select>
-	
+
 	<select id="findList" resultType="MachineAccount">
-		SELECT 
-			<include refid="machineAccountColumns"/>
+		SELECT
+		<include refid="machineAccountColumns"/>
 		FROM machine_account a
 		<include refid="machineAccountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="reportingTime != null and reportingTime != ''">
-				AND a.reporting_time LIKE 
-					<if test="dbName == 'oracle'">'%'||#{reportingTime}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{reportingTime}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{reportingTime},'%')</if>
+				AND a.reporting_time LIKE
+				<if test="dbName == 'oracle'">'%'||#{reportingTime}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{reportingTime}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{reportingTime},'%')</if>
 			</if>
 			<if test="deptId != null and deptId != ''">
-				AND a.dept_id LIKE 
-					<if test="dbName == 'oracle'">'%'||#{deptId}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{deptId}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{deptId},'%')</if>
+				AND a.dept_id LIKE
+				<if test="dbName == 'oracle'">'%'||#{deptId}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{deptId}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{deptId},'%')</if>
 			</if>
 			<if test="mediatorId != null and mediatorId != ''">
-				AND a.mediator_id LIKE 
-					<if test="dbName == 'oracle'">'%'||#{mediatorId}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{mediatorId}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{mediatorId},'%')</if>
+				AND a.mediator_id LIKE
+				<if test="dbName == 'oracle'">'%'||#{mediatorId}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{mediatorId}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{mediatorId},'%')</if>
 			</if>
 			<if test="hospitalId != null and hospitalId != ''">
-				AND a.hospital_id LIKE 
-					<if test="dbName == 'oracle'">'%'||#{hospitalId}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{hospitalId}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{hospitalId},'%')</if>
+				AND a.hospital_id LIKE
+				<if test="dbName == 'oracle'">'%'||#{hospitalId}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{hospitalId}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{hospitalId},'%')</if>
 			</if>
 			<if test="policyNumber != null and policyNumber != ''">
 				AND a.policy_number = #{policyNumber}
@@ -95,10 +97,10 @@
 				AND a.start_insurance_time = #{startInsuranceTime}
 			</if>
 			<if test="fileNumber != null and fileNumber != ''">
-				AND a.file_number LIKE 
-					<if test="dbName == 'oracle'">'%'||#{fileNumber}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{fileNumber}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{fileNumber},'%')</if>
+				AND a.file_number LIKE
+				<if test="dbName == 'oracle'">'%'||#{fileNumber}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{fileNumber}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{fileNumber},'%')</if>
 			</if>
 		</where>
 		<choose>
@@ -110,15 +112,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="MachineAccount">
-		SELECT 
-			<include refid="machineAccountColumns"/>
+		SELECT
+		<include refid="machineAccountColumns"/>
 		FROM machine_account a
 		<include refid="machineAccountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -128,7 +130,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO machine_account(
 			machine_account_id,
@@ -212,9 +214,9 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
-		UPDATE machine_account SET 	
+		UPDATE machine_account SET
 			machine_account_id = #{machineAccountId},
 			reporting_time = #{reportingTime},
 			dept_id = #{deptId},
@@ -253,11 +255,24 @@
 			update_date = #{updateDate}
 		WHERE machine_account_id = #{id}
 	</update>
-	
+
 	<update id="delete">
-		UPDATE machine_account SET 
+		UPDATE machine_account SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE machine_account_id = #{id}
 	</update>
-	
+	<!--对卷宗编号去重-->
+	<!--<select id="" resultType="java.lang.Integer">
+		SELECT count (machine_account_id)
+		FROM machine_account
+		WHERE file_number=#{fileNumber}
+	</select>-->
+	<select id="checkFileNumber" resultType="MachineAccount">
+		SELECT
+		<include refid="machineAccountColumns"/>
+		FROM machine_account a
+		<include refid="machineAccountJoins"/>
+		WHERE a.file_number = #{fileNumber}
+	</select>
+
 </mapper>

@@ -8,6 +8,7 @@ import java.util.List;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户DAO接口
@@ -16,7 +17,7 @@ import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface UserDao extends CrudDao<User> {
-	
+
 	/**
 	 * 根据登录名称查询用户
 	 * @param loginName
@@ -30,20 +31,20 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public List<User> findUserByOfficeId(User user);
-	
+
 	/**
 	 * 查询全部用户数目
 	 * @return
 	 */
 	public long findAllCount(User user);
-	
+
 	/**
 	 * 更新用户密码
 	 * @param user
 	 * @return
 	 */
 	public int updatePasswordById(User user);
-	
+
 	/**
 	 * 更新登录信息，如：登录IP、登录时间
 	 * @param user
@@ -57,14 +58,14 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public int deleteUserRole(User user);
-	
+
 	/**
 	 * 插入用户角色关联数据
 	 * @param user
 	 * @return
 	 */
 	public int insertUserRole(User user);
-	
+
 	/**
 	 * 更新用户信息
 	 * @param user
@@ -72,4 +73,10 @@ public interface UserDao extends CrudDao<User> {
 	 */
 	public int updateUserInfo(User user);
 
+	/**
+	 * 通过用户姓名获得ID
+	 * @param name
+	 * @return
+	 */
+	public User getId(@Param("name")String name);
 }

@@ -33,25 +33,25 @@
 		pp.name AS "primaryPerson.name",
 		dp.name AS "deputyPerson.name"
 	</sql>
-	
+
 	<sql id="officeJoins">
 		LEFT JOIN sys_office p ON p.id = a.parent_id
 		LEFT JOIN sys_area ar ON ar.id = a.area_id
 		LEFT JOIN SYS_USER pp ON pp.id = a.primary_person
 		LEFT JOIN SYS_USER dp ON dp.id = a.deputy_person
     </sql>
-	
+
 	<select id="get" resultType="Office">
 		SELECT
-			<include refid="officeColumns"/>
+		<include refid="officeColumns"/>
 		FROM sys_office a
 		<include refid="officeJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
 	<select id="findList" resultType="Office">
 		SELECT
-			<include refid="officeColumns"/>
+		<include refid="officeColumns"/>
 		FROM sys_office a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
@@ -60,25 +60,25 @@
 		OR a.id = #{currentUser.office.id}
 		ORDER BY a.code
 	</select>
-			
+
 	<select id="findAllList" resultType="Office">
 		SELECT
-			<include refid="officeColumns"/>
+		<include refid="officeColumns"/>
 		FROM sys_office a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		ORDER BY a.code
 	</select>
-	
+
 	<select id="findByParentIdsLike" resultType="Office">
 		SELECT
-			<include refid="officeColumns"/>
+		<include refid="officeColumns"/>
 		FROM sys_office a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds}
 		ORDER BY a.code
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO sys_office(
 			id, 
@@ -132,7 +132,7 @@
 			#{deputyPerson.id}
 		)
 	</insert>
-	
+
 	<update id="update">
 		UPDATE sys_office SET 
 			parent_id = #{parent.id}, 
@@ -156,21 +156,28 @@
 			deputy_person=#{deputyPerson.id}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="updateParentIds">
 		UPDATE sys_office SET 
 			parent_id = #{parent.id}, 
 			parent_ids = #{parentIds}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
-		UPDATE sys_office SET 
-			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id} OR parent_ids LIKE 
-					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
-					<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
-					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+		UPDATE sys_office SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id} OR parent_ids LIKE
+		<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+		<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
+		<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
 	</update>
-	
+	<!--根据部门名称获得部门主键-->
+	<select id="officeId" parameterType="java.lang.String" resultType="Office">
+		SELECT
+		<include refid="officeColumns"/>
+		FROM sys_office a
+		<include refid="officeJoins"/>
+		WHERE a.name = #{name}
+	</select>
 </mapper>

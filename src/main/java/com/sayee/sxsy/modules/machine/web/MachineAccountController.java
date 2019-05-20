@@ -45,7 +45,7 @@ public class MachineAccountController extends BaseController {
 
 	@Autowired
 	private MachineAccountService machineAccountService;
-	
+
 	@ModelAttribute
 	public MachineAccount get(@RequestParam(required=false) String id) {
 		MachineAccount entity = null;
@@ -57,7 +57,7 @@ public class MachineAccountController extends BaseController {
 		}
 		return entity;
 	}
-	
+
 	@RequiresPermissions("machine:machineAccount:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(MachineAccount machineAccount, HttpServletRequest request, HttpServletResponse response, Model model,RedirectAttributes redirectAttributes) {
@@ -83,7 +83,7 @@ public class MachineAccountController extends BaseController {
 		addMessage(redirectAttributes, "保存台账信息展示成功");
 		return "redirect:"+Global.getAdminPath()+"/machine/machineAccount/?repage";
 	}
-	
+
 	@RequiresPermissions("machine:machineAccount:edit")
 	@RequestMapping(value = "delete")
 	public String delete(MachineAccount machineAccount, RedirectAttributes redirectAttributes) {
@@ -102,10 +102,10 @@ public class MachineAccountController extends BaseController {
 	@RequiresPermissions("machine:machineAccount:edit")
 	@RequestMapping(value = "import", method= RequestMethod.POST)
 	public String importFile(MultipartFile file, RedirectAttributes redirectAttributes) {
-		if(Global.isDemoMode()){
-			addMessage(redirectAttributes, "演示模式，不允许操作！");
-			return "redirect:" + adminPath + "/sys/user/list?repage";
-		}
+//		if(Global.isDemoMode()){
+//			addMessage(redirectAttributes, "演示模式，不允许操作！");
+//			return "redirect:" + adminPath + "/sys/user/list?repage";
+//		}
 		try {
 			int successNum = 0;
 			int failureNum = 0;
@@ -114,11 +114,7 @@ public class MachineAccountController extends BaseController {
 			List<MachineAccount> list = ei.getDataList(MachineAccount.class);
 			for (MachineAccount machineAccount : list){
 				try{
-					if (StringUtils.isNotBlank(machineAccount.getFileNumber())) {
-//					if ("true".equals(machineAccount.getAgreementAmount())){
-						machineAccount.preInsert();
-						machineAccount.setMachineAccountId(machineAccount.getId());
-						machineAccount.setIsNewRecord(true);
+					if (true==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
 						machineAccountService.save(machineAccount);
 						successNum++;
 					}else{
