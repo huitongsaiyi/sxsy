@@ -43,12 +43,16 @@
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
 		o3.name AS "office.name",
-		u4.name AS "user.name"
+		u4.name AS "user.name",
+		u5.name AS "createBy.name",
+		u6.name AS "updateBy.name"
 	</sql>
 
 	<sql id="machineAccountJoins">
 		LEFT JOIN sys_office o3 ON o3.id = a.dept_id
 		LEFT JOIN sys_user u4 ON u4.id = a.mediator_id
+		LEFT JOIN sys_user u5 ON u5.id = a.create_by
+		LEFT JOIN sys_user u6 ON u6.id = a.update_by
 	</sql>
 
 	<select id="get" resultType="MachineAccount">

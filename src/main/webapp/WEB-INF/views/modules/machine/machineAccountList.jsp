@@ -127,16 +127,16 @@
 		<th>卷宗编号</th>
 		<th>备注</th>
 		<th>创建者</th>
-		<th>创建时间</th>
-		<th>更新人</th>
-		<th>修改时间</th>
+		<th width="150">创建时间</th>
+		<th >更新人</th>
+		<th width="150">修改时间</th>
 		<shiro:hasPermission name="machine:machineAccount:edit"><th>操作</th></shiro:hasPermission>
 	</tr>
 	</thead>
 	<tbody>
 	<c:forEach items="${page.list}" var="machineAccount">
 		<tr>
-			<td><a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}">
+			<td><a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}&type=view">
 					${machineAccount.reportingTime}
 			</a></td>
 			<td>
@@ -187,7 +187,14 @@
 					${machineAccount.summaryOfDisputes}
 			</td>
 			<td>
-					${machineAccount.isMajor}
+                <c:choose>
+                    <c:when test="${machineAccount.isMajor=='1' }">
+                        是
+                    </c:when>
+                    <c:otherwise>
+                        否
+                    </c:otherwise>
+                </c:choose>
 			</td>
 			<td>
 					${machineAccount.treatmentMode}
@@ -249,20 +256,20 @@
 			<td>
 					${machineAccount.remark}
 			</td>
-			<td>
-					${machineAccount.createBy.id}
+			<td >
+					${machineAccount.createBy.name}
 			</td>
-			<td>
+			<td >
 				<fmt:formatDate value="${machineAccount.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 			</td>
 			<td>
-					${machineAccount.updateBy.id}
+					${machineAccount.updateBy.name}
 			</td>
 			<td>
 				<fmt:formatDate value="${machineAccount.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 			</td>
 			<shiro:hasPermission name="machine:machineAccount:edit"><td>
-				<a href="${ctx}/machine/machineAccount/form?id=${machineAccount.id}">详情</a>
+				<a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}&type=view">详情</a>
 			</td></shiro:hasPermission>
 		</tr>
 	</c:forEach>
