@@ -70,11 +70,8 @@
 		<include refid="machineAccountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="reportingTime != null and reportingTime != ''">
-				AND a.reporting_time LIKE
-				<if test="dbName == 'oracle'">'%'||#{reportingTime}||'%'</if>
-				<if test="dbName == 'mssql'">'%'+#{reportingTime}+'%'</if>
-				<if test="dbName == 'mysql'">concat('%',#{reportingTime},'%')</if>
+			<if test="reportingTime != null and reportingTime != '' or  endReportingTime != null and endReportingTime != ''">
+				AND (a.reporting_time BETWEEN #{reportingTime} AND #{endReportingTime})
 			</if>
 			<if test="deptId != null and deptId != ''">
 				AND a.dept_id LIKE
@@ -97,8 +94,8 @@
 			<if test="policyNumber != null and policyNumber != ''">
 				AND a.policy_number = #{policyNumber}
 			</if>
-			<if test="startInsuranceTime != null and startInsuranceTime != ''">
-				AND a.start_insurance_time = #{startInsuranceTime}
+			<if test="startInsuranceTime != null and startInsuranceTime != '' or endInsuranceTime != null and endInsuranceTime != ''">
+				AND (a.start_insurance_time BETWEEN #{startInsuranceTime} AND #{endInsuranceTime})
 			</if>
 			<if test="fileNumber != null and fileNumber != ''">
 				AND a.file_number LIKE

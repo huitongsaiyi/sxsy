@@ -57,9 +57,13 @@
 	<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 	<ul class="ul-form">
 		<li><label>报案时间：</label>
-			<input name="reportingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-				   value="${machineAccount.reportingTime}"
-				   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+            <input id="reportingTime"  name="reportingTime"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
+                   value="${machineAccount.reportingTime}"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
+            　--　
+            <input id="endReportingTime" name="endReportingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
+                   value="${machineAccount.endReportingTime}"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 		</li>
 		<li><label>部门：</label>
 			<sys:treeselect id="deptId" name="deptId" value="${machineAccount.deptId}" labelName="office.name" labelValue="${machineAccount.office.name}"
@@ -79,6 +83,10 @@
 			<input name="startInsuranceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 				   value="${machineAccount.startInsuranceTime}"
 				   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+            　--　
+            <input id="endInsuranceTime" name="endInsuranceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
+                   value="${machineAccount.endInsuranceTime}"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 		</li>
 		<li><label>卷宗编号：</label>
 			<form:input path="fileNumber" htmlEscape="false" maxlength="20" class="input-medium"/>

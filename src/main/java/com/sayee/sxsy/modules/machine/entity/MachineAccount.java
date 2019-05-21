@@ -22,6 +22,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private User user;	// 归属部门
 	private String machineAccountId;		// machine_account_id
 	private String reportingTime;		// 报案时间
+	private String endReportingTime;		// 报案时间
 	private String deptId;		// 部门主键
 	private String mediatorId;		// 调解员ID，关联人员表主键
 	private String patientName;		// 患者名称
@@ -30,6 +31,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String insuranceCompany;		// 保险公司名称
 	private String policyNumber;		// 保单号
 	private String startInsuranceTime;		// 起保日期
+	private String endInsuranceTime;		// 起保日期
 	private String disputesTime;		// 纠纷发生日期
 	private String riskTime;		// 出险日期
 	private String summaryOfDisputes;		// 纠纷概要
@@ -96,6 +98,22 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 
 	public void setReportingTime(String reportingTime) {
 		this.reportingTime = reportingTime;
+	}
+
+	public String getEndReportingTime() {
+		return endReportingTime;
+	}
+
+	public void setEndReportingTime(String endReportingTime) {
+		this.endReportingTime = endReportingTime;
+	}
+
+	public String getEndInsuranceTime() {
+		return endInsuranceTime;
+	}
+
+	public void setEndInsuranceTime(String endInsuranceTime) {
+		this.endInsuranceTime = endInsuranceTime;
 	}
 
 	@Length(min=0, max=32, message="部门主键长度必须介于 0 和 32 之间")

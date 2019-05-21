@@ -82,7 +82,8 @@ public class MachineAccountController extends BaseController {
 	@RequiresPermissions("machine:machineAccount:edit")
 	@RequestMapping(value = "save")
 	public String save(MachineAccount machineAccount, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, machineAccount)){
+		//!beanValidator(model, machineAccount) ||
+		if (false==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
 			return form(null,machineAccount, model);
 		}
 		machineAccountService.save(machineAccount);

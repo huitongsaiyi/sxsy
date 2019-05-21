@@ -115,7 +115,7 @@
 			</tr>
 			<tr>
 
-				<td class="tit">是否重大 1是 0否：</td>
+				<td class="tit">是否重大：</td>
 				<td >
 					<form:select path="isMajor" >
 						<form:option value="1">是</form:option>
@@ -259,6 +259,14 @@
 			</tr>
 		</table>
 		</fieldset>
+        <div class="form-actions">
+            <shiro:hasPermission name="machine:machineAccount:edit">
+                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
+            </shiro:hasPermission>
+            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+        </div>
+
+
 	</form:form>
 </body>
 </html>

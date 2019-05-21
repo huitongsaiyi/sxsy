@@ -53,7 +53,7 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
 		//转换部门OFFICE
 //		Office office=UserUtils.officeId(machineAccount.getDeptId());
 //		machineAccount.setDeptId(office!=null ?  office.getId() :machineAccount.getDeptId());
-		machineAccount.setDeptId(user.getOffice().getId());
+		machineAccount.setDeptId(user != null ? user.getOffice().getId() : machineAccount.getDeptId());
 		//是否重大
 		if ("是".equals(machineAccount.getIsMajor()) || "1".equals(machineAccount.getIsMajor())){
 			machineAccount.setIsMajor("1");
