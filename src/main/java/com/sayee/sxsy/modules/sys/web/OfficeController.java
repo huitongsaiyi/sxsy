@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.sys.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.modules.sys.entity.Office;
@@ -42,11 +43,13 @@ public class OfficeController extends BaseController {
 	private OfficeService officeService;
 	
 	@ModelAttribute("office")
-	public Office get(@RequestParam(required=false) String id) {
+	public Office get(@RequestParam(required=false) String id,@RequestParam(required=false) String officeType) {
 		if (StringUtils.isNotBlank(id)){
 			return officeService.get(id);
 		}else{
-			return new Office();
+			Office office=new Office();
+			office.setOfficeType(officeType);
+			return office;
 		}
 	}
 
@@ -54,12 +57,17 @@ public class OfficeController extends BaseController {
 	@RequestMapping(value = {""})
 	public String index(Office office, Model model) {
 //        model.addAttribute("list", officeService.findAll());
+		model.addAttribute("officeType", office.getOfficeType());
 		return "modules/sys/officeIndex";
 	}
 
 	@RequiresPermissions("sys:office:view")
 	@RequestMapping(value = {"list"})
-	public String list(Office office, Model model) {
+	public String list(HttpServletRequest request,Office office, Model model) {
+        String officeType=request.getParameter("officeType");
+        if (StringUtils.isNotBlank(officeType) && officeType!=null){
+        	office.setOfficeType(officeType);
+		}
         model.addAttribute("list", officeService.findList(office));
 		return "modules/sys/officeList";
 	}
@@ -98,6 +106,11 @@ public class OfficeController extends BaseController {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/office/";
+		}
+		//根据ID获取部门类别，set进去
+		if (office.getParent().getId()!=null && StringUtils.isNotBlank(office.getParent().getId())){
+			Office office1=UserUtils.getOfficeId(office.getParent().getId());
+			office.setOfficeType(office1.getOfficeType());
 		}
 		if (!beanValidator(model, office)){
 			return form(office, model);
@@ -151,7 +164,7 @@ public class OfficeController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, @RequestParam(required=false) String type,
-			@RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll, HttpServletResponse response) {
+			@RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll,@RequestParam(required=false) String officeType, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<Office> list = officeService.findList(isAll);
 		for (int i=0; i<list.size(); i++){

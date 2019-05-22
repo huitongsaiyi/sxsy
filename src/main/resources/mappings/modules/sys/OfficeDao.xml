@@ -11,6 +11,7 @@
 		a.name,
 		a.sort,
 		a.type,
+		a.office_type AS "officeType",
 		a.grade,
 		a.address, 
 		a.zip_code, 
@@ -75,7 +76,7 @@
 		<include refid="officeColumns"/>
 		FROM sys_office a
 		<include refid="officeJoins"/>
-		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds}
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
 		ORDER BY a.code
 	</select>
 
@@ -88,7 +89,8 @@
 			code, 
 			name, 
 			sort, 
-			type, 
+			type,
+			office_type,
 			grade, 
 			address, 
 			zip_code, 
@@ -113,7 +115,8 @@
 			#{code}, 
 			#{name}, 
 			#{sort}, 
-			#{type}, 
+			#{type},
+			#{officeType},
 			#{grade}, 
 			#{address}, 
 			#{zipCode}, 
@@ -141,7 +144,8 @@
 			code = #{code}, 
 			name = #{name}, 
 			type = #{type}, 
-			grade = #{grade}, 
+			office_type = #{officeType},
+			grade = #{grade},
 			address = #{address}, 
 			zip_code = #{zipCode}, 
 			master = #{master}, 
@@ -179,5 +183,14 @@
 		FROM sys_office a
 		<include refid="officeJoins"/>
 		WHERE a.name = #{name}
+	</select>
+
+	<!--根据部门主键获得部门OFFICE-->
+	<select id="getOfficeId" parameterType="java.lang.String" resultType="Office">
+		SELECT
+		<include refid="officeColumns"/>
+		FROM sys_office a
+		<include refid="officeJoins"/>
+		WHERE a.ID = #{id}
 	</select>
 </mapper>
