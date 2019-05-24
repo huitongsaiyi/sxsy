@@ -81,10 +81,10 @@ public class MachineAccountController extends BaseController {
 
 	@RequiresPermissions("machine:machineAccount:edit")
 	@RequestMapping(value = "save")
-	public String save(MachineAccount machineAccount, Model model, RedirectAttributes redirectAttributes) {
+	public String save(HttpServletRequest request,MachineAccount machineAccount, Model model, RedirectAttributes redirectAttributes) {
 		//!beanValidator(model, machineAccount) ||
-		if (false==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
-			return form(null,machineAccount, model);
+		if (!beanValidator(model, machineAccount) || false==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
+			return form(request,machineAccount, model);
 		}
 		machineAccountService.save(machineAccount);
 		addMessage(redirectAttributes, "保存台账信息展示成功");

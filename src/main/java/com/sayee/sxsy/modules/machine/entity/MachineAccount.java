@@ -65,7 +65,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		super(id);
 	}
 
-	@Length(min=1, max=32, message="machine_account_id长度必须介于 1 和 32 之间")
+	//@Length(min=1, max=32, message="machine_account_id长度必须介于 1 和 32 之间")
 	public String getMachineAccountId() {
 		return machineAccountId;
 	}
