@@ -180,18 +180,28 @@ public class OfficeController extends BaseController {
 			if ((StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
 					&& (type == null || (type != null && (type.equals("1") ? type.equals(e.getType()) : true)))
 					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))
-					&& Global.YES.equals(e.getUseable())
-			        && officeType !=null && officeType.equals(e.getOfficeType())){
-				Map<String, Object> map = Maps.newHashMap();
-				map.put("id", e.getId());
-				map.put("pId", e.getParentId());
-				map.put("pIds", e.getParentIds());
-				map.put("name", e.getName());
-				map.put("officeType",e.getOfficeType());
-				if (type != null && "3".equals(type)){
-					map.put("isParent", true);
+					&& Global.YES.equals(e.getUseable())) {
+				if (officeType == null) {
+					Map<String, Object> map = Maps.newHashMap();
+					map.put("id", e.getId());
+					map.put("pId", e.getParentId());
+					map.put("pIds", e.getParentIds());
+					map.put("name", e.getName());
+					if (type != null && "3".equals(type)) {
+						map.put("isParent", true);
+					}
+					mapList.add(map);
+				}else if(officeType !=null && officeType.equals(e.getOfficeType())){
+					Map<String, Object> map = Maps.newHashMap();
+					map.put("id", e.getId());
+					map.put("pId", e.getParentId());
+					map.put("pIds", e.getParentIds());
+					map.put("name", e.getName());
+					if (type != null && "3".equals(type)) {
+						map.put("isParent", true);
+					}
+					mapList.add(map);
 				}
-				mapList.add(map);
 			}
 		}
 		return mapList;
