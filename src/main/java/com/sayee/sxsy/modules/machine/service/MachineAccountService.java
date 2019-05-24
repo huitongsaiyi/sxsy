@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.machine.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.sayee.sxsy.common.utils.StringUtils;
@@ -60,8 +61,14 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
 		}else {
 			machineAccount.setIsMajor("0");
 		}
+		//对金额 字段 为空的时候进行处理
+		if (StringUtils.isBlank(machineAccount.getAgreementAmount()) || machineAccount.getAgreementAmount()==null){
+			machineAccount.setAgreementAmount("0");
+		}
+		if (StringUtils.isBlank(machineAccount.getInsuranceAmount()) || machineAccount.getInsuranceAmount()==null){
+			machineAccount.setInsuranceAmount("0");
+		}
 		machineAccount.setIsNewRecord(true);
-		//
 		super.save(machineAccount);
 	}
 

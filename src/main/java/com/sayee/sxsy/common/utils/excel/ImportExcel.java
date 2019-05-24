@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.sayee.sxsy.common.utils.ExcelUtils;
 import com.sayee.sxsy.common.utils.Reflections;
 import com.sayee.sxsy.modules.sys.utils.DictUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +60,7 @@ public class ImportExcel {
 	
 	/**
 	 * 构造函数
-	 * @param path 导入文件，读取第一个工作表
+	 * @param fileName 导入文件，读取第一个工作表
 	 * @param headerNum 标题行号，数据行号=标题行号+1
 	 * @throws InvalidFormatException 
 	 * @throws IOException 
@@ -70,7 +72,7 @@ public class ImportExcel {
 	
 	/**
 	 * 构造函数
-	 * @param path 导入文件对象，读取第一个工作表
+	 * @param file 导入文件对象，读取第一个工作表
 	 * @param headerNum 标题行号，数据行号=标题行号+1
 	 * @throws InvalidFormatException 
 	 * @throws IOException 
@@ -82,7 +84,7 @@ public class ImportExcel {
 
 	/**
 	 * 构造函数
-	 * @param path 导入文件
+	 * @param fileName 导入文件
 	 * @param headerNum 标题行号，数据行号=标题行号+1
 	 * @param sheetIndex 工作表编号
 	 * @throws InvalidFormatException 
@@ -95,7 +97,7 @@ public class ImportExcel {
 	
 	/**
 	 * 构造函数
-	 * @param path 导入文件对象
+	 * @param file 导入文件对象
 	 * @param headerNum 标题行号，数据行号=标题行号+1
 	 * @param sheetIndex 工作表编号
 	 * @throws InvalidFormatException 
@@ -108,7 +110,7 @@ public class ImportExcel {
 	
 	/**
 	 * 构造函数
-	 * @param file 导入文件对象
+	 * @param multipartFile 导入文件对象
 	 * @param headerNum 标题行号，数据行号=标题行号+1
 	 * @param sheetIndex 工作表编号
 	 * @throws InvalidFormatException 
@@ -121,7 +123,7 @@ public class ImportExcel {
 
 	/**
 	 * 构造函数
-	 * @param path 导入文件对象
+	 * @param fileName 导入文件对象
 	 * @param headerNum 标题行号，数据行号=标题行号+1
 	 * @param sheetIndex 工作表编号
 	 * @throws InvalidFormatException 
@@ -191,7 +193,18 @@ public class ImportExcel {
 			Cell cell = row.getCell(column);
 			if (cell != null){
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
-					val = cell.getNumericCellValue();
+//					val=cell.getNumericCellValue();
+					// 判断是否为科学计数法（包含E、e、+等符号）
+					if (("" + cell.getNumericCellValue()).indexOf("E") != -1 || ("" + cell.getNumericCellValue()).indexOf("e") != -1 || ("" + cell.getNumericCellValue()).indexOf("+") != -1) {
+						BigDecimal bd = new BigDecimal("" + cell.getNumericCellValue());
+						if (("" + cell.getNumericCellValue()).indexOf("E") != -1 || ("" + cell.getNumericCellValue()).indexOf("e") != -1 || ("" + cell.getNumericCellValue()).indexOf("+") != -1) {
+							val = new BigDecimal(Double.parseDouble(bd.toString()));
+						} else {
+							val = ExcelUtils.importByExcelForDate(cell,"yyyy-MM-dd");
+						}
+					} else {
+						val = ExcelUtils.importByExcelForDate(cell,"yyyy-MM-dd");
+					}
 				}else if (cell.getCellType() == Cell.CELL_TYPE_STRING){
 					val = cell.getStringCellValue();
 				}else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA){
