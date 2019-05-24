@@ -51,7 +51,6 @@ public class ActTaskController extends BaseController {
 		if (UserUtils.getPrincipal().isMobileLogin()){
 			return renderString(response, list);
 		}
-		System.out.println("");
 		return "modules/act/actTaskTodoList";
 	}
 	

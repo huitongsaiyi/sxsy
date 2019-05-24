@@ -68,16 +68,23 @@ public class MachineAccountController extends BaseController {
 
 	@RequiresPermissions("machine:machineAccount:view")
 	@RequestMapping(value = "form")
-	public String form(MachineAccount machineAccount, Model model) {
-		model.addAttribute("machineAccount", machineAccount);
-		return "modules/machine/machineAccountForm";
+	public String form(HttpServletRequest request,MachineAccount machineAccount, Model model) {
+		String type=request.getParameter("type");
+		if ("view".equals(type)){
+			model.addAttribute("machineAccount", machineAccount);
+			return "modules/machine/machineAccountView";
+		}else {
+			model.addAttribute("machineAccount", machineAccount);
+			return "modules/machine/machineAccountForm";
+		}
 	}
 
 	@RequiresPermissions("machine:machineAccount:edit")
 	@RequestMapping(value = "save")
 	public String save(MachineAccount machineAccount, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, machineAccount)){
-			return form(machineAccount, model);
+		//!beanValidator(model, machineAccount) ||
+		if (false==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
+			return form(null,machineAccount, model);
 		}
 		machineAccountService.save(machineAccount);
 		addMessage(redirectAttributes, "保存台账信息展示成功");

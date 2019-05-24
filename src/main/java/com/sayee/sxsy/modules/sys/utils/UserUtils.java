@@ -100,6 +100,18 @@ public class UserUtils {
 	}
 
 	/**
+	 * 根据部门主键获得OFFICE实体类
+	 *  @param id
+	 * @return 取不到返回null
+	 */
+	public static Office getOfficeId(String id){
+		Office office = officeDao.getOfficeId(StringUtils.trim(id));
+		if (office == null){
+			return null;
+		}
+		return office;
+	}
+	/**
 	 * 根据登录名获取用户
 	 * @param loginName
 	 * @return 取不到返回null

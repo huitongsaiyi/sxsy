@@ -26,6 +26,7 @@ public class Office extends TreeEntity<Office> {
 //	private String name; 	// 机构名称
 //	private Integer sort;		// 排序
 	private String type; 	// 机构类型（1：公司；2：部门；3：小组）
+	private String officeType; 	// 机构类别（1：医调委；2：医院；3：卫生局）
 	private String grade; 	// 机构等级（1：一级；2：二级；3：三级；4：四级）
 	private String address; // 联系地址
 	private String zipCode; // 邮政编码
@@ -132,6 +133,14 @@ public class Office extends TreeEntity<Office> {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getOfficeType() {
+		return officeType;
+	}
+
+	public void setOfficeType(String officeType) {
+		this.officeType = officeType;
 	}
 
 	@Length(min=1, max=1)

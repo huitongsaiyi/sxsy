@@ -43,12 +43,16 @@
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
 		o3.name AS "office.name",
-		u4.name AS "user.name"
+		u4.name AS "user.name",
+		u5.name AS "createBy.name",
+		u6.name AS "updateBy.name"
 	</sql>
 
 	<sql id="machineAccountJoins">
 		LEFT JOIN sys_office o3 ON o3.id = a.dept_id
 		LEFT JOIN sys_user u4 ON u4.id = a.mediator_id
+		LEFT JOIN sys_user u5 ON u5.id = a.create_by
+		LEFT JOIN sys_user u6 ON u6.id = a.update_by
 	</sql>
 
 	<select id="get" resultType="MachineAccount">
@@ -66,11 +70,8 @@
 		<include refid="machineAccountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="reportingTime != null and reportingTime != ''">
-				AND a.reporting_time LIKE
-				<if test="dbName == 'oracle'">'%'||#{reportingTime}||'%'</if>
-				<if test="dbName == 'mssql'">'%'+#{reportingTime}+'%'</if>
-				<if test="dbName == 'mysql'">concat('%',#{reportingTime},'%')</if>
+			<if test="reportingTime != null and reportingTime != '' or  endReportingTime != null and endReportingTime != ''">
+				AND (a.reporting_time BETWEEN #{reportingTime} AND #{endReportingTime})
 			</if>
 			<if test="deptId != null and deptId != ''">
 				AND a.dept_id LIKE
@@ -93,8 +94,8 @@
 			<if test="policyNumber != null and policyNumber != ''">
 				AND a.policy_number = #{policyNumber}
 			</if>
-			<if test="startInsuranceTime != null and startInsuranceTime != ''">
-				AND a.start_insurance_time = #{startInsuranceTime}
+			<if test="startInsuranceTime != null and startInsuranceTime != '' or endInsuranceTime != null and endInsuranceTime != ''">
+				AND (a.start_insurance_time BETWEEN #{startInsuranceTime} AND #{endInsuranceTime})
 			</if>
 			<if test="fileNumber != null and fileNumber != ''">
 				AND a.file_number LIKE

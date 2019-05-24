@@ -20,4 +20,10 @@ public interface OfficeDao extends TreeDao<Office> {
      * @return 取不到返回null
      */
     public  Office officeId(String name);
+    /**
+     * 根据部门主键获得OFFICE实体类
+     *  @param id
+     * @return 取不到返回null
+     */
+    public Office getOfficeId(String id);
 }
