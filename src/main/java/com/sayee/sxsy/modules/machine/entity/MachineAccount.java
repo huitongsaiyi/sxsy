@@ -6,9 +6,13 @@ package com.sayee.sxsy.modules.machine.entity;
 import com.sayee.sxsy.common.utils.excel.annotation.ExcelField;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.User;
+import org.aspectj.lang.annotation.DeclareMixin;
 import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 /**
  * 台账信息展示Entity
@@ -65,7 +69,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		super(id);
 	}
 
-	@Length(min=1, max=32, message="machine_account_id长度必须介于 1 和 32 之间")
+	//@Length(min=1, max=32, message="machine_account_id长度必须介于 1 和 32 之间")
 	public String getMachineAccountId() {
 		return machineAccountId;
 	}
@@ -90,7 +94,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.user = user;
 	}
 
-	@Length(min=0, max=20, message="报案时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="报案时间不能为空，且长度必须介于 1 和 20 之间")
 	@ExcelField(title="报案时间", align=2, sort=1)
 	public String getReportingTime() {
 		return reportingTime;
@@ -116,7 +120,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.endInsuranceTime = endInsuranceTime;
 	}
 
-	@Length(min=0, max=32, message="部门主键长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="部门不能为空")
 	@ExcelField(title = "部门", align=2,sort = 2)
 	public String getDeptId() {
 		return deptId;
@@ -126,7 +130,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.deptId = deptId;
 	}
 
-	@Length(min=0, max=32, message="调解员ID，关联人员表主键长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="调解员不能为空")
 	@ExcelField(title = "调解员",align = 2,sort = 3)
 	public String getMediatorId() {
 		return mediatorId;
@@ -136,7 +140,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.mediatorId = mediatorId;
 	}
 
-	@Length(min=0, max=10, message="患者名称长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="患者名称不能为空，长度必须介于 1 和 10 之间")
 	@ExcelField(title="患者名称", align=2, sort=4)
 	public String getPatientName() {
 		return patientName;
@@ -146,7 +150,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.patientName = patientName;
 	}
 
-	@Length(min=0, max=32, message="医院名称。通过主键进行关联长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="医院名称不能为空，且长度必须介于 0 和 32 之间")
 	@ExcelField(title="医疗机构名称", align=2, sort=5)
 	public String getHospitalId() {
 		return hospitalId;
@@ -346,7 +350,8 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.agreementStampTime = agreementStampTime;
 	}
 
-	@Length(min=0,max=20,message = "协议金额长度必须介于 0 和 20 之间")
+	@Length(min=1,max=20,message = "协议金额不能为空，且长度必须介于 0 和 20 之间")
+	@DecimalMin(value = "0",message = "协议金额最低为0,且不能为空")
 	@ExcelField(title = "协议金额",align = 2,sort = 25)
 	public String getAgreementAmount() {
 		return agreementAmount;
@@ -356,7 +361,8 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.agreementAmount = agreementAmount;
 	}
 
-	@Length(min=0,max=20,message = "保险金额长度必须介于 0 和 20 之间")
+	@Length(min=1,max=20,message = "保险金额不能为空，长度必须介于 1 和 20 之间")
+	@DecimalMin(value = "0",message = "保险金额最低为0,且不能为空")
 	@ExcelField(title = "保险金额",align = 2,sort = 26)
 	public String getInsuranceAmount() {
 		return insuranceAmount;
@@ -416,7 +422,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.archiveTime = archiveTime;
 	}
 
-	@Length(min=0, max=20, message="卷宗编号长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="卷宗编号不能为空，且长度必须介于 1 和 20 之间")
 	@ExcelField(title="卷宗编号", align=2, sort=32)
 	public String getFileNumber() {
 		return fileNumber;

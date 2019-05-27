@@ -39,31 +39,31 @@
 		<fieldset>
 		<table class="table-form">
 		    <tr >
-		    	<td class="tit">报案时间：</td>
+		    	<td class="tit"><font color="red">*</font>报案时间：</td>
 		    	<td >
 		    		<input name="reportingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 		    			value="${machineAccount.reportingTime}"
 		    			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 		    	</td>
-		    	<td class="tit">部门：</td>
+		    	<td class="tit"><font color="red">*</font>部门：</td>
 		    	<td >
 		    		<sys:treeselect id="deptId" name="deptId" value="${machineAccount.deptId}" labelName="" labelValue="${machineAccount.deptId}"
 		    						title="部门" url="/sys/office/treeData?type=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 		    	</td>
 		    </tr>
 		    <tr >
-		    	<td class="tit">调解员：</td>
+		    	<td class="tit"><font color="red">*</font>调解员：</td>
 		    	<td >
 		    		<sys:treeselect id="mediatorId" name="mediatorId" value="${machineAccount.mediatorId}" labelName="" labelValue="${machineAccount.mediatorId}"
 		    						title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 		    	</td>
-				<td class="tit">患者名称：</td>
+				<td class="tit"><font color="red">*</font>患者名称：</td>
 				<td >
 					<form:input path="patientName" htmlEscape="false" maxlength="10" class="input-xlarge "/>
 				</td>
 		    </tr>
 			<tr>
-				<td class="tit">医院名称：</td>
+				<td class="tit"><font color="red">*</font>医院名称：</td>
 				<td >
 					<form:input path="hospitalId" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 				</td>
