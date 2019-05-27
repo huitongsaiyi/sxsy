@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.complaint.dao.ComplaintInfoDao">
+    
+	<sql id="complaintInfoColumns">
+		a.case_number AS "caseNumber",
+		a.visitor_name AS "visitorName",
+		a.visitor_mobile AS "visitorMobile",
+		a.patient_relation AS "patientRelation",
+		a.patient_name AS "patientName",
+		a.patient_sex AS "patientSex",
+		a.patient_age AS "patientAge",
+		a.visitor_number AS "visitorNumber",
+		a.involve_hospital AS "involveHospital",
+		a.involve_department AS "involveDepartment",
+		a.complaint_id AS "complaintId",
+		a.involve_employee AS "involveEmployee",
+		a.summary_of_disputes AS "summaryOfDisputes",
+		a.visitor_date AS "visitorDate",
+		a.complaint_mode AS "complaintMode",
+		a.is_major AS "isMajor",
+		a.appeal AS "appeal",
+		a.reception_employee AS "receptionEmployee",
+		a.reception_date AS "receptionDate",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan"
+	</sql>
+	
+	<sql id="complaintInfoJoins">
+		LEFT JOIN sys_office o9 ON o9.id = a.involve_hospital
+		LEFT JOIN sys_office o10 ON o10.id = a.involve_department
+	</sql>
+    
+	<select id="get" resultType="ComplaintInfo">
+		SELECT 
+			<include refid="complaintInfoColumns"/>
+		FROM complaint_info a
+		<include refid="complaintInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ComplaintInfo">
+		SELECT 
+			<include refid="complaintInfoColumns"/>
+		FROM complaint_info a
+		<include refid="complaintInfoJoins"/>
+		<where>
+			
+			<if test="caseNumber != null and caseNumber != ''">
+				AND a.case_number LIKE 
+					<if test="dbName == 'oracle'">'%'||#{caseNumber}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{caseNumber}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{caseNumber},'%')</if>
+			</if>
+			<if test="visitorName != null and visitorName != ''">
+				AND a.visitor_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{visitorName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{visitorName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{visitorName},'%')</if>
+			</if>
+			<if test="visitorMobile != null and visitorMobile != ''">
+				AND a.visitor_mobile LIKE 
+					<if test="dbName == 'oracle'">'%'||#{visitorMobile}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{visitorMobile}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{visitorMobile},'%')</if>
+			</if>
+			<if test="patientName != null and patientName != ''">
+				AND a.patient_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{patientName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{patientName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{patientName},'%')</if>
+			</if>
+			<if test="involveHospital != null and involveHospital != ''">
+				AND a.involve_hospital LIKE 
+					<if test="dbName == 'oracle'">'%'||#{involveHospital}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{involveHospital}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{involveHospital},'%')</if>
+			</if>
+			<if test="involveDepartment != null and involveDepartment != ''">
+				AND a.involve_department LIKE 
+					<if test="dbName == 'oracle'">'%'||#{involveDepartment}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{involveDepartment}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{involveDepartment},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ComplaintInfo">
+		SELECT 
+			<include refid="complaintInfoColumns"/>
+		FROM complaint_info a
+		<include refid="complaintInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO complaint_info(
+			case_number,
+			visitor_name,
+			visitor_mobile,
+			patient_relation,
+			patient_name,
+			patient_sex,
+			patient_age,
+			visitor_number,
+			involve_hospital,
+			involve_department,
+			complaint_id,
+			involve_employee,
+			summary_of_disputes,
+			visitor_date,
+			complaint_mode,
+			is_major,
+			appeal,
+			reception_employee,
+			reception_date,
+			next_link,
+			next_link_man
+		) VALUES (
+			#{caseNumber},
+			#{visitorName},
+			#{visitorMobile},
+			#{patientRelation},
+			#{patientName},
+			#{patientSex},
+			#{patientAge},
+			#{visitorNumber},
+			#{involveHospital},
+			#{involveDepartment},
+			#{complaintId},
+			#{involveEmployee},
+			#{summaryOfDisputes},
+			#{visitorDate},
+			#{complaintMode},
+			#{isMajor},
+			#{appeal},
+			#{receptionEmployee},
+			#{receptionDate},
+			#{nextLink},
+			#{nextLinkMan}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE complaint_info SET 	
+			case_number = #{caseNumber},
+			visitor_name = #{visitorName},
+			visitor_mobile = #{visitorMobile},
+			patient_relation = #{patientRelation},
+			patient_name = #{patientName},
+			patient_sex = #{patientSex},
+			patient_age = #{patientAge},
+			visitor_number = #{visitorNumber},
+			involve_hospital = #{involveHospital},
+			involve_department = #{involveDepartment},
+			complaint_id = #{complaintId},
+			involve_employee = #{involveEmployee},
+			summary_of_disputes = #{summaryOfDisputes},
+			visitor_date = #{visitorDate},
+			complaint_mode = #{complaintMode},
+			is_major = #{isMajor},
+			appeal = #{appeal},
+			reception_employee = #{receptionEmployee},
+			reception_date = #{receptionDate},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM complaint_info
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
