@@ -20,20 +20,20 @@
 		</div>
 		<div id="openClose" class="close">&nbsp;</div>
 		<div id="right">
-			<iframe id="officeContent" src="${ctx}/sys/user/list" width="100%" height="91%" frameborder="0"></iframe>
+			<iframe id="officeContent" src="${ctx}/sys/user/list?userOfficeType=${userOfficeType}" width="100%" height="91%" frameborder="0"></iframe>
 		</div>
 	</div>
 	<script type="text/javascript">
 		var setting = {data:{simpleData:{enable:true,idKey:"id",pIdKey:"pId",rootPId:'0'}},
 			callback:{onClick:function(event, treeId, treeNode){
 					var id = treeNode.id == '0' ? '' :treeNode.id;
-					$('#officeContent').attr("src","${ctx}/sys/user/list?office.id="+id+"&office.name="+treeNode.name);
+					$('#officeContent').attr("src","${ctx}/sys/user/list?office.id="+id+"&office.name="+treeNode.name+"&officeType=${user.office.officeType}");
 				}
 			}
 		};
 		
 		function refreshTree(){
-			$.getJSON("${ctx}/sys/office/treeData",function(data){
+			$.getJSON("${ctx}/sys/office/treeData?officeType=${user.office.officeType}",function(data){
 				$.fn.zTree.init($("#ztree"), setting, data).expandAll(true);
 			});
 		}
