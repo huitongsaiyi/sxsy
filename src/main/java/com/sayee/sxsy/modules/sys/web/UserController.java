@@ -51,24 +51,34 @@ public class UserController extends BaseController {
 	private SystemService systemService;
 	
 	@ModelAttribute
-	public User get(@RequestParam(required=false) String id) {
+	public User get(@RequestParam(required=false) String id,@RequestParam(required=false) String userOfficeType) {
 		if (StringUtils.isNotBlank(id)){
 			return systemService.getUser(id);
 		}else{
-			return new User();
+			Office office=new Office();
+			office.setOfficeType(userOfficeType);
+			User user= new User();
+			user.setOffice(office);
+			return user;
 		}
 	}
 
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = {"index"})
 	public String index(User user, Model model) {
+		model.addAttribute("userOfficeType",user.getOffice().getOfficeType());
 		return "modules/sys/userIndex";
 	}
 
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model,String userOfficeType) {
+		Office office=new Office();
+		office.setOfficeType(userOfficeType);
+		user.setOffice(office);
 		Page<User> page = systemService.findUser(new Page<User>(request, response), user);
+
+
         model.addAttribute("page", page);
 		return "modules/sys/userList";
 	}
@@ -83,13 +93,17 @@ public class UserController extends BaseController {
 
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = "form")
-	public String form(User user, Model model) {
+	public String form(User user, Model model,String userOfficeType) {
 		if (user.getCompany()==null || user.getCompany().getId()==null){
 			user.setCompany(UserUtils.getUser().getCompany());
 		}
 		if (user.getOffice()==null || user.getOffice().getId()==null){
-			user.setOffice(UserUtils.getUser().getOffice());
+			//user.setOffice(UserUtils.getUser().getOffice());
+			Office office=new Office();
+			office.setOfficeType(userOfficeType);
+			user.setOffice(office);
 		}
+
 		model.addAttribute("user", user);
 		model.addAttribute("allRoles", systemService.findAllRole());
 		return "modules/sys/userForm";
@@ -97,7 +111,7 @@ public class UserController extends BaseController {
 
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "save")
-	public String save(User user, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+	public String save(User user, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,String userOfficeType) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/user/list?repage";
@@ -110,11 +124,11 @@ public class UserController extends BaseController {
 			user.setPassword(SystemService.entryptPassword(user.getNewPassword()));
 		}
 		if (!beanValidator(model, user)){
-			return form(user, model);
+			return form(user, model,userOfficeType);
 		}
 		if (!"true".equals(checkLoginName(user.getOldLoginName(), user.getLoginName()))){
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
-			return form(user, model);
+			return form(user, model,userOfficeType);
 		}
 		// 角色数据有效性验证，过滤不在授权内的角色
 		List<Role> roleList = Lists.newArrayList();

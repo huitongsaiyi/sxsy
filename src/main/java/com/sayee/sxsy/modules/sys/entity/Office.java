@@ -38,7 +38,9 @@ public class Office extends TreeEntity<Office> {
 	private User primaryPerson;//主负责人
 	private User deputyPerson;//副负责人
 	private List<String> childDeptList;//快速添加子部门
-	
+
+
+
 	public Office(){
 		super();
 //		this.sort = 30;
@@ -48,7 +50,7 @@ public class Office extends TreeEntity<Office> {
 	public Office(String id){
 		super(id);
 	}
-	
+
 	public List<String> getChildDeptList() {
 		return childDeptList;
 	}
@@ -81,7 +83,7 @@ public class Office extends TreeEntity<Office> {
 		this.deputyPerson = deputyPerson;
 	}
 
-//	@JsonBackReference
+	//	@JsonBackReference
 //	@NotNull
 	public Office getParent() {
 		return parent;
@@ -125,7 +127,7 @@ public class Office extends TreeEntity<Office> {
 //	public void setSort(Integer sort) {
 //		this.sort = sort;
 //	}
-	
+
 	@Length(min=1, max=1)
 	public String getType() {
 		return type;
@@ -218,7 +220,7 @@ public class Office extends TreeEntity<Office> {
 //	public String getParentId() {
 //		return parent != null && parent.getId() != null ? parent.getId() : "0";
 //	}
-	
+
 	@Override
 	public String toString() {
 		return name;
