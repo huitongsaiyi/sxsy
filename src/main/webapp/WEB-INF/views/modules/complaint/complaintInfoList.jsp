@@ -38,11 +38,11 @@
 				<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
 			<li><label>涉及医院：</label>
-				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="" labelValue="${complaintInfo.}"
+				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="" labelValue="${complaintInfo.involveHospital}"
 					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>涉及科室：</label>
-				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="" labelValue="${complaintInfo.}"
+				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="" labelValue="${complaintInfo.involveDepartment}"
 					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
@@ -71,7 +71,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="complaintInfo">
 			<tr>
-				<td><a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.id}">
+				<td><a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">
 					${complaintInfo.caseNumber}
 				</a></td>
 				<td>
@@ -96,10 +96,10 @@
 					${complaintInfo.visitorNumber}
 				</td>
 				<td>
-					${complaintInfo.}
+					${complaintInfo.involveHospital}
 				</td>
 				<td>
-					${complaintInfo.}
+					${complaintInfo.involveDepartment}
 				</td>
 				<td>
 					${complaintInfo.involveEmployee}
@@ -108,8 +108,8 @@
 					${complaintInfo.summaryOfDisputes}
 				</td>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><td>
-    				<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.id}">修改</a>
-					<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.id}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
+    				<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">修改</a>
+					<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.complaintId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
