@@ -159,6 +159,10 @@
 		<if test="office !=null and office.officeType !=null and office.officeType != ''">
 			WHERE a.del_flag = #{DEL_FLAG_NORMAL} and o.office_type=#{office.officeType}
 		</if>
+		<if test="office !=null and office.officeType ==null and office.officeType == ''">
+			WHERE a.del_flag = #{DEL_FLAG_NORMAL} and o.office_type=""
+		</if>
+
 
 
 		<if test="company != null and company.id != null and company.id != ''">
@@ -169,7 +173,7 @@
 		</if>
 		<if test="office != null and office.id != null and office.id != ''">
 			AND (o.id = #{office.id} OR o.parent_ids LIKE
-			<if test="dbName == 'oracle'">'%,'||#{office.id}||',%')</if>
+			<if test="dbName == 'oracle'">'%,'||#{office.id}||',%'</if>
 			<if test="dbName == 'mssql'">'%,'+#{office.id}+',%')</if>
 			<if test="dbName == 'mysql'">CONCAT('%,', #{office.id}, ',%'))</if>
 		</if>
