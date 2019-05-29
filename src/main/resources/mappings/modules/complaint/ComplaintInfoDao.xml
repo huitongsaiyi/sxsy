@@ -27,14 +27,14 @@
 	</sql>
 	
 	<sql id="complaintInfoJoins">
-		LEFT JOIN sys_office o9 ON o9.id = a.involve_hospital
-		LEFT JOIN sys_office o10 ON o10.id = a.involve_department
+		LEFT JOIN SYS_OFFICE o9 ON o9.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o10 ON o10.id = a.involve_department
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">
 		SELECT 
 			<include refid="complaintInfoColumns"/>
-		FROM complaint_info a
+		FROM COMPLAINT_INFO a
 		<include refid="complaintInfoJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -42,7 +42,7 @@
 	<select id="findList" resultType="ComplaintInfo">
 		SELECT 
 			<include refid="complaintInfoColumns"/>
-		FROM complaint_info a
+		FROM COMPLAINT_INFO a
 		<include refid="complaintInfoJoins"/>
 		<where>
 			
@@ -95,7 +95,7 @@
 	<select id="findAllList" resultType="ComplaintInfo">
 		SELECT 
 			<include refid="complaintInfoColumns"/>
-		FROM complaint_info a
+		FROM COMPLAINT_INFO a
 		<include refid="complaintInfoJoins"/>
 		<where>
 			
@@ -110,7 +110,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO complaint_info(
+		INSERT INTO COMPLAINT_INFO(
 			case_number,
 			visitor_name,
 			visitor_mobile,
@@ -158,7 +158,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE complaint_info SET 	
+		UPDATE COMPLAINT_INFO SET
 			case_number = #{caseNumber},
 			visitor_name = #{visitorName},
 			visitor_mobile = #{visitorMobile},
@@ -184,7 +184,7 @@
 	</update>
 	
 	<update id="delete">
-		DELETE FROM complaint_info
+		DELETE FROM COMPLAINT_INFO
 		WHERE id = #{id}
 	</update>
 	

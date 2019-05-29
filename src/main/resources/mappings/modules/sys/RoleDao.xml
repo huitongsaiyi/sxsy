@@ -65,30 +65,30 @@
 			uo.name AS "userList.office.name", -->
 			rm.menu_id AS "menuList.id",
 			ro.office_id AS "officeList.id"
-		FROM sys_role a
-		JOIN sys_office o ON o.id = a.office_id<!-- 
+		FROM SYS_ROLE a
+		JOIN SYS_OFFICE o ON o.id = a.office_id<!--
 		LEFT JOIN sys_user_role ur ON ur.role_id = a.id
 		LEFT JOIN sys_user u ON u.id = ur.user_id
 		LEFT JOIN sys_office uc ON uc.id = u.company_id
 		LEFT JOIN sys_office uo ON uo.id = u.office_id -->
-		LEFT JOIN sys_role_menu rm ON rm.role_id = a.id
-		LEFT JOIN sys_role_office ro ON ro.role_id = a.id
+		LEFT JOIN SYS_ROLE_MENU rm ON rm.role_id = a.id
+		LEFT JOIN SYS_ROLE_OFFICE ro ON ro.role_id = a.id
 		WHERE a.id = #{id}
 	</select>
 	
 	<select id="getByName" resultType="Role">
 		SELECT
 			<include refid="roleColumns"/>
-		FROM sys_role a
-		JOIN sys_office o ON o.id = a.office_id
+		FROM SYS_ROLE a
+		JOIN SYS_OFFICE o ON o.id = a.office_id
 		WHERE a.name = #{name} AND a.del_flag = #{DEL_FLAG_NORMAL}
 	</select>
 	
 	<select id="getByEnname" resultType="Role">
 		SELECT
 			<include refid="roleColumns"/>
-		FROM sys_role a
-		JOIN sys_office o ON o.id = a.office_id
+		FROM SYS_ROLE a
+		JOIN SYS_OFFICE o ON o.id = a.office_id
 		WHERE a.enname = #{enname} AND a.del_flag = #{DEL_FLAG_NORMAL}
 	</select>
 	
@@ -96,11 +96,11 @@
 		SELECT <!-- DISTINCT -->
 			<include refid="roleColumns"/>,
 			ro.office_id AS "officeList.id"
-		FROM sys_role a
-		LEFT JOIN sys_office o ON o.id = a.office_id
-		LEFT JOIN sys_user_role ur ON ur.role_id = a.id
-		LEFT JOIN sys_user u ON u.id = ur.user_id
-		LEFT JOIN sys_role_office ro ON ro.role_id = a.id
+		FROM SYS_ROLE a
+		LEFT JOIN SYS_OFFICE o ON o.id = a.office_id
+		LEFT JOIN SYS_USER_ROLE ur ON ur.role_id = a.id
+		LEFT JOIN SYS_USER u ON u.id = ur.user_id
+		LEFT JOIN SYS_ROLE_OFFICE ro ON ro.role_id = a.id
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.useable=#{useable}
 		<if test="user != null and user.id != null and user.id != ''">
 			AND u.id = #{user.id}
@@ -116,14 +116,14 @@
 	<select id="findAllList" resultType="Role">
 		SELECT
 			<include refid="roleColumns"/>
-		FROM sys_role a
-		LEFT JOIN sys_office o ON o.id = a.office_id
+		FROM SYS_ROLE a
+		LEFT JOIN SYS_OFFICE o ON o.id = a.office_id
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		ORDER BY o.code, a.name
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO sys_role(
+		INSERT INTO SYS_ROLE(
 			id, 
 			office_id, 
 			name, 
@@ -157,7 +157,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE sys_role SET 
+		UPDATE SYS_ROLE SET
 			office_id = #{office.id}, 
 			name = #{name}, 
 			enname = #{enname}, 
@@ -172,11 +172,11 @@
 	</update>
 	
 	<delete id="deleteRoleMenu">
-		DELETE FROM sys_role_menu WHERE role_id = #{id}
+		DELETE FROM SYS_ROLE_MENU WHERE role_id = #{id}
 	</delete>
 	
 	<insert id="insertRoleMenu">
-		INSERT INTO sys_role_menu(role_id, menu_id)
+		INSERT INTO SYS_ROLE_MENU(role_id, menu_id)
 		<foreach collection="menuList" item="menu" separator=" union all ">
 			SELECT #{id}, #{menu.id}
 			<if test="dbName != 'mssql'">
@@ -186,11 +186,11 @@
 	</insert>
 	
 	<delete id="deleteRoleOffice">
-		DELETE FROM sys_role_office WHERE role_id = #{id}
+		DELETE FROM SYS_ROLE_OFFICE WHERE role_id = #{id}
 	</delete>
 	
 	<insert id="insertRoleOffice">
-		INSERT INTO sys_role_office(role_id, office_id)
+		INSERT INTO SYS_ROLE_OFFICE(role_id, office_id)
 		<foreach collection="officeList" item="office" separator=" union all ">
 			SELECT #{id}, #{office.id}
 			<if test="dbName != 'mssql'">
@@ -200,7 +200,7 @@
 	</insert>
 	
 	<update id="delete">
-		UPDATE sys_role SET 
+		UPDATE SYS_ROLE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

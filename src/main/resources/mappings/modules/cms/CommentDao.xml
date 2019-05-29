@@ -22,7 +22,7 @@
 	<select id="get" resultType="Comment">
 		SELECT 
 			<include refid="cmsCommentDaoColumns"/>
-		FROM cms_comment a
+		FROM CMS_COMMENT a
 		<include refid="cmsCommentDaoJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -30,7 +30,7 @@
 	<select id="findList" resultType="Comment">
 		SELECT 
 			<include refid="cmsCommentDaoColumns"/>
-		FROM cms_comment a
+		FROM CMS_COMMENT a
 		<include refid="cmsCommentDaoJoins"/>
 		<where>
 			a.del_flag = #{delFlag}
@@ -54,7 +54,7 @@
 	<select id="findAllList" resultType="Comment">
 		SELECT 
 			<include refid="cmsCommentDaoColumns"/>
-		FROM cms_comment a
+		FROM CMS_COMMENT a
 		<include refid="cmsCommentDaoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -70,7 +70,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO cms_comment(
+		INSERT INTO CMS_COMMENT(
 			id,
 			category_id,
 			content_id,
@@ -98,7 +98,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE cms_comment SET 	
+		UPDATE CMS_COMMENT SET
 			
 			category_id = #{category.id},
 			content_id = #{contentId},
@@ -114,7 +114,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE cms_comment SET 
+		UPDATE CMS_COMMENT SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

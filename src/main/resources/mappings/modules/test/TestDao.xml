@@ -9,13 +9,13 @@
 	</sql>
 	
 	<sql id="testJoins">
-		JOIN sys_office o ON o.id = a.office_id
+		JOIN SYS_OFFICE o ON o.id = a.office_id
     </sql>
     
     <select id="get" resultType="Test">
 		SELECT 
 			<include refid="testColumns"/>
-		FROM sys_user a
+		FROM SYS_USER a
 		<include refid="testJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -23,7 +23,7 @@
 	<select id="findList" resultType="Test">
 		SELECT 
 			<include refid="testColumns"/>
-		FROM sys_user a
+		FROM SYS_USER a
 		<include refid="testJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		<if test="name != null and name != ''">
@@ -37,14 +37,14 @@
 	<select id="findAllList" resultType="Test">
 		SELECT 
 			<include refid="testColumns"/>
-		FROM sys_user a
+		FROM SYS_USER a
 		<include refid="testJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		ORDER BY a.id DESC
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO sys_user(
+		INSERT INTO SYS_USER(
 			id, 
 			name, 
 			create_by, 
@@ -66,7 +66,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE sys_user SET 
+		UPDATE SYS_USER SET
 			name = #{name}, 
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
@@ -75,7 +75,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE sys_user SET 
+		UPDATE SYS_USER SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

@@ -15,13 +15,13 @@
 	</sql>
 	
 	<sql id="testDataChildJoins">
-		LEFT JOIN test_data_main b ON b.id = a.test_data_main_id
+		LEFT JOIN TEST_DATA_MAIN b ON b.id = a.test_data_main_id
 	</sql>
     
 	<select id="get" resultType="TestDataChild">
 		SELECT 
 			<include refid="testDataChildColumns"/>
-		FROM test_data_child a
+		FROM TEST_DATA_CHILD a
 		<include refid="testDataChildJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -29,7 +29,7 @@
 	<select id="findList" resultType="TestDataChild">
 		SELECT 
 			<include refid="testDataChildColumns"/>
-		FROM test_data_child a
+		FROM TEST_DATA_CHILD a
 		<include refid="testDataChildJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -56,7 +56,7 @@
 	<select id="findAllList" resultType="TestDataChild">
 		SELECT 
 			<include refid="testDataChildColumns"/>
-		FROM test_data_child a
+		FROM TEST_DATA_CHILD a
 		<include refid="testDataChildJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -72,7 +72,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO test_data_child(
+		INSERT INTO TEST_DATA_CHILD(
 			id,
 			test_data_main_id,
 			name,
@@ -96,7 +96,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE test_data_child SET 	
+		UPDATE TEST_DATA_CHILD SET
 			test_data_main_id = #{testDataMain.id},
 			name = #{name},
 			update_by = #{updateBy.id},
@@ -106,7 +106,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE test_data_child SET 
+		UPDATE TEST_DATA_CHILD SET
 			del_flag = #{DEL_FLAG_DELETE}
 		<choose>
 			<when test="id !=null and id != ''">

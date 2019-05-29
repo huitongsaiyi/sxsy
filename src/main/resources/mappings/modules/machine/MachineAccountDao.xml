@@ -49,16 +49,16 @@
 	</sql>
 
 	<sql id="machineAccountJoins">
-		LEFT JOIN sys_office o3 ON o3.id = a.dept_id
-		LEFT JOIN sys_user u4 ON u4.id = a.mediator_id
-		LEFT JOIN sys_user u5 ON u5.id = a.create_by
-		LEFT JOIN sys_user u6 ON u6.id = a.update_by
+		LEFT JOIN SYS_OFFICE o3 ON o3.id = a.dept_id
+		LEFT JOIN SYS_USER u4 ON u4.id = a.mediator_id
+		LEFT JOIN SYS_USER u5 ON u5.id = a.create_by
+		LEFT JOIN SYS_USER u6 ON u6.id = a.update_by
 	</sql>
 
 	<select id="get" resultType="MachineAccount">
 		SELECT
 		<include refid="machineAccountColumns"/>
-		FROM machine_account a
+		FROM MACHINE_ACCOUNT a
 		<include refid="machineAccountJoins"/>
 		WHERE a.machine_account_id = #{id}
 	</select>
@@ -66,7 +66,7 @@
 	<select id="findList" resultType="MachineAccount">
 		SELECT
 		<include refid="machineAccountColumns"/>
-		FROM machine_account a
+		FROM MACHINE_ACCOUNT a
 		<include refid="machineAccountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -117,7 +117,7 @@
 	<select id="findAllList" resultType="MachineAccount">
 		SELECT
 		<include refid="machineAccountColumns"/>
-		FROM machine_account a
+		FROM MACHINE_ACCOUNT a
 		<include refid="machineAccountJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -133,7 +133,7 @@
 	</select>
 
 	<insert id="insert">
-		INSERT INTO machine_account(
+		INSERT INTO MACHINE_ACCOUNT(
 			machine_account_id,
 			reporting_time,
 			dept_id,
@@ -217,7 +217,7 @@
 	</insert>
 
 	<update id="update">
-		UPDATE machine_account SET
+		UPDATE MACHINE_ACCOUNT SET
 			machine_account_id = #{machineAccountId},
 			reporting_time = #{reportingTime},
 			dept_id = #{deptId},
@@ -258,7 +258,7 @@
 	</update>
 
 	<update id="delete">
-		UPDATE machine_account SET
+		UPDATE MACHINE_ACCOUNT SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE machine_account_id = #{id}
 	</update>
@@ -271,7 +271,7 @@
 	<select id="checkFileNumber" resultType="MachineAccount">
 		SELECT
 		<include refid="machineAccountColumns"/>
-		FROM machine_account a
+		FROM MACHINE_ACCOUNT a
 		<include refid="machineAccountJoins"/>
 		WHERE a.file_number = #{fileNumber}
 	</select>

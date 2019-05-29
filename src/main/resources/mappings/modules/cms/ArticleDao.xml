@@ -28,15 +28,15 @@
 	</sql>
 	
 	<sql id="cmsArticleJoins">
-		JOIN cms_category c ON c.id = a.category_id
-		JOIN sys_office o ON o.id = c.office_id
-		JOIN sys_user u ON u.id = a.create_by
+		JOIN CMS_CATEGORY c ON c.id = a.category_id
+		JOIN SYS_OFFICE o ON o.id = c.office_id
+		JOIN SYS_USER u ON u.id = a.create_by
 	</sql>
     
 	<select id="get" resultType="Article">
 		SELECT 
 			<include refid="cmsArticleColumns"/>
-		FROM cms_article a
+		FROM CMS_ARTICLE a
 		<include refid="cmsArticleJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -44,7 +44,7 @@
 	<select id="findList" resultType="Article">
 		SELECT 
 			<include refid="cmsArticleColumns"/>
-		FROM cms_article a
+		FROM CMS_ARTICLE a
 		<include refid="cmsArticleJoins"/>
 		<where>
 			a.del_flag = #{delFlag}
@@ -90,7 +90,7 @@
 	<select id="findAllList" resultType="Article">
 		SELECT 
 			<include refid="cmsArticleColumns"/>
-		FROM cms_article a
+		FROM CMS_ARTICLE a
 		<include refid="cmsArticleJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -106,7 +106,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO cms_article(
+		INSERT INTO CMS_ARTICLE(
 			id,
 			category_id,
 			title,
@@ -152,7 +152,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE cms_article SET 	
+		UPDATE CMS_ARTICLE SET
 			category_id = #{category.id},
 			title = #{title},
 			link = #{link},
@@ -175,7 +175,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE cms_article SET 
+		UPDATE CMS_ARTICLE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
@@ -183,14 +183,14 @@
 	<select id="findByIdIn" resultType="Article">
 		SELECT 
 			<include refid="cmsArticleColumns"/>
-		from cms_article a where 
+		from CMS_ARTICLE a where
 		<where>
 			id in (${id});
 		</where>		
 	</select>
  
 	<update id="updateExpiredWeight">
-		update cms_article SET
+		update CMS_ARTICLE SET
 			 weight = 0
 		WHERE weight &gt; 0 AND weight_date &lt; 
 			<if test="dbName == 'oracle'">sysdate</if>
@@ -199,7 +199,7 @@
 	</update>
 	
 	<update id="updateHitsAddOne">
-		update cms_article set
+		update CMS_ARTICLE set
 			 hits = hits+1
 		 WHERE id = #{id}
 	</update>
@@ -214,10 +214,10 @@
 		       max(a.update_date) as "updateDate",
 		       max(o.id) AS "office.id",
 		       max(o.name) AS "office.name"
-		  FROM cms_article a
-		  RIGHT JOIN cms_category c ON c.id = a.category_id
-		  JOIN cms_category cp ON c.parent_id = cp.id
-		  JOIN sys_office o ON o.id = c.office_id
+		  FROM CMS_ARTICLE a
+		  RIGHT JOIN CMS_CATEGORY c ON c.id = a.category_id
+		  JOIN CMS_CATEGORY cp ON c.parent_id = cp.id
+		  JOIN SYS_OFFICE o ON o.id = c.office_id
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL} 
 			AND c.site_id = #{site.id}

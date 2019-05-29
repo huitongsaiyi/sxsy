@@ -13,7 +13,7 @@
     <select id="get" resultType="GenTemplate">
 		SELECT 
 			<include refid="genTemplateColumns"/>
-		FROM gen_template a
+		FROM GEN_TEMPLATE a
 		<include refid="genTemplateJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -21,7 +21,7 @@
 	<select id="findList" resultType="GenTemplate">
 		SELECT 
 			<include refid="genTemplateColumns"/>
-		FROM gen_template a
+		FROM GEN_TEMPLATE a
 		<include refid="genTemplateJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		<if test="name != null and name != ''">
@@ -42,14 +42,14 @@
 	<select id="findAllList" resultType="GenTemplate">
 		SELECT 
 			<include refid="genTemplateColumns"/>
-		FROM gen_template a
+		FROM GEN_TEMPLATE a
 		<include refid="genTemplateJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		ORDER BY a.name, a.update_date DESC
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO gen_template(
+		INSERT INTO GEN_TEMPLATE(
 			id, 
 			name, 
 			category, 
@@ -79,7 +79,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE gen_template SET 
+		UPDATE GEN_TEMPLATE SET
 			name = #{name}, 
 			category = #{category},  
 			file_path = #{filePath},  
@@ -92,7 +92,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE gen_template SET 
+		UPDATE GEN_TEMPLATE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
