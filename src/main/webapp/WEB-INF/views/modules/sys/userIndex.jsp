@@ -9,7 +9,7 @@
 		.ztree {overflow:auto;margin:0;_margin-top:10px;padding:10px 0 0 10px;}
 	</style>
 </head>
-<body>
+<body>${user.office.officeType}
 	<sys:message content="${message}"/>
 	<div id="content" class="row-fluid">
 		<div id="left" class="accordion-group">
@@ -20,7 +20,7 @@
 		</div>
 		<div id="openClose" class="close">&nbsp;</div>
 		<div id="right">
-			<iframe id="officeContent" src="${ctx}/sys/user/list?userOfficeType=${userOfficeType}" width="100%" height="91%" frameborder="0"></iframe>
+			<iframe id="officeContent" src="${ctx}/sys/user/list?officeType=${officeType}" width="100%" height="91%" frameborder="0"></iframe>
 		</div>
 	</div>
 	<script type="text/javascript">

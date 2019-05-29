@@ -29,7 +29,7 @@
 	    }
 	</script>
 </head>
-<body>
+<body>${user.office.officeType}
 	<div id="importBox" class="hide">
 		<form id="importForm" action="${ctx}/sys/user/import" method="post" enctype="multipart/form-data"
 			class="form-search" style="padding-left:20px;text-align:center;" onsubmit="loading('正在导入，请稍等...');"><br/>
@@ -39,10 +39,10 @@
 		</form>
 	</div>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/sys/user/list?userOfficeType=${user.office.officeType}">用户列表</a></li>
-		<shiro:hasPermission name="sys:user:edit"><li><a href="${ctx}/sys/user/form?userOfficeType=${user.office.officeType}">用户添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/sys/user/list?officeType=${officeType}">用户列表</a></li>
+		<shiro:hasPermission name="sys:user:edit"><li><a href="${ctx}/sys/user/form?officeType=${user.office.officeType}">用户添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="user" action="${ctx}/sys/user/list" method="post" class="breadcrumb form-search ">
+	<form:form id="searchForm" modelAttribute="user" action="${ctx}/sys/user/list?officeType=${user.office.officeType}" method="post" class="breadcrumb form-search ">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
@@ -74,7 +74,7 @@
 				<td>${user.mobile}</td><%--
 				<td>${user.roleNames}</td> --%>
 				<shiro:hasPermission name="sys:user:edit"><td>
-    				<a href="${ctx}/sys/user/form?id=${user.id}&userOfficeType=${userOfficeType}">修改</a>
+    				<a href="${ctx}/sys/user/form?id=${user.id}&officeType=${officeType}">修改</a>
 					<a href="${ctx}/sys/user/delete?id=${user.id}" onclick="return confirmx('确认要删除该用户吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
