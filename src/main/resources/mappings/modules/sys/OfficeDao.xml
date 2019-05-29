@@ -36,8 +36,8 @@
 	</sql>
 
 	<sql id="officeJoins">
-		LEFT JOIN sys_office p ON p.id = a.parent_id
-		LEFT JOIN sys_area ar ON ar.id = a.area_id
+		LEFT JOIN SYS_OFFICE p ON p.id = a.parent_id
+		LEFT JOIN SYS_AREA ar ON ar.id = a.area_id
 		LEFT JOIN SYS_USER pp ON pp.id = a.primary_person
 		LEFT JOIN SYS_USER dp ON dp.id = a.deputy_person
     </sql>
@@ -45,7 +45,7 @@
 	<select id="get" resultType="Office">
 		SELECT
 		<include refid="officeColumns"/>
-		FROM sys_office a
+		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -53,7 +53,7 @@
 	<select id="findList" resultType="Office">
 		SELECT
 		<include refid="officeColumns"/>
-		FROM sys_office a
+		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 
@@ -67,7 +67,7 @@
 	<select id="findAllList" resultType="Office">
 		SELECT
 		<include refid="officeColumns"/>
-		FROM sys_office a
+		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 
@@ -77,14 +77,14 @@
 	<select id="findByParentIdsLike" resultType="Office">
 		SELECT
 		<include refid="officeColumns"/>
-		FROM sys_office a
+		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
 		ORDER BY a.code
 	</select>
 
 	<insert id="insert">
-		INSERT INTO sys_office(
+		INSERT INTO SYS_OFFICE(
 			id, 
 			parent_id, 
 			parent_ids, 
@@ -140,7 +140,7 @@
 	</insert>
 
 	<update id="update">
-		UPDATE sys_office SET 
+		UPDATE SYS_OFFICE SET
 			parent_id = #{parent.id}, 
 			parent_ids = #{parentIds}, 
 			area_id = #{area.id}, 
@@ -165,14 +165,14 @@
 	</update>
 
 	<update id="updateParentIds">
-		UPDATE sys_office SET 
+		UPDATE SYS_OFFICE SET
 			parent_id = #{parent.id}, 
 			parent_ids = #{parentIds}
 		WHERE id = #{id}
 	</update>
 
 	<update id="delete">
-		UPDATE sys_office SET
+		UPDATE SYS_OFFICE SET
 		del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id} OR parent_ids LIKE
 		<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
@@ -183,7 +183,7 @@
 	<select id="officeId" parameterType="java.lang.String" resultType="Office">
 		SELECT
 		<include refid="officeColumns"/>
-		FROM sys_office a
+		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.name = #{name}
 	</select>
@@ -192,7 +192,7 @@
 	<select id="getOfficeId" parameterType="java.lang.String" resultType="Office">
 		SELECT
 		<include refid="officeColumns"/>
-		FROM sys_office a
+		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.ID = #{id}
 	</select>

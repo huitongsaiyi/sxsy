@@ -22,15 +22,15 @@
 	</sql>
 	
 	<sql id="testDataMainJoins">
-		LEFT JOIN sys_user u2 ON u2.id = a.user_id
-		LEFT JOIN sys_office o3 ON o3.id = a.office_id
-		LEFT JOIN sys_area a4 ON a4.id = a.area_id
+		LEFT JOIN SYS_USER u2 ON u2.id = a.user_id
+		LEFT JOIN SYS_OFFICE o3 ON o3.id = a.office_id
+		LEFT JOIN SYS_AREA a4 ON a4.id = a.area_id
 	</sql>
     
 	<select id="get" resultType="TestDataMain">
 		SELECT 
 			<include refid="testDataMainColumns"/>
-		FROM test_data_main a
+		FROM TEST_DATA_MAIN a
 		<include refid="testDataMainJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -38,7 +38,7 @@
 	<select id="findList" resultType="TestDataMain">
 		SELECT 
 			<include refid="testDataMainColumns"/>
-		FROM test_data_main a
+		FROM TEST_DATA_MAIN a
 		<include refid="testDataMainJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -68,7 +68,7 @@
 	<select id="findAllList" resultType="TestDataMain">
 		SELECT 
 			<include refid="testDataMainColumns"/>
-		FROM test_data_main a
+		FROM TEST_DATA_MAIN a
 		<include refid="testDataMainJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -84,7 +84,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO test_data_main(
+		INSERT INTO TEST_DATA_MAIN(
 			id,
 			user_id,
 			office_id,
@@ -116,7 +116,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE test_data_main SET 	
+		UPDATE TEST_DATA_MAIN SET
 			user_id = #{user.id},
 			office_id = #{office.id},
 			area_id = #{area.id},
@@ -130,7 +130,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE test_data_main SET 
+		UPDATE TEST_DATA_MAIN SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

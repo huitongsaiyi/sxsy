@@ -27,7 +27,7 @@
 	<select id="get" resultType="Site">
 		SELECT 
 			<include refid="cmsSiteColumns"/>
-		FROM cms_site a
+		FROM CMS_SITE a
 		<include refid="cmsSiteJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -35,7 +35,7 @@
 	<select id="findList" resultType="Site">
 		SELECT 
 			<include refid="cmsSiteColumns"/>
-		FROM cms_site a
+		FROM CMS_SITE a
 		<include refid="cmsSiteJoins"/>
 		<where>
 			a.del_flag = #{delFlag}
@@ -59,7 +59,7 @@
 	<select id="findAllList" resultType="Site">
 		SELECT 
 			<include refid="cmsSiteColumns"/>
-		FROM cms_site a
+		FROM CMS_SITE a
 		<include refid="cmsSiteJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -75,7 +75,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO cms_site(
+		INSERT INTO CMS_SITE(
 			id,
 			name,
 			title,
@@ -113,7 +113,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE cms_site SET 	
+		UPDATE CMS_SITE SET
 			name = #{name},
 			title = #{title},
 			logo = #{logo},
@@ -131,7 +131,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE cms_site SET 
+		UPDATE CMS_SITE SET
 			del_flag = #{delFlag}
 		WHERE id = #{id}
 	</update>

@@ -14,7 +14,7 @@
     <select id="get" resultType="GenScheme">
 		SELECT 
 			<include refid="genSchemeColumns"/>
-		FROM gen_scheme a
+		FROM GEN_SCHEME a
 		<include refid="genSchemeJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -22,7 +22,7 @@
 	<select id="findList" resultType="GenScheme">
 		SELECT 
 			<include refid="genSchemeColumns"/>
-		FROM gen_scheme a
+		FROM GEN_SCHEME a
 		<include refid="genSchemeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		<if test="name != null and name != ''">
@@ -37,14 +37,14 @@
 	<select id="findAllList" resultType="GenScheme">
 		SELECT 
 			<include refid="genSchemeColumns"/>
-		FROM gen_scheme a
+		FROM GEN_SCHEME a
 		<include refid="genSchemeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		ORDER BY a.update_date DESC
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO gen_scheme(
+		INSERT INTO GEN_SCHEME(
 			id, 
 			name, 
 			category, 
@@ -82,7 +82,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE gen_scheme SET 
+		UPDATE GEN_SCHEME SET
 			name = #{name}, 
 			category = #{category},  
 			package_name = #{packageName},  
@@ -99,7 +99,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE gen_scheme SET 
+		UPDATE GEN_SCHEME SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

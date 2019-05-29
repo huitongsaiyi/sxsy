@@ -37,10 +37,10 @@
 	</sql>
 	
 	<sql id="cmsCategoryDaoJoins">
-	    LEFT JOIN cms_category c ON c.id = a.parent_id
-		JOIN sys_office o ON o.id = a.office_id
-		JOIN sys_user u ON u.id = a.create_by
-		JOIN cms_site s ON a.site_id = s.id
+	    LEFT JOIN CMS_CATEGORY c ON c.id = a.parent_id
+		JOIN SYS_OFFICE o ON o.id = a.office_id
+		JOIN SYS_USER u ON u.id = a.create_by
+		JOIN CMS_SITE s ON a.site_id = s.id
 	</sql>
     
 	<select id="get" resultType="Category">
@@ -73,16 +73,16 @@
 			a.remarks AS "remarks",
 			a.del_flag AS "delFlag",
 			o.name AS "office.name"
-		FROM cms_category a
-		JOIN sys_office o ON o.id = a.office_id
-		JOIN sys_user u ON u.id = a.create_by
+		FROM CMS_CATEGORY a
+		JOIN SYS_OFFICE o ON o.id = a.office_id
+		JOIN SYS_USER u ON u.id = a.create_by
 		WHERE a.id = #{id}
 	</select>
 	
 	<select id="find" resultType="Category">
 		SELECT 
 			<include refid="cmsCategoryDaoColumns"/>
-		FROM cms_category a
+		FROM CMS_CATEGORY a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -100,7 +100,7 @@
 	<select id="findList" resultType="Category">
 		SELECT 
 			<include refid="cmsCategoryDaoColumns"/>
-		FROM cms_category a
+		FROM CMS_CATEGORY a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
 			a.del_flag = #{delFlag}
@@ -118,7 +118,7 @@
 	<select id="findModule" resultType="Category">
 		SELECT 
 			<include refid="cmsCategoryDaoColumns"/>
-		FROM cms_category a
+		FROM CMS_CATEGORY a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -137,7 +137,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO cms_category(
+		INSERT INTO CMS_CATEGORY(
 			id,
 			parent_id,
 			parent_ids,
@@ -197,7 +197,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE cms_category SET 	
+		UPDATE CMS_CATEGORY SET
 			
 			parent_id = #{parent.id},
 			parent_ids = #{parentIds},
@@ -227,14 +227,14 @@
 	</update>
 	
 	<update id="updateParentIds">
-		UPDATE cms_category SET 
+		UPDATE CMS_CATEGORY SET
 			parent_id = #{parent.id}, 
 			parent_ids = #{parentIds}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE cms_category SET 
+		UPDATE CMS_CATEGORY SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id} OR parent_ids LIKE 
 					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
@@ -245,7 +245,7 @@
 	<select id="findByParentIdAndSiteId" resultType="Category">
 		SELECT 
 			<include refid="cmsCategoryDaoColumns"/>
-		FROM cms_category a
+		FROM CMS_CATEGORY a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL} 
@@ -261,7 +261,7 @@
 	<select id="findByParentIdsLike" resultType="Category">
 		SELECT 
 			<include refid="cmsCategoryDaoColumns"/>
-		FROM cms_category a
+		FROM CMS_CATEGORY a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL} 
@@ -283,10 +283,10 @@
 		       max(a.updateDate) as updateDate,
 		       max(o.id) as officeId,
 		       max(o.name) as officeName,
-		  from cms_article a
-		  JOIN cms_category c ON c.id = a.category_id
-		  JOIN cms_category cp ON c.parent_id = cp.id
-		  JOIN sys_office o ON o.id = c.office_id
+		  from CMS_ARTICLE a
+		  JOIN CMS_CATEGORY c ON c.id = a.category_id
+		  JOIN CMS_CATEGORY cp ON c.parent_id = cp.id
+		  JOIN SYS_OFFICE o ON o.id = c.office_id
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL} 
 			AND a.category_id

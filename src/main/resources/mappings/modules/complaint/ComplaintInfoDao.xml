@@ -74,7 +74,7 @@
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan"
 	</sql>
-	
+
 	<sql id="complaintInfoJoins">
 		LEFT JOIN  sys_office o1 ON o1.id = a.involve_hospital
 		LEFT JOIN sys_office o2 ON o2.id = a.involve_department

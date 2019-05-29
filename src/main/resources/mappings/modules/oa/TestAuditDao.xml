@@ -33,14 +33,14 @@
 	</sql>
 	
 	<sql id="testAuditJoins">
-		JOIN sys_user u ON u.id=a.user_id
-		JOIN sys_office o ON o.id=a.office_id
+		JOIN SYS_USER u ON u.id=a.user_id
+		JOIN SYS_OFFICE o ON o.id=a.office_id
     </sql>
     
     <select id="get" resultType="TestAudit">
 		SELECT 
 			<include refid="testAuditColumns"/>
-		FROM oa_test_audit a
+		FROM OA_TEST_AUDIT a
 		<include refid="testAuditJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -48,7 +48,7 @@
     <select id="getByProcInsId" resultType="TestAudit">
 		SELECT 
 			<include refid="testAuditColumns"/>
-		FROM oa_test_audit a
+		FROM OA_TEST_AUDIT a
 		<include refid="testAuditJoins"/>
 		WHERE a.proc_ins_id = #{procInsId}
 	</select>
@@ -56,7 +56,7 @@
 	<select id="findList" resultType="TestAudit">
 		SELECT 
 			<include refid="testAuditColumns"/>
-		FROM oa_test_audit a
+		FROM OA_TEST_AUDIT a
 		<include refid="testAuditJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		<if test="user != null and user.id != null and user.id != ''">
@@ -71,14 +71,14 @@
 	<select id="findAllList" resultType="TestAudit">
 		SELECT 
 			<include refid="testAuditColumns"/>
-		FROM oa_test_audit a
+		FROM OA_TEST_AUDIT a
 		<include refid="testAuditJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		ORDER BY a.update_date DESC
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO oa_test_audit(
+		INSERT INTO OA_TEST_AUDIT(
 			id, 
 			user_id, 
 			office_id, 
@@ -126,7 +126,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE oa_test_audit SET 
+		UPDATE OA_TEST_AUDIT SET
 			user_id = #{user.id}, 
 			office_id = #{office.id}, 
 			post = #{post}, 
@@ -148,7 +148,7 @@
 	</update>
 	
 	<update id="updateInsId">
-		UPDATE oa_test_audit SET 
+		UPDATE OA_TEST_AUDIT SET
 			proc_ins_id = #{procInsId},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}
@@ -156,7 +156,7 @@
 	</update>
 	
 	<update id="updateHrText">
-		UPDATE oa_test_audit SET 
+		UPDATE OA_TEST_AUDIT SET
 			hr_text = #{hrText},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}
@@ -164,7 +164,7 @@
 	</update>
 	
 	<update id="updateLeadText">
-		UPDATE oa_test_audit SET 
+		UPDATE OA_TEST_AUDIT SET
 			lead_text = #{leadText},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}
@@ -172,7 +172,7 @@
 	</update>
 	
 	<update id="updateMainLeadText">
-		UPDATE oa_test_audit SET 
+		UPDATE OA_TEST_AUDIT SET
 			main_lead_text = #{mainLeadText},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}
@@ -180,7 +180,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE oa_test_audit SET 
+		UPDATE OA_TEST_AUDIT SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

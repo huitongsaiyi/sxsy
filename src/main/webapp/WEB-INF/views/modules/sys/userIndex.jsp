@@ -9,7 +9,7 @@
 		.ztree {overflow:auto;margin:0;_margin-top:10px;padding:10px 0 0 10px;}
 	</style>
 </head>
-<body>${user.office.officeType}
+<body>
 	<sys:message content="${message}"/>
 	<div id="content" class="row-fluid">
 		<div id="left" class="accordion-group">

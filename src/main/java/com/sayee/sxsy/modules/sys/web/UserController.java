@@ -51,10 +51,11 @@ public class UserController extends BaseController {
 	private SystemService systemService;
 	
 	@ModelAttribute
-	public User get(@RequestParam(required=false) String id,@RequestParam(required=false) String officeType) {
+	public User get(@RequestParam(required=false) String id,HttpServletRequest request) {
 		if (StringUtils.isNotBlank(id)){
 			return systemService.getUser(id);
 		}else{
+		    String officeType=request.getParameter("officeType");
 			Office office=new Office();
 			office.setOfficeType(officeType);
 			User user= new User();
@@ -74,13 +75,17 @@ public class UserController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String officeType=request.getParameter("officeType");
-		Office office=new Office();
-		office.setOfficeType(officeType);
-		user.setOffice(office);
-
-
+        if (officeType !=null && officeType != ""){
+            Office office=new Office();
+            office.setOfficeType(officeType);
+            user.setOffice(office);
             Page<User> page = systemService.findUser(new Page<User>(request, response), user);
             model.addAttribute("page", page);
+        }
+
+
+
+
 
 
 

@@ -13,7 +13,7 @@
     <select id="get" resultType="GenTable">
 		SELECT 
 			<include refid="genTableColumns"/>
-		FROM gen_table a
+		FROM GEN_TABLE a
 		<include refid="genTableJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -21,7 +21,7 @@
 	<select id="findList" resultType="GenTable">
 		SELECT 
 			<include refid="genTableColumns"/>
-		FROM gen_table a
+		FROM GEN_TABLE a
 		<include refid="genTableJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
 		<if test="name != null and name != ''">
@@ -54,7 +54,7 @@
 	<select id="findAllList" resultType="GenTable">
 		SELECT 
 			<include refid="genTableColumns"/>
-		FROM gen_table a
+		FROM GEN_TABLE a
 		<include refid="genTableJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		<choose>
@@ -68,7 +68,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO gen_table(
+		INSERT INTO GEN_TABLE(
 			id, 
 			name, 
 			comments, 
@@ -98,7 +98,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE gen_table SET <!-- 
+		UPDATE GEN_TABLE SET <!--
 			name = #{name},  -->
 			comments = #{comments}, 
 			class_name = #{className}, 
@@ -111,7 +111,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE gen_table SET 
+		UPDATE GEN_TABLE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

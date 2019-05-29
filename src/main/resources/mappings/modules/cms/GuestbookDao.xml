@@ -20,13 +20,13 @@
 	</sql>
 	
 	<sql id="cmsGuestbookJoins">
-		LEFT JOIN sys_user u ON u.id = a.re_user_id
+		LEFT JOIN SYS_USER u ON u.id = a.re_user_id
 	</sql>
     
 	<select id="get" resultType="Guestbook">
 		SELECT 
 			<include refid="cmsGuestbookColumns"/>
-		FROM cms_guestbook a
+		FROM CMS_GUESTBOOK a
 		<include refid="cmsGuestbookJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -34,7 +34,7 @@
 	<select id="findList" resultType="Guestbook">
 		SELECT 
 			<include refid="cmsGuestbookColumns"/>
-		FROM cms_guestbook a
+		FROM CMS_GUESTBOOK a
 		<include refid="cmsGuestbookJoins"/>
 		<where>
 			a.del_flag = #{delFlag}
@@ -52,7 +52,7 @@
 	<select id="findAllList" resultType="Guestbook">
 		SELECT 
 			<include refid="cmsGuestbookColumns"/>
-		FROM cms_guestbook a
+		FROM CMS_GUESTBOOK a
 		<include refid="cmsGuestbookJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -68,7 +68,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO cms_guestbook(
+		INSERT INTO CMS_GUESTBOOK(
 			id,
 			type,
 			content,
@@ -100,7 +100,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE cms_guestbook SET 	
+		UPDATE CMS_GUESTBOOK SET
 			type = #{type},
 			content = #{content},
 			name = #{name},
@@ -117,7 +117,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE cms_guestbook SET 
+		UPDATE CMS_GUESTBOOK SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
@@ -125,7 +125,7 @@
 	<select id="findByIdIn" resultType="Guestbook">
 		SELECT 
 			<include refid="cmsGuestbookColumns"/>
-		from cms_guestbook a where 
+		from CMS_GUESTBOOK a where
 		<where>
 			id in ();
 		</where>		

@@ -22,14 +22,14 @@
 	</sql>
 	
 	<sql id="cmsLinkJoins">
-		JOIN cms_category c ON c.id = a.category_id
-		JOIN sys_user u ON u.id = a.create_by
+		JOIN CMS_CATEGORY c ON c.id = a.category_id
+		JOIN SYS_USER u ON u.id = a.create_by
 	</sql>
     
 	<select id="get" resultType="Link">
 		SELECT 
 			<include refid="cmsLinkColumns"/>
-		FROM cms_link a
+		FROM CMS_LINK a
 		<include refid="cmsLinkJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -37,7 +37,7 @@
 	<select id="findList" resultType="Link">
 		SELECT 
 			<include refid="cmsLinkColumns"/>
-		FROM cms_link a
+		FROM CMS_LINK a
 		<include refid="cmsLinkJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -61,7 +61,7 @@
 	<select id="findAllList" resultType="Link">
 		SELECT 
 			<include refid="cmsLinkColumns"/>
-		FROM cms_link a
+		FROM CMS_LINK a
 		<include refid="cmsLinkJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -77,7 +77,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO cms_link(
+		INSERT INTO CMS_LINK(
 			id,
 			category_id,
 			title,
@@ -111,7 +111,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE cms_link SET 	
+		UPDATE CMS_LINK SET
 			category_id = #{category.id},
 			title = #{title},
 			color = #{color},
@@ -127,7 +127,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE cms_link SET 
+		UPDATE CMS_LINK SET
 			del_flag = #{delFlag}
 		WHERE id = #{id}
 	</update>
@@ -135,14 +135,14 @@
 	<select id="findByIdIn" resultType="Link">
 		SELECT 
 			<include refid="cmsLinkColumns"/>
-		from cms_link a where 
+		from CMS_LINK a where
 		<where>
 			id in (${id});
 		</where>		
 	</select>
 
 	<update id="updateExpiredWeight">
-		update cms_link SET
+		update CMS_LINK SET
 			 weight=0
 		WHERE weight &gt; 0 AND weight_date &lt; 
 			<if test="dbName == 'oracle'">sysdate</if>

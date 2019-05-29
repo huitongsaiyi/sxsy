@@ -22,7 +22,7 @@
 	<select id="get" resultType="TestTree">
 		SELECT 
 			<include refid="testTreeColumns"/>
-		FROM test_tree a
+		FROM TEST_TREE a
 		<include refid="testTreeJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -30,7 +30,7 @@
 	<select id="findList" resultType="TestTree">
 		SELECT 
 			<include refid="testTreeColumns"/>
-		FROM test_tree a
+		FROM TEST_TREE a
 		<include refid="testTreeJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -56,7 +56,7 @@
 	<select id="findAllList" resultType="TestTree">
 		SELECT 
 			<include refid="testTreeColumns"/>
-		FROM test_tree a
+		FROM TEST_TREE a
 		<include refid="testTreeJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -69,7 +69,7 @@
 			a.id,
 			a.parent_id AS "parent.id",
 			a.parent_ids
-		FROM test_tree a
+		FROM TEST_TREE a
 		<include refid="testTreeJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -79,7 +79,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO test_tree(
+		INSERT INTO TEST_TREE(
 			id,
 			parent_id,
 			parent_ids,
@@ -107,7 +107,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE test_tree SET 	
+		UPDATE TEST_TREE SET
 			parent_id = #{parent.id},
 			parent_ids = #{parentIds},
 			name = #{name},
@@ -119,14 +119,14 @@
 	</update>
 	
 	<update id="updateParentIds">
-		UPDATE test_tree SET 
+		UPDATE TEST_TREE SET
 			parent_id = #{parent.id}, 
 			parent_ids = #{parentIds}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE test_tree SET 
+		UPDATE TEST_TREE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id} OR parent_ids LIKE '%,'||#{id}||',%'
 	</update>

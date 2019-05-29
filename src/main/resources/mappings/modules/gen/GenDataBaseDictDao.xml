@@ -7,7 +7,7 @@
 			SELECT 
 				t.TABLE_NAME AS name, 
 				c.COMMENTS AS comments
-			FROM user_tables t, user_tab_comments c 
+			FROM USER_TABLES t, USER_TAB_COMMENTS c
 			WHERE t.table_name = c.table_name
 			<if test="name != null and name != ''">
 				AND t.TABLE_NAME = upper(#{name})
@@ -25,7 +25,7 @@
 		</if>
 		<if test="dbName == 'mysql'">			
 			SELECT t.table_name AS name,t.TABLE_COMMENT AS comments 
-			FROM information_schema.`TABLES` t 
+			FROM INFORMATION_SCHEMA.`TABLES` t
 			WHERE t.TABLE_SCHEMA = (select database())
 			<if test="name != null and name != ''">
 				AND t.TABLE_NAME = (#{name})
@@ -53,7 +53,7 @@
 					'NUMBER',t.DATA_TYPE || (nvl2(t.DATA_PRECISION,nvl2(decode(t.DATA_SCALE,0,null,t.DATA_SCALE),
 						'(' || t.DATA_PRECISION || ',' || t.DATA_SCALE || ')', 
 						'(' || t.DATA_PRECISION || ')'),'(18)')),t.DATA_TYPE) AS jdbcType 
-			FROM user_tab_columns t, user_col_comments c 
+			FROM USER_TAB_COLUMNS t, user_col_comments c
 			WHERE t.TABLE_NAME = c.table_name 
 				AND t.COLUMN_NAME = c.column_name 
 			<if test="name != null and name != ''">
@@ -80,7 +80,7 @@
 		<if test="dbName == 'mysql'">	
 			SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
 				(t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType 
-			FROM information_schema.`COLUMNS` t 
+			FROM INFORMATION_SCHEMA.`COLUMNS` t
 			WHERE t.TABLE_SCHEMA = (select database())
 			<if test="name != null and name != ''">
 				AND t.TABLE_NAME = (#{name})
@@ -92,7 +92,7 @@
 	<select id="findTablePK" resultType="string">
 		<if test="dbName == 'oracle'">
 			SELECT lower(cu.COLUMN_NAME) AS columnName
-			FROM user_cons_columns cu, user_constraints au
+			FROM USER_CONS_COLUMNS cu, user_constraints au
 			WHERE cu.constraint_name = au.constraint_name
 				AND au.constraint_type = 'P'
 				AND au.table_name = upper(#{name})
@@ -105,7 +105,7 @@
 		</if>
 		<if test="dbName == 'mysql'">
 			SELECT lower(au.COLUMN_NAME) AS columnName 
-			FROM information_schema.`COLUMNS` au
+			FROM INFORMATION_SCHEMA.`COLUMNS` au
 			WHERE au.TABLE_SCHEMA = (select database()) 
 			AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = (#{name})
 		</if>

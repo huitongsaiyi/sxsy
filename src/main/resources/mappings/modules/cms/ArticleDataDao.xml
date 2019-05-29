@@ -16,13 +16,13 @@
 	<select id="get" resultType="ArticleData">
 		SELECT 
 			<include refid="cmsArticleDataColumns"/>
-		FROM cms_article_data a
+		FROM CMS_ARTICLE_DATA a
 		<include refid="cmsArticleDataJoins"/>
 		WHERE a.id = #{id}
 	</select>
 		
 	<insert id="insert">
-		INSERT INTO cms_article_data(
+		INSERT INTO CMS_ARTICLE_DATA(
 			id,
 			content,
 			copyfrom,
@@ -38,7 +38,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE cms_article_data SET 	
+		UPDATE CMS_ARTICLE_DATA SET
 			content = #{content},
 			copyfrom = #{copyfrom},
 			relation = #{relation},
