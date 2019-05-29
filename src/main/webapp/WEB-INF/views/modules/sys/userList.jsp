@@ -29,7 +29,7 @@
 	    }
 	</script>
 </head>
-<body>${user.office.officeType}
+<body>
 	<div id="importBox" class="hide">
 		<form id="importForm" action="${ctx}/sys/user/import" method="post" enctype="multipart/form-data"
 			class="form-search" style="padding-left:20px;text-align:center;" onsubmit="loading('正在导入，请稍等...');"><br/>
