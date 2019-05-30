@@ -38,11 +38,11 @@
 				<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
 			<li><label>涉及医院：</label>
-				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="" labelValue="${complaintInfo.involveHospital}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="office.name" labelValue="${complaintInfo.office.name}"
+					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
 			</li>
 			<li><label>涉及科室：</label>
-				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="" labelValue="${complaintInfo.involveDepartment}"
+				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="office.name1" labelValue="${complaintInfo.office.name1}"
 					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
@@ -56,7 +56,7 @@
 				<th>案件编号</th>
 				<th>访客姓名</th>
 				<th>访客电话</th>
-				<th>与患者关系  字典维护</th>
+				<th>与患者关系</th>
 				<th>患者姓名</th>
 				<th>患者性别</th>
 				<th>患者年龄</th>
@@ -96,10 +96,10 @@
 					${complaintInfo.visitorNumber}
 				</td>
 				<td>
-					${complaintInfo.involveHospital}
+					${complaintInfo.office.name}
 				</td>
 				<td>
-					${complaintInfo.involveDepartment}
+					${complaintInfo.office.name1}
 				</td>
 				<td>
 					${complaintInfo.involveEmployee}

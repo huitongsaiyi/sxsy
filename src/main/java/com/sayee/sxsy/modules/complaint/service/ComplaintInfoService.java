@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.complaint.service;
 
 import java.util.List;
 
+import com.sayee.sxsy.common.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,5 +44,24 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
 	public void delete(ComplaintInfo complaintInfo) {
 		super.delete(complaintInfo);
 	}
-	
+
+	/**
+	 * 案件编号验重
+	 * @param caseNumber
+	 * @return
+	 */
+	@Transactional(readOnly = false)
+	public boolean checkcaseNumber(String caseNumber){
+		if(StringUtils.isNotBlank(caseNumber)){
+			ComplaintInfo complaintInfo = dao.checkcaseNumber(caseNumber);
+			if (complaintInfo!=null){
+				return false;
+			}else{
+				return true;
+			}
+		}else {
+			return false;
+		}
+
+	}
 }

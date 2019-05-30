@@ -17,7 +17,7 @@ import com.sayee.sxsy.common.persistence.Page;
  * @author ThinkGem
  * @version 2014-05-16
  */
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>> extends BaseService {
 	
 	/**
