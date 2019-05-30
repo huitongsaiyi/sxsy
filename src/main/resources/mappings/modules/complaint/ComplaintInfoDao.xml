@@ -76,14 +76,14 @@
 	</sql>
 	
 	<sql id="complaintInfoJoins">
-		LEFT JOIN  sys_office o1 ON o1.id = a.involve_hospital
-		LEFT JOIN sys_office o2 ON o2.id = a.involve_department
+		LEFT JOIN  SYS_OFFICE o1 ON o1.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
 	</sql>
 	<sql id="FindcomplaintInfoJoins">
-		LEFT JOIN  sys_office o1 ON o1.id = a.involve_hospital
-		LEFT JOIN sys_office o2 ON o2.id = a.involve_department
-		LEFT JOIN sys_dict o3 ON o3.`value` = a.patient_relation AND o3.type = 'patient_relation'
-		LEFT JOIN sys_dict o4 ON o4.value = a.patient_sex AND o4.type = 'sex'
+		LEFT JOIN SYS_OFFICE o1 ON o1.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
+		LEFT JOIN SYS_DICT o3 ON o3.`value` = a.patient_relation AND o3.type = 'patient_relation'
+		LEFT JOIN SYS_DICT o4 ON o4.value = a.patient_sex AND o4.type = 'sex'
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">
@@ -152,7 +152,7 @@
 			<include refid="complaintInfoColumns"/>
 		FROM COMPLAINT_INFO
 		<include refid="complaintInfoJoins"/>
-		INNER JOIN  sys_office o9 ON a.involve_hospital = o9.name
+		INNER JOIN  SYS_OFFICE o9 ON a.involve_hospital = o9.name
 		<where>
 			o9.id = a.a.involve_hospital
 		</where>		

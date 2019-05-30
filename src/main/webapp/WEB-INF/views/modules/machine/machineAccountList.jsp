@@ -55,6 +55,7 @@
 <form:form id="searchForm" modelAttribute="machineAccount" action="${ctx}/machine/machineAccount/" method="post" class="breadcrumb form-search">
 	<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 	<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+	<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 	<ul class="ul-form">
 		<li><label>报案时间：</label>
             <input id="reportingTime"  name="reportingTime"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
@@ -101,14 +102,14 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
 	<thead>
 	<tr>
-		<th>报案时间</th>
+		<th class="sort-column reporting_time">报案时间</th>
 		<th>部门名称</th>
 		<th>调解员</th>
 		<th>患者名称</th>
 		<th>医院名称</th>
 		<th>重大</th>
 		<th>保险公司名称</th>
-		<th>保单号</th>
+		<th class="sort-column policy_number">保单号</th>
 		<th>起保日期</th>
 		<th>纠纷发生日期</th>
 		<th>出险日期</th>
@@ -132,7 +133,7 @@
 		<th>流转天数</th>
 		<th>移交人</th>
 		<th>归档时间</th>
-		<th>卷宗编号</th>
+		<th class="sort-column file_number">卷宗编号</th>
 		<th>备注</th>
 		<th>创建者</th>
 		<th width="150">创建时间</th>
