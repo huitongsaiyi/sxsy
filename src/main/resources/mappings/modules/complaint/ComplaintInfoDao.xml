@@ -74,7 +74,7 @@
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan"
 	</sql>
-
+	
 	<sql id="complaintInfoJoins">
 		LEFT JOIN  sys_office o1 ON o1.id = a.involve_hospital
 		LEFT JOIN sys_office o2 ON o2.id = a.involve_department
@@ -89,7 +89,7 @@
 	<select id="get" resultType="ComplaintInfo">
 		SELECT 
 			<include refid="GetcomplaintInfoColumns"/>
-		FROM complaint_info a
+		FROM COMPLAINT_INFO  a
 		<include refid="complaintInfoJoins"/>
 		WHERE a.complaint_id = #{id}
 	</select>
@@ -97,7 +97,7 @@
 	<select id="findList" resultType="ComplaintInfo">
 		SELECT 
 			<include refid="FindcomplaintInfoColumns"/>
-		FROM complaint_info a
+		FROM COMPLAINT_INFO a
 		<include refid="FindcomplaintInfoJoins"/>
 		<where>
 			
@@ -150,7 +150,7 @@
 	<select id="findAllList" resultType="ComplaintInfo">
 		SELECT 
 			<include refid="complaintInfoColumns"/>
-		FROM complaint_info
+		FROM COMPLAINT_INFO
 		<include refid="complaintInfoJoins"/>
 		INNER JOIN  sys_office o9 ON a.involve_hospital = o9.name
 		<where>
@@ -166,7 +166,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO complaint_info(
+		INSERT INTO COMPLAINT_INFO(
 			case_number,
 			visitor_name,
 			visitor_mobile,
@@ -214,7 +214,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE complaint_info SET 	
+		UPDATE COMPLAINT_INFO SET 	
 			case_number = #{caseNumber},
 			visitor_name = #{visitorName},
 			visitor_mobile = #{visitorMobile},
@@ -240,7 +240,7 @@
 	</update>
 	
 	<update id="delete">
-		DELETE FROM complaint_info
+		DELETE FROM COMPLAINT_INFO
 		WHERE a.complaint_id = #{complaintId}
 	</update>
 
@@ -248,7 +248,7 @@
 	<select id="checkcaseNumber" resultType="ComplaintInfo">
 		SELECT
 		<include refid="complaintInfoColumns"/>
-		FROM complaint_info a
+		FROM COMPLAINT_INFO a
 		<include refid="complaintInfoJoins"/>
 		WHERE a.case_number = #{caseNumber}
 	</select>

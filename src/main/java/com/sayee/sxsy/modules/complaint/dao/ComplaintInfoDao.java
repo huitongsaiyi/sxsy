@@ -14,5 +14,10 @@ import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
  */
 @MyBatisDao
 public interface ComplaintInfoDao extends CrudDao<ComplaintInfo> {
-	
+    /**
+     * 案件编号验重
+     * @param caseNumber
+     * @return
+     */
+	public ComplaintInfo checkcaseNumber(String caseNumber);
 }
