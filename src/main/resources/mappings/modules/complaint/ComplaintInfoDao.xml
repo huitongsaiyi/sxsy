@@ -241,7 +241,7 @@
 	
 	<update id="delete">
 		DELETE FROM COMPLAINT_INFO
-		WHERE a.complaint_id = #{complaintId}
+		WHERE complaint_id = #{complaintId}
 	</update>
 
 	<!--对案件编号去重-->
