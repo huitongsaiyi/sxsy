@@ -25,25 +25,80 @@
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan"
 	</sql>
+
+	<sql id="FindcomplaintInfoColumns">
+		a.case_number AS "caseNumber",
+		a.visitor_name AS "visitorName",
+		a.visitor_mobile AS "visitorMobile",
+		o3.label AS "patientRelation",
+		a.patient_name AS "patientName",
+		o4.label AS "patientSex",
+		a.patient_age AS "patientAge",
+		a.visitor_number AS "visitorNumber",
+		a.involve_hospital AS "involveHospital",
+		a.involve_department AS "involveDepartment",
+		a.complaint_id AS "complaintId",
+		a.involve_employee AS "involveEmployee",
+		a.summary_of_disputes AS "summaryOfDisputes",
+		a.visitor_date AS "visitorDate",
+		a.complaint_mode AS "complaintMode",
+		a.is_major AS "isMajor",
+		a.appeal AS "appeal",
+		a.reception_employee AS "receptionEmployee",
+		a.reception_date AS "receptionDate",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
+		o1.name AS "office.name",
+		o2.name AS "office.name1"
+	</sql>
+	<sql id="GetcomplaintInfoColumns">
+		a.case_number AS "caseNumber",
+		a.visitor_name AS "visitorName",
+		a.visitor_mobile AS "visitorMobile",
+		a .patient_relation AS "patientRelation",
+		a.patient_name AS "patientName",
+		a.patient_sex AS "patientSex",
+		a.patient_age AS "patientAge",
+		a.visitor_number AS "visitorNumber",
+		o1.name AS "involveHospital",
+		o2.name AS "involveDepartment",
+		a.complaint_id AS "complaintId",
+		a.involve_employee AS "involveEmployee",
+		a.summary_of_disputes AS "summaryOfDisputes",
+		a.visitor_date AS "visitorDate",
+		a.complaint_mode AS "complaintMode",
+		a.is_major AS "isMajor",
+		a.appeal AS "appeal",
+		a.reception_employee AS "receptionEmployee",
+		a.reception_date AS "receptionDate",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan"
+	</sql>
 	
 	<sql id="complaintInfoJoins">
-		LEFT JOIN SYS_OFFICE o9 ON o9.id = a.involve_hospital
-		LEFT JOIN SYS_OFFICE o10 ON o10.id = a.involve_department
+		LEFT JOIN  SYS_OFFICE o1 ON o1.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
+	</sql>
+	<sql id="FindcomplaintInfoJoins">
+		LEFT JOIN SYS_OFFICE o1 ON o1.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
+		LEFT JOIN SYS_DICT o3 ON o3.`value` = a.patient_relation AND o3.type = 'patient_relation'
+		LEFT JOIN SYS_DICT o4 ON o4.value = a.patient_sex AND o4.type = 'sex'
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">
 		SELECT 
-			<include refid="complaintInfoColumns"/>
-		FROM COMPLAINT_INFO a
+			<include refid="GetcomplaintInfoColumns"/>
+		FROM COMPLAINT_INFO  a
 		<include refid="complaintInfoJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.complaint_id = #{id}
 	</select>
 	
 	<select id="findList" resultType="ComplaintInfo">
 		SELECT 
-			<include refid="complaintInfoColumns"/>
+			<include refid="FindcomplaintInfoColumns"/>
 		FROM COMPLAINT_INFO a
-		<include refid="complaintInfoJoins"/>
+		<include refid="FindcomplaintInfoJoins"/>
 		<where>
 			
 			<if test="caseNumber != null and caseNumber != ''">
@@ -71,13 +126,13 @@
 					<if test="dbName == 'mysql'">concat('%',#{patientName},'%')</if>
 			</if>
 			<if test="involveHospital != null and involveHospital != ''">
-				AND a.involve_hospital LIKE 
+				AND o1.id LIKE
 					<if test="dbName == 'oracle'">'%'||#{involveHospital}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{involveHospital}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{involveHospital},'%')</if>
 			</if>
 			<if test="involveDepartment != null and involveDepartment != ''">
-				AND a.involve_department LIKE 
+				AND o2.id LIKE
 					<if test="dbName == 'oracle'">'%'||#{involveDepartment}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{involveDepartment}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{involveDepartment},'%')</if>
@@ -95,10 +150,11 @@
 	<select id="findAllList" resultType="ComplaintInfo">
 		SELECT 
 			<include refid="complaintInfoColumns"/>
-		FROM COMPLAINT_INFO a
+		FROM COMPLAINT_INFO
 		<include refid="complaintInfoJoins"/>
+		INNER JOIN  SYS_OFFICE o9 ON a.involve_hospital = o9.name
 		<where>
-			
+			o9.id = a.a.involve_hospital
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -158,7 +214,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE COMPLAINT_INFO SET
+		UPDATE COMPLAINT_INFO SET 	
 			case_number = #{caseNumber},
 			visitor_name = #{visitorName},
 			visitor_mobile = #{visitorMobile},
@@ -180,12 +236,20 @@
 			reception_date = #{receptionDate},
 			next_link = #{nextLink},
 			next_link_man = #{nextLinkMan}
-		WHERE id = #{id}
+		WHERE complaint_id = #{complaintId}
 	</update>
 	
 	<update id="delete">
 		DELETE FROM COMPLAINT_INFO
-		WHERE id = #{id}
+		WHERE complaint_id = #{complaintId}
 	</update>
-	
+
+	<!--对案件编号去重-->
+	<select id="checkcaseNumber" resultType="ComplaintInfo">
+		SELECT
+		<include refid="complaintInfoColumns"/>
+		FROM COMPLAINT_INFO a
+		<include refid="complaintInfoJoins"/>
+		WHERE a.case_number = #{caseNumber}
+	</select>
 </mapper>

@@ -24,6 +24,7 @@ public class Office extends TreeEntity<Office> {
 	private Area area;		// 归属区域
 	private String code; 	// 机构编码
 //	private String name; 	// 机构名称
+	private String name1;
 //	private Integer sort;		// 排序
 	private String type; 	// 机构类型（1：公司；2：部门；3：小组）
 	private String officeType; 	// 机构类别（1：医调委；2：医院；3：卫生局）
@@ -40,6 +41,9 @@ public class Office extends TreeEntity<Office> {
 	private List<String> childDeptList;//快速添加子部门
 
 
+	public String getName1() { return name1; }
+
+	public void setName1(String name1) { this.name1 = name1; }
 
 	public Office(){
 		super();

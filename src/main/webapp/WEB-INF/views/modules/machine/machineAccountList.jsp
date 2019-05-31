@@ -55,6 +55,7 @@
 <form:form id="searchForm" modelAttribute="machineAccount" action="${ctx}/machine/machineAccount/" method="post" class="breadcrumb form-search">
 	<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 	<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+	<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 	<ul class="ul-form">
 		<li><label>报案时间：</label>
             <input id="reportingTime"  name="reportingTime"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
@@ -101,43 +102,43 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
 	<thead>
 	<tr>
-		<th>报案时间</th>
-		<th>部门名称</th>
-		<th>调解员</th>
-		<th>患者名称</th>
-		<th>医院名称</th>
-		<th>重大</th>
-		<th>保险公司名称</th>
-		<th>保单号</th>
-		<th>起保日期</th>
-		<th>纠纷发生日期</th>
-		<th>出险日期</th>
-		<th>纠纷概要</th>
-		<th>是否重大</th>
-		<th>诊疗方式</th>
-		<th>治疗结果</th>
-		<th>患方反映焦点</th>
-		<th>相关专业</th>
-		<th>评估时间</th>
-		<th>评估号</th>
-		<th>责任比例</th>
-		<th>反馈时间</th>
-		<th>协议号</th>
-		<th>签署协议/判决时间</th>
-		<th>协议盖章时间</th>
-		<th>协议金额</th>
-		<th>保险金额</th>
-		<th>交理赔时间</th>
-		<th>赔付时间</th>
-		<th>流转天数</th>
-		<th>移交人</th>
-		<th>归档时间</th>
-		<th>卷宗编号</th>
-		<th>备注</th>
-		<th>创建者</th>
-		<th width="150">创建时间</th>
-		<th >更新人</th>
-		<th width="150">修改时间</th>
+		<th class="sort-column reporting_time">报案时间</th>
+		<th class="sort-column dept_id">部门名称</th>
+		<th class="sort-column mediator_id">调解员</th>
+		<th class="sort-column patient_name">患者名称</th>
+		<th class="sort-column hospital_id">医院名称</th>
+		<th class="sort-column major">重大</th>
+		<th class="sort-column insurance_company">保险公司名称</th>
+		<th class="sort-column policy_number">保单号</th>
+		<th class="sort-column start_insurance_time">起保日期</th>
+		<th class="sort-column disputes_time">纠纷发生日期</th>
+		<th class="sort-column risk_time">出险日期</th>
+		<th class="sort-column summary_of_disputes">纠纷概要</th>
+		<th class="sort-column is_major">是否重大</th>
+		<th class="sort-column treatment_mode">诊疗方式</th>
+		<th class="sort-column treatment_result">治疗结果</th>
+		<th class="sort-column patients_reflect_focus">患方反映焦点</th>
+		<th class="sort-column related_major">相关专业</th>
+		<th class="sort-column assess_time">评估时间</th>
+		<th class="sort-column assess_number">评估号</th>
+		<th class="sort-column duty_ratio">责任比例</th>
+		<th class="sort-column feedback_time">反馈时间</th>
+		<th class="sort-column agreement_number">协议号</th>
+		<th class="sort-column ratify_accord">签署协议/判决时间</th>
+		<th class="sort-column agreement_stamp_time">协议盖章时间</th>
+		<th class="sort-column agreement_amount">协议金额</th>
+		<th class="sort-column insurance_amount">保险金额</th>
+		<th class="sort-column claim_settlement_time">交理赔时间</th>
+		<th class="sort-column compensate_time">赔付时间</th>
+		<th class="sort-column flow_days">流转天数</th>
+		<th class="sort-column hand_over">移交人</th>
+		<th class="sort-column archive_time">归档时间</th>
+		<th class="sort-column file_number">卷宗编号</th>
+		<th class="sort-column remark">备注</th>
+		<th class="sort-column a.create_by">创建者</th>
+		<th width="150" class="sort-column a.create_date">创建时间</th>
+		<th class="sort-column a.update_by">更新人</th>
+		<th width="150" class="sort-column a.update_date">修改时间</th>
 		<shiro:hasPermission name="machine:machineAccount:edit"><th>操作</th></shiro:hasPermission>
 	</tr>
 	</thead>

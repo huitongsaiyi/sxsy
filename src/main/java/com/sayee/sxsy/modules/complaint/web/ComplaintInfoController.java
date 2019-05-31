@@ -49,7 +49,8 @@ public class ComplaintInfoController extends BaseController {
 	@RequiresPermissions("complaint:complaintInfo:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(ComplaintInfo complaintInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<ComplaintInfo> page = complaintInfoService.findPage(new Page<ComplaintInfo>(request, response), complaintInfo); 
+		Page<ComplaintInfo> page = complaintInfoService.findPage(new Page<ComplaintInfo>(request, response), complaintInfo);
+
 		model.addAttribute("page", page);
 		return "modules/complaint/complaintInfoList";
 	}
@@ -64,7 +65,7 @@ public class ComplaintInfoController extends BaseController {
 	@RequiresPermissions("complaint:complaintInfo:edit")
 	@RequestMapping(value = "save")
 	public String save(ComplaintInfo complaintInfo, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, complaintInfo)){
+		if (!beanValidator(model, complaintInfo )|| false==complaintInfoService.checkcaseNumber(complaintInfo.getCaseNumber())){
 			return form(complaintInfo, model);
 		}
 		complaintInfoService.save(complaintInfo);

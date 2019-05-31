@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.complaint.entity;
 
+import com.sayee.sxsy.modules.sys.entity.Dict;
+import com.sayee.sxsy.modules.sys.entity.Office;
 import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
@@ -15,6 +17,8 @@ import com.sayee.sxsy.common.persistence.DataEntity;
 public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 	
 	private static final long serialVersionUID = 1L;
+	private Office office;  //部门
+	private Dict  dict;  //字典
 	private String caseNumber;		// 案件编号
 	private String visitorName;		// 访客姓名
 	private String visitorMobile;		// 访客电话
@@ -45,6 +49,22 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		super(id);
 	}
 
+	public Office getOffice() {
+		return office;
+	}
+
+	public Dict getDict() {
+		return dict;
+	}
+
+	public void setDict(Dict dict) {
+		this.dict = dict;
+	}
+
+	public void setOffice(Office office) {
+		this.office = office;
+	}
+
 	@Length(min=0, max=20, message="案件编号长度必须介于 0 和 20 之间")
 	public String getCaseNumber() {
 		return caseNumber;
@@ -54,7 +74,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.caseNumber = caseNumber;
 	}
 	
-	@Length(min=0, max=20, message="访客姓名长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="访客姓名不能为空,且长度必须介于 1 和 20 之间")
 	public String getVisitorName() {
 		return visitorName;
 	}
@@ -63,7 +83,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.visitorName = visitorName;
 	}
 	
-	@Length(min=0, max=15, message="访客电话长度必须介于 0 和 15 之间")
+	@Length(min=11, max=15, message="访客电话不能为空,且长度必须介于 1 和 15 之间")
 	public String getVisitorMobile() {
 		return visitorMobile;
 	}
@@ -72,7 +92,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.visitorMobile = visitorMobile;
 	}
 	
-	@Length(min=0, max=1, message="与患者关系  字典维护长度必须介于 0 和 1 之间")
+	@Length(min=1, message="与患者关系不能为空")
 	public String getPatientRelation() {
 		return patientRelation;
 	}
@@ -117,7 +137,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.visitorNumber = visitorNumber;
 	}
 	
-	@Length(min=0, max=32, message="涉及医院长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="涉及医院不能为空")
 	public String getInvolveHospital() {
 		return involveHospital;
 	}
@@ -126,7 +146,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.involveHospital = involveHospital;
 	}
 	
-	@Length(min=0, max=32, message="涉及科室长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="涉及科室不能为空")
 	public String getInvolveDepartment() {
 		return involveDepartment;
 	}
@@ -135,7 +155,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.involveDepartment = involveDepartment;
 	}
 	
-	@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
+	@Length(min=0, max=32, message="主键长度必须介于 1 和 32 之间")
 	public String getComplaintId() {
 		return complaintId;
 	}
@@ -144,7 +164,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.complaintId = complaintId;
 	}
 	
-	@Length(min=0, max=32, message="涉及人员长度必须介于 0 和 32 之间")
+	@Length(min=0, max=32, message="涉及人员不能为空,且长度必须介于 1 和 32 之间")
 	public String getInvolveEmployee() {
 		return involveEmployee;
 	}
@@ -152,7 +172,8 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 	public void setInvolveEmployee(String involveEmployee) {
 		this.involveEmployee = involveEmployee;
 	}
-	
+
+	@Length(min=1,message = "纠纷概要不能为空")
 	public String getSummaryOfDisputes() {
 		return summaryOfDisputes;
 	}
@@ -170,7 +191,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.visitorDate = visitorDate;
 	}
 	
-	@Length(min=0, max=1, message="投诉方式长度必须介于 0 和 1 之间")
+	@Length(min=1, message="投诉方式不能为空")
 	public String getComplaintMode() {
 		return complaintMode;
 	}
@@ -179,7 +200,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.complaintMode = complaintMode;
 	}
 	
-	@Length(min=0, max=1, message="是否重大长度必须介于 0 和 1 之间")
+	@Length(min=1, message="是否重大不能为空")
 	public String getIsMajor() {
 		return isMajor;
 	}
@@ -187,7 +208,8 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 	public void setIsMajor(String isMajor) {
 		this.isMajor = isMajor;
 	}
-	
+
+	@Length(min=1,message = "诉求不能为空")
 	public String getAppeal() {
 		return appeal;
 	}

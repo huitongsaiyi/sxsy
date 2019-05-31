@@ -24,6 +24,7 @@
 	<form:form id="searchForm" modelAttribute="complaintInfo" action="${ctx}/complaint/complaintInfo/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>案件编号：</label>
 				<form:input path="caseNumber" htmlEscape="false" maxlength="20" class="input-medium"/>
@@ -38,11 +39,11 @@
 				<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
 			<li><label>涉及医院：</label>
-				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="" labelValue="${complaintInfo.involveHospital}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="office.name" labelValue="${complaintInfo.office.name}"
+					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
 			</li>
 			<li><label>涉及科室：</label>
-				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="" labelValue="${complaintInfo.involveDepartment}"
+				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="office.name1" labelValue="${complaintInfo.office.name1}"
 					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
@@ -53,18 +54,18 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>案件编号</th>
-				<th>访客姓名</th>
-				<th>访客电话</th>
-				<th>与患者关系  字典维护</th>
-				<th>患者姓名</th>
-				<th>患者性别</th>
-				<th>患者年龄</th>
-				<th>来访人数</th>
-				<th>涉及医院</th>
-				<th>涉及科室</th>
-				<th>涉及人员</th>
-				<th>投诉纠纷概要</th>
+				<th class="sort-column case_number">案件编号</th>
+				<th class="sort-column visitor_name">访客姓名</th>
+				<th class="sort-column visitor_mobile">访客电话</th>
+				<th class="sort-column patient_relation">与患者关系</th>
+				<th class="sort-column patient_name">患者姓名</th>
+				<th class="sort-column patient_sex">患者性别</th>
+				<th class="sort-column patient_age">患者年龄</th>
+				<th class="sort-column visitor_number">来访人数</th>
+				<th class="sort-column involve_hospital">涉及医院</th>
+				<th class="sort-column involve_department">涉及科室</th>
+				<th class="sort-column involve_employee">涉及人员</th>
+				<th class="sort-column summary_of_disputes">投诉纠纷概要</th>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -96,10 +97,10 @@
 					${complaintInfo.visitorNumber}
 				</td>
 				<td>
-					${complaintInfo.involveHospital}
+					${complaintInfo.office.name}
 				</td>
 				<td>
-					${complaintInfo.involveDepartment}
+					${complaintInfo.office.name1}
 				</td>
 				<td>
 					${complaintInfo.involveEmployee}
