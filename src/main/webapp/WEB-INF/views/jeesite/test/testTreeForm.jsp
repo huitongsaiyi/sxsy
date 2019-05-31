@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>树结构管理</title>
+	<title>调解类别管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -27,8 +27,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/test/testTree/">树结构列表</a></li>
-		<li class="active"><a href="${ctx}/test/testTree/form?id=${testTree.id}&parent.id=${testTreeparent.id}">树结构<shiro:hasPermission name="test:testTree:edit">${not empty testTree.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="test:testTree:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/test/testTree/">调解类别列表</a></li>
+		<li class="active"><a href="${ctx}/test/testTree/form?id=${testTree.id}&parent.id=${testTreeparent.id}">调解类别<shiro:hasPermission name="test:testTree:edit">${not empty testTree.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="test:testTree:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="testTree" action="${ctx}/test/testTree/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>

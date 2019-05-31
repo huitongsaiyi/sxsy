@@ -33,6 +33,11 @@
 						dict: {
 						blank123:0}, pid: (root?0:pid), row: row
 					}));
+					if(root==true){
+						$("#a_"+row.id).show();
+					}else{
+						$("#a_"+row.id).hide();
+					}
 					addRow(list, tpl, data, row.id);
 				}
 			}
@@ -41,8 +46,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/test/testTree/">树结构列表</a></li>
-		<shiro:hasPermission name="test:testTree:edit"><li><a href="${ctx}/test/testTree/form">树结构添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/test/testTree/">调解类别列表</a></li>
+		<shiro:hasPermission name="test:testTree:edit"><li><a href="${ctx}/test/testTree/form">调解类别添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="testTree" action="${ctx}/test/testTree/" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">
@@ -57,7 +62,7 @@
 	<table id="treeTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>名称</th>
+				<th>类别名称</th>
 				<th>排序</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
@@ -82,8 +87,8 @@
 			</td>
 			<shiro:hasPermission name="test:testTree:edit"><td>
    				<a href="${ctx}/test/testTree/form?id={{row.id}}">修改</a>
-				<a href="${ctx}/test/testTree/delete?id={{row.id}}" onclick="return confirmx('确认要删除该树结构及所有子树结构吗？', this.href)">删除</a>
-				<a href="${ctx}/test/testTree/form?parent.id={{row.id}}">添加下级树结构</a> 
+				<a href="${ctx}/test/testTree/delete?id={{row.id}}" onclick="return confirmx('确认要删除该调解类别结构及所有子树结构吗？', this.href)">删除</a>
+				<a id="a_{{row.id}}" href="${ctx}/test/testTree/form?parent.id={{row.id}}">添加下级调解类别结构</a>
 			</td></shiro:hasPermission>
 		</tr>
 	</script>
