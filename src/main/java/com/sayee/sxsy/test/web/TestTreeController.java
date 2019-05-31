@@ -91,7 +91,7 @@ public class TestTreeController extends BaseController {
 			return form(testTree, model);
 		}
 		testTreeService.save(testTree);
-		addMessage(redirectAttributes, "保存树结构成功");
+		addMessage(redirectAttributes, "保存调解类别成功");
 		return "redirect:"+Global.getAdminPath()+"/test/testTree/?repage";
 	}
 	
@@ -99,7 +99,7 @@ public class TestTreeController extends BaseController {
 	@RequestMapping(value = "delete")
 	public String delete(TestTree testTree, RedirectAttributes redirectAttributes) {
 		testTreeService.delete(testTree);
-		addMessage(redirectAttributes, "删除树结构成功");
+		addMessage(redirectAttributes, "删除调解类别成功");
 		return "redirect:"+Global.getAdminPath()+"/test/testTree/?repage";
 	}
 

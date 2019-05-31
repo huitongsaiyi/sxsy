@@ -128,7 +128,12 @@
 	<update id="delete">
 		UPDATE TEST_TREE SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id} OR parent_ids LIKE '%,'||#{id}||',%'
+		WHERE id = #{id} OR parent_ids LIKE concat('%',#{id},'%')<!-- LIKE '%'||#{id}||'%'-->
 	</update>
-	
+
+	<update id="deleteChild">
+		UPDATE TEST_TREE SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
 </mapper>

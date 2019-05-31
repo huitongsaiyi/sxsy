@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.sayee.sxsy.test.dao.TestTreeDao;
 import com.sayee.sxsy.test.entity.TestTree;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,8 @@ import com.sayee.sxsy.common.utils.StringUtils;
 @Service
 @Transactional(readOnly = true)
 public class TestTreeService extends TreeService<TestTreeDao, TestTree> {
+    @Autowired
+	private TestTreeDao testTreeDao;
 
 	public TestTree get(String id) {
 		return super.get(id);
@@ -40,7 +43,11 @@ public class TestTreeService extends TreeService<TestTreeDao, TestTree> {
 	
 	@Transactional(readOnly = false)
 	public void delete(TestTree testTree) {
-		super.delete(testTree);
+		if (testTree.getParentIds().split(",").length==1){
+			super.delete(testTree);
+		}else {
+			testTreeDao.deleteChild(testTree);
+		}
 	}
 	
 }
