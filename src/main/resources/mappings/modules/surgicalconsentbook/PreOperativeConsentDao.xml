@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao">
+    
+	<sql id="preOperativeConsentColumns">
+		a.surgical_consent_id AS "surgicalConsentId",
+		a.id AS "id",
+		a.operation_type AS "operationType",
+		a.witness_time AS "witnessTime",
+		a.witness_locations AS "witnessLocations",
+		a.affected_party AS "affectedParty",
+		a.medical_side AS "medicalSide",
+		a.insured AS "insured",
+		a.policy_no AS "policyNo",
+		a.witness AS "witness",
+		a.record_man AS "recordMan",
+		a.witness_content AS "witnessContent",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.files AS "files"
+	</sql>
+	
+	<sql id="preOperativeConsentJoins">
+	</sql>
+    
+	<select id="get" resultType="PreOperativeConsent">
+		SELECT 
+			<include refid="preOperativeConsentColumns"/>
+		FROM PRE_PERATIVE_CONSENT a
+		<include refid="preOperativeConsentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PreOperativeConsent">
+		SELECT 
+			<include refid="preOperativeConsentColumns"/>
+		FROM PRE_PERATIVE_CONSENT a
+		<include refid="preOperativeConsentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="surgicalConsentId != null and surgicalConsentId != ''">
+				AND a.surgical_consent_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{surgicalConsentId}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{surgicalConsentId}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{surgicalConsentId},'%')</if>
+			</if>
+			<if test="operationType != null and operationType != ''">
+				AND a.operation_type LIKE 
+					<if test="dbName == 'oracle'">'%'||#{operationType}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{operationType}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{operationType},'%')</if>
+			</if>
+			<if test="witnessLocations != null and witnessLocations != ''">
+				AND a.witness_locations LIKE 
+					<if test="dbName == 'oracle'">'%'||#{witnessLocations}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{witnessLocations}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{witnessLocations},'%')</if>
+			</if>
+			<if test="witness != null and witness != ''">
+				AND a.witness LIKE 
+					<if test="dbName == 'oracle'">'%'||#{witness}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{witness}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{witness},'%')</if>
+			</if>
+			<if test="recordMan != null and recordMan != ''">
+				AND a.record_man LIKE 
+					<if test="dbName == 'oracle'">'%'||#{recordMan}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{recordMan}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{recordMan},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PreOperativeConsent">
+		SELECT 
+			<include refid="preOperativeConsentColumns"/>
+		FROM PRE_PERATIVE_CONSENT a
+		<include refid="preOperativeConsentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" parameterType="com.sayee.sxsy.modules.surgicalconsentbook.entity.PreOperativeConsent">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			select uuid()
+		</selectKey>
+		INSERT INTO PRE_PERATIVE_CONSENT(
+			id,
+		    surgical_consent_id,
+			operation_type,
+			witness_time,
+			witness_locations,
+			affected_party,
+			medical_side,
+			insured,
+			policy_no,
+			witness,
+			record_man,
+			witness_content,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			files
+		) VALUES (
+			#{id},
+		    #{surgicalConsentId},
+			#{operationType},
+			#{witnessTime},
+			#{witnessLocations},
+			#{affectedParty},
+			#{medicalSide},
+			#{insured},
+			#{policyNo},
+			#{witness},
+			#{recordMan},
+			#{witnessContent},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{files}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE PRE_PERATIVE_CONSENT SET
+			operation_type = #{operationType},
+			witness_time = #{witnessTime},
+			witness_locations = #{witnessLocations},
+			affected_party = #{affectedParty},
+			medical_side = #{medicalSide},
+			insured = #{insured},
+			policy_no = #{policyNo},
+			witness = #{witness},
+			record_man = #{recordMan},
+			witness_content = #{witnessContent},
+			create_by = #{createBy.id},
+			create_date = #{createDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			files = #{files}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE PRE_PERATIVE_CONSENT SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
