@@ -20,7 +20,7 @@
 	<select id="get" resultType="TypeInfo">
 		SELECT 
 			<include refid="typeInfoColumns"/>
-		FROM type_info a
+		FROM TYPE_INFO a
 		<include refid="typeInfoJoins"/>
 		WHERE a.type_id = #{typeId}
 	</select>
@@ -28,7 +28,7 @@
 	<select id="findList" resultType="TypeInfo">
 		SELECT 
 			<include refid="typeInfoColumns"/>
-		FROM type_info a
+		FROM TYPE_INFO a
 		<include refid="typeInfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -49,7 +49,7 @@
 	<select id="findAllList" resultType="TypeInfo">
 		SELECT 
 			<include refid="typeInfoColumns"/>
-		FROM type_info a
+		FROM TYPE_INFO a
 		<include refid="typeInfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -65,7 +65,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO type_info(
+		INSERT INTO TYPE_INFO(
 			type_id,
 			type_name,
 			content,
@@ -89,7 +89,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE type_info SET 	
+		UPDATE TYPE_INFO SET 	
 			type_name = #{typeName},
 			content = #{content},
 			relation_model = #{relationModel}
@@ -97,7 +97,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE type_info SET 
+		UPDATE TYPE_INFO SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE type_id = #{typeId}
 	</update>
