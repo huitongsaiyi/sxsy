@@ -87,7 +87,7 @@
 			</td>
 			<shiro:hasPermission name="test:testTree:edit"><td>
    				<a href="${ctx}/test/testTree/form?id={{row.id}}">修改</a>
-				<a href="${ctx}/test/testTree/delete?id={{row.id}}" onclick="return confirmx('确认要删除该调解类别结构及所有子树结构吗？', this.href)">删除</a>
+				<a href="${ctx}/test/testTree/delete?id={{row.id}}" onclick="return confirmx('若您选择的节点为父节点，则会级联删除子节点，确定继续？', this.href)">删除</a>
 				<a id="a_{{row.id}}" href="${ctx}/test/testTree/form?parent.id={{row.id}}">添加下级调解类别结构</a>
 			</td></shiro:hasPermission>
 		</tr>

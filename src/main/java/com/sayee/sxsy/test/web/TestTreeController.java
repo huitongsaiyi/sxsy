@@ -91,7 +91,7 @@ public class TestTreeController extends BaseController {
 			return form(testTree, model);
 		}
 		testTreeService.save(testTree);
-		addMessage(redirectAttributes, "保存树结构成功");
+		addMessage(redirectAttributes, "保存调解类别成功");
 		return "redirect:"+Global.getAdminPath()+"/test/testTree/?repage";
 	}
 	
@@ -99,7 +99,7 @@ public class TestTreeController extends BaseController {
 	@RequestMapping(value = "delete")
 	public String delete(TestTree testTree, RedirectAttributes redirectAttributes) {
 		testTreeService.delete(testTree);
-		addMessage(redirectAttributes, "删除树结构成功");
+		addMessage(redirectAttributes, "删除调解类别成功");
 		return "redirect:"+Global.getAdminPath()+"/test/testTree/?repage";
 	}
 
@@ -108,7 +108,7 @@ public class TestTreeController extends BaseController {
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<TestTree> list = testTreeService.findList(new TestTree());
+		List<TestTree> list = testTreeService.findListParent(new TestTree());
 		for (int i=0; i<list.size(); i++){
 			TestTree e = list.get(i);
 			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)){

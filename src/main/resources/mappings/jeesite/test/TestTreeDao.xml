@@ -128,7 +128,21 @@
 	<update id="delete">
 		UPDATE TEST_TREE SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id} OR parent_ids LIKE '%,'||#{id}||',%'
+		WHERE id = #{id} OR parent_ids LIKE concat('%',#{id},'%')<!-- LIKE '%'||#{id}||'%'-->
 	</update>
-	
+
+	<update id="deleteChild">
+		UPDATE TEST_TREE SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<select id="findListParent" resultType="TestTree">
+		SELECT
+		<include refid="testTreeColumns"/>
+		FROM TEST_TREE a
+		<include refid="testTreeJoins"/>
+		WHERE a.parent_id = '0'
+		AND a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
 </mapper>
