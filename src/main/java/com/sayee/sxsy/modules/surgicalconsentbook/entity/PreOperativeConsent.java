@@ -18,6 +18,7 @@ import java.util.Date;
 public class PreOperativeConsent extends DataEntity<PreOperativeConsent> {
 	
 	private static final long serialVersionUID = 1L;
+	private String id;						//主键id
 	private String surgicalConsentId;		// 手术同意书编号
 	private String operationType;		// 手术类型
 	private Date witnessTime;		// 见证时间
@@ -29,7 +30,8 @@ public class PreOperativeConsent extends DataEntity<PreOperativeConsent> {
 	private String witness;		// 见证人
 	private String recordMan;		// 记录人
 	private String witnessContent;		// 见证内容
-	private String files;          //附件
+//	private String files;          //医方附件
+//	private String hFiles;   //患方附件
 	public PreOperativeConsent() {
 		super();
 	}
@@ -38,12 +40,30 @@ public class PreOperativeConsent extends DataEntity<PreOperativeConsent> {
 		super(id);
 	}
 
-	public String getFiles() {
-		return files;
+//	public String getFiles() {
+//		return files;
+//	}
+//
+//	public void setFiles(String files) {
+//		this.files = files;
+//	}
+//
+//	public String gethFiles() {
+//		return hFiles;
+//	}
+//
+//	public void sethFiles(String hFiles) {
+//		this.hFiles = hFiles;
+//	}
+
+	@Override
+	public String getId() {
+		return id;
 	}
 
-	public void setFiles(String files) {
-		this.files = files;
+	@Override
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Length(min=1, max=64, message="手术同意书编号长度必须介于 1 和 64 之间")

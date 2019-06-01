@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.surgicalconsentbook.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +33,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "${adminPath}/surgicalconsentbook/preOperativeConsent")
-public class PreOperativeConsentController extends BaseController {
+public class PreOperativeConsentController extends BaseController  {
 
 	@Autowired
 	private PreOperativeConsentService preOperativeConsentService;
@@ -48,34 +50,40 @@ public class PreOperativeConsentController extends BaseController {
 		return entity;
 	}
 
+
+
 	@RequiresPermissions("surgicalconsentbook:preOperativeConsent:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(PreOperativeConsent preOperativeConsent, HttpServletRequest request, HttpServletResponse response, Model model) {
-//		List<PreOperativeConsent> list = preOperativeConsentService.findList(preOperativeConsent);
-//		System.out.println("编号："+list.get(list.size()).getSurgicalConsentId());
 		Page<PreOperativeConsent> page = preOperativeConsentService.findPage(new Page<PreOperativeConsent>(request, response), preOperativeConsent);
+
 		model.addAttribute("page", page);
 		return "modules/surgicalconsentbook/preOperativeConsentList";
 	}
 
 	@RequiresPermissions("surgicalconsentbook:preOperativeConsent:view")
 	@RequestMapping(value = "form")
-	public String form(PreOperativeConsent preOperativeConsent, Model model) {
-		List<PreOperativeConsent> list=preOperativeConsentService.findList(preOperativeConsent);
-		if(list.size()==0) {
-			preOperativeConsent.setSurgicalConsentId("1000001");
-		}else{
-//         List<PreOperativeConsent> list=preOperativeConsentService.findList(preOperativeConsent);
+	public String form(PreOperativeConsent preOperativeConsent, Model model,HttpServletRequest request) {
 
+     //    request.setAttribute("f",request.getParameter("files"));
+
+		List<PreOperativeConsent> list=preOperativeConsentService.findList(preOperativeConsent);
+
+		if(list.size()==0) {
+
+			preOperativeConsent.setSurgicalConsentId("1000001");
+
+//			itemId1=preOperativeConsent.getSurgicalConsentId();
+//			acceId1=IdGen.uuid();
+		}else{
 			String surgicalConsentId =list.get(0).getSurgicalConsentId();
 			int a=Integer.valueOf(surgicalConsentId);
 			int b=a+1;
-			System.out.println("标号："+String.valueOf(b));
+
 
 			preOperativeConsent.setSurgicalConsentId(String.valueOf(b));
+//			itemId=list.get(0).getSurgicalConsentId();
 		}
-
-//         System.out.println("同意书编号："+list.get(0).getSurgicalConsentId());
 
 
 		model.addAttribute("preOperativeConsent", preOperativeConsent);
@@ -84,29 +92,18 @@ public class PreOperativeConsentController extends BaseController {
 
 	@RequiresPermissions("surgicalconsentbook:preOperativeConsent:edit")
 	@RequestMapping(value = "save")
-	public String save(PreOperativeConsent preOperativeConsent, Model model, RedirectAttributes redirectAttributes) {
+	public String save(PreOperativeConsent preOperativeConsent, Model model, RedirectAttributes redirectAttributes,String acceId,String itemId,String files ,HttpServletRequest request) {
+
 		if (!beanValidator(model, preOperativeConsent)){
-			return form(preOperativeConsent, model);
+			return form(preOperativeConsent, model,request);
 
 		}
-
-//        if(preOperativeConsent.getSurgicalConsentId()!=null){
-//            List<PreOperativeConsent> list=preOperativeConsentService.findList(preOperativeConsent);
-//            int aa=list.size();
-//            String surgicalConsentId = preOperativeConsent.getSurgicalConsentId();
-//            int a=Integer.valueOf(surgicalConsentId);
-//            int b=a+1;
-//            System.out.println("标号："+String.valueOf(b));
-//
-//            preOperativeConsent.setSurgicalConsentId(String.valueOf(b));
-//        }
-
-
-
-
-
 		preOperativeConsentService.save(preOperativeConsent);
+        String acceId1=IdGen.uuid();
+		String itemId1=preOperativeConsent.getId();
+		String files1=request.getParameter("files");
 
+		preOperativeConsentService.save1(acceId1,itemId1,files1);
 		addMessage(redirectAttributes, "保存术前同意书成功");
 		return "redirect:"+Global.getAdminPath()+"/surgicalconsentbook/preOperativeConsent/?repage";
 	}
@@ -118,5 +115,6 @@ public class PreOperativeConsentController extends BaseController {
 		addMessage(redirectAttributes, "删除术前同意书成功");
 		return "redirect:"+Global.getAdminPath()+"/surgicalconsentbook/preOperativeConsent/?repage";
 	}
+
 
 }
