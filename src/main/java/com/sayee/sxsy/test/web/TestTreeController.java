@@ -108,7 +108,7 @@ public class TestTreeController extends BaseController {
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<TestTree> list = testTreeService.findList(new TestTree());
+		List<TestTree> list = testTreeService.findListParent(new TestTree());
 		for (int i=0; i<list.size(); i++){
 			TestTree e = list.get(i);
 			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)){
