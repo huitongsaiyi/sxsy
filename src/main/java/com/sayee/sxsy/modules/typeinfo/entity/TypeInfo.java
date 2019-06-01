@@ -40,7 +40,7 @@ public class TypeInfo extends DataEntity<TypeInfo> {
 		this.typeId = typeId;
 	}
 	
-	@Length(min=0, max=200, message="类型名称长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="类型名称长度必须介于 1 和 200 之间")
 	public String getTypeName() {
 		return typeName;
 	}
