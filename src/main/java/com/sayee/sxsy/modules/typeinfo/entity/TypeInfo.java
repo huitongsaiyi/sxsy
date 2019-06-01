@@ -22,6 +22,7 @@ public class TypeInfo extends DataEntity<TypeInfo> {
 	private String relationModel;		// 关联模块 1.意见书中的&ldquo;分析意见&rdquo; 2.意见书中的&ldquo;结论&rdquo;  3 签署协议中的&ldquo;调解情况&rdquo; 4.签署协议中的&ldquo;协议约定事项&rdquo; 5..签署协议中的&ldquo;履行协议方式&rdquo; 6. .签署协议中的&ldquo;协议说明&rdquo;
 	private User createById;		// 创建人ID
 	private User updateById;		// 更新人ID
+    private String label;
 	
 	public TypeInfo() {
 		super();
@@ -31,7 +32,15 @@ public class TypeInfo extends DataEntity<TypeInfo> {
 		super(id);
 	}
 
-	@Length(min=0, max=32, message="类型主键长度必须介于 0 和 32 之间")
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    @Length(min=0, max=32, message="类型主键长度必须介于 0 和 32 之间")
 	public String getTypeId() {
 		return typeId;
 	}

@@ -11,10 +11,12 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateById",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		o3.label AS "label"
 	</sql>
 	
 	<sql id="typeInfoJoins">
+        LEFT JOIN SYS_DICT o3 ON o3.`value` = a.relation_model AND o3.type = 'relation_model'
 	</sql>
     
 	<select id="get" resultType="TypeInfo">
