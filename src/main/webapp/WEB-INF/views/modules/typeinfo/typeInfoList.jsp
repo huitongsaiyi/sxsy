@@ -52,7 +52,7 @@
 					${typeInfo.content}
 				</td>
 				<td>
-					${typeInfo.relationModel}
+					${typeInfo.label}
 				</td>
 				<shiro:hasPermission name="typeinfo:typeInfo:edit"><td>
     				<a href="${ctx}/typeinfo/typeInfo/form?id=${typeInfo.typeId}">修改</a>
