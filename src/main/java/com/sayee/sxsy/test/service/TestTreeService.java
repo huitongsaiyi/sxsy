@@ -33,6 +33,7 @@ public class TestTreeService extends TreeService<TestTreeDao, TestTree> {
 		if (StringUtils.isNotBlank(testTree.getParentIds())){
 			testTree.setParentIds(","+testTree.getParentIds()+",");
 		}
+
 		return super.findList(testTree);
 	}
 	
@@ -48,6 +49,13 @@ public class TestTreeService extends TreeService<TestTreeDao, TestTree> {
 		}else {
 			testTreeDao.deleteChild(testTree);
 		}
+	}
+
+	public List<TestTree> findListParent(TestTree testTree){
+		if (StringUtils.isNotBlank(testTree.getParentIds())){
+			testTree.setParentIds(","+testTree.getParentIds()+",");
+		}
+		return testTreeDao.findListParent(testTree);
 	}
 	
 }
