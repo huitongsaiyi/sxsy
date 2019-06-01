@@ -68,7 +68,7 @@ public class TypeInfoController extends BaseController {
 			return form(typeInfo, model);
 		}
 		typeInfoService.save(typeInfo);
-		addMessage(redirectAttributes, "保存类型总表成功");
+		addMessage(redirectAttributes, "保存类型成功");
 		return "redirect:"+Global.getAdminPath()+"/typeinfo/typeInfo/?repage";
 	}
 	
@@ -76,7 +76,7 @@ public class TypeInfoController extends BaseController {
 	@RequestMapping(value = "delete")
 	public String delete(TypeInfo typeInfo, RedirectAttributes redirectAttributes) {
 		typeInfoService.delete(typeInfo);
-		addMessage(redirectAttributes, "删除类型总表成功");
+		addMessage(redirectAttributes, "删除类型成功");
 		return "redirect:"+Global.getAdminPath()+"/typeinfo/typeInfo/?repage";
 	}
 
