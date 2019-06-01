@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>类型总表管理</title>
+	<title>类型管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/typeinfo/typeInfo/">类型总表列表</a></li>
+		<li class="active"><a href="${ctx}/typeinfo/typeInfo/">类型列表</a></li>
 		<shiro:hasPermission name="typeinfo:typeInfo:edit"><li><a href="${ctx}/typeinfo/typeInfo/form">类型总表添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="typeInfo" action="${ctx}/typeinfo/typeInfo/" method="post" class="breadcrumb form-search">
@@ -45,7 +45,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="typeInfo">
 			<tr>
-				<td><a href="${ctx}/typeinfo/typeInfo/form?id=${typeInfo.id}">
+				<td><a href="${ctx}/typeinfo/typeInfo/form?id=${typeInfo.typeId}">
 					${typeInfo.typeName}
 				</a></td>
 				<td>

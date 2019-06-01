@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>类型总表管理</title>
+	<title>类型管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -27,11 +27,11 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/typeinfo/typeInfo/">类型总表列表</a></li>
+		<li><a href="${ctx}/typeinfo/typeInfo/">类型列表</a></li>
 		<li class="active"><a href="${ctx}/typeinfo/typeInfo/form?id=${typeInfo.id}">类型总表<shiro:hasPermission name="typeinfo:typeInfo:edit">${not empty typeInfo.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="typeinfo:typeInfo:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="typeInfo" action="${ctx}/typeinfo/typeInfo/save" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+		<form:hidden path="typeId"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
 			<label class="control-label">类型名称：</label>
