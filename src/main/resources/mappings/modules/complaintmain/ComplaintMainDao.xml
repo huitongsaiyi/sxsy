@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao">
+    
+	<sql id="complaintMainColumns">
+		a.complaint_main_id AS "complaintMainId",
+		a.case_number AS "caseNumber",
+		a.patient_name AS "patientName",
+		a.patient_sex AS "patientSex",
+		a.patient_age AS "patientAge",
+		a.patient_card AS "patientCard",
+		a.patient_mobile AS "patientMobile",
+		a.involve_hospital AS "involveHospital",
+		a.hospital_level AS "hospitalLevel",
+		a.hospital_grade AS "hospitalGrade",
+		a.involve_department AS "involveDepartment",
+		a.involve_employee AS "involveEmployee",
+		a.proc_ins_id AS "procInsId",
+		a.create_by AS "createById",
+		a.create_date AS "createDate",
+		a.update_by AS "updateById",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="complaintMainJoins">
+	</sql>
+    
+	<select id="get" resultType="ComplaintMain">
+		SELECT 
+			<include refid="complaintMainColumns"/>
+		FROM COMPLAINT_MAIN a
+		<include refid="complaintMainJoins"/>
+		WHERE a.complaint_main_id = #{complaintMainId}
+	</select>
+	
+	<select id="findList" resultType="ComplaintMain">
+		SELECT 
+			<include refid="complaintMainColumns"/>
+		FROM COMPLAINT_MAIN a
+		<include refid="complaintMainJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="caseNumber != null and caseNumber != ''">
+				AND a.case_number = #{caseNumber}
+			</if>
+			<if test="patientName != null and patientName != ''">
+				AND a.patient_name = #{patientName}
+			</if>
+			<if test="involveHospital != null and involveHospital != ''">
+				AND a.involve_hospital = #{involveHospital}
+			</if>
+			<if test="involveDepartment != null and involveDepartment != ''">
+				AND a.involve_department = #{involveDepartment}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ComplaintMain">
+		SELECT 
+			<include refid="complaintMainColumns"/>
+		FROM COMPLAINT_MAIN a
+		<include refid="complaintMainJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO complaint_main(
+			complaint_main_id,
+			case_number,
+			patient_name,
+			patient_sex,
+			patient_age,
+			patient_card,
+			patient_mobile,
+			involve_hospital,
+			hospital_level,
+			hospital_grade,
+			involve_department,
+			involve_employee,
+			proc_ins_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{complaintMainId},
+			#{caseNumber},
+			#{patientName},
+			#{patientSex},
+			#{patientAge},
+			#{patientCard},
+			#{patientMobile},
+			#{involveHospital},
+			#{hospitalLevel},
+			#{hospitalGrade},
+			#{involveDepartment},
+			#{involveEmployee},
+			#{procInsId},
+			#{createById},
+			#{createDate},
+			#{updateById},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE COMPLAINT_MAIN SET
+			case_number = #{caseNumber},
+			patient_name = #{patientName},
+			patient_sex = #{patientSex},
+			patient_age = #{patientAge},
+			patient_card = #{patientCard},
+			patient_mobile = #{patientMobile},
+			involve_hospital = #{involveHospital},
+			hospital_level = #{hospitalLevel},
+			hospital_grade = #{hospitalGrade},
+			involve_department = #{involveDepartment},
+			involve_employee = #{involveEmployee},
+			update_date = #{updateDate}
+		WHERE complaint_main_id = #{complaintMainId}
+	</update>
+	
+	<update id="delete">
+		UPDATE COMPLAINT_MAIN SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE complaint_main_id = #{complaintMainId}
+	</update>
+	
+</mapper>
