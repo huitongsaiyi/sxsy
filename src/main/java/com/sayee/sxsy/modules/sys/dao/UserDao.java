@@ -79,4 +79,10 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public User getId(@Param("name")String name);
+	/**
+	 * 获取文件真实路径
+	 * @param itemId  业务ID
+	 * @return listmap
+	 */
+	public List getFilePath(@Param("itemId")String itemId);
 }

@@ -358,5 +358,10 @@
 		<include refid="userJoins"/>
 		WHERE a.name = #{name}
 	</select>
-
+	<!-- 根据业务ID查询附件真实路径  返回listmap -->
+	<select id="getFilePath" parameterType="java.lang.String" resultType="java.util.Map">
+		SELECT *
+		FROM T_ACCESSORIES a
+		WHERE a.ITEM_ID = #{itemId}
+	</select>
 </mapper>
