@@ -99,6 +99,7 @@
 			<td>
 					${preOperativeConsent.remarks}
 			</td>
+
 			<shiro:hasPermission name="surgicalconsentbook:preOperativeConsent:edit"><td>
 				<a href="${ctx}/surgicalconsentbook/preOperativeConsent/form?id=${preOperativeConsent.id}">修改</a>
 				<a href="${ctx}/surgicalconsentbook/preOperativeConsent/delete?id=${preOperativeConsent.id}" onclick="return confirmx('确认要删除该术前同意书吗？', this.href)">删除</a>

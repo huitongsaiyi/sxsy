@@ -36,12 +36,19 @@ public class PreOperativeConsentService extends CrudService<PreOperativeConsentD
 	
 	@Transactional(readOnly = false)
 	public void save(PreOperativeConsent preOperativeConsent) {
+
 		super.save(preOperativeConsent);
+
+
 	}
 	
 	@Transactional(readOnly = false)
 	public void delete(PreOperativeConsent preOperativeConsent) {
 		super.delete(preOperativeConsent);
+	}
+	@Transactional(readOnly = false)
+	public void save1(String acceId1,String itemId1,String files1){
+		super.dao.insertzf(acceId1,itemId1,files1);
 	}
 	
 }

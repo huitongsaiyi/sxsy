@@ -21,10 +21,11 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		a.files AS "files"
+		t.FILE_PATH AS "files1"
 	</sql>
 	
 	<sql id="preOperativeConsentJoins">
+        left join t_accessories t on t.ITEM_ID=a.id
 	</sql>
     
 	<select id="get" resultType="PreOperativeConsent">
@@ -102,9 +103,6 @@
 	</select>
 	
 	<insert id="insert" parameterType="com.sayee.sxsy.modules.surgicalconsentbook.entity.PreOperativeConsent">
-		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
-			select uuid()
-		</selectKey>
 		INSERT INTO PRE_PERATIVE_CONSENT(
 			id,
 		    surgical_consent_id,
@@ -123,8 +121,7 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag,
-			files
+			del_flag
 		) VALUES (
 			#{id},
 		    #{surgicalConsentId},
@@ -143,11 +140,20 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag},
-			#{files}
+			#{delFlag}
 		)
 	</insert>
-	
+	<insert id="insertzf">
+		insert into t_accessories (
+		ACCE_ID,
+		ITEM_ID,
+		FILE_PATH
+		) values (
+		#{acceId1},
+		#{itemId1},
+		#{files1}
+		)
+	</insert>
 	<update id="update">
 		UPDATE PRE_PERATIVE_CONSENT SET
 			operation_type = #{operationType},
@@ -165,7 +171,9 @@
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks},
-			files = #{files}
+			files = #{files},
+			hfiles=#{hFiles}
+
 		WHERE id = #{id}
 	</update>
 	
@@ -174,5 +182,5 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>

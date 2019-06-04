@@ -7,7 +7,7 @@
 <%@ attribute name="readonly" type="java.lang.Boolean" required="false" description="是否查看模式"%>
 <%@ attribute name="maxWidth" type="java.lang.String" required="false" description="最大宽度"%>
 <%@ attribute name="maxHeight" type="java.lang.String" required="false" description="最大高度"%>
-<ol id="${input}Preview"></ol><c:if test="${!readonly}"><a href="javascript:" onclick="${input}FinderOpen();" class="btn">${selectMultiple?'添加':'选择'}</a>&nbsp;<a href="javascript:" onclick="${input}DelAll();" class="btn">清除</a></c:if>
+<div style=" margin-top: 10px; width: 115px;"><c:if test="${!readonly}"><a href="javascript:" onclick="${input}FinderOpen();" class="btn" >${selectMultiple?'添加':'选择'}</a>&nbsp;<a href="javascript:" onclick="${input}DelAll();" class="btn" >清除</a></c:if></div><ol id="${input}Preview" style=" width: 250px; margin-left: 150px; margin-top: -32px;"></ol>
 <script type="text/javascript">
 	function ${input}FinderOpen(){//<c:if test="${type eq 'thumb'}"><c:set var="ctype" value="images"/></c:if><c:if test="${type ne 'thumb'}"><c:set var="ctype" value="${type}"/></c:if>
 		var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);
