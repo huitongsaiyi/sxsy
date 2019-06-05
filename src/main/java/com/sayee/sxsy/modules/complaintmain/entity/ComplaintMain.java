@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.complaintmain.entity;
 
+import com.sayee.sxsy.common.persistence.ActEntity;
+import com.sayee.sxsy.modules.sys.entity.Office;
 import org.hibernate.validator.constraints.Length;
 import com.sayee.sxsy.modules.sys.entity.User;
 
@@ -13,10 +15,13 @@ import com.sayee.sxsy.common.persistence.DataEntity;
  * @author lyt
  * @version 2019-06-04
  */
-public class ComplaintMain extends DataEntity<ComplaintMain> {
+public class ComplaintMain extends ActEntity<ComplaintMain> {
 	
 	private static final long serialVersionUID = 1L;
 	private String complaintMainId;		// 主键
+	private User employee;  //涉及人员
+	private Office hospital; //涉及医院
+	private Office department; //涉及科室
 	private String caseNumber;		// 案件编号
 	private String patientName;		// 患者姓名
 	private String patientSex;		// 患者性别 字典
@@ -29,15 +34,37 @@ public class ComplaintMain extends DataEntity<ComplaintMain> {
 	private String involveDepartment;		// 涉及科室
 	private String involveEmployee;		// 涉及人员
 	private String procInsId;		// 流程实例id
-	private User createById;		// create_by
-	private User updateById;		// update_by
-	
+
 	public ComplaintMain() {
 		super();
 	}
 
 	public ComplaintMain(String id){
 		super(id);
+	}
+
+	public User getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(User employee) {
+		this.employee = employee;
+	}
+
+	public Office getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Office hospital) {
+		this.hospital = hospital;
+	}
+
+	public Office getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Office department) {
+		this.department = department;
 	}
 
 	@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
@@ -157,20 +184,5 @@ public class ComplaintMain extends DataEntity<ComplaintMain> {
 		this.procInsId = procInsId;
 	}
 	
-	public User getCreateById() {
-		return createById;
-	}
 
-	public void setCreateById(User createById) {
-		this.createById = createById;
-	}
-	
-	public User getUpdateById() {
-		return updateById;
-	}
-
-	public void setUpdateById(User updateById) {
-		this.updateById = updateById;
-	}
-	
 }

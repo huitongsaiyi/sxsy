@@ -20,10 +20,16 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateById",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		o.name AS "hospital.name",
+		o1.name AS "department.name",
+		u.name AS "employee.name"
 	</sql>
 	
 	<sql id="complaintMainJoins">
+		  LEFT JOIN SYS_OFFICE o ON o.id=a.involve_hospital
+		  LEFT JOIN SYS_OFFICE o1 ON o1.id=a.involve_department
+		  LEFT JOIN SYS_USER u ON u.id=a.involve_employee
 	</sql>
     
 	<select id="get" resultType="ComplaintMain">
@@ -83,7 +89,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO complaint_main(
+		INSERT INTO COMPLAINT_MAIN(
 			complaint_main_id,
 			case_number,
 			patient_name,

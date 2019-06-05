@@ -5,7 +5,7 @@
 	<update id="updateProcInsIdByBusinessId">
 		UPDATE ${businessTable} SET 
 			proc_ins_id = #{procInsId}
-		WHERE id = #{businessId}
+		WHERE ${keyId} = #{businessId}
 	</update>
 	
 </mapper>

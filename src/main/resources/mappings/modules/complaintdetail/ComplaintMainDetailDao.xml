@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.complaintdetail.dao.ComplaintMainDetailDao">
+    
+	<sql id="complaintMainDetailColumns">
+		a.complaint_main_detail_id AS "complaintMainDetailId",
+		a.complaint_main_id AS "complaintMainId",
+		a.complaint_mode AS "complaintMode",
+		a.visitor_name AS "visitorName",
+		a.visitor_mobile AS "visitorMobile",
+		a.visitor_date AS "visitorDate",
+		a.visitor_number AS "visitorNumber",
+		a.patient_relation AS "patientRelation",
+		a.is_major AS "isMajor",
+		a.summary_of_disputes AS "summaryOfDisputes",
+		a.appeal AS "appeal",
+		a.reception_employee AS "receptionEmployee",
+		a.reception_date AS "receptionDate",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		b.case_number AS "complaintMain.caseNumber",
+		b.patient_name AS "complaintMain.patientName",
+		b.patient_sex AS "complaintMain.patientSex",
+		b.patient_age AS "complaintMain.patientAge",
+		b.patient_card AS "complaintMain.patientCard",
+		b.involve_hospital AS "complaintMain.involveHospital",
+		b.hospital_level AS "complaintMain.hospitalLevel",
+		b.hospital_grade AS "complaintMain.hospitalGrade",
+		b.involve_department AS "complaintMain.involveDepartment",
+		b.involve_employee AS "complaintMain.involveEmployee",
+		b.PROC_INS_ID,
+		u.name AS "jdEmployee.name",
+		o.name AS "complaintMain.hospital.name",
+		o1.name AS "complaintMain.department.name",
+		u1.name AS "complaintMain.employee.name",
+		u2.name AS "linkEmployee.name"
+	</sql>
+	
+	<sql id="complaintMainDetailJoins">
+		  LEFT JOIN COMPLAINT_MAIN b ON a.complaint_main_id = b.complaint_main_id
+		  LEFT JOIN SYS_USER u ON u.id=a.reception_employee
+		  LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+		  LEFT JOIN SYS_OFFICE o ON o.id=b.involve_hospital
+		  LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+		  LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+		  LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+	</sql>
+    
+	<select id="get" resultType="ComplaintMainDetail">
+		SELECT 
+			<include refid="complaintMainDetailColumns"/>
+		FROM COMPLAINT_MAIN_DETAIL a
+		<include refid="complaintMainDetailJoins"/>
+		WHERE a.complaint_main_detail_id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ComplaintMainDetail">
+		SELECT 
+			<include refid="complaintMainDetailColumns"/>
+		FROM COMPLAINT_MAIN_DETAIL a
+		<include refid="complaintMainDetailJoins"/>
+		<where>
+		/*在投诉接待列表  主表的实例是空的  如果有实例ID 不会在当前节点*/
+			a.del_flag = #{DEL_FLAG_NORMAL} and b.PROC_INS_ID is NULL
+			<if test="visitorName != null and visitorName != ''">
+				AND a.visitor_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{visitorName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{visitorName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{visitorName},'%')</if>
+			</if>
+			<if test="visitorMobile != null and visitorMobile != ''">
+				AND a.visitor_mobile LIKE 
+					<if test="dbName == 'oracle'">'%'||#{visitorMobile}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{visitorMobile}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{visitorMobile},'%')</if>
+			</if>
+			<if test="beginVisitorDate != null and endVisitorDate != null and beginVisitorDate != '' and endVisitorDate != ''">
+				AND a.visitor_date BETWEEN #{beginVisitorDate} AND #{endVisitorDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ComplaintMainDetail">
+		SELECT 
+			<include refid="complaintMainDetailColumns"/>
+		FROM COMPLAINT_MAIN_DETAIL a
+		<include refid="complaintMainDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO COMPLAINT_MAIN_DETAIL(
+			complaint_main_detail_id,
+			complaint_main_id,
+			complaint_mode,
+			visitor_name,
+			visitor_mobile,
+			visitor_date,
+			visitor_number,
+			patient_relation,
+			is_major,
+			summary_of_disputes,
+			appeal,
+			reception_employee,
+			reception_date,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{complaintMainDetailId},
+			#{complaintMainId},
+			#{complaintMode},
+			#{visitorName},
+			#{visitorMobile},
+			#{visitorDate},
+			#{visitorNumber},
+			#{patientRelation},
+			#{isMajor},
+			#{summaryOfDisputes},
+			#{appeal},
+			#{receptionEmployee},
+			#{receptionDate},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE COMPLAINT_MAIN_DETAIL SET
+			complaint_main_detail_id = #{complaintMainDetailId},
+			complaint_main_id = #{complaintMainId},
+			complaint_mode = #{complaintMode},
+			visitor_name = #{visitorName},
+			visitor_mobile = #{visitorMobile},
+			visitor_date = #{visitorDate},
+			visitor_number = #{visitorNumber},
+			patient_relation = #{patientRelation},
+			is_major = #{isMajor},
+			summary_of_disputes = #{summaryOfDisputes},
+			appeal = #{appeal},
+			reception_employee = #{receptionEmployee},
+			reception_date = #{receptionDate},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE complaint_main_detail_id = #{complaintMainDetailId}
+	</update>
+	
+	<update id="delete">
+		UPDATE COMPLAINT_MAIN_DETAIL SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE complaint_main_detail_id = #{id}
+	</update>
+	
+</mapper>
