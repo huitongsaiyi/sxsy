@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import com.sayee.sxsy.modules.surgicalconsentbook.entity.PreOperativeConsent;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 术前同意书见证管理Controller
@@ -64,10 +67,20 @@ public class PreOperativeConsentController extends BaseController  {
 	@RequiresPermissions("surgicalconsentbook:preOperativeConsent:view")
 	@RequestMapping(value = "form")
 	public String form(PreOperativeConsent preOperativeConsent, Model model,HttpServletRequest request) {
-
-     //    request.setAttribute("f",request.getParameter("files"));
-
 		List<PreOperativeConsent> list=preOperativeConsentService.findList(preOperativeConsent);
+		List<Map<String, Object>>  filePath = FileBaseUtils.getFilePath(preOperativeConsent.getId());
+		for (Map<String, Object> map :filePath){
+
+			if ("1".equals(MapUtils.getString(map,"fjtype"))){
+
+				model.addAttribute("files",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+			}else if("2".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+			}
+
+
+		}
+		 //
 
 		if(list.size()==0) {
 
@@ -92,18 +105,40 @@ public class PreOperativeConsentController extends BaseController  {
 
 	@RequiresPermissions("surgicalconsentbook:preOperativeConsent:edit")
 	@RequestMapping(value = "save")
-	public String save(PreOperativeConsent preOperativeConsent, Model model, RedirectAttributes redirectAttributes,String acceId,String itemId,String files ,HttpServletRequest request) {
+	public String save(PreOperativeConsent preOperativeConsent, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 
 		if (!beanValidator(model, preOperativeConsent)){
 			return form(preOperativeConsent, model,request);
 
 		}
-		preOperativeConsentService.save(preOperativeConsent);
-        String acceId1=IdGen.uuid();
-		String itemId1=preOperativeConsent.getId();
-		String files1=request.getParameter("files");
-
-		preOperativeConsentService.save1(acceId1,itemId1,files1);
+		String files1 = request.getParameter("files");
+		String files2 = request.getParameter("files1");
+		if(preOperativeConsent ==null) {
+			preOperativeConsentService.save(preOperativeConsent);
+			String acceId1 = IdGen.uuid();
+			String itemId1 = preOperativeConsent.getId();
+			String fjtype1 = request.getParameter("fjtype1");
+			String fjtype2 = request.getParameter("fjtype2");
+//request.setAttribute("s",files1);
+			String acceId2 = IdGen.uuid();
+			preOperativeConsentService.save1(acceId1, itemId1, files1, fjtype1);
+			preOperativeConsentService.save1(acceId2, itemId1, files2, fjtype2);
+		}else if(preOperativeConsent !=null){
+			preOperativeConsentService.save(preOperativeConsent);
+			//根据file_path是否存在判断，如果存在,则更新附件表，如果不存在就删除对应的附件表
+			if(files1 ==""){
+               preOperativeConsentService.delefj(preOperativeConsent.getId(),"1");
+			}else if(files1 !=""){
+				//更新 附件表  保存主表后有 业务主键 item——id
+				preOperativeConsentService.updatefj(files1,preOperativeConsent.getId(),"1");
+			}
+			if(files2 ==""){
+				preOperativeConsentService.delefj(preOperativeConsent.getId(),"2");
+			}
+           else if(files2 !=""){
+				preOperativeConsentService.updatefj(files2,preOperativeConsent.getId(),"2");
+			}
+		}
 		addMessage(redirectAttributes, "保存术前同意书成功");
 		return "redirect:"+Global.getAdminPath()+"/surgicalconsentbook/preOperativeConsent/?repage";
 	}

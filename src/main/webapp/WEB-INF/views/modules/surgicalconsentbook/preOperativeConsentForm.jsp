@@ -120,16 +120,25 @@
 
         <table style="height: 150px;">
             <%--<th class="control-label" style="border: #0bbbee solid 1px; display: block;">附件：</th>--%>
-            <th style="display: inline-block; margin-top: -40px; ">医方附件：
-
+            <th style="display: inline-block; margin-top: -40px; " >医方附件：
+            <input type="hidden"  name="fjtype1" value="1">
                     <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-				   <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge" value="${f}"/>
+
+				   <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${files}"/>
                         <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
                         <sys:ckfinder input="files" type="files"  uploadPath="/surgicalconsentbook/PreOperativeConsent/Doctor" selectMultiple="true" />
                     </td>
 
             </th>
+				<th style="display: inline-block; margin-top: -40px; " >患方附件：
+					<input type="hidden" name="fjtype2" value="2">
+				<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
+					<input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge" value="${files2}" />
+						<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+					<sys:ckfinder input="files1" type="files"  uploadPath="/surgicalconsentbook/PreOperativeConsent/AffectedParty" selectMultiple="true" />
+				</td>
 
+				</th>
         </table>
 	</div>
 	<div class="form-actions">

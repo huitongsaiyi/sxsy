@@ -20,12 +20,12 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		t.FILE_PATH AS "files1"
+		a.del_flag AS "delFlag"
+
 	</sql>
 	
 	<sql id="preOperativeConsentJoins">
-        left join t_accessories t on t.ITEM_ID=a.id
+
 	</sql>
     
 	<select id="get" resultType="PreOperativeConsent">
@@ -144,16 +144,29 @@
 		)
 	</insert>
 	<insert id="insertzf">
-		insert into t_accessories (
+		insert into T_ACCESSORIES (
 		ACCE_ID,
 		ITEM_ID,
-		FILE_PATH
+		FILE_PATH,
+		fjtype
+
 		) values (
 		#{acceId1},
 		#{itemId1},
-		#{files1}
+		#{files1},
+		#{fjtype}
+
 		)
 	</insert>
+	<update id="updateFile">
+		update T_ACCESSORIES set
+		FILE_PATH=#{files1}
+
+		where ITEM_ID=#{itemId1} and fjtype=#{fjtype}
+	</update>
+	<delete id="deletfj">
+		delete  from T_ACCESSORIES where ITEM_ID=#{itemId1} and fjtype=#{fjtype}
+	</delete>
 	<update id="update">
 		UPDATE PRE_PERATIVE_CONSENT SET
 			operation_type = #{operationType},
@@ -170,13 +183,11 @@
 			create_date = #{createDate},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks},
-			files = #{files},
-			hfiles=#{hFiles}
+			remarks = #{remarks}
 
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
 		UPDATE PRE_PERATIVE_CONSENT SET
 			del_flag = #{DEL_FLAG_DELETE}
