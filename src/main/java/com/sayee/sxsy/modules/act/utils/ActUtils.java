@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.act.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,11 @@ import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.Encodes;
 import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.modules.oa.entity.Leave;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 
@@ -24,6 +28,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sayee.sxsy.modules.act.entity.Act;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 流程工具
@@ -33,14 +40,18 @@ import com.sayee.sxsy.modules.act.entity.Act;
 public class ActUtils {
 
 //	private static Logger logger = LoggerFactory.getLogger(ActUtils.class);
-	
+	@Autowired
+	protected static TaskService taskService;
+	@Autowired
+	private static RuntimeService runtimeService;
 	/**
 	 * 定义流程定义KEY，必须以“PD_”开头
 	 * 组成结构：string[]{"流程标识","业务主表表名"}
 	 */
 	public static final String[] PD_LEAVE = new String[]{"leave", "oa_leave"};
 	public static final String[] PD_TEST_AUDIT = new String[]{"test_audit", "oa_test_audit"};
-	
+	public static final String[] PD_COMPLAINT = new String[]{"complaint", "complaint_main"};
+
 //	/**
 //	 * 流程定义Map（自动初始化）
 //	 */
@@ -190,5 +201,31 @@ public class ActUtils {
 	public static void main(String[] args) {
 		 User user = new User();
 		 System.out.println(getMobileEntity(user, "@"));
+	}
+	/*
+	* 没有根据流程的业务ID查询实体并关联
+	*
+	*/
+	public static  List<Task> findTodoTasks(String userId,String procDefKey) {
+		List<Task> tasks = new ArrayList<Task>();
+		// 根据当前人的ID查询
+		List<Task> todoList = taskService.createTaskQuery().processDefinitionKey(procDefKey).taskAssignee(userId).active().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+		// 根据当前人未签收的任务
+		List<Task> unsignedTasks = taskService.createTaskQuery().processDefinitionKey(procDefKey).taskCandidateUser(userId).active().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+		// 合并
+		tasks.addAll(todoList);
+		tasks.addAll(unsignedTasks);
+		// 根据流程的业务ID查询实体并关联
+//		for (Task task : tasks) {
+//			String processInstanceId = task.getProcessInstanceId();
+//			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
+//			String businessKey = processInstance.getBusinessKey();
+//			Leave leave = leaveDao.get(businessKey);
+//			leave.setTask(task);
+//			leave.setProcessInstance(processInstance);
+//			leave.setProcessDefinition(repositoryService.createProcessDefinitionQuery().processDefinitionId((processInstance.getProcessDefinitionId())).singleResult());
+//			results.add(leave);
+//		}
+		return tasks;
 	}
 }

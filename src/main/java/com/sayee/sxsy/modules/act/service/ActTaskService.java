@@ -54,6 +54,7 @@ import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,7 +102,7 @@ public class ActTaskService extends BaseService {
 	
 	/**
 	 * 获取待办列表
-	 * @param procDefKey 流程定义标识
+	 * @param act 流程定义标识
 	 * @return
 	 */
 	public List<Act> todoList(Act act){
@@ -174,7 +175,7 @@ public class ActTaskService extends BaseService {
 	/**
 	 * 获取已办任务
 	 * @param page
-	 * @param procDefKey 流程定义标识
+	 * @param act 流程定义标识
 	 * @return
 	 */
 	public Page<Act> historicList(Page<Act> page, Act act){
@@ -430,6 +431,11 @@ public class ActTaskService extends BaseService {
 		act.setBusinessTable(businessTable);// 业务表名
 		act.setBusinessId(businessId);	// 业务表ID
 		act.setProcInsId(procIns.getId());
+		if (MapUtils.isEmpty(vars)){
+			act.setKeyId("id");
+		}else {
+			act.setKeyId(MapUtils.getString(vars,"id","id"));
+		}
 		actDao.updateProcInsIdByBusinessId(act);
 		return act.getProcInsId();
 	}

@@ -39,7 +39,8 @@ public class Act extends BaseEntity<Act> {
 
 	private String businessTable;	// 业务绑定Table
 	private String businessId;		// 业务绑定ID
-	
+	private String keyId;		// 业务表的 主键
+
 	private String title; 		// 任务标题
 
 	private String status; 		// 任务状态（todo/claim/finish）
@@ -379,6 +380,13 @@ public class Act extends BaseEntity<Act> {
 		
 	}
 
+	public String getKeyId() {
+		return keyId;
+	}
+
+	public void setKeyId(String keyId) {
+		this.keyId = keyId;
+	}
 }
 
 
