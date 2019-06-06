@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.registration.dao.ReportRegistrationDao">
+    
+	<sql id="reportRegistrationColumns">
+		a.report_registration_id AS "reportRegistrationId",
+		a.complaint_main_id AS "complaintMainId",
+		a.report_emp AS "reportEmp",
+		a.patient_mobile AS "patientMobile",
+		a.patient_relation AS "patientRelation",
+		a.report_time AS "reportTime",
+		a.registration_emp AS "registrationEmp",
+		a.registration_time AS "registrationTime",
+		a.dispute_time AS "disputeTime",
+		a.is_major AS "isMajor",
+		a.summary_of_disputes AS "summaryOfDisputes",
+		a.focus AS "focus",
+		a.patient_ask AS "patientAsk",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		b.case_number AS "complaintMainId.caseNumber",
+		b.patient_name AS "complaintMainId.patientName",
+		b.patient_sex AS "complaintMainId.patientSex",
+		b.patient_age AS "complaintMainId.patientAge",
+		b.patient_card AS "complaintMainId.patientCard",
+		b.involve_hospital AS "complaintMainId.involveHospital",
+		b.hospital_level AS "complaintMainId.hospitalLevel",
+		b.hospital_grade AS "complaintMainId.hospitalGrade",
+		b.involve_department AS "complaintMainId.involveDepartment",
+		b.involve_employee AS "complaintMainId.involveEmployee",
+		b.proc_ins_id AS "complaintMainId.procInsId",
+		d.AREANAME AS "areaName"
+	</sql>
+	
+	<sql id="reportRegistrationJoins">
+		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id
+		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+ 		LEFT JOIN AREA d ON d.AREAID=o.area_id
+	</sql>
+    
+	<select id="get" resultType="ReportRegistration">
+		SELECT 
+			<include refid="reportRegistrationColumns"/>
+		FROM report_registration a
+		<include refid="reportRegistrationJoins"/>
+		WHERE a.report_registration_id = #{reportRegistrationId}
+	</select>
+	
+	<select id="findList" resultType="ReportRegistration">
+		SELECT 
+			<include refid="reportRegistrationColumns"/>
+		FROM report_registration a
+		<include refid="reportRegistrationJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="reportEmp != null and reportEmp != ''">
+				AND a.report_emp = #{reportEmp}
+			</if>
+			<if test="patientMobile != null and patientMobile != ''">
+				AND a.patient_mobile = #{patientMobile}
+			</if>
+			<if test="reportTime != null and reportTime != ''">
+				AND a.report_time LIKE 
+					<if test="dbName == 'oracle'">'%'||#{reportTime}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{reportTime}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{reportTime},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ReportRegistration">
+		SELECT 
+			<include refid="reportRegistrationColumns"/>
+		FROM report_registration a
+		<include refid="reportRegistrationJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO report_registration(
+			report_registration_id,
+			complaint_main_id,
+			report_emp,
+			patient_mobile,
+			patient_relation,
+			report_time,
+			registration_emp,
+			registration_time,
+			dispute_time,
+			is_major,
+			summary_of_disputes,
+			focus,
+			patient_ask,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{reportRegistrationId},
+			#{complaintMainId},
+			#{reportEmp},
+			#{patientMobile},
+			#{patientRelation},
+			#{reportTime},
+			#{registrationEmp},
+			#{registrationTime},
+			#{disputeTime},
+			#{isMajor},
+			#{summaryOfDisputes},
+			#{focus},
+			#{patientAsk},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE report_registration SET 	
+			report_emp = #{reportEmp},
+			patient_mobile = #{patientMobile},
+			patient_relation = #{patientRelation},
+			report_time = #{reportTime},
+			registration_emp = #{registrationEmp},
+			registration_time = #{registrationTime},
+			dispute_time = #{disputeTime},
+			is_major = #{isMajor},
+			summary_of_disputes = #{summaryOfDisputes},
+			focus = #{focus},
+			patient_ask = #{patientAsk},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan}
+		WHERE report_registration_id = #{reportRegistrationId}
+	</update>
+	
+	<update id="delete">
+		UPDATE report_registration SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE report_registration_id = #{reportRegistrationId}
+	</update>
+	
+</mapper>
