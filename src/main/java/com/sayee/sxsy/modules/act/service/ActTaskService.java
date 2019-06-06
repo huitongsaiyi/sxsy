@@ -504,7 +504,8 @@ public class ActTaskService extends BaseService {
 		if (StringUtils.isNotBlank(title)){
 			vars.put("title", title);
 		}
-		
+		// 被委派人处理完成任务
+//		taskService.resolveTask(taskId,vars);
 		// 提交任务
 		taskService.complete(taskId, vars);
 	}

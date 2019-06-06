@@ -5,6 +5,7 @@ package com.sayee.sxsy.common.service;
 
 import java.util.List;
 
+import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ import com.sayee.sxsy.common.persistence.Page;
  */
 @Transactional(readOnly = false)
 public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>> extends BaseService {
-	
+
 	/**
 	 * 持久层对象
 	 */

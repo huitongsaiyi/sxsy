@@ -50,7 +50,7 @@ public class ActTaskController extends BaseController {
 		model.addAttribute("list", list);
 		if (UserUtils.getPrincipal().isMobileLogin()){
 			return renderString(response, list);
-		}
+	    }
 		return "modules/act/actTaskTodoList";
 	}
 	
@@ -73,7 +73,7 @@ public class ActTaskController extends BaseController {
 
 	/**
 	 * 获取流转历史列表
-	 * @param procInsId 流程实例
+	 * @param act 流程实例
 	 * @param startAct 开始活动节点名称
 	 * @param endAct 结束活动节点名称
 	 */
@@ -101,15 +101,13 @@ public class ActTaskController extends BaseController {
 	
 	/**
 	 * 获取流程表单
-	 * @param taskId	任务ID
-	 * @param taskName	任务名称
-	 * @param taskDefKey 任务环节标识
-	 * @param procInsId 流程实例ID
-	 * @param procDefId 流程定义ID
+	 * @param act	任务ID
+	 * @param request	任务名称
+	 * @param model 任务环节标识
 	 */
 	@RequestMapping(value = "form")
 	public String form(Act act, HttpServletRequest request, Model model){
-		
+
 		// 获取流程XML上的表单KEY
 		String formKey = actTaskService.getFormKey(act.getProcDefId(), act.getTaskDefKey());
 
