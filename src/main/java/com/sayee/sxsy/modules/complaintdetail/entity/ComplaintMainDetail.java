@@ -39,13 +39,33 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	private String nextLinkMan;		// 下一环节处理人
 	private String beginVisitorDate;		// 开始 来访日期
 	private String endVisitorDate;		// 结束 来访日期
-	
+
+	private String patientRelationlabel;    //患者关系 字典中的label值
+
+	private String isMajorlabel;        //是否重大 字典中的label值
+
 	public ComplaintMainDetail() {
 		super();
 	}
 
 	public ComplaintMainDetail(String id){
 		super(id);
+	}
+
+	public String getIsMajorlabel() {
+		return isMajorlabel;
+	}
+
+	public String getPatientRelationlabel() {
+		return patientRelationlabel;
+	}
+
+	public void setIsMajorlabel(String isMajorlabel) {
+		this.isMajorlabel = isMajorlabel;
+	}
+
+	public void setPatientRelationlabel(String patientRelationlabel) {
+		this.patientRelationlabel = patientRelationlabel;
 	}
 
 	public ComplaintMain getComplaintMain() {

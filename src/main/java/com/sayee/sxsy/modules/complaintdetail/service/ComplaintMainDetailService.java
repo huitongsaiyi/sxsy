@@ -67,6 +67,9 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 			ComplaintMain complaintMain=complaintMainDetail.getComplaintMain();
 			complaintMain.preInsert();
 			complaintMain.setComplaintMainId(complaintMain.getId());
+			if(StringUtils.isBlank(complaintMain.getPatientAge())){
+				complaintMain.setPatientAge("0");
+			}
 			complaintMainDao.insert(complaintMain);
 			//在保存子表
 			complaintMainDetail.preInsert();
