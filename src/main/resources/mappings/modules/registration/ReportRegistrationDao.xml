@@ -54,7 +54,7 @@
 	<select id="findList" resultType="ReportRegistration">
 		SELECT 
 			<include refid="reportRegistrationColumns"/>
-		FROM report_registration a
+		FROM REPORT_REGISTRATION a
 		<include refid="reportRegistrationJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -84,7 +84,7 @@
 	<select id="findAllList" resultType="ReportRegistration">
 		SELECT 
 			<include refid="reportRegistrationColumns"/>
-		FROM report_registration a
+		FROM REPORT_REGISTRATION a
 		<include refid="reportRegistrationJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -100,7 +100,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO report_registration(
+		INSERT INTO REPORT_REGISTRATION(
 			report_registration_id,
 			complaint_main_id,
 			report_emp,
@@ -146,7 +146,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE report_registration SET 	
+		UPDATE REPORT_REGISTRATION SET
 			report_emp = #{reportEmp},
 			patient_mobile = #{patientMobile},
 			patient_relation = #{patientRelation},
@@ -164,7 +164,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE report_registration SET 
+		UPDATE REPORT_REGISTRATION SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE report_registration_id = #{reportRegistrationId}
 	</update>
