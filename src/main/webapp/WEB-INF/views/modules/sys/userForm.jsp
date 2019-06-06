@@ -62,6 +62,26 @@
 					title="部门" url="/sys/office/treeData" cssClass="required" notAllowSelectParent="true"/>
 			</div>
 		</div>
+
+		<div class="control-group" <c:if test="${user.office.officeType eq '1' or user.office.officeType eq '2'}">style="display: none"</c:if>>
+			<label class="control-label">岗位:</label>
+			<div class="controls">
+				<form:select path="post">
+					<form:options items="${fns:getDictList('post')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> “是”代表此账号允许登录，“否”则表示此账号不允许登录</span>
+			</div>
+		</div>
+		<div class="control-group" <c:if test="${user.office.officeType eq '1' or user.office.officeType eq '3'}">style="display: none"</c:if>>
+			<label class="control-label">职称:</label>
+			<div class="controls">
+				<form:select path="hospitalTitle">
+					<form:options items="${fns:getDictList('hospitalType')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> “是”代表此账号允许登录，“否”则表示此账号不允许登录</span>
+			</div>
+		</div>
+
 		<div class="control-group">
 			<label class="control-label">工号:</label>
 			<div class="controls">
@@ -118,7 +138,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">是否允许登录:</label>
+			<label class="control-label">是否启用:</label>
 			<div class="controls">
 				<form:select path="loginFlag">
 					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -143,7 +163,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">备注:</label>
+			<label class="control-label">角色描述:</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 			</div>
