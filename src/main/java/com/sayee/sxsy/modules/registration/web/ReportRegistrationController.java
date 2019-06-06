@@ -70,11 +70,20 @@ public class ReportRegistrationController extends BaseController {
 	@RequiresPermissions("registration:reportRegistration:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, reportRegistration)){
-			return form(request,reportRegistration, model);
+		try {
+			reportRegistrationService.save(reportRegistration);
+			if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
+				addMessage(redirectAttributes, "流程已启动，流程ID：" + reportRegistration.getComplaintMain().getProcInsId());
+			}else {
+				addMessage(redirectAttributes, "保存报案登记成功");
+			}
+		} catch (Exception e) {
+			logger.error("启动纠纷调解流程失败：", e);
+			addMessage(redirectAttributes, "系统内部错误！");
 		}
-		reportRegistrationService.save(reportRegistration);
-		addMessage(redirectAttributes, "保存报案信息成功");
+//		if (!beanValidator(model, reportRegistration)){
+//			return form(request,reportRegistration, model);
+//		}
 		return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
 	}
 	

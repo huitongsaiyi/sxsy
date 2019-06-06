@@ -33,7 +33,7 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	private String appeal;		// 诉求
 	private String receptionEmployee;		// 接待人员
 	private User jdEmployee;		// 接待人员
-	private User linkEmployee;		// 接待人员
+	private User linkEmployee;		// 下一环节人员
 	private String receptionDate;		// 接待日期
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人

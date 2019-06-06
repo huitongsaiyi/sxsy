@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/registration/reportRegistration/">报案信息列表</a></li>
+<%--
 		<shiro:hasPermission name="registration:reportRegistration:edit"><li><a href="${ctx}/registration/reportRegistration/form">报案信息添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="reportRegistration" action="${ctx}/registration/reportRegistration/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -58,32 +60,34 @@
 		<c:forEach items="${page.list}" var="reportRegistration">
 			<tr>
 				<td><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">
-					${reportRegistration.complaintMainId.caseNumber}
+						${reportRegistration.complaintMain.caseNumber}
 				</a></td>
 				<td>
-					${reportRegistration.complaintMainId.involveHospital}
+						${reportRegistration.complaintMain.hospital.name}
 				</td>
 				<td>
-					${reportRegistration.complaintMainId.hospitalGrade}
+						${reportRegistration.complaintMain.hospitalGrade}
 				</td>
 				<td>
-					${reportRegistration.areaName}
+						${reportRegistration.area.name}
 				</td>
 
 				<td>
 						${reportRegistration.reportEmp}
 				</td>
 				<td>
-					${reportRegistration.disputeTime}
+						${reportRegistration.disputeTime}
 				</td>
 				<td>
-						${reportRegistration.complaintMainId.patientName}
+						${reportRegistration.complaintMain.patientName}
 				</td>
 				<td>
-					${reportRegistration.patientMobile}
+						${reportRegistration.patientMobile}
+<%--<fmt:formatDate value="${reportRegistration.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>--%>
 				</td>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td>
-    				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">详情</a>
+						<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">处理</a>
+						<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
