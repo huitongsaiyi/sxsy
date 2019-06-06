@@ -34,13 +34,13 @@
 		b.involve_department AS "complaintMainId.involveDepartment",
 		b.involve_employee AS "complaintMainId.involveEmployee",
 		b.proc_ins_id AS "complaintMainId.procInsId",
-		d.AREANAME AS "areaName"
+		d.name AS "areaName"
 	</sql>
 	
 	<sql id="reportRegistrationJoins">
 		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
- 		LEFT JOIN AREA d ON d.AREAID=o.area_id
+ 		LEFT JOIN SYS_AREA d ON d.id=o.area_id
 	</sql>
     
 	<select id="get" resultType="ReportRegistration">
