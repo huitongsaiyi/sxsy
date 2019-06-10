@@ -16,7 +16,7 @@ import com.sayee.sxsy.common.persistence.DataEntity;
  * @version 2019-06-04
  */
 public class ComplaintMain extends ActEntity<ComplaintMain> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String complaintMainId;		// 主键
 	private User employee;  //涉及人员
@@ -34,6 +34,8 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	private String involveDepartment;		// 涉及科室
 	private String involveEmployee;		// 涉及人员
 	private String procInsId;		// 流程实例id
+    private String createById;
+    private String updateById;
 
 	public ComplaintMain() {
 		super();
@@ -43,7 +45,23 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		super(id);
 	}
 
-	public User getEmployee() {
+    public String getCreateById() {
+        return createById;
+    }
+
+    public void setCreateById(String createById) {
+        this.createById = createById;
+    }
+
+    public String getUpdateById() {
+        return updateById;
+    }
+
+    public void setUpdateById(String updateById) {
+        this.updateById = updateById;
+    }
+
+    public User getEmployee() {
 		return employee;
 	}
 
@@ -75,7 +93,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setComplaintMainId(String complaintMainId) {
 		this.complaintMainId = complaintMainId;
 	}
-	
+
 	@Length(min=0, max=20, message="案件编号长度必须介于 0 和 20 之间")
 	public String getCaseNumber() {
 		return caseNumber;
@@ -84,7 +102,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setCaseNumber(String caseNumber) {
 		this.caseNumber = caseNumber;
 	}
-	
+
 	@Length(min=0, max=20, message="患者姓名长度必须介于 0 和 20 之间")
 	public String getPatientName() {
 		return patientName;
@@ -93,7 +111,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setPatientName(String patientName) {
 		this.patientName = patientName;
 	}
-	
+
 	@Length(min=0, max=1, message="患者性别 字典长度必须介于 0 和 1 之间")
 	public String getPatientSex() {
 		return patientSex;
@@ -102,7 +120,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setPatientSex(String patientSex) {
 		this.patientSex = patientSex;
 	}
-	
+
 	@Length(min=0, max=4, message="患者年龄长度必须介于 0 和 4 之间")
 	public String getPatientAge() {
 		return patientAge;
@@ -111,7 +129,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setPatientAge(String patientAge) {
 		this.patientAge = patientAge;
 	}
-	
+
 	@Length(min=0, max=20, message="患者身份证长度必须介于 0 和 20 之间")
 	public String getPatientCard() {
 		return patientCard;
@@ -120,7 +138,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setPatientCard(String patientCard) {
 		this.patientCard = patientCard;
 	}
-	
+
 	@Length(min=0, max=10, message="患方联系电话长度必须介于 0 和 10 之间")
 	public String getPatientMobile() {
 		return patientMobile;
@@ -129,7 +147,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setPatientMobile(String patientMobile) {
 		this.patientMobile = patientMobile;
 	}
-	
+
 	@Length(min=0, max=32, message="涉及医院长度必须介于 0 和 32 之间")
 	public String getInvolveHospital() {
 		return involveHospital;
@@ -138,7 +156,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setInvolveHospital(String involveHospital) {
 		this.involveHospital = involveHospital;
 	}
-	
+
 	@Length(min=0, max=10, message="医院级别长度必须介于 0 和 10 之间")
 	public String getHospitalLevel() {
 		return hospitalLevel;
@@ -147,7 +165,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setHospitalLevel(String hospitalLevel) {
 		this.hospitalLevel = hospitalLevel;
 	}
-	
+
 	@Length(min=0, max=10, message="医院等级长度必须介于 0 和 10 之间")
 	public String getHospitalGrade() {
 		return hospitalGrade;
@@ -156,7 +174,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setHospitalGrade(String hospitalGrade) {
 		this.hospitalGrade = hospitalGrade;
 	}
-	
+
 	@Length(min=0, max=32, message="涉及科室长度必须介于 0 和 32 之间")
 	public String getInvolveDepartment() {
 		return involveDepartment;
@@ -165,7 +183,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setInvolveDepartment(String involveDepartment) {
 		this.involveDepartment = involveDepartment;
 	}
-	
+
 	@Length(min=0, max=32, message="涉及人员长度必须介于 0 和 32 之间")
 	public String getInvolveEmployee() {
 		return involveEmployee;
@@ -174,7 +192,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setInvolveEmployee(String involveEmployee) {
 		this.involveEmployee = involveEmployee;
 	}
-	
+
 	@Length(min=0, max=32, message="流程实例id长度必须介于 0 和 32 之间")
 	public String getProcInsId() {
 		return procInsId;
@@ -183,6 +201,6 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	public void setProcInsId(String procInsId) {
 		this.procInsId = procInsId;
 	}
-	
+
 
 }

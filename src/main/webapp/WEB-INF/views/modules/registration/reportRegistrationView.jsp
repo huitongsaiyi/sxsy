@@ -34,18 +34,18 @@
         <table class="table-form">
             <tr>
                 <td>案件编号：</td>
-                <td>${reportRegistration.complaintMainId.caseNumber}</td>
+                <td>${reportRegistration.complaintMain.caseNumber}</td>
 
                 <td class="tit">报案人姓名：</td>
                 <td>${reportRegistration.reportEmp}</td>
 
                 <td class="tit">患者姓名：</td>
-                <td>${reportRegistration.complaintMainId.patientName}</td>
+                <td>${reportRegistration.complaintMain.patientName}</td>
             </tr>
             <tr>
                 <td class="tit">患者性别：</td>
                 <c:choose>
-                    <c:when test="${reportRegistration.complaintMainId.patientSex== '1'}">
+                    <c:when test="${reportRegistration.complaintMain.patientSex== '1'}">
                         <td>男</td>
                     </c:when>
                     <c:otherwise>
@@ -54,27 +54,27 @@
                 </c:choose>
 
                 <td class="tit">患者年龄：</td>
-                <td>${reportRegistration.complaintMainId.patientAge}</td>
+                <td>${reportRegistration.complaintMain.patientAge}</td>
 
                 <td class="tit">患者身份证：</td>
-                <td>${reportRegistration.complaintMainId.patientCard}</td>
+                <td>${reportRegistration.complaintMain.patientCard}</td>
             </tr>
             <tr>
                 <td class="tit">医院级别：</td>
-                <td>${reportRegistration.complaintMainId.hospitalLevel}</td>
+                <td>${reportRegistration.complaintMain.hospitalLevel}</td>
 
                 <td class="tit">医院等级：</td>
-                <td>${reportRegistration.complaintMainId.hospitalGrade}</td>
+                <td>${reportRegistration.complaintMain.hospitalGrade}</td>
 
                 <td class="tit">涉及医院：</td>
-                <td>${reportRegistration.complaintMainId.involveHospital}</td>
+                <td>${reportRegistration.complaintMain.involveHospital}</td>
             </tr>
             <tr>
                 <td class="tit">涉及科室：</td>
-                <td>${reportRegistration.complaintMainId.involveDepartment}</td>
+                <td>${reportRegistration.complaintMain.involveDepartment}</td>
 
                 <td class="tit">设计人员</td>
-                <td>${reportRegistration.complaintMainId.involveEmployee}</td>
+                <td>${reportRegistration.complaintMain.involveEmployee}</td>
 
                 <td class="tit">患方联系方式：</td>
                 <td>${reportRegistration.patientMobile}</td>
@@ -139,6 +139,10 @@
             <tr>
                 <td class="tit">患方要求</td>
                 <td colspan="3">${reportRegistration.patientAsk}</td>
+            </tr>
+            <tr>
+                <td class="tit">附件</td>
+                <td colspan="3"><img src="${reportRegistration.files}"></td>
             </tr>
         </table>
     </fieldset>

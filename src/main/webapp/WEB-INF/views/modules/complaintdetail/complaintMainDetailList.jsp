@@ -64,7 +64,20 @@
 		<c:forEach items="${page.list}" var="complaintMainDetail">
 			<tr>
 				<td><a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">
-					${complaintMainDetail.complaintMode}
+					<c:choose>
+                        <c:when test="${complaintMainDetail.complaintMode=='0'}">
+                            来电
+                        </c:when>
+                        <c:when test="${complaintMainDetail.complaintMode=='1'}">
+                            来访
+                        </c:when>
+                        <c:when test="${complaintMainDetail.complaintMode=='2'}">
+                            来信
+                        </c:when>
+                        <c:when test="${complaintMainDetail.complaintMode=='3'}">
+                            其他
+                        </c:when>
+                    </c:choose>
 				</a></td>
 				<td>
 					${complaintMainDetail.visitorName}
@@ -79,10 +92,10 @@
 					${complaintMainDetail.visitorNumber}
 				</td>
 				<td>
-					${complaintMainDetail.patientRelation}
+					${complaintMainDetail.patientRelationlabel}
 				</td>
 				<td>
-					${complaintMainDetail.isMajor}
+					${complaintMainDetail.isMajorlabel}
 				</td>
 				<td>
 					${complaintMainDetail.summaryOfDisputes}

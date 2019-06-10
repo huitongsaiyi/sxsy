@@ -38,7 +38,9 @@
 		o.name AS "complaintMain.hospital.name",
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
-		u2.name AS "linkEmployee.name"
+		u2.name AS "linkEmployee.name",
+		d.label AS "patientRelationlabel",
+		d2.label AS "isMajorlabel"
 	</sql>
 	
 	<sql id="complaintMainDetailJoins">
@@ -49,6 +51,8 @@
 		  LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		  LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		  LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+		  LEFT JOIN SYS_DICT d ON d.value = a.patient_relation AND d.type = 'patient_relation'
+		  LEFT JOIN SYS_DICT d2 ON  d2.value = a.is_major AND  d2.type = 'yes_no'
 	</sql>
     
 	<select id="get" resultType="ComplaintMainDetail">

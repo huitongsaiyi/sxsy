@@ -28,25 +28,14 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/registration/reportRegistration/">报案信息列表</a></li>
-		<li class="active"><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">报案信息<shiro:hasPermission name="registration:reportRegistration:edit">${not empty reportRegistration.reportRegistrationId?'修改':'修改'}</shiro:hasPermission><shiro:lacksPermission name="registration:reportRegistration:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.id}">报案信息<shiro:hasPermission name="registration:reportRegistration:edit">${not empty reportRegistration.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="registration:reportRegistration:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="reportRegistration" action="${ctx}/registration/reportRegistration/save" method="post" class="form-horizontal">
 		<form:hidden path="reportRegistrationId"/>
-		<form:hidden path="createDate"/>
-		<form:hidden path="createBy"/>
-		<form:hidden path="complaintMainId"/>
-		<form:hidden path="complaintMain.complaintMainId"/>
-		<form:hidden path="complaintMain.act.taskId"/>
-		<form:hidden path="complaintMain.act.taskName"/>
-		<form:hidden path="complaintMain.act.taskDefKey"/>
-		<form:hidden path="complaintMain.act.procInsId"/>
-		<form:hidden path="complaintMain.act.procDefId"/>
-        <form:hidden path="complaintMain.procInsId"/>
-		<form:hidden id="flag" path="complaintMain.act.flag"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
-				<a href="#visitor" data-toggle="tab">报案人信息</a>
+				<a href="#visitor" data-toggle="tab">来访者信息</a>
 			</li>
 			<li>
 				<a href="#patient" data-toggle="tab">患者信息</a>
@@ -81,8 +70,8 @@
 						<td class="tit" width="160px">报案日期：</td>
 						<td width="476px">
 							<input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-								   value="${reportRegistration.reportTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+								   value="<fmt:formatDate value="${reportRegistration.reportTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 						</td>
 					</tr>
 				</table>
@@ -109,7 +98,7 @@
 						</td>
 						<td class="tit">患者身份证号：</td>
 						<td >
-							<form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+							<form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="4" class="input-xlarge "/>
 						</td>
 					</tr>
 				</table>
@@ -119,8 +108,8 @@
 					<tr >
 						<td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
 						<td width="522px">
-							<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${reportRegistration.complaintMain.involveHospital}" labelName="" labelValue="${reportRegistration.complaintMain.hospital.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+							<sys:treeselect id="complaintMain.involveHospital" name="involveHospital" value="${complaintMain.involveHospital}" labelName="" labelValue="${complaintMain.involveHospital}"
+											title="机构" url="/sys/office/treeData?type=2&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
 						</td>
                         <td class="tit" width="199px"><font color="red">*</font>医院等级：</td>
                         <td>
@@ -135,7 +124,7 @@
                     <tr>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
-							<sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${reportRegistration.complaintMain.involveDepartment}" labelName="" labelValue="${reportRegistration.complaintMain.department.name}"
+							<sys:treeselect id="complaintMain.involveDepartment" name="involveDepartment" value="${complaintMain.involveDepartment}" labelName="" labelValue="${complaintMain.involveDepartment}"
 											title="部门" url="/sys/office/treeData?type=2&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 						</td>
                         <td class="tit" width="199px"><font color="red">*</font>医院级别：</td>
@@ -150,14 +139,21 @@
 					<tr >
 						<td class="tit"><font color="red">*</font>涉及人员：</td>
 						<td class="controls">
-							<sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee" value="${reportRegistration.complaintMain.involveEmployee}" labelName="" labelValue="${reportRegistration.complaintMain.employee.name}"
+							<sys:treeselect id="complaintMainId.involveEmployee" name="involveEmployee" value="${complaintMain.involveEmployee}" labelName="" labelValue="${complaintMain.involveEmployee}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div class="tab-pane fade" id="annex">
+				<input type="hidden"  name="fjtype" value="0">
+				<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
 
+					<input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${reportRegistration.files}"/>
+					<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+						<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+					<sys:ckfinder input="files" type="images"  uploadPath="/reportReigsation/annex" selectMultiple="false" maxWidth="100" maxHeight="100"/>
+				</td>
 			</div>
 		</div>
 
@@ -177,24 +173,22 @@
 				</td>
 				<td class="tit" width="160px">登记人员：</td>
 				<td width="476px">
-					<sys:treeselect id="registrationEmp" name="registrationEmp" value="${reportRegistration.registrationEmp}" labelName="" labelValue="${reportRegistration.djEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true"/>
-
+					<form:input path="registrationEmp" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 				</td>
 			</tr>
 			<tr>
 				<td class="tit" width="180px">登记日期：</td>
 				<td >
 						<%--<form:input path="visitorDate" htmlEscape="false" maxlength="10" class="input-xlarge "/>--%>
-					<input name="registrationTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-						   value="${reportRegistration.registrationTime}"
+					<input name="complaintMainId.registrationTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						   value="${visitorDate}"
 						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 				</td>
 				<td class="tit" width="180px">纠纷发生时间：</td>
 				<td >
 					<input name="disputeTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-						   value="${reportRegistration.disputeTime}"
-						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+						   value="<fmt:formatDate value="${reportRegistration.disputeTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 				</td>
 			</tr>
 			<tr>
@@ -204,6 +198,12 @@
 						<form:option value="1">是</form:option>
 						<form:option value="0">否</form:option>
 					</form:select>
+				</td>
+			</tr>
+			<tr >
+				<td class="tit"><font color="red">*</font>投诉纠纷概要：</td>
+				<td colspan="3">
+					<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
 				</td>
 			</tr>
 			<tr >
@@ -232,19 +232,15 @@
 				<td class="tit"><font color="red">*</font>下一环节处理人：</td>
 				<td >
 						<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintInfo.nextLinkMan}" labelName="" labelValue="${complaintInfo.nextLinkMan}"
+									title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 				</td>
 			</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
-		<c:if test="${not empty reportRegistration.reportRegistrationId}">
-			<act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}" />
-		</c:if>
 	</form:form>
 </body>
 </html>

@@ -7,17 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.druid.sql.visitor.functions.If;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.act.utils.ActUtils;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
-import com.sayee.sxsy.modules.sys.dao.RoleDao;
-import com.sayee.sxsy.modules.sys.entity.Role;
-import com.sayee.sxsy.modules.sys.entity.User;
-import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +37,6 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 	private ComplaintMainDao complaintMainDao;
 	@Autowired
 	private ComplaintMainDetailDao complaintMainDetailDao;
-	@Autowired
-	private RoleDao roleDao;
-
 	public ComplaintMainDetail get(String id) {
 		return super.get(id);
 	}
@@ -75,6 +67,9 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 			ComplaintMain complaintMain=complaintMainDetail.getComplaintMain();
 			complaintMain.preInsert();
 			complaintMain.setComplaintMainId(complaintMain.getId());
+			if(StringUtils.isBlank(complaintMain.getPatientAge())){
+				complaintMain.setPatientAge("0");
+			}
 			complaintMainDao.insert(complaintMain);
 			//在保存子表
 			complaintMainDetail.preInsert();
@@ -85,16 +80,12 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 		if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","1");
-			User assignee=UserUtils.get(complaintMainDetail.getNextLinkMan());
-			var.put("enrollment_user", assignee!=null ?assignee.getLoginName():"");
+			var.put("enrollment_user","thinkgem");
 			var.put("id","complaint_main_id");
 			// 启动流程
 			actTaskService.startProcess("complaint", "complaint_main", complaintMainDetail.getComplaintMain().getComplaintMainId(), complaintMainDetail.getComplaintMain().getCaseNumber(),var);
-			//启动流程的时候 创建一个 隐藏的角色   在给这个角色下面 分配人员
-			Role role=new Role();
-			role.preInsert();
-			role.setName(complaintMainDetail.getComplaintMain().getCaseNumber());
-			roleDao.insert(role);
+			//启动流程的时候 创建一个 隐藏的角色
+
 		}
 	}
 	

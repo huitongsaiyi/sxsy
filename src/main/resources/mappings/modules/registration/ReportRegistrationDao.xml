@@ -3,17 +3,17 @@
 <mapper namespace="com.sayee.sxsy.modules.registration.dao.ReportRegistrationDao">
     
 	<sql id="reportRegistrationColumns">
-		if(a.report_registration_id IS NULL,d.complaint_main_detail_id,a.report_registration_id) AS "reportRegistrationId",
-		if(a.complaint_main_id IS NULL,d.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
-		if(a.report_emp IS NULL,d.visitor_name,a.report_emp) AS "reportEmp",
-		if(a.patient_mobile IS NULL,d.visitor_mobile,a.patient_mobile) AS "patientMobile",
-		if(a.patient_relation IS NULL,d.patient_relation,a.patient_relation) AS "patientRelation",
-		if(a.report_time IS NULL,d.visitor_date,a.report_time) AS "reportTime",
-		if(a.registration_emp IS NULL,d.reception_employee,a.registration_emp) AS "registrationEmp",
-		if(a.registration_time IS NULL,d.reception_date,a.registration_time )AS "registrationTime",
+		a.report_registration_id AS "reportRegistrationId",
+		a.complaint_main_id AS "complaintMainId",
+		a.report_emp AS "reportEmp",
+		a.patient_mobile AS "patientMobile",
+		a.patient_relation AS "patientRelation",
+		a.report_time AS "reportTime",
+		a.registration_emp AS "registrationEmp",
+		a.registration_time AS "registrationTime",
 		a.dispute_time AS "disputeTime",
-		if(a.is_major IS NULL,d.is_major,a.is_major )AS "isMajor",
-		if(a.summary_of_disputes IS NULL,d.summary_of_disputes,a.summary_of_disputes)AS "summaryOfDisputes",
+		a.is_major AS "isMajor",
+		a.summary_of_disputes AS "summaryOfDisputes",
 		a.focus AS "focus",
 		a.patient_ask AS "patientAsk",
 		a.next_link AS "nextLink",
@@ -34,50 +34,32 @@
 		b.involve_department AS "complaintMain.involveDepartment",
 		b.involve_employee AS "complaintMain.involveEmployee",
 		b.proc_ins_id AS "complaintMain.procInsId",
-		sa.name AS "area.name",
-		u.name AS "djEmployee.name",
-		o.name AS "complaintMain.hospital.name",
-		o1.name AS "complaintMain.department.name",
-		u1.name AS "complaintMain.employee.name",
-		u2.name AS "linkEmployee.name",
-		t.ID_ AS "complaintMain.act.taskId"
+		d.name AS "areaName",
+		t.FILE_PATH AS "files"
 	</sql>
 	
 	<sql id="reportRegistrationJoins">
-		LEFT JOIN REPORT_REGISTRATION a ON a.complaint_main_id = b.complaint_main_id
-		LEFT JOIN COMPLAINT_MAIN_DETAIL d on d.complaint_main_id=b.complaint_main_id
-		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
- 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
- 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
-		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
-		LEFT JOIN SYS_USER u ON u.id=a.registration_emp
-		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+ 		LEFT JOIN SYS_AREA d ON d.id=o.area_id
+ 		LEFT JOIN T_ACCESSORIES t ON  t.ITEM_ID = a.report_registration_id
 	</sql>
     
 	<select id="get" resultType="ReportRegistration">
 		SELECT 
 			<include refid="reportRegistrationColumns"/>
-		FROM COMPLAINT_MAIN b
+		FROM report_registration a
 		<include refid="reportRegistrationJoins"/>
-		WHERE a.report_registration_id = #{reportRegistrationId} OR  d.complaint_main_detail_id=#{reportRegistrationId}
+		WHERE a.report_registration_id = #{reportRegistrationId}
 	</select>
 	
 	<select id="findList" resultType="ReportRegistration">
 		SELECT 
 			<include refid="reportRegistrationColumns"/>
-		FROM COMPLAINT_MAIN b
+		FROM REPORT_REGISTRATION a
 		<include refid="reportRegistrationJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},d.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='enrollment'
-            <if test="user != null and user.id != null and user.id != ''">
-                AND a.create_by LIKE
-                <if test="dbName == 'oracle'">'%'||#{user.id}||'%'</if>
-                <if test="dbName == 'mssql'">'%'+#{user.id}+'%'</if>
-                <if test="dbName == 'mysql'">CONCAT('%', #{user.id}, '%')</if>
-                OR t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
-
-            </if>
+			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="reportEmp != null and reportEmp != ''">
 				AND a.report_emp = #{reportEmp}
 			</if>
@@ -164,7 +146,22 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
+	<insert id="insertzf">
+		insert into T_ACCESSORIES (
+			ACCE_ID,
+			ITEM_ID,
+			FILE_PATH,
+			fjtype
+
+		) values (
+			#{acceId1},
+			#{itemId1},
+			#{files1},
+			#{fjtype}
+		)
+	</insert>
+
 	<update id="update">
 		UPDATE REPORT_REGISTRATION SET
 			report_emp = #{reportEmp},
@@ -179,9 +176,7 @@
 			focus = #{focus},
 			patient_ask = #{patientAsk},
 			next_link = #{nextLink},
-			next_link_man = #{nextLinkMan},
-			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			next_link_man = #{nextLinkMan}
 		WHERE report_registration_id = #{reportRegistrationId}
 	</update>
 	
@@ -190,5 +185,26 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE report_registration_id = #{reportRegistrationId}
 	</update>
-	
+
+    <select id="findFj" resultType="ReportRegistration">
+        SELECT
+          ACCE_ID,
+          ITEM_ID,
+          FILE_PATH,
+          FILE_NAME,
+          FILE_SIZE,
+          UPLOAD_DATE,
+          SHOW_AS_IMAGE,
+          EMPLOYEEID,
+          EMPLOYEENAME,
+          FILETYPE,
+          REALPATH,
+          CHOOSEFILE,
+          thumb_path,
+          is_pic,
+          fjtype
+          FROM T_ACCESSORIES
+          WHERE ITEM_ID = #{reportRegistrationId}
+    </select>
+
 </mapper>

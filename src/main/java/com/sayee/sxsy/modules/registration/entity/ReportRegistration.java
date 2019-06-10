@@ -4,8 +4,6 @@
 package com.sayee.sxsy.modules.registration.entity;
 
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
-import com.sayee.sxsy.modules.sys.entity.Area;
-import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.validation.constraints.NotNull;
@@ -21,12 +19,8 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 	
 	private static final long serialVersionUID = 1L;
 	private String reportRegistrationId;		// 主键
-	private ComplaintMain complaintMain;		// 关联主表主键
-	private String complaintMainId;
-	private User user;  //当前登录人员
-	private Area area;
-	private User djEmployee;		// 登记人员
-	private User linkEmployee;		// 下一环节人员
+	private String complaintMainId;		// 关联主表主键
+    private ComplaintMain complaintMain;       //主表
 	private String reportEmp;		// 报案人姓名
 	private String patientMobile;		// 患方联系方式
 	private String patientRelation;		// 与患者关系
@@ -40,15 +34,9 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 	private String patientAsk;		// 患方要求
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
+	private String areaName;	//地域名
+	private String files;	//附件
+	
 	public ReportRegistration() {
 		super();
 	}
@@ -57,39 +45,31 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		super(id);
 	}
 
-	public User getDjEmployee() {
-		return djEmployee;
+    public ComplaintMain getComplaintMain() {
+        return complaintMain;
+    }
+
+    public void setComplaintMain(ComplaintMain complaintMain) {
+        this.complaintMain = complaintMain;
+    }
+
+    public String getFiles() {
+		return files;
 	}
 
-	public void setDjEmployee(User djEmployee) {
-		this.djEmployee = djEmployee;
+	public void setFiles(String files) {
+		this.files = files;
 	}
 
-	public User getLinkEmployee() {
-		return linkEmployee;
+	public String getAreaName() {
+		return areaName;
 	}
 
-	public void setLinkEmployee(User linkEmployee) {
-		this.linkEmployee = linkEmployee;
+	public void setAreaName(String areaName){
+		this.areaName = areaName;
 	}
 
-	public Area getArea() {
-		return area;
-	}
-
-	public void setArea(Area area) {
-		this.area = area;
-	}
-
-	public ComplaintMain getComplaintMain() {
-		return complaintMain;
-	}
-
-	public void setComplaintMain(ComplaintMain complaintMain) {
-		this.complaintMain = complaintMain;
-	}
-
-	@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
+	@Length(min=0, max=32, message="主键长度必须介于 1 和 32 之间")
 	public String getReportRegistrationId() {
 		return reportRegistrationId;
 	}
