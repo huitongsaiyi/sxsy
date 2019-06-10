@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
  */
 @MyBatisDao
 public interface ReportRegistrationDao extends CrudDao<ReportRegistration> {
+
     public void insertzf( @Param("acceId1") String acceId1,@Param("itemId1") String itemId1,@Param("files1") String files1,@Param("fjtype") String fjtype);
 //    public void findFj(ReportRegistration reportRegistration);
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class ReportRegistrationController extends BaseController {
 
 	@Autowired
 	private ReportRegistrationService reportRegistrationService;
+	@Autowired
+	private PreOperativeConsentService preOperativeConsentService;
 
 	@ModelAttribute
 	public ReportRegistration get(@RequestParam(required=false) String id) {
@@ -77,7 +80,7 @@ public class ReportRegistrationController extends BaseController {
 			String acceId1 = IdGen.uuid();
 			String itemId1 = reportRegistration.getReportRegistrationId();
 			String fjtype1 = request.getParameter("fjtype");
-			reportRegistrationService.savefj(acceId1,itemId1,files,fjtype1);
+			preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
 			if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + reportRegistration.getComplaintMain().getProcInsId());
 			}else {

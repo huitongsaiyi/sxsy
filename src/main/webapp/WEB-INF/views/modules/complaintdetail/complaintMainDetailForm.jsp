@@ -196,8 +196,8 @@
 				<td class="tit"><font color="red">*</font>下一环节处理人：</td>
 				<td >
 						<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintInfo.nextLinkMan}" labelName="" labelValue="${complaintInfo.nextLinkMan}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintMainDetail.linkEmployee.name}" labelName="" labelValue="${complaintMainDetail.linkEmployee.name}"
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 				</td>
 			</tr>
 		</table>

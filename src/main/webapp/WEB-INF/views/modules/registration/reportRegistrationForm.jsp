@@ -163,7 +163,7 @@
                 <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${reportRegistration.files}"/>
                 <form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>
                     <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                <sys:ckfinder input="files" type="images"  uploadPath="/reportReigsation/annex" selectMultiple="false" maxWidth="100" maxHeight="100"/>
+                <sys:ckfinder input="files" type="images"  uploadPath="/reportReigsation/annex" selectMultiple="true" maxWidth="100" maxHeight="100"/>
             </td>
         </div>
     </div>

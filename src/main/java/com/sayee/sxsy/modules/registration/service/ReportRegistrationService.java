@@ -67,7 +67,7 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 
 	@Transactional(readOnly = false)
 	public void save(ReportRegistration reportRegistration) {
-		if(reportRegistration.getCreateBy()==null){
+		if(reportRegistration.getCreateDate()==null){
 			//判断主键ID是否为空
 			reportRegistration.preInsert();
 			reportRegistration.setReportRegistrationId(reportRegistration.getId());

@@ -61,7 +61,7 @@
 					${reportRegistration.complaintMain.caseNumber}
 				</a></td>
 				<td>
-						${reportRegistration.complaintMain.involveHospital}
+						${reportRegistration.complaintMain.hospital.name}
 				</td>
 				<td>
 						${reportRegistration.complaintMain.hospitalGrade}
@@ -83,6 +83,7 @@
 						${reportRegistration.patientMobile}
 				</td>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td>
+    				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">处理</a>
     				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>

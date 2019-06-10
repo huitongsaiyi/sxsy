@@ -13,6 +13,8 @@ import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.act.utils.ActUtils;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +82,8 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 		if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","1");
-			var.put("enrollment_user","thinkgem");
+			User assigness= UserUtils.get(complaintMainDetail.getNextLinkMan());
+			var.put("enrollment_user",assigness.getLoginName());
 			var.put("id","complaint_main_id");
 			// 启动流程
 			actTaskService.startProcess("complaint", "complaint_main", complaintMainDetail.getComplaintMain().getComplaintMainId(), complaintMainDetail.getComplaintMain().getCaseNumber(),var);
