@@ -81,12 +81,12 @@
 					<tr>
 						<td class="tit" width="199px">患者姓名：</td>
 						<td width="522px">
-							<form:input path="complaintMainId.patientName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+							<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 						</td>
 						<td class="tit" width="180px">患者性别：</td>
 						<td >
 								<%--<form:input path="patientSex" htmlEscape="false" maxlength="1" class="input-xlarge "/>--%>
-							<form:select path="complaintMainId.patientSex" class="input-medium">
+							<form:select path="complaintMain.patientSex" class="input-medium">
 								<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 							</form:select>
 						</td>
@@ -94,11 +94,11 @@
 					<tr>
 						<td class="tit">患者年龄：</td>
 						<td >
-							<form:input path="complaintMainId.patientAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
+							<form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
 						</td>
 						<td class="tit">患者身份证号：</td>
 						<td >
-							<form:input path="complaintMainId.patientCard" htmlEscape="false" maxlength="4" class="input-xlarge "/>
+							<form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="4" class="input-xlarge "/>
 						</td>
 					</tr>
 				</table>
@@ -108,12 +108,12 @@
 					<tr >
 						<td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
 						<td width="522px">
-							<sys:treeselect id="complaintMainId.involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="" labelValue="${complaintInfo.involveHospital}"
+							<sys:treeselect id="complaintMain.involveHospital" name="involveHospital" value="${complaintMain.involveHospital}" labelName="" labelValue="${complaintMain.involveHospital}"
 											title="机构" url="/sys/office/treeData?type=2&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
 						</td>
                         <td class="tit" width="199px"><font color="red">*</font>医院等级：</td>
                         <td>
-                            <form:select path="complaintMainId.hospitalGrade" cssStyle="width: 180px">
+                            <form:select path="complaintMain.hospitalGrade" cssStyle="width: 180px">
                                 <form:option value="1">特等</form:option>
                                 <form:option value="2">甲等</form:option>
                                 <form:option value="3">乙等</form:option>
@@ -124,12 +124,12 @@
                     <tr>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
-							<sys:treeselect id="complaintMainId.involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="" labelValue="${complaintInfo.involveDepartment}"
+							<sys:treeselect id="complaintMain.involveDepartment" name="involveDepartment" value="${complaintMain.involveDepartment}" labelName="" labelValue="${complaintMain.involveDepartment}"
 											title="部门" url="/sys/office/treeData?type=2&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 						</td>
                         <td class="tit" width="199px"><font color="red">*</font>医院级别：</td>
                         <td>
-                            <form:select path="complaintMainId.hospitalLevel" cssStyle="width: 180px">
+                            <form:select path="complaintMain.hospitalLevel" cssStyle="width: 180px">
                                 <form:option value="1">一级</form:option>
                                 <form:option value="2">二级</form:option>
                                 <form:option value="3">三级</form:option>
@@ -139,14 +139,21 @@
 					<tr >
 						<td class="tit"><font color="red">*</font>涉及人员：</td>
 						<td class="controls">
-							<sys:treeselect id="complaintMainId.involveEmployee" name="involveEmployee" value="${complaintInfo.involveEmployee}" labelName="" labelValue="${complaintInfo.involveEmployee}"
+							<sys:treeselect id="complaintMainId.involveEmployee" name="involveEmployee" value="${complaintMain.involveEmployee}" labelName="" labelValue="${complaintMain.involveEmployee}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div class="tab-pane fade" id="annex">
+				<input type="hidden"  name="fjtype" value="0">
+				<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
 
+					<input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${reportRegistration.files}"/>
+					<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+						<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+					<sys:ckfinder input="files" type="images"  uploadPath="/reportReigsation/annex" selectMultiple="false" maxWidth="100" maxHeight="100"/>
+				</td>
 			</div>
 		</div>
 
@@ -162,7 +169,7 @@
 			<tr>
 				<td class="tit" width="160px">案件编号：</td>
 				<td width="476px">
-					<form:input path="complaintMainId.caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+					<form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 				</td>
 				<td class="tit" width="160px">登记人员：</td>
 				<td width="476px">

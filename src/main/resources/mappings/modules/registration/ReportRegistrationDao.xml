@@ -23,24 +23,26 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		b.case_number AS "complaintMainId.caseNumber",
-		b.patient_name AS "complaintMainId.patientName",
-		b.patient_sex AS "complaintMainId.patientSex",
-		b.patient_age AS "complaintMainId.patientAge",
-		b.patient_card AS "complaintMainId.patientCard",
-		b.involve_hospital AS "complaintMainId.involveHospital",
-		b.hospital_level AS "complaintMainId.hospitalLevel",
-		b.hospital_grade AS "complaintMainId.hospitalGrade",
-		b.involve_department AS "complaintMainId.involveDepartment",
-		b.involve_employee AS "complaintMainId.involveEmployee",
-		b.proc_ins_id AS "complaintMainId.procInsId",
-		d.name AS "areaName"
+		b.case_number AS "complaintMain.caseNumber",
+		b.patient_name AS "complaintMain.patientName",
+		b.patient_sex AS "complaintMain.patientSex",
+		b.patient_age AS "complaintMain.patientAge",
+		b.patient_card AS "complaintMain.patientCard",
+		b.involve_hospital AS "complaintMain.involveHospital",
+		b.hospital_level AS "complaintMain.hospitalLevel",
+		b.hospital_grade AS "complaintMain.hospitalGrade",
+		b.involve_department AS "complaintMain.involveDepartment",
+		b.involve_employee AS "complaintMain.involveEmployee",
+		b.proc_ins_id AS "complaintMain.procInsId",
+		d.name AS "areaName",
+		t.FILE_PATH AS "files"
 	</sql>
 	
 	<sql id="reportRegistrationJoins">
 		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
  		LEFT JOIN SYS_AREA d ON d.id=o.area_id
+ 		LEFT JOIN T_ACCESSORIES t ON  t.ITEM_ID = a.report_registration_id
 	</sql>
     
 	<select id="get" resultType="ReportRegistration">
@@ -144,7 +146,22 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
+	<insert id="insertzf">
+		insert into T_ACCESSORIES (
+			ACCE_ID,
+			ITEM_ID,
+			FILE_PATH,
+			fjtype
+
+		) values (
+			#{acceId1},
+			#{itemId1},
+			#{files1},
+			#{fjtype}
+		)
+	</insert>
+
 	<update id="update">
 		UPDATE REPORT_REGISTRATION SET
 			report_emp = #{reportEmp},
@@ -168,5 +185,26 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE report_registration_id = #{reportRegistrationId}
 	</update>
-	
+
+    <select id="findFj" resultType="ReportRegistration">
+        SELECT
+          ACCE_ID,
+          ITEM_ID,
+          FILE_PATH,
+          FILE_NAME,
+          FILE_SIZE,
+          UPLOAD_DATE,
+          SHOW_AS_IMAGE,
+          EMPLOYEEID,
+          EMPLOYEENAME,
+          FILETYPE,
+          REALPATH,
+          CHOOSEFILE,
+          thumb_path,
+          is_pic,
+          fjtype
+          FROM T_ACCESSORIES
+          WHERE ITEM_ID = #{reportRegistrationId}
+    </select>
+
 </mapper>

@@ -58,13 +58,13 @@
 		<c:forEach items="${page.list}" var="reportRegistration">
 			<tr>
 				<td><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">
-					${reportRegistration.complaintMainId.caseNumber}
+					${reportRegistration.complaintMain.caseNumber}
 				</a></td>
 				<td>
-					${reportRegistration.complaintMainId.involveHospital}
+					${reportRegistration.complaintMain.involveHospital}
 				</td>
 				<td>
-					${reportRegistration.complaintMainId.hospitalGrade}
+					${reportRegistration.complaintMain.hospitalGrade}
 				</td>
 				<td>
 					${reportRegistration.areaName}
@@ -77,7 +77,7 @@
 					${reportRegistration.disputeTime}
 				</td>
 				<td>
-						${reportRegistration.complaintMainId.patientName}
+						${reportRegistration.complaintMain.patientName}
 				</td>
 				<td>
 					${reportRegistration.patientMobile}

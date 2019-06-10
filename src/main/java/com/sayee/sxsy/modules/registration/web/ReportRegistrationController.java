@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.registration.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.IdGen;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,7 +74,14 @@ public class ReportRegistrationController extends BaseController {
 		if (!beanValidator(model, reportRegistration)){
 			return form(request,reportRegistration, model);
 		}
-		reportRegistrationService.save(reportRegistration);
+		String files = request.getParameter("files");
+		if(StringUtils.isBlank(reportRegistration.getReportRegistrationId())){
+			reportRegistrationService.save(reportRegistration);
+			String acceId1 = IdGen.uuid();
+			String itemId1 = reportRegistration.getReportRegistrationId();
+			String fjtype1 = request.getParameter("fjtype");
+			reportRegistrationService.savefj(acceId1,itemId1,files,fjtype1);
+		}
 		addMessage(redirectAttributes, "保存报案信息成功");
 		return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
 	}
