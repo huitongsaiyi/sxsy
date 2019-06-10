@@ -62,16 +62,34 @@
 	</form:form>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>归属公司</th><th>归属部门</th><th class="sort-column login_name">登录名</th><th class="sort-column name">姓名</th><th>电话</th><th>手机</th><%--<th>角色</th> --%><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead>
+		<tr>
+			<th>序号</th>
+			<th>归属部门</th>
+
+			<th class="sort-column name">姓名</th>
+			<c:if test="${user.office.officeType eq '2'}"><th>职能：</th></c:if>
+			<th class="sort-column login_name">登录名</th>
+			<th>电话</th>
+
+			<%--<th>角色</th> --%>
+			<shiro:hasPermission name="sys:user:edit">
+				<th>操作</th>
+			</shiro:hasPermission>
+		</tr>
+		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="user">
+		<c:forEach items="${page.list}" var="user" varStatus="xuhao">
 			<tr>
-				<td>${user.company.name}</td>
+				<td>${xuhao.index+1}</td>
 				<td>${user.office.name}</td>
-				<td><a href="${ctx}/sys/user/form?id=${user.id}">${user.loginName}</a></td>
 				<td>${user.name}</td>
+				<c:if test="${user.office.officeType eq '2'}">
+					<td>${user.hospitalTitle}</td>
+				</c:if>
+				<td><a href="${ctx}/sys/user/form?id=${user.id}">${user.loginName}</a></td>
 				<td>${user.phone}</td>
-				<td>${user.mobile}</td><%--
+				<%--
 				<td>${user.roleNames}</td> --%>
 				<shiro:hasPermission name="sys:user:edit"><td>
     				<a href="${ctx}/sys/user/form?id=${user.id}&officeType=${officeType}">修改</a>

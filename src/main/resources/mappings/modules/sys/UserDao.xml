@@ -80,6 +80,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date,
 		a.del_flag,
+		a.post As "post",
+		a.hospital_title AS "hospitalTitle",
 
 		c.name AS "company.name",
 		c.parent_id AS "company.parent.id",
@@ -91,7 +93,7 @@
 		o.name AS "office.name",
 		o.parent_id AS "office.parent.id",
 		o.parent_ids AS "office.parentIds",
-
+		c.office_type AS "office.officeType",
 		oa.id AS "office.area.id",
 		oa.name AS "office.area.name",
 		oa.parent_id AS "office.area.parent.id",
@@ -254,7 +256,11 @@
 			remarks, 
 			login_flag, 
 			photo, 
-			del_flag
+			del_flag,
+			post,
+		    hospital_title
+
+
 		) VALUES (
 			#{id}, 
 			#{company.id}, 
@@ -274,7 +280,10 @@
 			#{remarks}, 
 			#{loginFlag}, 
 			#{photo}, 
-			#{delFlag}
+			#{delFlag},
+			#{post},
+			#{hospitalTitle}
+
 		)
 	</insert>
 
@@ -295,7 +304,9 @@
 			update_date = #{updateDate}, 
 			remarks = #{remarks},
 			login_flag = #{loginFlag},
-			photo = #{photo}
+			photo = #{photo},
+			post=#{post},
+			hospital_title=#{hospitalTitle}
 		WHERE id = #{id}
 	</update>
 
