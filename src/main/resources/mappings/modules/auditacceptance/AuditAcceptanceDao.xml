@@ -3,8 +3,8 @@
 <mapper namespace="com.sayee.sxsy.modules.auditacceptance.dao.AuditAcceptanceDao">
     
 	<sql id="auditAcceptanceColumns">
-		a.audit_acceptance_id AS "auditAcceptanceId",
-		a.complaint_main_id AS "complaintMainId",
+		if(a.audit_acceptance_id IS NULL,r.report_registration_id,a.audit_acceptance_id) AS "auditAcceptanceId",
+		if(a.complaint_main_id IS NULL,r.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
 		a.case_source AS "caseSource",
 		a.guarantee_time AS "guaranteeTime",
 		a.insurance_company AS "insuranceCompany",
@@ -19,27 +19,53 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		b.case_number AS "complaintMain.caseNumber",
+		b.patient_name AS "complaintMain.patientName",
+		b.involve_hospital AS "complaintMain.involveHospital",
+		b.proc_ins_id AS "complaintMain.procInsId",
+		o.name AS "complaintMain.hospital.name",
+		o1.name AS "complaintMain.department.name",
+		u1.name AS "complaintMain.employee.name",
+		u2.name AS "linkEmployee.name",
+		t.ID_ AS "complaintMain.act.taskId",
+		t1.FILE_PATH AS "files"
 	</sql>
 	
 	<sql id="auditAcceptanceJoins">
+		LEFT JOIN audit_acceptance a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN REPORT_REGISTRATION r ON r.complaint_main_id = b.complaint_main_id
+		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+		LEFT JOIN T_ACCESSORIES t1 ON  t1.ITEM_ID = a.audit_acceptance_id
 	</sql>
     
 	<select id="get" resultType="AuditAcceptance">
 		SELECT 
 			<include refid="auditAcceptanceColumns"/>
-		FROM audit_acceptance a
+		FROM COMPLAINT_MAIN b
 		<include refid="auditAcceptanceJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.audit_acceptance_id = #{id} OR r.report_registration_id = #{id}
 	</select>
 	
 	<select id="findList" resultType="AuditAcceptance">
 		SELECT 
 			<include refid="auditAcceptanceColumns"/>
-		FROM audit_acceptance a
+		FROM COMPLAINT_MAIN b
 		<include refid="auditAcceptanceJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='check'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.create_by LIKE
+				<if test="dbName == 'oracle'">'%'||#{user.id}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{user.id}+'%'</if>
+				<if test="dbName == 'mysql'">CONCAT('%', #{user.id}, '%')</if>
+				OR t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+
 			<if test="beginGuaranteeTime != null and endGuaranteeTime != null and beginGuaranteeTime != '' and endGuaranteeTime != ''">
 				AND a.guarantee_time BETWEEN #{beginGuaranteeTime} AND #{endGuaranteeTime}
 			</if>
@@ -63,7 +89,7 @@
 	<select id="findAllList" resultType="AuditAcceptance">
 		SELECT 
 			<include refid="auditAcceptanceColumns"/>
-		FROM audit_acceptance a
+		FROM AUDIT_ACCEPTANCE a
 		<include refid="auditAcceptanceJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -79,7 +105,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO audit_acceptance(
+		INSERT INTO AUDIT_ACCEPTANCE(
 			audit_acceptance_id,
 			complaint_main_id,
 			case_source,
@@ -119,7 +145,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE audit_acceptance SET 	
+		UPDATE AUDIT_ACCEPTANCE SET
 			audit_acceptance_id = #{auditAcceptanceId},
 			complaint_main_id = #{complaintMainId},
 			case_source = #{caseSource},
@@ -134,13 +160,13 @@
 			next_link_man = #{nextLinkMan},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
-		WHERE id = #{id}
+		WHERE audit_acceptance_id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE audit_acceptance SET 
+		UPDATE AUDIT_ACCEPTANCE SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE audit_acceptance_id = #{id}
 	</update>
 	
 </mapper>

@@ -263,13 +263,14 @@
 				下一环节处理人：
 			</td>
 			<td>
-				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
+				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${auditAcceptance.nextLinkMan}" labelName="" labelValue="${auditAcceptance.linkEmployee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
 			</td>
 		</tr>
 	</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

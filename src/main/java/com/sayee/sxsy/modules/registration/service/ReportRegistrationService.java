@@ -67,7 +67,8 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 
 	@Transactional(readOnly = false)
 	public void save(ReportRegistration reportRegistration) {
-		if(reportRegistration.getCreateDate()==null){
+//		if(reportRegistration.getCreateDate()==null){
+        if(StringUtils.isBlank(reportRegistration.getCreateBy().getId())){
 			//判断主键ID是否为空
 			reportRegistration.preInsert();
 			reportRegistration.setReportRegistrationId(reportRegistration.getId());
@@ -101,6 +102,7 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 	public void delete(ReportRegistration reportRegistration) {
 		super.delete(reportRegistration);
 	}
+
 	@Transactional(readOnly = false)
 	public void savefj(String acceId1,String itemId1,String files1,String fjtype){
 		super.dao.insertzf(acceId1,itemId1,files1,fjtype);
