@@ -64,11 +64,20 @@ public class AuditAcceptanceController extends BaseController {
 	@RequiresPermissions("auditacceptance:auditAcceptance:edit")
 	@RequestMapping(value = "save")
 	public String save(AuditAcceptance auditAcceptance, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, auditAcceptance)){
-			return form(auditAcceptance, model);
-		}
-		auditAcceptanceService.save(auditAcceptance);
-		addMessage(redirectAttributes, "保存审核受理成功");
+//		if (!beanValidator(model, auditAcceptance)){
+//			return form(auditAcceptance, model);
+//		}
+        try {
+            auditAcceptanceService.save(auditAcceptance);
+            if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
+                addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
+            }else {
+                addMessage(redirectAttributes, "保存审核受理成功");;
+            }
+        } catch (Exception e) {
+            logger.error("启动纠纷调解流程失败：", e);
+            addMessage(redirectAttributes, "系统内部错误,请联系管理员！");
+        }
 		return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
 	}
 	

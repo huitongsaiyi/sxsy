@@ -34,7 +34,7 @@ public class ReportRegistrationController extends BaseController {
 
 	@Autowired
 	private ReportRegistrationService reportRegistrationService;
-	
+
 	@ModelAttribute
 	public ReportRegistration get(@RequestParam(required=false) String id) {
 		ReportRegistration entity = null;
@@ -46,11 +46,11 @@ public class ReportRegistrationController extends BaseController {
 		}
 		return entity;
 	}
-	
+
 	@RequiresPermissions("registration:reportRegistration:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(ReportRegistration reportRegistration, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<ReportRegistration> page = reportRegistrationService.findPage(new Page<ReportRegistration>(request, response), reportRegistration); 
+		Page<ReportRegistration> page = reportRegistrationService.findPage(new Page<ReportRegistration>(request, response), reportRegistration);
 		model.addAttribute("page", page);
 		return "modules/registration/reportRegistrationList";
 	}
@@ -71,21 +71,28 @@ public class ReportRegistrationController extends BaseController {
 	@RequiresPermissions("registration:reportRegistration:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, reportRegistration)){
-			return form(request,reportRegistration, model);
-		}
 		String files = request.getParameter("files");
-		if(StringUtils.isBlank(reportRegistration.getReportRegistrationId())){
+		try {
 			reportRegistrationService.save(reportRegistration);
 			String acceId1 = IdGen.uuid();
 			String itemId1 = reportRegistration.getReportRegistrationId();
 			String fjtype1 = request.getParameter("fjtype");
 			reportRegistrationService.savefj(acceId1,itemId1,files,fjtype1);
+			if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
+				addMessage(redirectAttributes, "流程已启动，流程ID：" + reportRegistration.getComplaintMain().getProcInsId());
+			}else {
+				addMessage(redirectAttributes, "保存报案登记成功");
+			}
+		} catch (Exception e) {
+			logger.error("启动纠纷调解流程失败：", e);
+			addMessage(redirectAttributes, "系统内部错误！");
 		}
-		addMessage(redirectAttributes, "保存报案信息成功");
+//		if (!beanValidator(model, reportRegistration)){
+//			return form(request,reportRegistration, model);
+//		}
 		return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
 	}
-	
+
 	@RequiresPermissions("registration:reportRegistration:edit")
 	@RequestMapping(value = "delete")
 	public String delete(ReportRegistration reportRegistration, RedirectAttributes redirectAttributes) {

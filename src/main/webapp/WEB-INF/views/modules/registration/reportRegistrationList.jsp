@@ -61,26 +61,26 @@
 					${reportRegistration.complaintMain.caseNumber}
 				</a></td>
 				<td>
-					${reportRegistration.complaintMain.involveHospital}
+						${reportRegistration.complaintMain.involveHospital}
 				</td>
 				<td>
-					${reportRegistration.complaintMain.hospitalGrade}
+						${reportRegistration.complaintMain.hospitalGrade}
 				</td>
 				<td>
-					${reportRegistration.areaName}
+						${reportRegistration.area.name}
 				</td>
 
 				<td>
 						${reportRegistration.reportEmp}
 				</td>
 				<td>
-					${reportRegistration.disputeTime}
+						${reportRegistration.disputeTime}
 				</td>
 				<td>
 						${reportRegistration.complaintMain.patientName}
 				</td>
 				<td>
-					${reportRegistration.patientMobile}
+						${reportRegistration.patientMobile}
 				</td>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td>
     				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">详情</a>
