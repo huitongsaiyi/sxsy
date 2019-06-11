@@ -19,7 +19,7 @@ import com.sayee.sxsy.common.persistence.DataEntity;
  * @version 2019-06-10
  */
 public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String investigateEvidenceId;		// 调查取证主键
 	private String complaintMainId;		// 主表主键
@@ -40,7 +40,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	private ComplaintMain complaintMain;		// 关联主表主键
 	private User user;  //当前登录人员
 	private Area area;
-	private User djEmployee;		// 登记人员
+	private User dcEmployee;		// 登记人员
 	private User linkEmployee;		// 下一环节人员
 	private ReportRegistration reportRegistration;//报案人姓名
 	private RespondentInfo respondentInfo;//被调查人信息
@@ -74,12 +74,12 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 		this.linkEmployee = linkEmployee;
 	}
 
-	public User getDjEmployee() {
-		return djEmployee;
+	public User getDcEmployee() {
+		return dcEmployee;
 	}
 
-	public void setDjEmployee(User djEmployee) {
-		this.djEmployee = djEmployee;
+	public void setDcEmployee(User dcEmployee) {
+		this.dcEmployee = dcEmployee;
 	}
 
 	public Area getArea() {
@@ -126,7 +126,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setInvestigateEvidenceId(String investigateEvidenceId) {
 		this.investigateEvidenceId = investigateEvidenceId;
 	}
-	
+
 	@Length(min=0, max=32, message="主表主键长度必须介于 0 和 32 之间")
 	public String getComplaintMainId() {
 		return complaintMainId;
@@ -135,7 +135,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setComplaintMainId(String complaintMainId) {
 		this.complaintMainId = complaintMainId;
 	}
-	
+
 	@Length(min=0, max=20, message="调查开始时间长度必须介于 0 和 20 之间")
 	public String getStartTime() {
 		return startTime;
@@ -144,7 +144,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	
+
 	@Length(min=0, max=20, message="调查结束时间长度必须介于 0 和 20 之间")
 	public String getEndTime() {
 		return endTime;
@@ -153,7 +153,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
+
 	@Length(min=0, max=200, message="调查地点长度必须介于 0 和 200 之间")
 	public String getAddress() {
 		return address;
@@ -162,7 +162,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	@Length(min=0, max=500, message="调查事由长度必须介于 0 和 500 之间")
 	public String getCause() {
 		return cause;
@@ -171,7 +171,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setCause(String cause) {
 		this.cause = cause;
 	}
-	
+
 	@Length(min=0, max=32, message="调查人长度必须介于 0 和 32 之间")
 	public String getInvestigator() {
 		return investigator;
@@ -180,7 +180,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setInvestigator(String investigator) {
 		this.investigator = investigator;
 	}
-	
+
 	@Length(min=0, max=32, message="调查记录人长度必须介于 0 和 32 之间")
 	public String getNoteTaker() {
 		return noteTaker;
@@ -189,7 +189,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setNoteTaker(String noteTaker) {
 		this.noteTaker = noteTaker;
 	}
-	
+
 	@Length(min=0, max=500, message="笔录内容长度必须介于 0 和 500 之间")
 	public String getContent() {
 		return content;
@@ -198,7 +198,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 	@Length(min=0, max=500, message="反应焦点长度必须介于 0 和 500 之间")
 	public String getFocus() {
 		return focus;
@@ -207,7 +207,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setFocus(String focus) {
 		this.focus = focus;
 	}
-	
+
 	@Length(min=0, max=1, message="被调查类型 1 患方  2 医方长度必须介于 0 和 1 之间")
 	public String getInvestigateType() {
 		return investigateType;
@@ -216,7 +216,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setInvestigateType(String investigateType) {
 		this.investigateType = investigateType;
 	}
-	
+
 	@Length(min=0, max=32, message="处理人长度必须介于 0 和 32 之间")
 	public String getHandlePeople() {
 		return handlePeople;
@@ -225,7 +225,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setHandlePeople(String handlePeople) {
 		this.handlePeople = handlePeople;
 	}
-	
+
 	@Length(min=0, max=10, message="处理日期长度必须介于 0 和 10 之间")
 	public String getHandleTime() {
 		return handleTime;
@@ -234,7 +234,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setHandleTime(String handleTime) {
 		this.handleTime = handleTime;
 	}
-	
+
 	@Length(min=0, max=32, message="下一处理环节长度必须介于 0 和 32 之间")
 	public String getNextLink() {
 		return nextLink;
@@ -243,7 +243,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setNextLink(String nextLink) {
 		this.nextLink = nextLink;
 	}
-	
+
 	@Length(min=0, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
 	public String getNextLinkMan() {
 		return nextLinkMan;
@@ -252,5 +252,5 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setNextLinkMan(String nextLinkMan) {
 		this.nextLinkMan = nextLinkMan;
 	}
-	
+
 }

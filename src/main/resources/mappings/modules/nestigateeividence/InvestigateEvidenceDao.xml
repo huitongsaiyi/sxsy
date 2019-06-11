@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.modules.nestigateeividence.dao.InvestigateEvidenceDao">
-    
+
 	<sql id="investigateEvidenceColumns">
-        if(a.investigate_evidence_id IS NULL,d.complaint_main_detail_id,a.investigate_evidence_id) AS "investigateEvidenceId",
-        if(a.complaint_main_id IS NULL,d.complaint_main_id,a.complaint_main_id)AS "complaintMainId",
+        if(a.investigate_evidence_id IS NULL,au.audit_acceptance_id,a.investigate_evidence_id) AS "investigateEvidenceId",
+        if(a.complaint_main_id IS NULL,au.audit_acceptance_id,a.complaint_main_id)AS "complaintMainId",
 		a.start_time AS "startTime",
 		a.end_time AS "endTime",
 		a.address AS "address",
@@ -35,22 +35,22 @@
 		b.involve_employee AS "complaintMain.involveEmployee",
 		b.proc_ins_id AS "complaintMain.procInsId",
 		sa.name AS "area.name",
-		u.name AS "djEmployee.name",
+		u.name AS "dcEmployee.name",
 		o.name AS "complaintMain.hospital.name",
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
 		au.policy_number AS "auditAcceptance.policyNumber",
-		r.report_emp AS "reportRegistration.reportEmp",
-		r.dispute_time AS "reportRegistration.disputeTime"
+	    r.report_emp AS "reportRegistration.reportEmp",
+		r.dispute_time AS "reportRegistration.disputeTime",
+		r.patient_mobile AS "reportRegistration.patientMobile"
 	</sql>
-	
+
 	<sql id="investigateEvidenceJoins">
         LEFT JOIN INVESTIGATE_EVIDENCE  a ON a.complaint_main_id = b.complaint_main_id
         LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
-        LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
-		LEFT JOIN COMPLAINT_MAIN_DETAIL d on d.complaint_main_id=b.complaint_main_id
+		LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
@@ -59,22 +59,30 @@
 		LEFT JOIN SYS_USER u ON u.id=a.investigator
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 	</sql>
-    
+
 	<select id="get" resultType="InvestigateEvidence">
-		SELECT 
-			<include refid="investigateEvidenceColumns"/>
+		SELECT
+		<include refid="investigateEvidenceColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="investigateEvidenceJoins"/>
-		WHERE a.investigate_evidence_id = #{investigateEvidenceId} OR d.complaint_main_detail_id = #{investigateEvidenceId}
+		WHERE a.investigate_evidence_id = #{investigateEvidenceId} OR au.audit_acceptance_id = #{investigateEvidenceId}
 	</select>
-	
+
 	<select id="findList" resultType="InvestigateEvidence">
-		SELECT 
-			<include refid="investigateEvidenceColumns"/>
+		SELECT
+		<include refid="investigateEvidenceColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="investigateEvidenceJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},d.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='enrollment'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},au.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='forensics'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND (a.create_by LIKE
+				<if test="dbName == 'oracle'">'%'||#{user.id}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{user.id}+'%'</if>
+				<if test="dbName == 'mysql'">CONCAT('%', #{user.id}, '%')</if>
+				OR t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%') )
+
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -85,15 +93,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="InvestigateEvidence">
-		SELECT 
-			<include refid="investigateEvidenceColumns"/>
+		SELECT
+		<include refid="investigateEvidenceColumns"/>
 		FROM INVESTIGATE_EVIDENCE a
 		<include refid="investigateEvidenceJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -103,7 +111,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO INVESTIGATE_EVIDENCE(
 			investigate_evidence_id,
@@ -149,7 +157,7 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
 		UPDATE INVESTIGATE_EVIDENCE SET
 			investigate_evidence_id = #{investigateEvidenceId},
@@ -171,11 +179,11 @@
 			update_date = #{updateDate}
 		WHERE investigate_evidence_id = #{investigateEvidenceId}
 	</update>
-	
+
 	<update id="delete">
 		UPDATE INVESTIGATE_EVIDENCE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE investigate_evidence_id = #{investigateEvidenceId}
 	</update>
-	
+
 </mapper>
