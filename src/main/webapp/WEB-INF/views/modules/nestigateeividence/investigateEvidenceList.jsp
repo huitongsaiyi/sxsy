@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/nestigateeividence/investigateEvidence/">调查取证列表</a></li>
+
 		<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><li><a href="${ctx}/nestigateeividence/investigateEvidence/form">添加</a></li></shiro:hasPermission>
+
 	</ul>
 	<form:form id="searchForm" modelAttribute="investigateEvidence" action="${ctx}/nestigateeividence/investigateEvidence/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -78,11 +80,14 @@
 					${investigateEvidence.complaintMain.patientName}
 				</td>
 				<td>
-					${investigateEvidence.complaintMain.patientMobile}
+					${investigateEvidence.reportRegistration.patientMobile}
 				</td>
 				<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><td>
-    				<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.id}">修改</a>
+    				<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}">处理</a>
+    				<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}&type=view">详情</a>
+<%--
 					<a href="${ctx}/nestigateeividence/investigateEvidence/delete?id=${investigateEvidence.id}" onclick="return confirmx('确认要删除该成功吗？', this.href)">删除</a>
+--%>
 				</td>
 				</shiro:hasPermission>
 			</tr>
@@ -91,4 +96,5 @@
 	</table>
 	<div class="pagination">${page}</div>
 </body>
+</html>
 </html>
