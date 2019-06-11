@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.assessapply.dao.AssessApplyDao">
+    
+	<sql id="assessApplyColumns">
+		a.assess_apply_id AS "assessApplyId",
+		a.complaint_main_id AS "complaintMainId",
+		a.patient_applyer AS "patientApplyer",
+		a.patient_relation AS "patientRelation",
+		a.patient_mobile AS "patientMobile",
+		a.patient_name AS "patientName",
+		a.patient_sex AS "patientSex",
+		a.patient_age AS "patientAge",
+		a.involve_hospital AS "involveHospital",
+		a.patient__apply_matter AS "patientApplyMatter",
+		a.hospital_apply AS "hospitalApply",
+		a.agent AS "agent",
+		a.hospital_mobile AS "hospitalMobile",
+		a.hospital_name AS "hospitalName",
+		a.hospital_age AS "hospitalAge",
+		a.hospital_sex AS "hospitalSex",
+		a.hospital_apply_matter AS "hospitalApplyMatter",
+		a.apply_type AS "applyType",
+		a.handle_people AS "handlePeople",
+		a.handle_time AS "handleTime",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="assessApplyJoins">
+		LEFT JOIN SYS_OFFICE o11 ON o11.id = a.hospital_apply
+	</sql>
+    
+	<select id="get" resultType="AssessApply">
+		SELECT 
+			<include refid="assessApplyColumns"/>
+		FROM ASSESS_APPLY a
+		<include refid="assessApplyJoins"/>
+		WHERE a.assess_apply_id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AssessApply">
+		SELECT 
+			<include refid="assessApplyColumns"/>
+		FROM ASSESS_APPLY a
+		<include refid="assessApplyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="patientApplyer != null and patientApplyer != ''">
+				AND a.patient_applyer LIKE 
+					<if test="dbName == 'oracle'">'%'||#{patientApplyer}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{patientApplyer}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{patientApplyer},'%')</if>
+			</if>
+			<if test="patientMobile != null and patientMobile != ''">
+				AND a.patient_mobile LIKE 
+					<if test="dbName == 'oracle'">'%'||#{patientMobile}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{patientMobile}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{patientMobile},'%')</if>
+			</if>
+			<if test="patientName != null and patientName != ''">
+				AND a.patient_name = #{patientName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AssessApply">
+		SELECT 
+			<include refid="assessApplyColumns"/>
+		FROM ASSESS_APPLY a
+		<include refid="assessApplyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ASSESS_APPLY(
+			assess_apply_id,
+			complaint_main_id,
+			patient_applyer,
+			patient_relation,
+			patient_mobile,
+			patient_name,
+			patient_sex,
+			patient_age,
+			involve_hospital,
+			patient__apply_matter,
+			hospital_apply,
+			agent,
+			hospital_mobile,
+			hospital_name,
+			hospital_age,
+			hospital_sex,
+			hospital_apply_matter,
+			apply_type,
+			handle_people,
+			handle_time,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{assessApplyId},
+			#{complaintMainId},
+			#{patientApplyer},
+			#{patientRelation},
+			#{patientMobile},
+			#{patientName},
+			#{patientSex},
+			#{patientAge},
+			#{involveHospital},
+			#{patientApplyMatter},
+			#{hospitalApply},
+			#{agent},
+			#{hospitalMobile},
+			#{hospitalName},
+			#{hospitalAge},
+			#{hospitalSex},
+			#{hospitalApplyMatter},
+			#{applyType},
+			#{handlePeople},
+			#{handleTime},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ASSESS_APPLY SET
+			assess_apply_id = #{assessApplyId},
+			complaint_main_id = #{complaintMainId},
+			patient_applyer = #{patientApplyer},
+			patient_relation = #{patientRelation},
+			patient_mobile = #{patientMobile},
+			patient_name = #{patientName},
+			patient_sex = #{patientSex},
+			patient_age = #{patientAge},
+			involve_hospital = #{involveHospital},
+			patient__apply_matter = #{patientApplyMatter},
+			hospital_apply = #{hospitalApply},
+			agent = #{agent},
+			hospital_mobile = #{hospitalMobile},
+			hospital_name = #{hospitalName},
+			hospital_age = #{hospitalAge},
+			hospital_sex = #{hospitalSex},
+			hospital_apply_matter = #{hospitalApplyMatter},
+			apply_type = #{applyType},
+			handle_people = #{handlePeople},
+			handle_time = #{handleTime},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE assess_apply_id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE ASSESS_APPLY SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE assess_apply_id = #{id}
+	</update>
+	
+</mapper>
