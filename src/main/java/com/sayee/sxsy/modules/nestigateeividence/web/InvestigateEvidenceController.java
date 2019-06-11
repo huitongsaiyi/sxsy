@@ -58,7 +58,8 @@ public class InvestigateEvidenceController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(InvestigateEvidence investigateEvidence, Model model) {
 		model.addAttribute("investigateEvidence", investigateEvidence);
-		return "modules/nestigateeividence/investigateEvidenceForm";
+			return "modules/nestigateeividence/investigateEvidenceForm";
+
 	}
 
 	@RequiresPermissions("nestigateeividence:investigateEvidence:edit")
