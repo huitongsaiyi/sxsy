@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.modules.nestigateeividence.dao.InvestigateEvidenceDao">
-    
+
 	<sql id="investigateEvidenceColumns">
         if(a.investigate_evidence_id IS NULL,au.audit_acceptance_id,a.investigate_evidence_id) AS "investigateEvidenceId",
         if(a.complaint_main_id IS NULL,au.audit_acceptance_id,a.complaint_main_id)AS "complaintMainId",
@@ -46,7 +46,7 @@
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile"
 	</sql>
-	
+
 	<sql id="investigateEvidenceJoins">
         LEFT JOIN INVESTIGATE_EVIDENCE  a ON a.complaint_main_id = b.complaint_main_id
         LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
@@ -59,18 +59,18 @@
 		LEFT JOIN SYS_USER u ON u.id=a.investigator
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 	</sql>
-    
+
 	<select id="get" resultType="InvestigateEvidence">
-		SELECT 
-			<include refid="investigateEvidenceColumns"/>
+		SELECT
+		<include refid="investigateEvidenceColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="investigateEvidenceJoins"/>
 		WHERE a.investigate_evidence_id = #{investigateEvidenceId} OR au.audit_acceptance_id = #{investigateEvidenceId}
 	</select>
-	
+
 	<select id="findList" resultType="InvestigateEvidence">
-		SELECT 
-			<include refid="investigateEvidenceColumns"/>
+		SELECT
+		<include refid="investigateEvidenceColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="investigateEvidenceJoins"/>
 		<where>
@@ -93,15 +93,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="InvestigateEvidence">
-		SELECT 
-			<include refid="investigateEvidenceColumns"/>
+		SELECT
+		<include refid="investigateEvidenceColumns"/>
 		FROM INVESTIGATE_EVIDENCE a
 		<include refid="investigateEvidenceJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -111,7 +111,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO INVESTIGATE_EVIDENCE(
 			investigate_evidence_id,
@@ -157,7 +157,7 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
 		UPDATE INVESTIGATE_EVIDENCE SET
 			investigate_evidence_id = #{investigateEvidenceId},
@@ -179,11 +179,11 @@
 			update_date = #{updateDate}
 		WHERE investigate_evidence_id = #{investigateEvidenceId}
 	</update>
-	
+
 	<update id="delete">
 		UPDATE INVESTIGATE_EVIDENCE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE investigate_evidence_id = #{investigateEvidenceId}
 	</update>
-	
+
 </mapper>
