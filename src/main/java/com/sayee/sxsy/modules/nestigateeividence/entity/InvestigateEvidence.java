@@ -40,7 +40,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	private ComplaintMain complaintMain;		// 关联主表主键
 	private User user;  //当前登录人员
 	private Area area;
-	private User djEmployee;		// 登记人员
+	private User dcEmployee;		// 登记人员
 	private User linkEmployee;		// 下一环节人员
 	private ReportRegistration reportRegistration;//报案人姓名
 	private RespondentInfo respondentInfo;//被调查人信息
@@ -74,12 +74,12 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 		this.linkEmployee = linkEmployee;
 	}
 
-	public User getDjEmployee() {
-		return djEmployee;
+	public User getDcEmployee() {
+		return dcEmployee;
 	}
 
-	public void setDjEmployee(User djEmployee) {
-		this.djEmployee = djEmployee;
+	public void setDcEmployee(User dcEmployee) {
+		this.dcEmployee = dcEmployee;
 	}
 
 	public Area getArea() {
