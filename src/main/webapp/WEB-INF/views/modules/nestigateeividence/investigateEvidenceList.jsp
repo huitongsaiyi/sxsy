@@ -19,9 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/nestigateeividence/investigateEvidence/">调查取证列表</a></li>
-
+<%--
 		<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><li><a href="${ctx}/nestigateeividence/investigateEvidence/form">添加</a></li></shiro:hasPermission>
-
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="investigateEvidence" action="${ctx}/nestigateeividence/investigateEvidence/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

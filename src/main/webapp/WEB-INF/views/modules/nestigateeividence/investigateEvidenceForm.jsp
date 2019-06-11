@@ -148,7 +148,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="tab-pane fade in active" id="investigation2">
+					<div class="tab-pane " id="investigation2">
 						<table class="table-form">
 							<tr >
 								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
@@ -296,7 +296,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="tab-pane fade in active" id="investigation4">
+					<div class="tab-pane fade" id="investigation4">
 						<table>
 							<tr >
 								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
