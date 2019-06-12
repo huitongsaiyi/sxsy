@@ -259,7 +259,7 @@
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="investigation3">
-						<table>
+						<table class="table-form">
 							<tr >
 								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
 								<td style="display: inline-block; width: 900px; border: hidden;" >
@@ -287,55 +287,55 @@
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
-								<td style="display: inline-block; width: 445px; border: hidden;">
-									<form:input path="respondentInfo3.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
+								<td style="display: inline-block; width: 448px; border: hidden;">
+									<form:input path="respondentInfo3.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 438px;"/>
 								</td>
 
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>职务:</td>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 6px;width: 120px; "><font color="red">*</font>职务:</td>
 								<td style="display: inline-block; width: 302px; border: hidden;">
-									<form:input path="respondentInfo3.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
+									<form:input path="respondentInfo3.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 2px;"/>
 								</td>
 							</tr>
 						</table>
 					</div>
 					<div class="tab-pane fade" id="investigation4">
-						<table>
+						<table class="table-form">
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
 								<td style="display: inline-block; width: 900px; border: hidden;" >
 									<form:radiobuttons path="respondentInfo4.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
+								<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
 								<td style="display: inline-block; width: 115px;border: hidden;">
 									<form:input path="respondentInfo4.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
 								</td>
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 80px;"><font color="red">*</font>性别：</td>
-								<td style=" display: inline-block;margin-left: -1px; width: 60px; border: hidden;">
+								<td class="tit" style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: -1px;width: 80px;"><font color="red">*</font>性别：</td>
+								<td style=" display: inline-block;margin-left: 0px; width: 60px; border: hidden;">
 									<form:select path="respondentInfo4.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
 										<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 									</form:select>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 65px;border: hidden;">
-									<form:input path="respondentInfo4.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 50px;"/>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
+								<td style="display: inline-block;margin-left: 0px; width: 65px;border: hidden;">
+									<form:input path="respondentInfo4.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 58px;"/>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>联系方式：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;">
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 120px; "><font color="red">*</font>联系方式：</td>
+								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;margin-left: 2px;">
 									<form:input path="respondentInfo4.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
-								<td style="display: inline-block; width: 445px; border: hidden;">
-									<form:input path="respondentInfo4.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
+								<td style="display: inline-block; width: 448px; border: hidden;">
+									<form:input path="respondentInfo4.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 438px;"/>
 								</td>
 
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>职务:</td>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 6px;width: 120px; "><font color="red">*</font>职务:</td>
 								<td style="display: inline-block; width: 302px; border: hidden;">
-									<form:input path="respondentInfo4.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
+									<form:input path="respondentInfo4.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 2px;"/>
 								</td>
 							</tr>
 						</table>
@@ -345,44 +345,48 @@
 			<div class="tab-pane fade" id="hospital">
 				<table class="table-form">
 
-					<th style="display: inline-block; margin-top: 38px; margin-left: 95px;" >患方笔录：
+					<tr style=" " >
+						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方笔录：</td>
 						<input type="hidden"  name="fjtype1" value="3">
-					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: 35px; border: hidden;">
+					<td style="width: 450px; ">
 
 						<input type="hidden" id="files1" name="files" htmlEscape="false" class="input-xlarge"  value="${files1}"/>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files1" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Huan" selectMultiple="true" />
+						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Huan" selectMultiple="true" /></div>
 					</td>
 
-					</th>
-					<th style="display:block; margin-left: -1055px; margin-top: 40px;" >患方补充材料：
+					</tr>
+					<tr style="" >
+						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方补充材料：</td>
 						<input type="hidden" name="fjtype2" value="4">
-					<td style="width: 450px; margin-left:182px;  display:inline-block; height: 50px; margin-top: -150px; border: hidden;">
+					<td style="width: 450px; ">
 						<input type="hidden" id="files2" name="files1" htmlEscape="false" class="input-xlarge" value="${files2}" />
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files2" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Huan" selectMultiple="true" />
+						<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Huan" selectMultiple="true" /></div>
 					</td>
 
-					</th>
-					<th style="display: inline-block; margin-top: 80px; margin-left:-545px;" >医方笔录：
+					</tr>
+					<tr style="" >
+						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">医方笔录：</td>
 						<input type="hidden"  name="fjtype3" value="5">
-					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: 70px; border: hidden;">
+					<td style="width: 450px; ">
 
 						<input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"  value="${files3}"/>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files3" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Doctor" selectMultiple="true" />
+						<div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Doctor" selectMultiple="true" /></div>
 					</td>
 
-					</th>
-					<th style="display:block; margin-top:50px;margin-left: -1055px; " >医方补充材料：
+					</tr>
+					<tr style="" >
+						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">医方补充材料：</td>
 						<input type="hidden" name="fjtype4" value="6">
-					<td style="width: 450px; margin-left:182px;  display:inline-block; height: 50px; margin-top: -50px; border: hidden;">
+					<td style="width: 450px;">
 						<input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge" value="${files4}" />
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files4" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Doctor" selectMultiple="true" />
+						<div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Doctor" selectMultiple="true" /></div>
 					</td>
 
-					</th>
+					</tr>
 				</table>
 
 
