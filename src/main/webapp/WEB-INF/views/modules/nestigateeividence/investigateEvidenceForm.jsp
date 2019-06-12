@@ -43,8 +43,13 @@
 		<form:hidden path="complaintMain.act.procDefId"/>
 		<form:hidden path="complaintMain.procInsId"/>
 		<form:hidden id="flag" path="complaintMain.act.flag"/>
+		<form:hidden path="investigateEvidence.investigateEvidenceId"/>
+		<form:hidden path="investigateEvidence.complaintMainId"/>
+		<form:hidden path="investigateEvidence.createDate"/>
+		<form:hidden path="investigateEvidence.createBy"/>
+		<form:hidden path="investigateEvidence.investigateType"/>
+		<form:hidden path="investigateEvidence.nextLinkMan"/>
 		<sys:message content="${message}"/>
-		<form:hidden path="investigateEvidenceId" value="${investigateEvidence.investigateEvidenceId}"/>
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
 				<a href="#visitor" data-toggle="tab">患方调查笔录</a>
@@ -65,7 +70,7 @@
 						<td style="width: 105px;">
 							<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${investigateEvidence.startTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px;height: 25px;"/>
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px;height: 25px;"/>
 							<span class="help-inline" style="width: 10px;"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
@@ -73,7 +78,7 @@
 						<td width="195px;">
 							<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${investigateEvidence.endTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px; height: 25px;"/>
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>
 							<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 					</tr>
@@ -212,7 +217,7 @@
 						<td style="width: 105px;">
 							<input name="investigateEvidence.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${investigateEvidence.investigateEvidence.startTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px;height: 25px;"/>
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px;height: 25px;"/>
 							<span class="help-inline" style="width: 10px;"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
@@ -220,7 +225,7 @@
 						<td width="195px;">
 							<input name="investigateEvidence.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${investigateEvidence.investigateEvidence.endTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px; height: 25px;"/>
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>
 							<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 					</tr>
@@ -413,7 +418,7 @@
 		<%--</div>--%>
 
 		<table class="table-form" style="margin-top: 20px;">
-			<tr style=" ">
+			<%--<tr style=" ">
 				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 140px;padding-top: 8px;height: 25px;"><font color="red">*</font>处理人：</td>
 				<td style="width: 450px;display: inline-block;margin-left: 1px;">
 					<form:input path="handlePeople" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 435px;"/>
@@ -425,7 +430,7 @@
 						   value="<fmt:formatDate value="${investigateEvidence.handleTime}" pattern="yyyy-MM-dd "/>"
 						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 270px; height: 25px; margin-top: -3px;"/>
 				</td>
-			</tr>
+			</tr>--%>
 			<tr  style="">
 				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 140px;padding-top: 8px;height: 25px;margin-top: -15px;"><font color="red">*</font>下一处理环节：</td>
 				<td style="width: 450px;display: inline-block; margin-left:1px;margin-top: -15px; ">
@@ -434,7 +439,7 @@
 				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 120px;padding-top: 8px;height: 25px;margin-top: -15px;margin-left: 0px;"><font color="red">*</font>下一环节处理人：</td>
 
 				<td width="540px;" style="display:inline-block;margin-top: -15px;margin-left: 1px;">
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${investigateEvidence.nextLinkMan}" labelName="" labelValue="${investigateEvidence.dcEmployee.name}"
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${investigateEvidence.nextLinkMan}" labelName="" labelValue="${investigateEvidence.linkEmployee.name}"
 									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true" cssStyle="width: 230px; "/>
 
 				</td>

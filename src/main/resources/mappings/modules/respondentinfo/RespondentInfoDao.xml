@@ -23,17 +23,25 @@
 	</sql>
     
 	<select id="get" resultType="RespondentInfo">
-		SELECT 
+		SELECT
 			<include refid="respondentInfoColumns"/>
-		FROM respondent_info a
+		FROM RESPONDENT_INFO a
 		<include refid="respondentInfoJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.respondent_id = #{id}
+	</select>
+
+	<select id="getL" resultType="RespondentInfo">
+		SELECT
+		<include refid="respondentInfoColumns"/>
+		FROM RESPONDENT_INFO a
+		<include refid="respondentInfoJoins"/>
+		WHERE a.investigation_evidence_id = #{investigationEvidenceId}
 	</select>
 	
 	<select id="findList" resultType="RespondentInfo">
 		SELECT 
 			<include refid="respondentInfoColumns"/>
-		FROM respondent_info a
+		FROM RESPONDENT_INFO a
 		<include refid="respondentInfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -51,7 +59,7 @@
 	<select id="findAllList" resultType="RespondentInfo">
 		SELECT 
 			<include refid="respondentInfoColumns"/>
-		FROM respondent_info a
+		FROM RESPONDENT_INFO a
 		<include refid="respondentInfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -67,7 +75,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO respondent_info(
+		INSERT INTO RESPONDENT_INFO(
 			respondent_id,
 			investigation_evidence_id,
 			respondent_name,
@@ -101,7 +109,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE respondent_info SET 	
+		UPDATE RESPONDENT_INFO SET
 			respondent_id = #{respondentId},
 			investigation_evidence_id = #{investigationEvidenceId},
 			respondent_name = #{respondentName},
@@ -113,13 +121,13 @@
 			respondent_identity = #{respondentIdentity},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
-		WHERE id = #{id}
+		WHERE respondent_id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE respondent_info SET 
+		UPDATE RESPONDENT_INFO SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE respondent_id = #{id}
 	</update>
 	
 </mapper>
