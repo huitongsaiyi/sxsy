@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.mediate.dao.MediateEvidenceDao">
+    
+	<sql id="mediateEvidenceColumns">
+		a.mediate_evidence_id AS "mediateEvidenceId",
+		a.complaint_main_id AS "complaintMainId",
+		a.mediate_result AS "mediateResult",
+		a.summary AS "summary",
+		a.user_id AS "user.id",
+		a.patient AS "patient",
+		a.doctor AS "doctor",
+		a.case_info AS "caseInfoName",
+		a.address AS "meetingAddress",
+		a.meeting_time AS "meetingTime",
+		a.handle_people AS "handlePeople",
+		a.handle_time AS "handleTime",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		u5.name AS "user.name",
+		m.time AS "mediateRecord.time",
+		m.content AS "mediateRecord.content",
+		m.result AS "mediateRecord.result",
+		r.start_time AS "recordInfo.startTime",
+		r.end_time AS "recordInfo.endTime",
+		r.address AS "recordInfo.recordAddress",
+		r.cause AS "recordInfo.cause",
+		r.host AS "recordInfo.host",
+		r.note_taker AS "recordInfo.noteTaker",
+		r.patient AS  "recordInfo.patient",
+		r.doctor AS "recordInfo.doctor",
+		r.other_participants AS "recordInfo.otherParticipants",
+		r.record_content AS "recordInfo.recordContent",
+		b.case_number AS "complaintMain.caseNumber",
+		b.patient_name AS "complaintMain.patientName",
+		b.patient_sex AS "complaintMain.patientSex",
+		b.patient_age AS "complaintMain.patientAge",
+		b.patient_card AS "complaintMain.patientCard",
+		b.involve_hospital AS "complaintMain.involveHospital",
+		b.hospital_level AS "complaintMain.hospitalLevel",
+		b.hospital_grade AS "complaintMain.hospitalGrade",
+		b.involve_department AS "complaintMain.involveDepartment",
+		b.involve_employee AS "complaintMain.involveEmployee",
+		b.proc_ins_id AS "complaintMain.procInsId",
+		r.start_time AS "recordInfo.yrecordInfo.startTime",
+		r.end_time AS "recordInfo.yrecordInfo.endTime",
+		r.address AS "recordInfo.yrecordInfo.recordAddress",
+		r.cause AS "recordInfo.yrecordInfo.cause",
+		r.host AS "recordInfo.yrecordInfo.host",
+		r.note_taker AS "recordInfo.yrecordInfo.noteTaker",
+		r.patient AS  "recordInfo.yrecordInfo.patient",
+		r.doctor AS "recordInfo.yrecordInfo.doctor",
+		r.other_participants AS "recordInfo.yrecordInfo.otherParticipants",
+		r.record_content AS "recordInfo.yrecordInfo.recordContent",
+		sa.name AS "areaName",
+-- 		u.name AS "dcEmployee.name",
+-- 		o.name AS "complaintMain.hospital.name",
+-- 		o1.name AS "complaintMain.department.name",
+-- 		u1.name AS "complaintMain.employee.name",
+-- 		u2.name AS "linkEmployee.name",
+-- 		t.ID_ AS "complaintMain.act.taskId"
+		au.policy_number AS "auditAcceptance.policyNumber",
+	    r1.report_emp AS "reportRegistration.reportEmp"
+-- 		r1.dispute_time AS "reportRegistration.disputeTime",
+-- 		r1.patient_mobile AS "reportRegistration.patientMobile"
+	</sql>
+	
+	<sql id="mediateEvidenceJoins">
+		LEFT JOIN SYS_USER u5 ON u5.id = a.user_id
+		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id
+		LEFT JOIN MEDIATE_RECORD m ON m.relation_id = a.mediate_evidence_id
+ 		LEFT JOIN RECORD_INFO r ON  r.relation_id = a.mediate_evidence_id
+		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
+ 		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
+		LEFT JOIN REPORT_REGISTRATION r1 ON b.complaint_main_id=r1.complaint_main_id
+-- LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+-- 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+-- 		LEFT JOIN SYS_USER u ON u.id=a.investigator
+-- 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+-- 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+</sql>
+    
+	<select id="get" resultType="MediateEvidence">
+		SELECT 
+			<include refid="mediateEvidenceColumns"/>
+		FROM mediate_evidence a
+		<include refid="mediateEvidenceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MediateEvidence">
+		SELECT 
+			<include refid="mediateEvidenceColumns"/>
+		FROM mediate_evidence a
+		<include refid="mediateEvidenceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="patient != null and patient != ''">
+				AND a.patient = #{patient}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MediateEvidence">
+		SELECT 
+			<include refid="mediateEvidenceColumns"/>
+		FROM mediate_evidence a
+		<include refid="mediateEvidenceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mediate_evidence(
+			mediate_evidence_id,
+			complaint_main_id,
+			mediate_result,
+			summary,
+			user_id,
+			patient,
+			doctor,
+			case_info,
+			address,
+			meeting_time,
+			handle_people,
+			handle_time,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{mediateEvidenceId},
+			#{complaintMainId},
+			#{mediateResult},
+			#{summary},
+			#{user.id},
+			#{patient},
+			#{doctor},
+			#{caseInfoName},
+			#{meetingAddress},
+			#{meetingTime},
+			#{handlePeople},
+			#{handleTime},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mediate_evidence SET 	
+			mediate_result = #{mediateResult},
+			summary = #{summary},
+			user_id = #{user.id},
+			patient = #{patient},
+			doctor = #{doctor},
+			case_info = #{caseInfoName},
+			address = #{meetingAddress},
+			meeting_time = #{meetingTime},
+			handle_people = #{handlePeople},
+			handle_time = #{handleTime},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan}
+		WHERE mediate_evidence_id = #{mediateEvidenceId}
+	</update>
+	
+	<update id="delete">
+		UPDATE mediate_evidence SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE mediate_evidence_id = #{mediateEvidenceId}
+	</update>
+	
+</mapper>
