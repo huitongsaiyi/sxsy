@@ -28,11 +28,12 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/nestigateeividence/investigateEvidence/">列表</a></li>
-		<li class="active"><a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.id}" id="c">成功<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit">${not empty investigateEvidence.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="nestigateeividence:investigateEvidence:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.id}" id="c">调查取证<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit">${not empty investigateEvidence.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="nestigateeividence:investigateEvidence:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="investigateEvidence" action="${ctx}/nestigateeividence/investigateEvidence/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
+		<form:hidden path="investigateEvidenceId" value="${investigateEvidence.investigateEvidenceId}"/>
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
 				<a href="#visitor" data-toggle="tab">患方调查笔录</a>
@@ -46,56 +47,57 @@
 		</ul>
 		<div id="myTabContent" class="tab-content">
 			<div class="tab-pane fade in active" id="visitor">
+				<input type="hidden" name="investigateType" value="1">
 				<table class="table-form">
 					<tr >
-						<td class="tit" width="140px" style="border: hidden; border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
+						<td class="tit" width="140px" style=" border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
 						<td style="width: 105px;">
 							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" style="width: 250px;border: hidden;height: 25px;"/>
+								   value="<fmt:formatDate value="${investigateEvidence.startTime}" pattern="yyyy-MM-dd "/>"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px;height: 25px;"/>
 							<span class="help-inline" style="width: 10px;"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
 
 						<td width="195px;">
 							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" style="width: 250px; border: hidden;height: 25px;"/>
+								   value="<fmt:formatDate value="${investigateEvidence.endTime}" pattern="yyyy-MM-dd "/>"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px; height: 25px;"/>
 							<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 					</tr>
 					<tr >
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
 						<td style="width: 105px;">
-							<form:input path="address" htmlEscape="false" maxlength="200" class="input-xlarge " cssStyle="width:480px;border: hidden;"/>
+							<form:input path="address" htmlEscape="false" maxlength="200" class="input-xlarge " cssStyle="width:480px;"/>
 						</td>
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
 
 						<td width="195px;">
-							<form:input path="cause" htmlEscape="false" maxlength="500" class="input-xlarge " cssStyle="width:480px;border:hidden;" />
+							<form:input path="cause" htmlEscape="false" maxlength="500" class="input-xlarge " cssStyle="width:480px;" />
 						</td>
 					</tr>
 					<tr >
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查人：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查人：</td>
 						<td style="width: 105px;">
-							<form:input path="investigator" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="border: hidden;"/>
+							<form:input path="investigator" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width:480px;"/>
 						</td>
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>记录人：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>记录人：</td>
 
 						<td width="195px;">
-							<form:input path="noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="border: hidden;"/>
+							<form:input path="noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width:480px;"/>
 						</td>
 					</tr>
 					<tr >
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>反应焦点：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>反应焦点：</td>
 						<td style="width: 105px;">
-							<form:input path="focus" htmlEscape="false" maxlength="500" class="input-xlarge " cssStyle="border: hidden; width: 350px;"/>
+							<form:input path="focus" htmlEscape="false" maxlength="500" class="input-xlarge " cssStyle="width:480px;"/>
 						</td>
 					</tr>
 					<tr >
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid; " ><font color="red">*</font>笔录内容：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; " ><font color="red">*</font>笔录内容：</td>
 						<td style="width: 105px;">
-							<form:textarea path="content" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge "/>
+							<form:textarea path="content" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width:480px;"/>
 						</td>
 					</tr>
 				</table>
@@ -111,39 +113,39 @@
 					<div class="tab-pane fade in active" id="investigation1">
 						<table class="table-form">
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
 								<td style="display: inline-block; width: 900px; border: hidden;" >
 									<form:radiobuttons path="respondentInfo.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
+								<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
 								<td style="display: inline-block; width: 115px;border: hidden;">
 									<form:input path="respondentInfo.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
 								</td>
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 80px;"><font color="red">*</font>性别：</td>
-								<td style=" display: inline-block;margin-left: -1px; width: 60px; border: hidden;">
+								<td class="tit" style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: -1px;width: 80px;"><font color="red">*</font>性别：</td>
+								<td style=" display: inline-block;margin-left: 0px; width: 60px; border: hidden;">
 									<form:select path="respondentInfo.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
 										<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 									</form:select>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 65px;border: hidden;">
-									<form:input path="respondentInfo.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 50px;"/>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
+								<td style="display: inline-block;margin-left: 0px; width: 65px;border: hidden;">
+									<form:input path="respondentInfo.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 58px;"/>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>联系方式：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;">
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 120px; "><font color="red">*</font>联系方式：</td>
+								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;margin-left: 2px;">
 									<form:input path="respondentInfo.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
-								<td style="display: inline-block; width: 445px; border: hidden;">
-									<form:input path="respondentInfo.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
+								<td style="display: inline-block; width: 448px; border: hidden;">
+									<form:input path="respondentInfo.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 438px;"/>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>职务:</td>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 6px;width: 120px; "><font color="red">*</font>职务:</td>
 								<td style="display: inline-block; width: 302px; border: hidden;">
-									<form:input path="respondentInfo.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
+									<form:input path="respondentInfo.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 2px;"/>
 								</td>
 							</tr>
 						</table>
@@ -151,40 +153,40 @@
 					<div class="tab-pane " id="investigation2">
 						<table class="table-form">
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
-								<td style="display: inline-block; width: 900px; border: hidden;" >
-									<form:radiobuttons path="respondentInfo.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
+								<td style="display: inline-block; width: 900px; border: hidden;">
+									<form:radiobuttons path="respondentInfo2.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
+								<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
 								<td style="display: inline-block; width: 115px;border: hidden;">
-									<form:input path="respondentInfo.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
+									<form:input path="respondentInfo2.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
 								</td>
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 80px;"><font color="red">*</font>性别：</td>
-								<td style=" display: inline-block;margin-left: -1px; width: 60px; border: hidden;">
-									<form:select path="respondentInfo.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
+								<td class="tit" style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: -1px;width: 80px;"><font color="red">*</font>性别：</td>
+								<td style=" display: inline-block;margin-left: 0px; width: 60px; border: hidden;">
+									<form:select path="respondentInfo2.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
 										<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 									</form:select>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 65px;border: hidden;">
-									<form:input path="respondentInfo.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 50px;"/>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
+								<td style="display: inline-block;margin-left: 0px; width: 65px;border: hidden;">
+									<form:input path="respondentInfo2.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 58px;"/>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>联系方式：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;">
-									<form:input path="respondentInfo.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 120px; "><font color="red">*</font>联系方式：</td>
+								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;margin-left: 2px;">
+									<form:input path="respondentInfo2.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
-								<td style="display: inline-block; width: 445px; border: hidden;">
-									<form:input path="respondentInfo.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
+								<td style="display: inline-block; width: 448px; border: hidden;">
+									<form:input path="respondentInfo2.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 438px;"/>
 								</td>
 
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>职务:</td>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 6px;width: 120px; "><font color="red">*</font>职务:</td>
 								<td style="display: inline-block; width: 302px; border: hidden;">
-									<form:input path="respondentInfo.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
+									<form:input path="respondentInfo2.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 2px;"/>
 								</td>
 							</tr>
 						</table>
@@ -192,45 +194,46 @@
 				</div>
 			</div>
 			<div class="tab-pane fade" id="patient">
+				<input type="hidden" name="investigateType2" value="2">
 				<table class="table-form">
 					<tr >
-						<td class="tit" width="140px" style="border: hidden; border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
+						<td class="tit" width="140px" style=" border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
 						<td style="width: 105px;">
 							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" style="width: 250px;border: hidden;height: 25px;"/>
+								   value="<fmt:formatDate value="${investigateEvidence.investigateEvidence.startTime}" pattern="yyyy-MM-dd "/>"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px;height: 25px;"/>
 							<span class="help-inline" style="width: 10px;"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
 
 						<td width="195px;">
 							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" style="width: 250px; border: hidden;height: 25px;"/>
+								   value="<fmt:formatDate value="${investigateEvidence.investigateEvidence.endTime}" pattern="yyyy-MM-dd "/>"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px; height: 25px;"/>
 							<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 					</tr>
 					<tr >
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
 						<td style="width: 105px;">
-							<form:input path="address" htmlEscape="false" maxlength="200" class="input-xlarge " cssStyle="width:480px;border: hidden;"/>
-							<input type="hidden" value="${investigateEvidence.address}"/>
+							<form:input path="investigateEvidence.address" htmlEscape="false" maxlength="200" class="input-xlarge " cssStyle="width:480px;"/>
+							<input type="hidden" value="${investigateEvidence.investigateEvidence.address}"/>
 						</td>
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
 
 						<td width="195px;">
-							<form:input path="cause" htmlEscape="false" maxlength="500" class="input-xlarge " cssStyle="width:480px;border:hidden;" />
+							<form:input path="investigateEvidence.cause" htmlEscape="false" maxlength="500" class="input-xlarge " cssStyle="width:480px;" />
 						</td>
 					</tr>
 					<tr >
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查人：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查人：</td>
 						<td style="width: 105px;">
-							<form:input path="investigator" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="border: hidden;"/>
+							<form:input path="investigateEvidence.investigator" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width:480px;"/>
 						</td>
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>记录人：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>记录人：</td>
 
 						<td width="195px;">
-							<form:input path="noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="border: hidden;"/>
+							<form:input path="investigateEvidence.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 480px;"/>
 						</td>
 					</tr>
 					<%--<tr >--%>
@@ -240,9 +243,9 @@
 						<%--</td>--%>
 					<%--</tr>--%>
 					<tr >
-						<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid; " ><font color="red">*</font>笔录内容：</td>
+						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; "><font color="red">*</font>笔录内容：</td>
 						<td style="width: 105px;">
-							<form:textarea path="content" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge "/>
+							<form:textarea path="investigateEvidence.content" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width:480px;"/>
 						</td>
 					</tr>
 				</table>
@@ -258,40 +261,40 @@
 					<div class="tab-pane fade in active" id="investigation3">
 						<table>
 							<tr >
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
+								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
 								<td style="display: inline-block; width: 900px; border: hidden;" >
-									<form:radiobuttons path="respondentInfo.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
+									<form:radiobuttons path="respondentInfo3.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
 								</td>
 							</tr>
 							<tr >
-								<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
+								<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
 								<td style="display: inline-block; width: 115px;border: hidden;">
-									<form:input path="respondentInfo.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
+									<form:input path="respondentInfo3.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
 								</td>
-								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 80px;"><font color="red">*</font>性别：</td>
-								<td style=" display: inline-block;margin-left: -1px; width: 60px; border: hidden;">
-									<form:select path="respondentInfo.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
+								<td class="tit" style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: -1px;width: 80px;"><font color="red">*</font>性别：</td>
+								<td style=" display: inline-block;margin-left: 0px; width: 60px; border: hidden;">
+									<form:select path="respondentInfo3.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
 										<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 									</form:select>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 65px;border: hidden;">
-									<form:input path="respondentInfo.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 50px;"/>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
+								<td style="display: inline-block;margin-left: 0px; width: 65px;border: hidden;">
+									<form:input path="respondentInfo3.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 58px;"/>
 								</td>
-								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>联系方式：</td>
-								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;">
-									<form:input path="respondentInfo.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+								<td class="tit"  style="border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 120px; "><font color="red">*</font>联系方式：</td>
+								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;margin-left: 2px;">
+									<form:input path="respondentInfo3.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
 								</td>
 							</tr>
 							<tr >
 								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
 								<td style="display: inline-block; width: 445px; border: hidden;">
-									<form:input path="respondentInfo.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
+									<form:input path="respondentInfo3.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
 								</td>
 
 								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>职务:</td>
 								<td style="display: inline-block; width: 302px; border: hidden;">
-									<form:input path="respondentInfo.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
+									<form:input path="respondentInfo3.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
 								</td>
 							</tr>
 						</table>
@@ -301,38 +304,38 @@
 							<tr >
 								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
 								<td style="display: inline-block; width: 900px; border: hidden;" >
-									<form:radiobuttons path="respondentInfo.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
+									<form:radiobuttons path="respondentInfo4.respondentIdentity" items="${fns:getDictList('investigation')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
 								</td>
 							</tr>
 							<tr >
 								<td class="tit" width="140px" style="border: hidden;border-right:1px #e2e2e2 solid;"><font color="red">*</font>姓名：</td>
 								<td style="display: inline-block; width: 115px;border: hidden;">
-									<form:input path="respondentInfo.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
+									<form:input path="respondentInfo4.respondentName" htmlEscape="false" maxlength="10" class="input-xlarge " cssStyle="width:100px;"/>
 								</td>
 								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 10px;width: 80px;"><font color="red">*</font>性别：</td>
 								<td style=" display: inline-block;margin-left: -1px; width: 60px; border: hidden;">
-									<form:select path="respondentInfo.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
+									<form:select path="respondentInfo4.respondentSex" class="input-medium" style="text-align:center;width: 60px;">
 										<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 									</form:select>
 								</td>
 								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid; display: inline-block;margin-left:1px;width: 80px;"><font color="red">*</font>年龄：</td>
 								<td style="display: inline-block;margin-left: -1px; width: 65px;border: hidden;">
-									<form:input path="respondentInfo.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 50px;"/>
+									<form:input path="respondentInfo4.respondentAge" htmlEscape="false" maxlength="4" class="input-xlarge " cssStyle="width: 50px;"/>
 								</td>
 								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>联系方式：</td>
 								<td style="display: inline-block;margin-left: -1px; width: 302px; border: hidden;">
-									<form:input path="respondentInfo.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+									<form:input path="respondentInfo4.respondentMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
 								</td>
 							</tr>
 							<tr >
 								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>工作单位:</td>
 								<td style="display: inline-block; width: 445px; border: hidden;">
-									<form:input path="respondentInfo.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
+									<form:input path="respondentInfo4.respondentWorkUnit" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="width: 435px;"/>
 								</td>
 
 								<td class="tit"  style="border: hidden;border-right:1px #e2e2e2 solid;display: inline-block; margin-left: 1px;width: 120px; "><font color="red">*</font>职务:</td>
 								<td style="display: inline-block; width: 302px; border: hidden;">
-									<form:input path="respondentInfo.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
+									<form:input path="respondentInfo4.respondentPost" htmlEscape="false" maxlength="30" class="input-xlarge " cssStyle="margin-left: 5px;"/>
 								</td>
 							</tr>
 						</table>
@@ -341,7 +344,45 @@
 			</div>
 			<div class="tab-pane fade" id="hospital">
 				<table class="table-form">
-					<tr>附件</tr>
+
+					<th style="display: inline-block; margin-top: 38px; margin-left: 95px;" >患方笔录：
+						<input type="hidden"  name="fjtype1" value="3">
+					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: 35px; border: hidden;">
+
+						<input type="hidden" id="files1" name="files" htmlEscape="false" class="input-xlarge"  value="${files1}"/>
+							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+						<sys:ckfinder input="files1" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Huan" selectMultiple="true" />
+					</td>
+
+					</th>
+					<th style="display:block; margin-left: -1055px; margin-top: 40px;" >患方补充材料：
+						<input type="hidden" name="fjtype2" value="4">
+					<td style="width: 450px; margin-left:182px;  display:inline-block; height: 50px; margin-top: -150px; border: hidden;">
+						<input type="hidden" id="files2" name="files1" htmlEscape="false" class="input-xlarge" value="${files2}" />
+							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+						<sys:ckfinder input="files2" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Huan" selectMultiple="true" />
+					</td>
+
+					</th>
+					<th style="display: inline-block; margin-top: 80px; margin-left:-545px;" >医方笔录：
+						<input type="hidden"  name="fjtype3" value="5">
+					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: 70px; border: hidden;">
+
+						<input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"  value="${files3}"/>
+							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+						<sys:ckfinder input="files3" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Doctor" selectMultiple="true" />
+					</td>
+
+					</th>
+					<th style="display:block; margin-top:50px;margin-left: -1055px; " >医方补充材料：
+						<input type="hidden" name="fjtype4" value="6">
+					<td style="width: 450px; margin-left:182px;  display:inline-block; height: 50px; margin-top: -50px; border: hidden;">
+						<input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge" value="${files4}" />
+							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+						<sys:ckfinder input="files4" type="files"  uploadPath="/nestigateeividence/InvestigateEvidence/Doctor" selectMultiple="true" />
+					</td>
+
+					</th>
 				</table>
 
 
@@ -357,28 +398,30 @@
 		<%--</div>--%>
 
 		<table class="table-form" style="margin-top: 20px;">
-			<tr style=" border: hidden;">
-				<td class="tit" width="100px" style="border: hidden;display: inline-block; border-right:1px #e2e2e2 solid; width: 140px;padding-top: 8px;height: 25px;"><font color="red">*</font>处理人：</td>
-				<td style="width: 105px;border: hidden;display: inline-block;margin-left: 1px;">
-					<form:input path="handlePeople" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 90px;"/>
+			<tr style=" ">
+				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 140px;padding-top: 8px;height: 25px;"><font color="red">*</font>处理人：</td>
+				<td style="width: 450px;display: inline-block;margin-left: 1px;">
+					<form:input path="handlePeople" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 435px;"/>
 				</td>
-				<td class="tit" width="100px" style="border: hidden;display: inline-block; border-right:1px #e2e2e2 solid; width: 130px;padding-top: 8px;height: 25px;margin-left: 330px;"><font color="red">*</font>处理日期：</td>
+				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 120px;padding-top: 8px;height: 25px;margin-left: 0px;"><font color="red">*</font>处理日期：</td>
 
-				<td width="195px;" style="width: 195px;border:hidden;display: inline-block;margin-left: 745px;margin-top: -60px;">
+				<td width="195px;" style="width: 540px;display: inline-block;margin-left: 750px;margin-top: -62px;height: 30px;">
 					<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-						   value="<fmt:formatDate value="${investigateEvidence.handleTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" style="width: 170px; border: hidden;height: 25px;"/>
+						   value="<fmt:formatDate value="${investigateEvidence.handleTime}" pattern="yyyy-MM-dd "/>"
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 270px; height: 25px; margin-top: -3px;"/>
 				</td>
 			</tr>
-			<tr  style="border: hidden;">
-				<td class="tit" width="100px" style="border: hidden;display: inline-block; border-right:1px #e2e2e2 solid; width: 140px;padding-top: 8px;height: 25px;margin-top: -15px;"><font color="red">*</font>下一处理环节：</td>
-				<td style="width: 105px;border: hidden;display: inline-block; margin-left:1px;margin-top: -15px; ">
-					<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 90px;"/>
+			<tr  style="">
+				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 140px;padding-top: 8px;height: 25px;margin-top: -15px;"><font color="red">*</font>下一处理环节：</td>
+				<td style="width: 450px;display: inline-block; margin-left:1px;margin-top: -15px; ">
+					<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 435px;"/>
 				</td>
-				<td class="tit" width="100px" style="border: hidden;display: inline-block; border-right:1px #e2e2e2 solid; width: 130px;padding-top: 8px;height: 25px;margin-top: -15px;margin-left: 330px;"><font color="red">*</font>下一环节处理人：</td>
+				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 120px;padding-top: 8px;height: 25px;margin-top: -15px;margin-left: 0px;"><font color="red">*</font>下一环节处理人：</td>
 
-				<td width="195px;" style="border:hidden;display:inline-block;margin-top: -15px;margin-left: 5px;">
-					<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 90px;"/>
+				<td width="540px;" style="display:inline-block;margin-top: -15px;margin-left: 1px;">
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${investigateEvidence.nextLinkMan}" labelName="" labelValue="${investigateEvidence.dcEmployee.name}"
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true" cssStyle="width: 230px; "/>
+
 				</td>
 
 			</tr>

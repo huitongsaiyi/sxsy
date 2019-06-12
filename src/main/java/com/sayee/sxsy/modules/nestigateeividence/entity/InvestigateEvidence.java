@@ -43,7 +43,43 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	private User dcEmployee;		// 登记人员
 	private User linkEmployee;		// 下一环节人员
 	private ReportRegistration reportRegistration;//报案人姓名
+	private RespondentInfo respondentInfo2;//被调查人2
+	private RespondentInfo respondentInfo3;//被调查人3
+	private RespondentInfo respondentInfo4;//被调查人4
 	private RespondentInfo respondentInfo;//被调查人信息
+    private InvestigateEvidence investigateEvidence;//医方信息
+
+	public RespondentInfo getRespondentInfo4() {
+		return respondentInfo4;
+	}
+
+	public void setRespondentInfo4(RespondentInfo respondentInfo4) {
+		this.respondentInfo4 = respondentInfo4;
+	}
+
+	public RespondentInfo getRespondentInfo3() {
+		return respondentInfo3;
+	}
+
+	public void setRespondentInfo3(RespondentInfo respondentInfo3) {
+		this.respondentInfo3 = respondentInfo3;
+	}
+
+	public RespondentInfo getRespondentInfo2() {
+		return respondentInfo2;
+	}
+
+	public void setRespondentInfo2(RespondentInfo respondentInfo2) {
+		this.respondentInfo2 = respondentInfo2;
+	}
+
+	public InvestigateEvidence getInvestigateEvidence() {
+		return investigateEvidence;
+	}
+
+	public void setInvestigateEvidence(InvestigateEvidence investigateEvidence) {
+		this.investigateEvidence = investigateEvidence;
+	}
 
 	public RespondentInfo getRespondentInfo() {
 		return respondentInfo;
