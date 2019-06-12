@@ -31,7 +31,18 @@
 		<li class="active"><a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.id}" id="c">调查取证<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit">${not empty investigateEvidence.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="nestigateeividence:investigateEvidence:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="investigateEvidence" action="${ctx}/nestigateeividence/investigateEvidence/save" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+		<form:hidden path="investigateEvidenceId"/>
+		<form:hidden path="createDate"/>
+		<form:hidden path="createBy"/>
+		<form:hidden path="complaintMainId"/>
+		<form:hidden path="complaintMain.complaintMainId"/>
+		<form:hidden path="complaintMain.act.taskId"/>
+		<form:hidden path="complaintMain.act.taskName"/>
+		<form:hidden path="complaintMain.act.taskDefKey"/>
+		<form:hidden path="complaintMain.act.procInsId"/>
+		<form:hidden path="complaintMain.act.procDefId"/>
+		<form:hidden path="complaintMain.procInsId"/>
+		<form:hidden id="flag" path="complaintMain.act.flag"/>
 		<sys:message content="${message}"/>
 		<form:hidden path="investigateEvidenceId" value="${investigateEvidence.investigateEvidenceId}"/>
 		<ul id="myTab" class="nav nav-tabs">
@@ -52,17 +63,17 @@
 					<tr >
 						<td class="tit" width="140px" style=" border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
 						<td style="width: 105px;">
-							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.startTime}" pattern="yyyy-MM-dd "/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px;height: 25px;"/>
+							<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${investigateEvidence.startTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px;height: 25px;"/>
 							<span class="help-inline" style="width: 10px;"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
 
 						<td width="195px;">
-							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.endTime}" pattern="yyyy-MM-dd "/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px; height: 25px;"/>
+							<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${investigateEvidence.endTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px; height: 25px;"/>
 							<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 					</tr>
@@ -199,17 +210,17 @@
 					<tr >
 						<td class="tit" width="140px" style=" border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
 						<td style="width: 105px;">
-							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.investigateEvidence.startTime}" pattern="yyyy-MM-dd "/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px;height: 25px;"/>
+							<input name="investigateEvidence.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${investigateEvidence.investigateEvidence.startTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px;height: 25px;"/>
 							<span class="help-inline" style="width: 10px;"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
 
 						<td width="195px;">
-							<input name="witnessTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="<fmt:formatDate value="${investigateEvidence.investigateEvidence.endTime}" pattern="yyyy-MM-dd "/>"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd ',isShowClear:false});" style="width: 250px; height: 25px;"/>
+							<input name="investigateEvidence.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${investigateEvidence.investigateEvidence.endTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});" style="width: 250px; height: 25px;"/>
 							<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
 						</td>
 					</tr>
@@ -259,7 +270,7 @@
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="investigation3">
-						<table>
+						<table class="table-form">
 							<tr >
 								<td class="tit" style="border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
 								<td style="display: inline-block; width: 900px; border: hidden;" >
@@ -300,7 +311,7 @@
 						</table>
 					</div>
 					<div class="tab-pane fade" id="investigation4">
-						<table>
+						<table class="table-form">
 							<tr >
 								<td class="tit" style="border: hidden;border-right:1px #e2e2e2 solid;width: 30px;"><font color="red">*</font>被调查人身份:</td>
 								<td style="display: inline-block; width: 900px; border: hidden;" >
@@ -427,9 +438,13 @@
 			</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+		<c:if test="${not empty investigateEvidence.investigateEvidenceId}">
+			<act:histoicFlow procInsId="${investigateEvidence.complaintMain.procInsId}" />
+		</c:if>
 	</form:form>
 </body>
 </html>
