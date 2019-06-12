@@ -30,6 +30,37 @@
             $("#searchForm").submit();
             return false;
         }
+        function addRow(list, idx, tpl, row){
+            $(list).append(Mustache.render(tpl, {
+                idx: idx, delBtn: true, row: row
+            }));
+            $(list+idx).find("select").each(function(){
+                $(this).val($(this).attr("data-value"));
+            });
+            $(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
+                var ss = $(this).attr("data-value").split(',');
+                for (var i=0; i<ss.length; i++){
+                    if($(this).val() == ss[i]){
+                        $(this).attr("checked","checked");
+                    }
+                }
+            });
+        }
+        function delRow(obj, prefix){
+            var id = $(prefix+"_id");
+            var delFlag = $(prefix+"_delFlag");
+            if (id.val() == ""){
+                $(obj).parent().parent().remove();
+            }else if(delFlag.val() == "0"){
+                delFlag.val("1");
+                $(obj).html("&divide;").attr("title", "撤销删除");
+                $(obj).parent().parent().addClass("error");
+            }else if(delFlag.val() == "1"){
+                delFlag.val("0");
+                $(obj).html("&times;").attr("title", "删除");
+                $(obj).parent().parent().removeClass("error");
+            }
+        }
     </script>
 </head>
 <body>
@@ -63,9 +94,59 @@
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="mediation">
-
+            <table id="contentTable" class="table table-striped table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th class="hide"></th>
+                    <th>时间</th>
+                    <th>内容</th>
+                    <th>结果</th>
+                    <shiro:hasPermission name="mediate:mediateEvidence:edit">
+                        <th width="10">&nbsp;</th>
+                    </shiro:hasPermission>
+                </tr>
+                </thead>
+                <tbody id="mediateEvidenceList"></tbody>
+                <shiro:hasPermission name="mediate:mediateEvidence:edit">
+                <tfoot>
+                <tr><td colspan="7"><a href="javascript:" onclick="addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl);mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;" class="btn">新增</a></td></tr>
+                </tfoot></shiro:hasPermission>
+            </table>
+            <script type="text/template" id="mediateEvidenceTpl">//<!--
+						<tr id="mediateEvidenceList{{idx}}">
+							<td class="hide">
+								<input id="mediateEvidenceList{{idx}}_id" name="mediateEvidenceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="0"/>
+							</td>
+							<td >
+								<%--<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" value="{{row.time}}" maxlength="32" class="input-small "/>--%>
+								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                                    value="{{row.time}}"
+                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+							</td>
+							<td>
+								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="input-small required" cssStyle="width:170px" />
+							</td>
+							<td>
+								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="input-small required" />
+							</td>
+							<shiro:hasPermission name="mediate:mediateEvidence:edit"><td class="text-center" width="10">
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+							</td></shiro:hasPermission>
+						</tr>//-->
+            </script>
+            <script type="text/javascript">
+                var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+                $(document).ready(function() {
+                    var data = ${fns:toJson(MediateEvidence.mediateEvidenceList)};
+                    for (var i=0; i<data.length; i++){
+                        addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl, data[i]);
+                        mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
+                    }
+                });
+            </script>
         </div>
-        <div class="tab-pane fade in active" id="meeting">
+        <div class="tab-pane fade" id="meeting">
             <table class="table-form">
                 <tr>
                     <td class="tit">时间:</td>
@@ -77,7 +158,7 @@
                     </td>
                     <td class="tit">地点:</td>
                     <td>
-                        <form:input path="meetingAddress" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+                        <form:input path="meetingAddress" htmlEscape="false" maxlength="20" class="input-xlarge " />
                     </td>
                 </tr>
                 <tr>
@@ -100,7 +181,7 @@
                         <sys:treeselect id="user.name" name="user.name"
                                         value="${mediateEvidence.user.name}" labelName=""
                                         labelValue="${mediateEvidence.user.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
+                                        title="用户" url="/sys/office/treeData?type=4&officeType=1" cssClass=""
                                         allowClear="true" notAllowSelectParent="true" checked="true"/>
                     </td>
                     <td class="tit">患方</td>
@@ -112,7 +193,7 @@
                 <td style="text-align: center;"><input id="btnGenerate" class="btn" type="button" value="生成会议表"></td>
             </table>
         </div>
-        <div class="tab-pane fade in active" id="recorded_patient">
+        <div class="tab-pane fade" id="recorded_patient">
             <table class="table-form">
                 <tr>
                     <td class="tit">开始时间</td>
@@ -189,7 +270,7 @@
                 </tr>
             </table>
         </div>
-        <div class="tab-pane fade in active" id="recorded_doctor">
+        <div class="tab-pane fade" id="recorded_doctor">
             <table class="table-form">
                 <tr>
                     <td class="tit">开始时间</td>
@@ -262,15 +343,16 @@
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
-                        <form:textarea path="recordInfo.yrecordInfo.recordContent" htmlEscape="false" class="input-xlarge "
+                        <form:textarea path="recordInfo.yrecordInfo.recordContent" htmlEscape="false"
+                                       class="input-xlarge "
                                        style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
             </table>
         </div>
-        <div class="tab-pane fade in active" id="annex">
-            <tr>
-                <input type="hidden" name="fjtype" value="0">
+        <div class="tab-pane fade" id="annex">
+            <tr style="border:solid">
+                <input type="hidden" name="fjtype" value="7">
                 <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
                     签到表：
                     <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"
@@ -282,7 +364,7 @@
                 </td>
             </tr>
             <tr>
-                <input type="hidden" name="fjtype1" value="1">
+                <input type="hidden" name="fjtype1" value="8">
                 <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
                     患方笔录：
                     <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
@@ -295,7 +377,7 @@
                 </td>
             </tr>
             <tr>
-                <input type="hidden" name="fjtype2" value="2">
+                <input type="hidden" name="fjtype2" value="9">
                 <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
                     患方补充材料：
                     <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
@@ -308,7 +390,7 @@
                 </td>
             </tr>
             <tr>
-                <input type="hidden" name="fjtype3" value="3">
+                <input type="hidden" name="fjtype3" value="10">
                 <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
                     医方笔录：
                     <input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"
@@ -321,7 +403,7 @@
                 </td>
             </tr>
             <tr>
-                <input type="hidden" name="fjtype4" value="4">
+                <input type="hidden" name="fjtype4" value="11">
                 <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
                     医方补充材料：
                     <input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"
@@ -421,8 +503,12 @@
     <%--</div>--%>
     <%--</div>--%>
     <div class="form-actions">
-        <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
-        <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+        <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
+                                                                                type="submit" value="保 存"
+                                                                                onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+        <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
+                                                                                type="submit" value="下一步"
+                                                                                onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>

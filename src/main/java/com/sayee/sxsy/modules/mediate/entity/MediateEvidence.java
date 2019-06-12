@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.mediate.entity;
 
+import com.google.common.collect.Lists;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
@@ -12,6 +13,8 @@ import org.hibernate.validator.constraints.Length;
 import com.sayee.sxsy.modules.sys.entity.User;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
+
+import java.util.List;
 
 /**
  * 质证调解Entity
@@ -37,7 +40,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private String nextLink;        // next_link
     private String nextLinkMan;        // next_link_man
     private ComplaintMain complaintMain;        //关联主表
-    private MediateRecord mediateRecord;    //关联调解志子表
+    private List<MediateRecord> mediateEvidenceList = Lists.newArrayList();     //关联调解志子表
     private RecordInfo recordInfo;      //关联笔录子表
     private String areaName;
     private AuditAcceptance auditAcceptance;
@@ -84,12 +87,12 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.recordInfo = recordInfo;
     }
 
-    public void setMediateRecord(MediateRecord mediateRecord) {
-        this.mediateRecord = mediateRecord;
+    public void setmediateEvidenceList(List<MediateRecord> mediateEvidenceList) {
+        this.mediateEvidenceList = mediateEvidenceList;
     }
 
-    public MediateRecord getMediateRecord() {
-        return mediateRecord;
+    public List<MediateRecord> getmediateEvidenceList() {
+        return mediateEvidenceList;
     }
 
     public ComplaintMain getComplaintMain() {

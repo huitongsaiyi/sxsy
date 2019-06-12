@@ -3,8 +3,8 @@
 <mapper namespace="com.sayee.sxsy.modules.mediate.dao.MediateEvidenceDao">
     
 	<sql id="mediateEvidenceColumns">
-		a.mediate_evidence_id AS "mediateEvidenceId",
-		a.complaint_main_id AS "complaintMainId",
+		 if(a.mediate_evidence_id IS NULL,i.investigate_evidence_id ,a.mediate_evidence_id) AS "mediateEvidenceId",
+		if(a.complaint_main_id IS NULL,i.investigate_evidence_id ,a.complaint_main_id)AS "complaintMainId",
 		a.mediate_result AS "mediateResult",
 		a.summary AS "summary",
 		a.user_id AS "user.id",
@@ -58,16 +58,16 @@
 		r.other_participants AS "recordInfo.yrecordInfo.otherParticipants",
 		r.record_content AS "recordInfo.yrecordInfo.recordContent",
 		sa.name AS "areaName",
--- 		u.name AS "dcEmployee.name",
--- 		o.name AS "complaintMain.hospital.name",
+-- 		u.name AS "dcEmployee.name",登记人员
+		o.name AS "complaintMain.hospital.name",
 -- 		o1.name AS "complaintMain.department.name",
 -- 		u1.name AS "complaintMain.employee.name",
 -- 		u2.name AS "linkEmployee.name",
 -- 		t.ID_ AS "complaintMain.act.taskId"
 		au.policy_number AS "auditAcceptance.policyNumber",
-	    r1.report_emp AS "reportRegistration.reportEmp"
--- 		r1.dispute_time AS "reportRegistration.disputeTime",
--- 		r1.patient_mobile AS "reportRegistration.patientMobile"
+	    r1.report_emp AS "reportRegistration.reportEmp",
+		r1.dispute_time AS "reportRegistration.disputeTime",
+		r1.patient_mobile AS "reportRegistration.patientMobile"
 	</sql>
 	
 	<sql id="mediateEvidenceJoins">
@@ -79,6 +79,7 @@
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
  		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
 		LEFT JOIN REPORT_REGISTRATION r1 ON b.complaint_main_id=r1.complaint_main_id
+		LEFT JOIN INVESTIGATE_EVIDENCE i ON b.complaint_main_id = i.complaint_main_id
 -- LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 -- 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 -- 		LEFT JOIN SYS_USER u ON u.id=a.investigator
@@ -89,15 +90,15 @@
 	<select id="get" resultType="MediateEvidence">
 		SELECT 
 			<include refid="mediateEvidenceColumns"/>
-		FROM mediate_evidence a
+		FROM MEDIATE_EVIDENCE a
 		<include refid="mediateEvidenceJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.mediate_evidence_id = #{mediateEvidenceId} OR i.investigate_evidence_id = #{mediateEvidenceId}
 	</select>
 	
 	<select id="findList" resultType="MediateEvidence">
 		SELECT 
 			<include refid="mediateEvidenceColumns"/>
-		FROM mediate_evidence a
+		FROM MEDIATE_EVIDENCE a
 		<include refid="mediateEvidenceJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -118,7 +119,7 @@
 	<select id="findAllList" resultType="MediateEvidence">
 		SELECT 
 			<include refid="mediateEvidenceColumns"/>
-		FROM mediate_evidence a
+		FROM MEDIATE_EVIDENCE a
 		<include refid="mediateEvidenceJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -134,7 +135,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO mediate_evidence(
+		INSERT INTO MEDIATE_EVIDENCE(
 			mediate_evidence_id,
 			complaint_main_id,
 			mediate_result,
@@ -178,7 +179,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE mediate_evidence SET 	
+		UPDATE MEDIATE_EVIDENCE SET 	
 			mediate_result = #{mediateResult},
 			summary = #{summary},
 			user_id = #{user.id},
@@ -195,7 +196,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE mediate_evidence SET 
+		UPDATE MEDIATE_EVIDENCE SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE mediate_evidence_id = #{mediateEvidenceId}
 	</update>

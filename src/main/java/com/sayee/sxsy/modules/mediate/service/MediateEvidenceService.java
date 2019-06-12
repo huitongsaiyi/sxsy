@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
+import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.record.service.MediateRecordService;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
@@ -34,7 +36,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	@Autowired
 	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
-	private MediateRecordService mediateRecordService;		//调解志业务层
+	private MediateRecordDao mediateRecordDao;		//调解志DAO层
 	@Autowired
 	private RecordInfoService recordInfoService;		//笔录业务层
 
@@ -70,6 +72,22 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			mediateEvidence.preUpdate();
 			dao.update(mediateEvidence);
 		}
+		for (MediateRecord mediateRecord : mediateEvidence.getmediateEvidenceList()){
+		    if(mediateRecord.getId() == null){
+		        continue;
+            }
+            if(MediateRecord.DEL_FLAG_NORMAL.equals(mediateRecord.getDelFlag())){
+		        if(StringUtils.isBlank(mediateRecord.getId())){
+		            mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
+		            mediateRecord.preInsert();
+		            mediateRecord.setMediateRecord(mediateRecord.getId());
+                    mediateRecordDao.insert(mediateRecord);
+                }else {
+		            mediateRecord.preUpdate();
+		            mediateRecordDao.update(mediateRecord);
+                }
+            }
+        }
 //		super.save(mediateEvidence);
 	}
 	

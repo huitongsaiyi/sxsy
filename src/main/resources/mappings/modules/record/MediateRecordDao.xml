@@ -16,6 +16,7 @@
 	</sql>
 	
 	<sql id="mediateRecordJoins">
+		LEFT JOIN MEDIATE_EVIDENCE b ON b.mediate_evidence_id = a.relation_id
 	</sql>
     
 	<select id="get" resultType="MediateRecord">
@@ -23,7 +24,7 @@
 			<include refid="mediateRecordColumns"/>
 		FROM mediate_record a
 		<include refid="mediateRecordJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.relation_id = #{relationId}
 	</select>
 	
 	<select id="findList" resultType="MediateRecord">
@@ -33,6 +34,9 @@
 		<include refid="mediateRecordJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="relationId != null and relationId != ''">
+				AND a.relation_id = #{relationId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -99,7 +103,7 @@
 	<update id="delete">
 		UPDATE mediate_record SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE relation_id = #{relationId}
 	</update>
 	
 </mapper>
