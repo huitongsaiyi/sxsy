@@ -179,21 +179,21 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 		ComplaintMain complaintMain =investigateEvidence.getComplaintMain();
 		complaintMain.preUpdate();
 		complaintMain.setComplaintMainId(investigateEvidence.getComplaintMainId());
-		complaintMainDao.update(complaintMain);
+        complaintMainDao.update(complaintMain);
 
-		//super.save(investigateEvidence);
-		if("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())){
-			//获取待办列表
-			 List<Act> list = actTaskService.todoList(investigateEvidence.getComplaintMain().getAct());
-			Map<String,Object> var=new HashMap<String, Object>();
-			var.put("pass","0");
-			User assigness=UserUtils.get(investigateEvidence.getNextLinkMan());
-			var.put("check_user",assigness.getLoginName());
-		//执行流程
-			actTaskService.complete(investigateEvidence.getComplaintMain().getAct().getTaskId(),investigateEvidence.getComplaintMain().getAct().getProcInsId(),investigateEvidence.getComplaintMain().getAct().getComment(),investigateEvidence.getComplaintMain().getCaseNumber(),var);
-		}
+        //super.save(investigateEvidence);
+        if("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())){
+            //获取待办列表
+            List<Act> list = actTaskService.todoList(investigateEvidence.getComplaintMain().getAct());
+            Map<String,Object> var=new HashMap<String, Object>();
+            var.put("pass","0");
+            User assigness=UserUtils.get(investigateEvidence.getNextLinkMan());
+            var.put("check_user",assigness.getLoginName());
+            //执行流程
+            actTaskService.complete(investigateEvidence.getComplaintMain().getAct().getTaskId(),investigateEvidence.getComplaintMain().getAct().getProcInsId(),investigateEvidence.getComplaintMain().getAct().getComment(),investigateEvidence.getComplaintMain().getCaseNumber(),var);
+        }
 
-	}
+    }
 	
 	@Transactional(readOnly = false)
 	public void delete(InvestigateEvidence investigateEvidence) {
