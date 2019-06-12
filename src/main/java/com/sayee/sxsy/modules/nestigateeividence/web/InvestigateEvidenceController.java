@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
+import com.sayee.sxsy.modules.respondentinfo.dao.RespondentInfoDao;
 import com.sayee.sxsy.modules.respondentinfo.entity.RespondentInfo;
 import com.sayee.sxsy.modules.respondentinfo.service.RespondentInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
@@ -47,6 +48,8 @@ public class InvestigateEvidenceController extends BaseController {
 	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
 	private RespondentInfoService respondentInfoService;
+    @Autowired
+    private RespondentInfoDao respondentInfoDao;
 	@ModelAttribute
 	public InvestigateEvidence get(@RequestParam(required=false) String id) {
 		InvestigateEvidence entity = null;
@@ -62,7 +65,29 @@ public class InvestigateEvidenceController extends BaseController {
 	@RequiresPermissions("nestigateeividence:investigateEvidence:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(InvestigateEvidence investigateEvidence, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<InvestigateEvidence> page = investigateEvidenceService.findPage(new Page<InvestigateEvidence>(request, response), investigateEvidence); 
+		//给实体类 set 数据 ，调查人
+		Page<InvestigateEvidence> page = investigateEvidenceService.findPage(new Page<InvestigateEvidence>(request, response), investigateEvidence);
+//        List<InvestigateEvidence> list = page.getList();
+//        for (InvestigateEvidence inves: list) {
+//            //遍历数据 拿到患方主键 查找调查人
+//            List<RespondentInfo> respondentInfo=respondentInfoDao.getL(inves.getInvestigateEvidenceId());
+//            for (RespondentInfo r: respondentInfo) {
+//                if (inves.getRespondentInfo()==null){
+//                    inves.setRespondentInfo(r);
+//                }else {
+//                    inves.setRespondentInfo2(r);
+//                }
+//            }
+//            //查找医方调查人
+//            List<RespondentInfo> YrespondentInfo=respondentInfoDao.getL(inves.getInvestigateEvidence().getInvestigateEvidenceId());
+//            for (RespondentInfo yf: YrespondentInfo) {
+//                if (inves.getRespondentInfo3()==null){
+//                    inves.setRespondentInfo3(yf);
+//                }else {
+//                    inves.setRespondentInfo4(yf);
+//                }
+//            }
+//        }
 		model.addAttribute("page", page);
 		return "modules/nestigateeividence/investigateEvidenceList";
 	}
@@ -70,11 +95,12 @@ public class InvestigateEvidenceController extends BaseController {
 	@RequiresPermissions("nestigateeividence:investigateEvidence:view")
 	@RequestMapping(value = "form")
 	public String form(InvestigateEvidence investigateEvidence, Model model) {
+	    //获取下调查人
+        investigateEvidenceService.respondent(investigateEvidence);
+        //获取附件
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(investigateEvidence.getId());
 		for (Map<String, Object> map :filePath){
-
 			if ("3".equals(MapUtils.getString(map,"fjtype1"))){
-
 				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
 			}else if("4".equals(MapUtils.getString(map,"fjtype2"))){
 				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
@@ -97,9 +123,7 @@ public class InvestigateEvidenceController extends BaseController {
 //			return form(investigateEvidence, model);
 //		}
 		try {
-
 				investigateEvidenceService.save(investigateEvidence,request);
-
 			if ("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())) {
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + investigateEvidence.getComplaintMain().getProcInsId());
 			} else {

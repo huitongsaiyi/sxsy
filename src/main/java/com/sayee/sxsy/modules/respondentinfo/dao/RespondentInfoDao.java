@@ -6,6 +6,9 @@ package com.sayee.sxsy.modules.respondentinfo.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.respondentinfo.entity.RespondentInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 被调查人信息DAO接口
@@ -14,5 +17,6 @@ import com.sayee.sxsy.modules.respondentinfo.entity.RespondentInfo;
  */
 @MyBatisDao
 public interface RespondentInfoDao extends CrudDao<RespondentInfo> {
-	
+    public List<RespondentInfo> getL(@Param("investigationEvidenceId") String investigationEvidenceId);
+
 }
