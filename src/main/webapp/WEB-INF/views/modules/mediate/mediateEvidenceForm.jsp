@@ -74,6 +74,17 @@
 <form:form id="inputForm" modelAttribute="mediateEvidence" action="${ctx}/mediate/mediateEvidence/save" method="post"
            class="form-horizontal">
     <form:hidden path="mediateEvidenceId"/>
+    <form:hidden path="createDate"/>
+    <form:hidden path="createBy"/>
+    <form:hidden path="complaintMainId"/>
+    <form:hidden path="complaintMain.complaintMainId"/>
+    <form:hidden path="complaintMain.act.taskId"/>
+    <form:hidden path="complaintMain.act.taskName"/>
+    <form:hidden path="complaintMain.act.taskDefKey"/>
+    <form:hidden path="complaintMain.act.procInsId"/>
+    <form:hidden path="complaintMain.act.procDefId"/>
+    <form:hidden path="complaintMain.procInsId"/>
+    <form:hidden id="flag" path="complaintMain.act.flag"/>
     <sys:message content="${message}"/>
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
@@ -98,11 +109,11 @@
                 <thead>
                 <tr>
                     <th class="hide"></th>
-                    <th>时间</th>
-                    <th>内容</th>
-                    <th>结果</th>
+                    <th width="10">时间</th>
+                    <th width="100">内容</th>
+                    <th width="100">结果</th>
                     <shiro:hasPermission name="mediate:mediateEvidence:edit">
-                        <th width="10">&nbsp;</th>
+                        <th width="100">&nbsp;</th>
                     </shiro:hasPermission>
                 </tr>
                 </thead>
@@ -116,34 +127,26 @@
 						<tr id="mediateEvidenceList{{idx}}">
 							<td class="hide">
 								<input id="mediateEvidenceList{{idx}}_id" name="mediateEvidenceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="0"/>
+								<input id="mediateEvidenceList{{idx}}_mediateRecord" name="mediateEvidenceList[{{idx}}].mediateRecord" type="hidden" value="{{row.mediateRecord}}"/>
+								<input id="mediateEvidenceList{{idx}}_relationId" name="mediateEvidenceList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
 							</td>
 							<td >
 								<%--<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" value="{{row.time}}" maxlength="32" class="input-small "/>--%>
-								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" "
                                     value="{{row.time}}"
-                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 							</td>
 							<td>
-								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="input-small required" cssStyle="width:170px" />
+								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="input-small required" />
+								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="required" />
 							</td>
 							<shiro:hasPermission name="mediate:mediateEvidence:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
-            </script>
-            <script type="text/javascript">
-                var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-                $(document).ready(function() {
-                    var data = ${fns:toJson(MediateEvidence.mediateEvidenceList)};
-                    for (var i=0; i<data.length; i++){
-                        addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl, data[i]);
-                        mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
-                    }
-                });
             </script>
         </div>
         <div class="tab-pane fade" id="meeting">
@@ -154,7 +157,7 @@
                         <input name="meetingTime" type="text" readonly="readonly" maxlength="20"
                                class="input-medium Wdate "
                                value="${mediateEvidence.meetingTime}"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                     <td class="tit">地点:</td>
                     <td>
@@ -168,9 +171,9 @@
                     </td>
                     <td class="tit">医方:</td>
                     <td class="controls">
-                        <sys:treeselect id="doctor" name="complaintMain.involveEmployee"
+                        <sys:treeselect id="doctor" name="doctor"
                                         value="${mediateEvidence.doctor}" labelName=""
-                                        labelValue="${mediateEvidence.complaintMain.employee.name}"
+                                        labelValue="${mediateEvidence.doctorUser.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
                                         allowClear="true" notAllowSelectParent="true"/>
                     </td>
@@ -178,11 +181,11 @@
                 <tr>
                     <td class="tit">医调委人员:</td>
                     <td>
-                        <sys:treeselect id="user.name" name="user.name"
-                                        value="${mediateEvidence.user.name}" labelName=""
-                                        labelValue="${mediateEvidence.user.name}"
-                                        title="用户" url="/sys/office/treeData?type=4&officeType=1" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true" checked="true"/>
+                        <sys:treeselect id="userId" name="userId"
+                                        value="${mediateEvidence.userId}" labelName=""
+                                        labelValue="${mediateEvidence.ytwUser.name}"
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
+                                        allowClear="true" notAllowSelectParent="true"/>
                     </td>
                     <td class="tit">患方</td>
                     <td>
@@ -201,14 +204,14 @@
                         <input name="recordInfo.startTime" type="text" readonly="readonly" maxlength="20"
                                class="input-medium Wdate "
                                value="${mediateEvidence.recordInfo.startTime}"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                     <td class="tit">结束时间</td>
                     <td>
                         <input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
                                class="input-medium Wdate "
                                value="${mediateEvidence.recordInfo.endTime}"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                 </tr>
                 <tr>
@@ -225,18 +228,18 @@
                 <tr>
                     <td class="tit">主持人</td>
                     <td>
-                        <sys:treeselect id="recordInfo.host" name="recordInfo.host"
+                        <sys:treeselect id="h_host" name="recordInfo.host"
                                         value="${mediateEvidence.recordInfo.host}" labelName=""
-                                        labelValue="${mediateEvidence.recordInfo.host}"
-                                        title="用户" url="/sys/office/treeData?type=2&officeType=1" cssClass=""
+                                        labelValue="${mediateEvidence.recordInfo.ytwHost.name}"
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
                                         allowClear="true" notAllowSelectParent="true"/>
                     </td>
                     <td class="tit">记录人</td>
                     <td>
-                        <sys:treeselect id="recordInfo.noteTaker" name="recordInfo.noteTaker"
+                        <sys:treeselect id="h_noteTaker" name="recordInfo.noteTaker"
                                         value="${mediateEvidence.recordInfo.noteTaker}" labelName=""
-                                        labelValue="${mediateEvidence.recordInfo.noteTaker}"
-                                        title="用户" url="/sys/office/treeData?type=2&officeType=1" cssClass=""
+                                        labelValue="${mediateEvidence.recordInfo.ytwNoteTaker.name}"
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
                                         allowClear="true" notAllowSelectParent="true"/>
                     </td>
                 </tr>
@@ -247,9 +250,9 @@
                     </td>
                     <td class="tit">医方</td>
                     <td>
-                        <sys:treeselect id="recordInfo.doctor" name="recordInfo.doctor"
+                        <sys:treeselect id="h_doctor" name="recordInfo.doctor"
                                         value="${mediateEvidence.recordInfo.doctor}" labelName=""
-                                        labelValue="${mediateEvidence.recordInfo.doctor}"
+                                        labelValue="${mediateEvidence.recordInfo.yfDoctor.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
                                         allowClear="true" notAllowSelectParent="true"/>
                     </td>
@@ -303,18 +306,18 @@
                 <tr>
                     <td class="tit">主持人</td>
                     <td>
-                        <sys:treeselect id="recordInfo.yrecordInfo.host" name="recordInfo.yrecordInfo.host"
+                        <sys:treeselect id="y_host" name="recordInfo.yrecordInfo.host"
                                         value="${mediateEvidence.recordInfo.yrecordInfo.host}" labelName=""
-                                        labelValue="${mediateEvidence.recordInfo.yrecordInfo.noteTaker}"
-                                        title="用户" url="/sys/office/treeData?type=2&officeType=1" cssClass=""
+                                        labelValue="${mediateEvidence.recordInfo.yrecordInfo.ytwHost.name}"
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
                                         allowClear="true" notAllowSelectParent="true"/>
                     </td>
                     <td class="tit">记录人</td>
                     <td>
-                        <sys:treeselect id="recordInfo.yrecordInfo.noteTaker" name="recordInfo.yrecordInfo.noteTaker"
+                        <sys:treeselect id="y_noteTaker" name="recordInfo.yrecordInfo.noteTaker"
                                         value="${mediateEvidence.recordInfo.yrecordInfo.noteTaker}" labelName=""
-                                        labelValue="${mediateEvidence.complaintMain.employee.name}"
-                                        title="用户" url="/sys/office/treeData?type=2&officeType=1" cssClass=""
+                                        labelValue="${mediateEvidence.recordInfo.yrecordInfo.ytwNoteTaker.name}"
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
                                         allowClear="true" notAllowSelectParent="true"/>
                     </td>
                 </tr>
@@ -326,9 +329,9 @@
                     </td>
                     <td class="tit">医方</td>
                     <td>
-                        <sys:treeselect id="recordInfo.yrecordInfo.doctor" name="recordInfo.yrecordInfo.doctor"
+                        <sys:treeselect id="y_doctor" name="recordInfo.yrecordInfo.doctor"
                                         value="${mediateEvidence.recordInfo.yrecordInfo.doctor}" labelName=""
-                                        labelValue="${mediateEvidence.recordInfo.yrecordInfo.doctor}"
+                                        labelValue="${mediateEvidence.recordInfo.yrecordInfo.yfDoctor.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
                                         allowClear="true" notAllowSelectParent="true"/>
                     </td>
@@ -434,7 +437,7 @@
                                style="margin: 0px; width: 938px; height: 125px;"/>
             </td>
         </tr>
-        <tr>
+        <%--<tr>
             <td class="tit">处理人</td>
             <td>
                 <form:input path="handlePeople" htmlEscape="false" maxlength="20" class="input-xlarge "/>
@@ -445,7 +448,7 @@
                        value="${mediateEvidence.handleTime}"
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
             </td>
-        </tr>
+        </tr>--%>
         <tr>
             <td class="tit"><font color="red">*</font>下一处理环节：</td>
             <td>
@@ -455,7 +458,7 @@
             <td>
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${mediateEvidence.nextLinkMan}" labelName=""
-                                labelValue="${mediateEvidence.nextLinkMan}"
+                                labelValue="${mediateEvidence.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true"
                                 notAllowSelectParent="true" checked="true"/>
             </td>
@@ -512,6 +515,17 @@
 
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
+
 </form:form>
+<script type="text/javascript">
+    var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+    $(document).ready(function() {
+        var data = ${fns:toJson(mediateEvidence.mediateEvidenceList)};
+        for (var i=0; i<data.length; i++){
+            addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl, data[i]);
+            mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
+        }
+    });
+</script>
 </body>
 </html>

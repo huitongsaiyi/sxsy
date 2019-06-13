@@ -55,6 +55,8 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 	}
 	
 	public List<InvestigateEvidence> findList(InvestigateEvidence investigateEvidence) {
+		//获取当前登陆用户
+		investigateEvidence.setUser(UserUtils.getUser());
 		return super.findList(investigateEvidence);
 	}
 	

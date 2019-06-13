@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.recordinfo.entity;
 
+import com.sayee.sxsy.modules.sys.entity.Office;
+import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
@@ -29,6 +31,9 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 	private String recordContent;		// 笔录内容
 	private String moduleType;		// 模块类型 1调解会议 2评估会议
 	private String type;		// 类型 1患方笔录 2 医方笔录
+	private User ytwHost;  //医调委的主持人实体类
+	private User ytwNoteTaker;  //医调委的记录人实体类
+	private User yfDoctor;  //医方实体类
 	private RecordInfo yrecordInfo;		//医方笔录
 
 	public RecordInfo() {
@@ -37,6 +42,30 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 
 	public RecordInfo(String id){
 		super(id);
+	}
+
+	public User getYtwHost() {
+		return ytwHost;
+	}
+
+	public void setYtwHost(User ytwHost) {
+		this.ytwHost = ytwHost;
+	}
+
+	public User getYtwNoteTaker() {
+		return ytwNoteTaker;
+	}
+
+	public void setYtwNoteTaker(User ytwNoteTaker) {
+		this.ytwNoteTaker = ytwNoteTaker;
+	}
+
+	public User getYfDoctor() {
+		return yfDoctor;
+	}
+
+	public void setYfDoctor(User yfDoctor) {
+		this.yfDoctor = yfDoctor;
 	}
 
 	public void setYrecordInfo(RecordInfo yrecordInfo) {
@@ -84,14 +113,14 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 	}
 	
 	@Length(min=0, max=100, message="地点长度必须介于 0 和 100 之间")
-	public String getrecordAddress() {
+	public String getRecordAddress() {
 		return recordAddress;
 	}
 
-	public void setrecordAddress(String recordAddress) {
+	public void setRecordAddress(String recordAddress) {
 		this.recordAddress = recordAddress;
 	}
-	
+
 	@Length(min=0, max=500, message="事由长度必须介于 0 和 500 之间")
 	public String getCause() {
 		return cause;

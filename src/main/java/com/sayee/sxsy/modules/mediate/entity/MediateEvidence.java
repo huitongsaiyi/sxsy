@@ -9,6 +9,7 @@ import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
+import com.sayee.sxsy.modules.sys.entity.Office;
 import org.hibernate.validator.constraints.Length;
 import com.sayee.sxsy.modules.sys.entity.User;
 
@@ -29,8 +30,8 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private String complaintMainId;        // 主表主键
     private String mediateResult;        // 调解结果  1成功 2 失败
     private String summary;        // 会议总结
-    private User user;        // 医调委人员  多人用逗号隔开
     private String patient;        // 患方
+    private String userId;        // 患方
     private String doctor;        // 医方
     private String caseInfoName;        // 案件
     private String meetingAddress;        // 地点
@@ -39,6 +40,10 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private String handleTime;        // 处理日期
     private String nextLink;        // next_link
     private String nextLinkMan;        // next_link_man
+    private User user;        // 当前登录人员
+    private User ytwUser;        // 医调委人员  多人用逗号隔开
+    private User doctorUser;        // 医方实体类
+    private User linkEmployee;		// 下一环节人员
     private ComplaintMain complaintMain;        //关联主表
     private List<MediateRecord> mediateEvidenceList = Lists.newArrayList();     //关联调解志子表
     private RecordInfo recordInfo;      //关联笔录子表
@@ -53,6 +58,30 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
 
     public MediateEvidence(String id) {
         super(id);
+    }
+
+    public User getDoctorUser() {
+        return doctorUser;
+    }
+
+    public void setDoctorUser(User doctorUser) {
+        this.doctorUser = doctorUser;
+    }
+
+    public User getLinkEmployee() {
+        return linkEmployee;
+    }
+
+    public void setLinkEmployee(User linkEmployee) {
+        this.linkEmployee = linkEmployee;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public ReportRegistration getReportRegistration() {
@@ -87,11 +116,11 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.recordInfo = recordInfo;
     }
 
-    public void setmediateEvidenceList(List<MediateRecord> mediateEvidenceList) {
+    public void setMediateEvidenceList(List<MediateRecord> mediateEvidenceList) {
         this.mediateEvidenceList = mediateEvidenceList;
     }
 
-    public List<MediateRecord> getmediateEvidenceList() {
+    public List<MediateRecord> getMediateEvidenceList() {
         return mediateEvidenceList;
     }
 
@@ -101,6 +130,14 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
 
     public void setComplaintMain(ComplaintMain complaintMain) {
         this.complaintMain = complaintMain;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Length(min = 0, max = 32, message = "质证调解主键长度必须介于 0 和 32 之间")
@@ -138,20 +175,20 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.summary = summary;
     }
 
-    public User getUser() {
-        return user;
+    public User getYtwUser() {
+        return ytwUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setYtwUser(User ytwUser) {
+        this.ytwUser = ytwUser;
     }
 
     @Length(min = 0, max = 100, message = "患方长度必须介于 0 和 100 之间")
-    public String getpatient() {
+    public String getPatient() {
         return patient;
     }
 
-    public void setpatient(String patient) {
+    public void setPatient(String patient) {
         this.patient = patient;
     }
 
@@ -165,20 +202,20 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     }
 
     @Length(min = 0, max = 200, message = "案件长度必须介于 0 和 200 之间")
-    public String getcaseInfoName() {
+    public String getCaseInfoName() {
         return caseInfoName;
     }
 
-    public void setcaseInfoName(String caseInfoName) {
+    public void setCaseInfoName(String caseInfoName) {
         this.caseInfoName = caseInfoName;
     }
 
     @Length(min = 0, max = 100, message = "地点长度必须介于 0 和 100 之间")
-    public String getmeetingAddress() {
+    public String getMeetingAddress() {
         return meetingAddress;
     }
 
-    public void setmeetingAddress(String meetingAddress) {
+    public void setMeetingAddress(String meetingAddress) {
         this.meetingAddress = meetingAddress;
     }
 

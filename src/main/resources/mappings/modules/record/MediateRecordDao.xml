@@ -22,7 +22,7 @@
 	<select id="get" resultType="MediateRecord">
 		SELECT 
 			<include refid="mediateRecordColumns"/>
-		FROM mediate_record a
+		FROM MEDIATE_RECORD a
 		<include refid="mediateRecordJoins"/>
 		WHERE a.relation_id = #{relationId}
 	</select>
@@ -30,7 +30,7 @@
 	<select id="findList" resultType="MediateRecord">
 		SELECT 
 			<include refid="mediateRecordColumns"/>
-		FROM mediate_record a
+		FROM MEDIATE_RECORD a
 		<include refid="mediateRecordJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -51,7 +51,7 @@
 	<select id="findAllList" resultType="MediateRecord">
 		SELECT 
 			<include refid="mediateRecordColumns"/>
-		FROM mediate_record a
+		FROM MEDIATE_RECORD a
 		<include refid="mediateRecordJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -67,7 +67,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO mediate_record(
+		INSERT INTO MEDIATE_RECORD(
 			mediate_record,
 			relation_id,
 			time,
@@ -93,17 +93,17 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE mediate_record SET 	
+		UPDATE MEDIATE_RECORD SET
 			time = #{time},
 			content = #{content},
 			result = #{result}
-		WHERE id = #{id}
+		WHERE mediate_record = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE mediate_record SET 
+		UPDATE MEDIATE_RECORD SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE relation_id = #{relationId}
+		WHERE mediate_record = #{mediateRecord}
 	</update>
 	
 </mapper>

@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
+import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.test.dao.TestDataChildDao;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +36,6 @@ import com.sayee.sxsy.modules.mediate.service.MediateEvidenceService;
 @Controller
 @RequestMapping(value = "${adminPath}/mediate/mediateEvidence")
 public class MediateEvidenceController extends BaseController {
-
-
 	@Autowired
 	private MediateEvidenceService mediateEvidenceService;
 	
@@ -71,11 +72,10 @@ public class MediateEvidenceController extends BaseController {
 		try {
 			mediateEvidenceService.savefj(request,mediateEvidence);
 			mediateEvidenceService.save(mediateEvidence);
-
 			if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + mediateEvidence.getComplaintMain().getProcInsId());
 			}else {
-				addMessage(redirectAttributes, "保存报案登记成功");
+				addMessage(redirectAttributes, "保存质证调解成功");
 			}
 		} catch (Exception e) {
 			logger.error("启动纠纷调解流程失败：", e);
@@ -84,8 +84,8 @@ public class MediateEvidenceController extends BaseController {
 //		if (!beanValidator(model, mediateEvidence)){
 //			return form(mediateEvidence, model);
 //		}
-		mediateEvidenceService.save(mediateEvidence);
-		addMessage(redirectAttributes, "保存质证调解成功");
+//		mediateEvidenceService.save(mediateEvidence);
+//		addMessage(redirectAttributes, "保存质证调解成功");
 		return "redirect:"+Global.getAdminPath()+"/mediate/mediateEvidence/?repage";
 	}
 	

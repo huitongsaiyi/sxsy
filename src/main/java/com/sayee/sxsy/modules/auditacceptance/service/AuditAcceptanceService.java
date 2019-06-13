@@ -41,10 +41,14 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 	}
 	
 	public List<AuditAcceptance> findList(AuditAcceptance auditAcceptance) {
+		//获取当前登陆用户
+		auditAcceptance.setUser(UserUtils.getUser());
 		return super.findList(auditAcceptance);
 	}
 	
 	public Page<AuditAcceptance> findPage(Page<AuditAcceptance> page, AuditAcceptance auditAcceptance) {
+		//获取当前登陆用户
+		auditAcceptance.setUser(UserUtils.getUser());
 		return super.findPage(page, auditAcceptance);
 	}
 	
