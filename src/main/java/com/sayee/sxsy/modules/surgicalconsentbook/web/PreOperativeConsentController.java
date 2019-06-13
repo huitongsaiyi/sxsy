@@ -113,30 +113,45 @@ public class PreOperativeConsentController extends BaseController  {
 		}
 		String files1 = request.getParameter("files");
 		String files2 = request.getParameter("files1");
-		if(preOperativeConsent ==null) {
+		String id = preOperativeConsent.getId();
+		String acceId1 = IdGen.uuid();
+		String acceId2 = IdGen.uuid();
+		String itemId1 = preOperativeConsent.getId();
+		String fjtype1 = request.getParameter("fjtype1");
+		String fjtype2 = request.getParameter("fjtype2");
+		if(StringUtils.isBlank(preOperativeConsent.getId())) {
 			preOperativeConsentService.save(preOperativeConsent);
-			String acceId1 = IdGen.uuid();
-			String itemId1 = preOperativeConsent.getId();
-			String fjtype1 = request.getParameter("fjtype1");
-			String fjtype2 = request.getParameter("fjtype2");
+
+
 //request.setAttribute("s",files1);
-			String acceId2 = IdGen.uuid();
-			preOperativeConsentService.save1(acceId1, itemId1, files1, fjtype1);
-			preOperativeConsentService.save1(acceId2, itemId1, files2, fjtype2);
-		}else if(preOperativeConsent !=null){
+			if(files1 !=""){
+				preOperativeConsentService.save1(acceId1, itemId1, files1, fjtype1);
+			}
+			if(files2 !=""){
+				preOperativeConsentService.save1(acceId2, itemId1, files2, fjtype2);
+			}
+
+		}else {
 			preOperativeConsentService.save(preOperativeConsent);
 			//根据file_path是否存在判断，如果存在,则更新附件表，如果不存在就删除对应的附件表
-			if(files1 ==""){
-               preOperativeConsentService.delefj(preOperativeConsent.getId(),"1");
-			}else if(files1 !=""){
+			if(StringUtils.isBlank(files1)){
+
+					preOperativeConsentService.delefj(preOperativeConsent.getId(),"1");
+
+
+			}else {
 				//更新 附件表  保存主表后有 业务主键 item——id
-				preOperativeConsentService.updatefj(files1,preOperativeConsent.getId(),"1");
+
+					preOperativeConsentService.delefj(preOperativeConsent.getId(),"1");
+
+				preOperativeConsentService.save1(acceId1, itemId1, files1, fjtype1);
 			}
-			if(files2 ==""){
+			if(StringUtils.isBlank(files2)){
 				preOperativeConsentService.delefj(preOperativeConsent.getId(),"2");
 			}
-           else if(files2 !=""){
-				preOperativeConsentService.updatefj(files2,preOperativeConsent.getId(),"2");
+           else {
+				preOperativeConsentService.delefj(preOperativeConsent.getId(),"2");
+				preOperativeConsentService.save1(acceId2, itemId1, files2, fjtype2);
 			}
 		}
 		addMessage(redirectAttributes, "保存术前同意书成功");
