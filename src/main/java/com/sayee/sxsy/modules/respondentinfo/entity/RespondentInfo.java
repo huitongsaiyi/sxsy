@@ -24,7 +24,7 @@ public class RespondentInfo extends DataEntity<RespondentInfo> {
 	private String respondentWorkUnit;		// 被调查人工作单位
 	private String respondentPost;		// 被调查人职务
 	private String respondentIdentity;		// 被调查人身份 字典维护
-	
+
 	public RespondentInfo() {
 		super();
 	}
