@@ -3,16 +3,22 @@
  */
 package com.sayee.sxsy.modules.mediate.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.modules.act.entity.Act;
+import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.record.service.MediateRecordService;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,45 +45,59 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	private MediateRecordDao mediateRecordDao;		//调解志DAO层
 	@Autowired
 	private RecordInfoService recordInfoService;		//笔录业务层
-
+	@Autowired
+	private ActTaskService actTaskService;
 
 
 	public MediateEvidence get(String id) {
-		return super.get(id);
+		MediateEvidence mediateEvidence=super.get(id);
+		//调解志 明细查询
+		MediateRecord mediateRecord=new MediateRecord();
+		mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
+		mediateEvidence.setMediateEvidenceList(mediateRecordDao.findList(mediateRecord));
+		return mediateEvidence;
 	}
 	
 	public List<MediateEvidence> findList(MediateEvidence mediateEvidence) {
+		//获取当前登陆用户
+		mediateEvidence.setUser(UserUtils.getUser());
 		return super.findList(mediateEvidence);
 	}
 	
 	public Page<MediateEvidence> findPage(Page<MediateEvidence> page, MediateEvidence mediateEvidence) {
+		//获取当前登陆用户
+		mediateEvidence.setUser(UserUtils.getUser());
 		return super.findPage(page, mediateEvidence);
 	}
 	
 	@Transactional(readOnly = false)
 	public void save(MediateEvidence mediateEvidence) {
-		if(StringUtils.isBlank(mediateEvidence.getMediateEvidenceId())){
+		if(StringUtils.isBlank(mediateEvidence.getCreateBy().getId())){
+            mediateEvidence.preInsert();
+            mediateEvidence.setMediateEvidenceId(mediateEvidence.getId());
+            //将主键ID设为UUID
+            dao.insert(mediateEvidence);
 			//判断主键ID是否为空
-			mediateEvidence.getRecordInfo().setRelationId(mediateEvidence.getMediateEvidenceId());		//将关联表的主键ID添加到子表属性中
 			mediateEvidence.getRecordInfo().getYrecordInfo().setRelationId(mediateEvidence.getMediateEvidenceId());
-			recordInfoService.save(mediateEvidence.getRecordInfo());		//患方笔录
+            mediateEvidence.getRecordInfo().getYrecordInfo().setModuleType("1");
+            mediateEvidence.getRecordInfo().getYrecordInfo().setType("2");
 			recordInfoService.save(mediateEvidence.getRecordInfo().getYrecordInfo());		//医方笔录
-			mediateEvidence.preInsert();
-			mediateEvidence.setMediateEvidenceId(mediateEvidence.getId());
-			//将主键ID设为UUID
-			dao.insert(mediateEvidence);
-		}else{//如果不为空进行更新
 
+            mediateEvidence.getRecordInfo().setRelationId(mediateEvidence.getMediateEvidenceId());		//将关联表的主键ID添加到子表属性中
+            mediateEvidence.getRecordInfo().setModuleType("1");
+            mediateEvidence.getRecordInfo().setType("1");
+            recordInfoService.save(mediateEvidence.getRecordInfo());		//患方笔录
+		}else{//如果不为空进行更新
 			//修改报案登记表
 			mediateEvidence.preUpdate();
 			dao.update(mediateEvidence);
 		}
-		for (MediateRecord mediateRecord : mediateEvidence.getmediateEvidenceList()){
+		for (MediateRecord mediateRecord : mediateEvidence.getMediateEvidenceList()){
 		    if(mediateRecord.getId() == null){
 		        continue;
             }
             if(MediateRecord.DEL_FLAG_NORMAL.equals(mediateRecord.getDelFlag())){
-		        if(StringUtils.isBlank(mediateRecord.getId())){
+		        if(StringUtils.isBlank(mediateRecord.getMediateRecord())){
 		            mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
 		            mediateRecord.preInsert();
 		            mediateRecord.setMediateRecord(mediateRecord.getId());
@@ -86,8 +106,21 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		            mediateRecord.preUpdate();
 		            mediateRecordDao.update(mediateRecord);
                 }
-            }
+            }else{
+				mediateRecordDao.delete(mediateRecord);
+			}
         }
+		if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
+
+			Map<String,Object> var=new HashMap<String, Object>();
+			var.put("pass","0");
+			User assigness= UserUtils.get(mediateEvidence.getNextLinkMan());
+			var.put("apply_user",assigness.getLoginName());
+			// 执行流程
+			actTaskService.complete(mediateEvidence.getComplaintMain().getAct().getTaskId(), mediateEvidence.getComplaintMain().getAct().getProcInsId(), mediateEvidence.getComplaintMain().getAct().getComment(), mediateEvidence.getComplaintMain().getCaseNumber(), var);
+
+
+		}
 //		super.save(mediateEvidence);
 	}
 	

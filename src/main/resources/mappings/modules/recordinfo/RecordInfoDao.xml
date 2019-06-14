@@ -25,16 +25,16 @@
 	</sql>
 	
 	<sql id="recordInfoJoins">
-		LEFT JOIN sys_user u7 ON u7.id = a.host
-		LEFT JOIN sys_user u8 ON u8.id = a.note_taker
-		LEFT JOIN sys_user u10 ON u10.id = a.doctor
-		LEFT JOIN sys_user u11 ON u11.id = a.other_participants
+		LEFT JOIN SYS_USER u7 ON u7.id = a.host
+		LEFT JOIN SYS_USER u8 ON u8.id = a.note_taker
+		LEFT JOIN SYS_USER u10 ON u10.id = a.doctor
+		LEFT JOIN SYS_USER u11 ON u11.id = a.other_participants
 	</sql>
     
 	<select id="get" resultType="RecordInfo">
 		SELECT 
 			<include refid="recordInfoColumns"/>
-		FROM record_info a
+		FROM RECORD_INFO a
 		<include refid="recordInfoJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -42,7 +42,7 @@
 	<select id="findList" resultType="RecordInfo">
 		SELECT 
 			<include refid="recordInfoColumns"/>
-		FROM record_info a
+		FROM RECORD_INFO a
 		<include refid="recordInfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -60,7 +60,7 @@
 	<select id="findAllList" resultType="RecordInfo">
 		SELECT 
 			<include refid="recordInfoColumns"/>
-		FROM record_info a
+		FROM RECORD_INFO a
 		<include refid="recordInfoJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -76,7 +76,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO record_info(
+		INSERT INTO RECORD_INFO(
 			record_id,
 			relation_id,
 			start_time,
@@ -120,7 +120,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE record_info SET 	
+		UPDATE RECORD_INFO SET
 			start_time = #{startTime},
 			end_time = #{endTime},
 			address = #{address},
@@ -135,7 +135,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE record_info SET 
+		UPDATE RECORD_INFO SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE record_id = #{recordId}
 	</update>

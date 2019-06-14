@@ -73,11 +73,7 @@
 		<where>
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},d.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='enrollment'
 			<if test="user != null and user.id != null and user.id != ''">
-				AND (a.create_by LIKE
-				<if test="dbName == 'oracle'">'%'||#{user.id}||'%'</if>
-				<if test="dbName == 'mssql'">'%'+#{user.id}+'%'</if>
-				<if test="dbName == 'mysql'">CONCAT('%', #{user.id}, '%')</if>
-				OR t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%') )
+				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
 
 			</if>
 			<if test="reportEmp != null and reportEmp != ''">
