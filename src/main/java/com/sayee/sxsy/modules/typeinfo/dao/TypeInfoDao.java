@@ -6,6 +6,9 @@ package com.sayee.sxsy.modules.typeinfo.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 类型总表DAO接口
@@ -14,5 +17,7 @@ import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
  */
 @MyBatisDao
 public interface TypeInfoDao extends CrudDao<TypeInfo> {
+
+    public List<TypeInfo> findTypeList(@Param("relationModel") String relationModel);
 	
 }
