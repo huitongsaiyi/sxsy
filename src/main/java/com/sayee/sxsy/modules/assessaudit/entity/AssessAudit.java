@@ -7,6 +7,8 @@ import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
+import com.sayee.sxsy.modules.sys.entity.Office;
+import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
@@ -49,6 +51,11 @@ public class AssessAudit extends DataEntity<AssessAudit> {
     private AuditAcceptance auditAcceptance;//保单号
     private Area area;
     private ReportRegistration reportRegistration;//报案人姓名
+	private User user;  //当前登录人员
+	private User dlEmployee;   //代理人实体类，先留着，后期又可能选择人员树
+	private Office sqOffice; // 申请医院
+	private Office sjOffice; // 涉及医院
+	private User linkEmployee;		// 下一环节人员
 
 
 	public AssessAudit() {
@@ -59,7 +66,47 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		super(id);
 	}
 
-    public ReportRegistration getReportRegistration() {
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getDlEmployee() {
+		return dlEmployee;
+	}
+
+	public void setDlEmployee(User dlEmployee) {
+		this.dlEmployee = dlEmployee;
+	}
+
+	public Office getSqOffice() {
+		return sqOffice;
+	}
+
+	public void setSqOffice(Office sqOffice) {
+		this.sqOffice = sqOffice;
+	}
+
+	public Office getSjOffice() {
+		return sjOffice;
+	}
+
+	public void setSjOffice(Office sjOffice) {
+		this.sjOffice = sjOffice;
+	}
+
+	public User getLinkEmployee() {
+		return linkEmployee;
+	}
+
+	public void setLinkEmployee(User linkEmployee) {
+		this.linkEmployee = linkEmployee;
+	}
+
+	public ReportRegistration getReportRegistration() {
         return reportRegistration;
     }
 

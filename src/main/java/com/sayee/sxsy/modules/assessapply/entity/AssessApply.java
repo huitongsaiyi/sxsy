@@ -25,7 +25,7 @@ public class AssessApply extends DataEntity<AssessApply> {
 	private String complaintMainId;		// 关联主键
 	private ComplaintMain complaintMain;  //主表
 	private User user;  //当前登录人员
-	private User dlEmployee;
+	private User dlEmployee;   //代理人 实体类
 	private Office sqOffice; // 申请医院
 	private Office sjOffice; // 涉及医院
 	private User linkEmployee;		// 下一环节人员

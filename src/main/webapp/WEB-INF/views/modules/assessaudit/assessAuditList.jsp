@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/assessaudit/assessAudit/">评估鉴定审批列表</a></li>
+<%--
 		<shiro:hasPermission name="assessaudit:assessAudit:edit"><li><a href="${ctx}/assessaudit/assessAudit/form">评估鉴定审批添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="assessAudit" action="${ctx}/assessaudit/assessAudit/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -77,7 +79,7 @@
 				</td>
 				<shiro:hasPermission name="assessaudit:assessAudit:edit"><td>
     				<a href="${ctx}/assessaudit/assessAudit/form?id=${assessAudit.assessAuditId}">处理</a>
-					<a href="${ctx}/assessaudit/assessAudit/form?id=${assessAudit.assessAuditId}&type=view">修改</a>
+					<a href="${ctx}/assessaudit/assessAudit/form?id=${assessAudit.assessAuditId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

@@ -12,7 +12,7 @@
 		a.patient_sex AS "patientSex",
 		a.patient_age AS "patientAge",
 		a.involve_hospital AS "involveHospital",
-		a.patient__apply_matter AS "patientApplyMatter",
+		a.patient_apply_matter AS "patientApplyMatter",
 		a.hospital_apply AS "hospitalApply",
 		a.agent AS "agent",
 		a.hospital_mobile AS "hospitalMobile",
@@ -56,7 +56,7 @@
 		LEFT JOIN SYS_OFFICE o11 ON o11.id = a.involve_hospital
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
         LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
-        LEFT JOIN SYS_OFFICE o2 ON o1.id=a.hospital_apply
+        LEFT JOIN SYS_OFFICE o2 ON o2.id=a.hospital_apply
         LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
         LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 	</sql>
@@ -134,7 +134,7 @@
 			patient_sex,
 			patient_age,
 			involve_hospital,
-			patient__apply_matter,
+			patient_apply_matter,
 			hospital_apply,
 			agent,
 			hospital_mobile,
@@ -194,7 +194,7 @@
 			patient_sex = #{patientSex},
 			patient_age = #{patientAge},
 			involve_hospital = #{involveHospital},
-			patient__apply_matter = #{patientApplyMatter},
+			patient_apply_matter = #{patientApplyMatter},
 			hospital_apply = #{hospitalApply},
 			agent = #{agent},
 			hospital_mobile = #{hospitalMobile},

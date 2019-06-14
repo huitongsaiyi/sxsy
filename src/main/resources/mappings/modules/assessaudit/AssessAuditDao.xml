@@ -3,24 +3,24 @@
 <mapper namespace="com.sayee.sxsy.modules.assessaudit.dao.AssessAuditDao">
     
 	<sql id="assessAuditColumns">
-		if(a.assess_audit_id IS NULL,au.audit_acceptance_id,a.assess_audit_id) AS "assessAuditId",
-		if(a.complaint_main_id IS NULL,au.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
-		a.patient_applyer AS "patientApplyer",
-		a.patient_relation AS "patientRelation",
-		a.patient_mobile AS "patientMobile",
-		a.patient_name AS "patientName",
-		a.patient_sex AS "patientSex",
-		a.patient_age AS "patientAge",
-		a.involve_hospital AS "involveHospital",
-		a.patient__apply_matter AS "patientApplyMatter",
-		a.hospital_apply AS "hospitalApply",
-		a.agent AS "agent",
-		a.hospital_mobile AS "hospitalMobile",
-		a.hospital_name AS "hospitalName",
-		a.hospital_age AS "hospitalAge",
-		a.hospital_sex AS "hospitalSex",
-		a.hospital_apply_matter AS "hospitalApplyMatter",
-		a.apply_type AS "applyType",
+		if(a.assess_audit_id IS NULL,aa.assess_apply_id,a.assess_audit_id) AS "assessAuditId",
+		if(a.complaint_main_id IS NULL,aa.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
+		if(a.patient_applyer IS NULL,aa.patient_applyer,a.patient_applyer) AS "patientApplyer",
+		if(a.patient_relation IS NULL,aa.patient_relation,a.patient_relation) AS "patientRelation",
+		if(a.patient_mobile IS NULL,aa.patient_mobile,a.patient_mobile) AS "patientMobile",
+		if(a.patient_name IS NULL,aa.patient_name,a.patient_name) AS "patientName",
+		if(a.patient_sex IS NULL,aa.patient_sex,a.patient_sex) AS "patientSex",
+		if(a.patient_age IS NULL,aa.patient_age ,a.patient_age ) AS "patientAge",
+		if(a.involve_hospital IS NULL,aa.involve_hospital,a.involve_hospital ) AS "involveHospital",
+		if(a.patient_apply_matter IS NULL,aa.patient_apply_matter,a.patient_apply_matter) AS "patientApplyMatter",
+		if(a.hospital_apply IS NULL,aa.hospital_apply,a.hospital_apply) AS "hospitalApply",
+		if(a.agent IS NULL,aa.agent,a.agent) AS "agent",
+		if(a.hospital_mobile IS NULL,aa.hospital_mobile,a.hospital_mobile) AS "hospitalMobile",
+		if(a.hospital_name IS NULL,aa.hospital_name,a.hospital_name) AS "hospitalName",
+		if(a.hospital_age IS NULL,aa.hospital_age,a.hospital_age) AS "hospitalAge",
+		if(a.hospital_sex IS NULL,aa.hospital_sex,a.hospital_sex) AS "hospitalSex",
+		if(a.hospital_apply_matter IS NULL,aa.hospital_apply_matter,a.hospital_apply_matter) AS "hospitalApplyMatter",
+		if(a.apply_type IS NULL,aa.apply_type,a.apply_type) AS "applyType",
 		a.audit_address AS "auditAddress",
 		a.medical_expert AS "medicalExpert",
 		a.date AS "date",
@@ -38,14 +38,15 @@
 		b.patient_name AS "complaintMain.patientName",
 		b.involve_hospital AS "complaintMain.involveHospital",
 		b.proc_ins_id AS "complaintMain.procInsId",
+		b.hospital_grade AS "complaintMain.hospitalGrade",
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
-		t1.FILE_PATH AS "files",
-		b.hospital_grade AS "complaintMain.hospitalGrade",
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
+		o2.name AS "sqOffice.name",
+		o11.name AS "sjOffice.name",
 		au.policy_number AS "auditAcceptance.policyNumber",
 	    r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
@@ -54,15 +55,17 @@
 	
 	<sql id="assessAuditJoins">
 		LEFT JOIN ASSESS_AUDIT a ON a.complaint_main_id = b.complaint_main_id
-		LEFT JOIN AUDIT_ACCEPTANCE au ON au.complaint_main_id = a.complaint_main_id
+		LEFT JOIN ASSESS_APPLY aa ON aa.complaint_main_id = b.complaint_main_id
+		LEFT JOIN AUDIT_ACCEPTANCE au ON au.complaint_main_id = b.complaint_main_id
 		LEFT JOIN REPORT_REGISTRATION r ON r.complaint_main_id = b.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+		LEFT JOIN SYS_OFFICE o11 ON o11.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o2 ON o2.id=a.hospital_apply
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
-		LEFT JOIN T_ACCESSORIES t1 ON  t1.ITEM_ID = au.audit_acceptance_id
 </sql>
     
 	<select id="get" resultType="AssessAudit">
@@ -70,7 +73,7 @@
 			<include refid="assessAuditColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="assessAuditJoins"/>
-		WHERE a.assess_audit_id = #{assessAuditId}
+		WHERE a.assess_audit_id = #{assessAuditId} OR aa.assess_apply_id = #{assessAuditId}
 	</select>
 	
 	<select id="findList" resultType="AssessAudit">
@@ -79,8 +82,10 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="assessAuditJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null
--- 			and t.TASK_DEF_KEY_='approval'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null	AND t.TASK_DEF_KEY_='approval'
+            <if test="user != null and user.id != null and user.id != ''">
+                AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -95,7 +100,7 @@
 	<select id="findAllList" resultType="AssessAudit">
 		SELECT 
 			<include refid="assessAuditColumns"/>
-		FROM assess_audit a
+		FROM ASSESS_AUDIT a
 		<include refid="assessAuditJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -111,7 +116,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO assess_audit(
+		INSERT INTO ASSESS_AUDIT(
 			assess_audit_id,
 			complaint_main_id,
 			patient_applyer,
@@ -121,7 +126,7 @@
 			patient_sex,
 			patient_age,
 			involve_hospital,
-			patient__apply_matter,
+			patient_apply_matter,
 			hospital_apply,
 			agent,
 			hospital_mobile,
@@ -179,7 +184,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE assess_audit SET 	
+		UPDATE ASSESS_AUDIT SET
 			patient_applyer = #{patientApplyer},
 			patient_relation = #{patientRelation},
 			patient_mobile = #{patientMobile},
@@ -187,7 +192,7 @@
 			patient_sex = #{patientSex},
 			patient_age = #{patientAge},
 			involve_hospital = #{involveHospital},
-			patient__apply_matter = #{patientApplyMatter},
+			patient_apply_matter = #{patientApplyMatter},
 			hospital_apply = #{hospitalApply},
 			agent = #{agent},
 			hospital_mobile = #{hospitalMobile},
@@ -208,9 +213,9 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE assess_audit SET 
+		UPDATE ASSESS_AUDIT SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE assess_audit_id = #{id}
 	</update>
 	
 </mapper>
