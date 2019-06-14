@@ -46,8 +46,15 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 	public RecordInfo getYrecordInfo() {
 		return yrecordInfo;
 	}
+    public String getRecordAddress() {
+        return recordAddress;
+    }
 
-	@Length(min=0, max=32, message="笔录主键长度必须介于 0 和 32 之间")
+    public void setRecordAddress(String recordAddress) {
+        this.recordAddress = recordAddress;
+    }
+
+    @Length(min=0, max=32, message="笔录主键长度必须介于 0 和 32 之间")
 	public String getRecordId() {
 		return recordId;
 	}
