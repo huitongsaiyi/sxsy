@@ -3,8 +3,8 @@
 <mapper namespace="com.sayee.sxsy.modules.assessapply.dao.AssessApplyDao">
     
 	<sql id="assessApplyColumns">
-		a.assess_apply_id AS "assessApplyId",
-		a.complaint_main_id AS "complaintMainId",
+		if(a.assess_apply_id IS NULL,r.report_registration_id,a.assess_apply_id) AS "assessApplyId",
+		if(a.complaint_main_id IS NULL,r.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
 		a.patient_applyer AS "patientApplyer",
 		a.patient_relation AS "patientRelation",
 		a.patient_mobile AS "patientMobile",
@@ -29,28 +29,56 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		au.policy_number AS "policyNumber",
+		r.report_emp AS "reportRegistration.reportEmp",
+        r.dispute_time AS "reportRegistration.disputeTime",
+        r.patient_mobile AS "reportRegistration.patientMobile",
+		b.hospital_grade AS "complaintMain.hospitalGrade",
+		b.case_number AS "complaintMain.caseNumber",
+		b.patient_name AS "complaintMain.patientName",
+		b.involve_hospital AS "complaintMain.involveHospital",
+		b.proc_ins_id AS "complaintMain.procInsId",
+		o.name AS "complaintMain.hospital.name",
+		o1.name AS "complaintMain.department.name",
+		o2.name AS "sqOffice.name",
+		o11.name AS "sjOffice.name",
+		u1.name AS "complaintMain.employee.name",
+		u2.name AS "linkEmployee.name",
+		t.ID_ AS "complaintMain.act.taskId"
 	</sql>
 	
 	<sql id="assessApplyJoins">
-		LEFT JOIN SYS_OFFICE o11 ON o11.id = a.hospital_apply
+		LEFT JOIN ASSESS_APPLY a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+		LEFT JOIN REPORT_REGISTRATION r ON r.complaint_main_id = b.complaint_main_id
+		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
+		LEFT JOIN SYS_OFFICE o11 ON o11.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+        LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+        LEFT JOIN SYS_OFFICE o2 ON o1.id=a.hospital_apply
+        LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+        LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 	</sql>
     
 	<select id="get" resultType="AssessApply">
 		SELECT 
 			<include refid="assessApplyColumns"/>
-		FROM ASSESS_APPLY a
+		FROM COMPLAINT_MAIN b
 		<include refid="assessApplyJoins"/>
-		WHERE a.assess_apply_id = #{id}
+		WHERE a.assess_apply_id = #{id} OR au.audit_acceptance_id = #{id}
 	</select>
 	
 	<select id="findList" resultType="AssessApply">
 		SELECT 
 			<include refid="assessApplyColumns"/>
-		FROM ASSESS_APPLY a
+		FROM COMPLAINT_MAIN b
 		<include refid="assessApplyJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},au.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='apply'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
 			<if test="patientApplyer != null and patientApplyer != ''">
 				AND a.patient_applyer LIKE 
 					<if test="dbName == 'oracle'">'%'||#{patientApplyer}||'%'</if>
@@ -181,13 +209,13 @@
 			next_link_man = #{nextLinkMan},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
-		WHERE assess_apply_id = #{id}
+		WHERE assess_apply_id = #{assessApplyId}
 	</update>
 	
 	<update id="delete">
 		UPDATE ASSESS_APPLY SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE assess_apply_id = #{id}
+		WHERE assess_apply_id = #{assessApplyId}
 	</update>
 	
 </mapper>

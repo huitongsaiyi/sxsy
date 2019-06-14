@@ -32,7 +32,6 @@
          yr.host AS "recordInfo.yrecordInfo.host", yr.note_taker AS "recordInfo.yrecordInfo.noteTaker",
          yr.patient AS "recordInfo.yrecordInfo.patient", yr.doctor AS "recordInfo.yrecordInfo.doctor",
          yr.other_participants AS "recordInfo.yrecordInfo.otherParticipants",
-         yr.record_content AS "recordInfo.yrecordInfo.recordContent", sa.name AS "areaName",
          o.name AS "complaintMain.hospital.name", o1.name AS "complaintMain.department.name",
          u1.name AS "complaintMain.employee.name", u2.name AS "linkEmployee.name",
          t.ID_ AS "complaintMain.act.taskId", r1.report_emp AS "reportRegistration.reportEmp",
@@ -43,7 +42,8 @@
          uy.name AS "recordInfo.yfDoctor.name",
          uz1.name AS "recordInfo.yrecordInfo.ytwHost.name",
          uj1.name AS "recordInfo.yrecordInfo.ytwNoteTaker.name",
-         uy1.name AS "recordInfo.yrecordInfo.yfDoctor.name"
+         uy1.name AS "recordInfo.yrecordInfo.yfDoctor.name",
+         au.policy_number AS "auditAcceptance.policyNumber"
 	</sql>
 	
 	<sql id="mediateEvidenceJoins">

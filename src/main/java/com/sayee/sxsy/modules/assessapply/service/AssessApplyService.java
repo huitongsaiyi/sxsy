@@ -41,10 +41,12 @@ public class AssessApplyService extends CrudService<AssessApplyDao, AssessApply>
 	}
 	
 	public List<AssessApply> findList(AssessApply assessApply) {
+		assessApply.setUser(UserUtils.getUser());
 		return super.findList(assessApply);
 	}
 	
 	public Page<AssessApply> findPage(Page<AssessApply> page, AssessApply assessApply) {
+		assessApply.setUser(UserUtils.getUser());
 		return super.findPage(page, assessApply);
 	}
 	
@@ -63,13 +65,12 @@ public class AssessApplyService extends CrudService<AssessApplyDao, AssessApply>
 			dao.update(assessApply);
 		}
 		//修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
-		ComplaintMain complaintMain=assessApply.getComplaintMain();
-		complaintMain.preUpdate();
-		complaintMain.setComplaintMainId(assessApply.getComplaintMainId());
-		complaintMainDao.update(complaintMain);
+//		ComplaintMain complaintMain=assessApply.getComplaintMain();
+//		complaintMain.preUpdate();
+//		complaintMain.setComplaintMainId(assessApply.getComplaintMainId());
+//		complaintMainDao.update(complaintMain);
 		if ("yes".equals(assessApply.getComplaintMain().getAct().getFlag())){
-			List<Act> list = actTaskService.todoList(assessApply.getComplaintMain().getAct());
-
+			//List<Act> list = actTaskService.todoList(assessApply.getComplaintMain().getAct());
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","0");
 			User assigness= UserUtils.get(assessApply.getNextLinkMan());

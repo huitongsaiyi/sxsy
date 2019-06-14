@@ -42,11 +42,14 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>患方申请人</th>
-				<th>与患者关系</th>
-				<th>患方电话</th>
+				<th>案件编号</th>
+				<th>涉及医院</th>
+				<th>机构等级</th>
+				<th>保单号</th>
+				<th>报案人姓名</th>
+				<th>纠纷发生时间</th>
 				<th>患者姓名</th>
-				<th>申请医院</th>
+				<th>患方联系方式</th>
 				<th>create_date</th>
 				<th>update_date</th>
 				<shiro:hasPermission name="assessapply:assessApply:edit"><th>操作</th></shiro:hasPermission>
@@ -56,20 +59,29 @@
 		<c:forEach items="${page.list}" var="assessApply">
 			<tr>
 				<td><a href="${ctx}/assessapply/assessApply/form?id=${assessApply.assessApplyId}">
-					${assessApply.patientApplyer}
+						${assessApply.complaintMain.caseNumber}
 				</a></td>
-				<td>
-					${assessApply.patientRelation}
-				</td>
-				<td>
-					${assessApply.patientMobile}
-				</td>
-				<td>
-					${assessApply.patientName}
-				</td>
-				<td>
-					${assessApply.involveHospital}
-				</td>
+                <td>
+                        ${assessApply.complaintMain.hospital.name}
+                </td>
+                <td>
+                        ${assessApply.complaintMain.hospitalGrade}
+                </td>
+                <td>
+                        ${assessApply.policyNumber}
+                </td>
+                <td>
+                        ${assessApply.reportRegistration.reportEmp}
+                </td>
+                <td>
+                        ${assessApply.reportRegistration.disputeTime}
+                </td>
+                <td>
+                        ${assessApply.complaintMain.patientName}
+                </td>
+                <td>
+                        ${assessApply.reportRegistration.patientMobile}
+                </td>
 				<td>
 					<fmt:formatDate value="${assessApply.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
