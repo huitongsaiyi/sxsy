@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/assessapply/assessApply/">评估申请列表</a></li>
+<%--
 		<shiro:hasPermission name="assessapply:assessApply:edit"><li><a href="${ctx}/assessapply/assessApply/form">评估申请添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="assessApply" action="${ctx}/assessapply/assessApply/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

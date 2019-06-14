@@ -46,6 +46,7 @@
     <form:hidden path="complaintMain.act.procInsId"/>
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
+    <form:hidden id="flag" path="complaintMain.act.flag"/>
     <sys:message content="${message}"/>
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
@@ -100,8 +101,8 @@
                 <tr>
                     <td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
                     <td width="522px">
-                        <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${assessAudit.complaintMain.involveHospital}" labelName="" labelValue="${assessAudit.complaintMain.hospital.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+                        <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${empty assessAudit.involveHospital ? assessAudit.complaintMain.involveHospital : assessAudit.involveHospital}" labelName="" labelValue="${empty assessAudit.involveHospital ? assessAudit.complaintMain.hospital.name : assessAudit.sjOffice.name}"
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" isAll="true" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                 </tr>
                 <tr>
@@ -118,8 +119,8 @@
                 <tr>
                     <td class="tit" width="180px"><font color="red">*</font>申请医院：</td>
                     <td width="429px">
-                        <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${assessAudit.complaintMain.involveHospital}" labelName="" labelValue="${assessAudit.complaintMain.hospital.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+                        <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${empty assessAudit.hospitalApply ? assessAudit.complaintMain.involveHospital : assessAudit.hospitalApply}" labelName="" labelValue="${empty assessAudit.hospitalApply ? assessAudit.complaintMain.hospital.name : assessAudit.sqOffice.name}"
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" isAll="true" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>代理人：</td>
                     <td>
@@ -216,7 +217,7 @@
             </td>
             <td class="tit">下一环节处理人：</td>
             <td >
-                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
+                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessAudit.nextLinkMan}" labelName="" labelValue="${assessAudit.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
             </td>
         </tr>

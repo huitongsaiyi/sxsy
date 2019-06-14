@@ -3,11 +3,16 @@
  */
 package com.sayee.sxsy.modules.assessaudit.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,30 +35,43 @@ public class AssessAuditService extends CrudService<AssessAuditDao, AssessAudit>
 
 	@Autowired
 	private PreOperativeConsentService preOperativeConsentService;
+	@Autowired
+	private ActTaskService actTaskService;
 
 	public AssessAudit get(String id) {
 		return super.get(id);
 	}
 	
 	public List<AssessAudit> findList(AssessAudit assessAudit) {
+		assessAudit.setUser(UserUtils.getUser());
 		return super.findList(assessAudit);
 	}
 	
 	public Page<AssessAudit> findPage(Page<AssessAudit> page, AssessAudit assessAudit) {
+		assessAudit.setUser(UserUtils.getUser());
 		return super.findPage(page, assessAudit);
 	}
 	
 	@Transactional(readOnly = false)
 	public void save(AssessAudit assessAudit) {
-		if(StringUtils.isBlank(assessAudit.getAssessAuditId())){	//判断主键ID是否为空
+		if(StringUtils.isBlank(assessAudit.getCreateBy().getId())){
+			//判断是否为空
 			assessAudit.preInsert();
 			assessAudit.setAssessAuditId(assessAudit.getId());		//将主键设为UUID
 			dao.insert(assessAudit);
-		}else{
+		}else{//如果不为空进行更新
 			assessAudit.preUpdate();
 			dao.update(assessAudit);
 		}
-//		super.save(assessAudit);
+		if ("yes".equals(assessAudit.getComplaintMain().getAct().getFlag())){
+			//List<Act> list = actTaskService.todoList(assessApply.getComplaintMain().getAct());
+			Map<String,Object> var=new HashMap<String, Object>();
+			var.put("pass","0");
+			User assigness= UserUtils.get(assessAudit.getNextLinkMan());
+			var.put("evaluation_user",assigness.getLoginName());
+			// 执行流程
+			actTaskService.complete(assessAudit.getComplaintMain().getAct().getTaskId(), assessAudit.getComplaintMain().getAct().getProcInsId(), assessAudit.getComplaintMain().getAct().getComment(), assessAudit.getComplaintMain().getCaseNumber(), var);
+		}
 	}
 	
 	@Transactional(readOnly = false)
