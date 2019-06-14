@@ -78,7 +78,7 @@
 						</td>
 						<td class="tit" width="199px">患者姓名：</td>
 						<td width="522px">
-							<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+							<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 						</td>
 					</tr>
 					<tr>
@@ -86,20 +86,20 @@
 						<td class="tit" width="180px">性别：</td>
 						<td >
 								<%--<form:input path="patientSex" htmlEscape="false" maxlength="1" class="input-xlarge "/>--%>
-							<form:select path="complaintMain.patientSex" class="input-medium">
+							<form:select path="patientSex" class="input-medium">
 								<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 							</form:select>
 						</td>
 						<td class="tit">年龄：</td>
 						<td >
-							<form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
+							<form:input path="patientAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
 						</td>
 					</tr>
 					<tr >
 						<td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
 						<td width="522px">
-							<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${reportRegistration.complaintMain.involveHospital}" labelName="" labelValue="${reportRegistration.complaintMain.hospital.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+							<sys:treeselect id="involveHospital" name="involveHospital" value="${empty assessApply.involveHospital ? assessApply.complaintMain.involveHospital : assessApply.involveHospital}" labelName="" labelValue="${empty assessApply.involveHospital ? assessApply.complaintMain.hospital.name : assessApply.sjOffice.name}"
+											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" isAll="true" allowClear="true" notAllowSelectParent="false"/>
 						</td>
 					</tr>
 					<tr>
@@ -118,8 +118,8 @@
 					<tr>
 						<td class="tit" width="180px"><font color="red">*</font>申请医院：</td>
 						<td width="429px">
-							<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${reportRegistration.complaintMain.involveHospital}" labelName="" labelValue="${reportRegistration.complaintMain.hospital.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+							<sys:treeselect id="hospitalApply" name="hospitalApply" value="${empty assessApply.hospitalApply ? assessApply.complaintMain.involveHospital : assessApply.hospitalApply}" labelName="" labelValue="${empty assessApply.hospitalApply ? assessApply.complaintMain.hospital.name : assessApply.sqOffice.name}"
+											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" isAll="true" allowClear="true" notAllowSelectParent="false"/>
 						</td>
 						<td class="tit" width="199px"><font color="red">*</font>代理人：</td>
 						<td>
@@ -139,7 +139,9 @@
 					<tr >
 						<td class="tit"><font color="red">*</font>性别：</td>
 						<td class="controls">
-							<form:input path="hospitalSex" htmlEscape="false" maxlength="1" class="input-xlarge "/>
+							<form:select path="hospitalSex" class="input-medium">
+								<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+							</form:select>
 						</td>
 						<td class="tit"><font color="red">*</font>年龄：</td>
 						<td class="controls">
@@ -176,7 +178,7 @@
 			</td>
 			<td class="tit">下一环节处理人：</td>
 			<td >
-				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
+				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessApply.nextLinkMan}" labelName="" labelValue="${assessApply.linkEmployee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
 			</td>
 		</tr>

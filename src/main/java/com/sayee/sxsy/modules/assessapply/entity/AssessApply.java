@@ -3,8 +3,11 @@
  */
 package com.sayee.sxsy.modules.assessapply.entity;
 
+import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
+import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
@@ -22,8 +25,12 @@ public class AssessApply extends DataEntity<AssessApply> {
 	private String complaintMainId;		// 关联主键
 	private ComplaintMain complaintMain;  //主表
 	private User user;  //当前登录人员
-	private User sqEmployee;		// 申请人员
+	private User dlEmployee;   //代理人 实体类
+	private Office sqOffice; // 申请医院
+	private Office sjOffice; // 涉及医院
 	private User linkEmployee;		// 下一环节人员
+	private String policyNumber;  //保单号
+	private ReportRegistration reportRegistration;  //报案表
 	private String patientApplyer;		// 患方申请人
 	private String patientRelation;		// 与患者关系
 	private String patientMobile;		// 患方电话
@@ -44,7 +51,7 @@ public class AssessApply extends DataEntity<AssessApply> {
 	private String handleTime;		// 处理日期
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
-	
+
 	public AssessApply() {
 		super();
 	}
@@ -69,12 +76,44 @@ public class AssessApply extends DataEntity<AssessApply> {
 		this.user = user;
 	}
 
-	public User getSqEmployee() {
-		return sqEmployee;
+	public String getPolicyNumber() {
+		return policyNumber;
 	}
 
-	public void setSqEmployee(User sqEmployee) {
-		this.sqEmployee = sqEmployee;
+	public void setPolicyNumber(String policyNumber) {
+		this.policyNumber = policyNumber;
+	}
+
+	public ReportRegistration getReportRegistration() {
+		return reportRegistration;
+	}
+
+	public void setReportRegistration(ReportRegistration reportRegistration) {
+		this.reportRegistration = reportRegistration;
+	}
+
+	public User getDlEmployee() {
+		return dlEmployee;
+	}
+
+	public void setDlEmployee(User dlEmployee) {
+		this.dlEmployee = dlEmployee;
+	}
+
+	public Office getSqOffice() {
+		return sqOffice;
+	}
+
+	public void setSqOffice(Office sqOffice) {
+		this.sqOffice = sqOffice;
+	}
+
+	public Office getSjOffice() {
+		return sjOffice;
+	}
+
+	public void setSjOffice(Office sjOffice) {
+		this.sjOffice = sjOffice;
 	}
 
 	public User getLinkEmployee() {
