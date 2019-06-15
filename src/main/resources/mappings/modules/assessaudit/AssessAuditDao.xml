@@ -82,7 +82,7 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="assessAuditJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null	AND t.TASK_DEF_KEY_='approval'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},aa.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null	AND t.TASK_DEF_KEY_='approval'
             <if test="user != null and user.id != null and user.id != ''">
                 AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
             </if>
