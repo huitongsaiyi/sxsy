@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.patientlinkemp.dao.PatientLinkEmpDao">
+    
+	<sql id="patientLinkEmpColumns">
+		a.patient_link_emp_id AS "patientLinkEmpId",
+		a.patient_link_name AS "patientLinkName",
+		a.patient_link_sex AS "patientLinkSex",
+		a.patient_link_age AS "patientLinkAge",
+		a.patient_link_work_unit AS "patientLinkWorkUnit",
+		a.patient_link_post AS "patientLinkPost",
+		a.patient_link_mobile AS "patientLinkMobile",
+		a.patient_relation AS "patientRelation",
+		a.id_number AS "idNumber",
+		a.patient_link_address AS "patientLinkAddress",
+		a.respondent_identity AS "respondentIdentity",
+		a.relation_id AS "relationId",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.link_type AS "linkType"
+	</sql>
+	
+	<sql id="patientLinkEmpJoins">
+		LEFT JOIN ASSESS_APPRAISAL ass ON ass.assess_appraisal_id = a.relation_id
+	</sql>
+    
+	<select id="get" resultType="PatientLinkEmp">
+		SELECT 
+			<include refid="patientLinkEmpColumns"/>
+		FROM patient_link_emp a
+		<include refid="patientLinkEmpJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PatientLinkEmp">
+		SELECT 
+			<include refid="patientLinkEmpColumns"/>
+		FROM patient_link_emp a
+		<include refid="patientLinkEmpJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="relationId != null and relationId != ''">
+				AND a.relation_id = #{relationId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PatientLinkEmp">
+		SELECT 
+			<include refid="patientLinkEmpColumns"/>
+		FROM patient_link_emp a
+		<include refid="patientLinkEmpJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO patient_link_emp(
+			patient_link_emp_id,
+			patient_link_name,
+			patient_link_sex,
+			patient_link_age,
+			patient_link_work_unit,
+			patient_link_post,
+			patient_link_mobile,
+			patient_relation,
+			id_number,
+			patient_link_address,
+			respondent_identity,
+			relation_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			link_type
+		) VALUES (
+			#{patientLinkEmpId},
+			#{patientLinkName},
+			#{patientLinkSex},
+			#{patientLinkAge},
+			#{patientLinkWorkUnit},
+			#{patientLinkPost},
+			#{patientLinkMobile},
+			#{patientRelation},
+			#{idNumber},
+			#{patientLinkAddress},
+			#{respondentIdentity},
+			#{relationId},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{linkType}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE patient_link_emp SET 	
+			patient_link_emp_id = #{patientLinkEmpId},
+			patient_link_name = #{patientLinkName},
+			patient_link_sex = #{patientLinkSex},
+			patient_link_age = #{patientLinkAge},
+			patient_link_work_unit = #{patientLinkWorkUnit},
+			patient_link_post = #{patientLinkPost},
+			patient_link_mobile = #{patientLinkMobile},
+			patient_relation = #{patientRelation},
+			id_number = #{idNumber},
+			patient_link_address = #{patientLinkAddress},
+			respondent_identity = #{respondentIdentity},
+			relation_id = #{relationId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			link_type = #{linkType}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE patient_link_emp SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
