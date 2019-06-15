@@ -46,6 +46,9 @@
 			<if test="relationId != null and relationId != ''">
 				AND a.relation_id = #{relationId}
 			</if>
+			<if test="linkType != null and linkType != ''">
+				AND a.link_type = #{linkType}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

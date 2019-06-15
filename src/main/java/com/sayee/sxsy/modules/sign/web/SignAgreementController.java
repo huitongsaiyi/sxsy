@@ -63,13 +63,18 @@ public class SignAgreementController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(SignAgreement signAgreement, Model model) {
 		model.addAttribute("signAgreement", signAgreement);
+		//在修改时 拿到 用逗号分割的数据  进行处理
 		List<TypeInfo> tjqk=BaseUtils.getType("3");
+		signAgreementService.label(tjqk,signAgreement.getMediation());
 		model.addAttribute("tjqk", tjqk);
 		List<TypeInfo> xyydsx=BaseUtils.getType("4");
+		signAgreementService.label(xyydsx,signAgreement.getAgreedMatter());
 		model.addAttribute("xyydsx", xyydsx);
 		List<TypeInfo> lxxyfs=BaseUtils.getType("5");
+		signAgreementService.label(lxxyfs,signAgreement.getPerformAgreementMode());
 		model.addAttribute("lxxyfs", lxxyfs);
 		List<TypeInfo> xysm=BaseUtils.getType("6");
+		signAgreementService.label(xysm,signAgreement.getAgreementExplain());
 		model.addAttribute("xysm", xysm);
 		return "modules/sign/signAgreementForm";
 	}

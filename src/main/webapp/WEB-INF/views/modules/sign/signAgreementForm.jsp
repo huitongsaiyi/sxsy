@@ -142,9 +142,10 @@
 						<tr id="patientLinkEmpList{{idx}}">
 							<td class="hide">
 								<input id="patientLinkEmpList{{idx}}_id" name="patientLinkEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="patientLinkEmpList{{idx}}_patientLinkEmpId" name="medicalOfficeEmpList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
-								<input id="patientLinkEmpList{{idx}}_linkType" name="medicalOfficeEmpList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
-								<input id="patientLinkEmpList{{idx}}_delFlag" name="patientLinkEmpList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+								<input id="patientLinkEmpList{{idx}}_patientLinkEmpId" name="patientLinkEmpList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
+								<input id="patientLinkEmpList{{idx}}_linkType" name="patientLinkEmpList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
+								<input id="patientLinkEmpList{{idx}}_relationId" name="patientLinkEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+								<input id="patientLinkEmpList{{idx}}_delFlag" name="patientLinkEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 
 							<td>
@@ -191,23 +192,24 @@
 						<script type="text/template" id="patientLinkDTp">//<!--
 						<tr id="patientLinkDList{{idx}}">
 							<td class="hide">
-								<input id="patientLinkDList{{idx}}_id" name="patientLinkEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="patientLinkDList{{idx}}_patientLinkEmpId" name="medicalOfficeEmpList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
+								<input id="patientLinkDList{{idx}}_id" name="patientLinkDList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="patientLinkDList{{idx}}_patientLinkEmpId" name="patientLinkDList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
 								<input id="patientLinkDList{{idx}}_linkType" name="patientLinkDList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
-								<input id="patientLinkDList{{idx}}_delFlag" name="patientLinkEmpList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+								<input id="patientLinkDList{{idx}}_relationId" name="patientLinkDList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+								<input id="patientLinkDList{{idx}}_delFlag" name="patientLinkDList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 
 							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
+								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkEmpList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />
+								<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" />
+								<input id="patientLinkDList{{idx}}_idNumber" name="patientLinkDList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" />
+								<input id="patientLinkDList{{idx}}_patientLinkAddress" name="patientLinkDList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" />
 							</td>
 
 							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
@@ -249,7 +251,7 @@
 								<input id="medicalOfficeEmpList{{idx}}_id" name="medicalOfficeEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeEmpId" name="medicalOfficeEmpList[{{idx}}].medicalOfficeEmpId" type="hidden" value="{{row.medicalOfficeEmpId}}"/>
 								<input id="medicalOfficeEmpList{{idx}}_relationId" name="medicalOfficeEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="medicalOfficeEmpList{{idx}}_delFlag" name="medicalOfficeEmpList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+								<input id="medicalOfficeEmpList{{idx}}_delFlag" name="medicalOfficeEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 
 							<td>
@@ -268,10 +270,10 @@
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" />
 							</td>
 							<td>
-								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" class="input-mini">
+								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeSex" name="medicalOfficeEmpList[{{idx}}].medicalOfficeSex" value="{{row.medicalOfficeSex}}" class="input-mini">
 									<option value=""></option>
-									<option value="1">男</option>
-									<option value="2">女</option>
+									<option value="1" {{row.medicalOfficeSex=='1' ? 'selected' ,''}} >男</option>
+									<option value="2" {{row.medicalOfficeSex=='2' ? 'selected' ,''}} >女</option>
 								</select>
 							</td>
 							<td>
@@ -313,7 +315,7 @@
 									<td nowrap style="text-align:center;vertical-align:middle;">
 										<input type="hidden" name="mediationList[${vs.index}].typeId" value="${column.typeId}"/>
 										<input type="hidden" name="mediationList[${vs.index}].delFlag" value="${column.delFlag}"/>
-                                        <input type="checkbox" name="mediationList[${vs.index}].label" value="1" ${column.typeId eq '1' ? 'checked' : ''}/>
+                                        <input type="checkbox" name="mediationList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''}/>
                                     </td>
 									<td style="text-align:center;vertical-align:middle;">
                                             ${column.typeName}
@@ -365,7 +367,7 @@
                                     <td nowrap style="text-align:center;vertical-align:middle;">
                                         <input type="hidden" name="performList[${vs.index}].typeId" value="${column.typeId}"/>
                                         <input type="hidden" name="performList[${vs.index}].delFlag" value="${column.delFlag}"/>
-                                        <input type="checkbox" name="performList[${vs.index}].label" value="1" ${column.typeId eq '1' ? 'checked' : ''}/>
+                                        <input type="checkbox" name="performList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''}/>
                                     </td>
                                     <td style="text-align:center;vertical-align:middle;">
                                             ${column.typeName}
@@ -379,7 +381,7 @@
                         </table>
 
                     </div>
-					<div class="tab-pane fade" id="">
+					<div class="tab-pane fade" id="xysm">
                         <table id="content3Table" class="table table-striped table-bordered table-condensed">
                             <thead>
                             <tr>
@@ -390,11 +392,11 @@
                             </thead>
                             <tbody>
                             <c:forEach items="${xysm}" var="column" varStatus="vs">
-                                <tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
+                                <tr>
                                     <td nowrap style="text-align:center;vertical-align:middle;">
                                         <input type="hidden" name="agreementList[${vs.index}].typeId" value="${column.typeId}"/>
                                         <input type="hidden" name="agreementList[${vs.index}].delFlag" value="${column.delFlag}"/>
-                                        <input type="checkbox" name="agreementList[${vs.index}].label" value="1" ${column.typeId eq '1' ? 'checked' : ''}/>
+                                        <input type="checkbox" name="agreementList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''}/>
                                     </td>
                                     <td style="text-align:center;vertical-align:middle;">
                                             ${column.typeName}
@@ -513,10 +515,6 @@
 				</td>
 			</tr>
 		</table>
-
-
-
-
 		<div class="form-actions">
 			<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
 			<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
@@ -531,10 +529,22 @@
 		var patientLinkEmpRowIdx = 0, patientLinkEmpTp = $("#patientLinkEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
 		var patientLinkDRowIdx = 0, patientLinkDTp = $("#patientLinkDTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
 		$(document).ready(function() {
-			var data = ${fns:toJson(signAgreement.medicalOfficeEmpList)};
-			for (var i=0; i<data.length; i++){
-				addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, data[i]);
+			var officeData = ${fns:toJson(signAgreement.medicalOfficeEmpList)};
+			for (var i=0; i<officeData.length; i++){
+				addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, officeData[i]);
 				medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;
+			}
+
+			var data = ${fns:toJson(signAgreement.patientLinkDList)};
+			for (var i=0; i<data.length; i++){
+				addRow('#patientLinkDList', patientLinkDRowIdx, patientLinkDTp, data[i]);
+				patientLinkDRowIdx = patientLinkDRowIdx + 1;
+			}
+
+			var PatientData = ${fns:toJson(signAgreement.patientLinkEmpList)};
+			for (var i=0; i<PatientData.length; i++){
+				addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp, PatientData[i]);
+				patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;
 			}
 		});
 	</script>
