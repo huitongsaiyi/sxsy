@@ -45,8 +45,8 @@
 				}
 			});
 		}
-		function delRow(obj, prefix){
-			var id = $(prefix+"_id");
+		function delRow(obj, prefix,key){
+			var id = $(prefix+key);
 			var delFlag = $(prefix+"_delFlag");
 			if (id.val() == ""){
 				$(obj).parent().parent().remove();
@@ -162,7 +162,7 @@
 							</td>
 
 							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmpList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmpList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 						</script>
@@ -213,7 +213,7 @@
 							</td>
 
 							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkDList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkDList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 						</script>
@@ -270,10 +270,10 @@
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" />
 							</td>
 							<td>
-								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeSex" name="medicalOfficeEmpList[{{idx}}].medicalOfficeSex" value="{{row.medicalOfficeSex}}" class="input-mini">
+								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeSex" name="medicalOfficeEmpList[{{idx}}].medicalOfficeSex" value="{{row.medicalOfficeSex}}" data-value="{{row.medicalOfficeSex}}" class="input-mini">
 									<option value=""></option>
-									<option value="1" {{row.medicalOfficeSex=='1' ? 'selected' ,''}} >男</option>
-									<option value="2" {{row.medicalOfficeSex=='2' ? 'selected' ,''}} >女</option>
+									<option value="1"  >男</option>
+									<option value="2"  >女</option>
 								</select>
 							</td>
 							<td>
@@ -283,7 +283,7 @@
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeCompany" name="medicalOfficeEmpList[{{idx}}].medicalOfficeCompany" type="text" value="{{row.medicalOfficeCompany}}" maxlength="200" class="required" />
 							</td>
 							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}','_medicalOfficeEmpId')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 						</script>
