@@ -123,7 +123,7 @@
 		UPDATE RECORD_INFO SET
 			start_time = #{startTime},
 			end_time = #{endTime},
-			address = #{address},
+			address = #{recordAddress},
 			cause = #{cause},
 			host = #{host},
 			note_taker = #{noteTaker},
