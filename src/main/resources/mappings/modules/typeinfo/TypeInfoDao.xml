@@ -103,5 +103,14 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE type_id = #{typeId}
 	</update>
-	
+
+	<select id="findTypeList" resultType="TypeInfo">
+		SELECT
+		<include refid="typeInfoColumns"/>
+		FROM TYPE_INFO a
+		<include refid="typeInfoJoins"/>
+		<where>
+			a.relation_model = #{relationModel} AND a.del_flag = 0
+		</where>
+	</select>
 </mapper>

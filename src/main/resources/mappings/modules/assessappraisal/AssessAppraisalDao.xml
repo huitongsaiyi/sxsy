@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.assessappraisal.dao.AssessAppraisalDao">
+    
+	<sql id="assessAppraisalColumns">
+        if(a.assess_appraisal_id IS NULL,ass.assess_audit_id,a.assess_appraisal_id)AS "assessAppraisalId",
+        if(a.complaint_main_id IS NULL ,ass.complaint_main_id,a.complaint_main_id)AS "complaintMainId",
+		a.apply_type AS "applyType",
+		a.responsibility_ratio AS "responsibilityRatio",
+		a.host AS "host",
+		a.clerk AS "clerk",
+		a.patient_name AS "patientName",
+		a.patient_sex AS "patientSex",
+		a.patient_age AS "patientAge",
+		a.hospital_number AS "hospitalNumber",
+		a.involve_hospital AS "involveHospital",
+		a.diagnostic_analysis AS "diagnosticAnalysis",
+		a.treatment_analysis AS "treatmentAnalysis",
+		a.other_medical_analysis AS "otherMedicalAnalysis",
+		a.medical_expert AS "medicalExpert",
+		a.legal_expert AS "legalExpert",
+		a.other AS "other",
+		a.handle_people AS "handlePeople",
+		a.handle_time AS "handleTime",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		b.case_number AS "complaintMain.caseNumber",
+		b.patient_name AS "complaintMain.patientName",
+		b.patient_sex AS "complaintMain.patientSex",
+		b.patient_age AS "complaintMain.patientAge",
+		b.patient_card AS "complaintMain.patientCard",
+		b.involve_hospital AS "complaintMain.involveHospital",
+		b.hospital_level AS "complaintMain.hospitalLevel",
+		b.hospital_grade AS "complaintMain.hospitalGrade",
+		b.involve_department AS "complaintMain.involveDepartment",
+		b.involve_employee AS "complaintMain.involveEmployee",
+		b.proc_ins_id AS "complaintMain.procInsId",
+		sa.name AS "area.name",
+		o.name AS "complaintMain.hospital.name",
+		o1.name AS "complaintMain.department.name",
+		u1.name AS "complaintMain.employee.name",
+		u2.name AS "linkEmployee.name",
+		au.policy_number AS "auditAcceptance.policyNumber",
+		r.report_emp AS "reportRegistration.reportEmp",
+		r.dispute_time AS "reportRegistration.disputeTime",
+		r.patient_mobile AS "reportRegistration.patientMobile"
+	</sql>
+	
+	<sql id="assessAppraisalJoins">
+        LEFT JOIN ASSESS_APPRAISAL a on a.complaint_main_id = b.complaint_main_id
+        LEFT JOIN ASSESS_AUDIT ass on b.complaint_main_id = ass.complaint_main_id
+        LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
+        LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
+        LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+        LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+        LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
+        LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+        LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+        LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+	</sql>
+    
+	<select id="get" resultType="AssessAppraisal">
+		SELECT
+			<include refid="assessAppraisalColumns"/>
+		FROM COMPLAINT_MAIN b
+		<include refid="assessAppraisalJoins"/>
+		WHERE a.assess_appraisal_id = #{assessAppraisalId} OR ass.assess_audit_id = #{assessAppraisalId}
+	</select>
+	
+	<select id="findList" resultType="AssessAppraisal">
+		SELECT 
+			<include refid="assessAppraisalColumns"/>
+		FROM COMPLAINT_MAIN b
+		<include refid="assessAppraisalJoins"/>
+		<where>
+		if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},ass.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='forensics'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AssessAppraisal">
+		SELECT 
+			<include refid="assessAppraisalColumns"/>
+		FROM ASSESS_APPRAISAL a
+		<include refid="assessAppraisalJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ASSESS_APPRAISAL(
+			assess_appraisal_id,
+			complaint_main_id,
+			apply_type,
+			responsibility_ratio,
+			host,
+			clerk,
+			patient_name,
+			patient_sex,
+			patient_age,
+			hospital_number,
+			involve_hospital,
+			diagnostic_analysis,
+			treatment_analysis,
+			other_medical_analysis,
+			medical_expert,
+			legal_expert,
+			other,
+			handle_people,
+			handle_time,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{assessAppraisalId},
+			#{complaintMainId},
+			#{applyType},
+			#{responsibilityRatio},
+			#{host},
+			#{clerk},
+			#{patientName},
+			#{patientSex},
+			#{patientAge},
+			#{hospitalNumber},
+			#{involveHospital},
+			#{diagnosticAnalysis},
+			#{treatmentAnalysis},
+			#{otherMedicalAnalysis},
+			#{medicalExpert},
+			#{legalExpert},
+			#{other},
+			#{handlePeople},
+			#{handleTime},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ASSESS_APPRAISAL SET
+			assess_appraisal_id = #{assessAppraisalId},
+			complaint_main_id = #{complaintMainId},
+			apply_type = #{applyType},
+			responsibility_ratio = #{responsibilityRatio},
+			host = #{host},
+			clerk = #{clerk},
+			patient_name = #{patientName},
+			patient_sex = #{patientSex},
+			patient_age = #{patientAge},
+			hospital_number = #{hospitalNumber},
+			involve_hospital = #{involveHospital},
+			diagnostic_analysis = #{diagnosticAnalysis},
+			treatment_analysis = #{treatmentAnalysis},
+			other_medical_analysis = #{otherMedicalAnalysis},
+			medical_expert = #{medicalExpert},
+			legal_expert = #{legalExpert},
+			other = #{other},
+			handle_people = #{handlePeople},
+			handle_time = #{handleTime},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE assess_appraisal_id = #{assessAppraisalId}
+	</update>
+	
+	<update id="delete">
+		UPDATE assess_appraisal SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE assess_appraisal_id = #{assessAppraisalId}
+	</update>
+	
+</mapper>

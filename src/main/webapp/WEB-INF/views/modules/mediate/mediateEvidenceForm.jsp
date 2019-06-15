@@ -77,6 +77,8 @@
     <form:hidden path="createDate"/>
     <form:hidden path="createBy"/>
     <form:hidden path="complaintMainId"/>
+    <form:hidden path="recordInfo.recordId"/>
+    <form:hidden path="recordInfo.yrecordInfo.recordId"/>
     <form:hidden path="complaintMain.complaintMainId"/>
     <form:hidden path="complaintMain.act.taskId"/>
     <form:hidden path="complaintMain.act.taskName"/>

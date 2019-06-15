@@ -36,6 +36,8 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 	private User yfDoctor;  //医方实体类
 	private RecordInfo yrecordInfo;		//医方笔录
 
+
+
 	public RecordInfo() {
 		super();
 	}
@@ -76,7 +78,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		return yrecordInfo;
 	}
 
-	@Length(min=0, max=32, message="笔录主键长度必须介于 0 和 32 之间")
+    @Length(min=0, max=32, message="笔录主键长度必须介于 0 和 32 之间")
 	public String getRecordId() {
 		return recordId;
 	}

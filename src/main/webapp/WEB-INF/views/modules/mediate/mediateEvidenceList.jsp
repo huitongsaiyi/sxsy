@@ -19,9 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/mediate/mediateEvidence/">质证调解列表</a></li>
-<%--
+
 		<shiro:hasPermission name="mediate:mediateEvidence:edit"><li><a href="${ctx}/mediate/mediateEvidence/form">质证调解添加</a></li></shiro:hasPermission>
---%>
+
 	</ul>
 	<form:form id="searchForm" modelAttribute="mediateEvidence" action="${ctx}/mediate/mediateEvidence/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
