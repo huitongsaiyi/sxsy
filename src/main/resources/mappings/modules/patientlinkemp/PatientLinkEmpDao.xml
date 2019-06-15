@@ -31,15 +31,15 @@
 	<select id="get" resultType="PatientLinkEmp">
 		SELECT 
 			<include refid="patientLinkEmpColumns"/>
-		FROM patient_link_emp a
+		FROM PATIENT_LINK_EMP a
 		<include refid="patientLinkEmpJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.patient_link_emp_id = #{patientLinkEmpId}
 	</select>
 	
 	<select id="findList" resultType="PatientLinkEmp">
 		SELECT 
 			<include refid="patientLinkEmpColumns"/>
-		FROM patient_link_emp a
+		FROM PATIENT_LINK_EMP a
 		<include refid="patientLinkEmpJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -60,7 +60,7 @@
 	<select id="findAllList" resultType="PatientLinkEmp">
 		SELECT 
 			<include refid="patientLinkEmpColumns"/>
-		FROM patient_link_emp a
+		FROM PATIENT_LINK_EMP a
 		<include refid="patientLinkEmpJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -76,7 +76,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO patient_link_emp(
+		INSERT INTO PATIENT_LINK_EMP(
 			patient_link_emp_id,
 			patient_link_name,
 			patient_link_sex,
@@ -120,7 +120,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE patient_link_emp SET 	
+		UPDATE PATIENT_LINK_EMP SET
 			patient_link_emp_id = #{patientLinkEmpId},
 			patient_link_name = #{patientLinkName},
 			patient_link_sex = #{patientLinkSex},
@@ -137,13 +137,13 @@
 			update_date = #{updateDate},
 			remarks = #{remarks},
 			link_type = #{linkType}
-		WHERE id = #{id}
+		WHERE patient_link_emp_id = #{patientLinkEmpId}
 	</update>
 	
 	<update id="delete">
-		UPDATE patient_link_emp SET 
+		UPDATE PATIENT_LINK_EMP SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE patient_link_emp_id = #{patientLinkEmpId}
 	</update>
 	
 </mapper>

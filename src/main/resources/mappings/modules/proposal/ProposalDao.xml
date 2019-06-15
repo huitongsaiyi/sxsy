@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.proposal.dao.ProposalDao">
+    
+	<sql id="proposalColumns">
+		a.proposal_id AS "proposalId",
+		a.assess_appraisal_id AS "assessAppraisalId",
+		a.treatment_summary AS "treatmentSummary",
+		a.patient_think AS "patientThink",
+		a.doctor_think AS "doctorThink",
+		a.analysis_opinion AS "analysisOpinion",
+		a.diagnosis AS "diagnosis",
+		a.treatment AS "treatment",
+		a.other AS "other",
+		a.conclusion AS "conclusion",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="proposalJoins">
+	</sql>
+    
+	<select id="get" resultType="Proposal">
+		SELECT 
+			<include refid="proposalColumns"/>
+		FROM PROPOSAL a
+		<include refid="proposalJoins"/>
+		WHERE a.proposal_id = #{proposalId}
+	</select>
+	
+	<select id="findList" resultType="Proposal">
+		SELECT 
+			<include refid="proposalColumns"/>
+		FROM PROPOSAL a
+		<include refid="proposalJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Proposal">
+		SELECT 
+			<include refid="proposalColumns"/>
+		FROM PROPOSAL a
+		<include refid="proposalJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO PROPOSAL(
+			proposal_id,
+			assess_appraisal_id,
+			treatment_summary,
+			patient_think,
+			doctor_think,
+			analysis_opinion,
+			diagnosis,
+			treatment,
+			other,
+			conclusion,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{proposalId},
+			#{assessAppraisalId},
+			#{treatmentSummary},
+			#{patientThink},
+			#{doctorThink},
+			#{analysisOpinion},
+			#{diagnosis},
+			#{treatment},
+			#{other},
+			#{conclusion},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE PROPOSAL SET
+			proposal_id = #{proposalId},
+			assess_appraisal_id = #{assessAppraisalId},
+			treatment_summary = #{treatmentSummary},
+			patient_think = #{patientThink},
+			doctor_think = #{doctorThink},
+			analysis_opinion = #{analysisOpinion},
+			diagnosis = #{diagnosis},
+			treatment = #{treatment},
+			other = #{other},
+			conclusion = #{conclusion},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE proposal_id = #{proposalId}
+	</update>
+	
+	<update id="delete">
+		UPDATE PROPOSAL SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE proposal_id = #{proposalId}
+	</update>
+	
+</mapper>

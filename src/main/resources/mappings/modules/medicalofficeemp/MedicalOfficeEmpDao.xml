@@ -29,15 +29,15 @@
 	<select id="get" resultType="MedicalOfficeEmp">
 		SELECT 
 			<include refid="medicalOfficeEmpColumns"/>
-		FROM medical_office_emp a
+		FROM MEDICAL_OFFICE_EMP a
 		<include refid="medicalOfficeEmpJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.medical_office_emp_id = #{medicalOfficeEmpId}
 	</select>
 	
 	<select id="findList" resultType="MedicalOfficeEmp">
 		SELECT 
 			<include refid="medicalOfficeEmpColumns"/>
-		FROM medical_office_emp a
+		FROM MEDICAL_OFFICE_EMP a
 		<include refid="medicalOfficeEmpJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -58,7 +58,7 @@
 	<select id="findAllList" resultType="MedicalOfficeEmp">
 		SELECT 
 			<include refid="medicalOfficeEmpColumns"/>
-		FROM medical_office_emp a
+		FROM MEDICAL_OFFICE_EMP a
 		<include refid="medicalOfficeEmpJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -74,7 +74,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO medical_office_emp(
+		INSERT INTO MEDICAL_OFFICE_EMP(
 			medical_office_emp_id,
 			medical_office_name,
 			medical_office_address,
@@ -114,7 +114,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE medical_office_emp SET 	
+		UPDATE MEDICAL_OFFICE_EMP SET
 			medical_office_emp_id = #{medicalOfficeEmpId},
 			medical_office_name = #{medicalOfficeName},
 			medical_office_address = #{medicalOfficeAddress},
@@ -129,13 +129,13 @@
 			update_date = #{updateDate},
 			remarks = #{remarks},
 			medical_office_mobile = #{medicalOfficeMobile}
-		WHERE id = #{id}
+		WHERE medical_office_emp_id = #{medicalOfficeEmpId}
 	</update>
 	
 	<update id="delete">
-		UPDATE medical_office_emp SET 
+		UPDATE MEDICAL_OFFICE_EMP SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE medical_office_emp_id = #{medicalOfficeEmpId}
 	</update>
 	
 </mapper>
