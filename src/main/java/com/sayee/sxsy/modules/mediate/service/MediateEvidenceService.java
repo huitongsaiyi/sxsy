@@ -77,21 +77,24 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
             mediateEvidence.setMediateEvidenceId(mediateEvidence.getId());
             //将主键ID设为UUID
             dao.insert(mediateEvidence);
-			//判断主键ID是否为空
-			mediateEvidence.getRecordInfo().getYrecordInfo().setRelationId(mediateEvidence.getMediateEvidenceId());
-            mediateEvidence.getRecordInfo().getYrecordInfo().setModuleType("1");
-            mediateEvidence.getRecordInfo().getYrecordInfo().setType("2");
-			recordInfoService.save(mediateEvidence.getRecordInfo().getYrecordInfo());		//医方笔录
-
-            mediateEvidence.getRecordInfo().setRelationId(mediateEvidence.getMediateEvidenceId());		//将关联表的主键ID添加到子表属性中
-            mediateEvidence.getRecordInfo().setModuleType("1");
-            mediateEvidence.getRecordInfo().setType("1");
-            recordInfoService.save(mediateEvidence.getRecordInfo());		//患方笔录
 		}else{//如果不为空进行更新
 			//修改报案登记表
 			mediateEvidence.preUpdate();
 			dao.update(mediateEvidence);
 		}
+		//判断主键ID是否为空
+		mediateEvidence.getRecordInfo().getYrecordInfo().setRelationId(mediateEvidence.getMediateEvidenceId());
+		mediateEvidence.getRecordInfo().getYrecordInfo().setModuleType("1");
+		mediateEvidence.getRecordInfo().getYrecordInfo().setType("2");
+		recordInfoService.save(mediateEvidence.getRecordInfo().getYrecordInfo());		//医方笔录
+
+		mediateEvidence.getRecordInfo().setRelationId(mediateEvidence.getMediateEvidenceId());		//将关联表的主键ID添加到子表属性中
+		mediateEvidence.getRecordInfo().setModuleType("1");
+		mediateEvidence.getRecordInfo().setType("1");
+		recordInfoService.save(mediateEvidence.getRecordInfo());		//患方笔录
+
+
+
 		for (MediateRecord mediateRecord : mediateEvidence.getMediateEvidenceList()){
 		    if(mediateRecord.getId() == null){
 		        continue;
