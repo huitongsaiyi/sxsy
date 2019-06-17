@@ -36,6 +36,7 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 	private Area area;
 	private ReportRegistration reportRegistration;//报案人姓名
 	private User linkEmployee;
+	private User user;  //当前登录人员
 
 	public PerformAgreement() {
 		super();
@@ -43,6 +44,14 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 
 	public PerformAgreement(String id){
 		super(id);
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public User getLinkEmployee() {

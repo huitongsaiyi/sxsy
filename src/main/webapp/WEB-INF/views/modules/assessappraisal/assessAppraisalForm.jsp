@@ -1230,6 +1230,9 @@
 			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+		<c:if test="${not empty assessAppraisal.assessAppraisalId}">
+			<act:histoicFlow procInsId="${assessAppraisal.complaintMain.procInsId}" />
+		</c:if>
 	</form:form>
 	<script type="text/javascript">
 		var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");

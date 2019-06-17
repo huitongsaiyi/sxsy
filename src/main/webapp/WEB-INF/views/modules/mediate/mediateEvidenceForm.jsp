@@ -47,7 +47,7 @@
             });
         }
         function delRow(obj, prefix){
-            var id = $(prefix+"_id");
+            var id = $(prefix+"_mediateRecord");
             var delFlag = $(prefix+"_delFlag");
             if (id.val() == ""){
                 $(obj).parent().parent().remove();
@@ -131,7 +131,7 @@
 								<input id="mediateEvidenceList{{idx}}_id" name="mediateEvidenceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="mediateEvidenceList{{idx}}_mediateRecord" name="mediateEvidenceList[{{idx}}].mediateRecord" type="hidden" value="{{row.mediateRecord}}"/>
 								<input id="mediateEvidenceList{{idx}}_relationId" name="mediateEvidenceList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td >
 								<%--<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" value="{{row.time}}" maxlength="32" class="input-small "/>--%>
@@ -177,7 +177,7 @@
                                         value="${mediateEvidence.doctor}" labelName=""
                                         labelValue="${mediateEvidence.doctorUser.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        allowClear="true" isAll="true" notAllowSelectParent="true"/>
                     </td>
                 </tr>
                 <tr>
@@ -256,7 +256,7 @@
                                         value="${mediateEvidence.recordInfo.doctor}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.yfDoctor.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        allowClear="true" isAll="true" notAllowSelectParent="true"/>
                     </td>
                 </tr>
                 <tr>
@@ -335,7 +335,7 @@
                                         value="${mediateEvidence.recordInfo.yrecordInfo.doctor}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.yrecordInfo.yfDoctor.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        allowClear="true" isAll="true" notAllowSelectParent="true"/>
                     </td>
                 </tr>
                 <tr>
@@ -516,8 +516,10 @@
                                                                                 onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+        <c:if test="${not empty mediateEvidence.mediateEvidenceId}">
+            <act:histoicFlow procInsId="${mediateEvidence.complaintMain.procInsId}" />
+        </c:if>
     </div>
-
 </form:form>
 <script type="text/javascript">
     var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");

@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/sign/signAgreement/">签署协议列表</a></li>
+<%--
 		<shiro:hasPermission name="sign:signAgreement:edit"><li><a href="${ctx}/sign/signAgreement/form">签署协议添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="signAgreement" action="${ctx}/sign/signAgreement/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

@@ -52,8 +52,7 @@
         uz1.name AS "recordInfo.yrecordInfo.ytwHost.name",
         uj1.name AS "recordInfo.yrecordInfo.ytwNoteTaker.name",
         uy1.name AS "recordInfo.yrecordInfo.yfDoctor.name",
-        au.policy_number AS "auditAcceptance.policyNumber",
-        count(distinct a.reach_mediate_id)
+        au.policy_number AS "auditAcceptance.policyNumber"
 	</sql>
 	
 	<sql id="reachMediateJoins">
@@ -71,7 +70,7 @@
 		LEFT JOIN SYS_USER u5 ON u5.id = a.rea_user_id
 		LEFT JOIN SYS_USER u6 ON u6.id = a.rea_doctor
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
-		LEFT JOIN SYS_USER u2 ON u2.id=m.next_link_man
+		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id

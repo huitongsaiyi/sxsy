@@ -46,7 +46,7 @@
             });
         }
         function delRow(obj, prefix){
-            var id = $(prefix+"_id");
+            var id = $(prefix+"_mediateRecord");
             var delFlag = $(prefix+"_delFlag");
             if (id.val() == ""){
                 $(obj).parent().parent().remove();
@@ -66,7 +66,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/reachmediate/reachMediate/">达成调解列表</a></li>
-		<li class="active"><a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.id}">达成调解<shiro:hasPermission name="reachmediate:reachMediate:edit">${not empty reachMediate.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="reachmediate:reachMediate:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}">达成调解<shiro:hasPermission name="reachmediate:reachMediate:edit">${not empty reachMediate.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="reachmediate:reachMediate:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="reachMediate" action="${ctx}/reachmediate/reachMediate/save" method="post" class="form-horizontal">
 		<form:hidden path="reachMediateId"/>
@@ -173,7 +173,7 @@
 											value="${reachMediate.reaDoctor}" labelName=""
 											labelValue="${reachMediate.doctorUser.name}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-											allowClear="true" notAllowSelectParent="true"/>
+											allowClear="true" isAll="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
 					<tr>
@@ -252,7 +252,7 @@
 											value="${reachMediate.recordInfo.doctor}" labelName=""
 											labelValue="${reachMediate.recordInfo.yfDoctor.name}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-											allowClear="true" notAllowSelectParent="true"/>
+											allowClear="true" isAll="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
 					<tr>
@@ -331,7 +331,7 @@
 											value="${reachMediate.recordInfo.yrecordInfo.doctor}" labelName=""
 											labelValue="${reachMediate.recordInfo.yrecordInfo.yfDoctor.name}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-											allowClear="true" notAllowSelectParent="true"/>
+											allowClear="true" isAll="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
 					<tr>
@@ -450,9 +450,12 @@
 			</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="reachmediate:reachMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="${'flag'}.val('no')"/>&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="reachmediate:reachMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="${'flag'}.val('yes')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="reachmediate:reachMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="reachmediate:reachMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			<c:if test="${not empty reachMediate.reachMediateId}">
+				<act:histoicFlow procInsId="${reachMediate.complaintMain.procInsId}" />
+			</c:if>
 		</div>
 	</form:form>
 	<script type="text/javascript">

@@ -120,7 +120,7 @@
 				</td>
 				<td class="tit">下一环节处理人</td>
 				<td >
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${performAgreement.nextLinkMan}" labelName="" labelValue="${performAgreement.linkEmployee.name}"
 									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
 				</td>
 			</tr>

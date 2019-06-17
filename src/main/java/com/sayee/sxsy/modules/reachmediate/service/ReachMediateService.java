@@ -64,16 +64,18 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 	}
 	
 	public List<ReachMediate> findList(ReachMediate reachMediate) {
+		reachMediate.setUser(UserUtils.getUser());
 		return super.findList(reachMediate);
 	}
 	
 	public Page<ReachMediate> findPage(Page<ReachMediate> page, ReachMediate reachMediate) {
+		reachMediate.setUser(UserUtils.getUser());
 		return super.findPage(page, reachMediate);
 	}
 	
 	@Transactional(readOnly = false)
 	public void save(ReachMediate reachMediate) {
-		if(StringUtils.isBlank(reachMediate.getReachMediateId())){
+		if(StringUtils.isBlank(reachMediate.getCreateBy().getId())){
 			reachMediate.preInsert();
 			reachMediate.setReachMediateId(reachMediate.getId());		//将主键设为UUID
 			dao.insert(reachMediate);
@@ -106,7 +108,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			Map<String,Object> var = new HashMap<String,Object>();
 			var.put("pass","0");
 			User assigness = UserUtils.get(reachMediate.getNextLinkMan());
-			var.put("apply_user",assigness.getLoginName());
+			var.put("sign_user",assigness.getLoginName());
 			//执行流程
 			actTaskService.complete(reachMediate.getComplaintMain().getAct().getTaskId(),reachMediate.getComplaintMain().getAct().getProcInsId(),reachMediate.getComplaintMain().getAct().getComment(),reachMediate.getComplaintMain().getCaseNumber(),var);
 

@@ -118,7 +118,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","0");
 			User assigness= UserUtils.get(mediateEvidence.getNextLinkMan());
-			var.put("apply_user",assigness.getLoginName());
+			var.put("summary_user",assigness.getLoginName());
 			// 执行流程
 			actTaskService.complete(mediateEvidence.getComplaintMain().getAct().getTaskId(), mediateEvidence.getComplaintMain().getAct().getProcInsId(), mediateEvidence.getComplaintMain().getAct().getComment(), mediateEvidence.getComplaintMain().getCaseNumber(), var);
 
