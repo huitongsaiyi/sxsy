@@ -49,8 +49,6 @@ public class AssessAppraisalController extends BaseController {
 		AssessAppraisal entity = null;
 		if (StringUtils.isNotBlank(id)){
 			entity = assessAppraisalService.get(id);
-			entity = assessAppraisalService.gety(id);
-			entity = assessAppraisalService.getLianXi(id);
 		}
 		if (entity == null){
 			entity = new AssessAppraisal();
@@ -110,9 +108,9 @@ public class AssessAppraisalController extends BaseController {
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")
 	@RequestMapping(value = "save")
 	public String save(AssessAppraisal assessAppraisal, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if (!beanValidator(model, assessAppraisal)){
-			return form(assessAppraisal, model);
-		}
+//		if (!beanValidator(model, assessAppraisal)){
+//			return form(assessAppraisal, model);
+//		}
 		try{
 			assessAppraisalService.save(assessAppraisal,request);
 			if("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){

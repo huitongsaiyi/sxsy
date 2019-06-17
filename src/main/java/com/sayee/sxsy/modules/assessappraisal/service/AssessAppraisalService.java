@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.assessappraisal.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,12 @@ import com.sayee.sxsy.modules.patientlinkemp.dao.PatientLinkEmpDao;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.proposal.entity.Proposal;
 import com.sayee.sxsy.modules.proposal.service.ProposalService;
+import com.sayee.sxsy.modules.record.entity.MediateRecord;
+import com.sayee.sxsy.modules.recordinfo.dao.RecordInfoDao;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
-import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
+
 import com.sayee.sxsy.modules.respondentinfo.service.RespondentInfoService;
+import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
@@ -54,27 +58,28 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 	@Autowired
 	private ActTaskService actTaskService;
 	@Autowired
-	private RecordInfoService recordInfoService;//笔录业务层
+	private RecordInfoDao recordInfoDao;//笔录
 	@Autowired
 	private ProposalService proposalService;
 	public AssessAppraisal get(String id) {
-  //患方信息
 		AssessAppraisal assessAppraisal=super.get(id);
-		assessAppraisal.setPatientLinkEmps1(patientLinkEmpDao.findList(new PatientLinkEmp(assessAppraisal.getAssessAppraisalId())));
-		return super.get(id);
+		//患方 明细查询
+		PatientLinkEmp patientLinkEmp=new PatientLinkEmp();
+		patientLinkEmp.setRelationId(assessAppraisal.getAssessAppraisalId());
+		patientLinkEmp.setLinkType("1");
+		assessAppraisal.setPatientLinkEmpList(patientLinkEmpDao.findList(patientLinkEmp));
+		//患方代理人
+		PatientLinkEmp patientLinkD=new PatientLinkEmp();
+		patientLinkD.setRelationId(assessAppraisal.getAssessAppraisalId());
+		patientLinkD.setLinkType("2");
+		assessAppraisal.setPatientLinkDList(patientLinkEmpDao.findList(patientLinkD));
+		//医方人
+		MedicalOfficeEmp medicalOfficeEmp=new MedicalOfficeEmp();
+		medicalOfficeEmp.setRelationId(assessAppraisal.getAssessAppraisalId());
+		assessAppraisal.setMedicalOfficeEmpList(medicalOfficeEmpDao.findList(medicalOfficeEmp));
+		return assessAppraisal;
 	}
-	public AssessAppraisal gety(String id){
-		//医方信息
-		AssessAppraisal assessAppraisal=super.get(id);
-		assessAppraisal.setMedicalofficeempList2(medicalOfficeEmpDao.findList(new MedicalOfficeEmp(assessAppraisal.getAssessAppraisalId())));
-		return super.get(id);
-	}
-	public AssessAppraisal getLianXi(String id){
-		//联系人信息
-		AssessAppraisal assessAppraisal=super.get(id);
-		assessAppraisal.setPatientLinkEmps(patientLinkEmpDao.findList(new PatientLinkEmp(assessAppraisal.getAssessAppraisalId())));
-		return super.get(id);
-	}
+
 	public List<AssessAppraisal> findList(AssessAppraisal assessAppraisal)
 	{
 		//获取当前登陆用户
@@ -90,96 +95,41 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 	
 	@Transactional(readOnly = false)
 	public void save(AssessAppraisal assessAppraisal, HttpServletRequest request) {
-		//笔录实体类
-		RecordInfo huanf = assessAppraisal.getRecordInfo1();
-		RecordInfo yif = assessAppraisal.getRecordInfo2();
-		//患方关联人员类型 1 患者 2 联系人
-		String linkType1 = request.getParameter("linkType1");
-		String linkType2 = request.getParameter("linkType2");
+
 		if(StringUtils.isBlank(assessAppraisal.getCreateBy().getId())){
 			assessAppraisal.preInsert();
 			assessAppraisal.setAssessAppraisalId(assessAppraisal.getId());
 			dao.insert(assessAppraisal);
+			//保存患方笔录
+			RecordInfo huanf = assessAppraisal.getRecordInfo1();
+			huanf.preInsert();
+			huanf.setRecordId(IdGen.uuid());
+			huanf.setRelationId(assessAppraisal.getAssessAppraisalId());
+			huanf.setType("1");
+			recordInfoDao.insert(huanf);
+			//保存医方笔录
+			RecordInfo yif = assessAppraisal.getRecordInfo2();
+			yif.preInsert();
+			yif.setRecordId(IdGen.uuid());
+			yif.setRelationId(assessAppraisal.getAssessAppraisalId());
+			yif.setType("2");
+			recordInfoDao.insert(yif);
 		}else{
 			//更新评估鉴定主表
 			assessAppraisal.preUpdate();
 			dao.update(assessAppraisal);
 
 		}
-		//保存患方笔录
-		huanf.preInsert();
-		huanf.setRecordId(huanf.getId());
-		huanf.setRelationId(assessAppraisal.getAssessAppraisalId());
-		huanf.setType("1");
-		recordInfoService.save(huanf);
-
-		//保存医方笔录
-		yif.preInsert();
-		yif.setRecordId(yif.getId());
-		yif.setRelationId(assessAppraisal.getAssessAppraisalId());
-		yif.setType("2");
-		recordInfoService.save(yif);
 		//保存附件
 		this.fj(assessAppraisal,request);
-		//保存患方信息
-        for(PatientLinkEmp patientLinkEmp: assessAppraisal.getPatientLinkEmps()){
-            if (patientLinkEmp.getId() == null){
-                continue;
-            }
-            if(patientLinkEmp.DEL_FLAG_NORMAL.equals(patientLinkEmp.getDelFlag())){
-                if(StringUtils.isBlank(patientLinkEmp.getPatientLinkEmpId())){
-                    patientLinkEmp.preInsert();
-                    patientLinkEmp.setRelationId(assessAppraisal.getAssessAppraisalId());
-                    patientLinkEmp.setPatientLinkEmpId(patientLinkEmp.getId());
-                    patientLinkEmp.setLinkType(linkType1);
-                    patientLinkEmpDao.insert(patientLinkEmp);
-                }else{
-                    patientLinkEmp.preUpdate();
-                    patientLinkEmpDao.update(patientLinkEmp);
-                }
-            }else{
-                patientLinkEmpDao.delete(patientLinkEmp);
-            }
-        }
-        //保存联系人信息
-        for (PatientLinkEmp patientLinkEmp1n1: assessAppraisal.getPatientLinkEmps1()) {
-            if(patientLinkEmp1n1.getId() == null){
-                continue;
-            }
-            if (patientLinkEmp1n1.DEL_FLAG_NORMAL.equals(patientLinkEmp1n1.getDelFlag())){
-                if(StringUtils.isBlank(patientLinkEmp1n1.getPatientLinkEmpId())){
-                    patientLinkEmp1n1.preInsert();
-                    patientLinkEmp1n1.setRelationId(assessAppraisal.getAssessAppraisalId());
-                    patientLinkEmp1n1.setPatientLinkEmpId(patientLinkEmp1n1.getId());
-                    patientLinkEmp1n1.setLinkType(linkType2);
-                    patientLinkEmpDao.insert(patientLinkEmp1n1);
-                }else{
-                    patientLinkEmp1n1.preUpdate();
-                    patientLinkEmpDao.update(patientLinkEmp1n1);
-                }
-            }else{
-                patientLinkEmpDao.delete(patientLinkEmp1n1);
-            }
-        }
-        //保存医方联系人
-        for (MedicalOfficeEmp medicalOfficeEmp:assessAppraisal.getMedicalofficeempList2()) {
-            if(medicalOfficeEmp.getId() == null){
-                continue;
-            }
-            if(medicalOfficeEmp.DEL_FLAG_NORMAL.equals(medicalOfficeEmp.getDelFlag())){
-                if(StringUtils.isBlank(medicalOfficeEmp.getMedicalOfficeEmpId())){
-                    medicalOfficeEmp.preInsert();
-                    medicalOfficeEmp.setMedicalOfficeEmpId(medicalOfficeEmp.getId());
-                    medicalOfficeEmp.setRelationId(assessAppraisal.getAssessAppraisalId());
-                    medicalOfficeEmpDao.insert(medicalOfficeEmp);
-                }else{
-                    medicalOfficeEmp.preUpdate();
-                    medicalOfficeEmpDao.update(medicalOfficeEmp);
-                }
-            }else{
-                medicalOfficeEmpDao.delete(medicalOfficeEmp);
-            }
-        }
+		//保存联系人信息
+
+		//保存患方
+		this.detail(assessAppraisal,"1");
+		//保存患方代理人
+		this.detail(assessAppraisal,"2");
+		//保存医方
+		this.doctorDetail(assessAppraisal);
         //保存意见书
 		     this.submissions(assessAppraisal);
 
@@ -202,9 +152,10 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		StringBuffer string=new StringBuffer();
 		Proposal proposal=assessAppraisal.getProposal();
 		proposal.setProposalId(IdGen.uuid());
+		proposal.setAssessAppraisalId(assessAppraisal.getAssessAppraisalId());
 		//保存意见
-		if(proposal.getTypeInfosList()!=null && !proposal.getTypeInfosList().isEmpty()){
-			for(TypeInfo typeInfo : proposal.getTypeInfosList()){
+		if(assessAppraisal.getTypeInfosList()!=null && !assessAppraisal.getTypeInfosList().isEmpty()){
+			for(TypeInfo typeInfo : assessAppraisal.getTypeInfosList()){
 				if(StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
 					string.append(typeInfo.getTypeId()).append(",");
 				}
@@ -213,8 +164,8 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		proposal.setAnalysisOpinion(String.valueOf(string));
 		string.setLength(0);
 		//保存结论
-		if(proposal.getTypeInfosList2()!=null && !proposal.getTypeInfosList2().isEmpty()){
-			for (TypeInfo typeInfo : proposal.getTypeInfosList2()) {
+		if(assessAppraisal.getTypeInfosList2()!=null && !assessAppraisal.getTypeInfosList2().isEmpty()){
+			for (TypeInfo typeInfo : assessAppraisal.getTypeInfosList2()) {
 				if(StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
 					string.append(typeInfo.getTypeId()).append(",");
 				}
@@ -321,5 +272,82 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 	public void delete(AssessAppraisal assessAppraisal) {
 		super.delete(assessAppraisal);
 	}
-	
+
+	//保存患方联系人
+	@Transactional(readOnly = false)
+	public void detail(AssessAppraisal assessAppraisal,String linkType) {
+		//对患方 医方联系人 进行保存
+		List<PatientLinkEmp> emp=new ArrayList<PatientLinkEmp>();
+		if ("1".equals(linkType)){
+			emp=assessAppraisal.getPatientLinkEmpList();
+		}else {
+			emp=assessAppraisal.getPatientLinkDList();
+		}
+		for (PatientLinkEmp patientLinkEmp : emp){
+			if(patientLinkEmp.getId() == null){
+				continue;
+			}
+			if(MediateRecord.DEL_FLAG_NORMAL.equals(patientLinkEmp.getDelFlag()) || "".equals(patientLinkEmp.getDelFlag())){
+				if(StringUtils.isBlank(patientLinkEmp.getPatientLinkEmpId())){
+					patientLinkEmp.setRelationId(assessAppraisal.getAssessAppraisalId());
+					patientLinkEmp.preInsert();
+					patientLinkEmp.setPatientLinkEmpId(patientLinkEmp.getId());
+					patientLinkEmp.setLinkType(linkType);
+					patientLinkEmp.setDelFlag("0");
+					patientLinkEmpDao.insert(patientLinkEmp);
+				}else {
+					patientLinkEmp.preUpdate();
+					patientLinkEmpDao.update(patientLinkEmp);
+				}
+			}else{
+				patientLinkEmpDao.delete(patientLinkEmp);
+			}
+		}
+	}
+
+	//保存医方联系人
+	@Transactional(readOnly = false)
+	public void doctorDetail(AssessAppraisal assessAppraisal) {
+		//对患方 医方联系人 进行保存
+		List<MedicalOfficeEmp> emp=new ArrayList<MedicalOfficeEmp>();
+		if (assessAppraisal.getMedicalOfficeEmpList()!=null){
+			emp=assessAppraisal.getMedicalOfficeEmpList();
+		}
+		for (MedicalOfficeEmp medicalOfficeEmp : emp){
+//			if(medicalOfficeEmp.getId() == null){
+//				continue;
+//			}
+			if(MediateRecord.DEL_FLAG_NORMAL.equals(medicalOfficeEmp.getDelFlag()) || "".equals(medicalOfficeEmp.getDelFlag())){
+				if(StringUtils.isBlank(medicalOfficeEmp.getMedicalOfficeEmpId())){
+					medicalOfficeEmp.setRelationId(assessAppraisal.getAssessAppraisalId());
+					medicalOfficeEmp.preInsert();
+					medicalOfficeEmp.setMedicalOfficeEmpId(medicalOfficeEmp.getId());
+					medicalOfficeEmp.setDelFlag("0");
+					medicalOfficeEmpDao.insert(medicalOfficeEmp);
+				}else {
+					medicalOfficeEmp.preUpdate();
+					medicalOfficeEmpDao.update(medicalOfficeEmp);
+				}
+			}else{
+				medicalOfficeEmpDao.delete(medicalOfficeEmp);
+			}
+		}
+	}
+	/*
+	 *对 逗号分割的数据进行  处理  然后放入list中
+	 * @param
+	 */
+	public void label(List<TypeInfo> typeInfos,String data){
+		if (StringUtils.isNotBlank(data)){//有数据进行 处理
+			String[] asplit=data.split(",");
+			for (TypeInfo typeInfo:typeInfos) {// 根据类型 拿到 数据
+				for (String typeId : asplit) {//数据库中存着 用 逗号 隔开的数据
+					if (typeId.equals(typeInfo.getTypeId())){
+						typeInfo.setLabel("1");
+						break;
+					}
+				}
+			}
+		}
+	}
 }

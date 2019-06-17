@@ -20,7 +20,7 @@ public class MedicalOfficeEmp extends DataEntity<MedicalOfficeEmp> {
 	private String medicalOfficeAddress;		// 地址
 	private String legalRepresentative;		// 法定代表人
 	private String medicalOfficePost;		// 职务
-	private String medicalOfficeAgent;		// 委托代理人(患方，医方)
+	private String medicalOfficeAgent;		// 委托代理人
 	private String medicalOfficeSex;		// 性别
 	private String medicalOfficeIdcard;		// 身份证号码
 	private String medicalOfficeCompany;		// 单位及职务

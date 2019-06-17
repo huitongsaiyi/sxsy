@@ -29,24 +29,7 @@ public class Proposal extends DataEntity<Proposal> {
 	private String treatment;		// 治疗
 	private String other;		// 其他
 	private String conclusion;		// 结论 关联&ldquo;类型&rdquo;表主键 多个用逗号分开
-	private List<TypeInfo> typeInfosList = Lists.newArrayList();//意见
-	private List<TypeInfo> typeInfosList2 = Lists.newArrayList();//结论
 
-	public List<TypeInfo> getTypeInfosList2() {
-		return typeInfosList2;
-	}
-
-	public void setTypeInfosList2(List<TypeInfo> typeInfosList2) {
-		this.typeInfosList2 = typeInfosList2;
-	}
-
-	public List<TypeInfo> getTypeInfosList() {
-		return typeInfosList;
-	}
-
-	public void setTypeInfosList(List<TypeInfo> typeInfosList) {
-		this.typeInfosList = typeInfosList;
-	}
 
 	public Proposal() {
 		super();

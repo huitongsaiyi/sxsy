@@ -22,34 +22,7 @@
 					}
 				}
 			});
-			// //全选(分析意见)
-			// function doallcheck(){
-			// 	var allche = document.getElementById("allid");
-			// 	var che = document.getElementsByName("mycheckbox");
-			// 	if(allche.checked == true){
-			// 		for(var i=0;i<che.length;i++){
-			// 			che[i].checked="checked";
-			// 		}
-			// 	}else{
-			// 		for(var i=0;i<che.length;i++){
-			// 			che[i].checked=false;
-			// 		}
-			// 	}
-			// }
-			// //全选(结论)
-			// function doallcheck1(){
-			// 	var allche = document.getElementById("allid1");
-			// 	var che = document.getElementsByName("mycheckbox");
-			// 	if(allche.checked == true){
-			// 		for(var i=0;i<che.length;i++){
-			// 			che[i].checked="checked";
-			// 		}
-			// 	}else{
-			// 		for(var i=0;i<che.length;i++){
-			// 			che[i].checked=false;
-			// 		}
-			// 	}
-			// }
+
 
 			$("#inputForm").validate({
 				submitHandler: function(form){
@@ -72,12 +45,7 @@
 				}
 			});
 		});
-		function page(n, s) {
-			$("#pageNo").val(n);
-			$("#pageSize").val(s);
-			$("#searchForm").submit();
-			return false;
-		}
+
 		function addRow(list, idx, tpl, row){
 			$(list).append(Mustache.render(tpl, {
 				idx: idx, delBtn: true, row: row
@@ -94,8 +62,8 @@
 				}
 			});
 		}
-		function delRow(obj, prefix){
-			var id = $(prefix+"_id");
+		function delRow(obj, prefix,key){
+			var id = $(prefix+key);
 			var delFlag = $(prefix+"_delFlag");
 			if (id.val() == ""){
 				$(obj).parent().parent().remove();
@@ -859,181 +827,156 @@
 			</ul>
 			<div id="myTabContent1" class="tab-content">
 				<div class="tab-pane fade in active" id="affected">
-					<h4 style="color: black; " >患者</h4>
-
-					<div class="tab-pane fade in active" id="mediation">
-						<input type="hidden" name="linkType1" value="1">
-						<table id="contentTable" class="table table-striped table-bordered table-condensed">
-							<thead>
-							<tr>
-								<th class="hide"></th>
-								<th width="10">姓名</th>
-								<th width="100">性别</th>
-								<th width="100">身份证号</th>
-								<th width="100">住址</th>
-								<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-									<th width="100">操作</th>
-								</shiro:hasPermission>
-							</tr>
-							</thead>
-							<tbody id="patientLinkEmps1"></tbody>
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-								<tfoot>
-								<tr><td colspan="7"><a href="javascript:" onclick="addRow('#patientLinkEmps1', mediateEvidenceRowIdx, mediateEvidenceTpl);mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;" class="btn">新增</a></td></tr>
-								</tfoot></shiro:hasPermission>
-						</table>
-						<script type="text/template" id="mediateEvidenceTpl">//<!--
-						<tr id="patientLinkEmps1{{idx}}">
-							<td class="hide">
-								<input id="patientLinkEmps1{{idx}}_id" name="patientLinkEmps1[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="patientLinkEmps1{{idx}}_medicalOfficeEmpId" name="patientLinkEmps1[{{idx}}].mediateRecord" type="hidden" value="{{row.medicalOfficeEmpId}}"/>
-								<input id="patientLinkEmps1{{idx}}_relationId" name="patientLinkEmps1[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="patientLinkEmps1{{idx}}_delFlag" name="patientLinkEmps1[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
-							</td>
-							<td >
-								<input id="patientLinkEmps1{{idx}}_patientLinkName" name="patientLinkEmps1[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="32" class="input-small "/>
-
-							</td>
-							<td>
-								<input id="patientLinkEmps1{{idx}}_patientLinkSex" name="patientLinkEmps1[{{idx}}].patientLinkSex" type="text" value="{{row.patientLinkSex}}" maxlength="100" class="required" />
-							</td>
-							<td>
-								<input id="patientLinkEmps1{{idx}}_idNumber" name="patientLinkEmps1[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="32" class="required" />
-							</td>
-							<td>
-								<input id="patientLinkEmps1{{idx}}_patientLinkAddress" name="patientLinkEmps1[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="32" class="required" />
-							</td>
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmps1{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
-						</tr>//-->
-						</script>
-						<script type="text/javascript">
-							var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-							$(document).ready(function() {
-								var data = ${fns:toJson(mediateEvidence.patientLinkEmps1)};
-								for (var i=0; i<data.length; i++){
-									addRow('#medicalofficeempList1', mediateEvidenceRowIdx, mediateEvidenceTpl, data[i]);
-									mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
-								}
-							});
-						</script>
-					</div>
-					<h4 style="color: black; " >联系人</h4>
-					<div class="controls" style="margin-left: 0px;">
-						<input type="hidden" name="linkType2" value="2">
-						<table id="contentTable1" class="table table-striped table-bordered table-condensed">
-							<thead>
-							<tr>
-								<th class="hide" style="text-align: center"></th>
-								<th style="text-align: center">姓名</th>
-								<th style="text-align: center">与患者关系</th>
-								<th style="text-align: center">联系电话</th>
-
-
-								<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><th width="10">操作</th></shiro:hasPermission>
-							</tr>
-							</thead>
-							<tbody id="patientLinkEmps">
-							</tbody>
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><tfoot>
-							<tr><td colspan="8"><a href="javascript:" onclick="addRow('#patientLinkEmps', advanceAccountDetail1RowIdx, advanceAccountDetailTp2);advanceAccountDetail1RowIdx = advanceAccountDetail1RowIdx + 1;" class="btn">新增</a></td></tr>
-							</tfoot></shiro:hasPermission>
-						</table>
-						<script type="text/template" id="advanceAccountDetailTp2">//<!--
-						<tr id="patientLinkEmps{{idx}}">
-							<td class="hide">
-								<input id="patientLinkEmps{{idx}}_id" name="patientLinkEmps[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="patientLinkEmps{{idx}}_patientLinkEmpId" name="patientLinkEmps[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
-								<input id="patientLinkEmps{{idx}}_relationId" name="patientLinkEmps[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="patientLinkEmps{{idx}}_delFlag" name="patientLinkEmps[{{idx}}].delFlag" type="hidden" value="0"/>
-							</td>
-							<td>
-								<input id="patientLinkEmps{{idx}}_patientLinkName" name="patientLinkEmps[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="32" class="input-small required"/>
-							</td>
-							<td>
-								<input id="patientLinkEmps{{idx}}_patientRelation" name="patientLinkEmps[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="32" class="input-small "/>
-							</td>
-							<td>
-								<input id="patientLinkEmps{{idx}}_patientLinkMobile" name="patientLinkEmps[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="1" class="input-small required"/>
-							</td>
-
-
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmps{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
-						</tr>//-->
-						</script>
-						<script type="text/javascript">
-							var advanceAccountDetail1RowIdx = 0, advanceAccountDetailTp2 = $("#advanceAccountDetailTp2").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-							$(document).ready(function() {
-								var data = ${fns:toJson(assessAppraisal.patientLinkEmps)};
-								for (var i=0; i<data.length; i++){
-									addRow('#advanceAccounpatientLinkEmpstDetailList', advanceAccountDetail1RowIdx, advanceAccountDetailTp2, data[i]);
-									advanceAccountDetail1RowIdx = advanceAccountDetail1RowIdx + 1;
-								}
-							});
-						</script>
-					</div>
-				</div>
-				<div class="tab-pane fade" id="medical">
-					<div class="controls" style="margin-left: 0px;">
-					<table id="contentTable2" class="table table-striped table-bordered table-condensed">
+					<table id="patientTable" class="table table-striped table-bordered table-condensed">
+						<legend>患方</legend>
 						<thead>
 						<tr>
-							<th class="hide" style="text-align: center"></th>
-							<th style="text-align: center">医疗机构名称</th>
-							<th style="text-align: center">联系人</th>
-							<th style="text-align: center">联系电话</th>
-							<th style="text-align: center">职务</th>
-
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><th width="10">操作</th></shiro:hasPermission>
+							<th class="hide"></th>
+							<th >姓名</th>
+							<th >性别</th>
+							<th >身份证号</th>
+							<th >住址</th>
+							<th >操作</th>
+							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
+								<th >&nbsp;</th>
+							</shiro:hasPermission>
 						</tr>
 						</thead>
-						<tbody id="medicalofficeempList2">
-						</tbody>
-						<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><tfoot>
-						<tr><td colspan="8"><a href="javascript:" onclick="addRow('#medicalofficeempList2', advanceAccountDetailRowIdx, advanceAccountDetailTp3);advanceAccountDetailRowIdx = advanceAccountDetailRowIdx + 1;" class="btn">新增</a></td></tr>
-						</tfoot></shiro:hasPermission>
+						<tbody id="patientLinkEmpList"></tbody>
+						<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
+							<tfoot>
+							<tr><td colspan="7"><a href="javascript:" onclick="addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp);patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;" class="btn">新增</a></td></tr>
+							</tfoot></shiro:hasPermission>
 					</table>
-					<script type="text/template" id="advanceAccountDetailTp3">//<!--
-						<tr id="medicalofficeempList2{{idx}}">
+					<script type="text/template" id="patientLinkEmpTp">//<!--
+						<tr id="patientLinkEmpList{{idx}}">
 							<td class="hide">
-								<input id="medicalofficeempList2{{idx}}_id" name="medicalofficeempList2[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="medicalofficeempList2{{idx}}_medicalOfficeEmpId" name="medicalofficeempList2[{{idx}}].medicalOfficeEmpId" type="hidden" value="{{row.medicalOfficeEmpId}}"/>
-								<input id="medicalofficeempList2{{idx}}_relationId" name="medicalofficeempList2[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="medicalofficeempList2{{idx}}_delFlag" name="medicalofficeempList2[{{idx}}].delFlag" type="hidden" value="0"/>
+								<td class="hide">
+								<input id="patientLinkEmpList{{idx}}_id" name="patientLinkEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="patientLinkEmpList{{idx}}_patientLinkEmpId" name="patientLinkEmpList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
+								<input id="patientLinkEmpList{{idx}}_linkType" name="patientLinkEmpList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
+								<input id="patientLinkEmpList{{idx}}_relationId" name="patientLinkEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+								<input id="patientLinkEmpList{{idx}}_delFlag" name="patientLinkEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
-							<td>
-								<input id="medicalofficeempList2{{idx}}_medicalOfficeName" name="medicalofficeempList2[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="32" class="input-small required"/>
-							</td>
-							<td>
-								<input id="medicalofficeempList2{{idx}}_medicalOfficeAgent" name="medicalofficeempList2[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="input-small "/>
-							</td>
-							<td>
-								<input id="medicalofficeempList2{{idx}}_medicalOfficeMobile" name="medicalofficeempList2[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="1" class="input-small required"/>
-							</td>
-							<td>
-								<input id="medicalofficeempList2{{idx}}_medicalOfficePost" name="medicalofficeempList2[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="32" class="input-small required"/>
 							</td>
 
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalofficeempList2{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+							<td>
+								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
+							</td>
+							<td>
+								<select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" class="input-mini">
+									<option value=""></option>
+									<option value="1">男</option>
+									<option value="2">女</option>
+								</select>
+							</td>
+							<td>
+								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" />
+							</td>
+							<td>
+								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" />
+							</td>
+
+							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmpList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 					</script>
-					<script type="text/javascript">
-						var advanceAccountDetailRowIdx = 0, advanceAccountDetailTp3= $("#advanceAccountDetailTp3").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-						$(document).ready(function() {
-							var data = ${fns:toJson(assessAppraisal.medicalofficeempList2)};
-							for (var i=0; i<data.length; i++){
-								addRow('#medicalofficeempList2', advanceAccountDetailRowIdx, advanceAccountDetailTp3, data[i]);
-								advanceAccountDetailRowIdx = advanceAccountDetailRowIdx + 1;
-							}
-						});
-					</script>
+					<table id="patientDTable" class="table table-striped table-bordered table-condensed">
+						<legend>患方联系人</legend>
+						<thead>
+						<tr>
+							<th class="hide"></th>
+							<th >姓名</th>
+							<th >与患者关系</th>
+							<th >电话</th>
+							<th >操作</th>
+							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
+								<th >&nbsp;</th>
+							</shiro:hasPermission>
+						</tr>
+						</thead>
+						<tbody id="patientLinkDList"></tbody>
+						<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
+							<tfoot>
+							<tr><td colspan="7"><a href="javascript:" onclick="addRow('#patientLinkDList', patientLinkDRowIdx, patientLinkDTp);patientLinkDRowIdx = patientLinkDRowIdx + 1;" class="btn">新增</a></td></tr>
+							</tfoot></shiro:hasPermission>
+					</table>
+					<script type="text/template" id="patientLinkDTp">//<!--
+						<tr id="patientLinkDList{{idx}}">
+							<td class="hide">
+								<input id="patientLinkDList{{idx}}_id" name="patientLinkDList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="patientLinkDList{{idx}}_patientLinkEmpId" name="patientLinkDList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
+								<input id="patientLinkDList{{idx}}_linkType" name="patientLinkDList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
+								<input id="patientLinkDList{{idx}}_relationId" name="patientLinkDList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+								<input id="patientLinkDList{{idx}}_delFlag" name="patientLinkDList[{{idx}}].delFlag" type="hidden" value="0"/>
+							</td>
 
+							<td>
+								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
+							</td>
+							<td>
+								<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />
+							</td>
+							<td>
+								<input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required" />
+							</td>
+
+
+							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkDList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+							</td></shiro:hasPermission>
+						</tr>//-->
+					</script>
 				</div>
+				<div class="tab-pane fade" id="medical">
+					<table id="hospitalTable" class="table table-striped table-bordered table-condensed">
+						<thead>
+						<tr>
+							<th class="hide"></th>
+							<th >医疗机构名称</th>
+
+							<th >委托代理人</th>
+							<th >联系方式</th>
+							<th >职务</th>
+							<th >操作</th>
+							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
+								<th >&nbsp;</th>
+							</shiro:hasPermission>
+						</tr>
+						</thead>
+						<tbody id="medicalOfficeEmpList"></tbody>
+						<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
+							<tfoot>
+							<tr><td colspan="7"><a href="javascript:" onclick="addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp);medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;" class="btn">新增</a></td></tr>
+							</tfoot></shiro:hasPermission>
+					</table>
+					<script type="text/template" id="medicalOfficeEmpTp">//<!--
+						<tr id="medicalOfficeEmpList{{idx}}">
+							<td class="hide">
+								<input id="medicalOfficeEmpList{{idx}}_id" name="medicalOfficeEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeEmpId" name="medicalOfficeEmpList[{{idx}}].medicalOfficeEmpId" type="hidden" value="{{row.medicalOfficeEmpId}}"/>
+								<input id="medicalOfficeEmpList{{idx}}_relationId" name="medicalOfficeEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+								<input id="medicalOfficeEmpList{{idx}}_delFlag" name="medicalOfficeEmpList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+							</td>
+
+							<td>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" />
+							</td>
+							<td>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" />
+							</td>
+							<td>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeMobile" name="medicalOfficeEmpList[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="200" class="required" />
+							</td>
+							<td>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" />
+							</td>
+							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+							</td></shiro:hasPermission>
+						</tr>//-->
+					</script>
 
 
 
@@ -1283,6 +1226,17 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
-
+	<script type="text/javascript">
+		var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+		var patientLinkEmpRowIdx = 0, patientLinkEmpTp = $("#patientLinkEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+		var patientLinkDRowIdx = 0, patientLinkDTp = $("#patientLinkDTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+		$(document).ready(function() {
+			var data = ${fns:toJson(signAgreement.medicalOfficeEmpList)};
+			for (var i=0; i<data.length; i++){
+				addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, data[i]);
+				medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;
+			}
+		});
+	</script>
 </body>
 </html>
