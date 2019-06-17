@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.modules.record.dao.MediateRecordDao">
-    
+
 	<sql id="mediateRecordColumns">
 		a.mediate_record AS "mediateRecord",
 		a.relation_id AS "relationId",
@@ -14,22 +14,26 @@
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag"
 	</sql>
-	
+
 	<sql id="mediateRecordJoins">
 		LEFT JOIN MEDIATE_EVIDENCE b ON b.mediate_evidence_id = a.relation_id
 	</sql>
-    
+
+	<sql id="reachMediateJoins">
+		LEFT JOIN REACH_MEDIATE b ON b.reach_mediate_id = a.relation_id
+	</sql>
+
 	<select id="get" resultType="MediateRecord">
-		SELECT 
-			<include refid="mediateRecordColumns"/>
+		SELECT
+		<include refid="mediateRecordColumns"/>
 		FROM MEDIATE_RECORD a
 		<include refid="mediateRecordJoins"/>
 		WHERE a.relation_id = #{relationId}
 	</select>
-	
+
 	<select id="findList" resultType="MediateRecord">
-		SELECT 
-			<include refid="mediateRecordColumns"/>
+		SELECT
+		<include refid="mediateRecordColumns"/>
 		FROM MEDIATE_RECORD a
 		<include refid="mediateRecordJoins"/>
 		<where>
@@ -47,15 +51,18 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	<select id="findAllList" resultType="MediateRecord">
-		SELECT 
-			<include refid="mediateRecordColumns"/>
+
+	<select id="findReachMediateList" resultType="MediateRecord">
+		SELECT
+		<include refid="mediateRecordColumns"/>
 		FROM MEDIATE_RECORD a
-		<include refid="mediateRecordJoins"/>
+		<include refid="reachMediateJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+			<if test="relationId != null and relationId != ''">
+				AND a.relation_id = #{relationId}
+			</if>
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -65,7 +72,25 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="findAllList" resultType="MediateRecord">
+		SELECT
+		<include refid="mediateRecordColumns"/>
+		FROM MEDIATE_RECORD a
+		<include refid="mediateRecordJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
 	<insert id="insert">
 		INSERT INTO MEDIATE_RECORD(
 			mediate_record,
@@ -91,7 +116,7 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
 		UPDATE MEDIATE_RECORD SET
 			time = #{time},
@@ -99,11 +124,11 @@
 			result = #{result}
 		WHERE mediate_record = #{id}
 	</update>
-	
+
 	<update id="delete">
 		UPDATE MEDIATE_RECORD SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE mediate_record = #{mediateRecord}
 	</update>
-	
+
 </mapper>

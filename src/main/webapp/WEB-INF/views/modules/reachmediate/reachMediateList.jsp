@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>履行协议管理</title>
+	<title>达成调解管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,12 +18,12 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/perform/performAgreement/">履行协议列表</a></li>
+		<li class="active"><a href="${ctx}/reachmediate/reachMediate/">达成调解列表</a></li>
 <%--
-		<shiro:hasPermission name="perform:performAgreement:edit"><li><a href="${ctx}/perform/performAgreement/form">履行协议添加</a></li></shiro:hasPermission>
+		<shiro:hasPermission name="reachmediate:reachMediate:edit"><li><a href="${ctx}/reachmediate/reachMediate/form">达成调解添加</a></li></shiro:hasPermission>
 --%>
 	</ul>
-	<form:form id="searchForm" modelAttribute="performAgreement" action="${ctx}/perform/performAgreement/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="reachMediate" action="${ctx}/reachmediate/reachMediate/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -44,42 +44,42 @@
 				<th>纠纷发生时间</th>
 				<th>患者姓名</th>
 				<th>患者联系电话</th>
-				<shiro:hasPermission name="perform:performAgreement:edit"><th>操作</th></shiro:hasPermission>
+				<shiro:hasPermission name="reachmediate:reachMediate:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="performAgreement">
+		<c:forEach items="${page.list}" var="reachMediate">
 			<tr>
-				<td><a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}">
-						${performAgreement.complaintMain.caseNumber}
+				<td><a href="${ctx}/perform/performAgreement/form?id=${reachMediate.reachMediateId}">
+						${reachMediate.complaintMain.caseNumber}
 				</a></td>
 				<td>
-						${performAgreement.complaintMain.hospital.name}
+						${reachMediate.complaintMain.hospital.name}
 				</td>
 				<td>
-						${performAgreement.complaintMain.hospitalGrade}
+						${reachMediate.complaintMain.hospitalGrade}
 				</td>
 				<td>
-						${performAgreement.area.name}
+						${reachMediate.area.name}
 				</td>
 				<td>
-						${performAgreement.auditAcceptance.policyNumber}
+						${reachMediate.auditAcceptance.policyNumber}
 				</td>
 				<td>
-						${performAgreement.reportRegistration.reportEmp}
+						${reachMediate.reportRegistration.reportEmp}
 				</td>
 				<td>
-						${performAgreement.reportRegistration.disputeTime}
+						${reachMediate.reportRegistration.disputeTime}
 				</td>
 				<td>
-						${performAgreement.complaintMain.patientName}
+						${reachMediate.complaintMain.patientName}
 				</td>
 				<td>
-						${performAgreement.reportRegistration.patientMobile}
+						${reachMediate.reportRegistration.patientMobile}
 				</td>
-				<shiro:hasPermission name="perform:performAgreement:edit"><td>
-    				<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}">处理</a>
-					<a href="${ctx}/perform/performAgreement/delete?id=${performAgreement.performAgreementId}&type=view">修改</a>
+				<shiro:hasPermission name="reachmediate:reachMediate:edit"><td>
+    				<a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}">处理</a>
+					<a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

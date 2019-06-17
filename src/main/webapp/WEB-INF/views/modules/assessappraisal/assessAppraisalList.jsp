@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/assessappraisal/assessAppraisal/">评估鉴定列表</a></li>
+<%--
 		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><li><a href="${ctx}/assessappraisal/assessAppraisal/form">评估鉴定添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="assessAppraisal" action="${ctx}/assessappraisal/assessAppraisal/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
