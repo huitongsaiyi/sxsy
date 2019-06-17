@@ -327,7 +327,8 @@
 
 
 		<div class="form-actions">
-			<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')">&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

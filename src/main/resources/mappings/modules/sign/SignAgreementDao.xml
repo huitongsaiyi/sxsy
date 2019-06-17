@@ -68,9 +68,9 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="signAgreementJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null
-			<if test="user != null and user.id == null and user.id == ''">
-				AND t.TASK_DEF_KEY_='sign'	AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL AND t.TASK_DEF_KEY_='sign'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
 			</if>
 			<if test="agreementNumber != null and agreementNumber != ''">
 				AND a.agreement_number LIKE 

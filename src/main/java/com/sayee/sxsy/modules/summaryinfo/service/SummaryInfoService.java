@@ -3,11 +3,16 @@
  */
 package com.sayee.sxsy.modules.summaryinfo.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +35,8 @@ public class SummaryInfoService extends CrudService<SummaryInfoDao, SummaryInfo>
 	@Autowired
 	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
+	private ActTaskService actTaskService;
+	@Autowired
 	private SummaryInfoDao summaryInfoDao;
 	public SummaryInfo get(String id) {
 		return super.get(id);
@@ -45,6 +52,7 @@ public class SummaryInfoService extends CrudService<SummaryInfoDao, SummaryInfo>
 	}
 
 	public Page<SummaryInfo> findPage(Page<SummaryInfo> page, SummaryInfo summaryInfo) {
+		summaryInfo.setUser(UserUtils.getUser());
 		return super.findPage(page, summaryInfo);
 	}
 	
@@ -58,6 +66,15 @@ public class SummaryInfoService extends CrudService<SummaryInfoDao, SummaryInfo>
 		}else{
 			summaryInfo.preUpdate();
 			dao.update(summaryInfo);
+		}
+		if ("yes".equals(summaryInfo.getComplaintMain().getAct().getFlag())){
+			//List<Act> list = actTaskService.todoList(assessApply.getComplaintMain().getAct());
+			Map<String,Object> var=new HashMap<String, Object>();
+			var.put("pass","0");
+			User assigness= UserUtils.get(summaryInfo.getNextLinkMan());
+			var.put("assess_user",assigness.getLoginName());
+			// 执行流程
+			actTaskService.complete(summaryInfo.getComplaintMain().getAct().getTaskId(), summaryInfo.getComplaintMain().getAct().getProcInsId(), summaryInfo.getComplaintMain().getAct().getComment(), summaryInfo.getComplaintMain().getCaseNumber(), var);
 		}
 //		super.save(summaryInfo);
 	}

@@ -10,6 +10,10 @@
 		a.summary AS "summary",
 		a.filing_time AS "filingTime",
 		a.file_number AS "fileNumber",
+		a.handle_people AS "handlePeople",
+		a.handle_time AS "handleTime",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
@@ -27,6 +31,7 @@
 		b.involve_department AS "complaintMain.involveDepartment",
 		b.involve_employee AS "complaintMain.involveEmployee",
 		b.proc_ins_id AS "complaintMain.procInsId",
+		t.ID_ AS "complaintMain.act.taskId",
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
 		o1.name AS "complaintMain.department.name",
@@ -64,8 +69,7 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="summaryInfoJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null
--- 			and t.TASK_DEF_KEY_='summary'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT NULL	AND t.TASK_DEF_KEY_='summary'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
 			</if>
@@ -127,6 +131,10 @@
 			summary,
 			filing_time,
 			file_number,
+			handle_people,
+			handle_time,
+			next_link,
+			next_link_man,
 			create_by,
 			create_date,
 			update_by,
@@ -140,6 +148,10 @@
 			#{summary},
 			#{filingTime},
 			#{fileNumber},
+			#{handlePeople},
+			#{handleTime},
+			#{nextLink},
+			#{nextLinkMan},
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
@@ -157,6 +169,10 @@
 			summary = #{summary},
 			filing_time = #{filingTime},
 			file_number = #{fileNumber},
+			handle_people = #{handlePeople},
+			handle_time = #{handleTime},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
 		WHERE summary_id = #{summaryId}

@@ -63,8 +63,10 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="assessInfoJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r1.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null
--- 			and t.TASK_DEF_KEY_='assess'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r1.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL AND t.TASK_DEF_KEY_='assess'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

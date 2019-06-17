@@ -105,7 +105,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","0");
 			User assigness= UserUtils.get(signAgreement.getNextLinkMan());
-			var.put("approval_user",assigness.getLoginName());
+			var.put("summary_user",assigness.getLoginName());
 			// 执行流程
 			actTaskService.complete(signAgreement.getComplaintMain().getAct().getTaskId(), signAgreement.getComplaintMain().getAct().getProcInsId(), signAgreement.getComplaintMain().getAct().getComment(), signAgreement.getComplaintMain().getCaseNumber(), var);
 		}
