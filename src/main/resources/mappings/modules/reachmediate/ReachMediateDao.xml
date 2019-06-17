@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.reachmediate.dao.ReachMediateDao">
+    
+	<sql id="reachMediateColumns">
+		if(a.reach_mediate_id IS NULL,r2.report_registration_id,a.reach_mediate_id) AS "reachMediateId",
+		if(a.complaint_main_id IS NULL,r2.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
+		if(a.rea_mediate_result IS NULL,m.mediate_result,a.rea_mediate_result ) AS "reaMediateResult",
+		if(a.rea_summary IS NULL,m.summary,a.rea_summary) AS "reaSummary",
+		if(a.rea_user_id IS NULL,m.user_id,a.rea_user_id ) AS "reaUserId",
+		if(a.rea_patient IS NULL,m.patient,a.rea_patient) AS "reaPatient",
+		if(a.rea_doctor IS NULL,m.doctor,a.rea_doctor ) AS "reaDoctor",
+		if(a.rea_case_info IS NULL,m.case_info,a.rea_case_info) AS "reaCaseInfo",
+		if(a.rea_address IS NULL,m.address,a.rea_address) AS "reaAddress",
+		if(a.rea_meeting_time IS NULL,m.meeting_time,a.rea_meeting_time ) AS "reaMeetingTime",
+		a.handle_people AS "handlePeople",
+		a.handle_time AS "handleTime",
+		a.next_link AS "nextLink",
+		a.next_link_man AS "nextLinkMan",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		u5.name AS "ytwUser.name",u6.name AS "doctorUser.name",
+		r.record_id AS "recordInfo.recordId",yr.record_id AS "recordInfo.yrecordInfo.recordId",
+  	    r.start_time AS "recordInfo.startTime", r.end_time AS "recordInfo.endTime",
+  	    r.address AS "recordInfo.recordAddress", r.cause AS "recordInfo.cause", r.host AS "recordInfo.host",
+  	    r.note_taker AS "recordInfo.noteTaker", r.patient AS "recordInfo.patient",
+		r.doctor AS "recordInfo.doctor", r.other_participants AS "recordInfo.otherParticipants",
+        r.record_content AS "recordInfo.recordContent", b.case_number AS "complaintMain.caseNumber",
+        b.patient_name AS "complaintMain.patientName", b.patient_sex AS "complaintMain.patientSex",
+        b.patient_age AS "complaintMain.patientAge", b.patient_card AS "complaintMain.patientCard",
+      	b.involve_hospital AS "complaintMain.involveHospital", b.hospital_level AS "complaintMain.hospitalLevel",
+        b.hospital_grade AS "complaintMain.hospitalGrade",
+        b.involve_department AS "complaintMain.involveDepartment",
+        b.involve_employee AS "complaintMain.involveEmployee", b.proc_ins_id AS "complaintMain.procInsId",
+        yr.start_time AS "recordInfo.yrecordInfo.startTime", yr.end_time AS "recordInfo.yrecordInfo.endTime",
+        yr.address AS "recordInfo.yrecordInfo.recordAddress", yr.cause AS "recordInfo.yrecordInfo.cause",
+        yr.host AS "recordInfo.yrecordInfo.host", yr.note_taker AS "recordInfo.yrecordInfo.noteTaker",
+        yr.patient AS "recordInfo.yrecordInfo.patient", yr.doctor AS "recordInfo.yrecordInfo.doctor",
+        yr.other_participants AS "recordInfo.yrecordInfo.otherParticipants",
+        yr.record_content AS "recordInfo.yrecordInfo.recordContent",
+        o.name AS "complaintMain.hospital.name", o1.name AS "complaintMain.department.name",
+        u1.name AS "complaintMain.employee.name", u2.name AS "linkEmployee.name",
+        t.ID_ AS "complaintMain.act.taskId", r1.report_emp AS "reportRegistration.reportEmp",
+        r1.dispute_time AS "reportRegistration.disputeTime",
+        r1.patient_mobile AS "reportRegistration.patientMobile",
+        uz.name AS "recordInfo.ytwHost.name",
+        uj.name AS "recordInfo.ytwNoteTaker.name",
+        uy.name AS "recordInfo.yfDoctor.name",
+        uz1.name AS "recordInfo.yrecordInfo.ytwHost.name",
+        uj1.name AS "recordInfo.yrecordInfo.ytwNoteTaker.name",
+        uy1.name AS "recordInfo.yrecordInfo.yfDoctor.name",
+        au.policy_number AS "auditAcceptance.policyNumber",
+        count(distinct a.reach_mediate_id)
+	</sql>
+	
+	<sql id="reachMediateJoins">
+		LEFT JOIN REACH_MEDIATE a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN MEDIATE_EVIDENCE m ON b.complaint_main_id = m.complaint_main_id
+		LEFT JOIN RECORD_INFO r ON r.relation_id = a.reach_mediate_id and r.type='1'
+		LEFT JOIN RECORD_INFO yr ON yr.relation_id = a.reach_mediate_id and yr.type='2'
+		LEFT JOIN REPORT_REGISTRATION r2 ON r2.complaint_main_id = b.complaint_main_id
+		LEFT JOIN SYS_USER uz ON uz.id = r.host
+		LEFT JOIN SYS_USER uj ON uj.id=r.note_taker
+		LEFT JOIN SYS_USER uy ON uy.id=r.doctor
+		LEFT JOIN SYS_USER uz1 ON uz1.id = yr.host
+		LEFT JOIN SYS_USER uj1 ON uj1.id=yr.note_taker
+		LEFT JOIN SYS_USER uy1 ON uy1.id=yr.doctor
+		LEFT JOIN SYS_USER u5 ON u5.id = a.rea_user_id
+		LEFT JOIN SYS_USER u6 ON u6.id = a.rea_doctor
+		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+		LEFT JOIN SYS_USER u2 ON u2.id=m.next_link_man
+		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
+		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
+		LEFT JOIN REPORT_REGISTRATION r1 ON b.complaint_main_id=r1.complaint_main_id
+		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+	</sql>
+    
+	<select id="get" resultType="ReachMediate">
+		SELECT 
+			<include refid="reachMediateColumns"/>
+		FROM COMPLAINT_MAIN b
+		<include refid="reachMediateJoins"/>
+		WHERE a.reach_mediate_id = #{reachMediateId}
+	</select>
+	
+	<select id="findList" resultType="ReachMediate">
+		SELECT 
+			<include refid="reachMediateColumns"/>
+		FROM COMPLAINT_MAIN b
+		<include refid="reachMediateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ReachMediate">
+		SELECT 
+			<include refid="reachMediateColumns"/>
+		FROM REACH_MEDIATE a
+		<include refid="reachMediateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO REACH_MEDIATE(
+			reach_mediate_id,
+			complaint_main_id,
+			rea_mediate_result,
+			rea_summary,
+			rea_user_id,
+			rea_patient,
+			rea_doctor,
+			rea_case_info,
+			rea_address,
+			rea_meeting_time,
+			handle_people,
+			handle_time,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{reachMediateId},
+			#{complaintMainId},
+			#{reaMediateResult},
+			#{reaSummary},
+			#{reaUserId},
+			#{reaPatient},
+			#{reaDoctor},
+			#{reaCaseInfo},
+			#{reaAddress},
+			#{reaMeetingTime},
+			#{handlePeople},
+			#{handleTime},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE REACH_MEDIATE SET
+			rea_mediate_result = #{reaMediateResult},
+			rea_summary = #{reaSummary},
+			rea_user_id = #{reaUserId},
+			rea_patient = #{reaPatient},
+			rea_doctor = #{reaDoctor},
+			rea_case_info = #{reaCaseInfo},
+			rea_address = #{reaAddress},
+			rea_meeting_time = #{reaMeetingTime},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan}
+		WHERE reach_mediate_id = #{reachMediateId}
+	</update>
+	
+	<update id="delete">
+		UPDATE REACH_MEDIATE SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE reach_mediate_id = #{reachMediateId}
+	</update>
+	
+</mapper>
