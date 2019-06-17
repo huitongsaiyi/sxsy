@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.modules.perform.dao.PerformAgreementDao">
-    
+
 	<sql id="performAgreementColumns">
 		if(a.perform_agreement_id IS NULL,r.report_registration_id,a.perform_agreement_id) AS "performAgreementId",
 		if(a.complaint_main_id IS NULL,r.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
@@ -26,7 +26,6 @@
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
-		t1.FILE_PATH AS "files",
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
 		au.policy_number AS "auditAcceptance.policyNumber",
@@ -34,36 +33,37 @@
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile"
 	</sql>
-	
+
 	<sql id="performAgreementJoins">
 		LEFT JOIN PERFORM_AGREEMENT a ON a.complaint_main_id = b.complaint_main_id
 		LEFT JOIN REPORT_REGISTRATION r ON r.complaint_main_id = b.complaint_main_id
-		LEFT JOIN AUDIT_ACCEPTANCE au ON au.complaint_main_id = a.complaint_main_id
+		LEFT JOIN AUDIT_ACCEPTANCE au ON au.complaint_main_id = b.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
-		LEFT JOIN T_ACCESSORIES t1 ON  t1.ITEM_ID = au.audit_acceptance_id
 	</sql>
-    
+
 	<select id="get" resultType="PerformAgreement">
-		SELECT 
-			<include refid="performAgreementColumns"/>
+		SELECT
+		<include refid="performAgreementColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="performAgreementJoins"/>
-		WHERE a.perform_agreement_id = #{performAgreementId}
+		WHERE a.perform_agreement_id = #{performAgreementId} OR r.report_registration_id = #{performAgreementId}
 	</select>
-	
+
 	<select id="findList" resultType="PerformAgreement">
-		SELECT 
-			<include refid="performAgreementColumns"/>
+		SELECT
+		<include refid="performAgreementColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="performAgreementJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null
--- 			and t.TASK_DEF_KEY='fulfill'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL AND t.TASK_DEF_KEY_='fulfill'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -74,15 +74,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="PerformAgreement">
-		SELECT 
-			<include refid="performAgreementColumns"/>
+		SELECT
+		<include refid="performAgreementColumns"/>
 		FROM perform_agreement a
 		<include refid="performAgreementJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -92,9 +92,9 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
-		INSERT INTO perform_agreement(
+		INSERT INTO PERFORM_AGREEMENT(
 			perform_agreement_id,
 			complaint_main_id,
 			agreement_pay_amount,
@@ -126,9 +126,9 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
-		UPDATE perform_agreement SET 	
+		UPDATE PERFORM_AGREEMENT SET
 			agreement_pay_amount = #{agreementPayAmount},
 			hospital_pay_amount = #{hospitalPayAmount},
 			hospital_pay_time = #{hospitalPayTime},
@@ -138,11 +138,11 @@
 			next_link_man = #{nextLinkMan}
 		WHERE perform_agreement_id = #{performAgreementId}
 	</update>
-	
+
 	<update id="delete">
-		UPDATE perform_agreement SET 
+		UPDATE PERFORM_AGREEMENT SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE perform_agreement_id = #{performAgreementId}
 	</update>
-	
+
 </mapper>
