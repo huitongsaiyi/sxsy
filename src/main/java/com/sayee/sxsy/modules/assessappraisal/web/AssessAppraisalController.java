@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
@@ -42,6 +43,8 @@ public class AssessAppraisalController extends BaseController {
 
 	@Autowired
 	private AssessAppraisalService assessAppraisalService;
+    @Autowired
+    private SignAgreementService signAgreementService;
 	@Autowired
 	private TypeInfoService typeInfoService;
 	@ModelAttribute
@@ -87,19 +90,20 @@ public class AssessAppraisalController extends BaseController {
 				model.addAttribute("files7",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
 			}
 		}
-         List<TypeInfo> type = BaseUtils.getType("1");
-        for (int i=0;i<type.size();i++){
-            if("1".equals(type.get(i).getRelationModel())){
+		List<TypeInfo> type = BaseUtils.getType("1");
+        signAgreementService.label(type,assessAppraisal.getProposal().getAnalysisOpinion());
+//        for (int i=0;i<type.size();i++){
+//            if("1".equals(type.get(i).getRelationModel())){
                 model.addAttribute("relationModel1",type);
-
-            }
-        }
+//            }
+//        }
         List<TypeInfo> type1 = BaseUtils.getType("2");
-        for (int i=0;i<type1.size();i++){
-            if("2".equals(type1.get(i).getRelationModel())){
+        signAgreementService.label(type1,assessAppraisal.getProposal().getConclusion());
+//        for (int i=0;i<type1.size();i++){
+//            if("2".equals(type1.get(i).getRelationModel())){
                 model.addAttribute("relationModel2",type1);
-            }
-        }
+//            }
+//        }
 
         model.addAttribute("assessAppraisal", assessAppraisal);
 		return "modules/assessappraisal/assessAppraisalForm";

@@ -108,13 +108,21 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			huanf.setType("1");
 			recordInfoDao.insert(huanf);
 			//保存医方笔录
-			RecordInfo yif = assessAppraisal.getRecordInfo2();
+			RecordInfo yif = assessAppraisal.getRecordInfo1().getYrecordInfo();
 			yif.preInsert();
 			yif.setRecordId(IdGen.uuid());
 			yif.setRelationId(assessAppraisal.getAssessAppraisalId());
 			yif.setType("2");
 			recordInfoDao.insert(yif);
 		}else{
+		    //修改患方笔录
+            RecordInfo huanf = assessAppraisal.getRecordInfo1();
+            huanf.preUpdate();
+            recordInfoDao.update(huanf);
+            //修改医方笔录
+            RecordInfo yif = assessAppraisal.getRecordInfo1().getYrecordInfo();
+            yif.preUpdate();
+            recordInfoDao.update(yif);
 			//更新评估鉴定主表
 			assessAppraisal.preUpdate();
 			dao.update(assessAppraisal);
@@ -131,19 +139,17 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		//保存医方
 		this.doctorDetail(assessAppraisal);
         //保存意见书
-		     this.submissions(assessAppraisal);
+		this.submissions(assessAppraisal);
 
-//		if ("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
-//
-//			Map<String,Object> var=new HashMap<String, Object>();
-//			var.put("pass","0");
-//			User assigness= UserUtils.get(assessAppraisal.getNextLinkMan());
-//			var.put("apply_user",assigness.getLoginName());
-//			// 执行流程
-//			actTaskService.complete(assessAppraisal.getComplaintMain().getAct().getTaskId(), assessAppraisal.getComplaintMain().getAct().getProcInsId(), assessAppraisal.getComplaintMain().getAct().getComment(), assessAppraisal.getComplaintMain().getCaseNumber(), var);
-//
-//
-//		}
+		if ("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
+
+			Map<String,Object> var=new HashMap<String, Object>();
+			var.put("pass","0");
+			User assigness= UserUtils.get(assessAppraisal.getNextLinkMan());
+			var.put("reach_user",assigness.getLoginName());
+			// 执行流程
+			actTaskService.complete(assessAppraisal.getComplaintMain().getAct().getTaskId(), assessAppraisal.getComplaintMain().getAct().getProcInsId(), assessAppraisal.getComplaintMain().getAct().getComment(), assessAppraisal.getComplaintMain().getCaseNumber(), var);
+		}
 	}
 
 

@@ -50,7 +50,6 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
 	private RecordInfo recordInfo1;//评估鉴定笔录(患方)
-	private RecordInfo recordInfo2;//评估鉴定笔录(医方)
 	private AuditAcceptance auditAcceptance;//保单号
 	private ComplaintMain complaintMain;		// 关联主表主键
 	private User user;  //当前登录人员
@@ -182,14 +181,6 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 
 	public void setRecordInfo1(RecordInfo recordInfo1) {
 		this.recordInfo1 = recordInfo1;
-	}
-
-	public RecordInfo getRecordInfo2() {
-		return recordInfo2;
-	}
-
-	public void setRecordInfo2(RecordInfo recordInfo2) {
-		this.recordInfo2 = recordInfo2;
 	}
 
 

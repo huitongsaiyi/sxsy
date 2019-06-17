@@ -85,7 +85,7 @@
 			<include refid="reachMediateColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="reachMediateJoins"/>
-		WHERE a.reach_mediate_id = #{reachMediateId}
+		WHERE a.reach_mediate_id = #{reachMediateId} OR r2.report_registration_id = #{assessAppraisalId}
 	</select>
 	
 	<select id="findList" resultType="ReachMediate">
@@ -94,7 +94,10 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="reachMediateJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r2.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='reach'
+			<if test="user != null and user.id != null and user.id != ''">
+				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

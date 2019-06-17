@@ -88,6 +88,9 @@
 		<form:hidden path="assessAppraisalId"/>
 		<form:hidden path="createDate"/>
 		<form:hidden path="createBy"/>
+        <form:hidden path="recordInfo1.recordId"/>
+        <form:hidden path="recordInfo1.yrecordInfo.recordId"/>
+        <form:hidden path="proposal.proposalId"/>
 		<form:hidden path="complaintMainId"/>
 		<form:hidden path="complaintMain.complaintMainId"/>
 		<form:hidden path="complaintMain.act.taskId"/>
@@ -96,6 +99,7 @@
 		<form:hidden path="complaintMain.act.procInsId"/>
 		<form:hidden path="complaintMain.act.procDefId"/>
 		<form:hidden path="complaintMain.procInsId"/>
+        <form:hidden id="flag" path="complaintMain.act.flag"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
@@ -607,17 +611,17 @@
 						开始时间：
 					</td>
 					<td>
-						<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 							   value="${assessAppraisal.recordInfo1.startTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 					<td class="tit">
 						结束时间：
 					</td>
 					<td>
-						<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 							   value="${assessAppraisal.recordInfo1.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 				</tr>
 				<tr>
@@ -666,17 +670,17 @@
 						开始时间：
 					</td>
 					<td>
-						<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-							   value="${assessAppraisal.recordInfo2.startTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+						<input name="recordInfo1.yrecordInfo.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+							   value="${assessAppraisal.recordInfo1.yrecordInfo.startTime}"
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 					<td class="tit">
 						结束时间：
 					</td>
 					<td>
-						<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-							   value="${assessAppraisal.recordInfo2.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+						<input name="recordInfo1.yrecordInfo.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+							   value="${assessAppraisal.recordInfo1.yrecordInfo.endTime}"
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 				</tr>
 				<tr>
@@ -684,13 +688,13 @@
 						地点：
 					</td>
 					<td>
-						<form:input path="recordInfo2.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 					<td class="tit">
 						事由：
 					</td>
 					<td>
-						<form:input path="recordInfo2.cause" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.cause" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 				</tr>
 				<tr>
@@ -698,13 +702,13 @@
 						主持人：
 					</td>
 					<td>
-						<form:input path="recordInfo2.host" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.host" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 					<td class="tit">
 						记录人：
 					</td>
 					<td>
-						<form:input path="recordInfo2.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 				</tr>
 				<tr>
@@ -712,7 +716,7 @@
 						笔录内容：
 					</td>
 					<td colspan="3">
-						<form:textarea path="recordInfo2.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
+						<form:textarea path="recordInfo1.yrecordInfo.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
 					</td>
 
 				</tr>
@@ -864,7 +868,7 @@
 								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" class="input-mini">
+								<select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" data-value="{{row.patientLinkSex}}" class="input-mini">
 									<option value=""></option>
 									<option value="1">男</option>
 									<option value="2">女</option>
@@ -1020,7 +1024,7 @@
 							<td nowrap style="text-align:center;vertical-align:middle;">
 								<input type="hidden" name="typeInfosList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="typeInfosList[${vs.index}].delFlag" value="${column.delFlag}"/>
-								<input type="checkbox" name="typeInfosList[${vs.index}].label" value="1" ${column.typeId eq '1' ? 'checked' : ''}/>
+								<input type="checkbox" name="typeInfosList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''}/>
 							</td>
 							<td style="text-align:center;vertical-align:middle;">${column.typeName}</td>
 							<td style="text-align:center;vertical-align:middle;">${column.content}</td>
@@ -1067,7 +1071,7 @@
 							<td nowrap style="text-align:center;vertical-align:middle;">
 								<input type="hidden" name="typeInfosList2[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="typeInfosList2[${vs.index}].delFlag" value="${column.delFlag}"/>
-								<input type="checkbox" name="typeInfosList2[${vs.index}].label" value="1" ${column.typeId eq '1' ? 'checked' : ''}/>
+								<input type="checkbox" name="typeInfosList2[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''}/>
 							</td>
 
 							<td style="text-align:center;vertical-align:middle;">
@@ -1216,13 +1220,14 @@
 					下一环节处理人：
 				</td>
 				<td>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${auditAcceptance.nextLinkMan}" labelName="" labelValue="${auditAcceptance.linkEmployee.name}"
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessAppraisal.nextLinkMan}" labelName="" labelValue="${assessAppraisal.linkEmployee.name}"
 									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
 				</td>
 			</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
@@ -1231,11 +1236,24 @@
 		var patientLinkEmpRowIdx = 0, patientLinkEmpTp = $("#patientLinkEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
 		var patientLinkDRowIdx = 0, patientLinkDTp = $("#patientLinkDTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
 		$(document).ready(function() {
-			var data = ${fns:toJson(signAgreement.medicalOfficeEmpList)};
+			var data = ${fns:toJson(assessAppraisal.medicalOfficeEmpList)};
 			for (var i=0; i<data.length; i++){
 				addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, data[i]);
 				medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;
 			}
+
+            var data = ${fns:toJson(assessAppraisal.patientLinkDList)};
+            for (var i=0; i<data.length; i++){
+                addRow('#patientLinkDList', patientLinkDRowIdx, patientLinkDTp, data[i]);
+                patientLinkDRowIdx = patientLinkDRowIdx + 1;
+            }
+
+            var PatientData = ${fns:toJson(assessAppraisal.patientLinkEmpList)};
+            for (var i=0; i<PatientData.length; i++){
+                addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp, PatientData[i]);
+                patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;
+            }
+
 		});
 	</script>
 </body>

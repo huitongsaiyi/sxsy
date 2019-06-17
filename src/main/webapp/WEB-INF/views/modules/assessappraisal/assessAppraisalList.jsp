@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/assessappraisal/assessAppraisal/">评估鉴定列表</a></li>
+<%--
 		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><li><a href="${ctx}/assessappraisal/assessAppraisal/form">评估鉴定添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="assessAppraisal" action="${ctx}/assessappraisal/assessAppraisal/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -63,8 +65,8 @@
 					<%--<fmt:formatDate value="${assessAppraisal.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>--%>
 				<%--</a></td>--%>
 				<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td>
-    				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}">修改</a>
-					<a href="${ctx}/assessappraisal/assessAppraisal/delete?id=${assessAppraisal.assessAppraisalId}" onclick="return confirmx('确认要删除该评估鉴定吗？', this.href)">删除</a>
+    				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}">处理</a>
+    				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
