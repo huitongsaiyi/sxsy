@@ -64,11 +64,20 @@ public class AssessInfoController extends BaseController {
 	@RequiresPermissions("assessinfo:assessInfo:edit")
 	@RequestMapping(value = "save")
 	public String save(AssessInfo assessInfo, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, assessInfo)){
-			return form(assessInfo, model);
+		try {
+			if (!beanValidator(model, assessInfo)){
+				return form(assessInfo, model);
+			}
+			assessInfoService.save(assessInfo);
+			if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){
+				addMessage(redirectAttributes, "流程已启动，流程ID：" + assessInfo.getComplaintMain().getProcInsId());
+			}else {
+				addMessage(redirectAttributes, "保存案件评价成功");
+			}
+		} catch (Exception e) {
+			logger.error("启动纠纷调解流程失败：", e);
+			addMessage(redirectAttributes, "系统内部错误！");
 		}
-		assessInfoService.save(assessInfo);
-		addMessage(redirectAttributes, "保存案件评价成功");
 		return "redirect:"+Global.getAdminPath()+"/assessinfo/assessInfo/?repage";
 	}
 	
