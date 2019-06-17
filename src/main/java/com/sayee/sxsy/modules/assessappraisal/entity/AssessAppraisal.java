@@ -59,10 +59,27 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private User dcEmployee;		// 登记人员
 	private ReportRegistration reportRegistration;//报案人姓名
 	private Proposal proposal;//意见书
-	private List<PatientLinkEmp> patientLinkEmps1 = Lists.newArrayList();//患方信息
-	private List<PatientLinkEmp> patientLinkEmps = Lists.newArrayList();//患方联系人信息
-	private List<MedicalOfficeEmp> medicalofficeempList2 = Lists.newArrayList();//医方信息
+	private List<PatientLinkEmp> patientLinkEmpList = Lists.newArrayList();     //患方信息
+	private List<PatientLinkEmp> patientLinkDList = Lists.newArrayList();		//联系人
+	private List<MedicalOfficeEmp> medicalOfficeEmpList = Lists.newArrayList();		//医方信息
+	private List<TypeInfo> typeInfosList = Lists.newArrayList();//意见
+	private List<TypeInfo> typeInfosList2 = Lists.newArrayList();//结论
 
+	public List<TypeInfo> getTypeInfosList2() {
+		return typeInfosList2;
+	}
+
+	public void setTypeInfosList2(List<TypeInfo> typeInfosList2) {
+		this.typeInfosList2 = typeInfosList2;
+	}
+
+	public List<TypeInfo> getTypeInfosList() {
+		return typeInfosList;
+	}
+
+	public void setTypeInfosList(List<TypeInfo> typeInfosList) {
+		this.typeInfosList = typeInfosList;
+	}
 	public AssessAppraisal() {
 		super();
 	}
@@ -79,28 +96,28 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.proposal = proposal;
 	}
 
-	public List<PatientLinkEmp> getPatientLinkEmps() {
-		return patientLinkEmps;
+	public List<MedicalOfficeEmp> getMedicalOfficeEmpList() {
+		return medicalOfficeEmpList;
 	}
 
-	public void setPatientLinkEmps(List<PatientLinkEmp> patientLinkEmps) {
-		this.patientLinkEmps = patientLinkEmps;
+	public void setMedicalOfficeEmpList(List<MedicalOfficeEmp> medicalOfficeEmpList) {
+		this.medicalOfficeEmpList = medicalOfficeEmpList;
 	}
 
-	public List<MedicalOfficeEmp> getMedicalofficeempList2() {
-		return medicalofficeempList2;
+	public List<PatientLinkEmp> getPatientLinkDList() {
+		return patientLinkDList;
 	}
 
-	public void setMedicalofficeempList2(List<MedicalOfficeEmp> medicalofficeempList2) {
-		this.medicalofficeempList2 = medicalofficeempList2;
+	public void setPatientLinkDList(List<PatientLinkEmp> patientLinkDList) {
+		this.patientLinkDList = patientLinkDList;
 	}
 
-	public List<PatientLinkEmp> getPatientLinkEmps1() {
-		return patientLinkEmps1;
+	public List<PatientLinkEmp> getPatientLinkEmpList() {
+		return patientLinkEmpList;
 	}
 
-	public void setPatientLinkEmps1(List<PatientLinkEmp> patientLinkEmps1) {
-		this.patientLinkEmps1 = patientLinkEmps1;
+	public void setPatientLinkEmpList(List<PatientLinkEmp> patientLinkEmpList) {
+		this.patientLinkEmpList = patientLinkEmpList;
 	}
 
 	public ReportRegistration getReportRegistration() {

@@ -63,8 +63,8 @@
 					<%--<fmt:formatDate value="${assessAppraisal.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>--%>
 				<%--</a></td>--%>
 				<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td>
-    				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.id}">修改</a>
-					<a href="${ctx}/assessappraisal/assessAppraisal/delete?id=${assessAppraisal.id}" onclick="return confirmx('确认要删除该评估鉴定吗？', this.href)">删除</a>
+    				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}">修改</a>
+					<a href="${ctx}/assessappraisal/assessAppraisal/delete?id=${assessAppraisal.assessAppraisalId}" onclick="return confirmx('确认要删除该评估鉴定吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
