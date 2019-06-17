@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.assessinfo.dao.AssessInfoDao">
+    
+	<sql id="assessInfoColumns">
+		if(a.assess_id IS NULL,r1.report_registration_id ,a.assess_id) AS "assessId",
+		if(a.complaint_main_id IS NULL,r1.complaint_main_id,a.complaint_main_id ) AS "complaintMainId",
+		a.appraiser AS "appraiser",
+		a.assess_time AS "assessTime",
+		a.assess_grade AS "assessGrade",
+		a.assess_content AS "assessContent",
+		a.handle_people AS "handlePeople",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.handle_time AS "handleTime",
+		a.next_link AS "nextLink",
+		a.update_by AS "updateBy.id",
+		a.next_link_man AS "nextLinkMan",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		u3.name AS "user.name",
+		b.case_number AS "complaintMain.caseNumber",
+        b.patient_name AS "complaintMain.patientName", b.patient_sex AS "complaintMain.patientSex",
+        b.patient_age AS "complaintMain.patientAge", b.patient_card AS "complaintMain.patientCard",
+        b.involve_hospital AS "complaintMain.involveHospital", b.hospital_level AS "complaintMain.hospitalLevel",
+        b.hospital_grade AS "complaintMain.hospitalGrade",
+        b.involve_department AS "complaintMain.involveDepartment",
+        b.involve_employee AS "complaintMain.involveEmployee", b.proc_ins_id AS "complaintMain.procInsId",
+        o.name AS "complaintMain.hospital.name", o1.name AS "complaintMain.department.name",
+        u1.name AS "complaintMain.employee.name", u2.name AS "linkEmployee.name",
+        t.ID_ AS "complaintMain.act.taskId", r1.report_emp AS "reportRegistration.reportEmp",
+        r1.dispute_time AS "reportRegistration.disputeTime",
+        r1.patient_mobile AS "reportRegistration.patientMobile",
+        sa.name AS "area.name",
+        au.policy_number AS "auditAcceptance.policyNumber"
+	</sql>
+	
+	<sql id="assessInfoJoins">
+		LEFT JOIN ASSESS_INFO a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN SYS_USER u3 ON u3.id = a.appraiser
+-- 		LEFT JOIN SYS_USER u13 ON u13.id = a.next_link_man
+		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
+		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
+		LEFT JOIN REPORT_REGISTRATION r1 ON b.complaint_main_id=r1.complaint_main_id
+		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+	</sql>
+    
+	<select id="get" resultType="AssessInfo">
+		SELECT 
+			<include refid="assessInfoColumns"/>
+		FROM COMPLAINT_MAIN b
+		<include refid="assessInfoJoins"/>
+		WHERE a.assess_id = #{assessId} OR r1.report_registration_id = #{assessId}
+	</select>
+	
+	<select id="findList" resultType="AssessInfo">
+		SELECT 
+			<include refid="assessInfoColumns"/>
+		FROM COMPLAINT_MAIN b
+		<include refid="assessInfoJoins"/>
+		<where>
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r1.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null
+-- 			and t.TASK_DEF_KEY_='assess'
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AssessInfo">
+		SELECT 
+			<include refid="assessInfoColumns"/>
+		FROM assess_info a
+		<include refid="assessInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ASSESS_INFO(
+			assess_id,
+			complaint_main_id,
+			appraiser,
+			assess_time,
+			assess_grade,
+			assess_content,
+			handle_people,
+			create_by,
+			create_date,
+			handle_time,
+			next_link,
+			update_by,
+			next_link_man,
+			update_date,
+			del_flag
+		) VALUES (
+			#{assessId},
+			#{complaintMainId},
+			#{appraiser},
+			#{assessTime},
+			#{assessGrade},
+			#{assessContent},
+			#{handlePeople},
+			#{createBy.id},
+			#{createDate},
+			#{handleTime},
+			#{nextLink},
+			#{updateBy.id},
+			#{nextLinkMan},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ASSESS_INFO SET
+			appraiser = #{appraiser},
+			assess_time = #{assessTime},
+			assess_grade = #{assessGrade},
+			assess_content = #{assessContent},
+			handle_time = #{handleTime},
+			next_link = #{nextLink},
+			next_link_man = #{nextLinkMan}
+		WHERE assess_id = #{assessId}
+	</update>
+	
+	<update id="delete">
+		UPDATE ASSESS_INFO SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE assess_id = #{assessId}
+	</update>
+	
+</mapper>
