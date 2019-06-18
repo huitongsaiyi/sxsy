@@ -109,19 +109,19 @@
 						<td class="tit" width="160px"><font color="red">*</font>涉及医院：</td>
 						<td width="476px">
 							<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${complaintMainDetail.complaintMain.involveHospital}" labelName="${complaintMainDetail.complaintMain.hospital.name}" labelValue="${complaintMainDetail.complaintMain.hospital.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+											title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="false"/>
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
 							<sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="" labelValue="${complaintMainDetail.complaintMain.department.name}"
-											title="部门" url="/sys/office/treeData?type=2&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+											title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
 					<tr >
 						<td class="tit"><font color="red">*</font>涉及人员：</td>
 						<td class="controls">
 							<sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee" value="${complaintMainDetail.complaintMain.involveEmployee}" labelName="" labelValue="${complaintMainDetail.complaintMain.employee.name}"
-											title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+											title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
 				</table>
@@ -138,7 +138,7 @@
 						<%--<form:input path="visitorDate" htmlEscape="false" maxlength="10" class="input-xlarge "/>--%>
 					<input name="visitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 						   value="${complaintMainDetail.visitorDate}"
-						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 				</td>
 			</tr>
 			<tr >
@@ -185,18 +185,18 @@
 						<%--<form:input path="receptionDate" htmlEscape="false" maxlength="20" class="input-xlarge "/>--%>
 					<input name="receptionDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 						   value="${complaintMainDetail.receptionDate}"
-						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 				</td>
 			</tr>
 			<tr >
-				<td class="tit"><font color="red">*</font>下一处理环节：</td>
+				<%--<td class="tit"><font color="red">*</font>下一处理环节：</td>
 				<td >
 					<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
-				</td>
+				</td>--%>
 				<td class="tit"><font color="red">*</font>下一环节处理人：</td>
 				<td >
 						<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintMainDetail.linkEmployee.name}" labelName="" labelValue="${complaintMainDetail.linkEmployee.name}"
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintMainDetail.nextLinkMan}" labelName="" labelValue="${complaintMainDetail.linkEmployee.name}"
 									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 				</td>
 			</tr>

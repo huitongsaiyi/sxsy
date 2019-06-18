@@ -83,10 +83,11 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","1");
 			User assigness= UserUtils.get(complaintMainDetail.getNextLinkMan());
-			var.put("enrollment_user",assigness.getLoginName());
+			//logger.debug("用户名======="+assigness);
+			var.put("enrollment_user", null==assigness ? "thinkgem" : assigness.getLoginName());
 			var.put("id","complaint_main_id");
 			// 启动流程
-			actTaskService.startProcess("complaint", "complaint_main", complaintMainDetail.getComplaintMain().getComplaintMainId(), complaintMainDetail.getComplaintMain().getCaseNumber(),var);
+			actTaskService.startProcess("complaint", "COMPLAINT_MAIN", complaintMainDetail.getComplaintMain().getComplaintMainId(), complaintMainDetail.getComplaintMain().getCaseNumber(),var);
 			//启动流程的时候 创建一个 隐藏的角色
 
 		}

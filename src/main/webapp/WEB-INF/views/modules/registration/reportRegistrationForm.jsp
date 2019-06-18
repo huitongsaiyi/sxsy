@@ -82,7 +82,7 @@
                     <td width="476px">
                         <input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
                                value="${reportRegistration.reportTime}"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                 </tr>
             </table>
@@ -120,7 +120,7 @@
                     <td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
                     <td width="522px">
                         <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${reportRegistration.complaintMain.involveHospital}" labelName="" labelValue="${reportRegistration.complaintMain.hospital.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>医院等级：</td>
                     <td>
@@ -136,7 +136,7 @@
                     <td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
                     <td >
                         <sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${reportRegistration.complaintMain.involveDepartment}" labelName="" labelValue="${reportRegistration.complaintMain.department.name}"
-                                        title="部门" url="/sys/office/treeData?type=2&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+                                        title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>医院级别：</td>
                     <td>
@@ -151,7 +151,7 @@
                     <td class="tit"><font color="red">*</font>涉及人员：</td>
                     <td class="controls">
                         <sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee" value="${reportRegistration.complaintMain.involveEmployee}" labelName="" labelValue="${reportRegistration.complaintMain.employee.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
                     </td>
                 </tr>
             </table>
@@ -195,13 +195,13 @@
                     <%--<form:input path="visitorDate" htmlEscape="false" maxlength="10" class="input-xlarge "/>--%>
                 <input name="registrationTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
                        value="${reportRegistration.registrationTime}"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
             </td>
             <td class="tit" width="180px">纠纷发生时间：</td>
             <td >
                 <input name="disputeTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
                        value="${reportRegistration.disputeTime}"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
             </td>
         </tr>
         <tr>
