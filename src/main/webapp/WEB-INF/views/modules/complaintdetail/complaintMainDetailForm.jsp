@@ -59,23 +59,27 @@
 					<tr >
 						<td class="tit" width="160px"><font color="red">*</font>来访者姓名：</td>
 						<td width="476px">
-							<form:input path="visitorName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+							<form:input path="visitorName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>联系电话：</td>
 						<td >
-							<form:input path="visitorMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+							<form:input path="visitorMobile" htmlEscape="false" maxlength="15" class="input-xlarge required phone"/>
+							<span class="help-inline"><font color="red">*</font></span>
 						</td>
 					</tr>
 					<tr >
 						<td class="tit"><font color="red">*</font>与患者关系：</td>
 						<td>
-							<form:select path="patientRelation" class="input-medium">
+							<form:select path="patientRelation" class="input-medium required">
 								<form:options items="${fns:getDictList('patient_relation')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 							</form:select>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 						<td class="tit">来访人数：</td>
 						<td >
-							<form:input path="visitorNumber" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+							<form:input path="visitorNumber" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 					</tr>
 				</table>
@@ -85,7 +89,8 @@
 					<tr >
 						<td class="tit" width="160px">患者姓名：</td>
 						<td width="476px">
-							<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+							<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 						<td class="tit" width="180px">患者性别：</td>
 						<td >
@@ -98,7 +103,8 @@
 					<tr >
 						<td class="tit">患者年龄：</td>
 						<td >
-							<form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
+							<form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4" class="input-xlarge required"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 					</tr>
 				</table>
@@ -109,19 +115,22 @@
 						<td class="tit" width="160px"><font color="red">*</font>涉及医院：</td>
 						<td width="476px">
 							<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${complaintMainDetail.complaintMain.involveHospital}" labelName="${complaintMainDetail.complaintMain.hospital.name}" labelValue="${complaintMainDetail.complaintMain.hospital.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+											title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="false"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
 							<sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="" labelValue="${complaintMainDetail.complaintMain.department.name}"
-											title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+											title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 					</tr>
 					<tr >
 						<td class="tit"><font color="red">*</font>涉及人员：</td>
 						<td class="controls">
 							<sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee" value="${complaintMainDetail.complaintMain.involveEmployee}" labelName="" labelValue="${complaintMainDetail.complaintMain.employee.name}"
-											title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+											title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 						</td>
 					</tr>
 				</table>
@@ -131,14 +140,16 @@
 			<tr >
 				<td class="tit" width="160px">案件编号：</td>
 				<td width="476px">
-					<form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+					<form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+					<span class="help-inline"><font color="red">*</font> </span>
 				</td>
 				<td class="tit" width="180px">来访日期：</td>
 				<td >
 						<%--<form:input path="visitorDate" htmlEscape="false" maxlength="10" class="input-xlarge "/>--%>
-					<input name="visitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					<input name="visitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 						   value="${complaintMainDetail.visitorDate}"
-						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 				</td>
 			</tr>
 			<tr >
@@ -151,6 +162,7 @@
 						<form:option value="2">来信</form:option>
 						<form:option value="3">其他</form:option>
 					</form:select>
+							<span class="help-inline"><font color="red">*</font> </span>
 				</td>
 				<td class="tit"><font color="red">*</font>是否重大：</td>
 				<td >
@@ -158,18 +170,21 @@
 						<form:option value="1">是</form:option>
 						<form:option value="0">否</form:option>
 					</form:select>
+					<span class="help-inline"><font color="red">*</font> </span>
 				</td>
 			</tr>
 			<tr >
 				<td class="tit"><font color="red">*</font>投诉纠纷概要：</td>
 				<td colspan="3">
-					<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
+					<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+					<span class="help-inline"><font color="red">*</font> </span>
 				</td>
 			</tr>
 			<tr >
 				<td class="tit"><font color="red">*</font>诉求：</td>
 				<td colspan="3">
-					<form:textarea path="appeal" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 939px; height: 24px;"/>
+					<form:textarea path="appeal" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 939px; height: 24px;"/>
+					<span class="help-inline"><font color="red">*</font> </span>
 				</td>
 			</tr>
 			<tr >
@@ -177,7 +192,7 @@
 				<td >
 						<%--<form:input path="receptionEmployee" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
 					<sys:treeselect id="receptionEmployee" name="receptionEmployee" value="${complaintMainDetail.receptionEmployee}" labelName="${complaintMainDetail.receptionEmployee}" labelValue="${complaintMainDetail.jdEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
 				</td>
 
 				<td class="tit">接待时间：</td>
@@ -197,7 +212,8 @@
 				<td >
 						<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintMainDetail.nextLinkMan}" labelName="" labelValue="${complaintMainDetail.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
+							<span class="help-inline"><font color="red">*</font> </span>
 				</td>
 			</tr>
 		</table>
