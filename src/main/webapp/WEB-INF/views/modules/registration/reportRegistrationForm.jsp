@@ -64,11 +64,11 @@
                 <tr>
                     <td class="tit" width="180px"><font color="red">*</font>报案人姓名：</td>
                     <td width="429px">
-                        <form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+                        <form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
                     </td>
                     <td class="tit" width="180px"><font color="red">*</font>患方联系方式：</td>
                     <td width="429px">
-                        <form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+                        <form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-xlarge required phone"/>
                     </td>
                 </tr>
                 <tr>
@@ -80,7 +80,7 @@
                     </td>
                     <td class="tit" width="160px">报案日期：</td>
                     <td width="476px">
-                        <input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                        <input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
                                value="${reportRegistration.reportTime}"
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
@@ -92,7 +92,7 @@
                 <tr>
                     <td class="tit" width="199px">患者姓名：</td>
                     <td width="522px">
-                        <form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+                        <form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
                     </td>
                     <td class="tit" width="180px">患者性别：</td>
                     <td >
@@ -105,11 +105,11 @@
                 <tr>
                     <td class="tit">患者年龄：</td>
                     <td >
-                        <form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
+                        <form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4" class="input-xlarge required"/>
                     </td>
                     <td class="tit">患者身份证号：</td>
                     <td >
-                        <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+                        <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
                     </td>
                 </tr>
             </table>
@@ -120,7 +120,7 @@
                     <td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
                     <td width="522px">
                         <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${reportRegistration.complaintMain.involveHospital}" labelName="" labelValue="${reportRegistration.complaintMain.hospital.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="false"/>
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" dataMsgRequired="必填信息" cssClass="required"   allowClear="true" notAllowSelectParent="false"/>
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>医院等级：</td>
                     <td>
@@ -136,7 +136,7 @@
                     <td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
                     <td >
                         <sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${reportRegistration.complaintMain.involveDepartment}" labelName="" labelValue="${reportRegistration.complaintMain.department.name}"
-                                        title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+                                        title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" dataMsgRequired="必填信息" cssClass="required"  allowClear="true" notAllowSelectParent="true"/>
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>医院级别：</td>
                     <td>
@@ -151,19 +151,19 @@
                     <td class="tit"><font color="red">*</font>涉及人员：</td>
                     <td class="controls">
                         <sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee" value="${reportRegistration.complaintMain.involveEmployee}" labelName="" labelValue="${reportRegistration.complaintMain.employee.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" dataMsgRequired="必填信息" cssClass="required"  allowClear="true" notAllowSelectParent="true"/>
                     </td>
                 </tr>
             </table>
         </div>
         <div class="tab-pane fade" id="annex">
             <input type="hidden"  name="fjtype" value="0">
-            <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
+            <td style="width: 450px;">
 
-                <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${reportRegistration.files}"/>
-                <form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+                <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${files}"/>
+                <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
                     <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                <sys:ckfinder input="files" type="images"  uploadPath="/reportReigsation/annex" selectMultiple="true" maxWidth="100" maxHeight="100"/>
+                <sys:ckfinder input="files" type="file"  uploadPath="/reportReigsation/annex" selectMultiple="true"  maxWidth="100" maxHeight="100"/>
             </td>
         </div>
     </div>
@@ -180,12 +180,12 @@
         <tr>
             <td class="tit" width="160px">案件编号：</td>
             <td width="476px">
-                <form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+                <form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
             </td>
             <td class="tit" width="160px">登记人员：</td>
             <td width="476px">
                 <sys:treeselect id="registrationEmp" name="registrationEmp" value="${reportRegistration.registrationEmp}" labelName="" labelValue="${reportRegistration.djEmployee.name}"
-                                title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+                                title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required"  allowClear="true" notAllowSelectParent="true"/>
 
             </td>
         </tr>
@@ -193,13 +193,13 @@
             <td class="tit" width="180px">登记日期：</td>
             <td >
                     <%--<form:input path="visitorDate" htmlEscape="false" maxlength="10" class="input-xlarge "/>--%>
-                <input name="registrationTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                <input name="registrationTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
                        value="${reportRegistration.registrationTime}"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" />
             </td>
             <td class="tit" width="180px">纠纷发生时间：</td>
             <td >
-                <input name="disputeTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                <input name="disputeTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
                        value="${reportRegistration.disputeTime}"
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
             </td>
@@ -216,31 +216,31 @@
         <tr >
             <td class="tit"><font color="red">*</font>投诉纠纷概要：</td>
             <td colspan="3">
-                <form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
+                <form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
             </td>
         </tr>
         <tr>
             <td class="tit"><font color="red">*</font>投诉纠纷焦点：</td>
             <td colspan="3">
-                <form:textarea path="focus" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
+                <form:textarea path="focus" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
             </td>
         </tr>
         <tr >
             <td class="tit"><font color="red">*</font>患方要求：</td>
             <td colspan="3">
-                <form:textarea path="patientAsk" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
+                <form:textarea path="patientAsk" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
             </td>
         </tr>
         <tr >
             <td class="tit"><font color="red">*</font>下一处理环节：</td>
             <td >
-                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
             </td>
             <td class="tit"><font color="red">*</font>下一环节处理人：</td>
             <td >
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
-                                title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
+                                title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required"  allowClear="true" notAllowSelectParent="true" checked="true"/>
             </td>
         </tr>
     </table>

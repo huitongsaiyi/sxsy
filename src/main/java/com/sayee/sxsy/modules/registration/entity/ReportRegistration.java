@@ -40,7 +40,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 	private String patientAsk;		// 患方要求
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
-	private String files;
+
 
 	public User getUser() {
 		return user;
@@ -223,11 +223,5 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.nextLinkMan = nextLinkMan;
 	}
 
-	public String getFiles() {
-		return files;
-	}
 
-	public void setFiles(String files) {
-		this.files = files;
-	}
 }

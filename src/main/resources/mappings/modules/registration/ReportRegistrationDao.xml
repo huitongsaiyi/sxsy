@@ -40,8 +40,7 @@
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
-		t.ID_ AS "complaintMain.act.taskId",
-		t1.FILE_PATH AS "files"
+		t.ID_ AS "complaintMain.act.taskId"
 	</sql>
 
 	<sql id="reportRegistrationJoins">
@@ -54,7 +53,7 @@
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u ON u.id=a.registration_emp
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
-		LEFT JOIN T_ACCESSORIES t1 ON  t1.ITEM_ID = a.report_registration_id
+
 	</sql>
 
 	<select id="get" resultType="ReportRegistration">
@@ -78,6 +77,9 @@
 			</if>
 			<if test="reportEmp != null and reportEmp != ''">
 				AND a.report_emp = #{reportEmp}
+			</if>
+			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
+				AND b.patient_name = #{complaintMain.patientName}
 			</if>
 			<if test="patientMobile != null and patientMobile != ''">
 				AND a.patient_mobile = #{patientMobile}

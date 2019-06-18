@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.registration.service.ReportRegistrationService;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 报案登记Controller
  * @author lyt
@@ -35,8 +40,7 @@ public class ReportRegistrationController extends BaseController {
 
 	@Autowired
 	private ReportRegistrationService reportRegistrationService;
-	@Autowired
-	private PreOperativeConsentService preOperativeConsentService;
+
 
 	@ModelAttribute
 	public ReportRegistration get(@RequestParam(required=false) String id) {
@@ -62,6 +66,13 @@ public class ReportRegistrationController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(HttpServletRequest request,ReportRegistration reportRegistration, Model model) {
 		String type = request.getParameter("type");		//接受从页面传回的数据
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(reportRegistration.getReportRegistrationId());
+		for (Map<String, Object> map:filePath) {
+			if ("0".equals(MapUtils.getString(map, "fjtype"))) {
+				model.addAttribute("files", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+		}
 		if("view".equals(type)) {		//判断数据内容是否一致，一致将数据发送到详情页面；不一致，页面跳转到添加页面
 			model.addAttribute("reportRegistration",reportRegistration);
 			return "modules/registration/reportRegistrationView";
@@ -74,13 +85,13 @@ public class ReportRegistrationController extends BaseController {
 	@RequiresPermissions("registration:reportRegistration:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes) {
-		String files = request.getParameter("files");
+
 		try {
-			reportRegistrationService.save(reportRegistration);
-			String acceId1 = IdGen.uuid();
-			String itemId1 = reportRegistration.getReportRegistrationId();
-			String fjtype1 = request.getParameter("fjtype");
-			preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
+			reportRegistrationService.save(reportRegistration,request);
+
+
+
+
 			if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + reportRegistration.getComplaintMain().getProcInsId());
 			}else {

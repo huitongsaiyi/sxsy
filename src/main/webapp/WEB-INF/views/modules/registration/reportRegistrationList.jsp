@@ -30,15 +30,19 @@
 			<li><label>报案人姓名：</label>
 				<form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>
-			<li><label>患方联系方式：</label>
+			<li><label>患者姓名：</label>
+				<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="32" class="input-medium"/>
+			</li>
+			<li><label style="width: 100px;">患方联系方式：</label>
 				<form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-medium"/>
 			</li>
 			<li><label>报案日期：</label>
-				<input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${reportRegistration.reportTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+				<input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					   value="${reportRegistration.reportTime}"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id="button" class="btn btn-primary" type="reset" value="重置"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

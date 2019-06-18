@@ -7,12 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.entity.Act;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.complaintdetail.service.ComplaintMainDetailService;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
@@ -24,6 +26,8 @@ import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.registration.dao.ReportRegistrationDao;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 报案登记Service
@@ -38,6 +42,8 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 	private ActTaskService actTaskService;
 	@Autowired
 	private ComplaintMainDao complaintMainDao;
+	@Autowired
+	private PreOperativeConsentService preOperativeConsentService;
 
 	public ReportRegistration get(String id) {
 		return super.get(id);
@@ -66,19 +72,40 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 	}
 
 	@Transactional(readOnly = false)
-	public void save(ReportRegistration reportRegistration) {
+	public void save(ReportRegistration reportRegistration, HttpServletRequest request) {
 //		if(reportRegistration.getCreateDate()==null){
+		String files = request.getParameter("files");
+		String acceId1 = null;
+		String itemId1 = reportRegistration.getReportRegistrationId();
+		String fjtype1 = request.getParameter("fjtype");
+
         if(StringUtils.isBlank(reportRegistration.getCreateBy().getId())){
 			//判断主键ID是否为空
 			reportRegistration.preInsert();
 			reportRegistration.setReportRegistrationId(reportRegistration.getId());
 			//将主键ID设为UUID
 			dao.insert(reportRegistration);
+			//保存附件
+			if(StringUtils.isNotBlank(files)){
+				acceId1=IdGen.uuid();
+				preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
+			}
 		}else{//如果不为空进行更新
-
 			//修改报案登记表
 			reportRegistration.preUpdate();
 			dao.update(reportRegistration);
+			 if(StringUtils.isNotBlank(files)){
+			 	String acceId=request.getParameter("acceId1");
+				 if(StringUtils.isNotBlank(acceId)){
+					 preOperativeConsentService.updatefj(files,itemId1,fjtype1);
+				 }else{
+					 acceId1=IdGen.uuid();
+
+					 preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
+				 }
+			}else{
+				preOperativeConsentService.delefj(itemId1,fjtype1);
+			}
 		}
 		//修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
 		ComplaintMain complaintMain=reportRegistration.getComplaintMain();
