@@ -127,8 +127,8 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	public void setVisitorName(String visitorName) {
 		this.visitorName = visitorName;
 	}
-	
-	@Length(min=0, max=15, message="访客电话长度必须介于 0 和 15 之间")
+
+	@Length(min=11, max=15, message="访客电话长度必须介于 0 和 15 之间")
 	public String getVisitorMobile() {
 		return visitorMobile;
 	}

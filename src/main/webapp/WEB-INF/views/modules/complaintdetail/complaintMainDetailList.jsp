@@ -33,13 +33,14 @@
 			</li>
 			<li><label>来访日期：</label>
 				<input name="beginVisitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${complaintMainDetail.beginVisitorDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
+					value="<fmt:formatDate value="${complaintMainDetail.beginVisitorDate}" pattern="yyyy-MM-dd HH:mm"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/> -
 				<input name="endVisitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${complaintMainDetail.endVisitorDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+					value="<fmt:formatDate value="${complaintMainDetail.endVisitorDate}" pattern="yyyy-MM-dd HH:mm"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+            <li class="btns"><input id="btnReset" class="btn btn-primary" type="reset" value="重置"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -47,16 +48,16 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>投诉方式</th>
-				<th>访客姓名</th>
-				<th>访客电话</th>
-				<th>来访日期</th>
-				<th>来访 人数</th>
-				<th>与患者关系 字典维护</th>
-				<th>是否重大</th>
-				<th>投诉纠纷概要</th>
-				<th>诉求</th>
-				<th>update_date</th>
+				<th class="sort-column complaintMainDetail.complaintMode">投诉方式</th>
+				<th class="sort-column complaintMainDetail.visitorName">访客姓名</th>
+				<th class="sort-column complaintMainDetail.visitorMobile">访客电话</th>
+				<th class="sort-column complaintMainDetail.visitorDate">来访日期</th>
+				<th class="sort-column complaintMainDetail.visitorNumber">来访 人数</th>
+				<th class="sort-column complaintMainDetail.patientRelation">与患者关系 字典维护</th>
+				<th class="sort-column complaintMainDetail.isMajor">是否重大</th>
+				<th class="sort-column complaintMainDetail.summaryOfDisputes">投诉纠纷概要</th>
+				<th class="sort-column complaintMainDetail.appeal">诉求</th>
+				<th class="sort-column complaintMainDetail.updateDate">更新日期</th>
 				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -107,8 +108,8 @@
 					<fmt:formatDate value="${complaintMainDetail.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><td>
-    				<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">修改</a>
-					<a href="${ctx}/complaintdetail/complaintMainDetail/delete?id=${complaintMainDetail.complaintMainDetailId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
+					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">处理</a>
+    				<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}&type=view">修改</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

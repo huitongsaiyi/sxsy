@@ -62,9 +62,16 @@ public class ComplaintMainDetailController extends BaseController {
 
 	@RequiresPermissions("complaintdetail:complaintMainDetail:view")
 	@RequestMapping(value = "form")
-	public String form(ComplaintMainDetail complaintMainDetail, Model model) {
- 		model.addAttribute("complaintMainDetail", complaintMainDetail);
-		return "modules/complaintdetail/complaintMainDetailForm";
+	public String form(ComplaintMainDetail complaintMainDetail, Model model,HttpServletRequest request) {
+		String type=request.getParameter("type");
+		if ("view".equals(type)) {
+			model.addAttribute("complaintMainDetail", complaintMainDetail);
+			return "modules/complaintdetail/complaintMainDetailView";
+		}else {
+
+			model.addAttribute("complaintMainDetail", complaintMainDetail);
+			return "modules/complaintdetail/complaintMainDetailForm";
+		}
 	}
 
 	@RequiresPermissions("complaintdetail:complaintMainDetail:edit")
