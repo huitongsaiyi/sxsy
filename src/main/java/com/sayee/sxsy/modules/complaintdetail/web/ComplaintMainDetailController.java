@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.collect.Maps;
+import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,12 +65,16 @@ public class ComplaintMainDetailController extends BaseController {
 	@RequiresPermissions("complaintdetail:complaintMainDetail:view")
 	@RequestMapping(value = "form")
 	public String form(ComplaintMainDetail complaintMainDetail, Model model,HttpServletRequest request) {
+		if (null==complaintMainDetail.getComplaintMain()){
+			ComplaintMain complaintMain=new ComplaintMain();
+			complaintMain.setCaseNumber(BaseUtils.getCode("time","3","COMPLAINT_MAIN","case_number"));
+			complaintMainDetail.setComplaintMain(complaintMain);
+		}
 		String type=request.getParameter("type");
 		if ("view".equals(type)) {
 			model.addAttribute("complaintMainDetail", complaintMainDetail);
 			return "modules/complaintdetail/complaintMainDetailView";
 		}else {
-
 			model.addAttribute("complaintMainDetail", complaintMainDetail);
 			return "modules/complaintdetail/complaintMainDetailForm";
 		}
@@ -76,27 +82,29 @@ public class ComplaintMainDetailController extends BaseController {
 
 	@RequiresPermissions("complaintdetail:complaintMainDetail:edit")
 	@RequestMapping(value = "save")
-	public String save(ComplaintMainDetail complaintMainDetail, Model model, RedirectAttributes redirectAttributes) {
-
+	public String save(ComplaintMainDetail complaintMainDetail, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		try {
-			complaintMainDetailService.save(complaintMainDetail);
-			if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
-				addMessage(redirectAttributes, "流程已启动，流程ID：" + complaintMainDetail.getComplaintMain().getProcInsId());
-			}else {
-				addMessage(redirectAttributes, "保存投诉接待成功");
+			if (!beanValidator(model, complaintMainDetail) || !beanValidator(model, complaintMainDetail.getComplaintMain()) ){
+				return form(complaintMainDetail, model,request);
 			}
+				complaintMainDetailService.save(complaintMainDetail);
+				if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + complaintMainDetail.getComplaintMain().getProcInsId());
+				}else {
+					addMessage(redirectAttributes, "保存投诉接待成功");
+				}
 		} catch (Exception e) {
 			logger.error("启动纠纷调解流程失败：", e);
 			addMessage(redirectAttributes, "系统内部错误！");
 		}
-		return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
+
 //		return "redirect:" + adminPath + "/oa/leave/form";
 //
 //		if (!beanValidator(model, complaintMainDetail)){
 //			return form(complaintMainDetail, model);
 //		}
 
-
+		return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
 
 	}
 	

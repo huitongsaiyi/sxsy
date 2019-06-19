@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
@@ -97,5 +98,5 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 	public void delete(ComplaintMainDetail complaintMainDetail) {
 		super.delete(complaintMainDetail);
 	}
-	
+
 }

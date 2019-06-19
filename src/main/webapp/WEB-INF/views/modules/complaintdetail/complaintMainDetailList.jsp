@@ -24,6 +24,7 @@
 	<form:form id="searchForm" modelAttribute="complaintMainDetail" action="${ctx}/complaintdetail/complaintMainDetail/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>访客姓名：</label>
 				<form:input path="visitorName" htmlEscape="false" maxlength="20" class="input-medium"/>
@@ -48,23 +49,29 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column complaintMainDetail.complaintMode">投诉方式</th>
-				<th class="sort-column complaintMainDetail.visitorName">访客姓名</th>
-				<th class="sort-column complaintMainDetail.visitorMobile">访客电话</th>
-				<th class="sort-column complaintMainDetail.visitorDate">来访日期</th>
-				<th class="sort-column complaintMainDetail.visitorNumber">来访 人数</th>
-				<th class="sort-column complaintMainDetail.patientRelation">与患者关系 字典维护</th>
-				<th class="sort-column complaintMainDetail.isMajor">是否重大</th>
-				<th class="sort-column complaintMainDetail.summaryOfDisputes">投诉纠纷概要</th>
-				<th class="sort-column complaintMainDetail.appeal">诉求</th>
-				<th class="sort-column complaintMainDetail.updateDate">更新日期</th>
+				<th class="sort-column case_number">案件编号</th>
+				<th class="sort-column complaint_mode">投诉方式</th>
+				<th class="sort-column visitor_name">访客姓名</th>
+				<th class="sort-column visitor_mobile">访客电话</th>
+				<th class="sort-column visitor_date">来访日期</th>
+				<th class="sort-column visitor_Number">来访 人数</th>
+				<th class="sort-column patient_relation">与患者关系</th>
+				<th class="sort-column is_major">是否重大</th>
+				<th class="sort-column summary_of_disputes">投诉纠纷概要</th>
+				<th class="sort-column appeal">诉求</th>
+				<th class="sort-column a.update_date">更新日期</th>
 				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="complaintMainDetail">
 			<tr>
-				<td><a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">
+				<td>
+					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">
+							${complaintMainDetail.complaintMain.caseNumber}
+					</a>
+				</td>
+				<td>
 					<c:choose>
                         <c:when test="${complaintMainDetail.complaintMode=='0'}">
                             来电
@@ -79,7 +86,7 @@
                             其他
                         </c:when>
                     </c:choose>
-				</a></td>
+				</td>
 				<td>
 					${complaintMainDetail.visitorName}
 				</td>
@@ -109,7 +116,7 @@
 				</td>
 				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><td>
 					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">处理</a>
-    				<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}&type=view">修改</a>
+    				<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

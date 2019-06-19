@@ -216,7 +216,7 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 		this.nextLink = nextLink;
 	}
 	
-	@Length(min=0, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="下一环节处理人不能为空")
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}

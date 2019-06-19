@@ -30,13 +30,98 @@
 <sys:message content="${message}"/>
 <fieldset>
     <legend>投诉接待详情</legend>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#visitor" data-toggle="tab">来访者信息</a>
+        </li>
+        <li>
+            <a href="#patient" data-toggle="tab">患者信息</a>
+        </li>
+        <li>
+            <a href="#hospital" data-toggle="tab">涉及医院信息</a>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="visitor">
+            <table class="table-form">
+                <tr >
+                    <td class="tit" width="300px">来访者姓名：</td>
+                    <td width="800px">
+                            ${complaintMainDetail.visitorName}
+                    </td>
+                    <td class="tit" width="300px">联系电话：</td>
+                    <td >
+                            ${complaintMainDetail.visitorMobile}
+                    </td>
+                </tr>
+                <tr >
+                    <td class="tit" width="300px">与患者关系：</td>
+                    <td width="800px">
+                            ${complaintMainDetail.patientRelation}
+                    </td>
+                    <td class="tit" width="300px">来访人数：</td>
+                    <td >
+                            ${complaintMainDetail.visitorNumber}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="patient">
+            <table class="table-form">
+                <tr >
+                    <td class="tit" width="300px">患者姓名：</td>
+                    <td width="800px">
+                            ${complaintMainDetail.complaintMain.patientName}
+                    </td>
+                    <td class="tit" width="300px">患者性别：</td>
+                    <td >
+                        <c:choose>
+                            <c:when test="${complaintMainDetail.complaintMain.patientSex == '1'}">
+                                男
+                            </c:when>
+                            <c:otherwise >
+                                女
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+                <tr >
+                    <td class="tit">患者年龄：</td>
+                    <td >
+                            ${complaintMainDetail.complaintMain.patientAge}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="hospital">
+            <table class="table-form">
+                <tr >
+                    <td class="tit" width="300px">涉及医院：</td>
+                    <td width="800px">
+                            ${complaintMainDetail.complaintMain.hospital.name}
+                    </td>
+                    <td class="tit" width="300px">涉及科室：</td>
+                    <td >
+                            ${complaintMainDetail.complaintMain.department.name}
+                    </td>
+                </tr>
+                <tr >
+                    <td class="tit">涉及人员：</td>
+                    <td >
+                            ${complaintMainDetail.complaintMain.employee.name}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
     <table class="table-form">
         <tr>
-            <td class="tit">案件编号：</td>
-            <td>
+            <td class="tit" width="300px">案件编号：</td>
+            <td width="800px">
                     ${complaintMainDetail.complaintMain.caseNumber}
             </td>
-            <td class="tit">来访日期：</td>
+            <td class="tit" width="300px">来访日期：</td>
             <td>
                     ${complaintMainDetail.visitorDate}
             </td>

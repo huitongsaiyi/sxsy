@@ -17,7 +17,18 @@ import java.util.List;
  */
 @MyBatisDao
 public interface TypeInfoDao extends CrudDao<TypeInfo> {
-
+    /**
+     * typeinfo
+     * @param relationModel
+     *
+     */
     public List<TypeInfo> findTypeList(@Param("relationModel") String relationModel);
-	
+    /**
+     * 对编号之类的数据 进行自增；像 案件编号
+     * @author zf
+     * @version 2019年6月14日
+     * @param table    数据库表名（大写）
+     * @param field   字段名称
+     */
+    public String findCode(@Param("table") String table,@Param("field") String field,@Param("time") String time);
 }

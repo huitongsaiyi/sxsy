@@ -113,4 +113,10 @@
 			a.relation_model = #{relationModel} AND a.del_flag = 0
 		</where>
 	</select>
+
+	<select id="findCode" resultType="String">
+		SELECT MAX(${field}) FROM ${table}
+		WHERE del_flag=0 AND ${field} LIKE concat('%',#{time},'%')
+	</select>
+
 </mapper>
