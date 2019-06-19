@@ -49,6 +49,11 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 	}
 	
 	public Page<ComplaintMainDetail> findPage(Page<ComplaintMainDetail> page, ComplaintMainDetail complaintMainDetail) {
+		if (UserUtils.getUser().isAdmin()){//是管理员查看全部
+
+		}else {//不是管理员查看自己创建的
+			complaintMainDetail.setUser(UserUtils.getUser());
+		}
 		return super.findPage(page, complaintMainDetail);
 	}
 	

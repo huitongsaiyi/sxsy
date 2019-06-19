@@ -26,6 +26,7 @@
 	<form:form id="searchForm" modelAttribute="reportRegistration" action="${ctx}/registration/reportRegistration/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>报案人姓名：</label>
 				<form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-medium"/>
@@ -49,14 +50,14 @@
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
-			<tr><th>案件编号</th>
-				<th>涉及医院</th>
-				<th>医院等级</th>
-				<th>所属地市</th>
-				<th>报案人姓名</th>
-				<th>纠纷发生时间</th>
-				<th>患者姓名</th>
-				<th>患方联系方式</th>
+			<tr><th class="sort-column case_number">案件编号</th>
+				<th class="sort-column involve_hospital">涉及医院</th>
+				<th class="sort-column hospital_grade">医院等级</th>
+				<th class="sort-column case_number">所属地市</th>
+				<th class="sort-column report_emp">报案人姓名</th>
+				<th class="sort-column dispute_time">纠纷发生时间</th>
+				<th class="sort-column patient_name">患者姓名</th>
+				<th class="sort-column a.patient_mobile">患方联系方式</th>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>

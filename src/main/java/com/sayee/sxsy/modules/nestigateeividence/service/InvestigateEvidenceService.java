@@ -117,10 +117,10 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 			dao.insert(yinvestigateEvidence);
 			//保存调查人1
 //			RespondentInfo d3 = investigateEvidence.getRespondentInfo3();
-			this.respondent(d3,investigateEvidence.getInvestigateEvidenceId());
+			this.respondent(d3,investigateEvidence.getInvestigateEvidence().getInvestigateEvidenceId());
 			//保存调查人2
 //			RespondentInfo d4 = investigateEvidence.getRespondentInfo4();
-			this.respondent(d4,investigateEvidence.getInvestigateEvidenceId());
+			this.respondent(d4,investigateEvidence.getInvestigateEvidence().getInvestigateEvidenceId());
 
 			//保存附件
 

@@ -71,6 +71,9 @@
 		<where>
 		/*在投诉接待列表  主表的实例是空的  如果有实例ID 不会在当前节点*/
 			a.del_flag = #{DEL_FLAG_NORMAL} and b.PROC_INS_ID is NULL
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.create_by = #{user.id}
+			</if>
 			<if test="visitorName != null and visitorName != ''">
 				AND a.visitor_name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{visitorName}||'%'</if>
