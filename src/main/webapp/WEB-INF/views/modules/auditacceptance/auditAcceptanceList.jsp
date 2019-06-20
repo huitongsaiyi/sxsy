@@ -26,6 +26,7 @@
 	<form:form id="searchForm" modelAttribute="auditAcceptance" action="${ctx}/auditacceptance/auditAcceptance/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>起保日期：</label>
 				<input name="beginGuaranteeTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -46,18 +47,18 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>案件编号</th>
-				<th>医疗机构名称</th>
-				<th>患者姓名</th>
-				<th>案件来源</th>
-				<th>起保日期</th>
-				<th>保险公司</th>
-				<th>保单号</th>
-				<th>诊疗方式</th>
-				<th>治疗结果</th>
-				<th>患方受理通知书</th>
-				<th>医方受理通知书</th>
-				<th>修改时间</th>
+				<th class="sort-column case_number">案件编号</th>
+				<th class="sort-column b.involve_hospital">医疗机构名称</th>
+				<th class="sort-column b.patient_name">患者姓名</th>
+				<th class="sort-column a.case_source">案件来源</th>
+				<th class="sort-column a.guarantee_time">起保日期</th>
+				<th class="sort-column a.insurance_company">保险公司</th>
+				<th class="sort-column a.policy_number">保单号</th>
+				<th class="sort-column a.diagnosis_mode">诊疗方式</th>
+				<th class="sort-column a.treatment_outcome">治疗结果</th>
+				<th class="sort-column a.diagnosis_mode">患方受理通知书</th>
+				<th class="sort-column a.diagnosis_mode">医方受理通知书</th>
+				<th class="sort-column a.update_date">修改时间</th>
 				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -102,7 +103,7 @@
 				</td>
 				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><td>
     				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">处理</a>
-    				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}&type=view">修改</a>
+    				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
