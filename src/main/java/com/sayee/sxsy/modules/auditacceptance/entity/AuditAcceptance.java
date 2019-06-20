@@ -4,6 +4,7 @@
 package com.sayee.sxsy.modules.auditacceptance.entity;
 
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.mediateapplyinfo.entity.MediateApplyInfo;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
@@ -37,6 +38,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	private String endGuaranteeTime;		// 结束 起保日期
 	private String hfsltzs;  //患方受理通知书
 	private String yysltzs;  //医院受理通知书
+	private MediateApplyInfo mediateApplyInfo;
 
 	public AuditAcceptance() {
 		super();
@@ -44,6 +46,14 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 
 	public AuditAcceptance(String id){
 		super(id);
+	}
+
+	public MediateApplyInfo getMediateApplyInfo() {
+		return mediateApplyInfo;
+	}
+
+	public void setMediateApplyInfo(MediateApplyInfo mediateApplyInfo) {
+		this.mediateApplyInfo = mediateApplyInfo;
 	}
 
 	public ComplaintMain getComplaintMain() {
@@ -104,7 +114,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.complaintMainId = complaintMainId;
 	}
 	
-	@Length(min=0, max=1, message="案件来源 字典维护长度必须介于 0 和 1 之间")
+	@Length(min=1, max=1, message="案件来源 字典维护长度必须介于 1 和 1 之间")
 	public String getCaseSource() {
 		return caseSource;
 	}
@@ -113,7 +123,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.caseSource = caseSource;
 	}
 	
-	@Length(min=0, max=20, message="起保日期长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="起保日期长度必须介于 1 和 20 之间")
 	public String getGuaranteeTime() {
 		return guaranteeTime;
 	}
@@ -122,7 +132,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.guaranteeTime = guaranteeTime;
 	}
 	
-	@Length(min=0, max=50, message="保险公司长度必须介于 0 和 50 之间")
+	@Length(min=1, max=50, message="保险公司长度必须介于 1 和 50 之间")
 	public String getInsuranceCompany() {
 		return insuranceCompany;
 	}
@@ -131,7 +141,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.insuranceCompany = insuranceCompany;
 	}
 	
-	@Length(min=0, max=15, message="保单号长度必须介于 0 和 15 之间")
+	@Length(min=1, max=15, message="保单号长度必须介于 1 和 15 之间")
 	public String getPolicyNumber() {
 		return policyNumber;
 	}
@@ -147,7 +157,8 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	public void setDiagnosisMode(String diagnosisMode) {
 		this.diagnosisMode = diagnosisMode;
 	}
-	
+
+	@Length(min=1, max=32,message = "治疗结果长度必须介于 1 和 32 之间")
 	public String getTreatmentOutcome() {
 		return treatmentOutcome;
 	}
@@ -156,7 +167,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.treatmentOutcome = treatmentOutcome;
 	}
 	
-	@Length(min=0, max=32, message="处理人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="处理人长度必须介于 1 和 32 之间")
 	public String getHandlePeople() {
 		return handlePeople;
 	}
@@ -183,7 +194,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.nextLink = nextLink;
 	}
 	
-	@Length(min=0, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}
@@ -191,7 +202,8 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	public void setNextLinkMan(String nextLinkMan) {
 		this.nextLinkMan = nextLinkMan;
 	}
-	
+
+	@Length(min=1, max=32,message = "开始起保日期长度必须介于 0 和 32 之间")
 	public String getBeginGuaranteeTime() {
 		return beginGuaranteeTime;
 	}
@@ -199,7 +211,9 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	public void setBeginGuaranteeTime(String beginGuaranteeTime) {
 		this.beginGuaranteeTime = beginGuaranteeTime;
 	}
-	
+
+
+	@Length(min=1, max=32,message = "结束起保日期长度必须介于 0 和 32之间")
 	public String getEndGuaranteeTime() {
 		return endGuaranteeTime;
 	}

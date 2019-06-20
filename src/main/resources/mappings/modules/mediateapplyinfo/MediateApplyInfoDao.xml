@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.mediateapplyinfo.dao.MediateApplyInfoDao">
+    
+	<sql id="mediateApplyInfoColumns">
+		a.mediate_apply_id AS "mediateApplyId",
+		a.audit_acceptance_id AS "auditAcceptanceId",
+		a.applyer AS "applyer",
+		a.patient_relation AS "patientRelation",
+		a.patient_name AS "patientName",
+		a.patient_sex AS "patientSex",
+		a.patient_age AS "patientAge",
+		a.patient_mobile AS "patientMobile",
+		a.involve_hospital AS "involveHospital",
+		a.summary_of_disputes AS "summaryOfDisputes",
+		a.apply_matter AS "applyMatter",
+		a.apply_hospital AS "applyHospital",
+		a.agent AS "agent",
+		a.hospital_mobile AS "hospitalMobile",
+		a.apply_type AS "applyType",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="mediateApplyInfoJoins">
+		LEFT JOIN SYS_OFFICE o9 ON o9.id = a.involve_hospital
+	</sql>
+    
+	<select id="get" resultType="MediateApplyInfo">
+		SELECT 
+			<include refid="mediateApplyInfoColumns"/>
+		FROM MEDIATE_APPLY_INFO a
+		<include refid="mediateApplyInfoJoins"/>
+		WHERE a.mediate_apply_id = #{mediateApplyId}
+	</select>
+	
+	<select id="findList" resultType="MediateApplyInfo">
+		SELECT 
+			<include refid="mediateApplyInfoColumns"/>
+		FROM MEDIATE_APPLY_INFO a
+		<include refid="mediateApplyInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MediateApplyInfo">
+		SELECT 
+			<include refid="mediateApplyInfoColumns"/>
+		FROM MEDIATE_APPLY_INFO a
+		<include refid="mediateApplyInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO MEDIATE_APPLY_INFO(
+			mediate_apply_id,
+			audit_acceptance_id,
+			applyer,
+			patient_relation,
+			patient_name,
+			patient_sex,
+			patient_age,
+			patient_mobile,
+			involve_hospital,
+			summary_of_disputes,
+			apply_matter,
+			apply_hospital,
+			agent,
+			hospital_mobile,
+			apply_type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{mediateApplyId},
+			#{auditAcceptanceId},
+			#{applyer},
+			#{patientRelation},
+			#{patientName},
+			#{patientSex},
+			#{patientAge},
+			#{patientMobile},
+			#{involveHospital},
+			#{summaryOfDisputes},
+			#{applyMatter},
+			#{applyHospital},
+			#{agent},
+			#{hospitalMobile},
+			#{applyType},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE MEDIATE_APPLY_INFO SET
+			applyer = #{applyer},
+			patient_relation = #{patientRelation},
+			patient_name = #{patientName},
+			patient_sex = #{patientSex},
+			patient_age = #{patientAge},
+			patient_mobile = #{patientMobile},
+			involve_hospital = #{involveHospital},
+			summary_of_disputes = #{summaryOfDisputes},
+			apply_matter = #{applyMatter},
+			apply_hospital = #{applyHospital},
+			agent = #{agent},
+			hospital_mobile = #{hospitalMobile},
+			apply_type = #{applyType}
+		WHERE mediate_apply_id = #{mediateApplyId}
+	</update>
+	
+	<update id="delete">
+		UPDATE mediate_apply_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE mediate_apply_id = #{mediateApplyId}
+	</update>
+	
+</mapper>

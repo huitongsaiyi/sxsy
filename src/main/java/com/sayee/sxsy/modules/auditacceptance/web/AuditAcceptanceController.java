@@ -56,19 +56,26 @@ public class AuditAcceptanceController extends BaseController {
 
 	@RequiresPermissions("auditacceptance:auditAcceptance:view")
 	@RequestMapping(value = "form")
-	public String form(AuditAcceptance auditAcceptance, Model model) {
-		model.addAttribute("auditAcceptance", auditAcceptance);
-		return "modules/auditacceptance/auditAcceptanceForm";
+	public String form(HttpServletRequest request,AuditAcceptance auditAcceptance, Model model) {
+		String type = request.getParameter("type");
+		if("view".equals(type)) {
+			model.addAttribute("auditAcceptance", auditAcceptance);
+			return "modules/auditacceptance/auditAcceptanceView";
+		}else{
+			model.addAttribute("auditAcceptance", auditAcceptance);
+			return "modules/auditacceptance/auditAcceptanceForm";
+		}
 	}
 
 	@RequiresPermissions("auditacceptance:auditAcceptance:edit")
 	@RequestMapping(value = "save")
-	public String save(AuditAcceptance auditAcceptance, Model model, RedirectAttributes redirectAttributes) {
+	public String save(HttpServletRequest request, AuditAcceptance auditAcceptance, Model model, RedirectAttributes redirectAttributes) {
 //		if (!beanValidator(model, auditAcceptance)){
 //			return form(auditAcceptance, model);
 //		}
         try {
-            auditAcceptanceService.save(auditAcceptance);
+            auditAcceptanceService.save(request, auditAcceptance);
+
             if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
                 addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
             }else {
