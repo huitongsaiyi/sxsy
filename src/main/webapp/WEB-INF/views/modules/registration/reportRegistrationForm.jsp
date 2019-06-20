@@ -109,7 +109,7 @@
                     </td>
                     <td class="tit">患者身份证号：</td>
                     <td >
-                        <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+                        <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge required card"/>
                     </td>
                 </tr>
             </table>
@@ -163,7 +163,7 @@
                 <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${files}"/>
                 <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
                     <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                <sys:ckfinder input="files" type="file"  uploadPath="/reportReigsation/annex" selectMultiple="true"  maxWidth="100" maxHeight="100"/>
+                <sys:ckfinder input="files" type="files"  uploadPath="/reportReigsation/annex" selectMultiple="true"  maxWidth="100" maxHeight="100"/>
             </td>
         </div>
     </div>
@@ -232,10 +232,10 @@
             </td>
         </tr>
         <tr >
-            <td class="tit"><font color="red">*</font>下一处理环节：</td>
+            <%--<td class="tit"><font color="red">*</font>下一处理环节：</td>
             <td >
                 <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
-            </td>
+            </td>--%>
             <td class="tit"><font color="red">*</font>下一环节处理人：</td>
             <td >
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>

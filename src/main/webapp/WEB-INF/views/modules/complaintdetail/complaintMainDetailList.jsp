@@ -34,10 +34,10 @@
 			</li>
 			<li><label>来访日期：</label>
 				<input name="beginVisitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${complaintMainDetail.beginVisitorDate}" pattern="yyyy-MM-dd HH:mm"/>"
+					value="${complaintMainDetail.beginVisitorDate}"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/> -
 				<input name="endVisitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${complaintMainDetail.endVisitorDate}" pattern="yyyy-MM-dd HH:mm"/>"
+					value="${complaintMainDetail.endVisitorDate}"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>

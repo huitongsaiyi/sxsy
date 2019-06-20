@@ -43,7 +43,7 @@
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="btns"><input id="button" class="btn btn-primary" type="reset" value="重置"/></li>
+			<li class="btns"><input id="button" class="btn btn-primary" type="reset" value="重置" /></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -71,7 +71,25 @@
 						${reportRegistration.complaintMain.hospital.name}
 				</td>
 				<td>
-						${reportRegistration.complaintMain.hospitalGrade}
+                    <c:choose>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='1'}">
+                            特等
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='2'}">
+                            甲等
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='3'}">
+                            乙等
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='4'}">
+                            丙等
+                        </c:when>
+                        <c:otherwise>
+                           无
+                        </c:otherwise>
+                    </c:choose>
+
+
 				</td>
 				<td>
 						${reportRegistration.area.name}

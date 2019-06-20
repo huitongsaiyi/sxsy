@@ -85,13 +85,11 @@ public class ReportRegistrationController extends BaseController {
 	@RequiresPermissions("registration:reportRegistration:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes) {
-
 		try {
+			if (!beanValidator(model, reportRegistration)){
+				return form(request,reportRegistration, model);
+			}
 			reportRegistrationService.save(reportRegistration,request);
-
-
-
-
 			if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + reportRegistration.getComplaintMain().getProcInsId());
 			}else {
@@ -101,9 +99,6 @@ public class ReportRegistrationController extends BaseController {
 			logger.error("启动纠纷调解流程失败：", e);
 			addMessage(redirectAttributes, "系统内部错误！");
 		}
-//		if (!beanValidator(model, reportRegistration)){
-//			return form(request,reportRegistration, model);
-//		}
 		return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
 	}
 

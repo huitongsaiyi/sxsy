@@ -40,7 +40,8 @@
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
-		t.ID_ AS "complaintMain.act.taskId"
+		t.ID_ AS "complaintMain.act.taskId",
+		sd.label AS "dict.name"
 	</sql>
 
 	<sql id="reportRegistrationJoins">
@@ -53,7 +54,7 @@
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u ON u.id=a.registration_emp
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
-
+		LEFT JOIN SYS_DICT sd ON sd.value =b.hospital_level AND sd.type='sys_office_grade'
 	</sql>
 
 	<select id="get" resultType="ReportRegistration">

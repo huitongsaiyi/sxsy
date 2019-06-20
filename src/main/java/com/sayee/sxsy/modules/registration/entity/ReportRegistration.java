@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.registration.entity;
 
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.sys.entity.Area;
+import com.sayee.sxsy.modules.sys.entity.Dict;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -40,7 +41,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 	private String patientAsk;		// 患方要求
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
-
+    private Dict dict;  //
 
 	public User getUser() {
 		return user;
@@ -50,7 +51,15 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.user = user;
 	}
 
-	public ReportRegistration() {
+    public Dict getDict() {
+        return dict;
+    }
+
+    public void setDict(Dict dict) {
+        this.dict = dict;
+    }
+
+    public ReportRegistration() {
 		super();
 	}
 
@@ -90,7 +99,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.complaintMain = complaintMain;
 	}
 
-	@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
+	//@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
 	public String getReportRegistrationId() {
 		return reportRegistrationId;
 	}
@@ -145,7 +154,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.reportTime = reportTime;
 	}
 
-	@Length(min=0, max=10, message="登记人员长度必须介于 0 和 10 之间")
+	@Length(min=1, max=32, message="登记人员不能为空")
 	public String getRegistrationEmp() {
 		return registrationEmp;
 	}
@@ -163,7 +172,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.registrationTime = registrationTime;
 	}
 
-	@Length(min=0, max=10, message="纠纷发生时间长度必须介于 0 和 10 之间")
+	@Length(min=0, max=20, message="纠纷发生时间长度必须介于 0 和 10 之间")
 	public String getDisputeTime() {
 		return disputeTime;
 	}
@@ -214,7 +223,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.nextLink = nextLink;
 	}
 
-	@Length(min=0, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="下一环节处理人不能为空")
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}
