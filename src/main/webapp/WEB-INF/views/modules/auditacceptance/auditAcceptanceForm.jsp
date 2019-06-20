@@ -896,7 +896,7 @@
                 <input name="guaranteeTime" type="text" readonly="readonly" maxlength="20"
                        class="input-medium Wdate required"
                        value="${auditAcceptance.guaranteeTime}"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
                 <span class="help-inline"><font color="red">*</font> </span>
             </td>
         </tr>
@@ -933,12 +933,12 @@
             </td>
         </tr>
         <tr>
-            <td class="tit"><font color="red">*</font>
-                下一处理环节：
-            </td>
-            <td>
-                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
-            </td>
+            <%--<td class="tit"><font color="red">*</font>--%>
+                <%--下一处理环节：--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge"/>--%>
+            <%--</td>--%>
             <td class="tit"><font color="red">*</font>
                 下一环节处理人：
             </td>
