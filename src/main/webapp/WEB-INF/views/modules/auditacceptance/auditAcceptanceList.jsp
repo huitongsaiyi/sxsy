@@ -31,15 +31,16 @@
 			<li><label>起保日期：</label>
 				<input name="beginGuaranteeTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="${auditAcceptance.beginGuaranteeTime}"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/> -
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/> -
 				<input name="endGuaranteeTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="${auditAcceptance.endGuaranteeTime}"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
 			</li>
 			<li><label>保险公司：</label>
 				<form:input path="insuranceCompany" htmlEscape="false" maxlength="50" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id="btnReset" class="btn btn-primary" type="reset" value="重置"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -99,7 +100,7 @@
 					${auditAcceptance.diagnosisMode}
 				</td>
 				<td>
-					<fmt:formatDate value="${auditAcceptance.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${auditAcceptance.updateDate}" pattern="yyyy-MM-dd HH:mm"/>
 				</td>
 				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><td>
     				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">处理</a>
