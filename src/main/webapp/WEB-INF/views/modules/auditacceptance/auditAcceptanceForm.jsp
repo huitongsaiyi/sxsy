@@ -9,7 +9,10 @@
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function (form) {
-                    loading('正在提交，请稍等...');
+                    var aa=$("#export").val();
+                    if(aa!='yes'){
+                        loading('正在提交，请稍等...');
+                    }
                     form.submit();
                 },
                 errorContainer: "#messageBox",
@@ -23,6 +26,47 @@
                 }
             });
         });
+        
+        function exportWord() {
+            var url='${ctx}'+'/auditacceptance/auditAcceptance/exportWord';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{'auditAcceptanceId':'${auditAcceptance.auditAcceptanceId}' },
+                dataType: "json",
+                async:true
+            });
+        }
+
+        function download(url, downLoadFileRename) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);        // 也可以使用POST方式，根据接口
+            xhr.responseType = "blob";    // 返回类型blob
+            // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+            xhr.onload = function () {
+                // 请求完成
+                if (this.status === 200) {
+                    // 返回200
+                    var blob = this.response;
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+                    reader.onload = function (e) {
+                        // 转换完成，创建一个a标签用于下载
+                        var a = document.createElement('a');
+                        a.download = downLoadFileRename;
+                        a.href = e.target.result;
+                        $("body").append(a);    // 修复firefox中无法触发click
+                        a.click();
+                        $(a).remove();
+                    }
+                }
+            };
+            // 发送ajax请求
+            xhr.send()
+        }
+
+
+
     </script>
 </head>
 <body>
@@ -48,6 +92,7 @@
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
+    <input type="hidden"  id="export" name="export"/>
     <sys:message content="${message}"/>
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
@@ -199,6 +244,10 @@
                     <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
                 </p>
                 <div class="cnzz" style="display: none;"></div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('yes')"/>
             </table>
         </div>
         <div class="tab-pane fade" id="hospitalS">
@@ -953,10 +1002,10 @@
     <div class="form-actions">
         <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="保 存"
-                                                                                onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
-                                                                                onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <c:if test="${not empty reportRegistration.reportRegistrationId}">

@@ -3,12 +3,15 @@
  */
 package com.sayee.sxsy.modules.auditacceptance.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.entity.Act;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
@@ -29,6 +32,7 @@ import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.auditacceptance.dao.AuditAcceptanceDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 审核受理Service
@@ -221,4 +225,29 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		preOperativeConsentService.save1(acceId19,itemId19,files18,fjtype19);
 		preOperativeConsentService.save1(acceId20,itemId20,files19,fjtype20);
 	}
+
+    public void exportWord(AuditAcceptance auditAcceptance, HttpServletRequest request, HttpServletResponse response) {
+		WordExportUtil wordExportUtil=new WordExportUtil();
+		auditAcceptance=this.get(auditAcceptance.getAuditAcceptanceId());
+		if (auditAcceptance.getMediateApplyInfo()==null){
+			auditAcceptance.setMediateApplyInfo(new MediateApplyInfo());
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("${sqr}", auditAcceptance.getMediateApplyInfo().getApplyer());
+		params.put("${yhzgx}", auditAcceptance.getMediateApplyInfo().getPatientRelation());
+		params.put("${phone}", auditAcceptance.getMediateApplyInfo().getPatientMobile());
+		params.put("${name}", auditAcceptance.getMediateApplyInfo().getPatientName());
+		params.put("${sex}", auditAcceptance.getMediateApplyInfo().getPatientSex());
+		params.put("${age}", auditAcceptance.getMediateApplyInfo().getPatientAge());
+		params.put("${hospital}", auditAcceptance.getMediateApplyInfo().getInvolveHospital());
+		params.put("${jfgy}", auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
+		try{
+			List<String[]> testList = new ArrayList<String[]>();
+			String path= Global.getProjectPath()+"/doc/disputeApplyPatient.docx";  //模板文件位置
+			String fileName= new String("医疗纠纷调解申请书（患方）.docx".getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
+			wordExportUtil.getWord(path,params,testList,fileName,response);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+    }
 }

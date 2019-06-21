@@ -29,7 +29,6 @@
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
-		t1.FILE_PATH AS "files",
 		m.mediate_apply_id AS  "mediateApplyInfo.mediateApplyId",
 		m.applyer AS "mediateApplyInfo.applyer",
 		if(m.patient_relation IS NULL ,c1.patient_relation,m.patient_relation) AS "mediateApplyInfo.patientRelation",
@@ -62,7 +61,6 @@
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
-		LEFT JOIN T_ACCESSORIES t1 ON  t1.ITEM_ID = a.audit_acceptance_id
 		LEFT JOIN MEDIATE_APPLY_INFO m ON m.audit_acceptance_id = a.audit_acceptance_id AND m.apply_type = '1'
 		LEFT JOIN MEDIATE_APPLY_INFO m1 ON m1.audit_acceptance_id = a.audit_acceptance_id AND m1.apply_type = '2'
 		LEFT JOIN COMPLAINT_MAIN_DETAIL c1 ON c1.complaint_main_id = b.complaint_main_id
