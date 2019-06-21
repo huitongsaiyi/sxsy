@@ -3,8 +3,8 @@
 <mapper namespace="com.sayee.sxsy.modules.nestigateeividence.dao.InvestigateEvidenceDao">
 
 	<sql id="investigateEvidenceColumns">
-        if(a.investigate_evidence_id IS NULL,au.audit_acceptance_id,a.investigate_evidence_id) AS "investigateEvidenceId",
-        if(a.complaint_main_id IS NULL,au.complaint_main_id,a.complaint_main_id)AS "complaintMainId",
+        if(a.investigate_evidence_id IS NULL,r.report_registration_id,a.investigate_evidence_id) AS "investigateEvidenceId",
+        if(a.complaint_main_id IS NULL,r.complaint_main_id,a.complaint_main_id)AS "complaintMainId",
 		a.start_time AS "startTime",
 		a.end_time AS "endTime",
 		a.address AS "address",
@@ -23,8 +23,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		if(aa.investigate_evidence_id IS NULL,au.audit_acceptance_id,aa.investigate_evidence_id) AS "investigateEvidence.investigateEvidenceId",
-		if(aa.complaint_main_id IS NULL,au.audit_acceptance_id,aa.complaint_main_id)AS "investigateEvidence.complaintMainId",
+		if(aa.investigate_evidence_id IS NULL,r.report_registration_id,aa.investigate_evidence_id) AS "investigateEvidence.investigateEvidenceId",
+		if(aa.complaint_main_id IS NULL,r.complaint_main_id,aa.complaint_main_id)AS "investigateEvidence.complaintMainId",
 		aa.start_time AS "investigateEvidence.startTime",
 		aa.end_time AS "investigateEvidence.endTime",
 		aa.address AS "investigateEvidence.address",
@@ -86,7 +86,7 @@
 		<include refid="investigateEvidenceColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="investigateEvidenceJoins"/>
-		WHERE a.investigate_evidence_id = #{investigateEvidenceId} OR au.audit_acceptance_id = #{investigateEvidenceId}
+		WHERE a.investigate_evidence_id = #{investigateEvidenceId} OR r.report_registration_id = #{investigateEvidenceId}
 	</select>
 
 	<select id="findList" resultType="InvestigateEvidence">
@@ -95,9 +95,21 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="investigateEvidenceJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},au.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='forensics'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='forensics'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
+				AND r.report_emp = #{reportRegistration.reportEmp}
+			</if>
+			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
+				AND b.patient_name = #{complaintMain.patientName}
+			</if>
+			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
+				AND r.patient_mobile = #{reportRegistration.patientMobile}
+			</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+				AND a.handle_time BETWEEN #{startTime} AND #{endTime}
 			</if>
 		</where>
 		<choose>

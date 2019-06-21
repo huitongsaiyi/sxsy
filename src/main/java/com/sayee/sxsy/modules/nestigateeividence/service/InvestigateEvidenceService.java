@@ -82,18 +82,14 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 		String files3=request.getParameter("filse3");
 		String files4=request.getParameter("filse4");
 		//附件的主键
-        String acceId1 = IdGen.uuid();
-        String acceId2 = IdGen.uuid();
-        String acceId3 = IdGen.uuid();
-        String acceId4 = IdGen.uuid();
+        String acceId = null;
         //从前台获取附件类型
         String fjtype4 = request.getParameter("fjtype4");
         String fjtype3 = request.getParameter("fjtype3");
         String fjtype2 = request.getParameter("fjtype2");
         String fjtype1 = request.getParameter("fjtype1");
         //itemId1关联调查取证表的主键
-        String itemId1=investigateEvidence.getInvestigateEvidenceId();
-        String itemId2=yinvestigateEvidence.getInvestigateEvidenceId();
+        String itemId=investigateEvidence.getInvestigateEvidenceId();
 		if(StringUtils.isBlank(investigateEvidence.getCreateBy().getId())){
 			//判断主键ID是否为空
 			investigateEvidence.preInsert();
@@ -127,21 +123,20 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 			//附件表的主键都设为UUID
 
 			if (StringUtils.isNotBlank(files)){
-
-				preOperativeConsentService.save1(acceId1, itemId1, files, fjtype1);
+				acceId=IdGen.uuid();
+				preOperativeConsentService.save1(acceId, itemId, files, fjtype1);
 			}
 			if (StringUtils.isNotBlank(files1)){
-
-				preOperativeConsentService.save1(acceId2, itemId1, files1, fjtype2);
+				acceId=IdGen.uuid();
+				preOperativeConsentService.save1(acceId, itemId, files1, fjtype2);
 			}
 			if (StringUtils.isNotBlank(files3)){
-
-				preOperativeConsentService.save1(acceId3, itemId2, files3, fjtype3);
+				acceId=IdGen.uuid();
+				preOperativeConsentService.save1(acceId, itemId, files3, fjtype3);
 			}
 			if (StringUtils.isNotBlank(files3)){
-
-				//保存附件
-				preOperativeConsentService.save1(acceId4, itemId2, files4, fjtype4);
+				acceId=IdGen.uuid();
+				preOperativeConsentService.save1(acceId, itemId, files4, fjtype4);
 			}
 
 		}else{
@@ -167,31 +162,55 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 			this.respondent(d4,yinvestigateEvidence.getInvestigateEvidenceId());
 			//更新附件
 			//先判断由前台传过来的file是否为"",如果是，将附件表进行物理删除，如果不是就更新
-			if(StringUtils.isBlank(files)){
-				preOperativeConsentService.delefj(investigateEvidence.getInvestigateEvidenceId(),"3");
-			}else {
-                preOperativeConsentService.delefj(investigateEvidence.getInvestigateEvidenceId(),"3");
-                preOperativeConsentService.save1(acceId1, itemId1, files, fjtype1);
+			if(StringUtils.isNotBlank(files)){
+				String acceId1=request.getParameter("acceId1");
+				if(StringUtils.isNotBlank(acceId1)){
+					preOperativeConsentService.updatefj(files,itemId,fjtype1);
+				}else{
+					acceId=IdGen.uuid();
+					preOperativeConsentService.save1(acceId,itemId,files,fjtype1);
+				}
+			}else{
+				preOperativeConsentService.delefj(itemId,fjtype1);
+			}
+			if(StringUtils.isNotBlank(files1)){
+				String acceId2=request.getParameter("acceId2");
+				if(StringUtils.isNotBlank(acceId2)){
+					preOperativeConsentService.updatefj(files1,itemId,fjtype2);
+				}else{
+					acceId=IdGen.uuid();
+					preOperativeConsentService.save1(acceId,itemId,files1,fjtype2);
+				}
+			}else{
+				preOperativeConsentService.delefj(itemId,fjtype2);
+			}
+			if(StringUtils.isNotBlank(files3)){
+				String acceId3=request.getParameter("acceId3");
+				if(StringUtils.isNotBlank(acceId3)){
+					preOperativeConsentService.updatefj(files3,itemId,fjtype3);
+				}else{
+					acceId=IdGen.uuid();
+					preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
+				}
+			}else{
+				preOperativeConsentService.delefj(itemId,fjtype3);
+			}
+			if(StringUtils.isNotBlank(files4)){
+				String acceId4=request.getParameter("acceId4");
+				if(StringUtils.isNotBlank(acceId4)){
+					preOperativeConsentService.updatefj(files4,itemId,fjtype4);
+				}else{
+					acceId=IdGen.uuid();
+					preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
+				}
+			}else{
+				preOperativeConsentService.delefj(itemId,fjtype4);
+			}
 
-			}
-			if(StringUtils.isBlank(files1)){
-				preOperativeConsentService.delefj(investigateEvidence.getInvestigateEvidenceId(),"4");
-			}else{
-                preOperativeConsentService.delefj(investigateEvidence.getInvestigateEvidenceId(),"4");
-                preOperativeConsentService.save1(acceId2, itemId1, files1, fjtype2);
-			}
-			if (StringUtils.isBlank(files3)){
-				preOperativeConsentService.delefj(yinvestigateEvidence.getInvestigateEvidenceId(),"5");
-			}else{
-                preOperativeConsentService.delefj(yinvestigateEvidence.getInvestigateEvidenceId(),"5");
-                preOperativeConsentService.save1(acceId3, itemId2, files3, fjtype3);
-			}
-			if (StringUtils.isBlank(files4)){
-				preOperativeConsentService.delefj(yinvestigateEvidence.getInvestigateEvidenceId(),"6");
-			} else {
-                preOperativeConsentService.delefj(yinvestigateEvidence.getInvestigateEvidenceId(),"6");
-                preOperativeConsentService.save1(acceId4, itemId2, files4, fjtype4);
-			}
+
+
+
+
 		}
 		//修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
 
@@ -223,13 +242,20 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 	@Transactional(readOnly = false)
 	public void respondent(RespondentInfo respondentInfo,String relation) {
 		//对调查人信息进程处理，如果有主键 说明是 进行修改方法； 如果没有主键 在看看有没有保存的年龄等信息，，如果有则insert，否则不处理
-		if (StringUtils.isBlank(respondentInfo.getRespondentId())){//主键不空  则进行修改
-			respondentInfo.setRespondentId(IdGen.uuid());
+		if (StringUtils.isNotBlank(respondentInfo.getRespondentId())){//主键不空  则进行修改
+			respondentInfo.preUpdate();
+			respondentInfo.setInvestigationEvidenceId(relation);
+			respondentInfoDao.update(respondentInfo);
+
+		}else if(StringUtils.isBlank(respondentInfo.getRespondentId())){
+			if(StringUtils.isNotBlank(respondentInfo.getRespondentAge())){
+				respondentInfo.setRespondentId(IdGen.uuid());
+				respondentInfo.setInvestigationEvidenceId(relation);
+				respondentInfo.preInsert();
+				respondentInfoDao.insert(respondentInfo);
+			}
 		}
-		respondentInfo.setInvestigationEvidenceId(relation);
-		if(StringUtils.isNotBlank(respondentInfo.getRespondentAge())){
-			respondentInfoService.save(respondentInfo);
-		}
+
 	}
 	//查询调查人
 	public void respondent(InvestigateEvidence investigateEvidence){

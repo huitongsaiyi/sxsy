@@ -6,10 +6,7 @@ package com.sayee.sxsy.modules.nestigateeividence.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sayee.sxsy.common.utils.IdGen;
-import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.respondentinfo.dao.RespondentInfoDao;
-import com.sayee.sxsy.modules.respondentinfo.entity.RespondentInfo;
 import com.sayee.sxsy.modules.respondentinfo.service.RespondentInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
@@ -94,7 +91,7 @@ public class InvestigateEvidenceController extends BaseController {
 
 	@RequiresPermissions("nestigateeividence:investigateEvidence:view")
 	@RequestMapping(value = "form")
-	public String form(InvestigateEvidence investigateEvidence, Model model) {
+	public String form(InvestigateEvidence investigateEvidence, Model model,HttpServletRequest request) {
 	    //获取下调查人
         investigateEvidenceService.respondent(investigateEvidence);
         //获取附件
@@ -102,17 +99,27 @@ public class InvestigateEvidenceController extends BaseController {
 		for (Map<String, Object> map :filePath){
 			if ("3".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("4".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("5".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files3",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId3",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("6".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files4",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId4",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 
 		}
-		model.addAttribute("investigateEvidence", investigateEvidence);
+		String type=request.getParameter("type");
+		if("view".equals(type)){
+			model.addAttribute("investigateEvidence", investigateEvidence);
+			return "modules/nestigateeividence/investigateEvidencesView";
+		}else{
+			model.addAttribute("investigateEvidence", investigateEvidence);
 			return "modules/nestigateeividence/investigateEvidenceForm";
+		}
 
 	}
 

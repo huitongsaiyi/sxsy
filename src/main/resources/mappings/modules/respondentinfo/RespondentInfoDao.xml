@@ -121,7 +121,7 @@
 			respondent_identity = #{respondentIdentity},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
-		WHERE respondent_id = #{id}
+		WHERE respondent_id = #{respondentId}
 	</update>
 	
 	<update id="delete">
