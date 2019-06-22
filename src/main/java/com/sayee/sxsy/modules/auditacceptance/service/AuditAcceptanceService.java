@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.config.Global;
+import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.WordExportUtil;
@@ -226,25 +227,57 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		preOperativeConsentService.save1(acceId20,itemId20,files19,fjtype20);
 	}
 
-    public void exportWord(AuditAcceptance auditAcceptance, HttpServletRequest request, HttpServletResponse response) {
+    public void exportWord(AuditAcceptance auditAcceptance,String export, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		auditAcceptance=this.get(auditAcceptance.getAuditAcceptanceId());
 		if (auditAcceptance.getMediateApplyInfo()==null){
 			auditAcceptance.setMediateApplyInfo(new MediateApplyInfo());
 		}
+		String path="";
+		String newFileName="无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("${sqr}", auditAcceptance.getMediateApplyInfo().getApplyer());
-		params.put("${yhzgx}", auditAcceptance.getMediateApplyInfo().getPatientRelation());
-		params.put("${phone}", auditAcceptance.getMediateApplyInfo().getPatientMobile());
-		params.put("${name}", auditAcceptance.getMediateApplyInfo().getPatientName());
-		params.put("${sex}", auditAcceptance.getMediateApplyInfo().getPatientSex());
-		params.put("${age}", auditAcceptance.getMediateApplyInfo().getPatientAge());
-		params.put("${hospital}", auditAcceptance.getMediateApplyInfo().getInvolveHospital());
-		params.put("${jfgy}", auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
+		if ("patientAcc".equals(export)){
+			params.put("${patient}", auditAcceptance.getMediateApplyInfo().getPatientName());
+			params.put("${hosital}", auditAcceptance.getComplaintMain().getHospital().getName());
+			path= Global.getProjectPath()+"/doc/acceptanceP.docx";  //模板文件位置
+			newFileName="患方通知书.docx";
+		}else if("hospitalAcc".equals(export)){
+			params.put("${patient}", auditAcceptance.getMediateApplyInfo().getPatientName());
+			params.put("${hosital}", auditAcceptance.getComplaintMain().getHospital().getName());
+			path= Global.getProjectPath()+"/doc/acceptanceD.docx";  //模板文件位置
+			newFileName="医方通知书.docx";
+		}else if("patientDis".equals(export)){
+			params.put("${sqr}", auditAcceptance.getMediateApplyInfo().getApplyer());
+			params.put("${yhzgx}", auditAcceptance.getMediateApplyInfo().getPatientRelation());
+			params.put("${phone}", auditAcceptance.getMediateApplyInfo().getPatientMobile());
+			params.put("${name}", auditAcceptance.getMediateApplyInfo().getPatientName());
+			params.put("${sex}", auditAcceptance.getMediateApplyInfo().getPatientSex());
+			params.put("${age}", auditAcceptance.getMediateApplyInfo().getPatientAge());
+			params.put("${hospital}", auditAcceptance.getMediateApplyInfo().getInvolveHospital());
+			params.put("${jfgy}", auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
+			path= Global.getProjectPath()+"/doc/disputeApplyPatient.docx";  //模板文件位置
+			newFileName="医疗纠纷调解申请书（患方）.docx";
+		}else if("doctorDis".equals(export)){
+			params.put("${hospital}", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital());
+			params.put("${agent}", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent());
+			params.put("${phone}", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile());
+			params.put("${patientName}", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName());
+			params.put("${sex}", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientSex());
+			params.put("${age}", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientAge());
+			params.put("${jfgy}", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes());
+			path= Global.getProjectPath()+"/doc/disputeApplyDoctor.docx";  //模板文件位置
+			newFileName="医疗纠纷调解申请书（医方）.docx";
+		}else if("DisAcc".equals(export)){
+			params.put("${jfgy}", auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
+			params.put("${source}", "1".equals(auditAcceptance.getCaseSource()) ? "当事人意见" :"人民调解委员会主动调解");
+			params.put("${nowTime}", DateUtils.getYear()+"年"+DateUtils.getMonth()+"月"+DateUtils.getDay()+"日");
+			path= Global.getProjectPath()+"/doc/disputeAcceptance.docx";  //模板文件位置
+			newFileName="人民调解受理登记表.docx";
+		}
+
 		try{
 			List<String[]> testList = new ArrayList<String[]>();
-			String path= Global.getProjectPath()+"/doc/disputeApplyPatient.docx";  //模板文件位置
-			String fileName= new String("医疗纠纷调解申请书（患方）.docx".getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
+			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
 			wordExportUtil.getWord(path,params,testList,fileName,response);
 		}catch(Exception e){
 			e.printStackTrace();

@@ -73,21 +73,21 @@ public class AuditAcceptanceController extends BaseController {
 //		if (!beanValidator(model, auditAcceptance)){
 //			return form(auditAcceptance, model);
 //		}
-
-        	if (request.getParameter("export").equals("yes")){
-				auditAcceptanceService.exportWord(auditAcceptance,request,response);
+        String export=request.getParameter("export");
+        	if (!export.equals("no")){
+				auditAcceptanceService.exportWord(auditAcceptance,export,request,response);
 				return "";
 			}else {
-//				try {
-//				} catch (Exception e) {
-//					logger.error("启动纠纷调解流程失败：", e);
-//					addMessage(redirectAttributes, "系统内部错误,请联系管理员！");
-//				}
-				auditAcceptanceService.save(request, auditAcceptance);
-				if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
-					addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
-				}else {
-					addMessage(redirectAttributes, "保存审核受理成功");;
+				try {
+                    auditAcceptanceService.save(request, auditAcceptance);
+                    if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
+                        addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
+                    }else {
+                        addMessage(redirectAttributes, "保存审核受理成功");;
+                    }
+				} catch (Exception e) {
+					logger.error("启动纠纷调解流程失败：", e);
+					addMessage(redirectAttributes, "系统内部错误,请联系管理员！");
 				}
 				return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
 			}
@@ -100,13 +100,13 @@ public class AuditAcceptanceController extends BaseController {
 		addMessage(redirectAttributes, "删除审核受理成功");
 		return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
 	}
-	@RequestMapping(value = "exportWord")
-	public String exportWord(AuditAcceptance auditAcceptance,HttpServletRequest request,HttpServletResponse response) {
-		try {
-			auditAcceptanceService.exportWord(auditAcceptance,request,response);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return "导出成功";
-	}
+//	@RequestMapping(value = "exportWord")
+//	public String exportWord(AuditAcceptance auditAcceptance,HttpServletRequest request,HttpServletResponse response) {
+//		try {
+//			auditAcceptanceService.exportWord(auditAcceptance,request,response);
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		return "导出成功";
+//	}
 }

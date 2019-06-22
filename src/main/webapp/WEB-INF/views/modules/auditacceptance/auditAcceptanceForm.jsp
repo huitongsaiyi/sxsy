@@ -10,7 +10,7 @@
             $("#inputForm").validate({
                 submitHandler: function (form) {
                     var aa=$("#export").val();
-                    if(aa!='yes'){
+                    if(aa=='no'){
                         loading('正在提交，请稍等...');
                     }
                     form.submit();
@@ -247,7 +247,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('yes')"/>
+                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc')"/>
             </table>
         </div>
         <div class="tab-pane fade" id="hospitalS">
@@ -347,6 +347,10 @@
                             style="font-family:Calibri; font-size:10.5pt">&#xa0;</span></p>
                 </div>
                 <div class="cnzz" style="display: none;"></div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalAcc')"/>
             </table>
         </div>
         <div class="tab-pane fade" id="patientT">
@@ -389,7 +393,7 @@
                     <td class="tit"><font color="red">*</font>涉及医院</td>
                     <td>
                         <sys:treeselect id="involveHospital" name="mediateApplyInfo.involveHospital" value="${auditAcceptance.mediateApplyInfo.involveHospital}" labelName="${auditAcceptance.complaintMain.hospital.name}" labelValue="${auditAcceptance.complaintMain.hospital.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="false"/>
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                 </tr>
                 <tr>
@@ -404,6 +408,14 @@
                         <form:textarea path="mediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
+                <tr >
+                    <td colspan="4">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="patientDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientDis')"/>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="tab-pane fade" id="hospitalT">
@@ -412,7 +424,7 @@
                     <td class="tit"><font color="red">*</font>申请医院</td>
                     <td>
                         <sys:treeselect id="involveHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${auditAcceptance.complaintMain.hospital.name}" labelValue="${auditAcceptance.complaintMain.hospital.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="false"/>
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                     <td class="tit"><font color="red">*</font>代理人</td>
                     <td>
@@ -453,6 +465,15 @@
                         <form:textarea path="mediateApplyInfo.docMediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
+               <tr >
+                    <td colspan="4">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="doctorDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('doctorDis')"/>
+                    </td>
+                </tr>
+
             </table>
         </div>
         <div class="tab-pane fade" id="people">
@@ -658,6 +679,11 @@
                     </p>
                     <p style="margin:0pt; orphans:0; text-align:justify; widows:0"><span
                             style="font-family:Calibri; font-size:10.5pt">&#xa0;</span></p></div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')"/>
+
             </table>
         </div>
         <div class="tab-pane fade" id="annex">
@@ -1006,6 +1032,9 @@
         <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
                                                                                 onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+        <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
+                                                                                type="submit" value="导出全部"
+                                                                                onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <c:if test="${not empty reportRegistration.reportRegistrationId}">
