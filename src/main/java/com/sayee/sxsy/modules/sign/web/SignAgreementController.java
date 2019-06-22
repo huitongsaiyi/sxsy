@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,7 @@ import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 签署协议Controller
@@ -61,8 +64,8 @@ public class SignAgreementController extends BaseController {
 
 	@RequiresPermissions("sign:signAgreement:view")
 	@RequestMapping(value = "form")
-	public String form(SignAgreement signAgreement, Model model) {
-		model.addAttribute("signAgreement", signAgreement);
+	public String form(SignAgreement signAgreement, Model model,HttpServletRequest request) {
+
 		//在修改时 拿到 用逗号分割的数据  进行处理
 		List<TypeInfo> tjqk=BaseUtils.getType("3");
 		signAgreementService.label(tjqk,signAgreement.getMediation());
@@ -76,7 +79,32 @@ public class SignAgreementController extends BaseController {
 		List<TypeInfo> xysm=BaseUtils.getType("6");
 		signAgreementService.label(xysm,signAgreement.getAgreementExplain());
 		model.addAttribute("xysm", xysm);
-		return "modules/sign/signAgreementForm";
+		//附件展示
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(signAgreement.getSignAgreementId());
+		for (Map<String, Object> map:filePath) {
+			if("7".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("8".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("9".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files3",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId3",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("10".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files4",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId4",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+		}
+		String type = request.getParameter("type");
+		if("view".equals(type)){
+			model.addAttribute("signAgreement", signAgreement);
+			return "modules/sign/signAgreementView";
+		}else{
+			model.addAttribute("signAgreement", signAgreement);
+			return "modules/sign/signAgreementForm";
+		}
+
 	}
 
 	@RequiresPermissions("sign:signAgreement:edit")

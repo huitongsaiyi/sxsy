@@ -7,6 +7,7 @@ import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
+import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
@@ -36,6 +37,9 @@ public class StopMediate extends DataEntity<StopMediate> {
 	private ReportRegistration reportRegistration;//报案人姓名
 	private User linkEmployee;
 	private User user;  //当前登陆人
+	private Office hospital; //涉及医院
+	private String power;  //跳转页面权限信息
+	private String info;  //跳转页面展示信息
 
 	public StopMediate() {
 		super();
@@ -51,6 +55,30 @@ public class StopMediate extends DataEntity<StopMediate> {
 
 	public void setComplaintMain(ComplaintMain complaintMain) {
 		this.complaintMain = complaintMain;
+	}
+
+	public Office getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Office hospital) {
+		this.hospital = hospital;
+	}
+
+	public String getPower() {
+		return power;
+	}
+
+	public void setPower(String power) {
+		this.power = power;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 	public User getUser() {

@@ -9,7 +9,10 @@
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
+					var aa=$("#export").val();
+					if(aa!='yes'){
+						loading('正在提交，请稍等...');
+					}
 					form.submit();
 				},
 				errorContainer: "#messageBox",
@@ -27,11 +30,26 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/stopmediate/stopMediate/">终止调解列表</a></li>
-		<li class="active"><a href="${ctx}/stopmediate/stopMediate/form?id=${stopMediate.id}">终止调解<shiro:hasPermission name="stopmediate:stopMediate:edit">${not empty stopMediate.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="stopmediate:stopMediate:edit">查看</shiro:lacksPermission></a></li>
+		<%--<li><a href="${ctx}/stopmediate/stopMediate/">终止调解列表</a></li>--%>
+			<li><a href="${ctx}${stopMediate.power}">${stopMediate.info}</a></li>
+			<li class="active">
+			<a href="${ctx}/stopmediate/stopMediate/form?id=${stopMediate.id}">终止调解
+		</a>
+		</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="stopMediate" action="${ctx}/stopmediate/stopMediate/save" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+		<form:hidden path="stopMediateId"/>
+		<form:hidden path="createDate"/>
+		<form:hidden path="createBy"/>
+        <form:hidden path="complaintMainId"/>
+        <form:hidden path="complaintMain.complaintMainId"/>
+		<form:hidden path="complaintMain.act.taskId"/>
+		<form:hidden path="complaintMain.act.taskName"/>
+		<form:hidden path="complaintMain.act.taskDefKey"/>
+		<form:hidden path="complaintMain.act.procInsId"/>
+		<form:hidden path="complaintMain.act.procDefId"/>
+		<form:hidden path="complaintMain.procInsId"/>
+		<input type="hidden"  id="export" name="export"/>
 		<sys:message content="${message}"/>
 	<div id="myTabContent" class="tab-content">
 		<div class="tab-pane fade in active">
@@ -43,7 +61,7 @@
 					</td>
 					<td class="tit">涉及医院</td>
 					<td>
-						<sys:treeselect id="feedbackOffice" name="feedbackOffice" value="${stopMediate.involveHospital}" labelName="" labelValue="${stopMediate.complaintMain.hospital.name}"
+						<sys:treeselect id="involveHospital" name="involveHospital" value="${stopMediate.involveHospital}" labelName="" labelValue="${stopMediate.hospital.name}"
 										title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
 					</td>
 				</tr>
@@ -68,15 +86,23 @@
 			<tr>
 				<td class="tit">下一环节处理人</td>
 				<td>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${stopMediate.nextLinkMan}" labelName="" labelValue="${stopMediate.nextLinkMan}"
-									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${stopMediate.nextLinkMan}" labelName="" labelValue="${stopMediate.linkEmployee.name}"
+									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" checked="true"/>
 				</td>
 			</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="stopmediate:stopMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="stopmediate:stopMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="stopmediate:stopMediate:edit"><input type = "button" class="btn btn-primary" value = "导出"/></shiro:hasPermission>
+			<shiro:hasPermission name="stopmediate:stopMediate:edit">
+				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;
+			</shiro:hasPermission>
+			<shiro:hasPermission name="stopmediate:stopMediate:edit">
+				<input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;
+			</shiro:hasPermission>
+			<shiro:hasPermission name="stopmediate:stopMediate:edit">
+				<input id="export" type = "submit" class="btn btn-primary" value = "导出" onclick="$('#export').val('yes')"/>
+			</shiro:hasPermission>
+
+
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

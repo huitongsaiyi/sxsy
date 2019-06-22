@@ -51,6 +51,15 @@ public class AssessApply extends DataEntity<AssessApply> {
 	private String handleTime;		// 处理日期
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
+	private Area area;//所属地市
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
 
 	public AssessApply() {
 		super();

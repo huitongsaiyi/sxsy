@@ -295,7 +295,7 @@
 									纠纷概要：
 								</td>
 								<td >
-									<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge "/>
+									<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required"/>
 								</td>
 							</tr>
 						</table>
@@ -413,57 +413,63 @@
 				</div>
 			</div>
 			<div class="tab-pane fade" id="annex">
-				<tr style="border:solid">
-					<input type="hidden" name="fjtype" value="7">
-					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-						签到表：
-						<input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"
-							   value="${files}"/>
-							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
-							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files" type="files" uploadPath="/mediateEvidence/annex" selectMultiple="false"
-									  maxWidth="100" maxHeight="100"/>
-					</td>
-				</tr>
+				<table class="table-form">
 				<tr>
-					<input type="hidden" name="fjtype1" value="8">
-					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-						会议记录：
+					<input type="hidden" name="fjtype1" value="7">
+					<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+						签到表：
+					</td>
+					<td style="width: 450px;">
 						<input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
 							   value="${files1}"/>
-							<%--<form:hidden id="files1" path="files1" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
-							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files1" type="files" uploadPath="/mediateEvidence/annex"
-									  selectMultiple="false"
+						<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
+						<sys:ckfinder input="files1" type="files" uploadPath="/sign/signAgreement/sign" selectMultiple="false"
 									  maxWidth="100" maxHeight="100"/>
 					</td>
 				</tr>
 				<tr>
-					<input type="hidden" name="fjtype2" value="9">
-					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-						协议书：
+					<input type="hidden" name="fjtype2" value="8">
+					<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+						会议记录：
+					</td>
+					<td style="width: 450px;">
 						<input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
 							   value="${files2}"/>
-							<%--<form:hidden id="files2" path="files2" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
-							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files2" type="files" uploadPath="/mediateEvidence/annex"
+						<input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
+						<sys:ckfinder input="files2" type="files" uploadPath="/sign/signAgreement/meet"
 									  selectMultiple="false"
 									  maxWidth="100" maxHeight="100"/>
 					</td>
 				</tr>
 				<tr>
-					<input type="hidden" name="fjtype3" value="10">
-					<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-						其他材料：
+					<input type="hidden" name="fjtype3" value="9">
+					<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+						协议书：
+					</td>
+					<td style="width: 450px;">
 						<input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"
 							   value="${files3}"/>
-							<%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
-							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<sys:ckfinder input="files3" type="files" uploadPath="/mediateEvidence/annex"
+						<input type="hidden" id="acceId3" name="acceId3" value="${acceId3}">
+						<sys:ckfinder input="files3" type="files" uploadPath="/sign/signAgreement/xieyi"
 									  selectMultiple="false"
 									  maxWidth="100" maxHeight="100"/>
 					</td>
 				</tr>
+				<tr>
+					<input type="hidden" name="fjtype4" value="10">
+					<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+						其他材料：
+					</td>
+					<td style="width: 450px;">
+						<input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"
+							   value="${files4}"/>
+						<input type="hidden" id="acceId4" name="acceId4" value="${acceId4}">
+						<sys:ckfinder input="files4" type="files" uploadPath="/sign/signAgreement/other"
+									  selectMultiple="false"
+									  maxWidth="100" maxHeight="100"/>
+					</td>
+				</tr>
+				</table>
 			</div>
 		</div>
 
@@ -471,7 +477,7 @@
 			<tr>
 				<td class="tit" >协议号：</td>
 				<td >
-					<form:input path="agreementNumber" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+					<form:input path="agreementNumber" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 				</td>
 				<td class="tit">签署协议/判决时间：</td>
 				<td >
@@ -484,11 +490,11 @@
 			<tr>
 				<td class="tit" >协议金额：</td>
 				<td >
-					<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge "/>
+					<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge required"/>
 				</td>
 				<td class="tit">保险金额：</td>
 				<td >
-					<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge "/>
+					<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge required"/>
 				</td>
 			</tr>
 			<tr>
@@ -511,7 +517,7 @@
 				<td class="tit">下一环节处理人：</td>
 				<td >
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${signAgreement.nextLinkMan}" labelName="" labelValue="${signAgreement.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" checked="true"/>
 				</td>
 			</tr>
 		</table>

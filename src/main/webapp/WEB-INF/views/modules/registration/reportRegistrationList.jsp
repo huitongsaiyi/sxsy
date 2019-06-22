@@ -110,6 +110,7 @@
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td>
     				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">处理</a>
     				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">详情</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${reportRegistration.complaintMainId}&module=badj">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

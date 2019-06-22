@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.stopmediate.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +35,7 @@ public class StopMediateController extends BaseController {
 
 	@Autowired
 	private StopMediateService stopMediateService;
-	
+
 	@ModelAttribute
 	public StopMediate get(@RequestParam(required=false) String id) {
 		StopMediate entity = null;
@@ -58,6 +60,9 @@ public class StopMediateController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(HttpServletRequest request, StopMediate stopMediate, Model model) {
 		String type = request.getParameter("type");
+		String module = request.getParameter("module");
+		//对 某个模块 进来的数据进行分析处理后返回
+        stopMediate=stopMediateService.handle(stopMediate,module);
 		if("view".equals(type)){
             model.addAttribute("stopMediate", stopMediate);
             return "modules/stopmediate/stopMediateView";
@@ -69,13 +74,30 @@ public class StopMediateController extends BaseController {
 
 	@RequiresPermissions("stopmediate:stopMediate:edit")
 	@RequestMapping(value = "save")
-	public String save(HttpServletRequest request, StopMediate stopMediate, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, stopMediate)){
-			return form(request, stopMediate, model);
+	public String save(HttpServletRequest request, StopMediate stopMediate, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
+		String export=request.getParameter("export");
+		if (export.equals("yes")){
+			stopMediateService.exportWord(stopMediate,export,request,response);
+			return "";
+		}else {
+			try {
+				stopMediateService.save(stopMediate);
+				if ("yes".equals(stopMediate.getComplaintMain().getAct().getFlag())){
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + stopMediate.getComplaintMain().getProcInsId());
+				}else {
+					addMessage(redirectAttributes, "保存终止调解成功");
+				}
+			} catch (Exception e) {
+				logger.error("启动纠纷调解流程失败：", e);
+				addMessage(redirectAttributes, "系统内部错误！");
+			}
+			return "redirect:"+Global.getAdminPath()+"/stopmediate/stopMediate/?repage";
 		}
-		stopMediateService.save(stopMediate);
-		addMessage(redirectAttributes, "保存终止调解成功");
-		return "redirect:"+Global.getAdminPath()+"/stopmediate/stopMediate/?repage";
+//		if (!beanValidator(model, stopMediate)){
+//			return form(request, stopMediate, model);
+//		}
+
+
 	}
 	
 	@RequiresPermissions("stopmediate:stopMediate:edit")

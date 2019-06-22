@@ -612,7 +612,7 @@
 						开始时间：
 					</td>
 					<td>
-						<input name="recordInfo1.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${assessAppraisal.recordInfo1.startTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
@@ -620,7 +620,7 @@
 						结束时间：
 					</td>
 					<td>
-						<input name="recordInfo1.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${assessAppraisal.recordInfo1.endTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
@@ -630,13 +630,13 @@
 						地点：
 					</td>
 					<td>
-						<form:input path="recordInfo1.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 					<td class="tit">
 						事由：
 					</td>
 					<td>
-						<form:input path="recordInfo1.cause" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.cause" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 				</tr>
 				<tr>
@@ -644,13 +644,13 @@
 						主持人：
 					</td>
 					<td>
-						<form:input path="recordInfo1.host" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.host" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 					<td class="tit">
 						记录人：
 					</td>
 					<td>
-						<form:input path="recordInfo1.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 				</tr>
 				<tr>
@@ -658,7 +658,7 @@
 						笔录内容：
 					</td>
 					<td colspan="3">
-						<form:textarea path="recordInfo1.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
+						<form:textarea path="recordInfo1.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;"/>
 					</td>
 
 				</tr>
@@ -671,7 +671,7 @@
 						开始时间：
 					</td>
 					<td>
-						<input name="recordInfo1.yrecordInfo.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.yrecordInfo.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${assessAppraisal.recordInfo1.yrecordInfo.startTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
@@ -679,7 +679,7 @@
 						结束时间：
 					</td>
 					<td>
-						<input name="recordInfo1.yrecordInfo.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.yrecordInfo.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${assessAppraisal.recordInfo1.yrecordInfo.endTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
@@ -689,13 +689,13 @@
 						地点：
 					</td>
 					<td>
-						<form:input path="recordInfo1.yrecordInfo.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 					<td class="tit">
 						事由：
 					</td>
 					<td>
-						<form:input path="recordInfo1.yrecordInfo.cause" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.cause" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 				</tr>
 				<tr>
@@ -703,13 +703,13 @@
 						主持人：
 					</td>
 					<td>
-						<form:input path="recordInfo1.yrecordInfo.host" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.host" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 					<td class="tit">
 						记录人：
 					</td>
 					<td>
-						<form:input path="recordInfo1.yrecordInfo.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 				</tr>
 				<tr>
@@ -717,7 +717,7 @@
 						笔录内容：
 					</td>
 					<td colspan="3">
-						<form:textarea path="recordInfo1.yrecordInfo.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
+						<form:textarea path="recordInfo1.yrecordInfo.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;"/>
 					</td>
 
 				</tr>
@@ -730,7 +730,7 @@
 						患者姓名：
 					</td>
 					<td>
-						<form:input path="patientName" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+						<form:input path="patientName" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
 					</td>
 					<td class="tit">
 						患者性别：
@@ -746,13 +746,13 @@
 						患者年龄：
 					</td>
 					<td>
-						<form:input path="patientAge" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="patientAge" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 					<td class="tit">
 						住院号：
 					</td>
 					<td>
-						<form:input path="hospitalNumber" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="hospitalNumber" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 					</td>
 				</tr>
 				<tr>
@@ -769,19 +769,19 @@
 				<tr>
 					<td class="tit">诊断分析：</td>
 					<td colspan="3">
-						<form:textarea path="diagnosticAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
+						<form:textarea path="diagnosticAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">治疗分析：</td>
 					<td colspan="3">
-						<form:textarea path="treatmentAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
+						<form:textarea path="treatmentAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">其他医疗分析：</td>
 					<td colspan="3">
-						<form:textarea path="otherMedicalAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
+						<form:textarea path="otherMedicalAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;"/>
 					</td>
 				</tr>
 				<tr>
@@ -789,7 +789,7 @@
 						医学专家：
 					</td>
 					<td colspan="3">
-						<form:input path="medicalExpert" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 560px;"/>
+						<form:input path="medicalExpert" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;"/>
 					</td>
 				</tr>
 				<tr>
@@ -797,7 +797,7 @@
 						法律顾问：
 					</td>
 					<td colspan="3">
-						<form:input path="legalExpert" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 560px;"/>
+						<form:input path="legalExpert" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;"/>
 					</td>
 				</tr>
 				<tr>
@@ -805,7 +805,7 @@
 						其他：
 					</td>
 					<td colspan="3">
-						<form:input path="other" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 560px;"/>
+						<form:input path="other" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;"/>
 					</td>
 				</tr>
 
@@ -923,7 +923,12 @@
 								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />
+                        		<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini">
+									<option value=""></option>
+									<option value="1"  >亲人</option>
+									<option value="2"  >朋友</option>
+									<option value="3"  >代理人</option>
+								</select>
 							</td>
 							<td>
 								<input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required" />
@@ -993,7 +998,7 @@
 						<tr>
 							<td class="tit">诊疗概要:</td>
 							<td colspan="3">
-								<form:textarea path="proposal.treatmentSummary" htmlEscape="false" rows="10" maxlength="500" class="input-xxlarge " cssStyle="width: 1374px;"/>
+								<form:textarea path="proposal.treatmentSummary" htmlEscape="false" rows="10" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;"/>
 							</td>
 						</tr>
 					</table>
@@ -1003,13 +1008,13 @@
 						<tr>
 							<td class="tit">患方认为:</td>
 							<td colspan="3">
-								<form:textarea path="proposal.patientThink" htmlEscape="false" rows="5" maxlength="500" class="input-xxlarge " cssStyle="width: 1374px;"/>
+								<form:textarea path="proposal.patientThink" htmlEscape="false" rows="5" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;"/>
 							</td>
 						</tr>
 						<tr>
 							<td class="tit">医方认为:</td>
 							<td colspan="3">
-								<form:textarea path="proposal.doctorThink" htmlEscape="false" rows="5" maxlength="500" class="input-xxlarge " cssStyle="width: 1374px;"/>
+								<form:textarea path="proposal.doctorThink" htmlEscape="false" rows="5" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;"/>
 							</td>
 						</tr>
 					</table>
@@ -1040,7 +1045,7 @@
 								诊断:
 							</td>
 							<td>
-								<form:textarea path="proposal.diagnosis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge " cssStyle="width: 1374px;"/>
+								<form:textarea path="proposal.diagnosis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;"/>
 							</td>
 						</tr>
 						<tr>
@@ -1048,7 +1053,7 @@
 								治疗:
 							</td>
 							<td>
-								<form:textarea path="proposal.treatment" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge " cssStyle="width: 1374px;"/>
+								<form:textarea path="proposal.treatment" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;"/>
 							</td>
 						</tr>
 						<tr>
@@ -1056,7 +1061,7 @@
 								其他:
 							</td>
 							<td>
-								<form:textarea path="proposal.other" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge " cssStyle="width: 1374px;"/>
+								<form:textarea path="proposal.other" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;"/>
 							</td>
 						</tr>
 					</table>
@@ -1178,14 +1183,14 @@
 			</td>
 			<td>
 				<form:select path="applyType" class="input-medium" style="text-align:center">
-					<form:options items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('assessmentAppraisal')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</td>
 			<td class="tit">
 				责任比例：
 			</td>
 			<td>
-				<form:input path="responsibilityRatio" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+				<form:input path="responsibilityRatio" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
 			</td>
 		</tr>
 		<tr>
@@ -1193,14 +1198,14 @@
 				主持人：
 			</td>
 			<td>
-				<form:input path="host" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+				<form:input path="host" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
 					<%--<form:checkboxes path="host" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>--%>
 			</td>
 			<td class="tit">
 				书记员：
 			</td>
 			<td>
-				<form:input path="clerk" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+				<form:input path="clerk" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 			</td>
 		</tr>
 			<%--<tr>--%>
@@ -1220,18 +1225,13 @@
 			<%--</td>--%>
 			<%--</tr>--%>
 		<tr>
-			<td class="tit">
-				下一处理环节：
-			</td>
-			<td>
-				<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
-			</td>
-			<td class="tit">
+
+			<td class="tit" width="225px">
 				下一环节处理人：
 			</td>
 			<td>
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessAppraisal.nextLinkMan}" labelName="" labelValue="${assessAppraisal.linkEmployee.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
+								title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" checked="true"/>
 			</td>
 		</tr>
 	</table>

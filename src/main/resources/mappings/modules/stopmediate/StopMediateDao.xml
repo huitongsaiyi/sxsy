@@ -4,7 +4,7 @@
     
 	<sql id="stopMediateColumns">
 		if(a.stop_mediate_id IS NULL,r.report_registration_id,a.stop_mediate_id ) AS "stopMediateId",
-		if(a.complaint_main_id IS NULL,r.complaint_main_id,b.complaint_main_id) AS "complaintMainId",
+		if(a.complaint_main_id IS NULL,r.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
 		if(a.patient_name IS NULL ,b.patient_name,a.patient_name) AS "patientName",
 		if(a.involve_hospital IS NULL,b.involve_hospital,a.involve_hospital) AS "involveHospital",
 		a.stop_time AS "stopTime",
@@ -31,10 +31,11 @@
 		b.proc_ins_id AS "complaintMain.procInsId",
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
--- 		u2.name AS "linkEmployee.name",
+		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
+		o2.name AS "hospital.name",
 		au.policy_number AS "auditAcceptance.policyNumber",
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
@@ -47,9 +48,11 @@
 		LEFT JOIN AUDIT_ACCEPTANCE au ON au.complaint_main_id = b.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN SYS_OFFICE o2 on o2.id=a.involve_hospital
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 	</sql>
     
 	<select id="get" resultType="StopMediate">
@@ -59,6 +62,30 @@
 		<include refid="stopMediateJoins"/>
 		WHERE a.stop_mediate_id = #{stopMediateId} OR r.report_registration_id = #{stopMediateId}
 	</select>
+
+    <select id="passCom" resultType="StopMediate">
+        SELECT
+        a.stop_mediate_id AS "stopMediateId",
+        a.complaint_main_id AS "complaintMainId",
+        a.patient_name AS "patientName",
+        a.involve_hospital AS "involveHospital",
+        a.stop_time AS "stopTime",
+        a.stop_describe AS "stopDescribe",
+        a.handle_people AS "handlePeople",
+        a.handle_time AS "handleTime",
+        a.next_link AS "nextLink",
+        a.next_link_man AS "nextLinkMan",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.del_flag AS "delFlag",
+        o2.name AS "hospital.name"
+        FROM STOP_MEDIATE a
+        LEFT JOIN SYS_OFFICE o2 on o2.id=a.involve_hospital
+        WHERE a.complaint_main_id = #{complaintMainId}
+    </select>
+
 	
 	<select id="findList" resultType="StopMediate">
 		SELECT 

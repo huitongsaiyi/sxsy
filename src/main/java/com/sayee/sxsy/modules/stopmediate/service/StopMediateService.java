@@ -3,9 +3,17 @@
  */
 package com.sayee.sxsy.modules.stopmediate.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.common.utils.WordExportUtil;
+import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +22,10 @@ import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.modules.stopmediate.entity.StopMediate;
 import com.sayee.sxsy.modules.stopmediate.dao.StopMediateDao;
+import org.springframework.ui.Model;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 终止调解Service
@@ -23,7 +35,11 @@ import com.sayee.sxsy.modules.stopmediate.dao.StopMediateDao;
 @Service
 @Transactional(readOnly = true)
 public class StopMediateService extends CrudService<StopMediateDao, StopMediate> {
+	@Autowired
+	private ComplaintMainDao complaintMainDao;
 
+    @Autowired
+    private StopMediateDao stopMediateDao;
 	public StopMediate get(String id) {
 		return super.get(id);
 	}
@@ -41,10 +57,10 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
 		if(StringUtils.isBlank(stopMediate.getCreateBy().getId()) || "".equals(stopMediate.getCreateBy().getId())){
 			stopMediate.preInsert();
 			stopMediate.setStopMediateId(stopMediate.getId());
-			dao.insert(stopMediate);
+			stopMediateDao.insert(stopMediate);
 		}else{
 			stopMediate.preUpdate();
-			dao.update(stopMediate);
+            stopMediateDao.update(stopMediate);
 		}
 //		super.save(stopMediate);
 	}
@@ -53,5 +69,45 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
 	public void delete(StopMediate stopMediate) {
 		super.delete(stopMediate);
 	}
-	
+
+	public StopMediate handle(StopMediate stopMediate, String module) {
+		ComplaintMain complaintMain=complaintMainDao.get(stopMediate.getComplaintMainId());
+		if (StringUtils.isBlank(stopMediate.getStopMediateId())){
+           StopMediate ss=stopMediateDao.passCom(stopMediate.getComplaintMainId());
+           if (ss!=null){
+               stopMediate=ss;
+           }
+        }
+		stopMediate.setComplaintMain(complaintMain);
+		stopMediate.setPatientName(stopMediate.getPatientName()==null ? complaintMain.getPatientName() : stopMediate.getPatientName());
+		stopMediate.setInvolveHospital(stopMediate.getInvolveHospital() == null ? complaintMain.getInvolveHospital() : stopMediate.getInvolveHospital());
+		//stopMediate.getHospital().setName();
+		if ("badj".equals(module)){
+			stopMediate.setPower("/registration/reportRegistration/");
+			stopMediate.setInfo("报案信息列表");
+		}
+		return stopMediate;
+	}
+
+	public void exportWord(StopMediate stopMediate, String export, HttpServletRequest request, HttpServletResponse response) {
+		WordExportUtil wordExportUtil=new WordExportUtil();
+        ComplaintMain complaintMain=complaintMainDao.get(stopMediate.getComplaintMainId());
+		stopMediate=this.get(stopMediate.getStopMediateId());
+		String path="";
+		String newFileName="无标题文件.docx";
+		Map<String, Object> params = new HashMap<String, Object>();
+		if ("yes".equals(export)){
+			params.put("${patient}", stopMediate ==null ? complaintMain.getPatientName() :stopMediate.getPatientName());
+			params.put("${hospital}", stopMediate ==null ? complaintMain.getHospital().getName() : stopMediate.getHospital().getName());
+			path= Global.getProjectPath()+"/doc/stopMediate.docx";  //模板文件位置
+			newFileName="终止调解函.docx";
+		}
+		try{
+			List<String[]> testList = new ArrayList<String[]>();
+			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
+			wordExportUtil.getWord(path,params,testList,fileName,response);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }

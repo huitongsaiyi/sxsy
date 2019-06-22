@@ -64,17 +64,26 @@ public class AssessAuditController extends BaseController {
 
 	@RequiresPermissions("assessaudit:assessAudit:view")
 	@RequestMapping(value = "form")
-	public String form(AssessAudit assessAudit, Model model) {
+	public String form(AssessAudit assessAudit, Model model,HttpServletRequest request) {
+		String type = request.getParameter("type");		//接受从页面传回的数据
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(assessAudit.getAssessAuditId());
 		for(Map<String,Object> map :filePath){
 			if("12".equals(MapUtils.getString(map,"fjtype"))){
-				model.addAttribute("files",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
-			}else if("13".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("13".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 		}
-		model.addAttribute("assessAudit", assessAudit);
-		return "modules/assessaudit/assessAuditForm";
+		if("view".equals(type)){
+			model.addAttribute("assessAudit", assessAudit);
+			return "modules/assessaudit/assessAuditView";
+		}else{
+			model.addAttribute("assessAudit", assessAudit);
+			return "modules/assessaudit/assessAuditForm";
+		}
+
 	}
 
 	@RequiresPermissions("assessaudit:assessAudit:edit")
@@ -82,8 +91,7 @@ public class AssessAuditController extends BaseController {
 	public String save(HttpServletRequest request,AssessAudit assessAudit, Model model, RedirectAttributes redirectAttributes) {
 
 		try{
-			assessAuditService.save(assessAudit);
-			assessAuditService.savefj(request,assessAudit);
+			assessAuditService.save(assessAudit,request);
 			if("yes".equals(assessAudit.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes,"流程已启动，流程ID："+assessAudit.getComplaintMain().getProcInsId());
 			}else{

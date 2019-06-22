@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.stopmediate.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.stopmediate.entity.StopMediate;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 终止调解DAO接口
@@ -14,5 +15,10 @@ import com.sayee.sxsy.modules.stopmediate.entity.StopMediate;
  */
 @MyBatisDao
 public interface StopMediateDao extends CrudDao<StopMediate> {
-	
+    /**
+     * 卷宗编号验重
+     * @param complaintMainId
+     * @return
+     */
+    public StopMediate passCom(@Param("complaintMainId") String complaintMainId);
 }

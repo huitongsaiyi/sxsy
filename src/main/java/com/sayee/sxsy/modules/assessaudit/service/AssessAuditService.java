@@ -53,7 +53,7 @@ public class AssessAuditService extends CrudService<AssessAuditDao, AssessAudit>
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(AssessAudit assessAudit) {
+	public void save(AssessAudit assessAudit,HttpServletRequest request) {
 		if(StringUtils.isBlank(assessAudit.getCreateBy().getId())){
 			//判断是否为空
 			assessAudit.preInsert();
@@ -81,15 +81,33 @@ public class AssessAuditService extends CrudService<AssessAuditDao, AssessAudit>
 
 	@Transactional(readOnly = false)
 	public void savefj(HttpServletRequest request,AssessAudit assessAudit){
-		String files = request.getParameter("files");
 		String files1 = request.getParameter("files1");
-		String acceId1 = IdGen.uuid();
-		String acceId2 = IdGen.uuid();
-		String itemId1 = assessAudit.getAssessAuditId();
-		String itemId2 = assessAudit.getAssessAuditId();
+		String files2 = request.getParameter("files2");
 		String fjtype1 = request.getParameter("fjtype1");
 		String fjtype2 = request.getParameter("fjtype2");
-		preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
-		preOperativeConsentService.save1(acceId2,itemId2,files1,fjtype2);
+		String acceId = null;
+		String itemId = assessAudit.getAssessAuditId();
+		if(StringUtils.isNotBlank(files1)){
+			String acceId1=request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype1);
+		}
+		if(StringUtils.isNotBlank(files2)){
+			String acceId2=request.getParameter("acceId2");
+			if(StringUtils.isNotBlank(acceId2)){
+				preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype2);
+		}
 	}
 }

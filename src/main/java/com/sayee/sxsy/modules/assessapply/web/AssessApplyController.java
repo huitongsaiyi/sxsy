@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,9 @@ import com.sayee.sxsy.common.web.BaseController;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.assessapply.entity.AssessApply;
 import com.sayee.sxsy.modules.assessapply.service.AssessApplyService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 评估申请Controller
@@ -59,21 +64,34 @@ public class AssessApplyController extends BaseController {
 
 	@RequiresPermissions("assessapply:assessApply:view")
 	@RequestMapping(value = "form")
-	public String form(AssessApply assessApply, Model model) {
-		model.addAttribute("assessApply", assessApply);
-		return "modules/assessapply/assessApplyForm";
+	public String form(AssessApply assessApply, Model model,HttpServletRequest request) {
+		String type = request.getParameter("type");		//接受从页面传回的数据
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(assessApply.getAssessApplyId());
+		for (Map<String, Object> map:filePath){
+			if ("1".equals(MapUtils.getString(map, "fjtype"))) {
+				model.addAttribute("files1", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+			if ("2".equals(MapUtils.getString(map, "fjtype"))) {
+				model.addAttribute("files2", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+		}
+		if("view".equals(type)){
+			model.addAttribute("assessApply", assessApply);
+			return "modules/assessapply/assessApplyView";
+		}else{
+			model.addAttribute("assessApply", assessApply);
+			return "modules/assessapply/assessApplyForm";
+		}
+
 	}
 
 	@RequiresPermissions("assessapply:assessApply:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,AssessApply assessApply, Model model, RedirectAttributes redirectAttributes) {
-		String files = request.getParameter("files");
 		try {
-			assessApplyService.save(assessApply);
-			String acceId1 = IdGen.uuid();
-			String itemId1 = assessApply.getAssessApplyId();
-			String fjtype1 = request.getParameter("fjtype");
-			preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
+			assessApplyService.save(assessApply,request);
 			if ("yes".equals(assessApply.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + assessApply.getComplaintMain().getProcInsId());
 			}else {

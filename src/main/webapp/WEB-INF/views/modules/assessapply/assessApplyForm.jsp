@@ -61,7 +61,7 @@
 					<tr>
 						<td class="tit" width="180px"><font color="red">*</font>申请人：</td>
 						<td width="429px">
-							<form:input path="patientApplyer" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+							<form:input path="patientApplyer" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 						</td>
 						<td class="tit" width="160px"><font color="red">*</font>与患者关系：</td>
 						<td width="476px">
@@ -74,11 +74,11 @@
 
 						<td class="tit" width="180px"><font color="red">*</font>电话：</td>
 						<td width="429px">
-							<form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+							<form:input path="patientMobile" htmlEscape="false" maxlength="15" cssClass="mobile input-xlarge required"/>
 						</td>
 						<td class="tit" width="199px">患者姓名：</td>
 						<td width="522px">
-							<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+							<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 						</td>
 					</tr>
 					<tr>
@@ -92,20 +92,20 @@
 						</td>
 						<td class="tit">年龄：</td>
 						<td >
-							<form:input path="patientAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
+							<form:input path="patientAge" htmlEscape="false" maxlength="4" cssClass="input-xlarge required"/>
 						</td>
 					</tr>
 					<tr >
 						<td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
 						<td width="522px">
 							<sys:treeselect id="involveHospital" name="involveHospital" value="${empty assessApply.involveHospital ? assessApply.complaintMain.involveHospital : assessApply.involveHospital}" labelName="" labelValue="${empty assessApply.involveHospital ? assessApply.complaintMain.hospital.name : assessApply.sjOffice.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" isAll="true" allowClear="true" notAllowSelectParent="false"/>
+											title="机构" url="/sys/office/treeData?type=1&officeType=2" dataMsgRequired="必填信息" cssClass="required"  isAll="true" allowClear="true" notAllowSelectParent="false"/>
 						</td>
 					</tr>
 					<tr>
 						<td class="tit" width="199px"><font color="red">*</font>申请事项：</td>
 						<td width="522px">
-							<form:input path="patientApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+							<form:input path="patientApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 						</td>
 
 					</tr>
@@ -119,21 +119,21 @@
 						<td class="tit" width="180px"><font color="red">*</font>申请医院：</td>
 						<td width="429px">
 							<sys:treeselect id="hospitalApply" name="hospitalApply" value="${empty assessApply.hospitalApply ? assessApply.complaintMain.involveHospital : assessApply.hospitalApply}" labelName="" labelValue="${empty assessApply.hospitalApply ? assessApply.complaintMain.hospital.name : assessApply.sqOffice.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" cssClass="" isAll="true" allowClear="true" notAllowSelectParent="false"/>
+											title="机构" url="/sys/office/treeData?type=1&officeType=2" dataMsgRequired="必填信息" cssClass="required" isAll="true" allowClear="true" notAllowSelectParent="false"/>
 						</td>
 						<td class="tit" width="199px"><font color="red">*</font>代理人：</td>
 						<td>
-							<form:input path="agent" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+							<form:input path="agent" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
 						</td>
 					</tr>
 					<tr >
 						<td class="tit"><font color="red">*</font>电话：</td>
 						<td class="controls">
-							<form:input path="hospitalMobile" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+							<form:input path="hospitalMobile" htmlEscape="false" maxlength="15" cssClass="mobile required input-xlarge"/>
 						</td>
 						<td class="tit"><font color="red">*</font>患者姓名：</td>
 						<td class="controls">
-							<form:input path="hospitalName" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+							<form:input path="hospitalName" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
 						</td>
 					</tr>
 					<tr >
@@ -145,38 +145,58 @@
 						</td>
 						<td class="tit"><font color="red">*</font>年龄：</td>
 						<td class="controls">
-							<form:input path="hospitalAge" htmlEscape="false" maxlength="4" class="input-xlarge "/>
+							<form:input path="hospitalAge" htmlEscape="false" maxlength="4" class="input-xlarge required"/>
 						</td>
 					</tr>
 					<tr>
 						<td class="tit" width="199px"><font color="red">*</font>申请事项：</td>
 						<td width="522px">
-							<form:input path="hospitalApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+							<form:input path="hospitalApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div class="tab-pane fade" id="annex">
-				<%--<input type="hidden"  name="fjtype" value="0">
-				<td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-
-					<input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"  value="${reportRegistration.files}"/>
-					<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>
-						&lt;%&ndash;<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />&ndash;%&gt;
-					<sys:ckfinder input="files" type="images"  uploadPath="/reportReigsation/annex" selectMultiple="true" maxWidth="100" maxHeight="100"/>
-				</td>--%>
+				<table class="table-form">
+					<tr >
+						<input type="hidden" name="fjtype1" value="1">
+						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+							患方申请表:
+						</td>
+						<td style="width: 450px; ">
+							<input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
+								   value="${files1}"/>
+							<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
+							<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/assessapply/assessApply/huanApplication" selectMultiple="false"
+																		  maxWidth="100" maxHeight="100"/></div>
+						</td>
+					</tr>
+					<tr >
+						<input type="hidden" name="fjtype2" value="2">
+						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+							医方申请表：
+						</td>
+						<td style="width: 450px; ">
+							<input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
+								   value="${files2}"/>
+							<input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
+							<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files" uploadPath="/assessapply/assessApply/yiApplication" selectMultiple="false"
+																		  maxWidth="100" maxHeight="100"/></div>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	<table class="table-form">
 		<tr>
-			<td class="tit" width="170px">申请类型：</td>
-			<td width="470px">
+			<td class="tit" width="225px">申请类型：</td>
+			<td width="590px">
 				<form:select path="applyType" class="input-xlarge ">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('assessmentAppraisal')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</td>
-			<td class="tit">下一环节处理人：</td>
+			<td class="tit" style="width: 225px;">下一环节处理人：</td>
 			<td >
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessApply.nextLinkMan}" labelName="" labelValue="${assessApply.linkEmployee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>

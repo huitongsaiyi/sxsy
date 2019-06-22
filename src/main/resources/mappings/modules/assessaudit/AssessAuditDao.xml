@@ -86,6 +86,16 @@
             <if test="user != null and user.id != null and user.id != ''">
                 AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
             </if>
+			<if test="patientApplyer != null and patientApplyer != ''">
+				AND a.patient_applyer = #{patientApplyer}
+
+			</if>
+			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile != ''">
+				AND  r.patient_mobile = #{reportRegistration.patientMobile}
+			</if>
+			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp != ''">
+				AND r.report_emp = #{reportRegistration.reportEmp}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

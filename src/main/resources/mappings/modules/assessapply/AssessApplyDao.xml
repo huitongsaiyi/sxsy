@@ -45,7 +45,8 @@
 		o11.name AS "sjOffice.name",
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
-		t.ID_ AS "complaintMain.act.taskId"
+		t.ID_ AS "complaintMain.act.taskId",
+		sa.name AS "area.name"
 	</sql>
 	
 	<sql id="assessApplyJoins">
@@ -55,10 +56,12 @@
 		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
 		LEFT JOIN SYS_OFFICE o11 ON o11.id = a.involve_hospital
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
         LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
         LEFT JOIN SYS_OFFICE o2 ON o2.id=a.hospital_apply
         LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
         LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+
 	</sql>
     
 	<select id="get" resultType="AssessApply">
@@ -66,7 +69,7 @@
 			<include refid="assessApplyColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="assessApplyJoins"/>
-		WHERE a.assess_apply_id = #{id} OR au.audit_acceptance_id = #{id}
+		WHERE a.assess_apply_id = #{assessApplyId} OR r.report_registration_id = #{assessApplyId}
 	</select>
 	
 	<select id="findList" resultType="AssessApply">
@@ -75,24 +78,19 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="assessApplyJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},au.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='apply'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='apply'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
 			</if>
 			<if test="patientApplyer != null and patientApplyer != ''">
-				AND a.patient_applyer LIKE 
-					<if test="dbName == 'oracle'">'%'||#{patientApplyer}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{patientApplyer}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{patientApplyer},'%')</if>
+				AND a.patient_applyer = #{patientApplyer}
+
 			</if>
-			<if test="patientMobile != null and patientMobile != ''">
-				AND a.patient_mobile LIKE 
-					<if test="dbName == 'oracle'">'%'||#{patientMobile}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{patientMobile}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{patientMobile},'%')</if>
+			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile != ''">
+				AND  r.patient_mobile = #{reportRegistration.patientMobile}
 			</if>
-			<if test="patientName != null and patientName != ''">
-				AND a.patient_name = #{patientName}
+			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp != ''">
+				AND r.report_emp = #{reportRegistration.reportEmp}
 			</if>
 		</where>
 		<choose>

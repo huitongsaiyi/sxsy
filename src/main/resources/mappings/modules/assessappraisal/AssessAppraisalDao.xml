@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.modules.assessappraisal.dao.AssessAppraisalDao">
-    
+
 	<sql id="assessAppraisalColumns">
-        if(a.assess_appraisal_id IS NULL,ass.assess_audit_id,a.assess_appraisal_id)AS "assessAppraisalId",
-        if(a.complaint_main_id IS NULL ,ass.complaint_main_id,a.complaint_main_id)AS "complaintMainId",
+        if(a.assess_appraisal_id IS NULL,r.report_registration_id,a.assess_appraisal_id)AS "assessAppraisalId",
+        if(a.complaint_main_id IS NULL ,r.complaint_main_id,a.complaint_main_id)AS "complaintMainId",
 		a.apply_type AS "applyType",
 		a.responsibility_ratio AS "responsibilityRatio",
 		a.host AS "host",
@@ -48,39 +48,90 @@
 		au.policy_number AS "auditAcceptance.policyNumber",
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
-		r.patient_mobile AS "reportRegistration.patientMobile"
+		r.patient_mobile AS "reportRegistration.patientMobile",
+		t.ID_ AS "complaintMain.act.taskId",
+		hr.record_id AS "recordInfo1.recordId",
+        hr.start_time AS "recordInfo1.startTime",
+        hr.end_time AS "recordInfo1.endTime",
+        hr.address AS "recordInfo1.recordAddress",
+        hr.cause AS "recordInfo1.cause",
+        hr.host AS "recordInfo1.host",
+        hr.note_taker AS "recordInfo1.noteTaker",
+        hr.patient AS "recordInfo1.patient",
+        hr.doctor AS "recordInfo1.doctor",
+        hr.other_participants AS "recordInfo1.otherParticipants",
+        hr.record_content AS "recordInfo1.recordContent",
+		yr.record_id AS "recordInfo1.yrecordInfo.recordId",
+        yr.start_time AS "recordInfo1.yrecordInfo.startTime",
+        yr.end_time AS "recordInfo1.yrecordInfo.endTime",
+        yr.address AS "recordInfo1.yrecordInfo.recordAddress",
+        yr.cause AS "recordInfo1.yrecordInfo.cause",
+        yr.host AS "recordInfo1.yrecordInfo.host",
+        yr.note_taker AS "recordInfo1.yrecordInfo.noteTaker",
+        yr.patient AS "recordInfo1.yrecordInfo.patient",
+        yr.doctor AS "recordInfo1.yrecordInfo.doctor",
+        yr.other_participants AS "recordInfo1.yrecordInfo.otherParticipants",
+        yr.record_content AS "recordInfo1.yrecordInfo.recordContent",
+        p.proposal_id AS "proposal.proposalId",
+        p.assess_appraisal_id AS "proposal.assessAppraisalId",
+        p.treatment_summary AS "proposal.treatmentSummary",
+        p.patient_think AS "proposal.patientThink",
+        p.doctor_think AS "proposal.doctorThink",
+        p.analysis_opinion AS "proposal.analysisOpinion",
+		p.diagnosis AS "proposal.diagnosis",
+		p.treatment AS "proposal.treatment",
+		p.other AS "proposal.other",
+		p.conclusion AS "proposal.conclusion"
+
 	</sql>
-	
+
 	<sql id="assessAppraisalJoins">
         LEFT JOIN ASSESS_APPRAISAL a on a.complaint_main_id = b.complaint_main_id
-        LEFT JOIN ASSESS_AUDIT ass on b.complaint_main_id = ass.complaint_main_id
         LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
         LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
         LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+        LEFT JOIN PROPOSAL p ON p.assess_appraisal_id=a.assess_appraisal_id
+        LEFT JOIN RECORD_INFO hr ON hr.relation_id = a.assess_appraisal_id and hr.type='1'
+		LEFT JOIN SYS_USER uz ON uz.id = hr.host
+		LEFT JOIN SYS_USER uj ON uj.id=hr.note_taker
+		LEFT JOIN SYS_USER uy ON uy.id=hr.doctor
+		LEFT JOIN RECORD_INFO yr ON yr.relation_id = a.assess_appraisal_id and yr.type='2'
+		LEFT JOIN SYS_USER uz1 ON uz1.id = yr.host
+		LEFT JOIN SYS_USER uj1 ON uj1.id=yr.note_taker
+		LEFT JOIN SYS_USER uy1 ON uy1.id=yr.doctor
         LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
         LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
         LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
         LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
         LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 	</sql>
-    
+
 	<select id="get" resultType="AssessAppraisal">
 		SELECT
-			<include refid="assessAppraisalColumns"/>
+		<include refid="assessAppraisalColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="assessAppraisalJoins"/>
-		WHERE a.assess_appraisal_id = #{assessAppraisalId} OR ass.assess_audit_id = #{assessAppraisalId}
+		WHERE a.assess_appraisal_id = #{assessAppraisalId} OR r.report_registration_id = #{assessAppraisalId}
 	</select>
-	
+
 	<select id="findList" resultType="AssessAppraisal">
-		SELECT 
-			<include refid="assessAppraisalColumns"/>
+		SELECT
+		<include refid="assessAppraisalColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="assessAppraisalJoins"/>
 		<where>
-		if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},ass.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='forensics'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='evaluation'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
+				AND r.report_emp = #{reportRegistration.reportEmp}
+			</if>
+			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
+				AND b.patient_name = #{complaintMain.patientName}
+			</if>
+			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
+				AND r.patient_mobile = #{reportRegistration.patientMobile}
 			</if>
 		</where>
 		<choose>
@@ -92,15 +143,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="AssessAppraisal">
-		SELECT 
-			<include refid="assessAppraisalColumns"/>
+		SELECT
+		<include refid="assessAppraisalColumns"/>
 		FROM ASSESS_APPRAISAL a
 		<include refid="assessAppraisalJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -110,7 +161,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO ASSESS_APPRAISAL(
 			assess_appraisal_id,
@@ -168,7 +219,7 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
 		UPDATE ASSESS_APPRAISAL SET
 			assess_appraisal_id = #{assessAppraisalId},
@@ -196,11 +247,11 @@
 			update_date = #{updateDate}
 		WHERE assess_appraisal_id = #{assessAppraisalId}
 	</update>
-	
+
 	<update id="delete">
-		UPDATE assess_appraisal SET 
+		UPDATE ASSESS_APPRAISAL SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE assess_appraisal_id = #{assessAppraisalId}
 	</update>
-	
+
 </mapper>

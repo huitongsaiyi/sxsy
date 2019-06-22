@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
@@ -43,6 +44,8 @@ public class AssessAppraisalController extends BaseController {
 	@Autowired
 	private AssessAppraisalService assessAppraisalService;
 	@Autowired
+	private SignAgreementService signAgreementService;
+	@Autowired
 	private TypeInfoService typeInfoService;
 	@ModelAttribute
 	public AssessAppraisal get(@RequestParam(required=false) String id) {
@@ -55,54 +58,62 @@ public class AssessAppraisalController extends BaseController {
 		}
 		return entity;
 	}
-	
+
 	@RequiresPermissions("assessappraisal:assessAppraisal:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(AssessAppraisal assessAppraisal, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<AssessAppraisal> page = assessAppraisalService.findPage(new Page<AssessAppraisal>(request, response), assessAppraisal); 
+		Page<AssessAppraisal> page = assessAppraisalService.findPage(new Page<AssessAppraisal>(request, response), assessAppraisal);
 		model.addAttribute("page", page);
 		return "modules/assessappraisal/assessAppraisalList";
 	}
 
 	@RequiresPermissions("assessappraisal:assessAppraisal:view")
 	@RequestMapping(value = "form")
-	public String form(AssessAppraisal assessAppraisal, Model model) {
+	public String form(AssessAppraisal assessAppraisal, Model model,HttpServletRequest request) {
 
+		List<TypeInfo> fxyj = BaseUtils.getType("1");
+		List<TypeInfo> jl = BaseUtils.getType("2");
+		if (assessAppraisal.getProposal()!=null ){
+			signAgreementService.label(fxyj,assessAppraisal.getProposal().getAnalysisOpinion());
+			signAgreementService.label(jl,assessAppraisal.getProposal().getConclusion());
+		}
+		model.addAttribute("fxyj",fxyj);
+		model.addAttribute("jl",jl);
 		//获取附件
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(assessAppraisal.getAssessAppraisalId());
 		for (Map<String, Object> map:filePath) {
 			if("16".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("17".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("18".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files3",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId3",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("19".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files4",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId4",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("20".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files5",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId5",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("21".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files6",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId6",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("22".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files7",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId7",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 		}
-         List<TypeInfo> type = BaseUtils.getType("1");
-        for (int i=0;i<type.size();i++){
-            if("1".equals(type.get(i).getRelationModel())){
-                model.addAttribute("relationModel1",type);
+        String type = request.getParameter("type");
+		if("view".equals(type)){
+			model.addAttribute("assessAppraisal", assessAppraisal);
+			return "modules/assessappraisal/assessAppraisalView";
+		}else{
+			model.addAttribute("assessAppraisal", assessAppraisal);
+			return "modules/assessappraisal/assessAppraisalForm";
+		}
 
-            }
-        }
-        List<TypeInfo> type1 = BaseUtils.getType("2");
-        for (int i=0;i<type1.size();i++){
-            if("2".equals(type1.get(i).getRelationModel())){
-                model.addAttribute("relationModel2",type1);
-            }
-        }
-
-        model.addAttribute("assessAppraisal", assessAppraisal);
-		return "modules/assessappraisal/assessAppraisalForm";
 	}
 
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")
@@ -126,7 +137,7 @@ public class AssessAppraisalController extends BaseController {
 		}
 		return "redirect:"+Global.getAdminPath()+"/assessappraisal/assessAppraisal/?repage";
 	}
-	
+
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")
 	@RequestMapping(value = "delete")
 	public String delete(AssessAppraisal assessAppraisal, RedirectAttributes redirectAttributes) {

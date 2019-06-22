@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.sign.service;
 
 import java.util.*;
 
+import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.gen.entity.GenTableColumn;
@@ -14,6 +15,7 @@ import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.dao.PatientLinkEmpDao;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
+import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
@@ -39,7 +41,8 @@ import javax.servlet.http.HttpServletRequest;
 public class SignAgreementService extends CrudService<SignAgreementDao, SignAgreement> {
 	@Autowired
 	private ActTaskService actTaskService;
-
+	@Autowired
+	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
 	private PatientLinkEmpDao patientLinkEmpDao;
 
@@ -100,6 +103,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		this.detail(signAgreement,"2");
 		//保存医方
 		this.doctorDetail(signAgreement);
+		//保存附件
+		this.savefj(signAgreement,request);
 		if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag())){
 			//List<Act> list = actTaskService.todoList(assessApply.getComplaintMain().getAct());
 			Map<String,Object> var=new HashMap<String, Object>();
@@ -237,4 +242,65 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			}
 		}
 	 }
+
+	 //保存附件
+	public void savefj(SignAgreement signAgreement,HttpServletRequest request){
+		String files1 = request.getParameter("files1");
+		String files2 = request.getParameter("files2");
+		String files3 = request.getParameter("files3");
+		String files4 = request.getParameter("files4");
+		String acceId = null;
+		String itemId = signAgreement.getSignAgreementId();
+		String fjtype1 = request.getParameter("fjtype1");
+		String fjtype2 = request.getParameter("fjtype2");
+		String fjtype3 = request.getParameter("fjtype3");
+		String fjtype4 = request.getParameter("fjtype4");
+		if(StringUtils.isNotBlank(files1)){
+			String acceId1=request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype1);
+		}
+
+		if(StringUtils.isNotBlank(files2)){
+			String acceId2=request.getParameter("acceId2");
+			if(StringUtils.isNotBlank(acceId2)){
+				preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype2);
+		}
+
+		if(StringUtils.isNotBlank(files3)){
+			String acceId3=request.getParameter("acceId3");
+			if(StringUtils.isNotBlank(acceId3)){
+				preOperativeConsentService.updatefj(files3,itemId,fjtype3);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype3);
+		}
+
+		if(StringUtils.isNotBlank(files4)){
+			String acceId4=request.getParameter("acceId4");
+			if(StringUtils.isNotBlank(acceId4)){
+				preOperativeConsentService.updatefj(files4,itemId,fjtype4);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype4);
+		}
+	}
 }
