@@ -64,16 +64,16 @@
                     <td>
                         <sys:treeselect id="appraiser" name="appraiser" value="${assessInfo.appraiser}" labelName=""
                                         labelValue="${assessInfo.user.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
                                         allowClear="true"
-                                        notAllowSelectParent="true"/>
+                                        notAllowSelectParent="true" dataMsgRequired="必填信息"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">评价时间</td>
                     <td>
                         <input name="assessTime" type="text" readonly="readonly" maxlength="20"
-                               class="input-medium Wdate "
+                               class="input-medium Wdate required"
                                value="${assessInfo.assessTime}"
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
                     </td>
@@ -81,13 +81,13 @@
                 <tr>
                     <td class="tit">评价分数</td>
                     <td>
-                        <form:input path="assessGrade" htmlEscape="false" maxlength="3" class="input-xlarge "/>
+                        <form:input path="assessGrade" htmlEscape="false" maxlength="3" class="input-xlarge required"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">评价内容</td>
                     <td>
-                        <form:textarea path="assessContent" htmlEscape="false" class="input-xlarge "
+                        <form:textarea path="assessContent" htmlEscape="false" class="input-xlarge required"
                                        style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
@@ -96,16 +96,16 @@
     </div>
     <table class="table-form">
         <tr>
-            <td class="tit">下一环节</td>
-            <td>
-                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
-            </td>
+            <%--<td class="tit">下一环节</td>--%>
+            <%--<td>--%>
+                <%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge"/>--%>
+            <%--</td>--%>
             <td class="tit">下一环节处理人</td>
             <td>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessInfo.nextLinkMan}" labelName=""
                                 labelValue="${assessInfo.linkEmployee.name}"
-                                title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
-                                allowClear="true" notAllowSelectParent="true" checked="true"/>
+                                title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
+                                allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
             </td>
         </tr>
     </table>

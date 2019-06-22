@@ -56,17 +56,23 @@ public class AssessInfoController extends BaseController {
 
 	@RequiresPermissions("assessinfo:assessInfo:view")
 	@RequestMapping(value = "form")
-	public String form(AssessInfo assessInfo, Model model) {
-		model.addAttribute("assessInfo", assessInfo);
-		return "modules/assessinfo/assessInfoForm";
+	public String form(HttpServletRequest request,AssessInfo assessInfo, Model model) {
+		String type = request.getParameter("type");
+		if("view".equals(type)){
+			model.addAttribute("assessInfo", assessInfo);
+			return "modules/assessinfo/assessInfoView";
+		}else {
+			model.addAttribute("assessInfo", assessInfo);
+			return "modules/assessinfo/assessInfoForm";
+		}
 	}
 
 	@RequiresPermissions("assessinfo:assessInfo:edit")
 	@RequestMapping(value = "save")
-	public String save(AssessInfo assessInfo, Model model, RedirectAttributes redirectAttributes) {
+	public String save(HttpServletRequest request,AssessInfo assessInfo, Model model, RedirectAttributes redirectAttributes) {
 		try {
 			if (!beanValidator(model, assessInfo)){
-				return form(assessInfo, model);
+				return form(request,assessInfo, model);
 			}
 			assessInfoService.save(assessInfo);
 			if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){

@@ -114,7 +114,7 @@ public class AssessInfo extends DataEntity<AssessInfo> {
 		this.complaintMainId = complaintMainId;
 	}
 	
-	@Length(min=0, max=32, message="评价人,关联人员ID长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="评价人,关联人员ID长度必须介于 0 和 32 之间")
 	public String getAppraiser() {
 		return appraiser;
 	}
@@ -123,7 +123,7 @@ public class AssessInfo extends DataEntity<AssessInfo> {
 		this.appraiser = appraiser;
 	}
 	
-	@Length(min=0, max=20, message="评价时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="评价时间长度必须介于 0 和 20 之间")
 	public String getAssessTime() {
 		return assessTime;
 	}
@@ -132,7 +132,7 @@ public class AssessInfo extends DataEntity<AssessInfo> {
 		this.assessTime = assessTime;
 	}
 	
-	@Length(min=0, max=3, message="评价分数长度必须介于 0 和 3 之间")
+	@Length(min=1, max=3, message="评价分数长度必须介于 0 和 3 之间")
 	@Min(value = 0)
 	@Max(value = 100)
 	public String getAssessGrade() {
@@ -178,7 +178,7 @@ public class AssessInfo extends DataEntity<AssessInfo> {
 		this.nextLink = nextLink;
 	}
 	
-	@Length(min=0, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}
