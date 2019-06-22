@@ -103,25 +103,33 @@ public class MediateEvidenceController extends BaseController {
 
 	@RequiresPermissions("mediate:mediateEvidence:edit")
 	@RequestMapping(value = "save")
-	public String save(HttpServletRequest request,MediateEvidence mediateEvidence, Model model, RedirectAttributes redirectAttributes) {
-		try {
-			mediateEvidenceService.save(mediateEvidence,request);
-			if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
-				addMessage(redirectAttributes, "流程已启动，流程ID：" + mediateEvidence.getComplaintMain().getProcInsId());
-			}else {
-				addMessage(redirectAttributes, "保存质证调解成功");
+	public String save(HttpServletRequest request,MediateEvidence mediateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
+		String export=request.getParameter("export");
+		if (export.equals("meeting")){
+			mediateEvidenceService.exportWord(mediateEvidence,export,request,response);
+			return "";
+		}else {
+			try {
+				mediateEvidenceService.save(mediateEvidence,request);
+				if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + mediateEvidence.getComplaintMain().getProcInsId());
+				}else {
+					addMessage(redirectAttributes, "保存质证调解成功");
+				}
+			} catch (Exception e) {
+				logger.error("启动纠纷调解流程失败：", e);
+				addMessage(redirectAttributes, "系统内部错误！");
 			}
-		} catch (Exception e) {
-			logger.error("启动纠纷调解流程失败：", e);
-			addMessage(redirectAttributes, "系统内部错误！");
+			return "redirect:"+Global.getAdminPath()+"/mediate/mediateEvidence/?repage";
 		}
+
+
 //		if (!beanValidator(model, mediateEvidence)){
 //			return form(mediateEvidence, model);
 //		}
 //		mediateEvidenceService.save(mediateEvidence);
 //		addMessage(redirectAttributes, "保存质证调解成功");
-		return "redirect:"+Global.getAdminPath()+"/mediate/mediateEvidence/?repage";
-	}
+		}
 	
 	@RequiresPermissions("mediate:mediateEvidence:edit")
 	@RequestMapping(value = "delete")

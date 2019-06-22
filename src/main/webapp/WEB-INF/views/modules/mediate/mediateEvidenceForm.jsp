@@ -9,7 +9,10 @@
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function (form) {
-                    loading('正在提交，请稍等...');
+                    var aa=$("#export").val();
+                    if(aa!='meeting'){
+                        loading('正在提交，请稍等...');
+                    }
                     form.submit();
                 },
                 errorContainer: "#messageBox",
@@ -87,6 +90,7 @@
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
+    <input type="hidden"  id="export" name="export"/>
     <sys:message content="${message}"/>
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
@@ -196,7 +200,9 @@
                                     value="${mediateEvidence.patient}"/>
                     </td>
                 </tr>
-                <td style="text-align: center;"><input id="btnGenerate" class="btn" type="button" value="生成会议表"></td>
+                <td colspan="4" style="text-align: center;">
+                    <input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="$('#export').val('meeting')">
+                </td>
             </table>
         </div>
         <div class="tab-pane fade" id="recorded_patient">
@@ -524,10 +530,10 @@
     <div class="form-actions">
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="保 存"
-                                                                                onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
-                                                                                onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
 
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>

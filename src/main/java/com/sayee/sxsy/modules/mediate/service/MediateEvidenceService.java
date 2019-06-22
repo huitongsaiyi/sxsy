@@ -8,10 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sayee.sxsy.common.config.Global;
+import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.entity.Act;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
+import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
+import com.sayee.sxsy.modules.mediateapplyinfo.entity.MediateApplyInfo;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.record.service.MediateRecordService;
@@ -31,6 +36,7 @@ import com.sayee.sxsy.modules.mediate.entity.MediateEvidence;
 import com.sayee.sxsy.modules.mediate.dao.MediateEvidenceDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 质证调解Service
@@ -230,4 +236,30 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			preOperativeConsentService.delefj(itemId,fjtype5);
 		}
 	}
+
+	public void exportWord(MediateEvidence mediateEvidence, String export, HttpServletRequest request, HttpServletResponse response) {
+		WordExportUtil wordExportUtil=new WordExportUtil();
+		mediateEvidence=this.get(mediateEvidence.getMediateEvidenceId());
+		String path="";
+		String newFileName="无标题文件.docx";
+		Map<String, Object> params = new HashMap<String, Object>();
+		if ("meeting".equals(export)){
+			params.put("${time}", mediateEvidence.getMeetingTime());
+			params.put("${address}", mediateEvidence.getMeetingAddress());
+			params.put("${case}", mediateEvidence.getCaseInfoName());
+			params.put("${ytw}", mediateEvidence.getYtwUser()==null ? "" : mediateEvidence.getYtwUser().getName());
+			params.put("${patient}", mediateEvidence.getPatient());
+			params.put("${doctor}", mediateEvidence.getDoctorUser()==null ? "" : mediateEvidence.getDoctorUser().getName());
+			path= Global.getProjectPath()+"/doc/mediateMeeting.docx";  //模板文件位置
+			newFileName="调解会议表.docx";
+		}
+		try{
+			List<String[]> testList = new ArrayList<String[]>();
+			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
+			wordExportUtil.getWord(path,params,testList,fileName,response);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
 }
