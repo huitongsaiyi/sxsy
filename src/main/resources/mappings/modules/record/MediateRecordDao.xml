@@ -122,7 +122,7 @@
 			time = #{time},
 			content = #{content},
 			result = #{result}
-		WHERE mediate_record = #{id}
+		WHERE mediate_record = #{mediateRecord}
 	</update>
 
 	<update id="delete">

@@ -20,7 +20,7 @@ public class MediateRecord extends DataEntity<MediateRecord> {
 	private String time;		// 时间
 	private String content;		// 内容
 	private String result;		// 结果
-	
+
 	public MediateRecord() {
 		super();
 	}

@@ -11,7 +11,9 @@ import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.test.dao.TestDataChildDao;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,9 @@ import com.sayee.sxsy.common.web.BaseController;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.mediate.entity.MediateEvidence;
 import com.sayee.sxsy.modules.mediate.service.MediateEvidenceService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 质证调解Controller
@@ -61,17 +66,46 @@ public class MediateEvidenceController extends BaseController {
 
 	@RequiresPermissions("mediate:mediateEvidence:view")
 	@RequestMapping(value = "form")
-	public String form(MediateEvidence mediateEvidence, Model model) {
-		model.addAttribute("mediateEvidence", mediateEvidence);
-		return "modules/mediate/mediateEvidenceForm";
+	public String form(MediateEvidence mediateEvidence, Model model,HttpServletRequest request) {
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(mediateEvidence.getMediateEvidenceId());
+		for(Map<String, Object> map:filePath){
+			if("7".equals(MapUtils.getString(map, "fjtype"))){
+				model.addAttribute("files1", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+			if("8".equals(MapUtils.getString(map, "fjtype"))){
+				model.addAttribute("files2", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+			if("9".equals(MapUtils.getString(map, "fjtype"))){
+				model.addAttribute("files3", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId3",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+			if("10".equals(MapUtils.getString(map, "fjtype"))){
+				model.addAttribute("files4", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId4",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+			if("11".equals(MapUtils.getString(map, "fjtype"))){
+				model.addAttribute("files5", MapUtils.getString(map, "FILE_PATH", MapUtils.getString(map, "file_path", "")));
+				model.addAttribute("acceId5",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+		}
+		String type = request.getParameter("type");		//接受从页面传回的数据
+		if("view".equals(type)){
+			model.addAttribute("mediateEvidence", mediateEvidence);
+			return "modules/mediate/mediateEvidenceView";
+		}else{
+			model.addAttribute("mediateEvidence", mediateEvidence);
+			return "modules/mediate/mediateEvidenceForm";
+		}
+
 	}
 
 	@RequiresPermissions("mediate:mediateEvidence:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,MediateEvidence mediateEvidence, Model model, RedirectAttributes redirectAttributes) {
 		try {
-			mediateEvidenceService.savefj(request,mediateEvidence);
-			mediateEvidenceService.save(mediateEvidence);
+			mediateEvidenceService.save(mediateEvidence,request);
 			if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + mediateEvidence.getComplaintMain().getProcInsId());
 			}else {

@@ -46,8 +46,8 @@
                 }
             });
         }
-        function delRow(obj, prefix){
-            var id = $(prefix+"_id");
+        function delRow(obj, prefix,key){
+            var id = $(prefix+key);
             var delFlag = $(prefix+"_delFlag");
             if (id.val() == ""){
                 $(obj).parent().parent().remove();
@@ -131,13 +131,14 @@
 								<input id="mediateEvidenceList{{idx}}_id" name="mediateEvidenceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="mediateEvidenceList{{idx}}_mediateRecord" name="mediateEvidenceList[{{idx}}].mediateRecord" type="hidden" value="{{row.mediateRecord}}"/>
 								<input id="mediateEvidenceList{{idx}}_relationId" name="mediateEvidenceList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td >
 								<%--<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" value="{{row.time}}" maxlength="32" class="input-small "/>--%>
-								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" "
+								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text"  maxlength="20" class="input-medium Wdate required" "
                                     value="{{row.time}}"
                                     onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+
 							</td>
 							<td>
 								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="required" />
@@ -146,7 +147,7 @@
 								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="required" />
 							</td>
 							<shiro:hasPermission name="mediate:mediateEvidence:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}','_mediateRecord')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
             </script>
@@ -157,27 +158,27 @@
                     <td class="tit">时间:</td>
                     <td>
                         <input name="meetingTime" type="text" readonly="readonly" maxlength="20"
-                               class="input-medium Wdate "
+                               class="input-medium Wdate required"
                                value="${mediateEvidence.meetingTime}"
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                     <td class="tit">地点:</td>
                     <td>
-                        <form:input path="meetingAddress" htmlEscape="false" maxlength="20" class="input-xlarge " />
+                        <form:input path="meetingAddress" htmlEscape="false" maxlength="20" class="input-xlarge required" />
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">案件:</td>
                     <td>
-                        <form:input path="caseInfoName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+                        <form:input path="caseInfoName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
                     </td>
                     <td class="tit">医方:</td>
                     <td class="controls">
                         <sys:treeselect id="doctor" name="doctor"
                                         value="${mediateEvidence.doctor}" labelName=""
                                         labelValue="${mediateEvidence.doctorUser.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=2"
+                                        allowClear="true" notAllowSelectParent="true" isAll="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                 </tr>
                 <tr>
@@ -186,12 +187,12 @@
                         <sys:treeselect id="userId" name="userId"
                                         value="${mediateEvidence.userId}" labelName=""
                                         labelValue="${mediateEvidence.ytwUser.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1"
+                                        allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                     <td class="tit">患方</td>
                     <td>
-                        <form:input path="patient" htmlEscape="false" maxlength="20" class="input-xlarge "
+                        <form:input path="patient" htmlEscape="false" maxlength="20" class="input-xlarge required"
                                     value="${mediateEvidence.patient}"/>
                     </td>
                 </tr>
@@ -204,14 +205,14 @@
                     <td class="tit">开始时间</td>
                     <td>
                         <input name="recordInfo.startTime" type="text" readonly="readonly" maxlength="20"
-                               class="input-medium Wdate "
+                               class="input-medium Wdate required"
                                value="${mediateEvidence.recordInfo.startTime}"
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                     <td class="tit">结束时间</td>
                     <td>
                         <input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
-                               class="input-medium Wdate "
+                               class="input-medium Wdate required"
                                value="${mediateEvidence.recordInfo.endTime}"
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
@@ -220,11 +221,11 @@
                     <td class="tit">地点</td>
                     <td>
                         <form:input path="recordInfo.recordAddress" htmlEscape="false" maxlength="20"
-                                    class="input-xlarge "/>
+                                    class="input-xlarge required"/>
                     </td>
                     <td class="tit">事由</td>
                     <td>
-                        <form:input path="recordInfo.cause" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+                        <form:input path="recordInfo.cause" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
                     </td>
                 </tr>
                 <tr>
@@ -233,43 +234,43 @@
                         <sys:treeselect id="h_host" name="recordInfo.host"
                                         value="${mediateEvidence.recordInfo.host}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.ytwHost.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1"
+                                        allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                     <td class="tit">记录人</td>
                     <td>
                         <sys:treeselect id="h_noteTaker" name="recordInfo.noteTaker"
                                         value="${mediateEvidence.recordInfo.noteTaker}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.ytwNoteTaker.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1"
+                                        allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">患方</td>
                     <td>
-                        <form:input path="recordInfo.patient" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+                        <form:input path="recordInfo.patient" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
                     </td>
                     <td class="tit">医方</td>
                     <td>
                         <sys:treeselect id="h_doctor" name="recordInfo.doctor"
                                         value="${mediateEvidence.recordInfo.doctor}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.yfDoctor.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=2"
+                                        allowClear="true" notAllowSelectParent="true" isAll="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">其他参加人员</td>
                     <td>
                         <form:input path="recordInfo.otherParticipants" htmlEscape="false" maxlength="20"
-                                    class="input-xlarge "/>
+                                    class="input-xlarge required"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
-                        <form:textarea path="recordInfo.recordContent" htmlEscape="false" class="input-xlarge "
+                        <form:textarea path="recordInfo.recordContent" htmlEscape="false" class="input-xlarge required"
                                        style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
@@ -281,28 +282,28 @@
                     <td class="tit">开始时间</td>
                     <td>
                         <input name="recordInfo.yrecordInfo.startTime" type="text" readonly="readonly" maxlength="20"
-                               class="input-medium Wdate "
+                               class="input-medium Wdate required"
                                value="${mediateEvidence.recordInfo.yrecordInfo.startTime}"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                     <td class="tit">结束时间</td>
                     <td>
                         <input name="recordInfo.yrecordInfo.endTime" type="text" readonly="readonly" maxlength="20"
-                               class="input-medium Wdate "
+                               class="input-medium Wdate required"
                                value="${mediateEvidence.recordInfo.yrecordInfo.endTime}"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">地点</td>
                     <td>
                         <form:input path="recordInfo.yrecordInfo.recordAddress" htmlEscape="false" maxlength="20"
-                                    class="input-xlarge "/>
+                                    class="input-xlarge required"/>
                     </td>
                     <td class="tit">事由</td>
                     <td>
                         <form:input path="recordInfo.yrecordInfo.cause" htmlEscape="false" maxlength="20"
-                                    class="input-xlarge "/>
+                                    class="input-xlarge required"/>
                     </td>
                 </tr>
                 <tr>
@@ -311,115 +312,132 @@
                         <sys:treeselect id="y_host" name="recordInfo.yrecordInfo.host"
                                         value="${mediateEvidence.recordInfo.yrecordInfo.host}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.yrecordInfo.ytwHost.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1"
+                                        allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                     <td class="tit">记录人</td>
                     <td>
                         <sys:treeselect id="y_noteTaker" name="recordInfo.yrecordInfo.noteTaker"
                                         value="${mediateEvidence.recordInfo.yrecordInfo.noteTaker}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.yrecordInfo.ytwNoteTaker.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1"
+                                        allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">患方</td>
                     <td>
                         <form:input path="recordInfo.yrecordInfo.patient" htmlEscape="false" maxlength="20"
-                                    class="input-xlarge "/>
+                                    class="input-xlarge required"/>
                     </td>
                     <td class="tit">医方</td>
                     <td>
                         <sys:treeselect id="y_doctor" name="recordInfo.yrecordInfo.doctor"
                                         value="${mediateEvidence.recordInfo.yrecordInfo.doctor}" labelName=""
                                         labelValue="${mediateEvidence.recordInfo.yrecordInfo.yfDoctor.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass=""
-                                        allowClear="true" notAllowSelectParent="true"/>
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=2"
+                                        allowClear="true" notAllowSelectParent="true" isAll="true" dataMsgRequired="必填信息" cssClass="required" />
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">其他参加人员</td>
                     <td>
                         <form:input path="recordInfo.yrecordInfo.otherParticipants" htmlEscape="false" maxlength="20"
-                                    class="input-xlarge "/>
+                                    class="input-xlarge required"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
                         <form:textarea path="recordInfo.yrecordInfo.recordContent" htmlEscape="false"
-                                       class="input-xlarge "
+                                       class="input-xlarge required"
                                        style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
             </table>
         </div>
         <div class="tab-pane fade" id="annex">
-            <tr style="border:solid">
-                <input type="hidden" name="fjtype" value="7">
-                <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
+            <table class="table-form">
+            <tr >
+                <input type="hidden" name="fjtype1" value="7">
+                <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
                     签到表：
-                    <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"
-                           value="${files}"/>
-                        <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
-                        <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                    <sys:ckfinder input="files" type="files" uploadPath="/mediateEvidence/annex" selectMultiple="false"
-                                  maxWidth="100" maxHeight="100"/>
                 </td>
-            </tr>
-            <tr>
-                <input type="hidden" name="fjtype1" value="8">
-                <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-                    患方笔录：
+                <td style="width: 450px; ">
                     <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
                            value="${files1}"/>
-                        <%--<form:hidden id="files1" path="files1" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
+                    <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
+                        <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
                         <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                    <sys:ckfinder input="files1" type="files" uploadPath="/mediateEvidence/annex"
-                                  selectMultiple="false"
-                                  maxWidth="100" maxHeight="100"/>
+                    <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/mediate/mediateEvidence/sign" selectMultiple="false"
+                                                                  maxWidth="100" maxHeight="100"/></div>
                 </td>
             </tr>
             <tr>
-                <input type="hidden" name="fjtype2" value="9">
-                <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-                    患方补充材料：
+                <input type="hidden" name="fjtype2" value="8">
+                <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+                    患方笔录：
+                </td>
+                <td style="width: 450px; ">
                     <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
                            value="${files2}"/>
-                        <%--<form:hidden id="files2" path="files2" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
+                    <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
+                        <%--<form:hidden id="files1" path="files1" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
                         <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                    <sys:ckfinder input="files2" type="files" uploadPath="/mediateEvidence/annex"
+                    <div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files" uploadPath="/mediate/mediateEvidence/huanRecord"
                                   selectMultiple="false"
-                                  maxWidth="100" maxHeight="100"/>
+                                                                  maxWidth="100" maxHeight="100"/></div>
                 </td>
             </tr>
             <tr>
-                <input type="hidden" name="fjtype3" value="10">
-                <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-                    医方笔录：
+                <input type="hidden" name="fjtype3" value="9">
+                <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+                    患方补充材料：
+                </td>
+                <td style="width: 450px; ">
                     <input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"
                            value="${files3}"/>
-                        <%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
+                    <input type="hidden" id="acceId3" name="acceId3" value="${acceId3}">
+                        <%--<form:hidden id="files2" path="files2" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
                         <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                    <sys:ckfinder input="files3" type="files" uploadPath="/mediateEvidence/annex"
+                    <div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files" uploadPath="/mediate/mediateEvidence/huanAdd"
                                   selectMultiple="false"
-                                  maxWidth="100" maxHeight="100"/>
+                                                                  maxWidth="100" maxHeight="100"/></div>
                 </td>
             </tr>
             <tr>
-                <input type="hidden" name="fjtype4" value="11">
-                <td style="width: 450px; margin-left:20px;  display:inline-block; height: 50px; margin-top: -40px;">
-                    医方补充材料：
+                <input type="hidden" name="fjtype4" value="10">
+                <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+                    医方笔录：
+                </td>
+                <td style="width: 450px; ">
                     <input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"
                            value="${files4}"/>
+                    <input type="hidden" id="acceId4" name="acceId4" value="${acceId4}">
                         <%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
                         <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                    <sys:ckfinder input="files4" type="files" uploadPath="/mediateEvidence/annex"
+                    <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files" uploadPath="/mediate/mediateEvidence/yiRecord"
                                   selectMultiple="false"
-                                  maxWidth="100" maxHeight="100"/>
+                                                                  maxWidth="100" maxHeight="100"/></div>
                 </td>
             </tr>
+            <tr>
+                <input type="hidden" name="fjtype5" value="11">
+                <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">
+                    医方补充材料：
+                </td>
+                <td style="width: 450px; ">
+                    <input type="hidden" id="files5" name="files5" htmlEscape="false" class="input-xlarge"
+                           value="${files5}"/>
+                    <input type="hidden" id="acceId5" name="acceId5" value="${acceId5}">
+                        <%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
+                        <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+                    <div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files" uploadPath="/mediate/mediateEvidence/yiAdd"
+                                  selectMultiple="false"
+                                                                  maxWidth="100" maxHeight="100"/></div>
+                </td>
+            </tr>
+            </table>
         </div>
     </div>
     <table class="table-form">
@@ -435,7 +453,7 @@
         <tr>
             <td class="tit">会议总结</td>
             <td colspan="3">
-                <form:textarea path="summary" htmlEscape="false" class="input-xlarge "
+                <form:textarea path="summary" htmlEscape="false" class="input-xlarge required"
                                style="margin: 0px; width: 938px; height: 125px;"/>
             </td>
         </tr>
@@ -452,17 +470,13 @@
             </td>
         </tr>--%>
         <tr>
-            <td class="tit"><font color="red">*</font>下一处理环节：</td>
-            <td>
-                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
-            </td>
             <td class="tit"><font color="red">*</font>下一环节处理人：</td>
             <td>
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${mediateEvidence.nextLinkMan}" labelName=""
                                 labelValue="${mediateEvidence.linkEmployee.name}"
-                                title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true"
-                                notAllowSelectParent="true" checked="true"/>
+                                title="用户" url="/sys/office/treeData?type=3&officeType=1" allowClear="true"
+                                notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息" cssClass="required" />
             </td>
         </tr>
     </table>
@@ -523,6 +537,7 @@
     var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
     $(document).ready(function() {
         var data = ${fns:toJson(mediateEvidence.mediateEvidenceList)};
+        console.log(data)
         for (var i=0; i<data.length; i++){
             addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl, data[i]);
             mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;

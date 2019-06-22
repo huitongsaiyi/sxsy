@@ -80,43 +80,48 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/assessappraisal/assessAppraisal/">评估鉴定列表</a></li>
-		<li class="active"><a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.id}">评估鉴定<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">${not empty assessAppraisal.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="assessappraisal:assessAppraisal:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
-	<form:form id="inputForm" modelAttribute="assessAppraisal" action="${ctx}/assessappraisal/assessAppraisal/save" method="post" class="form-horizontal">
-		<form:hidden path="assessAppraisalId"/>
-		<form:hidden path="createDate"/>
-		<form:hidden path="createBy"/>
-		<form:hidden path="complaintMainId"/>
-		<form:hidden path="complaintMain.complaintMainId"/>
-		<form:hidden path="complaintMain.act.taskId"/>
-		<form:hidden path="complaintMain.act.taskName"/>
-		<form:hidden path="complaintMain.act.taskDefKey"/>
-		<form:hidden path="complaintMain.act.procInsId"/>
-		<form:hidden path="complaintMain.act.procDefId"/>
-		<form:hidden path="complaintMain.procInsId"/>
-		<sys:message content="${message}"/>
-		<ul id="myTab" class="nav nav-tabs">
-			<li class="active">
-				<a href="#meetings" data-toggle="tab">评估鉴定会议表</a>
-			</li>
-			<li>
-				<a href="#recordhf" data-toggle="tab">评估鉴定会笔录(患方)</a>
-			</li>
-			<li>
-				<a href="#recordyf" data-toggle="tab">评估鉴定会笔录(医方)</a>
-			</li>
-			<li>
-				<a href="#zjopinion" data-toggle="tab">专家评估意见</a>
-			</li>
-			<li>
-				<a href="#opinion" data-toggle="tab">意见书</a>
-			</li>
-			<li>
-				<a href="#fj" data-toggle="tab">附件</a>
-			</li>
-		</ul>
+<ul class="nav nav-tabs">
+	<li><a href="${ctx}/assessappraisal/assessAppraisal/">评估鉴定列表</a></li>
+	<li class="active"><a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.id}">评估鉴定<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">${not empty assessAppraisal.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="assessappraisal:assessAppraisal:edit">查看</shiro:lacksPermission></a></li>
+</ul><br/>
+<form:form id="inputForm" modelAttribute="assessAppraisal" action="${ctx}/assessappraisal/assessAppraisal/save" method="post" class="form-horizontal">
+	<form:hidden path="assessAppraisalId"/>
+	<form:hidden path="createDate"/>
+	<form:hidden path="createBy"/>
+	<form:hidden path="recordInfo1.recordId"/>
+	<form:hidden path="recordInfo1.yrecordInfo.recordId"/>
+	<form:hidden path="proposal.proposalId"/>
+    <form:hidden path="proposal.assessAppraisalId"/>
+	<form:hidden path="complaintMainId"/>
+	<form:hidden path="complaintMain.complaintMainId"/>
+	<form:hidden path="complaintMain.act.taskId"/>
+	<form:hidden path="complaintMain.act.taskName"/>
+	<form:hidden path="complaintMain.act.taskDefKey"/>
+	<form:hidden path="complaintMain.act.procInsId"/>
+	<form:hidden path="complaintMain.act.procDefId"/>
+	<form:hidden path="complaintMain.procInsId"/>
+	<form:hidden id="flag" path="complaintMain.act.flag"/>
+	<sys:message content="${message}"/>
+	<ul id="myTab" class="nav nav-tabs">
+		<li class="active">
+			<a href="#meetings" data-toggle="tab">评估鉴定会议表</a>
+		</li>
+		<li>
+			<a href="#recordhf" data-toggle="tab">评估鉴定会笔录(患方)</a>
+		</li>
+		<li>
+			<a href="#recordyf" data-toggle="tab">评估鉴定会笔录(医方)</a>
+		</li>
+		<li>
+			<a href="#zjopinion" data-toggle="tab">专家评估意见</a>
+		</li>
+		<li>
+			<a href="#opinion" data-toggle="tab">意见书</a>
+		</li>
+		<li>
+			<a href="#fj" data-toggle="tab">附件</a>
+		</li>
+	</ul>
 
 	<div id="myTabContent" class="tab-content">
 		<div class="tab-pane fade in active" id="meetings">
@@ -431,9 +436,9 @@
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
 				</p>
 				<p style="margin:0pt">
-				<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">五、患方陈述、提出诉求，提交证明材料。</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">五、患方陈述、提出诉求，提交证明材料。</span>
 
-			    </p>
+				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、医方陈述，提供证明材料。</span>
 
@@ -607,17 +612,17 @@
 						开始时间：
 					</td>
 					<td>
-						<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 							   value="${assessAppraisal.recordInfo1.startTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 					<td class="tit">
 						结束时间：
 					</td>
 					<td>
-						<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						<input name="recordInfo1.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 							   value="${assessAppraisal.recordInfo1.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 				</tr>
 				<tr>
@@ -666,17 +671,17 @@
 						开始时间：
 					</td>
 					<td>
-						<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-							   value="${assessAppraisal.recordInfo2.startTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+						<input name="recordInfo1.yrecordInfo.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+							   value="${assessAppraisal.recordInfo1.yrecordInfo.startTime}"
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 					<td class="tit">
 						结束时间：
 					</td>
 					<td>
-						<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-							   value="${assessAppraisal.recordInfo2.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+						<input name="recordInfo1.yrecordInfo.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+							   value="${assessAppraisal.recordInfo1.yrecordInfo.endTime}"
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 					</td>
 				</tr>
 				<tr>
@@ -684,13 +689,13 @@
 						地点：
 					</td>
 					<td>
-						<form:input path="recordInfo2.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 					<td class="tit">
 						事由：
 					</td>
 					<td>
-						<form:input path="recordInfo2.cause" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.cause" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 				</tr>
 				<tr>
@@ -698,13 +703,13 @@
 						主持人：
 					</td>
 					<td>
-						<form:input path="recordInfo2.host" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.host" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 					<td class="tit">
 						记录人：
 					</td>
 					<td>
-						<form:input path="recordInfo2.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<form:input path="recordInfo1.yrecordInfo.noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge "/>
 					</td>
 				</tr>
 				<tr>
@@ -712,7 +717,7 @@
 						笔录内容：
 					</td>
 					<td colspan="3">
-						<form:textarea path="recordInfo2.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
+						<form:textarea path="recordInfo1.yrecordInfo.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge " cssStyle="width: 560px;"/>
 					</td>
 
 				</tr>
@@ -755,7 +760,9 @@
 						涉及医院：
 					</td>
 					<td colspan="3">
-						<form:input path="involveHospital" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+						<%--<form:input path="involveHospital" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
+                        <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${assessAppraisal.complaintMain.involveHospital}" labelName="" labelValue="${assessAppraisal.complaintMain.hospital.name}"
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" dataMsgRequired="必填信息" cssClass="required"   allowClear="true" notAllowSelectParent="false"/>
 					</td>
 
 				</tr>
@@ -864,7 +871,7 @@
 								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" class="input-mini">
+								<select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" data-value="{{row.patientLinkSex}}" class="input-mini">
 									<option value=""></option>
 									<option value="1">男</option>
 									<option value="2">女</option>
@@ -877,8 +884,8 @@
 								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" />
 							</td>
 
-							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmpList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmpList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 					</script>
@@ -923,8 +930,8 @@
 							</td>
 
 
-							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkDList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkDList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 					</script>
@@ -957,7 +964,7 @@
 								<input id="medicalOfficeEmpList{{idx}}_id" name="medicalOfficeEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeEmpId" name="medicalOfficeEmpList[{{idx}}].medicalOfficeEmpId" type="hidden" value="{{row.medicalOfficeEmpId}}"/>
 								<input id="medicalOfficeEmpList{{idx}}_relationId" name="medicalOfficeEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="medicalOfficeEmpList{{idx}}_delFlag" name="medicalOfficeEmpList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+								<input id="medicalOfficeEmpList{{idx}}_delFlag" name="medicalOfficeEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 
 							<td>
@@ -972,15 +979,15 @@
 							<td>
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" />
 							</td>
-							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}','_medicalOfficeEmpId')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 					</script>
 
 
 
-			</div>
+				</div>
 				<div class="tab-pane fade" id="profile">
 					<table class="table-form">
 						<tr>
@@ -1015,16 +1022,16 @@
 							<th>类型</th>
 							<th>内容</th>
 						</tr>
-						<c:forEach items="${relationModel1}" var="column" varStatus="vs">
-						<tr>
-							<td nowrap style="text-align:center;vertical-align:middle;">
-								<input type="hidden" name="typeInfosList[${vs.index}].typeId" value="${column.typeId}"/>
-								<input type="hidden" name="typeInfosList[${vs.index}].delFlag" value="${column.delFlag}"/>
-								<input type="checkbox" name="typeInfosList[${vs.index}].label" value="1" ${column.typeId eq '1' ? 'checked' : ''}/>
-							</td>
-							<td style="text-align:center;vertical-align:middle;">${column.typeName}</td>
-							<td style="text-align:center;vertical-align:middle;">${column.content}</td>
-						</tr>
+						<c:forEach items="${fxyj}" var="column" varStatus="vs">
+							<tr>
+								<td nowrap style="text-align:center;vertical-align:middle;">
+									<input type="hidden" name="typeInfosList[${vs.index}].typeId" value="${column.typeId}" />
+									<input type="hidden" name="typeInfosList[${vs.index}].delFlag" value="${column.delFlag}"/>
+									<input type="checkbox" name="typeInfosList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''}/>
+								</td>
+								<td style="text-align:center;vertical-align:middle;">${column.typeName}</td>
+								<td style="text-align:center;vertical-align:middle;">${column.content}</td>
+							</tr>
 						</c:forEach>
 					</table>
 					<table class="table-form">
@@ -1062,21 +1069,21 @@
 							<th>类型</th>
 							<th>内容</th>
 						</tr>
-						<c:forEach items="${relationModel2}" var="column" varStatus="vs">
-						<tr>
-							<td nowrap style="text-align:center;vertical-align:middle;">
-								<input type="hidden" name="typeInfosList2[${vs.index}].typeId" value="${column.typeId}"/>
-								<input type="hidden" name="typeInfosList2[${vs.index}].delFlag" value="${column.delFlag}"/>
-								<input type="checkbox" name="typeInfosList2[${vs.index}].label" value="1" ${column.typeId eq '1' ? 'checked' : ''}/>
-							</td>
+						<c:forEach items="${jl}" var="column" varStatus="vs">
+							<tr>
+								<td nowrap style="text-align:center;vertical-align:middle;">
+									<input type="hidden" name="typeInfosList2[${vs.index}].typeId" value="${column.typeId}"/>
+									<input type="hidden" name="typeInfosList2[${vs.index}].delFlag" value="${column.delFlag}"/>
+									<input type="checkbox" name="typeInfosList2[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''}/>
+								</td>
 
-							<td style="text-align:center;vertical-align:middle;">
-									${column.typeName}
-							</td>
-							<td style="text-align:center;vertical-align:middle;">
-									${column.content}
-							</td>
-						</tr>
+								<td style="text-align:center;vertical-align:middle;">
+										${column.typeName}
+								</td>
+								<td style="text-align:center;vertical-align:middle;">
+										${column.content}
+								</td>
+							</tr>
 						</c:forEach>
 					</table>
 				</div>
@@ -1091,6 +1098,7 @@
 					<td style="width: 450px; ">
 
 						<input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"  value="${files1}"/>
+                        <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
 						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/assessappraisal/assessAppraisal/qiandao" selectMultiple="true" /></div>
 					</td>
 
@@ -1101,6 +1109,7 @@
 					<td style="width: 450px; ">
 
 						<input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"  value="${files2}"/>
+                        <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
 						<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"  uploadPath="/assessappraisal/assessAppraisal/huanbl" selectMultiple="true" /></div>
 					</td>
 
@@ -1110,6 +1119,7 @@
 					<input type="hidden" name="fjtype3" value="18">
 					<td style="width: 450px; ">
 						<input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge" value="${files3}" />
+                        <input type="hidden" id="acceId3" name="acceId3" value="${acceId3}">
 						<div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files"  uploadPath="/assessappraisal/assessAppraisal/huanbc" selectMultiple="true" /></div>
 					</td>
 
@@ -1120,6 +1130,7 @@
 					<td style="width: 450px; ">
 
 						<input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"  value="${files4}"/>
+                        <input type="hidden" id="acceId4" name="acceId4" value="${acceId4}">
 						<div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"  uploadPath="/assessappraisal/assessAppraisal/yibl" selectMultiple="true" /></div>
 					</td>
 
@@ -1129,6 +1140,7 @@
 					<input type="hidden" name="fjtype5" value="20">
 					<td style="width: 450px;">
 						<input type="hidden" id="files5" name="files5" htmlEscape="false" class="input-xlarge" value="${files5}" />
+                        <input type="hidden" id="acceId5" name="acceId5" value="${acceId5}">
 						<div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files"  uploadPath="/assessappraisal/assessAppraisal/yibc" selectMultiple="true" /></div>
 					</td>
 
@@ -1137,7 +1149,8 @@
 					<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">专家评估意见表：</td>
 					<input type="hidden" name="fjtype6" value="21">
 					<td style="width: 450px;">
-						<input type="hidden" id="files6" name="files5" htmlEscape="false" class="input-xlarge" value="${files6}" />
+						<input type="hidden" id="files6" name="files6" htmlEscape="false" class="input-xlarge" value="${files6}" />
+                        <input type="hidden" id="acceId6" name="acceId6" value="${acceId6}">
 						<div style="margin-top: -45px;"><sys:ckfinder input="files6" type="files"  uploadPath="/assessappraisal/assessAppraisal/zhuanjiayj" selectMultiple="true" /></div>
 					</td>
 
@@ -1147,6 +1160,7 @@
 					<input type="hidden" name="fjtype7" value="22">
 					<td style="width: 450px;">
 						<input type="hidden" id="files7" name="files7" htmlEscape="false" class="input-xlarge" value="${files7}" />
+                        <input type="hidden" id="acceId7" name="acceId7" value="${acceId7}">
 						<div style="margin-top: -45px;"><sys:ckfinder input="files7" type="files"  uploadPath="/assessappraisal/assessAppraisal/yiliaosh" selectMultiple="true" /></div>
 					</td>
 
@@ -1157,86 +1171,104 @@
 
 
 
-		<table class="table-form">
-			<tr>
-				<td class="tit">
-					申请类型：
-				</td>
-				<td>
-					<form:select path="applyType" class="input-medium" style="text-align:center">
-						<form:options items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-					</form:select>
-				</td>
-				<td class="tit">
-					责任比例：
-				</td>
-				<td>
-					<form:input path="responsibilityRatio" htmlEscape="false" maxlength="10" class="input-xlarge "/>
-				</td>
-			</tr>
-			<tr>
-				<td class="tit">
-					主持人：
-				</td>
-				<td>
-					<form:input path="host" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+	<table class="table-form">
+		<tr>
+			<td class="tit">
+				申请类型：
+			</td>
+			<td>
+				<form:select path="applyType" class="input-medium" style="text-align:center">
+					<form:options items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</td>
+			<td class="tit">
+				责任比例：
+			</td>
+			<td>
+				<form:input path="responsibilityRatio" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit">
+				主持人：
+			</td>
+			<td>
+				<form:input path="host" htmlEscape="false" maxlength="10" class="input-xlarge "/>
 					<%--<form:checkboxes path="host" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>--%>
-				</td>
-				<td class="tit">
-					书记员：
-				</td>
-				<td>
-					<form:input path="clerk" htmlEscape="false" maxlength="32" class="input-xlarge "/>
-				</td>
-			</tr>
+			</td>
+			<td class="tit">
+				书记员：
+			</td>
+			<td>
+				<form:input path="clerk" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+			</td>
+		</tr>
 			<%--<tr>--%>
-				<%--<td class="tit">--%>
-					<%--处理人：--%>
-				<%--</td>--%>
-				<%--<td>--%>
-					<%--<form:input path="handlePeople" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-				<%--</td>--%>
-				<%--<td class="tit">--%>
-					<%--处理日期：--%>
-				<%--</td>--%>
-				<%--<td>--%>
-					<%--<input name="handleTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "--%>
-						   <%--value="${assessAppraisal.handleTime}"--%>
-						   <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>--%>
-				<%--</td>--%>
+			<%--<td class="tit">--%>
+			<%--处理人：--%>
+			<%--</td>--%>
+			<%--<td>--%>
+			<%--<form:input path="handlePeople" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
+			<%--</td>--%>
+			<%--<td class="tit">--%>
+			<%--处理日期：--%>
+			<%--</td>--%>
+			<%--<td>--%>
+			<%--<input name="handleTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "--%>
+			<%--value="${assessAppraisal.handleTime}"--%>
+			<%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>--%>
+			<%--</td>--%>
 			<%--</tr>--%>
-			<tr>
-				<td class="tit">
-					下一处理环节：
-				</td>
-				<td>
-					<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
-				</td>
-				<td class="tit">
-					下一环节处理人：
-				</td>
-				<td>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessAppraisal.nextLinkMan}" labelName="" labelValue="${assessAppraisal.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
-				</td>
-			</tr>
-		</table>
-		<div class="form-actions">
-			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-		</div>
-	</form:form>
-	<script type="text/javascript">
-		var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-		var patientLinkEmpRowIdx = 0, patientLinkEmpTp = $("#patientLinkEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-		var patientLinkDRowIdx = 0, patientLinkDTp = $("#patientLinkDTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-		$(document).ready(function() {
-			var data = ${fns:toJson(signAgreement.medicalOfficeEmpList)};
-			for (var i=0; i<data.length; i++){
-				addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, data[i]);
-				medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;
-			}
-		});
-	</script>
+		<tr>
+			<td class="tit">
+				下一处理环节：
+			</td>
+			<td>
+				<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+			</td>
+			<td class="tit">
+				下一环节处理人：
+			</td>
+			<td>
+				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessAppraisal.nextLinkMan}" labelName="" labelValue="${assessAppraisal.linkEmployee.name}"
+								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
+			</td>
+		</tr>
+	</table>
+	<div class="form-actions">
+		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+	</div>
+	<c:if test="${not empty assessAppraisal.assessAppraisalId}">
+		<act:histoicFlow procInsId="${assessAppraisal.complaintMain.procInsId}" />
+	</c:if>
+</form:form>
+<script type="text/javascript">
+	var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+	var patientLinkEmpRowIdx = 0, patientLinkEmpTp = $("#patientLinkEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+	var patientLinkDRowIdx = 0, patientLinkDTp = $("#patientLinkDTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+	$(document).ready(function() {
+		var data = ${fns:toJson(assessAppraisal.medicalOfficeEmpList)};
+		console.log(data)
+		for (var i=0; i<data.length; i++){
+			addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, data[i]);
+			medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;
+		}
+
+		var data = ${fns:toJson(assessAppraisal.patientLinkDList)};
+		for (var i=0; i<data.length; i++){
+			addRow('#patientLinkDList', patientLinkDRowIdx, patientLinkDTp, data[i]);
+			patientLinkDRowIdx = patientLinkDRowIdx + 1;
+		}
+
+		var PatientData = ${fns:toJson(assessAppraisal.patientLinkEmpList)};
+		for (var i=0; i<PatientData.length; i++){
+			addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp, PatientData[i]);
+			patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;
+		}
+
+	});
+</script>
 </body>
 </html>
