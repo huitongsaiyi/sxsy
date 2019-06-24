@@ -104,6 +104,7 @@
 				<shiro:hasPermission name="assessaudit:assessAudit:edit"><td style="text-align:center;">
     				<a href="${ctx}/assessaudit/assessAudit/form?id=${assessAudit.assessAuditId}">处理</a>
 					<a href="${ctx}/assessaudit/assessAudit/form?id=${assessAudit.assessAuditId}&type=view">详情</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${assessAudit.complaintMainId}&module=badj&url6=/assessaudit/assessAudit/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

@@ -105,6 +105,7 @@
 				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><td>
     				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">处理</a>
     				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}&type=view">详情</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${auditAcceptance.complaintMainId}&module=badj&url2=/auditacceptance/auditAcceptance/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

@@ -102,8 +102,9 @@
                         ${assessApply.reportRegistration.patientMobile}
                 </td>
 				<shiro:hasPermission name="assessapply:assessApply:edit"><td style="text-align:center;">
-    				<a href="${ctx}/assessapply/assessApply/form?id=${assessApply.assessApplyId}">修改</a>
+    				<a href="${ctx}/assessapply/assessApply/form?id=${assessApply.assessApplyId}">处理</a>
     				<a href="${ctx}/assessapply/assessApply/form?id=${assessApply.assessApplyId}&type=view">详情</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${assessApply.complaintMainId}&module=badj&url5=/assessapply/assessApply/?repage">终止调解</a>
 <%--
 					<a href="${ctx}/assessapply/assessApply/delete?id=${assessApply.assessApplyId}" onclick="return confirmx('确认要删除该评估申请吗？', this.href)">删除</a>
 --%>

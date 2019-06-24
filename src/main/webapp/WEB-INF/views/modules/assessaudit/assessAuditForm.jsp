@@ -101,14 +101,14 @@
                 <tr>
                     <td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
                     <td width="522px">
-                        <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${empty assessAudit.involveHospital ? assessAudit.complaintMain.involveHospital : assessAudit.involveHospital}" labelName="" labelValue="${empty assessAudit.involveHospital ? assessAudit.complaintMain.hospital.name : assessAudit.sjOffice.name}"
+                        <sys:treeselect id="involveHospital" name="involveHospital" value="${empty assessAudit.involveHospital ? assessAudit.complaintMain.involveHospital : assessAudit.involveHospital}" labelName="" labelValue="${empty assessAudit.involveHospital ? assessAudit.complaintMain.hospital.name : assessAudit.sjOffice.name}"
                                         title="机构" url="/sys/office/treeData?type=1&officeType=2" dataMsgRequired="必填信息" cssClass="required" isAll="true" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit" width="199px"><font color="red">*</font>申请事项：</td>
-                    <td width="522px">
-                        <form:input path="patientApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
+                    <td width="522px" colspan="3">
+                        <form:textarea path="patientApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge required" cssStyle="width: 1200px;height:100px"/>
                     </td>
 
                 </tr>
@@ -119,7 +119,7 @@
                 <tr>
                     <td class="tit" width="180px"><font color="red">*</font>申请医院：</td>
                     <td width="429px">
-                        <sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${empty assessAudit.hospitalApply ? assessAudit.complaintMain.involveHospital : assessAudit.hospitalApply}" labelName="" labelValue="${empty assessAudit.hospitalApply ? assessAudit.complaintMain.hospital.name : assessAudit.sqOffice.name}"
+                        <sys:treeselect id="hospitalApply" name="hospitalApply" value="${empty assessAudit.hospitalApply ? assessAudit.complaintMain.involveHospital : assessAudit.hospitalApply}" labelName="" labelValue="${empty assessAudit.hospitalApply ? assessAudit.complaintMain.hospital.name : assessAudit.sqOffice.name}"
                                         title="机构" url="/sys/office/treeData?type=1&officeType=2" dataMsgRequired="必填信息" cssClass="required" isAll="true" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>代理人：</td>
@@ -152,8 +152,8 @@
                 </tr>
                 <tr>
                     <td class="tit" width="199px"><font color="red">*</font>申请事项：</td>
-                    <td width="522px">
-                        <form:input path="hospitalApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
+                    <td width="522px" colspan="3">
+                        <form:textarea path="hospitalApplyMatter" htmlEscape="false" maxlength="200" class="input-xlarge required" cssStyle="width: 1200px;height:100px"/>
                     </td>
                 </tr>
             </table>

@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/stopmediate/stopMediate/">终止调解列表</a></li>
-		<shiro:hasPermission name="stopmediate:stopMediate:edit"><li><a href="${ctx}/stopmediate/stopMediate/form">终止调解添加</a></li></shiro:hasPermission>
+		<%--<shiro:hasPermission name="stopmediate:stopMediate:edit"><li><a href="${ctx}/stopmediate/stopMediate/form">终止调解添加</a></li></shiro:hasPermission>--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="stopMediate" action="${ctx}/stopmediate/stopMediate/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -93,7 +93,7 @@
 				</td>
 				<shiro:hasPermission name="stopmediate:stopMediate:edit"><td>
     				<a href="${ctx}/stopmediate/stopMediate/form?id=${stopMediate.stopMediateId}">反馈</a>
-					<a href="${ctx}/stopmediate/stopMediate/form?id=${stopMediate.stopMediateId}&type=view">详情</a>
+					<%--<a href="${ctx}/stopmediate/stopMediate/form?id=${stopMediate.stopMediateId}&type=view">详情</a>--%>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

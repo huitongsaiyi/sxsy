@@ -98,6 +98,7 @@
 				<shiro:hasPermission name="reachmediate:reachMediate:edit"><td>
     				<a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}">处理</a>
 					<a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}&type=view">详情</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${reachMediate.complaintMainId}&module=badj&url8=/reachmediate/reachMediate/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

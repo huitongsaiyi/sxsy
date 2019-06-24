@@ -71,7 +71,6 @@ public class PerformAgreementService extends CrudService<PerformAgreementDao, Pe
 			dao.update(performAgreement);
 		}
 		if ("yes".equals(performAgreement.getComplaintMain().getAct().getFlag())){
-
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","0");
 			User assigness= UserUtils.get(performAgreement.getNextLinkMan());

@@ -42,6 +42,7 @@
 		<form:hidden path="complaintMain.act.procInsId"/>
 		<form:hidden path="complaintMain.act.procDefId"/>
 		<form:hidden path="complaintMain.procInsId"/>
+		<form:hidden id="flag" path="complaintMain.act.flag"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">

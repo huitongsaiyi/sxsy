@@ -50,6 +50,16 @@
 		<form:hidden path="complaintMain.act.procDefId"/>
 		<form:hidden path="complaintMain.procInsId"/>
 		<input type="hidden"  id="export" name="export"/>
+		<input type="hidden" id="urlRegistration" name="urlRegistration" value="${url1}">
+		<input type="hidden" id="urlAuditacceptance" name="urlAuditacceptance" value="${url2}">
+		<input type="hidden" id="urlInvestigateEvidence" name="urlInvestigateEvidence" value="${url3}">
+		<input type="hidden" id="urlAssessAppraisal" name="urlAssessAppraisal" value="${url4}">
+		<input type="hidden" id="urlAssessApply" name="urlAssessApply" value="${url5}">
+		<input type="hidden" id="urlAssessAudit" name="urlAssessAudit" value="${url6}">
+		<input type="hidden" id="urlMediateEvidence" name="urlMediateEvidence" value="${url7}">
+		<input type="hidden" id="urlReachMediate" name="urlReachMediate" value="${url8}">
+		<input type="hidden" id="urlSignAgreement" name="urlSignAgreement" value="${url9}">
+		<input type="hidden" id="urlPerformAgreement" name="urlPerformAgreement" value="${url10}">
 		<sys:message content="${message}"/>
 	<div id="myTabContent" class="tab-content">
 		<div class="tab-pane fade in active">
@@ -61,7 +71,7 @@
 					</td>
 					<td class="tit">涉及医院</td>
 					<td>
-						<sys:treeselect id="involveHospital" name="involveHospital" value="${stopMediate.involveHospital}" labelName="" labelValue="${stopMediate.hospital.name}"
+						<sys:treeselect id="involveHospital" name="involveHospital" value="${empty stopMediate.involveHospital?stopMediate.complaintMain.involveHospital:stopMediate.involveHospital}" labelName="" labelValue="${empty stopMediate.involveHospital?stopMediate.hospital.name:stopMediate.complaintMain.hospital.name}"
 										title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
 					</td>
 				</tr>
@@ -87,7 +97,7 @@
 				<td class="tit">下一环节处理人</td>
 				<td>
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${stopMediate.nextLinkMan}" labelName="" labelValue="${stopMediate.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" />
+									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" checked="true"/>
 				</td>
 			</tr>
 		</table>

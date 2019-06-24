@@ -82,6 +82,7 @@
 				<shiro:hasPermission name="perform:performAgreement:edit"><td>
     				<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}">处理</a>
 					<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}&type=view">详情</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${performAgreement.complaintMainId}&module=badj&url10=/perform/performAgreement/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

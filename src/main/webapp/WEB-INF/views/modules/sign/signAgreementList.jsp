@@ -131,8 +131,9 @@
 					<fmt:formatDate value="${signAgreement.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="sign:signAgreement:edit"><td style="text-align:center;">
-    				<a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}">修改</a>
+    				<a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}">处理</a>
     				<a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}&type=view">详情</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${signAgreement.complaintMainId}&module=badj&url9=/sign/signAgreement/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

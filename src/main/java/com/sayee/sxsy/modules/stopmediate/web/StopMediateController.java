@@ -61,6 +61,27 @@ public class StopMediateController extends BaseController {
 	public String form(HttpServletRequest request, StopMediate stopMediate, Model model) {
 		String type = request.getParameter("type");
 		String module = request.getParameter("module");
+		//获取路径
+		String url1=request.getParameter("url1");
+		model.addAttribute("url1",url1);
+		String url2=request.getParameter("url2");
+		model.addAttribute("url2",url2);
+		String url3=request.getParameter("url3");
+		model.addAttribute("url3",url3);
+		String url4=request.getParameter("url4");
+		model.addAttribute("url4",url4);
+		String url5=request.getParameter("url5");
+		model.addAttribute("url5",url5);
+		String url6=request.getParameter("url6");
+		model.addAttribute("url6",url6);
+		String url7=request.getParameter("url7");
+		model.addAttribute("url7",url7);
+		String url8=request.getParameter("url8");
+		model.addAttribute("url8",url8);
+		String url9=request.getParameter("url9");
+		model.addAttribute("url9",url9);
+		String url10=request.getParameter("url10");
+		model.addAttribute("url10",url10);
 		//对 某个模块 进来的数据进行分析处理后返回
         stopMediate=stopMediateService.handle(stopMediate,module);
 		if("view".equals(type)){
@@ -76,6 +97,16 @@ public class StopMediateController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request, StopMediate stopMediate, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
+		String urlRegistration = request.getParameter("urlRegistration");
+		String urlAuditacceptance = request.getParameter("urlAuditacceptance");
+		String urlInvestigateEvidence = request.getParameter("urlInvestigateEvidence");
+		String urlAssessAppraisal = request.getParameter("urlAssessAppraisal");
+		String urlAssessApply = request.getParameter("urlAssessApply");
+		String urlAssessAudit = request.getParameter("urlAssessAudit");
+		String urlMediateEvidence = request.getParameter("urlMediateEvidence");
+		String urlReachMediate = request.getParameter("urlReachMediate");
+		String urlSignAgreement = request.getParameter("urlSignAgreement");
+		String urlPerformAgreement = request.getParameter("urlPerformAgreement");
 		if (export.equals("yes")){
 			stopMediateService.exportWord(stopMediate,export,request,response);
 			return "";
@@ -91,11 +122,34 @@ public class StopMediateController extends BaseController {
 				logger.error("启动纠纷调解流程失败：", e);
 				addMessage(redirectAttributes, "系统内部错误！");
 			}
+
 			if ("yes".equals(stopMediate.getComplaintMain().getAct().getFlag())){
 				return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
-			}else {
+			}else if(StringUtils.isNotBlank(urlRegistration)){
+				return "redirect:"+Global.getAdminPath()+urlRegistration;
+			}else if(StringUtils.isNotBlank(urlAuditacceptance)){
+				return "redirect:"+Global.getAdminPath()+urlAuditacceptance;
+			}else if(StringUtils.isNotBlank(urlInvestigateEvidence)){
+				return "redirect:"+Global.getAdminPath()+urlInvestigateEvidence;
+			}else if(StringUtils.isNotBlank(urlAssessAppraisal)){
+				return "redirect:"+Global.getAdminPath()+urlAssessAppraisal;
+			}else if(StringUtils.isNotBlank(urlAssessApply)){
+				return "redirect:"+Global.getAdminPath()+urlAssessApply;
+			}else if(StringUtils.isNotBlank(urlAssessAudit)){
+				return "redirect:"+Global.getAdminPath()+urlAssessAudit;
+			}else if(StringUtils.isNotBlank(urlMediateEvidence)){
+				return "redirect:"+Global.getAdminPath()+urlMediateEvidence;
+			}else if(StringUtils.isNotBlank(urlReachMediate)){
+				return "redirect:"+Global.getAdminPath()+urlReachMediate;
+			}else if(StringUtils.isNotBlank(urlSignAgreement)){
+				return "redirect:"+Global.getAdminPath()+urlSignAgreement;
+			}else if(StringUtils.isNotBlank(urlPerformAgreement)){
+				return "redirect:"+Global.getAdminPath()+urlPerformAgreement;
+			}
+			else{
 				return "redirect:"+Global.getAdminPath()+"/stopmediate/stopMediate/?repage";
 			}
+
 		}
 //		if (!beanValidator(model, stopMediate)){
 //			return form(request, stopMediate, model);
