@@ -526,9 +526,7 @@
 			<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
-		<c:if test="${not empty signAgreement.signAgreementId}">
-			<act:histoicFlow procInsId="${signAgreement.complaintMain.procInsId}" />
-		</c:if>
+		<act:histoicFlow procInsId="${signAgreement.complaintMain.procInsId}" />
 	</form:form>
 	<script type="text/javascript">
 		var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");

@@ -414,10 +414,8 @@
     </table>
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 550px;"/>
-        <c:if test="${not empty reachMediate.reachMediateId}">
-            <act:histoicFlow procInsId="${reachMediate.complaintMain.procInsId}" />
-        </c:if>
     </div>
+    <act:histoicFlow procInsId="${reachMediate.complaintMain.procInsId}" />
 </form:form>
 <script type="text/javascript">
     var reachMediateRowIdx = 0, reachMediateTpl = $("#reachMediateTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");

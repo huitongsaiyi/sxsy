@@ -54,7 +54,7 @@
 	</sql>
 	
 	<sql id="auditAcceptanceJoins">
-		LEFT JOIN audit_acceptance a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN AUDIT_ACCEPTANCE a ON a.complaint_main_id = b.complaint_main_id
 		LEFT JOIN REPORT_REGISTRATION r ON r.complaint_main_id = b.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital

@@ -246,9 +246,7 @@
         <%--<shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>--%>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 500px;"/>
     </div>
-    <c:if test="${not empty reportRegistration.reportRegistrationId}">
-        <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}" />
-    </c:if>
+    <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}" />
 </form:form>
 </body>
 </html>

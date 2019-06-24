@@ -128,6 +128,7 @@
                 </div>
             </div>
         </div>
+        <act:histoicFlow procInsId="${assessInfo.complaintMain.procInsId}" />
 </form:form>
 </body>
 </html>

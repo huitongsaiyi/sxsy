@@ -101,10 +101,9 @@
 			<shiro:hasPermission name="stopmediate:stopMediate:edit">
 				<input id="export" type = "submit" class="btn btn-primary" value = "导出" onclick="$('#export').val('yes')"/>
 			</shiro:hasPermission>
-
-
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+		<act:histoicFlow procInsId="${stopMediate.complaintMain.procInsId}" />
 	</form:form>
 </body>
 </html>

@@ -457,9 +457,7 @@
 			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
-		<c:if test="${not empty investigateEvidence.investigateEvidenceId}">
-			<act:histoicFlow procInsId="${investigateEvidence.complaintMain.procInsId}" />
-		</c:if>
+		<act:histoicFlow procInsId="${investigateEvidence.complaintMain.procInsId}" />
 	</form:form>
 </body>
 </html>

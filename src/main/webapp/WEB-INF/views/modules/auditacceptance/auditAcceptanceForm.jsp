@@ -1037,9 +1037,7 @@
                                                                                 onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
-    <c:if test="${not empty reportRegistration.reportRegistrationId}">
-        <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}"/>
-    </c:if>
+    <act:histoicFlow procInsId="${auditAcceptance.complaintMain.procInsId}"/>
 </form:form>
 </body>
 </html>

@@ -206,7 +206,7 @@
                     </td>
                     <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
 
-                    <td width="195px;" ">
+                    <td width="195px;">
                         ${investigateEvidence.investigateEvidence.endTime}
                     </td>
                 </tr>
@@ -388,9 +388,7 @@
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 550px;"/>
     </div>
-    <c:if test="${not empty investigateEvidence.investigateEvidenceId}">
-        <act:histoicFlow procInsId="${investigateEvidence.complaintMain.procInsId}" />
-    </c:if>
+    <act:histoicFlow procInsId="${investigateEvidence.complaintMain.procInsId}" />
 </form:form>
 </body>
 </html>

@@ -615,16 +615,20 @@
                 <td colspan="3">
                         ${auditAcceptance.mediateApplyInfo.summaryOfDisputes}
                 </td>
-                <td class="tit">患方当事人申请事项</td>
-                <td colspan="3">
-                        ${auditAcceptance.mediateApplyInfo.applyMatter}
-                </td>
             </tr>
             <tr>
                 <td class="tit">医方投诉纠纷概要</td>
                 <td colspan="3">
                         ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.summaryOfDisputes}
                 </td>
+            </tr>
+            <tr>
+                <td class="tit">患方当事人申请事项</td>
+                <td colspan="3">
+                        ${auditAcceptance.mediateApplyInfo.applyMatter}
+                </td>
+            </tr>
+            <tr>
                 <td class="tit">医方当事人申请事项</td>
                 <td colspan="3">
                         ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyMatter}
@@ -635,6 +639,7 @@
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
+    <act:histoicFlow procInsId="${auditAcceptance.complaintMain.procInsId}"/>
 </form:form>
 </body>
 </html>

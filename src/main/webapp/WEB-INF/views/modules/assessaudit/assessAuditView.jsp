@@ -223,6 +223,7 @@
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 550px;"/>
     </div>
+    <act:histoicFlow procInsId="${assessAudit.complaintMain.procInsId}" />
 </form:form>
 </body>
 </html>

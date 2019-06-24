@@ -528,16 +528,16 @@
     <%--</div>--%>
     <%--</div>--%>
     <div class="form-actions">
-        <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
+        <shiro:hasPermission name="mediate:mediateEvidence:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="保 存"
                                                                                 onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-        <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
+        <shiro:hasPermission name="mediate:mediateEvidence:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
                                                                                 onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
 
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
-
+    <act:histoicFlow procInsId="${mediateEvidence.complaintMain.procInsId}" />
 </form:form>
 <script type="text/javascript">
     var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");

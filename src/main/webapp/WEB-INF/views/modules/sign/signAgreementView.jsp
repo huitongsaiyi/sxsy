@@ -514,9 +514,7 @@
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 550px;"/>
     </div>
-    <c:if test="${not empty signAgreement.signAgreementId}">
-        <act:histoicFlow procInsId="${signAgreement.complaintMain.procInsId}" />
-    </c:if>
+    <act:histoicFlow procInsId="${signAgreement.complaintMain.procInsId}" />
 </form:form>
 <script type="text/javascript">
     var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
