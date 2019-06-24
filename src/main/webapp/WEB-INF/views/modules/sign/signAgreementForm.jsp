@@ -517,7 +517,7 @@
 				<td class="tit">下一环节处理人：</td>
 				<td >
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${signAgreement.nextLinkMan}" labelName="" labelValue="${signAgreement.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" checked="true"/>
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" />
 				</td>
 			</tr>
 		</table>

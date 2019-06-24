@@ -1021,7 +1021,7 @@
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${auditAcceptance.nextLinkMan}" labelName=""
                                 labelValue="${auditAcceptance.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true"
-                                notAllowSelectParent="true" checked="true"/>
+                                notAllowSelectParent="true" />
             </td>
         </tr>
     </table>

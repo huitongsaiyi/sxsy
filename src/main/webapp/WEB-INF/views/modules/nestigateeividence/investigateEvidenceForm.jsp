@@ -446,7 +446,7 @@
 
 				<td width="540px;" style="display:inline-block;margin-top: -15px;margin-left: 1px;">
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${investigateEvidence.nextLinkMan}" labelName="" labelValue="${investigateEvidence.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true" checked="true" cssStyle="width: 230px;" dataMsgRequired="必填信息"/>
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true"  cssStyle="width: 230px;" dataMsgRequired="必填信息"/>
 
 				</td>
 

@@ -482,7 +482,7 @@
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${mediateEvidence.nextLinkMan}" labelName=""
                                 labelValue="${mediateEvidence.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" allowClear="true"
-                                notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息" cssClass="required" />
+                                notAllowSelectParent="true"  dataMsgRequired="必填信息" cssClass="required" />
             </td>
         </tr>
     </table>

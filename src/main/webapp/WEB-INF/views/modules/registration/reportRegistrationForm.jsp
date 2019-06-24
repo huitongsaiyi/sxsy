@@ -240,7 +240,7 @@
             <td >
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
-                                title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required"  allowClear="true" notAllowSelectParent="true" checked="true"/>
+                                title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required"  allowClear="true" notAllowSelectParent="true" />
             </td>
         </tr>
     </table>

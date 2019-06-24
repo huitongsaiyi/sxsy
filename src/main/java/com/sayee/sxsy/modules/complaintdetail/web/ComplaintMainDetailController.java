@@ -89,7 +89,7 @@ public class ComplaintMainDetailController extends BaseController {
 			}
 				complaintMainDetailService.save(complaintMainDetail);
 				if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
-					addMessage(redirectAttributes, "流程已启动，流程ID：" + complaintMainDetail.getComplaintMain().getProcInsId());
+					addMessage(redirectAttributes, "流程已启动");
 				}else {
 					addMessage(redirectAttributes, "保存投诉接待成功");
 				}

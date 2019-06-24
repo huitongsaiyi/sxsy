@@ -87,7 +87,7 @@
 				<td class="tit">下一环节处理人</td>
 				<td>
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${stopMediate.nextLinkMan}" labelName="" labelValue="${stopMediate.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" checked="true"/>
+									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" />
 				</td>
 			</tr>
 		</table>

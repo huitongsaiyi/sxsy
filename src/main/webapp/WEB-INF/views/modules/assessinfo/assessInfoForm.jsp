@@ -105,7 +105,7 @@
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessInfo.nextLinkMan}" labelName=""
                                 labelValue="${assessInfo.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
-                                allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
+                                allowClear="true" notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
             </td>
         </tr>
     </table>
