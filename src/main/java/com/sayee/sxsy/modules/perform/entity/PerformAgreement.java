@@ -132,7 +132,7 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 		this.hospitalPayAmount = hospitalPayAmount;
 	}
 	
-	@Length(min=0, max=20, message="医院赔付时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="医院赔付时间长度必须介于 0 和 20 之间")
 	public String getHospitalPayTime() {
 		return hospitalPayTime;
 	}
@@ -151,7 +151,7 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 		this.insurancePayAmount = insurancePayAmount;
 	}
 	
-	@Length(min=0, max=20, message="保险公司赔付时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="保险公司赔付时间长度必须介于 0 和 20 之间")
 	public String getInsurancePayTime() {
 		return insurancePayTime;
 	}
@@ -169,7 +169,7 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 		this.nextLink = nextLink;
 	}
 	
-	@Length(min=0, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}

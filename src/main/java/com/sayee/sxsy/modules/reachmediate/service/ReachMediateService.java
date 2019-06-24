@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.reachmediate.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
+import com.sayee.sxsy.modules.recordinfo.dao.RecordInfoDao;
+import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -74,18 +77,18 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(ReachMediate reachMediate) {
-		if(StringUtils.isBlank(reachMediate.getCreateBy().getId())){
+	public void save(ReachMediate reachMediate,HttpServletRequest request) {
+		if(StringUtils.isBlank(reachMediate.getReachMediateId())){
 			reachMediate.preInsert();
 			reachMediate.setReachMediateId(reachMediate.getId());		//将主键设为UUID
 			dao.insert(reachMediate);
-			this.saveRecord(reachMediate);
+
 		}else{	//如果不为空则进行更新
 			//修改达成调解表
 			reachMediate.preUpdate();
 			dao.update(reachMediate);
-			this.saveRecord(reachMediate);
 		}
+		this.saveRecord(reachMediate);
 		for(MediateRecord mediateRecord : reachMediate.getMediateEvidenceList()){
 			if(mediateRecord.getId() == null){
 				continue;
@@ -104,6 +107,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 				mediateRecordDao.delete(mediateRecord);
 			}
 		}
+		this.savefj(request,reachMediate);		//调解志保存
 		if("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())){
 			Map<String,Object> var = new HashMap<String,Object>();
 			var.put("pass","0");
@@ -123,56 +127,76 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 
 	@Transactional(readOnly = false)
 	public void savefj(HttpServletRequest request,ReachMediate reachMediate){
-		String files = request.getParameter("files");
 		String files1 = request.getParameter("files1");
 		String files2 = request.getParameter("files2");
 		String files3 = request.getParameter("files3");
 		String files4 = request.getParameter("files4");
-		String acceId1 = IdGen.uuid();
-		String acceId2 = IdGen.uuid();
-		String acceId3 = IdGen.uuid();
-		String acceId4 = IdGen.uuid();
-		String acceId5 = IdGen.uuid();
-		String itemId1 = reachMediate.getReachMediateId();
-		String itemId2 = reachMediate.getReachMediateId();
-		String itemId3 = reachMediate.getReachMediateId();
-		String itemId4 = reachMediate.getReachMediateId();
-		String itemId5 = reachMediate.getReachMediateId();
-
-		String fjtype1 = request.getParameter("fjtype");
-		String fjtype2 = request.getParameter("fjtype1");
-		String fjtype3 = request.getParameter("fjtype2");
-		String fjtype4 = request.getParameter("fjtype3");
-		String fjtype5 = request.getParameter("fjtype4");
-		if(StringUtils.isNotBlank(files)){
-			preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
-		}else{
-			preOperativeConsentService.delefj(reachMediate.getReachMediateId(),"7");
-			preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
-		}
+		String files5 = request.getParameter("files5");
+		String acceId = null;
+		String itemId = reachMediate.getReachMediateId();
+		String fjtype1 = request.getParameter("fjtype1");
+		String fjtype2 = request.getParameter("fjtype2");
+		String fjtype3 = request.getParameter("fjtype3");
+		String fjtype4 = request.getParameter("fjtype4");
+		String fjtype5 = request.getParameter("fjtype5");
 		if(StringUtils.isNotBlank(files1)){
-			preOperativeConsentService.save1(acceId2,itemId2,files1,fjtype2);
+			String acceId1=request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+			}
 		}else{
-			preOperativeConsentService.delefj(reachMediate.getReachMediateId(),"8");
-			preOperativeConsentService.save1(acceId2,itemId2,files1,fjtype2);
+			preOperativeConsentService.delefj(itemId,fjtype1);
 		}
+
 		if(StringUtils.isNotBlank(files2)){
-			preOperativeConsentService.save1(acceId3,itemId3,files2,fjtype3);
+			String acceId2=request.getParameter("acceId2");
+			if(StringUtils.isNotBlank(acceId2)){
+				preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+			}
 		}else{
-			preOperativeConsentService.delefj(reachMediate.getReachMediateId(),"9");
-			preOperativeConsentService.save1(acceId3,itemId3,files2,fjtype3);
+			preOperativeConsentService.delefj(itemId,fjtype2);
 		}
+
 		if(StringUtils.isNotBlank(files3)){
-			preOperativeConsentService.save1(acceId4,itemId4,files3,fjtype4);
+			String acceId3=request.getParameter("acceId3");
+			if(StringUtils.isNotBlank(acceId3)){
+				preOperativeConsentService.updatefj(files3,itemId,fjtype3);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
+			}
 		}else{
-			preOperativeConsentService.delefj(reachMediate.getReachMediateId(),"10");
-			preOperativeConsentService.save1(acceId4,itemId4,files3,fjtype4);
+			preOperativeConsentService.delefj(itemId,fjtype3);
 		}
+
 		if(StringUtils.isNotBlank(files4)){
-			preOperativeConsentService.save1(acceId5,itemId5,files4,fjtype5);
+			String acceId4=request.getParameter("acceId4");
+			if(StringUtils.isNotBlank(acceId4)){
+				preOperativeConsentService.updatefj(files4,itemId,fjtype4);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
+			}
 		}else{
-			preOperativeConsentService.delefj(reachMediate.getReachMediateId(),"11");
-			preOperativeConsentService.save1(acceId5,itemId5,files4,fjtype5);
+			preOperativeConsentService.delefj(itemId,fjtype4);
+		}
+
+		if(StringUtils.isNotBlank(files5)){
+			String acceId5=request.getParameter("acceId5");
+			if(StringUtils.isNotBlank(acceId5)){
+				preOperativeConsentService.updatefj(files5,itemId,fjtype5);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files5,fjtype5);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype5);
 		}
 	}
 
@@ -204,5 +228,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 				model.addAttribute("files4",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
 			}
 		}
+
 	}
+
 }

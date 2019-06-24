@@ -47,12 +47,13 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 		super(id);
 	}
 
-	public String getNextLinkMan() {
-		return nextLinkMan;
-	}
-
 	public void setNextLinkMan(String nextLinkMan) {
 		this.nextLinkMan = nextLinkMan;
+	}
+
+	@Length(min = 1,max = 32,message = "下一环节处理人不能为空")
+	public String getNextLinkMan() {
+		return nextLinkMan;
 	}
 
 	public String getNextLink() {
@@ -153,7 +154,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 		this.complaintMainId = complaintMainId;
 	}
 	
-	@Length(min=0, max=32, message="总结人 关联用户长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="总结人 关联用户长度必须介于 0 和 32 之间")
 	public String getSummaryEmp() {
 		return summaryEmp;
 	}
@@ -162,7 +163,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 		this.summaryEmp = summaryEmp;
 	}
 	
-	@Length(min=0, max=20, message="总结时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="总结时间长度必须介于 0 和 20 之间")
 	public String getSummaryTime() {
 		return summaryTime;
 	}
@@ -179,7 +180,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 		this.summary = summary;
 	}
 	
-	@Length(min=0, max=20, message="归档时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="归档时间长度必须介于 0 和 20 之间")
 	public String getFilingTime() {
 		return filingTime;
 	}
@@ -188,7 +189,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 		this.filingTime = filingTime;
 	}
 	
-	@Length(min=0, max=10, message="卷宗编号长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="卷宗编号长度必须介于 0 和 10 之间")
 	public String getFileNumber() {
 		return fileNumber;
 	}
