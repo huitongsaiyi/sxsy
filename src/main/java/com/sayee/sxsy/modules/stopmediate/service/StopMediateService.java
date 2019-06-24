@@ -11,8 +11,12 @@ import java.util.Map;
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.WordExportUtil;
+import com.sayee.sxsy.modules.act.entity.Act;
+import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
@@ -37,7 +41,8 @@ import javax.servlet.http.HttpServletResponse;
 public class StopMediateService extends CrudService<StopMediateDao, StopMediate> {
 	@Autowired
 	private ComplaintMainDao complaintMainDao;
-
+	@Autowired
+	private ActTaskService actTaskService;
     @Autowired
     private StopMediateDao stopMediateDao;
 	public StopMediate get(String id) {
@@ -63,6 +68,16 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
             stopMediateDao.update(stopMediate);
 		}
 //		super.save(stopMediate);
+		if ("yes".equals(stopMediate.getComplaintMain().getAct().getFlag())){
+//			List<Act> list = actTaskService.todoList(stopMediate.getComplaintMain().getAct());
+
+			Map<String,Object> var=new HashMap<String, Object>();
+			var.put("pass","1");
+			User assigness= UserUtils.get(stopMediate.getNextLinkMan());
+			var.put("summary_user",assigness.getLoginName());
+			// 执行流程
+			actTaskService.complete(stopMediate.getComplaintMain().getAct().getTaskId(), stopMediate.getComplaintMain().getAct().getProcInsId(), stopMediate.getComplaintMain().getAct().getComment(), stopMediate.getComplaintMain().getCaseNumber(), var);
+		}
 	}
 	
 	@Transactional(readOnly = false)

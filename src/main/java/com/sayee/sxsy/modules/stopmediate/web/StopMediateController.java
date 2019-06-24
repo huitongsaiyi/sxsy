@@ -91,7 +91,11 @@ public class StopMediateController extends BaseController {
 				logger.error("启动纠纷调解流程失败：", e);
 				addMessage(redirectAttributes, "系统内部错误！");
 			}
-			return "redirect:"+Global.getAdminPath()+"/stopmediate/stopMediate/?repage";
+			if ("yes".equals(stopMediate.getComplaintMain().getAct().getFlag())){
+				return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
+			}else {
+				return "redirect:"+Global.getAdminPath()+"/stopmediate/stopMediate/?repage";
+			}
 		}
 //		if (!beanValidator(model, stopMediate)){
 //			return form(request, stopMediate, model);
