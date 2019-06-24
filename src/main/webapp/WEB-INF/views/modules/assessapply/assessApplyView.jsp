@@ -26,10 +26,7 @@
     </script>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li><a href="${ctx}/assessapply/assessApply/">评估申请列表</a></li>
-    <li class="active"><a href="${ctx}/assessapply/assessApply/form?id=${assessApply.id}">评估申请<shiro:hasPermission name="assessapply:assessApply:edit">${not empty assessApply.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="assessapply:assessApply:edit">查看</shiro:lacksPermission></a></li>
-</ul><br/>
+<br/>
 <form:form id="inputForm" modelAttribute="assessApply" action="${ctx}/assessapply/assessApply/save" method="post" class="form-horizontal">
     <form:hidden path="assessApplyId"/>
     <form:hidden path="createDate"/>

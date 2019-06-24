@@ -342,5 +342,9 @@ public class SummaryInfoService extends CrudService<SummaryInfoDao, SummaryInfo>
 	public void delete(SummaryInfo summaryInfo) {
 		super.delete(summaryInfo);
 	}
-	
+
+    public Map<String,Object> getViewDetail(String complaintMainId) {
+		Map<String,Object> map=dao.getViewDetail(complaintMainId);
+		return map;
+    }
 }

@@ -52,14 +52,14 @@
 			<label class="control-label">归属公司:</label>
 			<div class="controls">
                 <sys:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData" cssClass="required"/>
+					title="公司" url="/sys/office/treeData?type=${user.office.type}&officeType=${user.office.officeType}" cssClass="required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">归属部门:</label>
 			<div class="controls">
                 <sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData" cssClass="required" notAllowSelectParent="false"/>
+					title="部门" url="/sys/office/treeData?type=${user.office.type}&officeType=${user.office.officeType}" cssClass="required" notAllowSelectParent="false"/>
 			</div>
 		</div>
 

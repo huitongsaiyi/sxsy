@@ -190,6 +190,10 @@ public class UserController extends BaseController {
     @RequestMapping(value = "export", method=RequestMethod.POST)
     public String exportFile(User user, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
+			String officeType=request.getParameter("officeType");
+			Office office=new Office();
+			office.setOfficeType(officeType);
+			user.setOffice(office);
             String fileName = "用户数据"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             Page<User> page = systemService.findUser(new Page<User>(request, response, -1), user);
     		new ExportExcel("用户数据", User.class).setDataList(page.getList()).write(response, fileName).dispose();

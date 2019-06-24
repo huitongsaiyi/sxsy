@@ -26,12 +26,6 @@
     </script>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li><a href="${ctx}/assessaudit/assessAudit/">评估鉴定审批列表</a></li>
-    <li class="active"><a href="${ctx}/assessaudit/assessAudit/form?id=${assessAudit.id}">评估鉴定审批<shiro:hasPermission
-            name="assessaudit:assessAudit:edit">${not empty assessAudit.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission
-            name="assessaudit:assessAudit:edit">查看</shiro:lacksPermission></a></li>
-</ul>
 <br/>
 <form:form id="inputForm" modelAttribute="assessAudit" action="${ctx}/assessaudit/assessAudit/save" method="post"
            class="form-horizontal">

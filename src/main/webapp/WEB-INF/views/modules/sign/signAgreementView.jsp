@@ -63,10 +63,7 @@
     </script>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li><a href="${ctx}/sign/signAgreement/">签署协议列表</a></li>
-    <li class="active"><a href="${ctx}/sign/signAgreement/form?id=${signAgreement.id}">签署协议<shiro:hasPermission name="sign:signAgreement:edit">${not empty signAgreement.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sign:signAgreement:edit">查看</shiro:lacksPermission></a></li>
-</ul><br/>
+<br/>
 <form:form id="inputForm" modelAttribute="signAgreement" action="${ctx}/sign/signAgreement/save" method="post" class="form-horizontal">
     <form:hidden path="signAgreementId"/>
     <form:hidden path="createDate"/>

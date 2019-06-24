@@ -80,10 +80,7 @@
     </script>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li><a href="${ctx}/assessappraisal/assessAppraisal/">评估鉴定列表</a></li>
-    <li class="active"><a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.id}">评估鉴定<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">${not empty assessAppraisal.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="assessappraisal:assessAppraisal:edit">查看</shiro:lacksPermission></a></li>
-</ul><br/>
+<br/>
 <form:form id="inputForm" modelAttribute="assessAppraisal" action="${ctx}/assessappraisal/assessAppraisal/save" method="post" class="form-horizontal">
     <form:hidden path="assessAppraisalId"/>
     <form:hidden path="createDate"/>

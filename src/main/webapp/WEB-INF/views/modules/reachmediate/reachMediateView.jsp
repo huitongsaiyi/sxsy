@@ -64,10 +64,7 @@
     </script>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li><a href="${ctx}/reachmediate/reachMediate/">达成调解列表</a></li>
-    <li class="active"><a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}">达成调解<shiro:hasPermission name="reachmediate:reachMediate:edit">${not empty reachMediate.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="reachmediate:reachMediate:edit">查看</shiro:lacksPermission></a></li>
-</ul><br/>
+<br/>
 <form:form id="inputForm" modelAttribute="reachMediate" action="${ctx}/reachmediate/reachMediate/save" method="post" class="form-horizontal">
     <form:hidden path="reachMediateId"/>
     <form:hidden path="createDate"/>
@@ -143,7 +140,7 @@
 								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="required" disabled="disabled"/>
 							</td>
 							<shiro:hasPermission name="reachmediate:reachMediate:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{delBtn}}
 							</td></shiro:hasPermission>
 						</tr>
             </script>

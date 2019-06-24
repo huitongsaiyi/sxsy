@@ -50,12 +50,6 @@
     </script>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li><a href="${ctx}/mediate/mediateEvidence/">质证调解列表</a></li>
-    <li class="active"><a href="${ctx}/mediate/mediateEvidence/form?id=${mediateEvidence.id}">质证调解<shiro:hasPermission
-            name="mediate:mediateEvidence:edit">${not empty mediateEvidence.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission
-            name="mediate:mediateEvidence:edit">查看</shiro:lacksPermission></a></li>
-</ul>
 <br/>
 <form:form id="inputForm" modelAttribute="mediateEvidence" action="${ctx}/mediate/mediateEvidence/save" method="post"
            class="form-horizontal">
