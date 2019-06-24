@@ -61,17 +61,25 @@ public class PerformAgreementController extends BaseController {
 
 	@RequiresPermissions("perform:performAgreement:view")
 	@RequestMapping(value = "form")
-	public String form(PerformAgreement performAgreement, Model model) {
+	public String form(HttpServletRequest request,PerformAgreement performAgreement, Model model) {
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(performAgreement.getPerformAgreementId());
 		for(Map<String,Object> map :filePath){
 			if("14".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("15".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 		}
-		model.addAttribute("performAgreement", performAgreement);
-		return "modules/perform/performAgreementForm";
+		String type = request.getParameter("type");
+		if("view".equals(type)){
+			model.addAttribute("performAgreement", performAgreement);
+			return "modules/perform/performAgreementView";
+		}else {
+			model.addAttribute("performAgreement", performAgreement);
+			return "modules/perform/performAgreementForm";
+		}
 	}
 
 	@RequiresPermissions("perform:performAgreement:edit")

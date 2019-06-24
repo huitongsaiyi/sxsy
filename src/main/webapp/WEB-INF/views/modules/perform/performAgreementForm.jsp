@@ -57,29 +57,29 @@
 					<tr>
 						<td class="tit">协议赔付金额</td>
 						<td>
-							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge "/>
+							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required"/>
 						</td>
 						<td class="tit">医院赔付金额</td>
 						<td>
-							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge "/>
+							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge required"/>
 						</td>
 					</tr>
 					<tr>
 						<td class="tit">医院赔付时间</td>
 						<td>
-							<input name="hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+							<input name="hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.hospitalPayTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 						</td>
 						<td class="tit">保险公司赔付金额</td>
 						<td>
-							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge "/>
+							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required"/>
 						</td>
 					</tr>
 					<tr>
 						<td class="tit">保险公司赔付时间</td>
 						<td>
-							<input name="insurancePayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+							<input name="insurancePayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.insurancePayTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 						</td>
@@ -92,7 +92,7 @@
 						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">转款凭证：</td>
 						<input type="hidden"  name="fjtype1" value="14">
 						<td style="width: 450px; ">
-
+							<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
 							<input type="hidden" id="files1" name="files" htmlEscape="false" class="input-xlarge"  value="${files}"/>
 								<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 							<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/performAgreement/Transfer" selectMultiple="true" /></div>
@@ -103,6 +103,7 @@
 						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">收款收据：</td>
 						<input type="hidden" name="fjtype2" value="15">
 						<td style="width: 450px; ">
+							<input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
 							<input type="hidden" id="files2" name="files1" htmlEscape="false" class="input-xlarge" value="${files1}" />
 								<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 							<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"  uploadPath="/performAgreement/Receipt" selectMultiple="true" /></div>
@@ -114,14 +115,14 @@
 		</div>
 		<table class="table-form">
 			<tr>
-				<td class="tit">下一环节</td>
-				<td>
-					<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>
-				</td>
+				<%--<td class="tit">下一环节</td>--%>
+				<%--<td>--%>
+					<%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
+				<%--</td>--%>
 				<td class="tit">下一环节处理人</td>
 				<td >
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reportRegistration.nextLinkMan}" labelName="" labelValue="${reportRegistration.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" checked="true"/>
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${performAgreement.nextLinkMan}" labelName="linkEmployee.name" labelValue="${performAgreement.linkEmployee.name}"
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
 				</td>
 			</tr>
 		</table>

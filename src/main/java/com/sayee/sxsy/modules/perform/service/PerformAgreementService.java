@@ -91,13 +91,32 @@ public class PerformAgreementService extends CrudService<PerformAgreementDao, Pe
 	public void savefj(HttpServletRequest request,PerformAgreement performAgreement){
 		String files = request.getParameter("files");
 		String files1 = request.getParameter("files1");
-		String acceId1 = IdGen.uuid();
-		String acceId2 = IdGen.uuid();
-		String itemId1 = performAgreement.getPerformAgreementId();
-		String itemId2 = performAgreement.getPerformAgreementId();
+		String acceId = null;
+		String itemId = performAgreement.getPerformAgreementId();
 		String fjtype1 = request.getParameter("fjtype1");
 		String fjtype2 = request.getParameter("fjtype2");
-		preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
-		preOperativeConsentService.save1(acceId2,itemId2,files1,fjtype2);
+		if(StringUtils.isNotBlank(files)){
+			String acceId1 =request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files,itemId,fjtype1);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files,fjtype1);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype1);
+		}
+
+		if(StringUtils.isNotBlank(files1)){
+			String acceId2=request.getParameter("acceId2");
+			if(StringUtils.isNotBlank(acceId2)){
+				preOperativeConsentService.updatefj(files1,itemId,fjtype2);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files1,fjtype2);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype2);
+		}
 	}
 }
