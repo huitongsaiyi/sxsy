@@ -78,7 +78,8 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 	
 	@Transactional(readOnly = false)
 	public void save(ReachMediate reachMediate,HttpServletRequest request) {
-		if(StringUtils.isBlank(reachMediate.getReachMediateId())){
+         System.out.println(reachMediate.getReachMediateId());
+		if(StringUtils.isBlank(reachMediate.getCreateBy().getId())){
 			reachMediate.preInsert();
 			reachMediate.setReachMediateId(reachMediate.getId());		//将主键设为UUID
 			dao.insert(reachMediate);

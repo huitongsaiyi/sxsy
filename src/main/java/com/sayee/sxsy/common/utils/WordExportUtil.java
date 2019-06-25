@@ -28,12 +28,17 @@ public class WordExportUtil  {
      * @param fileName 生成word文件的文件名
      * @param response
      */
-    public void getWord(String path, Map<String, Object> params, List<String[]> tableList, String fileName, HttpServletResponse response) throws Exception {
+    public void getWord(String path,String tempPath , Map<String, Object> params, List<String[]> tableList, String fileName, HttpServletResponse response) throws Exception {
         File file = new File(path);
         InputStream is = new FileInputStream(file);
         CustomXWPFDocument doc = new CustomXWPFDocument(is);
         this.replaceInPara(doc, params);    //替换文本里面的变量
         this.replaceInTable(doc, params, tableList); //替换表格里面的变量
+
+        FileInputStream tempIs = new FileInputStream(tempPath);
+        CustomXWPFDocument tempXdf = new CustomXWPFDocument(tempIs);
+        this.setStyle(tempXdf,doc);
+
         OutputStream os = response.getOutputStream();
         response.setHeader("Content-disposition", "attachment; filename=" + fileName);
         doc.write(os);
@@ -51,14 +56,82 @@ public class WordExportUtil  {
         XWPFParagraph para;
         while (iterator.hasNext()) {
             para = iterator.next();
-            this.replaceInPara(para, params, doc);
+            this.replaceInPara(para, params);
         }
     }
     /**
      * 替换段落里面的变量
-     *
      * @param para   要替换的段落
      * @param params 参数
+     */
+    private  void replaceInPara(XWPFParagraph para, Map<String, Object> params) {
+        List<XWPFRun> runs;
+        Matcher matcher;
+        if (matcher(para.getParagraphText()).find()) {
+            runs = para.getRuns();
+            for (int i=0; i<runs.size(); i++) {
+                XWPFRun run = runs.get(i);
+                String runText = run.toString();
+                matcher = matcher(runText);
+                if (matcher.find()) {
+                    while ((matcher = matcher(runText)).find()) {
+                        runText = matcher.replaceFirst(String.valueOf(params.get(matcher.group(1))));
+                    }
+                    para.removeRun(i);
+                    //重新插入run里内容格式可能与原来模板的格式不一致
+                    para.insertNewRun(i).setText(runText);
+                }
+            }
+        }
+    }
+
+    /**
+     * 处理文档替换内容的格式问题（word）
+     * @param tempDoc
+     * @param doc
+     */
+    private  void setStyle(XWPFDocument tempDoc,XWPFDocument doc) {
+        Iterator<XWPFParagraph> iterator = tempDoc.getParagraphsIterator();
+        Iterator<XWPFParagraph> iterator2 = doc.getParagraphsIterator();
+        XWPFParagraph para ;
+        XWPFParagraph para2;
+        while (iterator.hasNext()&&iterator2.hasNext()) {
+            para = iterator.next();
+            para2 = iterator2.next();
+            this.setStyleInPara(para,para2);
+        }
+    }
+
+    /**
+     * 处理段落替换内容的格式问题（word）
+     * @param para
+     * @param para2
+     */
+    private  void setStyleInPara(XWPFParagraph para, XWPFParagraph para2) {
+        List<XWPFRun> runs;
+        List<XWPFRun> runs2;
+        Matcher matcher;
+        if (matcher(para.getParagraphText()).find()) {
+            runs = para.getRuns();
+            runs2 = para2.getRuns();
+            for (int i=0; i<runs.size(); i++) {
+                XWPFRun run = runs.get(i);
+                XWPFRun run2 = runs2.get(i);
+                String runText = run.toString();
+                matcher = matcher(runText);
+                if (matcher.find()) {
+                    //按模板文件格式设置格式
+                    run2.getCTR().setRPr(run.getCTR().getRPr());
+                }
+            }
+        }
+    }
+
+    /**
+     * 替换段落里面的变量
+     * @param para   要替换的段落
+     * @param params 参数
+     * @param doc d对有图片的word进行操作
      */
     private void replaceInPara(XWPFParagraph para, Map<String, Object> params, CustomXWPFDocument doc) {
         List<XWPFRun> runs;
@@ -85,11 +158,11 @@ public class WordExportUtil  {
                 }
             }
 
-            for (int i = start; i <= end; i++) {
-                para.removeRun(i);
-                i--;
-                end--;
-            }
+//            for (int i = start; i <= end; i++) {
+//                para.removeRun(i);
+//                i--;
+//                end--;
+//            }
 
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 String key = entry.getKey();
@@ -97,7 +170,8 @@ public class WordExportUtil  {
                     Object value = entry.getValue();
                     if (value instanceof String) {
                         str = str.replace(key, value.toString());
-                        para.createRun().setText(str, 0);
+                        runs.get(end).setText(str,end);
+                        //para.createRun().setText(str, end);
                         break;
                     } else if (value instanceof Map) {
                         str = str.replace(key, "");

@@ -70,9 +70,9 @@ public class AuditAcceptanceController extends BaseController {
 	@RequiresPermissions("auditacceptance:auditAcceptance:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request, AuditAcceptance auditAcceptance, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
-//		if (!beanValidator(model, auditAcceptance)){
-//			return form(auditAcceptance, model);
-//		}
+		if (!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo())){
+			return form(request,auditAcceptance, model);
+		}
         String export=request.getParameter("export");
         	if (!export.equals("no")){
 				auditAcceptanceService.exportWord(auditAcceptance,export,request,response);

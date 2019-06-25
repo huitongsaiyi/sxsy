@@ -94,7 +94,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.complaintMainId = complaintMainId;
 	}
 
-	@Length(min=1, max=20, message="案件编号长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="案件编号长度必须介于 1 和 20 之间")
 	public String getCaseNumber() {
 		return caseNumber;
 	}
@@ -103,7 +103,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.caseNumber = caseNumber;
 	}
 
-	@Length(min=1, max=20, message="患者姓名长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="患者姓名长度必须介于 1 和 20 之间")
 	public String getPatientName() {
 		return patientName;
 	}
@@ -112,7 +112,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.patientName = patientName;
 	}
 
-	@Length(min=1, max=1, message="患者性别 字典长度必须介于 0 和 1 之间")
+	@Length(min=1, max=1, message="患者性别 字典长度必须介于 1 和 2 之间")
 	public String getPatientSex() {
 		return patientSex;
 	}
@@ -121,7 +121,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.patientSex = patientSex;
 	}
 
-	@Length(min=1, max=4, message="患者年龄长度必须介于 0 和 4 之间")
+	@Length(min=1, max=4, message="患者年龄长度必须介于 1 和 4 之间")
 	public String getPatientAge() {
 		return patientAge;
 	}
@@ -130,7 +130,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.patientAge = patientAge;
 	}
 
-	@Length(min=0, max=20, message="患者身份证长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="患者身份证长度必须介于 1 和 20 之间")
 	public String getPatientCard() {
 		return patientCard;
 	}
@@ -139,7 +139,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.patientCard = patientCard;
 	}
 
-	@Length(min=0, max=10, message="患方联系电话长度必须介于 0 和 10 之间")
+	@Length(min=1, max=12, message="患方联系电话长度必须介于 1 和 12 之间")
 	public String getPatientMobile() {
 		return patientMobile;
 	}
@@ -148,7 +148,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.patientMobile = patientMobile;
 	}
 
-	@Length(min=1, max=32, message="涉及医院长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="涉及医院长度必须介于 1 和 32 之间")
 	public String getInvolveHospital() {
 		return involveHospital;
 	}
@@ -157,7 +157,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.involveHospital = involveHospital;
 	}
 
-	@Length(min=1, max=10, message="医院级别长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="医院级别长度必须介于 1 和 10 之间")
 	public String getHospitalLevel() {
 		return hospitalLevel;
 	}
@@ -166,7 +166,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.hospitalLevel = hospitalLevel;
 	}
 
-	@Length(min=1, max=10, message="医院等级长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="医院等级长度必须介于 1 和 10 之间")
 	public String getHospitalGrade() {
 		return hospitalGrade;
 	}
@@ -175,7 +175,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.hospitalGrade = hospitalGrade;
 	}
 
-	@Length(min=1, max=32, message="涉及科室长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="涉及科室长度必须介于 1 和 32 之间")
 	public String getInvolveDepartment() {
 		return involveDepartment;
 	}
@@ -184,7 +184,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.involveDepartment = involveDepartment;
 	}
 
-	@Length(min=1, max=32, message="涉及人员长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="涉及人员长度必须介于 1 和 32 之间")
 	public String getInvolveEmployee() {
 		return involveEmployee;
 	}

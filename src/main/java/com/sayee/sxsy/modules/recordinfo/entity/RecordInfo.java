@@ -96,7 +96,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.relationId = relationId;
 	}
 	
-	@Length(min=0, max=20, message="开始时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="开始时间长度必须介于 1 和 20 之间")
 	public String getStartTime() {
 		return startTime;
 	}
@@ -105,7 +105,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.startTime = startTime;
 	}
 	
-	@Length(min=0, max=20, message="结束时间长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="结束时间长度必须介于 0 和 20 之间")
 	public String getEndTime() {
 		return endTime;
 	}
@@ -114,7 +114,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.endTime = endTime;
 	}
 	
-	@Length(min=0, max=100, message="地点长度必须介于 0 和 100 之间")
+	@Length(min=1, max=100, message="地点长度必须介于 1 和 100 之间")
 	public String getRecordAddress() {
 		return recordAddress;
 	}
@@ -123,7 +123,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.recordAddress = recordAddress;
 	}
 
-	@Length(min=0, max=500, message="事由长度必须介于 0 和 500 之间")
+	@Length(min=1, max=1000, message="事由长度必须介于 1 和 1000 之间")
 	public String getCause() {
 		return cause;
 	}
@@ -132,7 +132,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.cause = cause;
 	}
 	
-	@Length(min=0, max=32, message="主持人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="主持人长度必须介于 1 和 32 之间")
 	public String getHost() {
 		return host;
 	}
@@ -141,7 +141,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.host = host;
 	}
 	
-	@Length(min=0, max=32, message="记录人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="记录人长度必须介于 1 和 32 之间")
 	public String getNoteTaker() {
 		return noteTaker;
 	}
@@ -150,7 +150,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.noteTaker = noteTaker;
 	}
 	
-	@Length(min=0, max=32, message="患方长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="患方长度必须介于 1 和 32 之间")
 	public String getPatient() {
 		return patient;
 	}
@@ -168,7 +168,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.doctor = doctor;
 	}
 	
-	@Length(min=0, max=100, message="其他参加人员长度必须介于 0 和 100 之间")
+	@Length(min=1, max=100, message="其他参加人员长度必须介于 1 和 100 之间")
 	public String getOtherParticipants() {
 		return otherParticipants;
 	}
@@ -176,7 +176,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 	public void setOtherParticipants(String otherParticipants) {
 		this.otherParticipants = otherParticipants;
 	}
-	
+	@Length(min=1, max=10000, message="笔录内容长度必须介于 1 和 10000 之间")
 	public String getRecordContent() {
 		return recordContent;
 	}

@@ -86,7 +86,7 @@ public class ReportRegistrationController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes) {
 		try {
-			if (!beanValidator(model, reportRegistration)){
+			if (!beanValidator(model, reportRegistration)||!beanValidator(model,reportRegistration.getComplaintMain())){
 				return form(request,reportRegistration, model);
 			}
 			reportRegistrationService.save(reportRegistration,request);

@@ -82,14 +82,6 @@ public class UserController extends BaseController {
             Page<User> page = systemService.findUser(new Page<User>(request, response), user);
             model.addAttribute("page", page);
         }
-
-
-
-
-
-
-
-
 		return "modules/sys/userList";
 	}
 
@@ -121,7 +113,7 @@ public class UserController extends BaseController {
 
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "save")
-	public String save(User user, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,String officeType) {
+	public String save(User user, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,String officeType,HttpServletResponse response) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/user/list?repage";
@@ -157,7 +149,10 @@ public class UserController extends BaseController {
 			//UserUtils.getCacheMap().clear();
 		}
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
-		return "redirect:" + adminPath + "/sys/user/list?repage";
+		//return "redirect:" + adminPath + "/sys/user?repage";
+		String offtype=request.getParameter("officeType");
+		 String list = list(user, request, response, model);
+		return list;
 	}
 	
 	@RequiresPermissions("sys:user:edit")

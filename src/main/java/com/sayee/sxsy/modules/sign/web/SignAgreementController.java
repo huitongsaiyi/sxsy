@@ -110,9 +110,9 @@ public class SignAgreementController extends BaseController {
 	@RequiresPermissions("sign:signAgreement:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,SignAgreement signAgreement, Model model, RedirectAttributes redirectAttributes) {
-//		if (!beanValidator(model, signAgreement)){
-//			return form(signAgreement, model);
-//		}
+		if (!beanValidator(model, signAgreement)){
+			return form(signAgreement, model,request);
+		}
 		try {
 			signAgreementService.save(request,signAgreement);
 			if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag())){

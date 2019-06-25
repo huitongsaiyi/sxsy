@@ -98,6 +98,9 @@ public class ReachMediateController extends BaseController {
 	@RequiresPermissions("reachmediate:reachMediate:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, reachMediate)||!beanValidator(model,reachMediate.getComplaintMain())||!beanValidator(model,reachMediate.getRecordInfo())||!beanValidator(model,reachMediate.getRecordInfo().getYrecordInfo())){
+			return form(reachMediate, model,request);
+		}
 		try{
 			reachMediateService.save(reachMediate,request);
 			if(!beanValidator(model,reachMediate)){
@@ -112,9 +115,7 @@ public class ReachMediateController extends BaseController {
 			logger.error("启动纠纷调解流程失败:", e);
 			addMessage(redirectAttributes,"系统内部错误");
 		}
-//		if (!beanValidator(model, reachMediate)){
-//			return form(reachMediate, model);
-//		}
+
 //		reachMediateService.save(reachMediate);
 //		addMessage(redirectAttributes, "保存达成调解成功");
 		return "redirect:"+Global.getAdminPath()+"/reachmediate/reachMediate/?repage";

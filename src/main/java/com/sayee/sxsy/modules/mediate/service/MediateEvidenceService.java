@@ -256,7 +256,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		try{
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,params,testList,fileName,response);
+			wordExportUtil.getWord(path,"",params,testList,fileName,response);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -194,7 +194,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.nextLink = nextLink;
 	}
 	
-	@Length(min=1, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
+
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}

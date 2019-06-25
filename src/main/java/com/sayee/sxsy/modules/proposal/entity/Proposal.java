@@ -56,7 +56,7 @@ public class Proposal extends DataEntity<Proposal> {
 	public void setAssessAppraisalId(String assessAppraisalId) {
 		this.assessAppraisalId = assessAppraisalId;
 	}
-	
+	@Length(min=1, max=10000, message="诊疗概要长度必须介于 1 和 10000 之间")
 	public String getTreatmentSummary() {
 		return treatmentSummary;
 	}
@@ -65,7 +65,7 @@ public class Proposal extends DataEntity<Proposal> {
 		this.treatmentSummary = treatmentSummary;
 	}
 	
-	@Length(min=0, max=500, message="患方认为长度必须介于 0 和 500 之间")
+	@Length(min=1, max=500, message="患方认为长度必须介于 1 和 500 之间")
 	public String getPatientThink() {
 		return patientThink;
 	}
@@ -74,7 +74,7 @@ public class Proposal extends DataEntity<Proposal> {
 		this.patientThink = patientThink;
 	}
 	
-	@Length(min=0, max=500, message="医方认为长度必须介于 0 和 500 之间")
+	@Length(min=1, max=500, message="医方认为长度必须介于 1 和 500 之间")
 	public String getDoctorThink() {
 		return doctorThink;
 	}
@@ -83,7 +83,7 @@ public class Proposal extends DataEntity<Proposal> {
 		this.doctorThink = doctorThink;
 	}
 	
-	@Length(min=0, max=200, message="分析意见 关联&ldquo;类型&rdquo;表的主键 ，多个用逗号分开长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="分析意见长度必须介于 1 和 200 之间")
 	public String getAnalysisOpinion() {
 		return analysisOpinion;
 	}
@@ -92,7 +92,7 @@ public class Proposal extends DataEntity<Proposal> {
 		this.analysisOpinion = analysisOpinion;
 	}
 	
-	@Length(min=0, max=200, message="诊断长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="诊断长度必须介于 1 和 200 之间")
 	public String getDiagnosis() {
 		return diagnosis;
 	}
@@ -101,7 +101,7 @@ public class Proposal extends DataEntity<Proposal> {
 		this.diagnosis = diagnosis;
 	}
 	
-	@Length(min=0, max=200, message="治疗长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="治疗长度必须介于 1 和 200 之间")
 	public String getTreatment() {
 		return treatment;
 	}
@@ -110,7 +110,7 @@ public class Proposal extends DataEntity<Proposal> {
 		this.treatment = treatment;
 	}
 	
-	@Length(min=0, max=200, message="其他长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="其他长度必须介于 1 和 200 之间")
 	public String getOther() {
 		return other;
 	}
@@ -119,7 +119,7 @@ public class Proposal extends DataEntity<Proposal> {
 		this.other = other;
 	}
 	
-	@Length(min=0, max=200, message="结论 关联&ldquo;类型&rdquo;表主键 多个用逗号分开长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="结论长度必须介于 0 和 200 之间")
 	public String getConclusion() {
 		return conclusion;
 	}

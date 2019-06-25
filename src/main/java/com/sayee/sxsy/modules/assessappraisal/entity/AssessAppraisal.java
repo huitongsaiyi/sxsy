@@ -238,7 +238,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.clerk = clerk;
 	}
 
-	@Length(min=0, max=10, message="患者姓名长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="患者姓名长度必须介于 1 和 10 之间")
 	public String getPatientName() {
 		return patientName;
 	}
@@ -247,7 +247,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.patientName = patientName;
 	}
 
-	@Length(min=0, max=1, message="患者性别长度必须介于 0 和 1 之间")
+	@Length(min=1, max=1, message="患者性别长度必须介于 1 和 1 之间")
 	public String getPatientSex() {
 		return patientSex;
 	}
@@ -256,7 +256,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.patientSex = patientSex;
 	}
 
-	@Length(min=0, max=4, message="患者年龄长度必须介于 0 和 4 之间")
+	@Length(min=1, max=4, message="患者年龄长度必须介于 1 和 4 之间")
 	public String getPatientAge() {
 		return patientAge;
 	}
@@ -265,7 +265,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.patientAge = patientAge;
 	}
 
-	@Length(min=0, max=10, message="住院号长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="住院号长度必须介于 1 和 10 之间")
 	public String getHospitalNumber() {
 		return hospitalNumber;
 	}
@@ -283,7 +283,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.involveHospital = involveHospital;
 	}
 
-	@Length(min=0, max=10, message="诊断分析长度必须介于 0 和 10 之间")
+	@Length(min=1, max=100, message="诊断分析长度必须介于 1 和 10000 之间")
 	public String getDiagnosticAnalysis() {
 		return diagnosticAnalysis;
 	}
@@ -292,7 +292,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.diagnosticAnalysis = diagnosticAnalysis;
 	}
 
-	@Length(min=0, max=10, message="治疗分析长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10000, message="治疗分析长度必须介于 1 和 10000 之间")
 	public String getTreatmentAnalysis() {
 		return treatmentAnalysis;
 	}
@@ -301,7 +301,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.treatmentAnalysis = treatmentAnalysis;
 	}
 
-	@Length(min=0, max=10, message="其他医疗分析长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10000, message="其他医疗分析长度必须介于 1 和 10000 之间")
 	public String getOtherMedicalAnalysis() {
 		return otherMedicalAnalysis;
 	}
@@ -310,7 +310,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.otherMedicalAnalysis = otherMedicalAnalysis;
 	}
 
-	@Length(min=0, max=32, message="医学专家长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="医学专家长度必须介于 1 和 32 之间")
 	public String getMedicalExpert() {
 		return medicalExpert;
 	}
@@ -319,7 +319,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.medicalExpert = medicalExpert;
 	}
 
-	@Length(min=0, max=32, message="法律顾问长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="法律顾问长度必须介于 1 和 32 之间")
 	public String getLegalExpert() {
 		return legalExpert;
 	}
@@ -328,7 +328,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.legalExpert = legalExpert;
 	}
 
-	@Length(min=0, max=200, message="其他长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="其他长度必须介于 1 和 200 之间")
 	public String getOther() {
 		return other;
 	}
@@ -364,7 +364,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 		this.nextLink = nextLink;
 	}
 
-	@Length(min=0, max=32, message="下一环节处理人长度必须介于 0 和 32 之间")
+
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}

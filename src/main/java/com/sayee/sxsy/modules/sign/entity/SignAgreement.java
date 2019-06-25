@@ -237,7 +237,7 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 	public void setClaimSettlementTime(String claimSettlementTime) {
 		this.claimSettlementTime = claimSettlementTime;
 	}
-	
+	@Length(min=1, max=10000, message="交理赔时间长度必须介于 1 和 10000 之间")
 	public String getSummaryOfDisputes() {
 		return summaryOfDisputes;
 	}

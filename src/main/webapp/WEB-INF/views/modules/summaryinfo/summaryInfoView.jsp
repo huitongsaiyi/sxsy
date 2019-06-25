@@ -419,7 +419,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade in active" id="details">
+            <div class="tab-pane fade" id="details">
                 <ul id="iframe" class="nav nav-tabs">
                     <li class="active">
                         <a href="#tsjd" data-toggle="tab">投诉接待</a>

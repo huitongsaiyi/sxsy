@@ -156,7 +156,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.complaintMainId = complaintMainId;
 	}
 	
-	@Length(min=0, max=32, message="患方申请人长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="患方申请人长度必须介于 1 和 32 之间")
 	public String getPatientApplyer() {
 		return patientApplyer;
 	}
@@ -174,7 +174,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.patientRelation = patientRelation;
 	}
 	
-	@Length(min=0, max=15, message="患方电话长度必须介于 0 和 15 之间")
+	@Length(min=1, max=15, message="患方电话长度必须介于 1 和 15 之间")
 	public String getPatientMobile() {
 		return patientMobile;
 	}
@@ -183,7 +183,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.patientMobile = patientMobile;
 	}
 	
-	@Length(min=0, max=10, message="患者姓名长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="患者姓名长度必须介于 1 和 10 之间")
 	public String getPatientName() {
 		return patientName;
 	}
@@ -201,7 +201,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.patientSex = patientSex;
 	}
 	
-	@Length(min=0, max=4, message="患方年龄长度必须介于 0 和 4 之间")
+	@Length(min=1, max=4, message="患方年龄长度必须介于 1 和 4 之间")
 	public String getPatientAge() {
 		return patientAge;
 	}
@@ -210,7 +210,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.patientAge = patientAge;
 	}
 	
-	@Length(min=0, max=32, message="患方涉及医院长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="患方涉及医院长度必须介于 0 和 32 之间")
 	public String getInvolveHospital() {
 		return involveHospital;
 	}
@@ -219,7 +219,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.involveHospital = involveHospital;
 	}
 	
-	@Length(min=0, max=200, message="患方申请事项长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="患方申请事项长度必须介于 1 和 200 之间")
 	public String getPatientApplyMatter() {
 		return patientApplyMatter;
 	}
@@ -228,7 +228,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.patientApplyMatter = patientApplyMatter;
 	}
 	
-	@Length(min=0, max=32, message="申请医院长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="申请医院长度必须介于 1 和 32 之间")
 	public String getHospitalApply() {
 		return hospitalApply;
 	}
@@ -237,7 +237,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.hospitalApply = hospitalApply;
 	}
 	
-	@Length(min=0, max=10, message="代理人长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="代理人长度必须介于 1 和 10 之间")
 	public String getAgent() {
 		return agent;
 	}
@@ -246,7 +246,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.agent = agent;
 	}
 	
-	@Length(min=0, max=15, message="医方电话长度必须介于 0 和 15 之间")
+	@Length(min=1, max=15, message="医方电话长度必须介于 1 和 15 之间")
 	public String getHospitalMobile() {
 		return hospitalMobile;
 	}
@@ -255,7 +255,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.hospitalMobile = hospitalMobile;
 	}
 	
-	@Length(min=0, max=10, message="医方姓名长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="医方姓名长度必须介于 1 和 10 之间")
 	public String getHospitalName() {
 		return hospitalName;
 	}
@@ -264,7 +264,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.hospitalName = hospitalName;
 	}
 	
-	@Length(min=0, max=4, message="医方年龄长度必须介于 0 和 4 之间")
+	@Length(min=1, max=4, message="医方年龄长度必须介于 1 和 4 之间")
 	public String getHospitalAge() {
 		return hospitalAge;
 	}
@@ -282,7 +282,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.hospitalSex = hospitalSex;
 	}
 	
-	@Length(min=0, max=200, message="医方申请事项长度必须介于 0 和 200 之间")
+	@Length(min=1, max=200, message="医方申请事项长度必须介于 1 和 200 之间")
 	public String getHospitalApplyMatter() {
 		return hospitalApplyMatter;
 	}
@@ -318,7 +318,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.medicalExpert = medicalExpert;
 	}
 	
-	@Length(min=0, max=10, message="日期长度必须介于 0 和 10 之间")
+	@Length(min=1, max=20, message="日期长度必须介于 1 和 20 之间")
 	public String getDate() {
 		return date;
 	}
@@ -363,7 +363,7 @@ public class AssessAudit extends DataEntity<AssessAudit> {
 		this.nextLink = nextLink;
 	}
 	
-	@Length(min=0, max=32, message="next_link_man长度必须介于 0 和 32 之间")
+
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}

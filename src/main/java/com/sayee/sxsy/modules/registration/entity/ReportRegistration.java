@@ -223,7 +223,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.nextLink = nextLink;
 	}
 
-	@Length(min=1, max=32, message="下一环节处理人不能为空")
+	//@Length(min=1, max=32, message="下一环节处理人不能为空")
 	public String getNextLinkMan() {
 		return nextLinkMan;
 	}

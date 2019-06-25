@@ -37,9 +37,10 @@
 		<li><a href="${ctx}/sys/user/list">用户列表</a></li>
 		<li class="active"><a href="${ctx}/sys/user/form?id=${user.id}">用户<shiro:hasPermission name="sys:user:edit">${not empty user.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:user:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/save?officeType=${user.office.officeType}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
         <form:hidden path="office.officeType" value="${user.office.officeType}"/>
+		<input type="hidden" id="officeType" name="officeType" value="${officeType}">
 		<sys:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">头像:</label>
@@ -52,14 +53,14 @@
 			<label class="control-label">归属公司:</label>
 			<div class="controls">
                 <sys:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=${user.office.type}&officeType=${user.office.officeType}" cssClass="required"/>
+					title="公司" url="/sys/office/treeData?type=${user.office.type}&officeType=${user.office.officeType}" dataMsgRequired="必填信息" cssClass="required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">归属部门:</label>
 			<div class="controls">
                 <sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=${user.office.type}&officeType=${user.office.officeType}" cssClass="required" notAllowSelectParent="false"/>
+					title="部门" url="/sys/office/treeData?type=${user.office.type}&officeType=${user.office.officeType}" dataMsgRequired="必填信息" cssClass="required" notAllowSelectParent="false"/>
 			</div>
 		</div>
 
@@ -122,7 +123,7 @@
 		<div class="control-group">
 			<label class="control-label">邮箱:</label>
 			<div class="controls">
-				<form:input path="email" htmlEscape="false" maxlength="100" class="email"/>
+				<form:input path="email" htmlEscape="false" maxlength="100" class="email required"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -134,7 +135,7 @@
 		<div class="control-group">
 			<label class="control-label">手机:</label>
 			<div class="controls">
-				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
+				<form:input path="mobile" htmlEscape="false" maxlength="100" cssClass="mobile required"/>
 			</div>
 		</div>
 		<div class="control-group">

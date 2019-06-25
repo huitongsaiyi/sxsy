@@ -3,8 +3,8 @@
 <mapper namespace="com.sayee.sxsy.modules.reachmediate.dao.ReachMediateDao">
     
 	<sql id="reachMediateColumns">
-		if(a.reach_mediate_id IS NULL,r2.report_registration_id,a.reach_mediate_id) AS "reachMediateId",
-		if(a.complaint_main_id IS NULL,r2.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
+		if(a.reach_mediate_id IS NULL,m.mediate_evidence_id,a.reach_mediate_id) AS "reachMediateId",
+		if(a.complaint_main_id IS NULL,m.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
 		if(a.rea_mediate_result IS NULL,m.mediate_result,a.rea_mediate_result ) AS "reaMediateResult",
 		if(a.rea_summary IS NULL,m.summary,a.rea_summary) AS "reaSummary",
 		if(a.rea_user_id IS NULL,m.user_id,a.rea_user_id ) AS "reaUserId",
@@ -84,7 +84,7 @@
 			<include refid="reachMediateColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="reachMediateJoins"/>
-		WHERE a.reach_mediate_id = #{reachMediateId} OR r2.report_registration_id = #{assessAppraisalId}
+		WHERE a.reach_mediate_id = #{reachMediateId} OR m.mediate_evidence_id = #{assessAppraisalId}
 	</select>
 	
 	<select id="findList" resultType="ReachMediate">

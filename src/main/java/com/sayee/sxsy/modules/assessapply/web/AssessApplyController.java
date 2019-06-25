@@ -90,6 +90,9 @@ public class AssessApplyController extends BaseController {
 	@RequiresPermissions("assessapply:assessApply:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,AssessApply assessApply, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, assessApply)||!beanValidator(model,assessApply.getComplaintMain())){
+			return form(assessApply, model,request);
+		}
 		try {
 			assessApplyService.save(assessApply,request);
 			if ("yes".equals(assessApply.getComplaintMain().getAct().getFlag())){
