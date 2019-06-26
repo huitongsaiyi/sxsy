@@ -109,18 +109,20 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
         ComplaintMain complaintMain=complaintMainDao.get(stopMediate.getComplaintMainId());
 		stopMediate=this.get(stopMediate.getStopMediateId());
 		String path=request.getServletContext().getRealPath("/");
+		String modelPath=path;
 		String newFileName="无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("yes".equals(export)){
-			params.put("${patient}", stopMediate ==null ? complaintMain.getPatientName() :stopMediate.getPatientName());
-			params.put("${hospital}", stopMediate ==null ? complaintMain.getHospital().getName() : stopMediate.getHospital().getName());
+			params.put("patient", stopMediate ==null ? complaintMain.getPatientName() :stopMediate.getPatientName());
+			params.put("hospital", stopMediate ==null ? complaintMain.getHospital().getName() : stopMediate.getHospital().getName());
 			path += "/doc/stopMediate.docx";  //模板文件位置
+			modelPath += "/doc/stopMediateM.docx";
 			newFileName="终止调解函.docx";
 		}
 		try{
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,"",params,testList,fileName,response);
+			wordExportUtil.getWord(path,modelPath,params,testList,fileName,response);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

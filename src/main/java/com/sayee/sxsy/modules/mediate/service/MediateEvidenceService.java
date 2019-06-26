@@ -240,23 +240,25 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	public void exportWord(MediateEvidence mediateEvidence, String export, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		mediateEvidence=this.get(mediateEvidence.getMediateEvidenceId());
-		String path="";
+		String path=request.getServletContext().getRealPath("/");
+		String modelPath=path;
 		String newFileName="无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("meeting".equals(export)){
-			params.put("${time}", mediateEvidence.getMeetingTime());
-			params.put("${address}", mediateEvidence.getMeetingAddress());
-			params.put("${case}", mediateEvidence.getCaseInfoName());
-			params.put("${ytw}", mediateEvidence.getYtwUser()==null ? "" : mediateEvidence.getYtwUser().getName());
-			params.put("${patient}", mediateEvidence.getPatient());
-			params.put("${doctor}", mediateEvidence.getDoctorUser()==null ? "" : mediateEvidence.getDoctorUser().getName());
-			path= Global.getProjectPath()+"/doc/mediateMeeting.docx";  //模板文件位置
+			params.put("time}", mediateEvidence.getMeetingTime());
+			params.put("address", mediateEvidence.getMeetingAddress());
+			params.put("case", mediateEvidence.getCaseInfoName());
+			params.put("ytw", mediateEvidence.getYtwUser()==null ? "" : mediateEvidence.getYtwUser().getName());
+			params.put("patient", mediateEvidence.getPatient());
+			params.put("doctor", mediateEvidence.getDoctorUser()==null ? "" : mediateEvidence.getDoctorUser().getName());
+			path += "/doc/mediateMeeting.docx";  //模板文件位置
+			modelPath += "/doc/mediateMeetingM.docx";
 			newFileName="调解会议表.docx";
 		}
 		try{
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,"",params,testList,fileName,response);
+			wordExportUtil.getWord(path,modelPath,params,testList,fileName,response);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
