@@ -83,7 +83,7 @@ public class StopMediateController extends BaseController {
 		String url10=request.getParameter("url10");
 		model.addAttribute("url10",url10);
 		//对 某个模块 进来的数据进行分析处理后返回
-        stopMediate=stopMediateService.handle(stopMediate,module);
+        stopMediate=stopMediateService.handle(stopMediate,module,request);
 		if("view".equals(type)){
             model.addAttribute("stopMediate", stopMediate);
             return "modules/stopmediate/stopMediateView";

@@ -85,7 +85,7 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
 		super.delete(stopMediate);
 	}
 
-	public StopMediate handle(StopMediate stopMediate, String module) {
+	public StopMediate handle(StopMediate stopMediate, String module,HttpServletRequest request) {
 		ComplaintMain complaintMain=complaintMainDao.get(stopMediate.getComplaintMainId());
 		if (StringUtils.isBlank(stopMediate.getStopMediateId())){
            StopMediate ss=stopMediateDao.passCom(stopMediate.getComplaintMainId());
@@ -98,8 +98,38 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
 		stopMediate.setInvolveHospital(stopMediate.getInvolveHospital() == null ? complaintMain.getInvolveHospital() : stopMediate.getInvolveHospital());
 		//stopMediate.getHospital().setName();
 		if ("badj".equals(module)){
-			stopMediate.setPower("/registration/reportRegistration/");
-			stopMediate.setInfo("报案信息列表");
+			if(StringUtils.isNotBlank(request.getParameter("url1"))){
+				stopMediate.setPower("/registration/reportRegistration/");
+				stopMediate.setInfo("报案信息列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url2"))){
+				stopMediate.setPower("/auditacceptance/auditAcceptance/");
+				stopMediate.setInfo("审核受理列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url3"))){
+				stopMediate.setPower("/nestigateeividence/investigateEvidence/");
+				stopMediate.setInfo("调查取证列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url7"))){
+				stopMediate.setPower("/mediate/mediateEvidence/");
+				stopMediate.setInfo("质证调解列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url5"))){
+				stopMediate.setPower("/assessapply/assessApply/");
+				stopMediate.setInfo("评估鉴定申请列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url6"))){
+				stopMediate.setPower("/assessaudit/assessAudit/");
+				stopMediate.setInfo("评估鉴定审批列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url4"))){
+				stopMediate.setPower("/assessappraisal/assessAppraisal/");
+				stopMediate.setInfo("评估鉴定列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url8"))){
+				stopMediate.setPower("/reachmediate/reachMediate/");
+				stopMediate.setInfo("达成调解列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url9"))){
+				stopMediate.setPower("/sign/signAgreement/");
+				stopMediate.setInfo("签署协议列表");
+			}else if(StringUtils.isNotBlank(request.getParameter("url10"))){
+				stopMediate.setPower("/perform/performAgreement/");
+				stopMediate.setInfo("履行协议列表");
+			}
+
 		}
 		return stopMediate;
 	}
