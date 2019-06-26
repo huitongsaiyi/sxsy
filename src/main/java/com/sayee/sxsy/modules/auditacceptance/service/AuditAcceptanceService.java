@@ -250,25 +250,25 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
             modelPath += "/doc/acceptanceDM.docx";
 			newFileName="医方通知书.docx";
 		}else if("patientDis".equals(export)){
-			params.put("sqr", auditAcceptance.getMediateApplyInfo().getApplyer());
-			params.put("yhzgx", auditAcceptance.getMediateApplyInfo().getPatientRelation());
-			params.put("phone", auditAcceptance.getMediateApplyInfo().getPatientMobile());
-			params.put("name", auditAcceptance.getMediateApplyInfo().getPatientName());
-			params.put("sex", auditAcceptance.getMediateApplyInfo().getPatientSex());
-			params.put("age", auditAcceptance.getMediateApplyInfo().getPatientAge());
-			params.put("hospital", auditAcceptance.getMediateApplyInfo().getInvolveHospital());
-			params.put("jfgy", auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
+			params.put("sqr", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getApplyer()) ? "" : auditAcceptance.getMediateApplyInfo().getApplyer());
+			params.put("yhzgx", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "" : "1".equals(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "本人": "2".equals(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "夫妻" : "3".equals(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "子女" : "4".equals(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "父母" : "5".equals(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "兄妹" : "6".equals(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "亲属" : "7".equals(auditAcceptance.getMediateApplyInfo().getPatientRelation()) ? "其他" : "无"   );
+			params.put("phone", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientMobile()) ? "" : auditAcceptance.getMediateApplyInfo().getPatientMobile());
+			params.put("name", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientName()) ? "" : auditAcceptance.getMediateApplyInfo().getPatientName());
+			params.put("sex", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientSex()) ? "" : "1".equals(auditAcceptance.getMediateApplyInfo().getPatientSex()) ? "男" :"女");
+			params.put("age", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientAge()) ? "" : auditAcceptance.getMediateApplyInfo().getPatientAge());
+			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getInvolveHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getInvolveHospital());
+			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyPatient.docx";  //模板文件位置
             modelPath += "/doc/disputeApplyPatientM.docx";
 			newFileName="医疗纠纷调解申请书（患方）.docx";
 		}else if("doctorDis".equals(export)){
-			params.put("hospital", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital());
-			params.put("agent", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent());
-			params.put("phone", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile());
-			params.put("patientName", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName());
-			params.put("sex", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientSex());
-			params.put("age", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientAge());
-			params.put("jfgy", auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes());
+			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital());
+			params.put("agent", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent());
+			params.put("phone", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile());
+			params.put("patientName", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName());
+			params.put("sex", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientSex()) ? "" :"1".equals(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientSex()) ? "男" : "女");
+			params.put("age", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientAge()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientAge());
+			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyDoctor.docx";  //模板文件位置
             modelPath += "/doc/disputeApplyDoctorM.docx";
 			newFileName="医疗纠纷调解申请书（医方）.docx";

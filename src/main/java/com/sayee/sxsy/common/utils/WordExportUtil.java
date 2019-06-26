@@ -38,6 +38,7 @@ public class WordExportUtil  {
         FileInputStream tempIs = new FileInputStream(tempPath);
         CustomXWPFDocument tempXdf = new CustomXWPFDocument(tempIs);
         this.setStyle(tempXdf,doc);
+        this.setTableStyle(tempXdf,doc);
 
         OutputStream os = response.getOutputStream();
         response.setHeader("Content-disposition", "attachment; filename=" + fileName);
@@ -126,7 +127,90 @@ public class WordExportUtil  {
             }
         }
     }
+    /**
+     * 处理文档替换内容的格式问题（word）
+     * @param tempDoc
+     * @param doc
+     */
+    private  void setTableStyle(XWPFDocument tempDoc,XWPFDocument doc) {
+        Iterator<XWPFTable> iterator = tempDoc.getTablesIterator();
+        Iterator<XWPFTable> iterator2 = doc.getTablesIterator();
+        XWPFTable table ;
+        XWPFTable table2;
+        while (iterator.hasNext()&&iterator2.hasNext()) {
+            table = iterator.next();
+            table2 = iterator2.next();
+            this.setStyleInPara(table,table2);
+        }
+    }
 
+    /**
+     * 处理表格替换内容的格式问题（word）
+     * @param table
+     * @param table2
+     */
+    private  void setStyleInPara(XWPFTable table, XWPFTable table2) {
+        List<XWPFTableRow> row ;
+        List<XWPFTableCell> cell = null;
+        List<XWPFParagraph> para = null;
+        List<XWPFTableRow> rows ;
+        List<XWPFTableCell> cells = null;
+        List<XWPFParagraph> paras = null;
+        if (table.getRows().size() > 1) {
+            if (matcher(table.getText()).find()) {
+                row=table.getRows();
+                rows=table2.getRows();
+                this.aa(para,paras,cell,cells,row,rows);
+            }
+        }
+    }
+    private void aa(List<XWPFParagraph> para,List<XWPFParagraph> paras,List<XWPFTableCell> cell,List<XWPFTableCell> cells,List<XWPFTableRow> row,List<XWPFTableRow> rows){
+        for (int r1=0; r1 < row.size();r1++){
+            for (int rr1=0; rr1 < rows.size();rr1++){
+                cells = rows.get(rr1).getTableCells();
+                cell = row.get(r1).getTableCells();
+                if (r1==rr1){
+                    for (int c1=0; c1 < cell.size();c1++) {
+                        for (int cc1 = 0; cc1 < cells.size(); cc1++) {
+                            paras = cells.get(cc1).getParagraphs();
+                            para = cell.get(c1).getParagraphs();
+                            if(c1==cc1){
+                                for (int p1=0; p1 < para.size();p1++) {
+                                    for (int pp1 = 0; pp1 < paras.size(); pp1++) {
+                                        if(p1==pp1){ this.setStyleInPara(para.get(p1),paras.get(pp1));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//        for (XWPFTableRow r : row) {
+//            for (XWPFTableRow rr : rows) {
+//                cells = rr.getTableCells();
+//                cell = r.getTableCells();
+//                for (XWPFTableCell c : cell) {
+//                    for (XWPFTableCell cc : cells) {
+//                        paras = cc.getParagraphs();
+//                        para = c.getParagraphs();
+//                        for (XWPFParagraph pp : paras) {
+//                            for (XWPFParagraph p : para) {
+//                                this.setStyleInPara(p,pp);
+//                                break;
+//                            }
+//                            break;
+//                        }
+//                        break;
+//                    }
+//                    break;
+//                }
+//                break;
+//            }
+//            continue;
+//        }
+    }
     /**
      * 替换段落里面的变量
      * @param para   要替换的段落
@@ -245,7 +329,8 @@ public class WordExportUtil  {
                         for (XWPFTableCell cell : cells) {
                             paras = cell.getParagraphs();
                             for (XWPFParagraph para : paras) {
-                                this.replaceInPara(para, params, doc);
+                                //this.replaceInPara(para, params, doc);
+                                this.replaceInPara(para, params);
                             }
                         }
                     }
