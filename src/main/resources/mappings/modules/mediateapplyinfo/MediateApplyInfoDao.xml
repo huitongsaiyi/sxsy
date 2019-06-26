@@ -26,7 +26,7 @@
 	</sql>
 	
 	<sql id="mediateApplyInfoJoins">
-		LEFT JOIN SYS_OFFICE o9 ON o9.id = a.involve_hospital
+
 	</sql>
     
 	<select id="get" resultType="MediateApplyInfo">
@@ -132,8 +132,7 @@
 			apply_matter = #{applyMatter},
 			apply_hospital = #{applyHospital},
 			agent = #{agent},
-			hospital_mobile = #{hospitalMobile},
-			apply_type = #{applyType}
+			hospital_mobile = #{hospitalMobile}
 		WHERE mediate_apply_id = #{mediateApplyId}
 	</update>
 	

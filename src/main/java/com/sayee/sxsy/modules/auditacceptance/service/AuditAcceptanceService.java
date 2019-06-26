@@ -48,7 +48,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 	@Autowired
 	private ActTaskService actTaskService;
 	@Autowired
-	private MediateApplyInfoService mediateApplyInfoService;
+	private MediateApplyInfoDao mediateApplyInfoDao;
 
 	public AuditAcceptance get(String id) {
 		AuditAcceptance auditAcceptance = super.get(id);
@@ -70,36 +70,47 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 	
 	@Transactional(readOnly = false)
 	public void save(HttpServletRequest request, AuditAcceptance auditAcceptance) {
+		MediateApplyInfo huanf=auditAcceptance.getMediateApplyInfo();
+		MediateApplyInfo yif=auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo();
 		if(StringUtils.isBlank(auditAcceptance.getCreateBy().getId())){
 			//判断主键ID是否为空
 			auditAcceptance.preInsert();
 			auditAcceptance.setAuditAcceptanceId(auditAcceptance.getId());
 			//将主键ID设为UUID
 			dao.insert(auditAcceptance);
-			auditAcceptance.getMediateApplyInfo().setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
-			auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
-			auditAcceptance.getMediateApplyInfo().setApplyType("1");
-			auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().setApplyType("2");
-			mediateApplyInfoService.save(auditAcceptance.getMediateApplyInfo());
-			mediateApplyInfoService.save(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo());
-//			this.savefj(request, auditAcceptance);
+			//保存患方申请
+			huanf.preInsert();
+			huanf.setMediateApplyId(IdGen.uuid());
+			huanf.setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+			huanf.setApplyType("1");
+			mediateApplyInfoDao.insert(huanf);
+			//保存医方申请
+			yif.preInsert();
+			yif.setMediateApplyId(IdGen.uuid());
+			yif.setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+			yif.setApplyType("2");
+			mediateApplyInfoDao.insert(yif);
 		}else{//如果不为空进行更新
 			//修改表
 			auditAcceptance.preUpdate();
-			auditAcceptance.getMediateApplyInfo().preUpdate();
-			auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().preUpdate();
 			dao.update(auditAcceptance);
-			if(StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getAuditAcceptanceId()) || "".equals(auditAcceptance.getMediateApplyInfo().getAuditAcceptanceId())){
-				auditAcceptance.getMediateApplyInfo().setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
-				auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
-			}
-			if(StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getApplyType()) || "".equals(auditAcceptance.getMediateApplyInfo().getApplyType())){
-				auditAcceptance.getMediateApplyInfo().setApplyType("1");
-				auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().setApplyType("2");
-			}
-			mediateApplyInfoService.save(auditAcceptance.getMediateApplyInfo());
-			mediateApplyInfoService.save(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo());
+//			if(StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getAuditAcceptanceId()) || "".equals(auditAcceptance.getMediateApplyInfo().getAuditAcceptanceId())){
+//				auditAcceptance.getMediateApplyInfo().setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+//				auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+//			}
+//			if(StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getApplyType()) || "".equals(auditAcceptance.getMediateApplyInfo().getApplyType())){
+//				auditAcceptance.getMediateApplyInfo().setApplyType("1");
+//				auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().setApplyType("2");
+//			}
+			//更新患方申请
+			huanf.preUpdate();
+			mediateApplyInfoDao.update(huanf);
+			//更新医方申请
+			yif.preUpdate();
+			mediateApplyInfoDao.update(yif);
+
 		}
+
 		//修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
 //		ComplaintMain complaintMain=reportRegistration.getComplaintMain();
 //		complaintMain.preUpdate();

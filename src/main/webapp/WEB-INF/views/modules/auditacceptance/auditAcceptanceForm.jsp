@@ -92,6 +92,10 @@
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
+    <form:hidden path="mediateApplyInfo.mediateApplyId"/>
+    <form:hidden path="mediateApplyInfo.docMediateApplyInfo.mediateApplyId"/>
+    <form:hidden path="mediateApplyInfo.auditAcceptanceId"/>
+    <form:hidden path="mediateApplyInfo.docMediateApplyInfo.auditAcceptanceId"/>
     <input type="hidden"  id="export" name="export"/>
     <sys:message content="${message}"/>
     <ul id="myTab" class="nav nav-tabs">
@@ -382,7 +386,7 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>患者年龄</td>
                     <td>
-                        <form:input path="mediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" class="input-xlarge required digits"/>
+                        <form:input path="mediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" cssClass="input-xlarge required digits"/>
                     </td>
                     <td class="tit"><font color="red">*</font>患方联系电话</td>
                     <td>
@@ -392,7 +396,7 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>涉及医院</td>
                     <td>
-                        <sys:treeselect id="involveHospital" name="mediateApplyInfo.involveHospital" value="${auditAcceptance.mediateApplyInfo.involveHospital}" labelName="${auditAcceptance.complaintMain.hospital.name}" labelValue="${auditAcceptance.complaintMain.hospital.name}"
+                        <sys:treeselect id="involveHospital" name="mediateApplyInfo.involveHospital" value="${empty auditAcceptance.mediateApplyInfo.involveHospital ? auditAcceptance.complaintMain.involveHospital : auditAcceptance.mediateApplyInfo.involveHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.involveHospital ? auditAcceptance.complaintMain.hospital.name : auditAcceptance.mediateApplyInfo.sjOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.involveHospital ?  auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.sjOffice.name}"
                                         title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                 </tr>
@@ -423,7 +427,7 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>申请医院</td>
                     <td>
-                        <sys:treeselect id="involveHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${auditAcceptance.complaintMain.hospital.name}" labelValue="${auditAcceptance.complaintMain.hospital.name}"
+                        <sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"
                                         title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>
                     </td>
                     <td class="tit"><font color="red">*</font>代理人</td>

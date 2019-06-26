@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.mediateapplyinfo.entity;
 
+import com.sayee.sxsy.modules.sys.entity.Office;
 import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
@@ -31,6 +32,24 @@ public class MediateApplyInfo extends DataEntity<MediateApplyInfo> {
 	private String hospitalMobile;		// 医方电话
 	private String applyType;		// 申请类型 1患方2医方
 	private MediateApplyInfo docMediateApplyInfo;		//医方调解申请信息
+	private Office sjOffice; // 涉及医院
+	private Office sqOffice; // 申请医院
+
+	public Office getSqOffice() {
+		return sqOffice;
+	}
+
+	public void setSqOffice(Office sqOffice) {
+		this.sqOffice = sqOffice;
+	}
+
+	public Office getSjOffice() {
+		return sjOffice;
+	}
+
+	public void setSjOffice(Office sjOffice) {
+		this.sjOffice = sjOffice;
+	}
 
 	public MediateApplyInfo() {
 		super();
