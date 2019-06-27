@@ -126,7 +126,7 @@ public class InvestigateEvidenceController extends BaseController {
 	@RequiresPermissions("nestigateeividence:investigateEvidence:edit")
 	@RequestMapping(value = "save")
 	public String save(InvestigateEvidence investigateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if (!beanValidator(model, investigateEvidence)||!beanValidator(model,investigateEvidence.getInvestigateEvidence())){
+		if ("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag()) &&(   !beanValidator(model, investigateEvidence)||!beanValidator(model,investigateEvidence.getInvestigateEvidence()))){
 			return form(investigateEvidence, model,request);
 		}
 		try {

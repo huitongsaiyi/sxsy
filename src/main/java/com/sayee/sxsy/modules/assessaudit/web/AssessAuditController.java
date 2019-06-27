@@ -89,7 +89,7 @@ public class AssessAuditController extends BaseController {
 	@RequiresPermissions("assessaudit:assessAudit:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,AssessAudit assessAudit, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model,assessAudit)||!beanValidator(model,assessAudit.getComplaintMain())){
+		if ("yes".equals(assessAudit.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model,assessAudit)||!beanValidator(model,assessAudit.getComplaintMain()))   ){
 			return form(assessAudit, model,request);
 		}
 		try{

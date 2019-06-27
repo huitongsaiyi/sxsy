@@ -109,6 +109,9 @@ public class MediateEvidenceController extends BaseController {
 			mediateEvidenceService.exportWord(mediateEvidence,export,request,response);
 			return "";
 		}else {
+			if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag()) &&(  !beanValidator(model, mediateEvidence) || !beanValidator(model,mediateEvidence.getRecordInfo()) ||!beanValidator(model,mediateEvidence.getRecordInfo().getYrecordInfo())) ){
+				return form(mediateEvidence,model,request);
+			}
 			try {
 				mediateEvidenceService.save(mediateEvidence,request);
 				if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){

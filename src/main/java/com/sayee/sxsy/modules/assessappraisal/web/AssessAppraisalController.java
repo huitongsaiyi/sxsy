@@ -119,7 +119,7 @@ public class AssessAppraisalController extends BaseController {
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")
 	@RequestMapping(value = "save")
 	public String save(AssessAppraisal assessAppraisal, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if (!beanValidator(model, assessAppraisal)||!beanValidator(model,assessAppraisal.getComplaintMain())||!beanValidator(model,assessAppraisal.getRecordInfo1())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())||!beanValidator(model,assessAppraisal.getProposal())){
+		if ("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, assessAppraisal)||!beanValidator(model,assessAppraisal.getComplaintMain())||!beanValidator(model,assessAppraisal.getRecordInfo1())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())||!beanValidator(model,assessAppraisal.getProposal())) ){
 			return form(assessAppraisal, model,request);
 		}
 		try{

@@ -84,7 +84,7 @@ public class ComplaintMainDetailController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(ComplaintMainDetail complaintMainDetail, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		try {
-			if (!beanValidator(model, complaintMainDetail) || !beanValidator(model, complaintMainDetail.getComplaintMain()) ){
+			if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag()) &&(  !beanValidator(model, complaintMainDetail) || !beanValidator(model, complaintMainDetail.getComplaintMain())) ){
 				return form(complaintMainDetail, model,request);
 			}
 				complaintMainDetailService.save(complaintMainDetail);

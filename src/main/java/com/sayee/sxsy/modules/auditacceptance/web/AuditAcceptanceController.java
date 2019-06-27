@@ -144,7 +144,7 @@ public class AuditAcceptanceController extends BaseController {
 				auditAcceptanceService.exportWord(auditAcceptance,export,request,response);
 				return "";
 			}else {
-				if (!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo())){
+				if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo()))  ){
 					return form(request,auditAcceptance, model);
 				}
 				try {

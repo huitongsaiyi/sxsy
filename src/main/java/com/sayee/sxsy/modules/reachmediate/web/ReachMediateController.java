@@ -98,7 +98,7 @@ public class ReachMediateController extends BaseController {
 	@RequiresPermissions("reachmediate:reachMediate:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, reachMediate)||!beanValidator(model,reachMediate.getComplaintMain())||!beanValidator(model,reachMediate.getRecordInfo())||!beanValidator(model,reachMediate.getRecordInfo().getYrecordInfo())){
+		if ( "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) &&(  !beanValidator(model, reachMediate)||!beanValidator(model,reachMediate.getComplaintMain())||!beanValidator(model,reachMediate.getRecordInfo())||!beanValidator(model,reachMediate.getRecordInfo().getYrecordInfo()))){
 			return form(reachMediate, model,request);
 		}
 		try{
