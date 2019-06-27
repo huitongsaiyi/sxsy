@@ -50,27 +50,27 @@
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
-			<tr><th class="sort-column case_number">案件编号</th>
-				<th class="sort-column involve_hospital">涉及医院</th>
-				<th class="sort-column hospital_grade">医院等级</th>
-				<th class="sort-column case_number">所属地市</th>
-				<th class="sort-column report_emp">报案人姓名</th>
-				<th class="sort-column dispute_time">纠纷发生时间</th>
-				<th class="sort-column patient_name">患者姓名</th>
-				<th class="sort-column a.patient_mobile">患方联系方式</th>
-				<shiro:hasPermission name="registration:reportRegistration:edit"><th>操作</th></shiro:hasPermission>
+			<tr><th class="sort-column case_number" style="text-align: center;">案件编号</th>
+				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
+				<th class="sort-column hospital_grade" style="text-align: center;">医院等级</th>
+				<th class="sort-column case_number" style="text-align: center;">所属地市</th>
+				<th class="sort-column report_emp" style="text-align: center;">报案人姓名</th>
+				<th class="sort-column dispute_time" style="text-align: center;">纠纷发生时间</th>
+				<th class="sort-column patient_name" style="text-align: center;">患者姓名</th>
+				<th class="sort-column a.patient_mobile" style="text-align: center;">患方联系方式</th>
+				<shiro:hasPermission name="registration:reportRegistration:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="reportRegistration">
 			<tr>
-				<td><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">
+				<td style="text-align: center;"><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">
 						${reportRegistration.complaintMain.caseNumber}
 				</a></td>
-				<td>
+				<td style="text-align: center;">
 						${reportRegistration.complaintMain.hospital.name}
 				</td>
-				<td>
+				<td style="text-align: center;">
                     <c:choose>
                         <c:when test="${reportRegistration.complaintMain.hospitalGrade=='1'}">
                             特等
@@ -91,23 +91,23 @@
 
 
 				</td>
-				<td>
+				<td style="text-align: center;">
 						${reportRegistration.area.name}
 				</td>
 
-				<td>
+				<td style="text-align: center;">
 						${reportRegistration.reportEmp}
 				</td>
-				<td>
+				<td style="text-align: center;">
 						${reportRegistration.disputeTime}
 				</td>
-				<td>
+				<td style="text-align: center;">
 						${reportRegistration.complaintMain.patientName}
 				</td>
-				<td>
+				<td style="text-align: center;">
 						${reportRegistration.patientMobile}
 				</td>
-				<shiro:hasPermission name="registration:reportRegistration:edit"><td>
+				<shiro:hasPermission name="registration:reportRegistration:edit"><td style="text-align: center;">
     				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">处理</a>
     				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">详情</a>
 					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${reportRegistration.complaintMainId}&module=badj&url1=/registration/reportRegistration/?repage">终止调解</a>

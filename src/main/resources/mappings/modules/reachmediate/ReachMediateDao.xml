@@ -52,7 +52,8 @@
         uz1.name AS "recordInfo.yrecordInfo.ytwHost.name",
         uj1.name AS "recordInfo.yrecordInfo.ytwNoteTaker.name",
         uy1.name AS "recordInfo.yrecordInfo.yfDoctor.name",
-        au.policy_number AS "auditAcceptance.policyNumber"
+        au.policy_number AS "auditAcceptance.policyNumber",
+        sa.name AS "area.name"
 	</sql>
 	
 	<sql id="reachMediateJoins">
@@ -96,6 +97,15 @@
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r2.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='reach'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
+				AND r1.report_emp = #{reportRegistration.reportEmp}
+			</if>
+			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
+				AND b.patient_name = #{complaintMain.patientName}
+			</if>
+			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
+				AND r1.patient_mobile = #{reportRegistration.patientMobile}
 			</if>
 		</where>
 		<choose>

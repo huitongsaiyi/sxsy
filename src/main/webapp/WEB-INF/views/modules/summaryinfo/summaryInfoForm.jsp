@@ -51,9 +51,6 @@
 			<li>
 				<a href="#attachment" data-toggle="tab">补录附件</a>
 			</li>
-			<li>
-				<a href="#details" data-toggle="tab">详情</a>
-			</li>
 
 		</ul>
 	<div id="myTabContent" class="tab-content">
@@ -286,8 +283,6 @@
 				</table>
 			</div>
 			</div>
-		</div>
-		<div class="tab-pane fade in active" id="details">
 		</div>
 	</div>
 

@@ -64,7 +64,7 @@
         });
     </script>
 </head>
-<body>${map}123
+<body>
 <form:form class="form-horizontal">
     <sys:message content="${message}"/>
     <fieldset>
@@ -183,7 +183,7 @@
                                            class="input-xlarge" value="${files4}"/>
                                     <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"
                                                                                   uploadPath="/summaryinfo/summaryInfo/huan/powerOfAttorney"
-                                                                                  selectMultiple="true"/></div>
+                                                                                  selectMultiple="true" readonly="true"/></div>
                                 </td>
                             </tr>
                             <tr style=" ">
@@ -197,7 +197,7 @@
                                            class="input-xlarge" value="${files5}"/>
                                     <div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files"
                                                                                   uploadPath="/summaryinfo/summaryInfo/huan/PrincipalRelatedDocuments"
-                                                                                  selectMultiple="true"/></div>
+                                                                                  selectMultiple="true" readonly="true"/></div>
                                 </td>
                             </tr>
                             <tr style=" ">

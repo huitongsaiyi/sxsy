@@ -56,7 +56,7 @@
 			<label class="control-label">反馈给部门：</label>
 			<div class="controls">
 				<sys:treeselect id="feedbackOffice" name="caseFeedOfficeIds" value="${caseFeedback.caseFeedOfficeIds}" labelName="oaNotifyOfficeNames" labelValue="${caseFeedback.oaNotifyOfficeNames}"
-					title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="false" cssClass="input-xxlarge required" allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
+					title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="input-xxlarge required" allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
 				<span class="helper"><font color="red">*</font></span>
 			</div>
 		</div>

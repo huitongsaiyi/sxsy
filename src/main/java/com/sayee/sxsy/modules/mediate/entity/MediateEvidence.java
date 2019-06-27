@@ -9,6 +9,7 @@ import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
+import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import org.hibernate.validator.constraints.Length;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -47,7 +48,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private ComplaintMain complaintMain;        //关联主表
     private List<MediateRecord> mediateEvidenceList = Lists.newArrayList();     //关联调解志子表
     private RecordInfo recordInfo;      //关联笔录子表
-    private String areaName;
+    private Area area;
     private AuditAcceptance auditAcceptance;
     private ReportRegistration reportRegistration;
 
@@ -100,12 +101,12 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.auditAcceptance = auditAcceptance;
     }
 
-    public String getAreaName() {
-        return areaName;
+    public Area getArea() {
+        return area;
     }
 
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
+    public void setArea(Area area) {
+        this.area = area;
     }
 
     public RecordInfo getRecordInfo() {

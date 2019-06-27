@@ -6,6 +6,9 @@ package com.sayee.sxsy.modules.assessinfo.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.assessinfo.entity.AssessInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * 案件评价DAO接口
@@ -14,5 +17,8 @@ import com.sayee.sxsy.modules.assessinfo.entity.AssessInfo;
  */
 @MyBatisDao
 public interface AssessInfoDao extends CrudDao<AssessInfo> {
-	
+    /*查询不同节点的  主键
+     * 详情需要参数
+     * */
+    public Map<String,Object> getViewDetail(@Param("complaintMainId") String complaintMainId);
 }

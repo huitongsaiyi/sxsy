@@ -52,9 +52,6 @@
         <li class="active">
             <a href="#evaluate" data-toggle="tab">案件评价</a>
         </li>
-        <li>
-            <a href="#Details" data-toggle="tab">详情</a>
-        </li>
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="evaluate">

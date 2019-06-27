@@ -70,7 +70,9 @@
 		<c:forEach items="${page.list}" var="mediateEvidence">
 			<tr>
 				<td style="text-align:center;">
-						${mediateEvidence.complaintMain.caseNumber}
+					<a href="${ctx}/mediate/mediateEvidence/form?id=${mediateEvidence.mediateEvidenceId}">
+							${mediateEvidence.complaintMain.caseNumber}
+					</a>
 				</td>
 				<td style="text-align:center;">
 						${mediateEvidence.complaintMain.hospital.name}
@@ -95,7 +97,7 @@
 					</c:choose>
 				</td>
 				<td style="text-align:center;">
-						${mediateEvidence.areaName}
+						${mediateEvidence.area.name}
 				</td>
 				<td style="text-align:center;">
 						${mediateEvidence.auditAcceptance.policyNumber}

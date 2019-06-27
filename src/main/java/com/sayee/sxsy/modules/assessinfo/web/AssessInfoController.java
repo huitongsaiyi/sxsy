@@ -22,6 +22,8 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.assessinfo.entity.AssessInfo;
 import com.sayee.sxsy.modules.assessinfo.service.AssessInfoService;
 
+import java.util.Map;
+
 /**
  * 案件评价Controller
  * @author lyt
@@ -59,6 +61,8 @@ public class AssessInfoController extends BaseController {
 	public String form(HttpServletRequest request,AssessInfo assessInfo, Model model) {
 		String type = request.getParameter("type");
 		if("view".equals(type)){
+			Map<String, Object> map = assessInfoService.getViewDetail(assessInfo.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("assessInfo", assessInfo);
 			return "modules/assessinfo/assessInfoView";
 		}else {

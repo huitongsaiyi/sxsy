@@ -114,20 +114,54 @@
 					$(this).click();
 				}
 			});
-			// 获取通知数目  <c:set var="oaNotifyRemindInterval" value="${fns:getConfig('oa.notify.remind.interval')}"/>
-			function getNotifyNum(){
-				$.get("${ctx}/oa/oaNotify/self/count?updateSession=0&t="+new Date().getTime(),function(data){
-					var num = parseFloat(data);
-					if (num > 0){
-						$("#notifyNum,#notifyNum2").show().html("("+num+")");
-					}else{
-						$("#notifyNum,#notifyNum2").hide()
-					}
-				});
-			}
-			getNotifyNum(); //<c:if test="${oaNotifyRemindInterval ne '' && oaNotifyRemindInterval ne '0'}">
-			setInterval(getNotifyNum, ${oaNotifyRemindInterval}); //</c:if>
+			<c:set var="oaNotifyRemindInterval" value="${fns:getConfig('oa.notify.remind.interval')}"/>
+			//我的待办
+			getMyNum();
+			getNotifyNum();
+			clearNum()
+			//<c:if test="${oaNotifyRemindInterval ne '' && oaNotifyRemindInterval ne '0'}">
+			setInterval(clearNum, ${oaNotifyRemindInterval});
+			setInterval(getNotifyNum, ${oaNotifyRemindInterval}); setInterval(getMyNum, ${oaNotifyRemindInterval});//</c:if>
+
 		});
+		var num=0;
+		// 获取待办数目
+		function getMyNum(){
+
+			$.get("${ctx}/complaintmain/complaintMain/self/count?updateSession=0&t="+new Date().getTime(),function(data){
+				num += parseFloat(data);
+				if (num > 0){
+					$("#myNum").show().html("("+parseFloat(data)+")");
+					$("#notifyNum").show().html("("+num+")");
+				}else{
+					$("#notifyNum,#myNum").hide()
+				}
+			});
+			return num;
+		}
+
+		// 获取通知数目
+		function getNotifyNum(){
+			$.get("${ctx}/oa/oaNotify/self/count?updateSession=0&t="+new Date().getTime(),function(data){
+				num += parseFloat(data);
+				if (num > 0){
+					$("#notifyNum2").show().html("("+parseFloat(data)+")");
+					$("#notifyNum").show().html("("+num+")");
+				}else{
+					$("#notifyNum,#notifyNum2").hide()
+				}
+			});
+			return num;
+		}
+
+		//总数目
+		function clearNum() {
+			if(num>0){
+				num=0;
+			}else {
+			}
+		}
+
 		// <c:if test="${tabmode eq '1'}"> 添加一个页签
 		function addTab($this, refresh){
 			$(".jericho_tab").show();
@@ -166,6 +200,7 @@
 							<li><a href="${ctx}/sys/user/info" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
 							<li><a href="${ctx}/sys/user/modifyPwd" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
 							<li><a href="${ctx}/oa/oaNotify/self" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
+							<li><a href="${ctx}/complaintmain/complaintMain/self" target="mainFrame"><i class="icon-bullhorn"></i>&nbsp;  我的待办 <span id="myNum" class="label label-info hide"></span></a></li>
 						</ul>
 					</li>
 					<li><a href="${ctx}/logout" title="退出登录">退出</a></li>

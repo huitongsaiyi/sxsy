@@ -6,6 +6,11 @@ package com.sayee.sxsy.modules.complaintmain.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.sys.entity.User;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 纠纷调解DAO接口
@@ -14,5 +19,16 @@ import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
  */
 @MyBatisDao
 public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
-	
+    /**
+     * 获取我的待办数目
+     */
+    public Long findCount(@Param("loginName") String loginName);
+    /**
+     * 获取我的待办数据
+     */
+    public List<ComplaintMain> selfList(@Param("loginName") String loginName);
+    /**
+     * 获取某表的主键
+     */
+    public String getKey(@Param("complaintMainId") String complaintMainId,@Param("key") String key,@Param("table") String table);
 }

@@ -18,27 +18,18 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/complaintmain/complaintMain/">纠纷调解列表</a></li>
+		<li class="active"><a>我的待办</a></li>
+<%--
 		<shiro:hasPermission name="complaintmain:complaintMain:edit"><li><a href="${ctx}/complaintmain/complaintMain/form">纠纷调解添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="complaintMain" action="${ctx}/complaintmain/complaintMain/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>案件编号：</label>
-				<form:input path="caseNumber" htmlEscape="false" maxlength="20" class="input-medium"/>
-			</li>
-			<li><label>患者姓名：</label>
-				<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-medium"/>
-			</li>
-			<li><label>涉及医院：</label>
-				<form:input path="involveHospital" htmlEscape="false" maxlength="32" class="input-medium"/>
-			</li>
-			<li><label>涉及科室：</label>
-				<form:input path="involveDepartment" htmlEscape="false" maxlength="32" class="input-medium"/>
-			</li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="clearfix"></li>
+
+			<%--<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>--%>
+			<%--<li class="clearfix"></li>--%>
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
@@ -47,42 +38,53 @@
 			<tr>
 				<th>案件编号</th>
 				<th>患者姓名</th>
-				<th>患者性别 字典</th>
+				<th>患者性别</th>
 				<th>涉及医院</th>
 				<th>涉及科室</th>
 				<th>涉及人员</th>
+				<th>当前节点</th>
 				<th>update_date</th>
-				<shiro:hasPermission name="complaintmain:complaintMain:edit"><th>操作</th></shiro:hasPermission>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="complaintMain">
 			<tr>
-				<td><a href="${ctx}/complaintmain/complaintMain/form?id=${complaintMain.id}">
+				<td>
 					${complaintMain.caseNumber}
-				</a></td>
+				</td>
 				<td>
 					${complaintMain.patientName}
 				</td>
 				<td>
-					${complaintMain.patientSex}
+					<c:if test="${complaintMain.patientSex=='1'}">
+						男
+					</c:if>
+					<c:if test="${complaintMain.patientSex=='2'}">
+						女
+					</c:if>
 				</td>
 				<td>
-					${complaintMain.involveHospital}
+					${complaintMain.hospital.name}
 				</td>
 				<td>
-					${complaintMain.involveDepartment}
+					${complaintMain.department.name}
 				</td>
 				<td>
-					${complaintMain.involveEmployee}
+					${complaintMain.employee.name}
+				</td>
+				<td>
+					${complaintMain.nodeName}
 				</td>
 				<td>
 					<fmt:formatDate value="${complaintMain.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<shiro:hasPermission name="complaintmain:complaintMain:edit"><td>
-    				<a href="${ctx}/complaintmain/complaintMain/form?id=${complaintMain.id}">修改</a>
-					<a href="${ctx}/complaintmain/complaintMain/delete?id=${complaintMain.id}" onclick="return confirmx('确认要删除该纠纷调解吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				<td>
+					<c:if test="${not empty complaintMain.url}">
+						<a href="${ctx}${complaintMain.url}form?id=${complaintMain.key}">处理</a>
+						<a href="${ctx}${complaintMain.url}form?id=${complaintMain.key}&type=view">详情</a>
+					</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>

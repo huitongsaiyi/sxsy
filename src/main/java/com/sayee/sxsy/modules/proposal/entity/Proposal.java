@@ -39,7 +39,7 @@ public class Proposal extends DataEntity<Proposal> {
 		super(id);
 	}
 
-	@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
+	@Length(min=0, max=32, message="主键长度必须介于 0 和 32 之间")
 	public String getProposalId() {
 		return proposalId;
 	}

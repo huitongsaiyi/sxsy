@@ -73,5 +73,9 @@ public class AssessInfoService extends CrudService<AssessInfoDao, AssessInfo> {
 	public void delete(AssessInfo assessInfo) {
 		super.delete(assessInfo);
 	}
-	
+
+	public Map<String,Object> getViewDetail(String complaintMainId) {
+		Map<String,Object> map=dao.getViewDetail(complaintMainId);
+		return map;
+	}
 }

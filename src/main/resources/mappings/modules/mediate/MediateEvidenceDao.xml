@@ -57,7 +57,8 @@
          uz1.name AS "recordInfo.yrecordInfo.ytwHost.name",
          uj1.name AS "recordInfo.yrecordInfo.ytwNoteTaker.name",
          uy1.name AS "recordInfo.yrecordInfo.yfDoctor.name",
-         au.policy_number AS "auditAcceptance.policyNumber"
+         au.policy_number AS "auditAcceptance.policyNumber",
+         sa.name AS "area.name"
 	</sql>
 	
 	<sql id="mediateEvidenceJoins">

@@ -48,61 +48,68 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column case_number">案件编号</th>
-				<th class="sort-column b.involve_hospital">医疗机构名称</th>
-				<th class="sort-column b.patient_name">患者姓名</th>
-				<th class="sort-column a.case_source">案件来源</th>
-				<th class="sort-column a.guarantee_time">起保日期</th>
-				<th class="sort-column a.insurance_company">保险公司</th>
-				<th class="sort-column a.policy_number">保单号</th>
-				<th class="sort-column a.diagnosis_mode">诊疗方式</th>
-				<th class="sort-column a.treatment_outcome">治疗结果</th>
-				<th class="sort-column a.diagnosis_mode">患方受理通知书</th>
-				<th class="sort-column a.diagnosis_mode">医方受理通知书</th>
-				<th class="sort-column a.update_date">修改时间</th>
-				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><th>操作</th></shiro:hasPermission>
+				<th class="sort-column case_number" style="text-align: center">案件编号</th>
+				<th class="sort-column b.involve_hospital" style="text-align: center">医疗机构名称</th>
+				<th class="sort-column b.patient_name" style="text-align: center">患者姓名</th>
+				<th class="sort-column a.case_source" style="text-align: center">案件来源</th>
+				<th class="sort-column a.guarantee_time" style="text-align: center">起保日期</th>
+				<th class="sort-column a.insurance_company" style="text-align: center">保险公司</th>
+				<th class="sort-column a.policy_number" style="text-align: center">保单号</th>
+				<th class="sort-column a.diagnosis_mode" style="text-align: center">诊疗方式</th>
+				<th class="sort-column a.treatment_outcome" style="text-align: center">治疗结果</th>
+				<th class="sort-column a.diagnosis_mode" style="text-align: center">患方受理通知书</th>
+				<th class="sort-column a.diagnosis_mode" style="text-align: center">医方受理通知书</th>
+				<th class="sort-column a.update_date" style="text-align: center">修改时间</th>
+				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><th style="text-align: center">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="auditAcceptance">
 			<tr>
-				<td><a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">
+				<td style="text-align: center"><a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">
 					${auditAcceptance.complaintMain.caseNumber}
 				</a></td>
-				<td>
+				<td style="text-align: center">
 					${auditAcceptance.complaintMain.hospital.name}
 				</td>
-				<td>
+				<td style="text-align: center">
 					${auditAcceptance.complaintMain.patientName}
 				</td>
-				<td>
-					${auditAcceptance.caseSource}
+				<td style="text-align: center">
+					<c:choose>
+						<c:when test="${auditAcceptance.caseSource == '1'}">
+							当事人申请
+						</c:when>
+						<c:when test="${auditAcceptance.caseSource == '2'}">
+							人民调解委员会主动申请
+						</c:when>
+					</c:choose>
 				</td>
-				<td>
+				<td style="text-align: center">
 					${auditAcceptance.guaranteeTime}
 				</td>
-				<td>
+				<td style="text-align: center">
 					${auditAcceptance.insuranceCompany}
 				</td>
-				<td>
+				<td style="text-align: center">
 					${auditAcceptance.policyNumber}
 				</td>
-				<td>
+				<td style="text-align: center">
 					${auditAcceptance.diagnosisMode}
 				</td>
-				<td>
+				<td style="text-align: center">
 					${auditAcceptance.treatmentOutcome}
 				</td>
-				<td>
-					${auditAcceptance.diagnosisMode}
+				<td style="text-align: center">
+					${auditAcceptance.hfsltzs}
 				</td>
-				<td>
-					${auditAcceptance.diagnosisMode}
+				<td style="text-align: center">
+					${auditAcceptance.yysltzs}
 				</td>
-				<td>
+				<td style="text-align: center">
 					<fmt:formatDate value="${auditAcceptance.updateDate}" pattern="yyyy-MM-dd HH:mm"/>
 				</td>
-				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><td>
+				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><td style="text-align: center">
     				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">处理</a>
     				<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}&type=view">详情</a>
 					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${auditAcceptance.complaintMainId}&module=badj&url2=/auditacceptance/auditAcceptance/?repage">终止调解</a>

@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.auditacceptance.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ import com.sayee.sxsy.common.web.BaseController;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.auditacceptance.service.AuditAcceptanceService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 审核受理Controller
@@ -57,6 +62,70 @@ public class AuditAcceptanceController extends BaseController {
 	@RequiresPermissions("auditacceptance:auditAcceptance:view")
 	@RequestMapping(value = "form")
 	public String form(HttpServletRequest request,AuditAcceptance auditAcceptance, Model model) {
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(auditAcceptance.getAuditAcceptanceId());
+		for (Map<String, Object> map:filePath){
+			if ("1".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("2".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("3".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files3",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId3",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("4".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files4",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId4",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("5".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files5",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId5",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("6".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files6",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId6",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("7".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files7",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId7",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("8".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files8",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId8",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("9".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files9",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId9",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("10".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files10",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId10",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("11".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files11",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId11",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("12".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files12",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId12",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("13".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files13",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId13",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("14".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files14",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId14",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("15".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files15",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId15",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("16".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files16",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId16",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("17".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files17",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId17",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("18".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files18",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId18",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("19".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files19",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId19",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("20".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files20",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId20",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+		}
 		String type = request.getParameter("type");
 		if("view".equals(type)) {
 			model.addAttribute("auditAcceptance", auditAcceptance);

@@ -110,6 +110,8 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			mediateApplyInfoDao.update(yif);
 
 		}
+			//保存附件
+		this.savefj(request,auditAcceptance);
 
 		//修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
 //		ComplaintMain complaintMain=reportRegistration.getComplaintMain();
@@ -136,7 +138,6 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 
 	@Transactional(readOnly = false)
 	public void savefj(HttpServletRequest request, AuditAcceptance auditAcceptance){
-		String files = request.getParameter("files");
 		String files1 = request.getParameter("files1");
 		String files2 = request.getParameter("files2");
 		String files3 = request.getParameter("files3");
@@ -156,46 +157,9 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		String files17 = request.getParameter("files17");
 		String files18 = request.getParameter("files18");
 		String files19 = request.getParameter("files19");
-		String acceId1 = IdGen.uuid();
-		String acceId2 = IdGen.uuid();
-		String acceId3 = IdGen.uuid();
-		String acceId4 = IdGen.uuid();
-		String acceId5 = IdGen.uuid();
-		String acceId6 = IdGen.uuid();
-		String acceId7 = IdGen.uuid();
-		String acceId8 = IdGen.uuid();
-		String acceId9 = IdGen.uuid();
-		String acceId10 = IdGen.uuid();
-		String acceId11 = IdGen.uuid();
-		String acceId12 = IdGen.uuid();
-		String acceId13 = IdGen.uuid();
-		String acceId14 = IdGen.uuid();
-		String acceId15 = IdGen.uuid();
-		String acceId16 = IdGen.uuid();
-		String acceId17 = IdGen.uuid();
-		String acceId18 = IdGen.uuid();
-		String acceId19 = IdGen.uuid();
-		String acceId20 = IdGen.uuid();
-		String itemId1 = auditAcceptance.getAuditAcceptanceId();
-		String itemId2 = auditAcceptance.getAuditAcceptanceId();
-		String itemId3 = auditAcceptance.getAuditAcceptanceId();
-		String itemId4 = auditAcceptance.getAuditAcceptanceId();
-		String itemId5 = auditAcceptance.getAuditAcceptanceId();
-		String itemId6 = auditAcceptance.getAuditAcceptanceId();
-		String itemId7 = auditAcceptance.getAuditAcceptanceId();
-		String itemId8 = auditAcceptance.getAuditAcceptanceId();
-		String itemId9 = auditAcceptance.getAuditAcceptanceId();
-		String itemId10 = auditAcceptance.getAuditAcceptanceId();
-		String itemId11 = auditAcceptance.getAuditAcceptanceId();
-		String itemId12 = auditAcceptance.getAuditAcceptanceId();
-		String itemId13 = auditAcceptance.getAuditAcceptanceId();
-		String itemId14 = auditAcceptance.getAuditAcceptanceId();
-		String itemId15 = auditAcceptance.getAuditAcceptanceId();
-		String itemId16 = auditAcceptance.getAuditAcceptanceId();
-		String itemId17 = auditAcceptance.getAuditAcceptanceId();
-		String itemId18= auditAcceptance.getAuditAcceptanceId();
-		String itemId19 = auditAcceptance.getAuditAcceptanceId();
-		String itemId20 = auditAcceptance.getAuditAcceptanceId();
+        String files20 = request.getParameter("files20");
+		String acceId = null;
+		String itemId = auditAcceptance.getAuditAcceptanceId();
 		String fjtype1 = request.getParameter("fjtype1");
 		String fjtype2 = request.getParameter("fjtype2");
 		String fjtype3 = request.getParameter("fjtype3");
@@ -216,26 +180,227 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		String fjtype18 = request.getParameter("fjtype18");
 		String fjtype19 = request.getParameter("fjtype19");
 		String fjtype20 = request.getParameter("fjtype20");
-		preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
-		preOperativeConsentService.save1(acceId2,itemId2,files1,fjtype2);
-		preOperativeConsentService.save1(acceId3,itemId3,files2,fjtype3);
-		preOperativeConsentService.save1(acceId4,itemId4,files3,fjtype4);
-		preOperativeConsentService.save1(acceId5,itemId5,files4,fjtype5);
-		preOperativeConsentService.save1(acceId6,itemId6,files5,fjtype6);
-		preOperativeConsentService.save1(acceId7,itemId7,files6,fjtype7);
-		preOperativeConsentService.save1(acceId8,itemId8,files7,fjtype8);
-		preOperativeConsentService.save1(acceId9,itemId9,files8,fjtype9);
-		preOperativeConsentService.save1(acceId10,itemId10,files9,fjtype10);
-		preOperativeConsentService.save1(acceId11,itemId11,files10,fjtype11);
-		preOperativeConsentService.save1(acceId12,itemId12,files11,fjtype12);
-		preOperativeConsentService.save1(acceId13,itemId13,files12,fjtype13);
-		preOperativeConsentService.save1(acceId14,itemId14,files13,fjtype14);
-		preOperativeConsentService.save1(acceId15,itemId15,files14,fjtype15);
-		preOperativeConsentService.save1(acceId16,itemId16,files15,fjtype16);
-		preOperativeConsentService.save1(acceId17,itemId17,files16,fjtype17);
-		preOperativeConsentService.save1(acceId18,itemId18,files17,fjtype18);
-		preOperativeConsentService.save1(acceId19,itemId19,files18,fjtype19);
-		preOperativeConsentService.save1(acceId20,itemId20,files19,fjtype20);
+
+		if(StringUtils.isNotBlank(files1)){
+			String acceId1=request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype1);
+		}
+		if(StringUtils.isNotBlank(files2)){
+			String acceId2=request.getParameter("acceId2");
+			if(StringUtils.isNotBlank(acceId2)){
+				preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype2);
+		}
+		if(StringUtils.isNotBlank(files3)){
+			String acceId3=request.getParameter("acceId3");
+			if(StringUtils.isNotBlank(acceId3)){
+				preOperativeConsentService.updatefj(files3,itemId,fjtype3);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype3);
+		}
+		if(StringUtils.isNotBlank(files4)){
+			String acceId4=request.getParameter("acceId4");
+			if(StringUtils.isNotBlank(acceId4)){
+				preOperativeConsentService.updatefj(files4,itemId,fjtype4);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype4);
+		}
+		if(StringUtils.isNotBlank(files5)){
+			String acceId5=request.getParameter("acceId5");
+			if(StringUtils.isNotBlank(acceId5)){
+				preOperativeConsentService.updatefj(files5,itemId,fjtype5);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files5,fjtype5);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype5);
+		}
+		if(StringUtils.isNotBlank(files6)){
+			String acceId6=request.getParameter("acceId6");
+			if(StringUtils.isNotBlank(acceId6)){
+				preOperativeConsentService.updatefj(files6,itemId,fjtype6);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files6,fjtype6);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype6);
+		}
+		if(StringUtils.isNotBlank(files7)){
+			String acceId7=request.getParameter("acceId7");
+			if(StringUtils.isNotBlank(acceId7)){
+				preOperativeConsentService.updatefj(files7,itemId,fjtype7);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files7,fjtype7);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype7);
+		}
+		if(StringUtils.isNotBlank(files8)){
+			String acceId8=request.getParameter("acceId8");
+			if(StringUtils.isNotBlank(acceId8)){
+				preOperativeConsentService.updatefj(files8,itemId,fjtype8);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files8,fjtype8);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype8);
+		}
+		if(StringUtils.isNotBlank(files9)){
+			String acceId9=request.getParameter("acceId9");
+			if(StringUtils.isNotBlank(acceId9)){
+				preOperativeConsentService.updatefj(files9,itemId,fjtype9);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files9,fjtype9);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype9);
+		}
+		if(StringUtils.isNotBlank(files10)){
+			String acceId10=request.getParameter("acceId10");
+			if(StringUtils.isNotBlank(acceId10)){
+				preOperativeConsentService.updatefj(files10,itemId,fjtype10);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files10,fjtype10);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype10);
+		}
+		if(StringUtils.isNotBlank(files11)){
+			String acceId11=request.getParameter("acceId11");
+			if(StringUtils.isNotBlank(acceId11)){
+				preOperativeConsentService.updatefj(files11,itemId,fjtype11);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files11,fjtype11);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype11);
+		}
+		if(StringUtils.isNotBlank(files12)){
+			String acceId12=request.getParameter("acceId12");
+			if(StringUtils.isNotBlank(acceId12)){
+				preOperativeConsentService.updatefj(files12,itemId,fjtype12);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files12,fjtype12);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype12);
+		}
+		if(StringUtils.isNotBlank(files13)){
+			String acceId13=request.getParameter("acceId13");
+			if(StringUtils.isNotBlank(acceId13)){
+				preOperativeConsentService.updatefj(files13,itemId,fjtype13);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files13,fjtype13);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype13);
+		}
+		if(StringUtils.isNotBlank(files14)){
+			String acceId14=request.getParameter("acceId14");
+			if(StringUtils.isNotBlank(acceId14)){
+				preOperativeConsentService.updatefj(files14,itemId,fjtype14);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files14,fjtype14);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype14);
+		}
+		if(StringUtils.isNotBlank(files15)){
+			String acceId15=request.getParameter("acceId15");
+			if(StringUtils.isNotBlank(acceId15)){
+				preOperativeConsentService.updatefj(files15,itemId,fjtype15);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files15,fjtype15);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype15);
+		}
+		if(StringUtils.isNotBlank(files16)){
+			String acceId16=request.getParameter("acceId16");
+			if(StringUtils.isNotBlank(acceId16)){
+				preOperativeConsentService.updatefj(files16,itemId,fjtype16);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files16,fjtype16);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype16);
+		}
+		if(StringUtils.isNotBlank(files17)){
+			String acceId17=request.getParameter("acceId17");
+			if(StringUtils.isNotBlank(acceId17)){
+				preOperativeConsentService.updatefj(files17,itemId,fjtype17);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files17,fjtype17);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype17);
+		}
+		if(StringUtils.isNotBlank(files18)){
+			String acceId18=request.getParameter("acceId18");
+			if(StringUtils.isNotBlank(acceId18)){
+				preOperativeConsentService.updatefj(files18,itemId,fjtype18);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files18,fjtype18);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype18);
+		}
+		if(StringUtils.isNotBlank(files19)){
+			String acceId19=request.getParameter("acceId19");
+			if(StringUtils.isNotBlank(acceId19)){
+				preOperativeConsentService.updatefj(files19,itemId,fjtype19);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files19,fjtype19);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype19);
+		}
+		if(StringUtils.isNotBlank(files20)){
+			String acceId20=request.getParameter("acceId20");
+			if(StringUtils.isNotBlank(acceId20)){
+				preOperativeConsentService.updatefj(files20,itemId,fjtype20);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files20,fjtype20);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype20);
+		}
 	}
 
     public void exportWord(AuditAcceptance auditAcceptance,String export, HttpServletRequest request, HttpServletResponse response) {
@@ -267,13 +432,13 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("name", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientName()) ? "" : auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("sex", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientSex()) ? "" : "1".equals(auditAcceptance.getMediateApplyInfo().getPatientSex()) ? "男" :"女");
 			params.put("age", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientAge()) ? "" : auditAcceptance.getMediateApplyInfo().getPatientAge());
-			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getInvolveHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getSjOffice().getName());
+			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getInvolveHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getInvolveHospital());
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyPatient.docx";  //模板文件位置
             modelPath += "/doc/disputeApplyPatientM.docx";
 			newFileName="医疗纠纷调解申请书（患方）.docx";
 		}else if("doctorDis".equals(export)){
-			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSqOffice().getName());
+			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital());
 			params.put("agent", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent());
 			params.put("phone", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile());
 			params.put("patientName", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName());

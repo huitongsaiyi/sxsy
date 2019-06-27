@@ -49,29 +49,29 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column case_number">案件编号</th>
-				<th class="sort-column complaint_mode">投诉方式</th>
-				<th class="sort-column visitor_name">访客姓名</th>
-				<th class="sort-column visitor_mobile">访客电话</th>
-				<th class="sort-column visitor_date">来访日期</th>
-				<th class="sort-column visitor_Number">来访 人数</th>
-				<th class="sort-column patient_relation">与患者关系</th>
-				<th class="sort-column is_major">是否重大</th>
-				<th class="sort-column summary_of_disputes">投诉纠纷概要</th>
-				<th class="sort-column appeal">诉求</th>
-				<th class="sort-column a.update_date">更新日期</th>
-				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><th>操作</th></shiro:hasPermission>
+				<th class="sort-column case_number" style="text-align: center;">案件编号</th>
+				<th class="sort-column complaint_mode" style="text-align: center;">投诉方式</th>
+				<th class="sort-column visitor_name" style="text-align: center;">访客姓名</th>
+				<th class="sort-column visitor_mobile" style="text-align: center;">访客电话</th>
+				<th class="sort-column visitor_date" style="text-align: center;">来访日期</th>
+				<th class="sort-column visitor_Number" style="text-align: center;">来访人数</th>
+				<th class="sort-column patient_relation" style="text-align: center;">与患者关系</th>
+				<th class="sort-column is_major" style="text-align: center;">是否重大</th>
+				<th class="sort-column summary_of_disputes" style="text-align: center;">投诉纠纷概要</th>
+				<th class="sort-column appeal" style="text-align: center;">诉求</th>
+				<th class="sort-column a.update_date" style="text-align: center;">更新日期</th>
+				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="complaintMainDetail">
 			<tr>
-				<td>
+				<td style="text-align: center;">
 					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">
 							${complaintMainDetail.complaintMain.caseNumber}
 					</a>
 				</td>
-				<td>
+				<td style="text-align: center;">
 					<c:choose>
                         <c:when test="${complaintMainDetail.complaintMode=='0'}">
                             来电
@@ -87,34 +87,56 @@
                         </c:when>
                     </c:choose>
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${complaintMainDetail.visitorName}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${complaintMainDetail.visitorMobile}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${complaintMainDetail.visitorDate}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${complaintMainDetail.visitorNumber}
 				</td>
-				<td>
-					${complaintMainDetail.patientRelationlabel}
+				<td style="text-align: center;">
+					<c:choose>
+						<c:when test="${complaintMainDetail.patientRelation == '1'}">
+							本人
+						</c:when>
+						<c:when test="${complaintMainDetail.patientRelation == '2'}">
+							夫妻
+						</c:when>
+						<c:when test="${complaintMainDetail.patientRelation == '3'}">
+							子女
+						</c:when>
+						<c:when test="${complaintMainDetail.patientRelation == '4'}">
+							父母
+						</c:when>
+						<c:when test="${complaintMainDetail.patientRelation == '5'}">
+							兄妹
+						</c:when>
+						<c:when test="${complaintMainDetail.patientRelation == '6'}">
+							亲属
+						</c:when>
+						<c:when test="${complaintMainDetail.patientRelation == '7'}">
+							其他
+						</c:when>
+					</c:choose>
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${complaintMainDetail.isMajorlabel}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${complaintMainDetail.summaryOfDisputes}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${complaintMainDetail.appeal}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					<fmt:formatDate value="${complaintMainDetail.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><td>
+				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><td style="text-align: center;">
 					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">处理</a>
     				<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}&type=view">详情</a>
 				</td></shiro:hasPermission>

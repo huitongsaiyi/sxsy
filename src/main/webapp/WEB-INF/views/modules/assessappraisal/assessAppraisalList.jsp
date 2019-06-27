@@ -61,7 +61,11 @@
 	<tbody>
 	<c:forEach items="${page.list}" var="assessAppraisal" varStatus="num">
 		<tr>
-			<td style="text-align:center;">${assessAppraisal.complaintMain.caseNumber}</td>
+			<td style="text-align:center;">
+				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}">
+						${assessAppraisal.complaintMain.caseNumber}
+				</a>
+			</td>
 			<td style="text-align:center;">${assessAppraisal.complaintMain.hospital.name}</td>
 			<td style="text-align:center;">
 				<c:choose>

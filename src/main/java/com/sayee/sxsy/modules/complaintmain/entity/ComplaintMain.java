@@ -20,6 +20,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	private static final long serialVersionUID = 1L;
 	private String complaintMainId;		// 主键
 	private User employee;  //涉及人员
+	private User user;  //当前登录人员
 	private Office hospital; //涉及医院
 	private Office department; //涉及科室
 	private String caseNumber;		// 案件编号
@@ -36,6 +37,10 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	private String procInsId;		// 流程实例id
     private String createById;
     private String updateById;
+    private String taskDefKey; //放 流程节点编码
+    private String key; //放 流程节点编码
+    private String url; //不同模块 的不同路径
+    private String nodeName; //节点名称
 
 	public ComplaintMain() {
 		super();
@@ -45,7 +50,47 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		super(id);
 	}
 
-    public String getCreateById() {
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getTaskDefKey() {
+		return taskDefKey;
+	}
+
+	public void setTaskDefKey(String taskDefKey) {
+		this.taskDefKey = taskDefKey;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getCreateById() {
         return createById;
     }
 

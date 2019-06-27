@@ -139,7 +139,7 @@ public class MediateApplyInfo extends DataEntity<MediateApplyInfo> {
 		this.patientMobile = patientMobile;
 	}
 	
-	//@Length(min=1, max=32, message="涉及医院长度必须介于 1 和 32 之间")
+	@Length(min=1, max=32, message="涉及医院长度必须介于 1 和 32 之间")
 	public String getInvolveHospital() {
 		return involveHospital;
 	}
@@ -164,7 +164,7 @@ public class MediateApplyInfo extends DataEntity<MediateApplyInfo> {
 		this.applyMatter = applyMatter;
 	}
 	
-	//@Length(min=1, max=32, message="申请医院长度必须介于 1 和 32 之间")
+	@Length(min=1, max=32, message="申请医院长度必须介于 1 和 32 之间")
 	public String getApplyHospital() {
 		return applyHospital;
 	}

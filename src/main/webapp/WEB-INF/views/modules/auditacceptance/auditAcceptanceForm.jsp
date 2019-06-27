@@ -706,10 +706,11 @@
                             <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方调解申请：</td>
                             <input type="hidden" name="fjtype1" value="1">
                             <td style="width: 450px;">
-                                <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge"
-                                       value="${files}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
+                                       value="${files1}"/>
+                                <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/MediationApplication" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -717,11 +718,12 @@
                             <input type="hidden" name="fjtype2" value="2">
 
                             <td style="width: 450px;">
-                                <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
-                                       value="${files1}"/>
+                                <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
+                                       value="${files2}"/>
+                                <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
                                     <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/DisputeMaterials" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -730,11 +732,12 @@
                             <input type="hidden" name="fjtype3" value="3">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
-                                       value="${files2}"/>
+                                <input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"
+                                       value="${files3}"/>
+                                <input type="hidden" id="acceId3" name="acceId3" value="${acceId3}">
                                     <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/RelatedDocuments" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -742,11 +745,12 @@
                             <input type="hidden" name="fjtype4" value="4">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"
-                                       value="${files3}"/>
+                                <input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"
+                                       value="${files4}"/>
+                                <input type="hidden" id="acceId4" name="acceId4" value="${acceId4}">
                                     <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/Proxy" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -756,11 +760,12 @@
                             <input type="hidden" name="fjtype5" value="5">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"
-                                       value="${files4}"/>
+                                <input type="hidden" id="files5" name="files5" htmlEscape="false" class="input-xlarge"
+                                       value="${files5}"/>
+                                <input type="hidden" id="acceId5" name="acceId5" value="${acceId5}">
                                     <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/WeituorenRelevantDocuments" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -769,10 +774,11 @@
                             <input type="hidden" name="fjtype6" value="6">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files5" name="files5" htmlEscape="false" class="input-xlarge"
-                                       value="${files5}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <input type="hidden" id="files6" name="files6" htmlEscape="false" class="input-xlarge"
+                                       value="${files6}"/>
+                                <input type="hidden" id="acceId6" name="acceId6" value="${acceId6}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files6" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/CheckTheData" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -782,10 +788,11 @@
                             <input type="hidden" name="fjtype7" value="7">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files6" name="files6" htmlEscape="false" class="input-xlarge"
-                                       value="${files6}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files6" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <input type="hidden" id="files7" name="files7" htmlEscape="false" class="input-xlarge"
+                                       value="${files7}"/>
+                                <input type="hidden" id="acceId7" name="acceId7" value="${acceId7}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files7" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/FeeNotes" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -793,10 +800,11 @@
                             <input type="hidden" name="fjtype8" value="8">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files7" name="files7" htmlEscape="false" class="input-xlarge"
-                                       value="${files7}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files7" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <input type="hidden" id="files8" name="files8" htmlEscape="false" class="input-xlarge"
+                                       value="${files8}"/>
+                                <input type="hidden" id="acceId8" name="acceId8" value="${acceId8}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files8" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/ProofOfMissingWork" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -805,10 +813,11 @@
                             <input type="hidden" name="fjtype9" value="9">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files8" name="files8" htmlEscape="false" class="input-xlarge"
-                                       value="${files8}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files8" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <input type="hidden" id="files9" name="files9" htmlEscape="false" class="input-xlarge"
+                                       value="${files9}"/>
+                                <input type="hidden" id="acceId9" name="acceId9" value="${acceId9}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files9" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/ProofOfDeath" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -817,10 +826,11 @@
                             <input type="hidden" name="fjtype10" value="10">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files9" name="files9" htmlEscape="false" class="input-xlarge"
-                                       value="${files9}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files9" type="files"
-                                                                              uploadPath="/AuditAcceptance/Patient" selectMultiple="true"/></div>
+                                <input type="hidden" id="files10" name="files10" htmlEscape="false" class="input-xlarge"
+                                       value="${files10}"/>
+                                <input type="hidden" id="acceId10" name="acceId10" value="${acceId10}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files10" type="files"
+                                                                              uploadPath="/AuditAcceptance/Patient/BirthCertificate" selectMultiple="true"/></div>
                             </td>
                         </tr>
                     </table>
@@ -832,10 +842,11 @@
                             <input type="hidden" name="fjtype11" value="11">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files10" name="files10" htmlEscape="false" class="input-xlarge"
-                                       value="${files10}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files10" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files11" name="files11" htmlEscape="false" class="input-xlarge"
+                                       value="${files11}"/>
+                                <input type="hidden" id="acceId11" name="acceId11" value="${acceId11}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files11" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/MediationApplication" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         </tr>
@@ -845,10 +856,11 @@
                             <input type="hidden" name="fjtype12" value="12">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files11" name="files11" htmlEscape="false" class="input-xlarge"
-                                       value="${files11}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files11" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files12" name="files12" htmlEscape="false" class="input-xlarge"
+                                       value="${files12}"/>
+                                <input type="hidden" id="acceId12" name="acceId12" value="${acceId12}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files12" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/Identification" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         </tr>
@@ -857,10 +869,11 @@
                             <input type="hidden" name="fjtype13" value="13">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files12" name="files12" htmlEscape="false" class="input-xlarge"
-                                       value="${files12}"/>
+                                <input type="hidden" id="files13" name="files13" htmlEscape="false" class="input-xlarge"
+                                       value="${files13}"/>
+                                <input type="hidden" id="acceId13" name="acceId13" value="${acceId13}">
                                 <div style="margin-top: -45px;"><sys:ckfinder input="files12" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                                                              uploadPath="/AuditAcceptance/Doctor/Proxy" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         </tr>
@@ -871,10 +884,11 @@
                             <input type="hidden" name="fjtype14" value="14">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files13" name="files13" htmlEscape="false" class="input-xlarge"
-                                       value="${files13}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files13" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files14" name="files14" htmlEscape="false" class="input-xlarge"
+                                       value="${files14}"/>
+                                <input type="hidden" id="acceId14" name="acceId14" value="${acceId14}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files14" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/PrincipalRelatedDocuments" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         </tr>
@@ -884,10 +898,11 @@
                             <input type="hidden" name="fjtype15" value="15">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files14" name="files14" htmlEscape="false" class="input-xlarge"
-                                       value="${files14}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files14" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files15" name="files15" htmlEscape="false" class="input-xlarge"
+                                       value="${files15}"/>
+                                <input type="hidden" id="acceId15" name="acceId15" value="${acceId15}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files15" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/LicenseToPractise" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         </tr>
@@ -896,10 +911,11 @@
                             <input type="hidden" name="fjtype16" value="16">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files15" name="files15" htmlEscape="false" class="input-xlarge"
-                                       value="${files15}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files15" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files16" name="files16" htmlEscape="false" class="input-xlarge"
+                                       value="${files16}"/>
+                                <input type="hidden" id="acceId16" name="acceId16" value="${acceId16}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files16" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/Analysis" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         <tr style=" ">
@@ -909,10 +925,11 @@
                             <input type="hidden" name="fjtype17" value="17">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files16" name="files16" htmlEscape="false" class="input-xlarge"
-                                       value="${files16}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files16" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files17" name="files17" htmlEscape="false" class="input-xlarge"
+                                       value="${files17}"/>
+                                <input type="hidden" id="acceId17" name="acceId17" value="${acceId17}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files17" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/MedicalPersonnelDocuments" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         </tr>
@@ -921,10 +938,11 @@
                             <input type="hidden" name="fjtype18" value="18">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files17" name="files17" htmlEscape="false" class="input-xlarge"
-                                       value="${files17}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files17" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files18" name="files18" htmlEscape="false" class="input-xlarge"
+                                       value="${files18}"/>
+                                <input type="hidden" id="acceId18" name="acceId18" value="${acceId18}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files18" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/Evidence" selectMultiple="true"/></div>
                             </td>
                         </tr>
                         </tr>
@@ -933,10 +951,11 @@
                             <input type="hidden" name="fjtype19" value="19">
                             <td style="width: 450px;">
 
-                                <input type="hidden" id="files18" name="files18" htmlEscape="false" class="input-xlarge"
-                                       value="${files18}"/>
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files18" type="files"
-                                                                              uploadPath="/AuditAcceptance/Doctor" selectMultiple="true"/></div>
+                                <input type="hidden" id="files19" name="files19" htmlEscape="false" class="input-xlarge"
+                                       value="${files19}"/>
+                                <input type="hidden" id="acceId19" name="acceId19" value="${acceId19}">
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files19" type="files"
+                                                                              uploadPath="/AuditAcceptance/Doctor/CaseInformation" selectMultiple="true"/></div>
                             </td>
                         </tr>
                     </table>
@@ -948,10 +967,11 @@
                     <input type="hidden" name="fjtype20" value="20">
                     <td style="width: 450px;">
 
-                        <input type="hidden" id="files19" name="files19" htmlEscape="false" class="input-xlarge"
-                               value="${files19}"/>
-                        <div style="margin-top: -45px;"><sys:ckfinder input="files19" type="files"
-                                                                      uploadPath="/AuditAcceptance/People" selectMultiple="true"/></div>
+                        <input type="hidden" id="files20" name="files20" htmlEscape="false" class="input-xlarge"
+                               value="${files20}"/>
+                        <input type="hidden" id="acceId20" name="acceId20" value="${acceId20}">
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files20" type="files"
+                                                                      uploadPath="/AuditAcceptance/People/AcceptanceOfRegistrationForms" selectMultiple="true"/></div>
                     </td>
                 </tr>
             </table>

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>成功管理</title>
+	<title>调查取证管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -54,29 +54,30 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column case_number">案件编号</th>
-				<th class="sort-column involve_hospital">涉及医院</th>
-				<th class="sort-column hospital_grade">医院等级</th>
-				<th class="sort-column sa.name">所属城市</th>
-				<th class="sort-column policy_number">保单号</th>
-				<th class="sort-column report_emp">报案人姓名</th>
-				<th class="sort-column dispute_time">纠纷发生时间</th>
-				<th class="sort-column patient_name">患者姓名</th>
-				<th class="sort-column r.patient_mobile">患者联系方式</th>
+				<th class="sort-column case_number" style="text-align: center;">案件编号</th>
+				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
+				<th class="sort-column hospital_grade" style="text-align: center;">医院等级</th>
+				<th class="sort-column sa.name" style="text-align: center;">所属城市</th>
+				<th class="sort-column policy_number" style="text-align: center;">保单号</th>
+				<th class="sort-column report_emp" style="text-align: center;">报案人姓名</th>
+				<th class="sort-column dispute_time" style="text-align: center;">纠纷发生时间</th>
+				<th class="sort-column patient_name" style="text-align: center;">患者姓名</th>
+				<th class="sort-column r.patient_mobile" style="text-align: center;">患者联系方式</th>
 				<%--<td>医方联系电话</td>--%>
-				<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><th>操作</th></shiro:hasPermission>
+				<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="investigateEvidence" varStatus="num">
 			<tr>
-				<td>
-					${investigateEvidence.complaintMain.caseNumber}
+				<td style="text-align: center;"><a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}">
+						${investigateEvidence.complaintMain.caseNumber}
+				</a>
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${investigateEvidence.complaintMain.hospital.name}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					<c:choose>
 						<c:when test="${investigateEvidence.complaintMain.hospitalGrade=='1'}">
 							特等
@@ -95,25 +96,25 @@
 						</c:otherwise>
 					</c:choose>
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${investigateEvidence.area.name}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${investigateEvidence.auditAcceptance.policyNumber}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${investigateEvidence.reportRegistration.reportEmp}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${investigateEvidence.reportRegistration.disputeTime}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${investigateEvidence.complaintMain.patientName}
 				</td>
-				<td>
+				<td style="text-align: center;">
 					${investigateEvidence.reportRegistration.patientMobile}
 				</td>
-				<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><td>
+				<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><td style="text-align: center;">
     				<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}">处理</a>
     				<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}&type=view">详情</a>
 					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${investigateEvidence.complaintMainId}&module=badj&url3=/nestigateeividence/investigateEvidence/?repage">终止调解</a>

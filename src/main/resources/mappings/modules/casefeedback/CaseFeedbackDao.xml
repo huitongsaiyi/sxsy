@@ -44,7 +44,7 @@
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
--- 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+
 	</sql>
     
 	<select id="get" resultType="CaseFeedback">
@@ -61,10 +61,18 @@
 		FROM COMPLAINT_MAIN b
 		<include refid="caseFeedbackJoins"/>
 		<where>
-			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL
--- 			AND t.TASK_DEF_KEY_='feedback'
+			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL	AND t.TASK_DEF_KEY_='feedback'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
+				AND r.report_emp = #{reportRegistration.reportEmp}
+			</if>
+			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
+				AND b.patient_name = #{complaintMain.patientName}
+			</if>
+			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
+				AND r.patient_mobile = #{reportRegistration.patientMobile}
 			</if>
 		</where>
 		<choose>
