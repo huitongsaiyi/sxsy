@@ -139,5 +139,35 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE feedback_id = #{feedbackId}
 	</update>
-	
+
+	<select id="getViewDetail" resultType="java.util.Map">
+		SELECT b.complaint_main_detail_id AS "tsjd",
+		r.report_registration_id AS "badj",
+		d.audit_acceptance_id AS "shsl",
+		e.investigate_evidence_id AS "dcqz",
+		f.mediate_evidence_id AS "zztj",
+		g.assess_apply_id AS "pgjdsq",
+		h.assess_audit_id AS "pgjdsp",
+		i.assess_appraisal_id AS "pgjd",
+		j.reach_mediate_id AS "dctj",
+		k.sign_agreement_id AS "qsxy",
+		l.perform_agreement_id AS "lxxy",
+		su.summary_id AS "jazj",
+		ai.assess_id AS "ajpj"
+		FROM COMPLAINT_MAIN a
+		LEFT JOIN COMPLAINT_MAIN_DETAIL b on a.complaint_main_id=b.complaint_main_id
+		LEFT JOIN REPORT_REGISTRATION r on r.complaint_main_id=a.complaint_main_id
+		LEFT JOIN AUDIT_ACCEPTANCE d on d.complaint_main_id=a.complaint_main_id
+		LEFT JOIN INVESTIGATE_EVIDENCE e on e.complaint_main_id=a.complaint_main_id AND e.investigate_type='1'
+		LEFT JOIN MEDIATE_EVIDENCE f on f.complaint_main_id=a.complaint_main_id
+		LEFT JOIN ASSESS_APPLY g on g.complaint_main_id=a.complaint_main_id
+		LEFT JOIN ASSESS_AUDIT h on h.complaint_main_id=a.complaint_main_id
+		LEFT JOIN ASSESS_APPRAISAL i on i.complaint_main_id=a.complaint_main_id
+		LEFT JOIN REACH_MEDIATE j on j.complaint_main_id=a.complaint_main_id
+		LEFT JOIN SIGN_AGREEMENT k on k.complaint_main_id=a.complaint_main_id
+		LEFT JOIN PERFORM_AGREEMENT l on l.complaint_main_id=a.complaint_main_id
+		LEFT JOIN SUMMARY_INFO su on su.complaint_main_id=a.complaint_main_id
+		LEFT JOIN ASSESS_INFO ai ON  ai.complaint_main_id=a.complaint_main_id
+		WHERE a.complaint_main_id = #{complaintMainId}
+	</select>
 </mapper>

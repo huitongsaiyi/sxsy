@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.casefeedback.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sys.entity.Office;
@@ -83,5 +84,9 @@ public class CaseFeedbackService extends CrudService<CaseFeedbackDao, CaseFeedba
 	public void delete(CaseFeedback caseFeedback) {
 		super.delete(caseFeedback);
 	}
-	
+
+	public Map<String,Object> getViewDetail(String complaintMainId) {
+		Map<String,Object> map=dao.getViewDetail(complaintMainId);
+		return map;
+	}
 }

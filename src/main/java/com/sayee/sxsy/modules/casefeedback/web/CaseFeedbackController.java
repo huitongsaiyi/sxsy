@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.casefeedback.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.assessinfo.service.AssessInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.casefeedback.entity.CaseFeedback;
 import com.sayee.sxsy.modules.casefeedback.service.CaseFeedbackService;
 
+import java.util.Map;
+
 /**
  * 案件反馈Controller
  * @author lyt
@@ -33,6 +36,7 @@ public class CaseFeedbackController extends BaseController {
 
 	@Autowired
 	private CaseFeedbackService caseFeedbackService;
+
 	
 	@ModelAttribute
 	public CaseFeedback get(@RequestParam(required=false) String id) {
@@ -56,16 +60,24 @@ public class CaseFeedbackController extends BaseController {
 
 	@RequiresPermissions("casefeedback:caseFeedback:view")
 	@RequestMapping(value = "form")
-	public String form(CaseFeedback caseFeedback, Model model) {
-		model.addAttribute("caseFeedback", caseFeedback);
-		return "modules/casefeedback/caseFeedbackForm";
+	public String form(HttpServletRequest request,CaseFeedback caseFeedback, Model model) {
+		String type = request.getParameter("type");
+		if("view".equals(type)){
+			Map<String, Object> map = caseFeedbackService.getViewDetail(caseFeedback.getComplaintMainId());
+			model.addAttribute("map",map);
+			model.addAttribute("caseFeedback", caseFeedback);
+			return "modules/casefeedback/caseFeedbackView";
+		}else {
+			model.addAttribute("caseFeedback", caseFeedback);
+			return "modules/casefeedback/caseFeedbackForm";
+		}
 	}
 
 	@RequiresPermissions("casefeedback:caseFeedback:edit")
 	@RequestMapping(value = "save")
-	public String save(CaseFeedback caseFeedback, Model model, RedirectAttributes redirectAttributes) {
+	public String save(CaseFeedback caseFeedback, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		if (!beanValidator(model, caseFeedback)){
-			return form(caseFeedback, model);
+			return form(request,caseFeedback, model);
 		}
 		caseFeedbackService.save(caseFeedback);
 		addMessage(redirectAttributes, "保存案件反馈成功");
