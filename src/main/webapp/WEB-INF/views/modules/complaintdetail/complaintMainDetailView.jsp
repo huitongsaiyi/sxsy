@@ -183,9 +183,11 @@
         </tr>
     </table>
 </fieldset>
+<c:if test="${empty show2}">
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
+</c:if>
 </form:form>
 </body>
 </html>

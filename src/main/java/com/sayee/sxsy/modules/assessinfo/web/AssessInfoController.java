@@ -61,6 +61,8 @@ public class AssessInfoController extends BaseController {
 	public String form(HttpServletRequest request,AssessInfo assessInfo, Model model) {
 		String type = request.getParameter("type");
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
 			Map<String, Object> map = assessInfoService.getViewDetail(assessInfo.getComplaintMainId());
 			model.addAttribute("map",map);
 			model.addAttribute("assessInfo", assessInfo);

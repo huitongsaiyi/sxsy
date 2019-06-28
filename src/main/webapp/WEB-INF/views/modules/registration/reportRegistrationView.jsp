@@ -9,22 +9,15 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function() {
-            //$("#name").focus();
-            $("#inputForm").validate({
-                submitHandler: function(form){
-                    loading('正在提交，请稍等...');
-                    form.submit();
-                },
-                errorContainer: "#messageBox",
-                errorPlacement: function(error, element) {
-                    $("#messageBox").text("输入有误，请先更正。");
-                    if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-                        error.appendTo(element.parent().parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
+            //投诉接待详情
+            var show='${show2}';
+            if(show=='' || show== null){
+                alert(show)
+                $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view&show2=y");
+                var tsjd= document.getElementById("tsjdDetail");
+                tsjd.height=document.documentElement.clientHeight-130;
+                tsjd.width=document.documentElement.clientWidth;
+            }
         });
     </script>
 </head>
@@ -48,8 +41,20 @@
     <form:hidden id="flag" path="complaintMain.act.flag"/>
     <sys:message content="${message}"/>
 <fieldset>
-    <legend>报案登记详情</legend>
     <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#badj" data-toggle="tab">报案登记</a>
+        </li>
+        <c:if test="${empty show2}">
+        <li id="li1">
+            <a href="#details" data-toggle="tab">详情</a>
+        </li>
+        </c:if>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    <div id="badj" class="tab-pane fade in active">
+    <legend>报案登记详情</legend>
+    <ul id="myTab1" class="nav nav-tabs">
         <li class="active">
             <a href="#visitor" data-toggle="tab">报案人信息</a>
         </li>
@@ -63,7 +68,7 @@
             <a href="#annex" data-toggle="tab">附件</a>
         </li>
     </ul>
-    <div id="myTabContent" class="tab-content">
+    <div id="myTabContent1" class="tab-content">
         <div class="tab-pane fade in active" id="visitor">
             <table class="table-form">
                 <tr>
@@ -166,7 +171,7 @@
                   </td>
             </table>
         </div>
-    </div>
+
 
 
 
@@ -240,13 +245,30 @@
             </td>
         </tr>
     </table>
+    </div>
+    </div>
+        <div class="tab-pane fade" id="details">
+            <ul id="iframe" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tsjd" data-toggle="tab">投诉接待</a>
+                </li>
+            </ul>
+            <div id="iframeTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="tsjd">
+                    <iframe id="tsjdDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 </fieldset>
+    <c:if test="${empty show2}">
     <div class="form-actions">
         <%--<shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>--%>
         <%--<shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>--%>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 500px;"/>
     </div>
     <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}" />
+    </c:if>
 </form:form>
 </body>
 </html>

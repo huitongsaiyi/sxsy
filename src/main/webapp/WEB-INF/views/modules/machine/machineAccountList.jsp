@@ -172,8 +172,14 @@
 					${machineAccount.patientName}
 			</td>
 			<td>
-					${machineAccount.hospitalId}
-			</td>
+				<c:choose>
+					<c:when test="${empty machineAccount.hospital.name}">
+						${machineAccount.hospitalId}
+					</c:when>
+					<c:otherwise>
+						${machineAccount.hospital.name}
+					</c:otherwise>
+					</c:choose>
 			<td>
 					${machineAccount.major}
 			</td>

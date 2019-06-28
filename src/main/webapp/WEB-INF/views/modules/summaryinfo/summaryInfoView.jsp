@@ -11,56 +11,59 @@
             var tsjd= document.getElementById("tsjdDetail");
             tsjd.height=document.documentElement.clientHeight-130;
             tsjd.width=document.documentElement.clientWidth;
+            var show='${show2}';
+            if(show=='' || show== null){
             //报案登记
-            $("#badjDetail").attr("src","${ctx}/registration/reportRegistration/form?id=${map.badj}&type=view");
+            $("#badjDetail").attr("src","${ctx}/registration/reportRegistration/form?id=${map.badj}&type=view&show2=y");
             var badj= document.getElementById("badjDetail");
             badj.height=document.documentElement.clientHeight-130;
             badj.width=document.documentElement.clientWidth;
             //审核受理
-            $("#shslDetail").attr("src","${ctx}/auditacceptance/auditAcceptance/form?id=${map.shsl}&type=view");
+            $("#shslDetail").attr("src","${ctx}/auditacceptance/auditAcceptance/form?id=${map.shsl}&type=view&show2=y");
             var shsl= document.getElementById("shslDetail");
             shsl.height=document.documentElement.clientHeight-130;
             shsl.width=document.documentElement.clientWidth;
             //调查取证
-            $("#dcqzDetail").attr("src","${ctx}/nestigateeividence/investigateEvidence/form?id=${map.dcqz}&type=view");
+            $("#dcqzDetail").attr("src","${ctx}/nestigateeividence/investigateEvidence/form?id=${map.dcqz}&type=view&show2=y");
             var dcqz= document.getElementById("dcqzDetail");
             dcqz.height=document.documentElement.clientHeight-130;
             dcqz.width=document.documentElement.clientWidth;
             //质证调解
-            $("#zztjDetail").attr("src","${ctx}/mediate/mediateEvidence/form?id=${map.zztj}&type=view");
+            $("#zztjDetail").attr("src","${ctx}/mediate/mediateEvidence/form?id=${map.zztj}&type=view&show2=y");
             var zztj= document.getElementById("zztjDetail");
             zztj.height=document.documentElement.clientHeight-130;
             zztj.width=document.documentElement.clientWidth;
             //评估坚定申请
-            $("#pgjdsqDetail").attr("src","${ctx}/assessapply/assessApply/form?id=${map.pgjdsq}&type=view");
+            $("#pgjdsqDetail").attr("src","${ctx}/assessapply/assessApply/form?id=${map.pgjdsq}&type=view&show2=y");
             var pgjdsq= document.getElementById("pgjdsqDetail");
             pgjdsq.height=document.documentElement.clientHeight-130;
             pgjdsq.width=document.documentElement.clientWidth;
             //评估鉴定审批
-            $("#pgjdspDetail").attr("src","${ctx}/assessaudit/assessAudit/form?id=${map.pgjdsq}&type=view");
+            $("#pgjdspDetail").attr("src","${ctx}/assessaudit/assessAudit/form?id=${map.pgjdsq}&type=view&show2=y");
             var pgjdsp= document.getElementById("pgjdspDetail");
             pgjdsp.height=document.documentElement.clientHeight-130;
             pgjdsp.width=document.documentElement.clientWidth;
             //评估鉴定
-            $("#pgjdDetail").attr("src","${ctx}/assessappraisal/assessAppraisal/form?id=${map.pgjd}&type=view");
+            $("#pgjdDetail").attr("src","${ctx}/assessappraisal/assessAppraisal/form?id=${map.pgjd}&type=view&show2=y");
             var pgjd= document.getElementById("pgjdDetail");
             pgjd.height=document.documentElement.clientHeight-130;
             pgjd.width=document.documentElement.clientWidth;
             //达成调解
-            $("#dctjDetail").attr("src","${ctx}/reachmediate/reachMediate/form?id=${map.dctj}&type=view");
+            $("#dctjDetail").attr("src","${ctx}/reachmediate/reachMediate/form?id=${map.dctj}&type=view&show2=y");
             var dctj= document.getElementById("dctjDetail");
             dctj.height=document.documentElement.clientHeight-130;
             dctj.width=document.documentElement.clientWidth;
             //签署协议
-            $("#qsxyDetail").attr("src","${ctx}/sign/signAgreement/form?id=${map.qsxy}&type=view");
+            $("#qsxyDetail").attr("src","${ctx}/sign/signAgreement/form?id=${map.qsxy}&type=view&show2=y");
             var qsxy= document.getElementById("qsxyDetail");
             qsxy.height=document.documentElement.clientHeight-130;
             qsxy.width=document.documentElement.clientWidth;
             //履行协议
-            $("#lxxyDetail").attr("src","${ctx}/perform/performAgreement/form?id=${map.lxxy}&type=view");
+            $("#lxxyDetail").attr("src","${ctx}/perform/performAgreement/form?id=${map.lxxy}&type=view&show2=y");
             var lxxy= document.getElementById("lxxyDetail");
             lxxy.height=document.documentElement.clientHeight-130;
             lxxy.width=document.documentElement.clientWidth;
+            }
         });
     </script>
 </head>
@@ -76,9 +79,11 @@
             <li>
                 <a href="#attachment" data-toggle="tab">补录附件</a>
             </li>
+            <c:if test="${empty show2}">
             <li>
                 <a href="#details" data-toggle="tab">详情</a>
             </li>
+            </c:if>
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade in active" id="Summary">
@@ -494,10 +499,12 @@
         </div>
         </div>
     </fieldset>
+    <c:if test="${empty show2}">
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <act:histoicFlow procInsId="${summaryInfo.complaintMain.procInsId}" />
+    </c:if>
 </form:form>
 </body>
 </html>

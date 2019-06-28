@@ -72,6 +72,8 @@ public class ComplaintMainDetailController extends BaseController {
 		}
 		String type=request.getParameter("type");
 		if ("view".equals(type)) {
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
 			model.addAttribute("complaintMainDetail", complaintMainDetail);
 			return "modules/complaintdetail/complaintMainDetailView";
 		}else {
@@ -84,7 +86,7 @@ public class ComplaintMainDetailController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(ComplaintMainDetail complaintMainDetail, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		try {
-			if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag()) &&(  !beanValidator(model, complaintMainDetail) || !beanValidator(model, complaintMainDetail.getComplaintMain())) ){
+			if (!beanValidator(model, complaintMainDetail)&&"yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag()) || !beanValidator(model, complaintMainDetail.getComplaintMain())&&"yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag()) ){
 				return form(complaintMainDetail, model,request);
 			}
 				complaintMainDetailService.save(complaintMainDetail);

@@ -6,29 +6,41 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-            //$("#name").focus();
-            $("#inputForm").validate({
-                submitHandler: function (form) {
-                    loading('正在提交，请稍等...');
-                    form.submit();
-                },
-                errorContainer: "#messageBox",
-                errorPlacement: function (error, element) {
-                    $("#messageBox").text("输入有误，请先更正。");
-                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
-                        error.appendTo(element.parent().parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
+            var show='${show2}';
+            if(show=='' || show== null){
+                alert(show);
+                //投诉接待详情
+                $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view");
+                var tsjd= document.getElementById("tsjdDetail");
+                tsjd.height=document.documentElement.clientHeight-130;
+                tsjd.width=document.documentElement.clientWidth;
+
+                //报案登记
+                $("#badjDetail").attr("src","${ctx}/registration/reportRegistration/form?id=${map.badj}&type=view&show2=y");
+                var badj= document.getElementById("badjDetail");
+                badj.height=document.documentElement.clientHeight-130;
+                badj.width=document.documentElement.clientWidth;
+            }
         });
     </script>
 </head>
 <body>
 <form:form class="form-horizontal">
     <sys:message content="${message}"/>
-    <ul id="myTab" class="nav nav-tabs">
+    <fieldset>
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#shsl" data-toggle="tab">审核受理</a>
+            </li>
+            <c:if test="${empty show2}">
+            <li>
+                <a href="#details" data-toggle="tab">详情</a>
+            </li>
+            </c:if>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+        <div id="shsl" class="tab-pane fade in active">
+    <ul id="myTab1" class="nav nav-tabs">
         <li class="active">
             <a href="#patientS" data-toggle="tab">患方受理通知书</a>
         </li>
@@ -39,9 +51,9 @@
             <a href="#people" data-toggle="tab">人民调解受理登记信息</a>
         </li>
     </ul>
-    <fieldset>
+
         <legend>审核受理详情</legend>
-        <div id="myTabContent" class="tab-content">
+        <div id="myTabContent1" class="tab-content">
             <div class="tab-pane fade in active" id="patientS">
                 <table class="table-form">
                     <p style="margin:0pt; text-align:center">
@@ -635,11 +647,33 @@
                 </td>
             </tr>
         </table>
+        </div>
+            <div class="tab-pane fade" id="details">
+                <ul id="iframe" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tsjd" data-toggle="tab">投诉接待</a>
+                    </li>
+                    <li>
+                        <a href="#badj" data-toggle="tab">报案登记</a>
+                    </li>
+                </ul>
+                <div id="iframeTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="tsjd">
+                        <iframe id="tsjdDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
+                    </div>
+                    <div class="tab-pane fade" id="badj">
+                        <iframe id="badjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
     </fieldset>
+    <c:if test="${empty show2}">
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <act:histoicFlow procInsId="${auditAcceptance.complaintMain.procInsId}"/>
+    </c:if>
 </form:form>
 </body>
 </html>

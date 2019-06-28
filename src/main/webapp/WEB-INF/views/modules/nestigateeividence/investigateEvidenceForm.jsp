@@ -116,8 +116,8 @@
 					</tr>
 					<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; " ><font color="red">*</font>笔录内容：</td>
-						<td style="width: 105px;">
-							<form:textarea path="content" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge required" cssStyle="width:480px;"/>
+						<td style="width: 105px;" colspan="3">
+							<form:textarea path="content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;"/>
 						</td>
 					</tr>
 				</table>
@@ -265,8 +265,8 @@
 					<%--</tr>--%>
 					<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; "><font color="red">*</font>笔录内容：</td>
-						<td style="width: 105px;">
-							<form:textarea path="investigateEvidence.content" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge required" cssStyle="width:480px;"/>
+						<td style="width: 105px;" colspan="3">
+							<form:textarea path="investigateEvidence.content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;"/>
 						</td>
 					</tr>
 				</table>

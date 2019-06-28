@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
@@ -45,11 +46,14 @@ public class AssessAppraisalController extends BaseController {
 	@Autowired
 	private AssessAppraisalService assessAppraisalService;
 	@Autowired
+
+	private SignAgreementService signAgreementService;
+	@Autowired
+	private TypeInfoService typeInfoService;
+	@Autowired
+	SummaryInfoService summaryInfoService;
     private MachineAccountService machineAccountService;
-    @Autowired
-    private SignAgreementService signAgreementService;
-    @Autowired
-    private TypeInfoService typeInfoService;
+
 	@ModelAttribute
 	public AssessAppraisal get(@RequestParam(required=false) String id) {
 		AssessAppraisal entity = null;
@@ -110,6 +114,10 @@ public class AssessAppraisalController extends BaseController {
 		}
         String type = request.getParameter("type");
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(assessAppraisal.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("assessAppraisal", assessAppraisal);
 			return "modules/assessappraisal/assessAppraisalView";
 		}else{
@@ -122,7 +130,7 @@ public class AssessAppraisalController extends BaseController {
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")
 	@RequestMapping(value = "save")
 	public String save(AssessAppraisal assessAppraisal, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if ("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, assessAppraisal)||!beanValidator(model,assessAppraisal.getComplaintMain())||!beanValidator(model,assessAppraisal.getRecordInfo1())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())||!beanValidator(model,assessAppraisal.getProposal())) ){
+		if (!beanValidator(model, assessAppraisal)&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getComplaintMain())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getProposal())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
 			return form(assessAppraisal, model,request);
 		}
 		try{

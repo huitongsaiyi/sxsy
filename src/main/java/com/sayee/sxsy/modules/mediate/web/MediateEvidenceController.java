@@ -11,6 +11,7 @@ import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.test.dao.TestDataChildDao;
@@ -44,6 +45,8 @@ import java.util.Map;
 public class MediateEvidenceController extends BaseController {
 	@Autowired
 	private MediateEvidenceService mediateEvidenceService;
+	@Autowired
+	SummaryInfoService summaryInfoService;
     @Autowired
     private MachineAccountService machineAccountService;
 	@ModelAttribute
@@ -94,6 +97,10 @@ public class MediateEvidenceController extends BaseController {
 		}
 		String type = request.getParameter("type");		//接受从页面传回的数据
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(mediateEvidence.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("mediateEvidence", mediateEvidence);
 			return "modules/mediate/mediateEvidenceView";
 		}else{
@@ -111,7 +118,7 @@ public class MediateEvidenceController extends BaseController {
 			mediateEvidenceService.exportWord(mediateEvidence,export,request,response);
 			return "";
 		}else {
-			if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag()) &&(  !beanValidator(model, mediateEvidence) || !beanValidator(model,mediateEvidence.getRecordInfo()) ||!beanValidator(model,mediateEvidence.getRecordInfo().getYrecordInfo())) ){
+			if (!beanValidator(model, mediateEvidence)&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())|| !beanValidator(model,mediateEvidence.getRecordInfo())&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())||!beanValidator(model,mediateEvidence.getRecordInfo().getYrecordInfo())&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 				return form(mediateEvidence,model,request);
 			}
 			try {
@@ -130,9 +137,7 @@ public class MediateEvidenceController extends BaseController {
 		}
 
 
-//		if (!beanValidator(model, mediateEvidence)){
-//			return form(mediateEvidence, model);
-//		}
+
 //		mediateEvidenceService.save(mediateEvidence);
 //		addMessage(redirectAttributes, "保存质证调解成功");
 		}

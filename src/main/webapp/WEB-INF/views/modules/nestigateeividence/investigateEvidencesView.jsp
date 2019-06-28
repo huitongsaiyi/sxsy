@@ -6,22 +6,21 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function() {
-            //$("#name").focus();
-            $("#inputForm").validate({
-                submitHandler: function(form){
-                    loading('正在提交，请稍等...');
-                    form.submit();
-                },
-                errorContainer: "#messageBox",
-                errorPlacement: function(error, element) {
-                    $("#messageBox").text("输入有误，请先更正。");
-                    if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-                        error.appendTo(element.parent().parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
+            //投诉接待详情
+            $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view");
+            var tsjd= document.getElementById("tsjdDetail");
+            tsjd.height=document.documentElement.clientHeight-130;
+            tsjd.width=document.documentElement.clientWidth;
+            //报案登记
+            $("#badjDetail").attr("src","${ctx}/registration/reportRegistration/form?id=${map.badj}&type=view&show2=y");
+            var badj= document.getElementById("badjDetail");
+            badj.height=document.documentElement.clientHeight-130;
+            badj.width=document.documentElement.clientWidth;
+            //审核受理
+            $("#shslDetail").attr("src","${ctx}/auditacceptance/auditAcceptance/form?id=${map.shsl}&type=view&show2=y");
+            var shsl= document.getElementById("shslDetail");
+            shsl.height=document.documentElement.clientHeight-130;
+            shsl.width=document.documentElement.clientWidth;
         });
     </script>
 </head>
@@ -50,8 +49,21 @@
     <form:hidden path="investigateEvidence.investigateType"/>
     <form:hidden path="investigateEvidence.nextLinkMan"/>
     <sys:message content="${message}"/>
-    <legend>调查取证详情</legend>
+<fieldset>
     <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#dcqz" data-toggle="tab">调查取证</a>
+        </li>
+        <c:if test="${empty show2}">
+        <li>
+            <a href="#details" data-toggle="tab">详情</a>
+        </li>
+        </c:if>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    <div id="dcqz" class="tab-pane fade in active">
+    <legend>调查取证详情</legend>
+    <ul id="myTab1" class="nav nav-tabs">
         <li class="active">
             <a href="#visitor" data-toggle="tab">患方调查笔录</a>
         </li>
@@ -62,7 +74,7 @@
             <a href="#hospital" data-toggle="tab">附件</a>
         </li>
     </ul>
-    <div id="myTabContent" class="tab-content">
+    <div id="myTabContent1" class="tab-content">
         <div class="tab-pane fade in active" id="visitor">
             <input type="hidden" name="investigateType" value="1">
             <table class="table-form">
@@ -105,12 +117,14 @@
                             ${investigateEvidence.focus}
                     </td>
                 </tr>
-                <tr >
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; " ><font color="red">*</font>笔录内容：</td>
-                    <td style="width: 105px;">
-                            ${investigateEvidence.content}
+                <tr>
+                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;" ><font color="red">*</font>笔录内容：</td>
+                    <td style="width: 105px;" colspan="3">
+                        <form:textarea path="content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;" readonly="true"/>
                     </td>
                 </tr>
+                <tr></tr>
+                <tr></tr>
             </table>
             <ul  class="nav nav-tabs">
                 <li class="active">
@@ -234,8 +248,8 @@
                 </tr>
                 <tr >
                     <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; "><font color="red">*</font>笔录内容：</td>
-                    <td style="width: 105px;">
-                            ${investigateEvidence.investigateEvidence.content}
+                    <td style="width: 105px;" colspan="3">
+                        <form:textarea path="investigateEvidence.content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;" readonly="true"/>
                     </td>
                 </tr>
             </table>
@@ -385,10 +399,39 @@
             </td>
         </tr>
     </table>
+    </div>
+        <div class="tab-pane fade" id="details">
+            <ul id="iframe" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tsjd" data-toggle="tab">投诉接待</a>
+                </li>
+                <li>
+                    <a href="#badj" data-toggle="tab">报案登记</a>
+                </li>
+                <li>
+                    <a href="#shsl" data-toggle="tab">审核受理</a>
+                </li>
+            </ul>
+            <div id="iframeTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="tsjd">
+                    <iframe id="tsjdDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
+                </div>
+                <div class="tab-pane fade" id="badj">
+                    <iframe id="badjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
+                </div>
+                <div class="tab-pane fade" id="shsl">
+                    <iframe id="shslDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+    <c:if test="${empty show2}">
     <div class="form-actions">
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 550px;"/>
     </div>
     <act:histoicFlow procInsId="${investigateEvidence.complaintMain.procInsId}" />
+    </c:if>
 </form:form>
 </body>
 </html>

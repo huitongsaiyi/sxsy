@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.assessaudit.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -39,7 +40,8 @@ public class AssessAuditController extends BaseController {
 
 	@Autowired
 	private AssessAuditService assessAuditService;
-
+	@Autowired
+	SummaryInfoService summaryInfoService;
 
 
 	@ModelAttribute
@@ -77,6 +79,10 @@ public class AssessAuditController extends BaseController {
 			}
 		}
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(assessAudit.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("assessAudit", assessAudit);
 			return "modules/assessaudit/assessAuditView";
 		}else{
@@ -89,7 +95,7 @@ public class AssessAuditController extends BaseController {
 	@RequiresPermissions("assessaudit:assessAudit:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,AssessAudit assessAudit, Model model, RedirectAttributes redirectAttributes) {
-		if ("yes".equals(assessAudit.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model,assessAudit)||!beanValidator(model,assessAudit.getComplaintMain()))   ){
+		if (!beanValidator(model,assessAudit)&&"yes".equals(assessAudit.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAudit.getComplaintMain())&&"yes".equals(assessAudit.getComplaintMain().getAct().getFlag())){
 			return form(assessAudit, model,request);
 		}
 		try{

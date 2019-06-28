@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
@@ -42,9 +43,11 @@ public class SignAgreementController extends BaseController {
 
 	@Autowired
 	private SignAgreementService signAgreementService;
+	@Autowired
+	SummaryInfoService summaryInfoService;
     @Autowired
     private MachineAccountService machineAccountService;
-	
+
 	@ModelAttribute
 	public SignAgreement get(@RequestParam(required=false) String id) {
 		SignAgreement entity = null;
@@ -101,6 +104,10 @@ public class SignAgreementController extends BaseController {
 		}
 		String type = request.getParameter("type");
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(signAgreement.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("signAgreement", signAgreement);
 			return "modules/sign/signAgreementView";
 		}else{
@@ -113,7 +120,7 @@ public class SignAgreementController extends BaseController {
 	@RequiresPermissions("sign:signAgreement:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,SignAgreement signAgreement, Model model, RedirectAttributes redirectAttributes) {
-		if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag()) &&(  !beanValidator(model, signAgreement))){
+		if (!beanValidator(model, signAgreement)&&"yes".equals(signAgreement.getComplaintMain().getAct().getFlag())){
 			return form(signAgreement, model,request);
 		}
 		try {

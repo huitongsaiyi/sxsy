@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.perform.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -38,7 +39,8 @@ public class PerformAgreementController extends BaseController {
 
 	@Autowired
 	private PerformAgreementService performAgreementService;
-	
+	@Autowired
+	private SummaryInfoService summaryInfoService;
 	@ModelAttribute
 	public PerformAgreement get(@RequestParam(required=false) String id) {
 		PerformAgreement entity = null;
@@ -74,6 +76,10 @@ public class PerformAgreementController extends BaseController {
 		}
 		String type = request.getParameter("type");
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(performAgreement.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("performAgreement", performAgreement);
 			return "modules/perform/performAgreementView";
 		}else {

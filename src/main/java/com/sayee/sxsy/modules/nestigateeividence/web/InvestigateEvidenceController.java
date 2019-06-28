@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.respondentinfo.dao.RespondentInfoDao;
 import com.sayee.sxsy.modules.respondentinfo.service.RespondentInfoService;
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -48,6 +49,8 @@ public class InvestigateEvidenceController extends BaseController {
 	private RespondentInfoService respondentInfoService;
     @Autowired
     private RespondentInfoDao respondentInfoDao;
+	@Autowired
+	SummaryInfoService summaryInfoService;
     @Autowired
     private MachineAccountService machineAccountService;
 	@ModelAttribute
@@ -115,8 +118,18 @@ public class InvestigateEvidenceController extends BaseController {
 			}
 
 		}
+		if(StringUtils.isBlank(investigateEvidence.getInvestigateEvidence().getContent())){
+			investigateEvidence.getInvestigateEvidence().setContent("调解员(以下简称“调”)、医方(以下简称“医”)、患方(以下简称“患”)\n调：请您陈述诊疗经过。\n医：\n调：医院是否进行过讨论？是否存在过错？\n医：\n调：是否向患方告知封存病历、尸检等相关情况？\n医：\n调：医院有何处理意见？\n医：\n调：请您核对以上内容是否属实，如无疑议，请签字确认。\n医：");
+		}
+		if(StringUtils.isBlank(investigateEvidence.getContent())){
+			investigateEvidence.setContent("调解员(以下简称“调”)、医方(以下简称“医”)、患方(以下简称“患”)\n调：请您陈述诊疗的经过？\n患：\n调：您对诊疗方面有什么疑问吗？\n患 ：\n调：为了明确患者的具体死亡原因，建议做尸体解剖，以便更合理的处理纠纷，是否同意做尸检？\n患：\n调：医疗费有多少？请提供票据。\n患：\n调：您有什么诉求？\n患：\n调：请您核对以上内容是否属实，如无疑议，请签字确认。\n患：");
+		}
 		String type=request.getParameter("type");
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(investigateEvidence.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("investigateEvidence", investigateEvidence);
 			return "modules/nestigateeividence/investigateEvidencesView";
 		}else{
@@ -129,7 +142,7 @@ public class InvestigateEvidenceController extends BaseController {
 	@RequiresPermissions("nestigateeividence:investigateEvidence:edit")
 	@RequestMapping(value = "save")
 	public String save(InvestigateEvidence investigateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if ("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag()) &&(   !beanValidator(model, investigateEvidence)||!beanValidator(model,investigateEvidence.getInvestigateEvidence()))){
+		if (!beanValidator(model, investigateEvidence)&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())||!beanValidator(model,investigateEvidence.getInvestigateEvidence())&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())){
 			return form(investigateEvidence, model,request);
 		}
 		try {

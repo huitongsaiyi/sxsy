@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.reachmediate.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -38,7 +39,8 @@ public class ReachMediateController extends BaseController {
 
 	@Autowired
 	private ReachMediateService reachMediateService;
-	
+	@Autowired
+	private SummaryInfoService summaryInfoService;
 	@ModelAttribute
 	public ReachMediate get(@RequestParam(required=false) String id) {
 		ReachMediate entity = null;
@@ -87,6 +89,10 @@ public class ReachMediateController extends BaseController {
 		}
 		String type = request.getParameter("type");
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(reachMediate.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("reachMediate", reachMediate);
 			return "modules/reachmediate/reachMediateView";
 		}else {
@@ -98,14 +104,11 @@ public class ReachMediateController extends BaseController {
 	@RequiresPermissions("reachmediate:reachMediate:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes) {
-		if ( "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) &&(  !beanValidator(model, reachMediate)||!beanValidator(model,reachMediate.getComplaintMain())||!beanValidator(model,reachMediate.getRecordInfo())||!beanValidator(model,reachMediate.getRecordInfo().getYrecordInfo()))){
+		if (!beanValidator(model, reachMediate)&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())||!beanValidator(model,reachMediate.getComplaintMain())&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())||!beanValidator(model,reachMediate.getRecordInfo())&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())||!beanValidator(model,reachMediate.getRecordInfo().getYrecordInfo())&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())){
 			return form(reachMediate, model,request);
 		}
 		try{
 			reachMediateService.save(reachMediate,request);
-			if(!beanValidator(model,reachMediate)){
-				return form(reachMediate,model,request);
-			}
 			if("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes,"流程已启动，流程ID："+reachMediate.getComplaintMain().getProcInsId());
 			}else{

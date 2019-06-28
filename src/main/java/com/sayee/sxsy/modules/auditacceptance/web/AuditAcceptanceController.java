@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.auditacceptance.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
@@ -39,9 +40,13 @@ public class AuditAcceptanceController extends BaseController {
 
 	@Autowired
 	private AuditAcceptanceService auditAcceptanceService;
+
+	@Autowired
+	private SummaryInfoService summaryInfoService;
+
     @Autowired
     private MachineAccountService machineAccountService;
-	@ModelAttribute
+
 	public AuditAcceptance get(@RequestParam(required=false) String id) {
 		AuditAcceptance entity = null;
 		if (StringUtils.isNotBlank(id)){
@@ -130,6 +135,10 @@ public class AuditAcceptanceController extends BaseController {
 		}
 		String type = request.getParameter("type");
 		if("view".equals(type)) {
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(auditAcceptance.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("auditAcceptance", auditAcceptance);
 			return "modules/auditacceptance/auditAcceptanceView";
 		}else{
@@ -146,7 +155,7 @@ public class AuditAcceptanceController extends BaseController {
 				auditAcceptanceService.exportWord(auditAcceptance,export,request,response);
 				return "";
 			}else {
-				if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo()))  ){
+				if (!beanValidator(model, auditAcceptance)&&"yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())||!beanValidator(model,auditAcceptance.getMediateApplyInfo())&&"yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo())&&"yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
 					return form(request,auditAcceptance, model);
 				}
 				try {

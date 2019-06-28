@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -41,7 +42,8 @@ public class ReportRegistrationController extends BaseController {
 	@Autowired
 	private ReportRegistrationService reportRegistrationService;
 
-
+	@Autowired
+	private SummaryInfoService summaryInfoService;
 	@ModelAttribute
 	public ReportRegistration get(@RequestParam(required=false) String id) {
 		ReportRegistration entity = null;
@@ -74,7 +76,11 @@ public class ReportRegistrationController extends BaseController {
 			}
 		}
 		if("view".equals(type)) {		//判断数据内容是否一致，一致将数据发送到详情页面；不一致，页面跳转到添加页面
+			Map<String, Object> map = summaryInfoService.getViewDetail(reportRegistration.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("reportRegistration",reportRegistration);
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
 			return "modules/registration/reportRegistrationView";
 		}else{
 			model.addAttribute("reportRegistration", reportRegistration);
@@ -86,7 +92,7 @@ public class ReportRegistrationController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes) {
 		try {
-			if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag()) &&(   !beanValidator(model, reportRegistration)||!beanValidator(model,reportRegistration.getComplaintMain()))){
+			if (!beanValidator(model, reportRegistration)&&"yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())||!beanValidator(model,reportRegistration.getComplaintMain())&&"yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
 				return form(request,reportRegistration, model);
 			}
 			reportRegistrationService.save(reportRegistration,request);

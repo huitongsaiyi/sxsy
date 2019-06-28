@@ -46,7 +46,8 @@
 		o3.name AS "office.name",
 		u4.name AS "user.name",
 		u5.name AS "createBy.name",
-		u6.name AS "updateBy.name"
+		u6.name AS "updateBy.name",
+		o4.name AS "hospital.name"
 	</sql>
 
 	<sql id="machineAccountJoins">
@@ -54,6 +55,7 @@
 		LEFT JOIN SYS_USER u4 ON u4.id = a.mediator_id
 		LEFT JOIN SYS_USER u5 ON u5.id = a.create_by
 		LEFT JOIN SYS_USER u6 ON u6.id = a.update_by
+		LEFT JOIN SYS_OFFICE o4 ON o4.id = a.hospital_id
 	</sql>
 
 	<select id="get" resultType="MachineAccount">
@@ -61,7 +63,7 @@
 		<include refid="machineAccountColumns"/>
 		FROM MACHINE_ACCOUNT a
 		<include refid="machineAccountJoins"/>
-        WHERE a.complaint_main_id = #{complaintMainId}
+		WHERE a.complaint_main_id = #{complaintMainId}
 	</select>
 
 	<select id="findList" resultType="MachineAccount">
@@ -221,121 +223,121 @@
 
 	<update id="update">
 		UPDATE MACHINE_ACCOUNT SET
-        <if test="machineAccountId != null and machineAccountId != ''">
-            machine_account_id = #{machineAccountId},
-        </if>
-        <if test="complaintMainId != null and complaintMainId != ''">
-            complaint_main_id = #{complaintMainId},
-        </if>
-        <if test="reportingTime != null and reportingTime !=''">
-            complaint_main_id = #{complaintMainId},
-        </if>
-        <if test="reportingTime != null and reportingTime !=''">
-            reporting_time = #{reportingTime},
-        </if>
-        <if test="deptId != null and deptId !=''">
-            dept_id = #{deptId},
-        </if>
-        <if test="mediatorId != null and mediatorId !=''">
-            mediator_id = #{mediatorId},
-        </if>
-        <if test="patientName != null and patientName !=''">
-            patient_name = #{patientName},
-        </if>
-        <if test="hospitalId != null and hospitalId !=''">
-            hospital_id = #{hospitalId},
-        </if>
-        <if test="major != null and major !=''">
-            major = #{major},
-        </if>
-        <if test="insuranceCompany != null and insuranceCompany !=''">
-            insurance_company = #{insuranceCompany},
-        </if>
-        <if test="policyNumber != null and policyNumber !=''">
-            policy_number = #{policyNumber},
-        </if>
-        <if test="startInsuranceTime != null and startInsuranceTime !=''">
-            start_insurance_time = #{startInsuranceTime},
-        </if>
-        <if test="disputesTime != null and disputesTime !=''">
-            disputes_time = #{disputesTime},
-        </if>
-        <if test="riskTime != null and riskTime !=''">
-            risk_time = #{riskTime},
-        </if>
-        <if test="summaryOfDisputes != null and summaryOfDisputes !=''">
-            summary_of_disputes = #{summaryOfDisputes},
-        </if>
-        <if test="isMajor != null and isMajor !=''">
-            is_major = #{isMajor},
-        </if>
-        <if test="treatmentMode != null and treatmentMode !=''">
-            treatment_mode = #{treatmentMode},
-        </if>
-        <if test="treatmentResult != null and treatmentResult !=''">
-            treatment_result = #{treatmentResult},
-        </if>
-        <if test="patientsReflectFocus != null and patientsReflectFocus !=''">
-            patients_reflect_focus = #{patientsReflectFocus},
-        </if>
-        <if test="relatedMajor != null and relatedMajor !=''">
-            related_major = #{relatedMajor},
-        </if>
-        <if test="assessTime != null and assessTime !=''">
-            assess_time = #{assessTime},
-        </if>
-        <if test="assessNumber != null and assessNumber !=''">
-            assess_number = #{assessNumber},
-        </if>
-        <if test="dutyRatio != null and dutyRatio !=''">
-            duty_ratio = #{dutyRatio},
-        </if>
-        <if test="feedbackTime != null and feedbackTime !=''">
-            feedback_time = #{feedbackTime},
-        </if>
-        <if test="agreementNumber != null and agreementNumber !=''">
-            agreement_number = #{agreementNumber},
-        </if>
-        <if test="ratifyAccord != null and ratifyAccord !=''">
-            ratify_accord = #{ratifyAccord},
-        </if>
-        <if test="agreementStampTime != null and agreementStampTime !=''">
-            agreement_stamp_time = #{agreementStampTime},
-        </if>
-        <if test="agreementAmount != null and agreementAmount !=''">
-            agreement_amount = #{agreementAmount},
-        </if>
-        <if test="insuranceAmount != null and insuranceAmount !=''">
-            insurance_amount = #{insuranceAmount},
-        </if>
-        <if test="claimSettlementTime != null and claimSettlementTime !=''">
-            claim_settlement_time = #{claimSettlementTime},
-        </if>
-        <if test="compensateTime != null and compensateTime !=''">
-            compensate_time = #{compensateTime},
-        </if>
-        <if test="flowDays != null and flowDays !=''">
-            flow_days = #{flowDays},
-        </if>
-        <if test="handOver != null and handOver !=''">
-            hand_over = #{handOver},
-        </if>
-        <if test="archiveTime != null and archiveTime !=''">
-            archive_time = #{archiveTime},
-        </if>
-        <if test="fileNumber != null and fileNumber !=''">
-            file_number = #{fileNumber},
-        </if>
-        <if test="remark != null and remark !=''">
-            remark = #{remark},
-        </if>
-        <if test="updateBy.id != null and updateBy.id !=''">
-            update_by = #{updateBy.id},
-        </if>
-        <if test="updateDate != null and updateDate !=''">
-            update_date = #{updateDate}
-        </if>
-        WHERE machine_account_id = #{machineAccountId}
+		<if test="machineAccountId != null and machineAccountId != ''">
+			machine_account_id = #{machineAccountId},
+		</if>
+		<if test="complaintMainId != null and complaintMainId != ''">
+			complaint_main_id = #{complaintMainId},
+		</if>
+		<if test="reportingTime != null and reportingTime !=''">
+			complaint_main_id = #{complaintMainId},
+		</if>
+		<if test="reportingTime != null and reportingTime !=''">
+			reporting_time = #{reportingTime},
+		</if>
+		<if test="deptId != null and deptId !=''">
+			dept_id = #{deptId},
+		</if>
+		<if test="mediatorId != null and mediatorId !=''">
+			mediator_id = #{mediatorId},
+		</if>
+		<if test="patientName != null and patientName !=''">
+			patient_name = #{patientName},
+		</if>
+		<if test="hospitalId != null and hospitalId !=''">
+			hospital_id = #{hospitalId},
+		</if>
+		<if test="major != null and major !=''">
+			major = #{major},
+		</if>
+		<if test="insuranceCompany != null and insuranceCompany !=''">
+			insurance_company = #{insuranceCompany},
+		</if>
+		<if test="policyNumber != null and policyNumber !=''">
+			policy_number = #{policyNumber},
+		</if>
+		<if test="startInsuranceTime != null and startInsuranceTime !=''">
+			start_insurance_time = #{startInsuranceTime},
+		</if>
+		<if test="disputesTime != null and disputesTime !=''">
+			disputes_time = #{disputesTime},
+		</if>
+		<if test="riskTime != null and riskTime !=''">
+			risk_time = #{riskTime},
+		</if>
+		<if test="summaryOfDisputes != null and summaryOfDisputes !=''">
+			summary_of_disputes = #{summaryOfDisputes},
+		</if>
+		<if test="isMajor != null and isMajor !=''">
+			is_major = #{isMajor},
+		</if>
+		<if test="treatmentMode != null and treatmentMode !=''">
+			treatment_mode = #{treatmentMode},
+		</if>
+		<if test="treatmentResult != null and treatmentResult !=''">
+			treatment_result = #{treatmentResult},
+		</if>
+		<if test="patientsReflectFocus != null and patientsReflectFocus !=''">
+			patients_reflect_focus = #{patientsReflectFocus},
+		</if>
+		<if test="relatedMajor != null and relatedMajor !=''">
+			related_major = #{relatedMajor},
+		</if>
+		<if test="assessTime != null and assessTime !=''">
+			assess_time = #{assessTime},
+		</if>
+		<if test="assessNumber != null and assessNumber !=''">
+			assess_number = #{assessNumber},
+		</if>
+		<if test="dutyRatio != null and dutyRatio !=''">
+			duty_ratio = #{dutyRatio},
+		</if>
+		<if test="feedbackTime != null and feedbackTime !=''">
+			feedback_time = #{feedbackTime},
+		</if>
+		<if test="agreementNumber != null and agreementNumber !=''">
+			agreement_number = #{agreementNumber},
+		</if>
+		<if test="ratifyAccord != null and ratifyAccord !=''">
+			ratify_accord = #{ratifyAccord},
+		</if>
+		<if test="agreementStampTime != null and agreementStampTime !=''">
+			agreement_stamp_time = #{agreementStampTime},
+		</if>
+		<if test="agreementAmount != null and agreementAmount !=''">
+			agreement_amount = #{agreementAmount},
+		</if>
+		<if test="insuranceAmount != null and insuranceAmount !=''">
+			insurance_amount = #{insuranceAmount},
+		</if>
+		<if test="claimSettlementTime != null and claimSettlementTime !=''">
+			claim_settlement_time = #{claimSettlementTime},
+		</if>
+		<if test="compensateTime != null and compensateTime !=''">
+			compensate_time = #{compensateTime},
+		</if>
+		<if test="flowDays != null and flowDays !=''">
+			flow_days = #{flowDays},
+		</if>
+		<if test="handOver != null and handOver !=''">
+			hand_over = #{handOver},
+		</if>
+		<if test="archiveTime != null and archiveTime !=''">
+			archive_time = #{archiveTime},
+		</if>
+		<if test="fileNumber != null and fileNumber !=''">
+			file_number = #{fileNumber},
+		</if>
+		<if test="remark != null and remark !=''">
+			remark = #{remark},
+		</if>
+		<if test="updateBy.id != null and updateBy.id !=''">
+			update_by = #{updateBy.id},
+		</if>
+		<if test="updateDate != null and updateDate !=''">
+			update_date = #{updateDate}
+		</if>
+		WHERE machine_account_id = #{machineAccountId}
 	</update>
 
 	<update id="delete">

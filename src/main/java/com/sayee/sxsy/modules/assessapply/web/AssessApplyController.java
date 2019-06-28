@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -40,6 +41,8 @@ public class AssessApplyController extends BaseController {
 
 	@Autowired
 	private AssessApplyService assessApplyService;
+	@Autowired
+	SummaryInfoService summaryInfoService;
 	@Autowired
 	private PreOperativeConsentService preOperativeConsentService;
 	@ModelAttribute
@@ -78,6 +81,10 @@ public class AssessApplyController extends BaseController {
 			}
 		}
 		if("view".equals(type)){
+			String show2=request.getParameter("show2");
+			model.addAttribute("show2",show2);
+			Map<String, Object> map = summaryInfoService.getViewDetail(assessApply.getComplaintMainId());
+			model.addAttribute("map",map);
 			model.addAttribute("assessApply", assessApply);
 			return "modules/assessapply/assessApplyView";
 		}else{
