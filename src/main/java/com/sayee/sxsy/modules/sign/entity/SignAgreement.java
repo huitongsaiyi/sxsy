@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.sign.entity;
 import com.google.common.collect.Lists;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
@@ -63,6 +64,7 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 	private List<PatientLinkEmp> patientLinkEmpList = Lists.newArrayList();     //关联患方联系人
 	private List<PatientLinkEmp> patientLinkDList = Lists.newArrayList();		//患方代理人
 	private List<MedicalOfficeEmp> medicalOfficeEmpList = Lists.newArrayList();		//医方管理人员
+    private MachineAccount machineAccount;//台账信息
 
 
 	public SignAgreement() {
@@ -72,6 +74,14 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 	public SignAgreement(String id){
 		super(id);
 	}
+
+    public MachineAccount getMachineAccount() {
+        return machineAccount;
+    }
+
+    public void setMachineAccount(MachineAccount machineAccount) {
+        this.machineAccount = machineAccount;
+    }
 
 	public ComplaintMain getComplaintMain() {
 		return complaintMain;

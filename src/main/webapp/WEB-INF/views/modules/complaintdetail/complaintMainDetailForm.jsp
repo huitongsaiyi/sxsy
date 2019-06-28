@@ -115,7 +115,10 @@
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td class="controls">
 							<sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="${complaintMainDetail.complaintMain.department.name}" labelValue="${complaintMainDetail.complaintMain.department.name}"
-											title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true"/>
+                                            title="部门" url="/sys/office/treeData?type=2&officeType=2"
+                                            pid="involveHospital" isAll="true" cssClass="required"
+                                            dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true"
+                                            disabled="true"/>
                             <span class="help-inline"> </span>
                         </td>
 					</tr>

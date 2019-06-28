@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import org.apache.commons.collections.MapUtils;
@@ -41,6 +42,8 @@ public class SignAgreementController extends BaseController {
 
 	@Autowired
 	private SignAgreementService signAgreementService;
+    @Autowired
+    private MachineAccountService machineAccountService;
 	
 	@ModelAttribute
 	public SignAgreement get(@RequestParam(required=false) String id) {
@@ -115,6 +118,7 @@ public class SignAgreementController extends BaseController {
 		}
 		try {
 			signAgreementService.save(request,signAgreement);
+            machineAccountService.savetz(signAgreement.getMachineAccount(), "e", signAgreement.getSignAgreementId());
 			if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + signAgreement.getComplaintMain().getProcInsId());
 			}else {

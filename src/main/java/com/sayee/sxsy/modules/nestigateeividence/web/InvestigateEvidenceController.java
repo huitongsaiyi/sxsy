@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.nestigateeividence.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.respondentinfo.dao.RespondentInfoDao;
 import com.sayee.sxsy.modules.respondentinfo.service.RespondentInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
@@ -47,6 +48,8 @@ public class InvestigateEvidenceController extends BaseController {
 	private RespondentInfoService respondentInfoService;
     @Autowired
     private RespondentInfoDao respondentInfoDao;
+    @Autowired
+    private MachineAccountService machineAccountService;
 	@ModelAttribute
 	public InvestigateEvidence get(@RequestParam(required=false) String id) {
 		InvestigateEvidence entity = null;
@@ -131,6 +134,7 @@ public class InvestigateEvidenceController extends BaseController {
 		}
 		try {
 				investigateEvidenceService.save(investigateEvidence,request);
+            machineAccountService.savetz(investigateEvidence.getMachineAccount(), "b", investigateEvidence.getInvestigateEvidenceId());
 			if ("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())) {
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + investigateEvidence.getComplaintMain().getProcInsId());
 			} else {

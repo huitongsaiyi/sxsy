@@ -4,7 +4,9 @@
 package com.sayee.sxsy.modules.auditacceptance.entity;
 
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.mediateapplyinfo.entity.MediateApplyInfo;
+import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
@@ -39,6 +41,8 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	private String hfsltzs;  //患方受理通知书
 	private String yysltzs;  //医院受理通知书
 	private MediateApplyInfo mediateApplyInfo;
+    private MachineAccount machineAccount;    //台账信息
+    private ReportRegistration reportRegistration;
 
 	public AuditAcceptance() {
 		super();
@@ -47,6 +51,22 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	public AuditAcceptance(String id){
 		super(id);
 	}
+
+    public MachineAccount getMachineAccount() {
+        return machineAccount;
+    }
+
+    public void setMachineAccount(MachineAccount machineAccount) {
+        this.machineAccount = machineAccount;
+    }
+
+    public ReportRegistration getReportRegistration() {
+        return reportRegistration;
+    }
+
+    public void setReportRegistration(ReportRegistration reportRegistration) {
+        this.reportRegistration = reportRegistration;
+    }
 
 	public MediateApplyInfo getMediateApplyInfo() {
 		return mediateApplyInfo;

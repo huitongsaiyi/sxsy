@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.nestigateeividence.entity;
 
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.respondentinfo.entity.RespondentInfo;
 import com.sayee.sxsy.modules.sys.entity.Area;
@@ -48,6 +49,7 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	private RespondentInfo respondentInfo4;//被调查人4
 	private RespondentInfo respondentInfo;//被调查人信息
     private InvestigateEvidence investigateEvidence;//医方信息
+    private MachineAccount machineAccount;//台账信息
 
 	public RespondentInfo getRespondentInfo4() {
 		return respondentInfo4;
@@ -56,6 +58,14 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	public void setRespondentInfo4(RespondentInfo respondentInfo4) {
 		this.respondentInfo4 = respondentInfo4;
 	}
+
+    public MachineAccount getMachineAccount() {
+        return machineAccount;
+    }
+
+    public void setMachineAccount(MachineAccount machineAccount) {
+        this.machineAccount = machineAccount;
+    }
 
 	public RespondentInfo getRespondentInfo3() {
 		return respondentInfo3;

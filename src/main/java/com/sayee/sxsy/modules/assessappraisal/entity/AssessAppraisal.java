@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.assessappraisal.entity;
 import com.google.common.collect.Lists;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.proposal.entity.Proposal;
@@ -63,6 +64,16 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private List<MedicalOfficeEmp> medicalOfficeEmpList = Lists.newArrayList();		//医方信息
 	private List<TypeInfo> typeInfosList;//意见
 	private List<TypeInfo> typeInfosList2;//结论
+    private MachineAccount machineAccount;//台账信息
+
+    public MachineAccount getMachineAccount() {
+        return machineAccount;
+    }
+
+    public void setMachineAccount(MachineAccount machineAccount) {
+        this.machineAccount = machineAccount;
+    }
+
 	public List<TypeInfo> getTypeInfosList2() {
 		return typeInfosList2;
 	}

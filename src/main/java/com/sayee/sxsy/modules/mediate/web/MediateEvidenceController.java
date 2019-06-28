@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
@@ -43,7 +44,8 @@ import java.util.Map;
 public class MediateEvidenceController extends BaseController {
 	@Autowired
 	private MediateEvidenceService mediateEvidenceService;
-	
+    @Autowired
+    private MachineAccountService machineAccountService;
 	@ModelAttribute
 	public MediateEvidence get(@RequestParam(required=false) String id) {
 		MediateEvidence entity = null;
@@ -114,6 +116,7 @@ public class MediateEvidenceController extends BaseController {
 			}
 			try {
 				mediateEvidenceService.save(mediateEvidence,request);
+                machineAccountService.savetz(mediateEvidence.getMachineAccount(), "c", mediateEvidence.getMediateEvidenceId());
 				if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + mediateEvidence.getComplaintMain().getProcInsId());
 				}else {

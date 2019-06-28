@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.mediate.entity;
 import com.google.common.collect.Lists;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
@@ -51,6 +52,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private Area area;
     private AuditAcceptance auditAcceptance;
     private ReportRegistration reportRegistration;
+    private MachineAccount machineAccount;
 
 
     public MediateEvidence() {
@@ -59,6 +61,14 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
 
     public MediateEvidence(String id) {
         super(id);
+    }
+
+    public MachineAccount getMachineAccount() {
+        return machineAccount;
+    }
+
+    public void setMachineAccount(MachineAccount machineAccount) {
+        this.machineAccount = machineAccount;
     }
 
     public User getDoctorUser() {

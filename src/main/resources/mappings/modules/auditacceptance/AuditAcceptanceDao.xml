@@ -41,20 +41,61 @@
 		m.summary_of_disputes AS "mediateApplyInfo.summaryOfDisputes",
 		m.apply_type AS "mediateApplyInfo.applyType",
 		m.apply_matter AS "mediateApplyInfo.applyMatter",
-		m1.mediate_apply_id AS "mediateApplyInfo.docMediateApplyInfo.mediateApplyId",
-		m1.audit_acceptance_id AS "mediateApplyInfo.docMediateApplyInfo.auditAcceptanceId",
-		if(m1.patient_name IS NULL ,b.patient_name,m1.patient_name) AS "mediateApplyInfo.docMediateApplyInfo.patientName",
-		if(m1.patient_sex IS NULL ,b.patient_sex,m1.patient_sex) AS "mediateApplyInfo.docMediateApplyInfo.patientSex",
-		if(m1.patient_age IS NULL,b.patient_age,m1.patient_age) AS "mediateApplyInfo.docMediateApplyInfo.patientAge",
-		m1.apply_hospital AS "mediateApplyInfo.docMediateApplyInfo.applyHospital",
-		m1.agent AS "mediateApplyInfo.docMediateApplyInfo.agent",
-		m1.hospital_mobile AS "mediateApplyInfo.docMediateApplyInfo.hospitalMobile",
-		m1.summary_of_disputes AS "mediateApplyInfo.docMediateApplyInfo.summaryOfDisputes",
-		m1.apply_matter AS "mediateApplyInfo.docMediateApplyInfo.applyMatter",
-		m1.apply_type AS "mediateApplyInfo.docMediateApplyInfo.applyType",
+		m2.mediate_apply_id AS "mediateApplyInfo.docMediateApplyInfo.mediateApplyId",
+		if(m2.patient_name IS NULL ,b.patient_name,m2.patient_name) AS "mediateApplyInfo.docMediateApplyInfo.patientName",
+		if(m2.patient_sex IS NULL ,b.patient_sex,m2.patient_sex) AS "mediateApplyInfo.docMediateApplyInfo.patientSex",
+		if(m2.patient_age IS NULL,b.patient_age,m2.patient_age) AS "mediateApplyInfo.docMediateApplyInfo.patientAge",
+		m2.apply_hospital AS "mediateApplyInfo.docMediateApplyInfo.applyHospital",
+		m2.agent AS "mediateApplyInfo.docMediateApplyInfo.agent",
+		m2.hospital_mobile AS "mediateApplyInfo.docMediateApplyInfo.hospitalMobile",
+		m2.summary_of_disputes AS "mediateApplyInfo.docMediateApplyInfo.summaryOfDisputes",
+		m2.apply_matter AS "mediateApplyInfo.docMediateApplyInfo.applyMatter",
+		m2.apply_type AS "mediateApplyInfo.docMediateApplyInfo.applyType",
+		r.report_time AS "reportRegistration.reportTime",
+		r.dispute_time AS "reportRegistration.disputeTime",
+		r.is_major AS "reportRegistration.isMajor",
+		m1.machine_account_id AS "machineAccount.machineAccountId",
+		m1.complaint_main_id AS "machineAccount.complaintMainId",
+		m1.reporting_time AS "machineAccount.reportingTime",
+		m1.dept_id AS "machineAccount.deptId",
+		m1.mediator_id AS "machineAccount.mediatorId",
+		m1.patient_name AS "machineAccount.patientName",
+		m1.hospital_id AS "machineAccount.hospitalId",
+		m1.major AS "machineAccount.major",
+		m1.insurance_company AS "machineAccount.insuranceCompany",
+		m1.policy_number AS "machineAccount.policyNumber",
+		m1.start_insurance_time AS "machineAccount.startInsuranceTime",
+		m1.disputes_time AS "machineAccount.disputesTime",
+		m1.risk_time AS "machineAccount.riskTime",
+		m1.summary_of_disputes AS "machineAccount.summaryOfDisputes",
+		m1.is_major AS "machineAccount.isMajor",
+		m1.treatment_mode AS "machineAccount.treatmentMode",
+		m1.treatment_result AS "machineAccount.treatmentResult",
+		m1.patients_reflect_focus AS "machineAccount.patientsReflectFocus",
+		m1.related_major AS "machineAccount.relatedMajor",
+		m1.assess_time AS "machineAccount.assessTime",
+		m1.assess_number AS "machineAccount.assessNumber",
+		m1.duty_ratio AS "machineAccount.dutyRatio",
+		m1.feedback_time AS "machineAccount.feedbackTime",
+		m1.agreement_number AS "machineAccount.agreementNumber",
+		m1.ratify_accord AS "machineAccount.ratifyAccord",
+		m1.agreement_stamp_time AS "machineAccount.agreementStampTime",
+		m1.agreement_amount AS "machineAccount.agreementAmount",
+		m1.insurance_amount AS "machineAccount.insuranceAmount",
+		m1.claim_settlement_time AS "machineAccount.claimSettlementTime",
+		m1.compensate_time AS "machineAccount.compensateTime",
+		m1.flow_days AS "machineAccount.flowDays",
+		m1.hand_over AS "machineAccount.handOver",
+		m1.archive_time AS "machineAccount.archiveTime",
+		m1.file_number AS "machineAccount.fileNumber",
+		m1.remark AS "machineAccount.remark",
+		m1.create_by AS "machineAccount.createBy.id",
+		m1.create_date AS "machineAccount.createDate",
+		m1.update_by AS "machineAccount.updateBy.id",
+		m1.update_date AS "machineAccount.updateDate",
+		m1.del_flag AS "machineAccount.delFlag",
 		oo.name AS"mediateApplyInfo.sjOffice.name",
 		oo1.name AS "mediateApplyInfo.docMediateApplyInfo.sqOffice.name"
-
 	</sql>
 
 	<sql id="auditAcceptanceJoins">
@@ -66,10 +107,11 @@
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 		LEFT JOIN MEDIATE_APPLY_INFO m ON m.audit_acceptance_id = a.audit_acceptance_id AND m.apply_type = '1'
-		LEFT JOIN MEDIATE_APPLY_INFO m1 ON m1.audit_acceptance_id = a.audit_acceptance_id AND m1.apply_type = '2'
+		LEFT JOIN MEDIATE_APPLY_INFO m2 ON m2.audit_acceptance_id = a.audit_acceptance_id AND m2.apply_type = '2'
 		LEFT JOIN COMPLAINT_MAIN_DETAIL c1 ON c1.complaint_main_id = b.complaint_main_id
 		LEFT JOIN SYS_OFFICE oo on oo.id = m.involve_hospital
-		LEFT JOIN SYS_OFFICE oo1 on oo1.id = m1.apply_hospital
+		LEFT JOIN SYS_OFFICE oo1 on oo1.id = m2.apply_hospital
+		LEFT JOIN MACHINE_ACCOUNT m1 ON m1.complaint_main_id = a.complaint_main_id AND m1.del_flag=0
 	</sql>
 
 	<select id="get" resultType="AuditAcceptance">

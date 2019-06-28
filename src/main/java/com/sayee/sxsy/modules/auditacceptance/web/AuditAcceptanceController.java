@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,8 @@ public class AuditAcceptanceController extends BaseController {
 
 	@Autowired
 	private AuditAcceptanceService auditAcceptanceService;
-	
+    @Autowired
+    private MachineAccountService machineAccountService;
 	@ModelAttribute
 	public AuditAcceptance get(@RequestParam(required=false) String id) {
 		AuditAcceptance entity = null;
@@ -149,10 +151,11 @@ public class AuditAcceptanceController extends BaseController {
 				}
 				try {
                     auditAcceptanceService.save(request, auditAcceptance);
+                    machineAccountService.savetz(auditAcceptance.getMachineAccount(), "a", auditAcceptance.getAuditAcceptanceId());
                     if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
                         addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
                     }else {
-                        addMessage(redirectAttributes, "保存审核受理成功");;
+                        addMessage(redirectAttributes, "保存审核受理成功");
                     }
 				} catch (Exception e) {
 					logger.error("启动纠纷调解流程失败：", e);

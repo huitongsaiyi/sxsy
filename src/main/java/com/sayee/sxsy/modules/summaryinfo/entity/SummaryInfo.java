@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.summaryinfo.entity;
 
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -38,7 +39,8 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	private User linkEmployee;		// 下一环节人员
 	private User dcEmployee;		// 登记人员
 	private ReportRegistration reportRegistration;//报案人姓名
-	
+    private MachineAccount machineAccount;//台账信息
+
 	public SummaryInfo() {
 		super();
 	}
@@ -46,6 +48,14 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public SummaryInfo(String id){
 		super(id);
 	}
+
+    public MachineAccount getMachineAccount() {
+        return machineAccount;
+    }
+
+    public void setMachineAccount(MachineAccount machineAccount) {
+        this.machineAccount = machineAccount;
+    }
 
 	public void setNextLinkMan(String nextLinkMan) {
 		this.nextLinkMan = nextLinkMan;

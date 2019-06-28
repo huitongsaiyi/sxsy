@@ -91,6 +91,8 @@
     <form:hidden path="complaintMain.act.procInsId"/>
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
+    <form:hidden path="machineAccount.complaintMainId"/>
+    <form:hidden path="reportRegistration"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
     <form:hidden path="mediateApplyInfo.mediateApplyId"/>
     <form:hidden path="mediateApplyInfo.docMediateApplyInfo.mediateApplyId"/>

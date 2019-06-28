@@ -51,6 +51,7 @@
          r1.report_emp AS "reportRegistration.reportEmp",
          r1.dispute_time AS "reportRegistration.disputeTime",
          r1.patient_mobile AS "reportRegistration.patientMobile",
+         o.id AS "recordInfo.ytwHost.office.id",
          uz.name AS "recordInfo.ytwHost.name",
          uj.name AS "recordInfo.ytwNoteTaker.name",
          uy.name AS "recordInfo.yfDoctor.name",
@@ -77,6 +78,7 @@
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+		LEFT JOIN SYS_OFFICE o2 ON o2.id=uz.office_id
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
 		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
 		LEFT JOIN REPORT_REGISTRATION r1 ON b.complaint_main_id=r1.complaint_main_id

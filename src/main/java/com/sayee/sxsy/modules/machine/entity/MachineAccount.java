@@ -25,6 +25,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private Office office;	// 归属部门
 	private User user;	// 归属部门
 	private String machineAccountId;		// machine_account_id
+    private String complaintMainId;            //主表主键
 	private String reportingTime;		// 报案时间
 	private String endReportingTime;		// 报案时间
 	private String deptId;		// 部门主键
@@ -60,6 +61,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String archiveTime;		// 归档时间
 	private String fileNumber;		// 卷宗编号
 	private String remark;		// 备注
+    private String delFlag;        //删除标识
 
 	public MachineAccount() {
 		super();
@@ -68,6 +70,24 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	public MachineAccount(String id){
 		super(id);
 	}
+
+    @Override
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    @Override
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    public String getComplaintMainId() {
+        return complaintMainId;
+    }
+
+    public void setComplaintMainId(String complaintMainId) {
+        this.complaintMainId = complaintMainId;
+    }
 
 	//@Length(min=1, max=32, message="machine_account_id长度必须介于 1 和 32 之间")
 	public String getMachineAccountId() {

@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.summaryinfo.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -38,7 +39,8 @@ public class SummaryInfoController extends BaseController {
 
 	@Autowired
 	private SummaryInfoService summaryInfoService;
-	
+    @Autowired
+    private MachineAccountService machineAccountService;
 	@ModelAttribute
 	public SummaryInfo get(@RequestParam(required=false) String id) {
 		SummaryInfo entity = null;
@@ -153,6 +155,7 @@ public class SummaryInfoController extends BaseController {
 			return form(request,summaryInfo, model);
 		}
 		summaryInfoService.save(summaryInfo,request);
+        machineAccountService.savetz(summaryInfo.getMachineAccount(), "f", summaryInfo.getSummaryId());
 		addMessage(redirectAttributes, "保存案件总结成功");
 		return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
 	}

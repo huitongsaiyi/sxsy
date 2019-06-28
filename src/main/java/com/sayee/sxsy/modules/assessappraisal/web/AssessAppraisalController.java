@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
@@ -44,9 +45,11 @@ public class AssessAppraisalController extends BaseController {
 	@Autowired
 	private AssessAppraisalService assessAppraisalService;
 	@Autowired
-	private SignAgreementService signAgreementService;
-	@Autowired
-	private TypeInfoService typeInfoService;
+    private MachineAccountService machineAccountService;
+    @Autowired
+    private SignAgreementService signAgreementService;
+    @Autowired
+    private TypeInfoService typeInfoService;
 	@ModelAttribute
 	public AssessAppraisal get(@RequestParam(required=false) String id) {
 		AssessAppraisal entity = null;
@@ -124,6 +127,7 @@ public class AssessAppraisalController extends BaseController {
 		}
 		try{
 			assessAppraisalService.save(assessAppraisal,request);
+            machineAccountService.savetz(assessAppraisal.getMachineAccount(), "d", assessAppraisal.getAssessAppraisalId());
 			if("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + assessAppraisal.getComplaintMain().getProcInsId());
 			}else {
