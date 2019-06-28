@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ attribute name="id" type="java.lang.String" required="true" description="编号"%>
+<%@ attribute name="pid" type="java.lang.String" required="false" description="父级编号"%>
 <%@ attribute name="name" type="java.lang.String" required="true" description="隐藏域名称（ID）"%>
 <%@ attribute name="value" type="java.lang.String" required="true" description="隐藏域值（ID）"%>
 <%@ attribute name="labelName" type="java.lang.String" required="true" description="输入框名称（Name）"%>
@@ -24,6 +25,7 @@
 <%@ attribute name="dataMsgRequired" type="java.lang.String" required="false" description=""%>
 <div class="input-append">
 	<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
+	<input id="${pid}" name="pid" type="hidden" />
 	<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'} type="text" value="${labelValue}" data-msg-required="${dataMsgRequired}"
 		class="${cssClass}" style="${cssStyle}"/><a id="${id}Button" href="javascript:" class="btn ${disabled} ${hideBtn ? 'hide' : ''}" style="${smallBtn?'padding:4px 2px;':''}">&nbsp;<i class="icon-search"></i>&nbsp;</a>&nbsp;&nbsp;
 </div>
@@ -33,8 +35,10 @@
 		if ($("#${id}Button").hasClass("disabled")){
 			return true;
 		}
-		// 正常打开	
-		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}", "选择${title}", 300, 420, {
+		var pid=$("#${pid}Id").val();
+		$("#${pid}").val(pid);
+		// 正常打开
+		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}&pid="+pid, "选择${title}", 300, 420, {
 			ajaxData:{selectIds: $("#${id}Id").val()},buttons:{"确定":"ok", ${allowClear?"\"清除\":\"clear\", ":""}"关闭":true}, submit:function(v, h, f){
 				if (v=="ok"){
 					var tree = h.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();

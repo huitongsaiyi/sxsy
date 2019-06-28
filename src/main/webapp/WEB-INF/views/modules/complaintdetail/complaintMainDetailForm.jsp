@@ -109,7 +109,7 @@
 						<td class="tit" width="160px"><font color="red">*</font>涉及医院：</td>
 						<td class="controls" width="476px">
 							<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${complaintMainDetail.complaintMain.involveHospital}" labelName="${complaintMainDetail.complaintMain.hospital.name}" labelValue="${complaintMainDetail.complaintMain.hospital.name}"
-											title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>
+											title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" />
                             <span class="help-inline"> </span>
                         </td>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
@@ -126,7 +126,7 @@
 						<td class="tit"><font color="red">*</font>涉及人员：</td>
 						<td class="controls">
 							<sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee" value="${complaintMainDetail.complaintMain.involveEmployee}" labelName="${complaintMainDetail.complaintMain.employee.name}" labelValue="${complaintMainDetail.complaintMain.employee.name}"
-											title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择人员" allowClear="true" notAllowSelectParent="true"/>
+											title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" pid="involveDepartment" cssClass="required" dataMsgRequired="请选择人员" allowClear="true" notAllowSelectParent="true"/>
                             <span class="help-inline"> </span>
                         </td>
 					</tr>
