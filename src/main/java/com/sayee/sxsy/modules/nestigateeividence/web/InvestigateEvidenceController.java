@@ -141,23 +141,29 @@ public class InvestigateEvidenceController extends BaseController {
 
 	@RequiresPermissions("nestigateeividence:investigateEvidence:edit")
 	@RequestMapping(value = "save")
-	public String save(InvestigateEvidence investigateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if (!beanValidator(model, investigateEvidence)&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())||!beanValidator(model,investigateEvidence.getInvestigateEvidence())&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())){
-			return form(investigateEvidence, model,request);
-		}
-		try {
-				investigateEvidenceService.save(investigateEvidence,request);
-            machineAccountService.savetz(investigateEvidence.getMachineAccount(), "b", investigateEvidence.getInvestigateEvidenceId());
-			if ("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())) {
-				addMessage(redirectAttributes, "流程已启动，流程ID：" + investigateEvidence.getComplaintMain().getProcInsId());
-			} else {
-				addMessage(redirectAttributes, "保存调查取证成功");
+	public String save(InvestigateEvidence investigateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request,HttpServletResponse response) {
+		String export=request.getParameter("export");
+		if (!export.equals("no")){
+			investigateEvidenceService.exportWord(investigateEvidence,export,request,response);
+			return "";
+		}else {
+			if (!beanValidator(model, investigateEvidence)&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())||!beanValidator(model,investigateEvidence.getInvestigateEvidence())&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())){
+				return form(investigateEvidence, model,request);
 			}
-		}catch(Exception e){
-			logger.error("启动纠纷调解流程失败：", e);
-			addMessage(redirectAttributes, "系统内部错误！");
+			try {
+				investigateEvidenceService.save(investigateEvidence,request);
+				machineAccountService.savetz(investigateEvidence.getMachineAccount(), "b", investigateEvidence.getInvestigateEvidenceId());
+				if ("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())) {
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + investigateEvidence.getComplaintMain().getProcInsId());
+				} else {
+					addMessage(redirectAttributes, "保存调查取证成功");
+				}
+			}catch(Exception e){
+				logger.error("启动纠纷调解流程失败：", e);
+				addMessage(redirectAttributes, "系统内部错误！");
+			}
+			return "redirect:"+Global.getAdminPath()+"/nestigateeividence/investigateEvidence/?repage";
 		}
-		return "redirect:"+Global.getAdminPath()+"/nestigateeividence/investigateEvidence/?repage";
 	}
 	
 	@RequiresPermissions("nestigateeividence:investigateEvidence:edit")

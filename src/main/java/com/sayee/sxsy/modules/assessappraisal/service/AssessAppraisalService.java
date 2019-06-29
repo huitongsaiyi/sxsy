@@ -119,6 +119,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		if(StringUtils.isBlank(assessAppraisal.getCreateBy().getId())){
 			assessAppraisal.preInsert();
 			assessAppraisal.setAssessAppraisalId(assessAppraisal.getId());
+			if(StringUtils.isBlank(assessAppraisal.getPatientAge())){
+				assessAppraisal.setPatientAge("0");
+			}
 			dao.insert(assessAppraisal);
 			//保存患方笔录
 			RecordInfo huanf = assessAppraisal.getRecordInfo1();

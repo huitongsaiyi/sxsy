@@ -615,7 +615,7 @@
             <tr>
                 <td class="tit">医方代理人</td>
                 <td>
-                        ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyer}
+                        ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.agent}
                 </td>
                 <td class="tit">医方联系电话</td>
                 <td>

@@ -40,13 +40,11 @@ public class AuditAcceptanceController extends BaseController {
 
 	@Autowired
 	private AuditAcceptanceService auditAcceptanceService;
-
+	@Autowired
+	private MachineAccountService machineAccountService;
 	@Autowired
 	private SummaryInfoService summaryInfoService;
-
-    @Autowired
-    private MachineAccountService machineAccountService;
-
+	@ModelAttribute
 	public AuditAcceptance get(@RequestParam(required=false) String id) {
 		AuditAcceptance entity = null;
 		if (StringUtils.isNotBlank(id)){
@@ -57,11 +55,11 @@ public class AuditAcceptanceController extends BaseController {
 		}
 		return entity;
 	}
-	
+
 	@RequiresPermissions("auditacceptance:auditAcceptance:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(AuditAcceptance auditAcceptance, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<AuditAcceptance> page = auditAcceptanceService.findPage(new Page<AuditAcceptance>(request, response), auditAcceptance); 
+		Page<AuditAcceptance> page = auditAcceptanceService.findPage(new Page<AuditAcceptance>(request, response), auditAcceptance);
 		model.addAttribute("page", page);
 		return "modules/auditacceptance/auditAcceptanceList";
 	}
@@ -134,8 +132,8 @@ public class AuditAcceptanceController extends BaseController {
 			}
 		}
 		String type = request.getParameter("type");
+		String show2=request.getParameter("show2");
 		if("view".equals(type)) {
-			String show2=request.getParameter("show2");
 			model.addAttribute("show2",show2);
 			Map<String, Object> map = summaryInfoService.getViewDetail(auditAcceptance.getComplaintMainId());
 			model.addAttribute("map",map);
@@ -150,30 +148,30 @@ public class AuditAcceptanceController extends BaseController {
 	@RequiresPermissions("auditacceptance:auditAcceptance:edit")
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request, AuditAcceptance auditAcceptance, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
-        String export=request.getParameter("export");
-        	if (!export.equals("no")){
-				auditAcceptanceService.exportWord(auditAcceptance,export,request,response);
-				return "";
-			}else {
-				if (!beanValidator(model, auditAcceptance)&&"yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())||!beanValidator(model,auditAcceptance.getMediateApplyInfo())&&"yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo())&&"yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
-					return form(request,auditAcceptance, model);
-				}
-				try {
-                    auditAcceptanceService.save(request, auditAcceptance);
-                    machineAccountService.savetz(auditAcceptance.getMachineAccount(), "a", auditAcceptance.getAuditAcceptanceId());
-                    if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
-                        addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
-                    }else {
-                        addMessage(redirectAttributes, "保存审核受理成功");
-                    }
-				} catch (Exception e) {
-					logger.error("启动纠纷调解流程失败：", e);
-					addMessage(redirectAttributes, "系统内部错误,请联系管理员！");
-				}
-				return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
+		String export=request.getParameter("export");
+		if (!export.equals("no")){
+			auditAcceptanceService.exportWord(auditAcceptance,export,request,response);
+			return "";
+		}else {
+			if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo()))  ){
+				return form(request,auditAcceptance, model);
 			}
+			try {
+				auditAcceptanceService.save(request, auditAcceptance);
+				machineAccountService.savetz(auditAcceptance.getMachineAccount(), "a", auditAcceptance.getAuditAcceptanceId());
+				if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
+				}else {
+					addMessage(redirectAttributes, "保存审核受理成功");
+				}
+			} catch (Exception e) {
+				logger.error("启动纠纷调解流程失败：", e);
+				addMessage(redirectAttributes, "系统内部错误,请联系管理员！");
+			}
+			return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
+		}
 	}
-	
+
 	@RequiresPermissions("auditacceptance:auditAcceptance:edit")
 	@RequestMapping(value = "delete")
 	public String delete(AuditAcceptance auditAcceptance, RedirectAttributes redirectAttributes) {

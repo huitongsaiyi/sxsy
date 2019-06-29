@@ -63,6 +63,12 @@ public class AssessApplyService extends CrudService<AssessApplyDao, AssessApply>
 			assessApply.preInsert();
 			assessApply.setAssessApplyId(assessApply.getId());
 			//将主键ID设为UUID
+			if(StringUtils.isBlank(assessApply.getPatientAge())){
+				assessApply.setPatientAge("0");
+			}
+			if(StringUtils.isBlank(assessApply.getHospitalAge())){
+				assessApply.setHospitalAge("0");
+			}
 			dao.insert(assessApply);
 		}else{//如果不为空进行更新
 

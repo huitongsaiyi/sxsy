@@ -119,7 +119,7 @@
 			<include refid="auditAcceptanceColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="auditAcceptanceJoins"/>
-		WHERE a.audit_acceptance_id = #{id} OR r.report_registration_id = #{id}
+		WHERE a.audit_acceptance_id = #{auditAcceptanceId} OR r.report_registration_id = #{auditAcceptanceId}
 	</select>
 
 	<select id="findList" resultType="AuditAcceptance">

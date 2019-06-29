@@ -55,19 +55,19 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 
 		return super.get(id);
 	}
-	
+
 	public List<AuditAcceptance> findList(AuditAcceptance auditAcceptance) {
 		//获取当前登陆用户
 		auditAcceptance.setUser(UserUtils.getUser());
 		return super.findList(auditAcceptance);
 	}
-	
+
 	public Page<AuditAcceptance> findPage(Page<AuditAcceptance> page, AuditAcceptance auditAcceptance) {
 		//获取当前登陆用户
 		auditAcceptance.setUser(UserUtils.getUser());
 		return super.findPage(page, auditAcceptance);
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void save(HttpServletRequest request, AuditAcceptance auditAcceptance) {
 		MediateApplyInfo huanf=auditAcceptance.getMediateApplyInfo();
@@ -110,7 +110,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			mediateApplyInfoDao.update(yif);
 
 		}
-			//保存附件
+		//保存附件
 		this.savefj(request,auditAcceptance);
 
 		//修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
@@ -130,7 +130,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			actTaskService.complete(auditAcceptance.getComplaintMain().getAct().getTaskId(), auditAcceptance.getComplaintMain().getAct().getProcInsId(), auditAcceptance.getComplaintMain().getAct().getComment(), auditAcceptance.getComplaintMain().getCaseNumber(), var);
 		}
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void delete(AuditAcceptance auditAcceptance) {
 		super.delete(auditAcceptance);
@@ -157,7 +157,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		String files17 = request.getParameter("files17");
 		String files18 = request.getParameter("files18");
 		String files19 = request.getParameter("files19");
-        String files20 = request.getParameter("files20");
+		String files20 = request.getParameter("files20");
 		String acceId = null;
 		String itemId = auditAcceptance.getAuditAcceptanceId();
 		String fjtype1 = request.getParameter("fjtype1");
@@ -403,7 +403,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		}
 	}
 
-    public void exportWord(AuditAcceptance auditAcceptance,String export, HttpServletRequest request, HttpServletResponse response) {
+	public void exportWord(AuditAcceptance auditAcceptance,String export, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		auditAcceptance=this.get(auditAcceptance.getAuditAcceptanceId());
 		if (auditAcceptance.getMediateApplyInfo()==null){
@@ -417,13 +417,13 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/acceptanceP.docx";  //模板文件位置
-            modelPath += "/doc/acceptancePM.docx";
+			modelPath += "/doc/acceptancePM.docx";
 			newFileName="患方通知书.docx";
 		}else if("hospitalAcc".equals(export)){
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/acceptanceD.docx";  //模板文件位置
-            modelPath += "/doc/acceptanceDM.docx";
+			modelPath += "/doc/acceptanceDM.docx";
 			newFileName="医方通知书.docx";
 		}else if("patientDis".equals(export)){
 			params.put("sqr", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getApplyer()) ? "" : auditAcceptance.getMediateApplyInfo().getApplyer());
@@ -435,7 +435,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getInvolveHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getInvolveHospital());
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyPatient.docx";  //模板文件位置
-            modelPath += "/doc/disputeApplyPatientM.docx";
+			modelPath += "/doc/disputeApplyPatientM.docx";
 			newFileName="医疗纠纷调解申请书（患方）.docx";
 		}else if("doctorDis".equals(export)){
 			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital());
@@ -446,7 +446,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("age", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientAge()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientAge());
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyDoctor.docx";  //模板文件位置
-            modelPath += "/doc/disputeApplyDoctorM.docx";
+			modelPath += "/doc/disputeApplyDoctorM.docx";
 			newFileName="医疗纠纷调解申请书（医方）.docx";
 		}else if("DisAcc".equals(export)){
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
@@ -455,7 +455,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/disputeAcceptance.docx";  //模板文件位置
-            modelPath += "/doc/disputeAcceptanceM.docx";
+			modelPath += "/doc/disputeAcceptanceM.docx";
 			newFileName="人民调解受理登记表.docx";
 		}
 
@@ -466,5 +466,5 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-    }
+	}
 }
