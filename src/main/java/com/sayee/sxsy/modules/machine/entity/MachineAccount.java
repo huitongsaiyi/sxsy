@@ -44,7 +44,8 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String treatmentMode;		// 诊疗方式
 	private String treatmentResult;		// 治疗结果
 	private String patientsReflectFocus;		// 患方反映焦点
-	private String relatedMajor;		// 相关专业
+	private String relatedMajor;		// 涉及专业
+	private String riskPeople;		// 出险医务人员
 	private String assessTime;		// 评估时间
 	private String assessNumber;		// 评估号
 	private String dutyRatio;		// 责任比例
@@ -52,11 +53,12 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String agreementNumber;		// 协议号
 	private String ratifyAccord;		// 签署协议/判决时间
 	private String agreementStampTime;		// 协议盖章时间
-	private String agreementAmount;		// 协议金额
-	private String insuranceAmount;		// 保险金额
+	private String agreementAmount;		// 协议金额 协议金额=保险金额+医院金额
+	private String insuranceAmount;		// 保险赔付金额
+	private String hospitalAmount;		// 医院赔付金额
 	private String claimSettlementTime;		// 交理赔时间
 	private String compensateTime;		// 赔付时间
-	private String flowDays;		// 流转天数
+	private String flowDays;		// 流转天数  流转天数设公式=交理赔时间-赔付时间
 	private String handOver;		// 移交人
 	private String archiveTime;		// 归档时间
 	private String fileNumber;		// 卷宗编号
@@ -190,7 +192,6 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 
 	@Length(min=0, max=50, message="重大长度必须介于 0 和 50 之间")
-	@ExcelField(title="重大", align=2, sort=6)
 	public String getMajor() {
 		return major;
 	}
@@ -299,14 +300,24 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.patientsReflectFocus = patientsReflectFocus;
 	}
 
-	@Length(min=0, max=255, message="相关专业长度必须介于 0 和 255 之间")
-	@ExcelField(title="相关专业", align=2, sort=17)
+	@Length(min=0, max=255, message="涉及专业长度必须介于 0 和 255 之间")
+	@ExcelField(title="涉及专业", align=2, sort=17)
 	public String getRelatedMajor() {
 		return relatedMajor;
 	}
 
 	public void setRelatedMajor(String relatedMajor) {
 		this.relatedMajor = relatedMajor;
+	}
+
+	@Length(min=0, max=255, message="出险医务人员长度必须介于 0 和 255 之间")
+	@ExcelField(title="出险医务人员", align=2, sort=17)
+	public String getRiskPeople() {
+		return riskPeople;
+	}
+
+	public void setRiskPeople(String riskPeople) {
+		this.riskPeople = riskPeople;
 	}
 
 	@Length(min=0, max=20, message="评估时间长度必须介于 0 和 20 之间")
@@ -370,7 +381,6 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 
 	@Length(min=0, max=20, message="协议盖章时间长度必须介于 0 和 20 之间")
-	@ExcelField(title="协议盖章时间", align=2, sort=24)
 	public String getAgreementStampTime() {
 		return agreementStampTime;
 	}
@@ -390,15 +400,26 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.agreementAmount = agreementAmount;
 	}
 
-	@Length(min=1,max=20,message = "保险金额不能为空，长度必须介于 1 和 20 之间")
-	@DecimalMin(value = "0",message = "保险金额最低为0,且不能为空")
-	@ExcelField(title = "保险金额",align = 2,sort = 26)
+	@Length(min=1,max=20,message = "保险赔付金额不能为空，长度必须介于 1 和 20 之间")
+	@DecimalMin(value = "0",message = "保险赔付金额最低为0,且不能为空")
+	@ExcelField(title = "保险赔付金额",align = 2,sort = 26)
 	public String getInsuranceAmount() {
 		return insuranceAmount;
 	}
 
 	public void setInsuranceAmount(String insuranceAmount) {
 		this.insuranceAmount = insuranceAmount;
+	}
+
+	@Length(min=1,max=20,message = "医院赔付金额不能为空，长度必须介于 1 和 20 之间")
+	@DecimalMin(value = "0",message = "医院赔付金额最低为0,且不能为空")
+	//@ExcelField(title = "医院赔付金额",align = 2,sort = 26)
+	public String getHospitalAmount() {
+		return hospitalAmount;
+	}
+
+	public void setHospitalAmount(String hospitalAmount) {
+		this.hospitalAmount = hospitalAmount;
 	}
 
 	@Length(min=0, max=20, message="交理赔时间长度必须介于 0 和 20 之间")

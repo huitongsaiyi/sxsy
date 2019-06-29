@@ -121,12 +121,18 @@ public class MachineAccountController extends BaseController {
 			List<MachineAccount> list = ei.getDataList(MachineAccount.class);
 			for (MachineAccount machineAccount : list){
 				try{
-					if (true==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
+					if(StringUtils.isBlank(machineAccount.getFileNumber())){
+						//卷宗编号 不存在 不进行验重
 						machineAccountService.save(machineAccount);
 						successNum++;
-					}else{
-						failureMsg.append("<br/>卷宗编号 "+machineAccount.getFileNumber()+" 已存在; ");
-						failureNum++;
+					}else {
+						if (true==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
+							machineAccountService.save(machineAccount);
+							successNum++;
+						}else{
+							failureMsg.append("<br/>卷宗编号 "+machineAccount.getFileNumber()+" 已存在; ");
+							failureNum++;
+						}
 					}
 				}catch(ConstraintViolationException ex){
 					failureMsg.append("<br/>卷宗编号 "+machineAccount.getFileNumber()+" 导入失败：");

@@ -23,4 +23,10 @@ public interface MachineAccountDao extends CrudDao<MachineAccount> {
      */
     public MachineAccount checkFileNumber(String fileNumber);
 
+    /**
+     * 获取详情信息
+     * @param machineAccountId
+     * @return
+     */
+    public MachineAccount getDetail(String machineAccountId);
 }

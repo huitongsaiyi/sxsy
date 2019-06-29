@@ -107,7 +107,6 @@
 		<th class="sort-column mediator_id">调解员</th>
 		<th class="sort-column patient_name">患者名称</th>
 		<th class="sort-column hospital_id">医院名称</th>
-		<th class="sort-column major">重大</th>
 		<th class="sort-column insurance_company">保险公司名称</th>
 		<th class="sort-column policy_number">保单号</th>
 		<th class="sort-column start_insurance_time">起保日期</th>
@@ -118,16 +117,18 @@
 		<th class="sort-column treatment_mode">诊疗方式</th>
 		<th class="sort-column treatment_result">治疗结果</th>
 		<th class="sort-column patients_reflect_focus">患方反映焦点</th>
-		<th class="sort-column related_major">相关专业</th>
+		<th class="sort-column related_major">涉及专业</th>
+		<th class="sort-column risk_people">出险义务人员</th>
 		<th class="sort-column assess_time">评估时间</th>
 		<th class="sort-column assess_number">评估号</th>
 		<th class="sort-column duty_ratio">责任比例</th>
 		<th class="sort-column feedback_time">反馈时间</th>
 		<th class="sort-column agreement_number">协议号</th>
 		<th class="sort-column ratify_accord">签署协议/判决时间</th>
-		<th class="sort-column agreement_stamp_time">协议盖章时间</th>
+		<%--<th class="sort-column agreement_stamp_time">协议盖章时间</th>--%>
 		<th class="sort-column agreement_amount">协议金额</th>
-		<th class="sort-column insurance_amount">保险金额</th>
+		<th class="sort-column insurance_amount">保险赔付金额</th>
+		<th class="sort-column hospital_amount">医院赔付金额</th>
 		<th class="sort-column claim_settlement_time">交理赔时间</th>
 		<th class="sort-column compensate_time">赔付时间</th>
 		<th class="sort-column flow_days">流转天数</th>
@@ -180,8 +181,6 @@
 						${machineAccount.hospital.name}
 					</c:otherwise>
 					</c:choose>
-			<td>
-					${machineAccount.major}
 			</td>
 			<td>
 					${machineAccount.insuranceCompany}
@@ -224,6 +223,9 @@
 					${machineAccount.relatedMajor}
 			</td>
 			<td>
+					${machineAccount.riskPeople}
+			</td>
+			<td>
 					${machineAccount.assessTime}
 			</td>
 			<td>
@@ -241,14 +243,16 @@
 			<td>
 					${machineAccount.ratifyAccord}
 			</td>
-			<td>
+			<%--<td>
 					${machineAccount.agreementStampTime}
-			</td>
+			</td>--%>
 			<td>
 					${machineAccount.agreementAmount}
 			</td>
 			<td>
 					${machineAccount.insuranceAmount}
+			</td><td>
+					${machineAccount.hospitalAmount}
 			</td>
 			<td>
 					${machineAccount.claimSettlementTime}

@@ -18,6 +18,8 @@ public class ExcelUtils {
         if ("yyyy/mm;@".equals(currentCell.getCellStyle().getDataFormatString())
                 || "m/d/yy".equals(currentCell.getCellStyle().getDataFormatString())
                 || "yy/m/d".equals(currentCell.getCellStyle().getDataFormatString())
+                || "yyyy/m/d;@".equals(currentCell.getCellStyle().getDataFormatString())
+                || "yyyy\\-mm\\-dd".equals(currentCell.getCellStyle().getDataFormatString())
                 || "mm/dd/yy".equals(currentCell.getCellStyle().getDataFormatString())
                 || "dd-mmm-yy".equals(currentCell.getCellStyle().getDataFormatString())
                 || "yyyy/m/d".equals(currentCell.getCellStyle().getDataFormatString())) {

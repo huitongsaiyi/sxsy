@@ -4,8 +4,11 @@
 package com.sayee.sxsy.modules.machine.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import com.sayee.sxsy.common.utils.DateUtils;
+import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.UserAgentUtils;
 import com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal;
@@ -59,9 +62,12 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
     private SignAgreementService signAgreementService;
     @Autowired
     private SummaryInfoService summaryInfoService;
+    @Autowired
+    private MachineAccountDao machineAccountDao;
 
     public MachineAccount get(String id) {
-        return super.get(id);
+        String machineAccountId=id;
+        return machineAccountDao.getDetail(machineAccountId);
     }
 
     public List<MachineAccount> findList(MachineAccount machineAccount) {
@@ -74,8 +80,8 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
 
     @Transactional(readOnly = false)
     public void save(MachineAccount machineAccount) {
-        machineAccount.preInsert();
-        machineAccount.setMachineAccountId(machineAccount.getId());
+//        machineAccount.preInsert();
+        machineAccount.setMachineAccountId(IdGen.uuid());
         //转换调解员
         User user = UserUtils.getId(machineAccount.getMediatorId());
         machineAccount.setMediatorId(user != null ? user.getId() : machineAccount.getMediatorId());
@@ -90,13 +96,26 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
             machineAccount.setIsMajor("0");
         }
         //对金额 字段 为空的时候进行处理
+        //协议金额=保险金额+医院金额
         if (StringUtils.isBlank(machineAccount.getAgreementAmount()) || machineAccount.getAgreementAmount() == null) {
             machineAccount.setAgreementAmount("0");
         }
         if (StringUtils.isBlank(machineAccount.getInsuranceAmount()) || machineAccount.getInsuranceAmount() == null) {
             machineAccount.setInsuranceAmount("0");
         }
-        machineAccount.setIsNewRecord(true);
+        if (StringUtils.isBlank(machineAccount.getHospitalAmount()) || machineAccount.getHospitalAmount() == null) {
+            machineAccount.setHospitalAmount(String.valueOf(Float.valueOf(machineAccount.getAgreementAmount())-Float.valueOf(machineAccount.getInsuranceAmount())));
+        }
+
+        //流转天数”设公式=交理赔时间-赔付时间，按天计算、时间格式统一  流转天数为空，且交理赔时间和赔付时间不为空
+        if (StringUtils.isNotBlank(machineAccount.getClaimSettlementTime()) && StringUtils.isNotBlank(machineAccount.getCompensateTime())  && (StringUtils.isBlank(machineAccount.getFlowDays()) || machineAccount.getFlowDays() == null)){
+            //将字符串专为日期格式
+            if(DateUtils.parseDate(machineAccount.getCompensateTime())!=null && DateUtils.parseDate(machineAccount.getClaimSettlementTime())!=null){
+                machineAccount.setFlowDays(String.valueOf(DateUtils.getDistanceOfTwoDate(DateUtils.parseDate(machineAccount.getCompensateTime()),DateUtils.parseDate(machineAccount.getClaimSettlementTime()))));
+            }
+        }
+//        machineAccount.setIsNewRecord(true);
+        machineAccount.setDelFlag("0");
         super.save(machineAccount);
     }
 

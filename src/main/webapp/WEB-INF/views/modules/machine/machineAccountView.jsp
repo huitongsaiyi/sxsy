@@ -61,8 +61,8 @@
 					<td >${machineAccount.patientName}</td>
 					<td class="tit">医院名称：</td>
 					<td >${machineAccount.hospitalId}</td>
-					<td class="tit">重大：</td>
-					<td >${machineAccount.major}</td>
+					<%--<td class="tit">重大：</td>
+					<td >${machineAccount.major}</td>--%>
 				</tr>
 				<tr>
 					<td class="tit">保险公司：</td>
@@ -97,7 +97,7 @@
 					<td colspan="1">${machineAccount.treatmentMode}</td>
 					<td class="tit">治疗结果：</td>
 					<td colspan="1">${machineAccount.treatmentResult}</td>
-					<td class="tit">相关专业：</td>
+					<td class="tit">涉及专业：</td>
 					<td colspan="1">${machineAccount.relatedMajor}</td>
 				</tr>
 				<tr>
@@ -136,18 +136,22 @@
 				</tr>
 
 				<tr>
-					<td class="tit">协议盖章时间：</td>
-					<td colspan="1">
-							${machineAccount.agreementStampTime}
-					</td>
+					<%--<td class="tit">协议盖章时间：</td>--%>
+					<%--<td colspan="1">--%>
+							<%--${machineAccount.agreementStampTime}--%>
+					<%--</td>--%>
 					<td class="tit">协议金额：</td>
 					<td colspan="1">
 							${machineAccount.agreementAmount}
 					</td>
-					<td class="tit">保险金额：</td>
+					<td class="tit">保险赔付金额：</td>
 					<td colspan="1">
 							${machineAccount.insuranceAmount}
 					</td>
+                        <td class="tit">医院赔付金额：</td>
+                        <td colspan="1">
+                                ${machineAccount.hospitalAmount}
+                        </td>
 				</tr>
 
 				<tr>

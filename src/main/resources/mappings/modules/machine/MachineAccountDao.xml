@@ -31,6 +31,7 @@
 		a.agreement_stamp_time AS "agreementStampTime",
 		a.agreement_amount AS "agreementAmount",
 		a.insurance_amount AS "insuranceAmount",
+		a.hospital_amount AS "hospitalAmount",
 		a.claim_settlement_time AS "claimSettlementTime",
 		a.compensate_time AS "compensateTime",
 		a.flow_days AS "flowDays",
@@ -65,6 +66,15 @@
 		<include refid="machineAccountJoins"/>
 		WHERE a.complaint_main_id = #{complaintMainId}
 	</select>
+
+    <select id="getDetail" resultType="MachineAccount">
+        SELECT
+        <include refid="machineAccountColumns"/>
+        FROM MACHINE_ACCOUNT a
+        <include refid="machineAccountJoins"/>
+        WHERE a.machine_account_id = #{machineAccountId}
+    </select>
+
 
 	<select id="findList" resultType="MachineAccount">
 		SELECT
@@ -165,6 +175,7 @@
 			agreement_stamp_time,
 			agreement_amount,
 			insurance_amount,
+			hospital_amount,
 			claim_settlement_time,
 			compensate_time,
 			flow_days,
@@ -206,6 +217,7 @@
 			#{agreementStampTime},
 			#{agreementAmount},
 			#{insuranceAmount},
+			#{hospitalAmount},
 			#{claimSettlementTime},
 			#{compensateTime},
 			#{flowDays},
