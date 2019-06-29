@@ -12,7 +12,6 @@
             //投诉接待详情
             var show='${show2}';
             if(show=='' || show== null){
-                alert(show)
                 $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view&show2=y");
                 var tsjd= document.getElementById("tsjdDetail");
                 tsjd.height=document.documentElement.clientHeight-130;

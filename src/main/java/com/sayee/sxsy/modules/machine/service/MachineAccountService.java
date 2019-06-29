@@ -184,57 +184,67 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
             InvestigateEvidence investigateEvidence = investigateEvidenceService.get(id);
             if (StringUtils.isNotBlank(investigateEvidence.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.get(investigateEvidence.getComplaintMainId());
+                if(machineAccount1!=null){
                     machineAccount1.preUpdate();
                     machineAccount1.setPatientsReflectFocus(investigateEvidence.getFocus());
                     dao.update(machineAccount1);
-
+                }
             }
         } else if ("c".equals(node)) {
             MediateEvidence mediateEvidence = mediateEvidenceService.get(id);
             if (StringUtils.isNotBlank(mediateEvidence.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.get(mediateEvidence.getComplaintMainId());
-                machineAccount1.preUpdate();
-                machineAccount1.setMediatorId(mediateEvidence.getRecordInfo().getHost());
-                machineAccount1.setDeptId(mediateEvidence.getRecordInfo().getYtwHost().getOffice().getId());
-                dao.update(machineAccount1);
+                if(machineAccount1!=null){
+                    machineAccount1.preUpdate();
+                    machineAccount1.setMediatorId(mediateEvidence.getRecordInfo().getHost());
+                    machineAccount1.setDeptId(mediateEvidence.getRecordInfo().getYtwHost().getOffice().getId());
+                    dao.update(machineAccount1);
+                }
             }
         } else if ("d".equals(node)) {
             AssessAppraisal assessAppraisal = assessAppraisalService.get(id);
             if (StringUtils.isNotBlank(assessAppraisal.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.get(assessAppraisal.getComplaintMainId());
-                machineAccount1.preUpdate();
-                machineAccount1.setDutyRatio(assessAppraisal.getResponsibilityRatio());
-                dao.update(machineAccount1);
+                if(machineAccount1!=null){
+                    machineAccount1.preUpdate();
+                    machineAccount1.setDutyRatio(assessAppraisal.getResponsibilityRatio());
+                    dao.update(machineAccount1);
+                }
             }
         } else if ("e".equals(node)) {
             SignAgreement signAgreement = signAgreementService.get(id);
             if (StringUtils.isNotBlank(signAgreement.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.get(signAgreement.getComplaintMainId());
-                machineAccount1.preUpdate();
-                machineAccount1.setAgreementNumber(signAgreement.getAgreementNumber());
-                machineAccount1.setRatifyAccord(signAgreement.getRatifyAccord());
-                if (StringUtils.isNotBlank(signAgreement.getAgreementAmount()) || "0".equals(signAgreement.getAgreementAmount()) || "".equals(signAgreement.getAgreementAmount())) {
-                    machineAccount1.setAgreementAmount(signAgreement.getAgreementAmount());
-                } else {
-                    machineAccount1.setAgreementAmount("0");
+                if(machineAccount1!=null){
+                    machineAccount1.preUpdate();
+                    machineAccount1.setAgreementNumber(signAgreement.getAgreementNumber());
+                    machineAccount1.setRatifyAccord(signAgreement.getRatifyAccord());
+                    if (StringUtils.isNotBlank(signAgreement.getAgreementAmount()) || "0".equals(signAgreement.getAgreementAmount()) || "".equals(signAgreement.getAgreementAmount())) {
+                        machineAccount1.setAgreementAmount(signAgreement.getAgreementAmount());
+                    } else {
+                        machineAccount1.setAgreementAmount("0");
+                    }
+                    if (StringUtils.isNotBlank(signAgreement.getInsuranceAmount()) || "0".equals(signAgreement.getInsuranceAmount()) || "".equals(signAgreement.getInsuranceAmount())) {
+                        machineAccount1.setInsuranceAmount(signAgreement.getInsuranceAmount());
+                    } else {
+                        machineAccount1.setInsuranceAmount("0");
+                    }
+                    machineAccount1.setClaimSettlementTime(signAgreement.getClaimSettlementTime());
+                    machineAccount1.setCompensateTime(signAgreement.getCompensateTime());
+                    dao.update(machineAccount1);
                 }
-                if (StringUtils.isNotBlank(signAgreement.getInsuranceAmount()) || "0".equals(signAgreement.getInsuranceAmount()) || "".equals(signAgreement.getInsuranceAmount())) {
-                    machineAccount1.setInsuranceAmount(signAgreement.getInsuranceAmount());
-                } else {
-                    machineAccount1.setInsuranceAmount("0");
-                }
-                machineAccount1.setClaimSettlementTime(signAgreement.getClaimSettlementTime());
-                machineAccount1.setCompensateTime(signAgreement.getCompensateTime());
-                dao.update(machineAccount1);
             }
         } else if ("f".equals(node)) {
             SummaryInfo summaryInfo = summaryInfoService.get(id);
             if (StringUtils.isNotBlank(summaryInfo.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.get(summaryInfo.getComplaintMainId());
-                machineAccount1.preUpdate();
-                machineAccount1.setArchiveTime(summaryInfo.getFilingTime());
-                machineAccount1.setFileNumber(summaryInfo.getFileNumber());
-                dao.update(machineAccount1);
+                if(machineAccount1!=null){
+                    machineAccount1.preUpdate();
+                    machineAccount1.setArchiveTime(summaryInfo.getFilingTime());
+                    machineAccount1.setFileNumber(summaryInfo.getFileNumber());
+                    dao.update(machineAccount1);
+                }
+
             }
         }
     }

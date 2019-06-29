@@ -46,12 +46,12 @@ public class AssessAppraisalController extends BaseController {
 	@Autowired
 	private AssessAppraisalService assessAppraisalService;
 	@Autowired
-
 	private SignAgreementService signAgreementService;
 	@Autowired
 	private TypeInfoService typeInfoService;
 	@Autowired
 	SummaryInfoService summaryInfoService;
+	@Autowired
     private MachineAccountService machineAccountService;
 
 	@ModelAttribute

@@ -271,12 +271,14 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             }
         }
         //查找医方调查人
-        List<RespondentInfo> YrespondentInfo = respondentInfoDao.getL(investigateEvidence.getInvestigateEvidence().getInvestigateEvidenceId());
-        for (RespondentInfo yf : YrespondentInfo) {
-            if (investigateEvidence.getRespondentInfo3() == null) {
-                investigateEvidence.setRespondentInfo3(yf);
-            } else {
-                investigateEvidence.setRespondentInfo4(yf);
+        if(investigateEvidence.getInvestigateEvidence()!=null){
+            List<RespondentInfo> YrespondentInfo = respondentInfoDao.getL(investigateEvidence.getInvestigateEvidence().getInvestigateEvidenceId());
+            for (RespondentInfo yf : YrespondentInfo) {
+                if (investigateEvidence.getRespondentInfo3() == null) {
+                    investigateEvidence.setRespondentInfo3(yf);
+                } else {
+                    investigateEvidence.setRespondentInfo4(yf);
+                }
             }
         }
         //return  investigateEvidence;

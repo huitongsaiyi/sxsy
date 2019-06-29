@@ -8,7 +8,6 @@
         $(document).ready(function () {
             var show='${show2}';
             if(show=='' || show== null){
-                alert(show);
                 //投诉接待详情
                 $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view");
                 var tsjd= document.getElementById("tsjdDetail");
