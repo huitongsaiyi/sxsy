@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.complaint.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +60,9 @@ public class ComplaintInfoController extends BaseController {
 	@RequiresPermissions("complaint:complaintInfo:view")
 	@RequestMapping(value = "form")
 	public String form(ComplaintInfo complaintInfo, Model model) {
+		if (null==complaintInfo.getCaseNumber()){
+			complaintInfo.setCaseNumber(BaseUtils.getCode("time","3","COMPLAINT_MAIN","case_number"));
+		}
 		model.addAttribute("complaintInfo", complaintInfo);
 		return "modules/complaint/complaintInfoForm";
 	}
