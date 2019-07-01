@@ -287,29 +287,325 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
     public void exportWord(InvestigateEvidence investigateEvidence, String export, HttpServletRequest request, HttpServletResponse response) {
         WordExportUtil wordExportUtil = new WordExportUtil();
         investigateEvidence = this.get(investigateEvidence.getInvestigateEvidenceId());
-        String path = request.getServletContext().getRealPath("/");
+        this.respondent(investigateEvidence);
+        String path = request.getSession().getServletContext().getRealPath("/");
+        // String path = "C:\\a/";
         String modelPath = path;
         String newFileName = "无标题文件.docx";
         Map<String, Object> params = new HashMap<String, Object>();
         if ("patientTake".equals(export)) {
-            params.put("date", investigateEvidence.getStartTime());
-            params.put("time", investigateEvidence.getEndTime());
-            params.put("address", investigateEvidence.getAddress());
-            params.put("host", investigateEvidence.getAddress());
-            params.put("note", investigateEvidence.getEndTime());
-            params.put("case", investigateEvidence.getEndTime());
-            params.put("patient", investigateEvidence.getEndTime());
-            params.put("doctor", investigateEvidence.getEndTime());
-            params.put("other", investigateEvidence.getEndTime());
-            params.put("content", investigateEvidence.getEndTime());
-            path += "/doc/acceptanceP.docx";  //模板文件位置
-            modelPath += "/doc/acceptancePM.docx";
+            params.put("date", investigateEvidence.getStartTime());//开始时间
+            params.put("time", investigateEvidence.getEndTime());//结束时间
+            params.put("address", investigateEvidence.getAddress());//地点
+            params.put("cause", investigateEvidence.getCause());//事由
+            params.put("investigators", investigateEvidence.getInvestigator());//调查人
+            params.put("noteTaker", investigateEvidence.getNoteTaker());//调查记录人
+            //被调查人1
+            if(investigateEvidence.getRespondentInfo()!=null){
+                // 身份
+                if("hz".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者本人");
+                }else if("hzxdjm".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者兄弟姐妹");
+                }else if("hzfq".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者夫妻");
+                }else if("hparent".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者父母");
+                }else if("hzn".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者子女");
+                }else if("hzqs".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者亲属");
+                }else if("other".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","其他人员");
+                }else if("hfdlr".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","患方代理人");
+                }else if("jzys".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","经治医师");
+                }else if("kszr".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","科室主任");
+                }else if("yfdl".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
+                    params.put("respondentIdentity","医方代理");
+                }else {
+                    params.put("respondentIdentity","");
+                }
+                if(investigateEvidence.getRespondentInfo().getRespondentName()!=null){
+                    params.put("name",investigateEvidence.getRespondentInfo().getRespondentName());//姓名
+                }else{
+                    params.put("name","");//姓名
+                }
+
+                //性别
+                if("1".equals(investigateEvidence.getRespondentInfo().getRespondentSex())){
+                    params.put("sex","男");
+                }else if("2".equals(investigateEvidence.getRespondentInfo().getRespondentSex())){
+                    params.put("sex","女");
+                }else{
+                    params.put("sex","");
+                }
+                if(investigateEvidence.getRespondentInfo().getRespondentAge()!=null){
+                    params.put("age",investigateEvidence.getRespondentInfo().getRespondentAge());//年龄
+                }else{
+                    params.put("age","");//年龄
+                }
+                if(investigateEvidence.getRespondentInfo().getRespondentMobile()!=null){
+                    params.put("phone",investigateEvidence.getRespondentInfo().getRespondentMobile());//联系方式
+                }else{
+                    params.put("phone","");//联系方式
+                }
+                if(investigateEvidence.getRespondentInfo().getRespondentWorkUnit()!=null){
+                    params.put("respondentWorkUnit",investigateEvidence.getRespondentInfo().getRespondentWorkUnit());//工作单位
+                }else{
+                    params.put("respondentWorkUnit","");//工作单位
+                }
+               if(investigateEvidence.getRespondentInfo().getRespondentPost()!=null){
+                   params.put("post",investigateEvidence.getRespondentInfo().getRespondentPost());//职务
+               }else{
+                   params.put("post","");//职务
+               }
+
+            }else{
+                params.put("respondentIdentity","");
+                params.put("name","");//姓名
+                params.put("sex","");
+                params.put("age","");//年龄
+                params.put("phone","");//联系方式
+                params.put("respondentWorkUnit","");//工作单位
+                params.put("post","");//职务
+            }
+
+            params.put("content",investigateEvidence.getContent());//笔录内容
+            //被调查人2
+            if(investigateEvidence.getRespondentInfo2()!=null){
+                // 身份
+                if("hz".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者本人");
+                }else if("hzxdjm".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者兄弟姐妹");
+                }else if("hzfq".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者夫妻");
+                }else if("hparent".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者父母");
+                }else if("hzn".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者子女");
+                }else if("hzqs".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者亲属");
+                }else if("other".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","其他人员");
+                }else if("hfdlr".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患方代理人");
+                }else if("jzys".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","经治医师");
+                }else if("kszr".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","科室主任");
+                }else if("yfdl".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
+                    params.put("respondentIdentity1","医方代理");
+                }else{
+                    params.put("respondentIdentity1","");
+                }
+                if(investigateEvidence.getRespondentInfo2().getRespondentName()!=null){
+                    params.put("name1",investigateEvidence.getRespondentInfo2().getRespondentName());//姓名
+                }else{
+                    params.put("name1","");//姓名
+                }
+
+                //性别
+                if("1".equals(investigateEvidence.getRespondentInfo2().getRespondentSex())){
+                    params.put("sex1","男");
+                }else if("2".equals(investigateEvidence.getRespondentInfo2().getRespondentSex())){
+                    params.put("sex1","女");
+                }else{
+                    params.put("sex1","");
+                }
+                if(investigateEvidence.getRespondentInfo2().getRespondentAge()!=null){
+                    params.put("age1",investigateEvidence.getRespondentInfo2().getRespondentAge());//年龄
+                }else{
+                    params.put("age1","");//年龄
+                }
+                if(investigateEvidence.getRespondentInfo2().getRespondentMobile()!=null){
+                    params.put("phone1",investigateEvidence.getRespondentInfo2().getRespondentMobile());//联系方式
+                }else{
+                    params.put("phone1","");//联系方式
+                }
+                if(investigateEvidence.getRespondentInfo2().getRespondentWorkUnit()!=null){
+                    params.put("respondentWorkUnit1",investigateEvidence.getRespondentInfo2().getRespondentWorkUnit());//工作单位
+                }else{
+                    params.put("respondentWorkUnit1","");//工作单位
+                }
+                if(investigateEvidence.getRespondentInfo2().getRespondentPost()!=null){
+                    params.put("post1",investigateEvidence.getRespondentInfo2().getRespondentPost());//职务
+                }else{
+                    params.put("post1","");//职务
+                }
+
+            }else{
+                params.put("respondentIdentity1","");
+                params.put("name1","");//姓名
+                params.put("sex1","");
+                params.put("age1","");//年龄
+                params.put("phone1","");//联系方式
+                params.put("respondentWorkUnit1","");//工作单位
+                params.put("post1","");//职务
+            }
+
+            params.put("content1",investigateEvidence.getContent());//笔录内容
+            path += "partiesRecord.docx";  //模板文件位置
+            modelPath += "partiesRecord.docx";
             newFileName = "患方笔录.docx";
         } else if ("hospitalTake".equals(export)) {
-            params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime());
-            params.put("date", investigateEvidence.getInvestigateEvidence().getEndTime());
-            path += "/doc/acceptanceD.docx";  //模板文件位置
-            modelPath += "/doc/acceptanceDM.docx";
+            params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
+            params.put("time", investigateEvidence.getInvestigateEvidence().getEndTime());//结束时间
+            params.put("address", investigateEvidence.getInvestigateEvidence().getAddress());//地点
+            params.put("cause", investigateEvidence.getInvestigateEvidence().getCause());//事由
+            params.put("investigators", investigateEvidence.getInvestigateEvidence().getInvestigator());//调查人
+            params.put("noteTaker", investigateEvidence.getInvestigateEvidence().getNoteTaker());//调查记录人
+            //医方调查人1
+            if(investigateEvidence.getRespondentInfo3()!=null){
+                // 身份
+                if("hz".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者本人");
+                }else if("hzxdjm".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者兄弟姐妹");
+                }else if("hzfq".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者夫妻");
+                }else if("hparent".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者父母");
+                }else if("hzn".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者子女");
+                }else if("hzqs".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","患者亲属");
+                }else if("other".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","其他人员");
+                }else if("hfdlr".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","患方代理人");
+                }else if("jzys".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","经治医师");
+                }else if("kszr".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","科室主任");
+                }else if("yfdl".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
+                    params.put("respondentIdentity","医方代理");
+                }else{
+                    params.put("respondentIdentity","");
+                }
+                if(investigateEvidence.getRespondentInfo3().getRespondentName()!=null){
+                    params.put("name",investigateEvidence.getRespondentInfo3().getRespondentName());//姓名
+                }else{
+                    params.put("name","");//姓名
+                }
+
+                //性别
+                if("1".equals(investigateEvidence.getRespondentInfo3().getRespondentSex())){
+                    params.put("sex","男");
+                }else if("2".equals(investigateEvidence.getRespondentInfo3().getRespondentSex())){
+                    params.put("sex","女");
+                }else{
+                    params.put("sex","");
+                }
+                if(investigateEvidence.getRespondentInfo3().getRespondentAge()!=null){
+                    params.put("age",investigateEvidence.getRespondentInfo3().getRespondentAge());//年龄
+                }else{
+                    params.put("age","");//年龄
+                }
+                if(investigateEvidence.getRespondentInfo3().getRespondentMobile()!=null){
+                    params.put("phone",investigateEvidence.getRespondentInfo3().getRespondentMobile());//联系方式
+                }else{
+                    params.put("phone","");//联系方式
+                }
+                if(investigateEvidence.getRespondentInfo3().getRespondentWorkUnit()!=null){
+                    params.put("respondentWorkUnit",investigateEvidence.getRespondentInfo3().getRespondentWorkUnit());//工作单位
+                }else{
+                    params.put("respondentWorkUnit","");//工作单位
+                }
+                if(investigateEvidence.getRespondentInfo3().getRespondentPost()!=null){
+                    params.put("post",investigateEvidence.getRespondentInfo3().getRespondentPost());//职务
+                }else{
+                    params.put("post","");//职务
+                }
+
+            }else{
+                params.put("respondentIdentity","");
+                params.put("name","");//姓名
+                params.put("sex","");
+                params.put("age","");//年龄
+                params.put("phone","");//联系方式
+                params.put("respondentWorkUnit","");//工作单位
+                params.put("post","");//职务
+            }
+            params.put("content",investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
+            //医方被调查人2
+            if(investigateEvidence.getRespondentInfo4()!=null){
+                // 身份
+                if("hz".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者本人");
+                }else if("hzxdjm".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者兄弟姐妹");
+                }else if("hzfq".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者夫妻");
+                }else if("hparent".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者父母");
+                }else if("hzn".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者子女");
+                }else if("hzqs".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患者亲属");
+                }else if("other".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","其他人员");
+                }else if("hfdlr".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","患方代理人");
+                }else if("jzys".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","经治医师");
+                }else if("kszr".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","科室主任");
+                }else if("yfdl".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
+                    params.put("respondentIdentity1","医方代理");
+                }else{
+                    params.put("respondentIdentity1","");
+                }
+                if(investigateEvidence.getRespondentInfo4().getRespondentName()!=null){
+                    params.put("name1",investigateEvidence.getRespondentInfo4().getRespondentName());//姓名
+                }else{
+                    params.put("name1","");//姓名
+                }
+
+                //性别
+                if("1".equals(investigateEvidence.getRespondentInfo4().getRespondentSex())){
+                    params.put("sex1","男");
+                }else if("2".equals(investigateEvidence.getRespondentInfo4().getRespondentSex())){
+                    params.put("sex1","女");
+                }else{
+                    params.put("sex1","");
+                }
+                if(investigateEvidence.getRespondentInfo4().getRespondentAge()!=null){
+                    params.put("age1",investigateEvidence.getRespondentInfo4().getRespondentAge());//年龄
+                }else{
+                    params.put("age1","");//年龄
+                }
+               if(investigateEvidence.getRespondentInfo4().getRespondentMobile()!=null){
+                   params.put("phone1",investigateEvidence.getRespondentInfo4().getRespondentMobile());//联系方式
+               }else{
+                   params.put("phone1","");//联系方式
+               }
+                if(investigateEvidence.getRespondentInfo4().getRespondentWorkUnit()!=null){
+                    params.put("respondentWorkUnit1",investigateEvidence.getRespondentInfo4().getRespondentWorkUnit());//工作单位
+                }else{
+                    params.put("respondentWorkUnit1","");//工作单位
+                }
+               if(investigateEvidence.getRespondentInfo4().getRespondentPost()!=null){
+                   params.put("post1",investigateEvidence.getRespondentInfo4().getRespondentPost());//职务
+               }else{
+                   params.put("post1","");//职务
+               }
+
+            }else{
+                params.put("respondentIdentity1","");
+                params.put("name1","");//姓名
+                params.put("sex1","");
+                params.put("age1","");//年龄
+                params.put("phone1","");//联系方式
+                params.put("respondentWorkUnit1","");//工作单位
+                params.put("post1","");//职务
+            }
+            params.put("content1",investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
+            path += "doctorRecord.docx";  //模板文件位置
+            modelPath += "doctorRecord.docx";
             newFileName = "医方笔录.docx";
         }
 

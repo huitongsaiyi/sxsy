@@ -138,7 +138,7 @@ public class PreOperativeConsent extends DataEntity<PreOperativeConsent> {
 		this.policyNo = policyNo;
 	}
 	
-	@Length(min=1, max=10, message="见证人长度必须介于 1 和 10 之间")
+	@Length(min=1, max=20, message="见证人长度必须介于 1 和 20 之间")
 	public String getWitness() {
 		return witness;
 	}
@@ -147,7 +147,7 @@ public class PreOperativeConsent extends DataEntity<PreOperativeConsent> {
 		this.witness = witness;
 	}
 	
-	@Length(min=1, max=10, message="记录人长度必须介于 1 和 10 之间")
+	@Length(min=1, max=20, message="记录人长度必须介于 1 和 20 之间")
 	public String getRecordMan() {
 		return recordMan;
 	}

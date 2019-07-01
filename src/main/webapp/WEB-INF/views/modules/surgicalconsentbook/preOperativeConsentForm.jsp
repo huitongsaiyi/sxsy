@@ -56,21 +56,21 @@
 	<div class="control-group">
 		<label class="control-label">见证地点：</label>
 		<div class="controls">
-			<form:input path="witnessLocations" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
+			<form:input path="witnessLocations" htmlEscape="false" maxlength="60" class="input-xlarge required"/>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">患方人员：</label>
 		<div class="controls">
-			<form:input path="affectedParty" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
+			<form:input path="affectedParty" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">医方人员：</label>
 		<div class="controls">
-			<form:input path="medicalSide" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
+			<form:input path="medicalSide" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
@@ -86,21 +86,21 @@
 	<div class="control-group">
 		<label class="control-label">保单号：</label>
 		<div class="controls">
-			<form:input path="policyNo" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+			<form:input path="policyNo" htmlEscape="false" maxlength="60" class="input-xlarge "/>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">见证人：</label>
 		<div class="controls">
-			<form:input path="witness" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
+			<form:input path="witness" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">记录人：</label>
 		<div class="controls">
-			<form:input path="recordMan" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
+			<form:input path="recordMan" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
