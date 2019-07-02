@@ -20,5 +20,5 @@ public interface ComplaintInfoDao extends CrudDao<ComplaintInfo> {
      * @param caseNumber
      * @return
      */
-	public ComplaintInfo checkcaseNumber(@Param("caseNumber") String caseNumber,@Param("complaintId") String complaintId);
+	public ComplaintInfo checkcaseNumber(@Param("caseNumber") String caseNumber,@Param("complaintMainId") String complaintMainId);
 }
