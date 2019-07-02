@@ -22,16 +22,31 @@
 					}
 				}
 			});
-		});
+			var value='${complaintInfo.isMediate}';
+			if(value==''){
+			    value = 0;
+            }
+            next(value);
+        });
+        function next(value) {
+            if(value==1){
+                document.getElementById("btnSubmit1").style.display="inline";
+                document.getElementById("btnSubmit").style.display="none";
+            }else if (value==0){
+                document.getElementById("btnSubmit1").style.display="none";
+                document.getElementById("btnSubmit").style.display="inline";
+            }
+        }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/complaint/complaintInfo/">投诉接待列表</a></li>
-		<li class="active"><a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.id}">投诉接待<shiro:hasPermission name="complaint:complaintInfo:edit">${not empty complaintInfo.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="complaint:complaintInfo:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">投诉接待<shiro:hasPermission name="complaint:complaintInfo:edit">${not empty complaintInfo.complaintId?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="complaint:complaintInfo:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="complaintInfo" action="${ctx}/complaint/complaintInfo/save" method="post" class="form-horizontal">
 		<form:hidden path="complaintId"/>
+		<input type="hidden" id="flag" name="flag"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
@@ -100,19 +115,19 @@
 					<tr >
 						<td class="tit" width="160px"><font color="red">*</font>涉及医院：</td>
 						<td width="476px">
-							<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="" labelValue="${complaintInfo.involveHospital}"
+							<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="hospitalName" labelValue="${complaintInfo.hospitalName}"
 											title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
-							<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="" labelValue="${complaintInfo.involveDepartment}"
+							<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"
 											title="部门" url="/sys/office/treeData?type=2&officeType=2" pid="involveHospital" isAll="true" cssClass="required" dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true" disabled="true"/>
 						</td>
 					</tr>
 					<tr >
 						<td class="tit"><font color="red">*</font>涉及人员：</td>
 						<td class="controls">
-							<sys:treeselect id="involveEmployee" name="involveEmployee" value="${complaintInfo.involveEmployee}" labelName="" labelValue="${complaintInfo.involveEmployee}"
+							<sys:treeselect id="involveEmployee" name="involveEmployee" value="${complaintInfo.involveEmployee}" labelName="employeeName" labelValue="${complaintInfo.employeeName}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=2" pid="involveDepartment" isAll="true" cssClass="required" dataMsgRequired="请选择人员" allowClear="true" notAllowSelectParent="true"/>
 						</td>
 					</tr>
@@ -147,28 +162,40 @@
 			<td class="tit"><font color="red">*</font>是否重大：</td>
 			<td >
 				<form:select path="isMajor" style='width:110px;text-align: center;'>
-					<form:option value="1">是</form:option>
 					<form:option value="0">否</form:option>
+					<form:option value="1">是</form:option>
 				</form:select>
 			</td>
 		</tr>
-		<tr >
+		<tr>
 			<td class="tit"><font color="red">*</font>投诉纠纷概要：</td>
 			<td colspan="3">
 				<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
-		<tr >
+		<tr>
 			<td class="tit"><font color="red">*</font>诉求：</td>
 			<td colspan="3">
 				<form:textarea path="appeal" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 939px; height: 24px;"/>
 			</td>
 		</tr>
-		<tr >
+		<tr>
+			<td class="tit"><font color="red">*</font>处理经过</td>
+			<td colspan="3">
+				<form:textarea path="handlePass" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit"><font color="red">*</font>处理结果</td>
+			<td colspan="3">
+				<form:textarea path="handleResult" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+			</td>
+		</tr>
+		<tr>
 			<td class="tit"><font color="red">*</font>接待人员：</td>
 			<td >
 				<%--<form:input path="receptionEmployee" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-				<sys:treeselect id="receptionEmployee" name="receptionEmployee" value="${complaintInfo.receptionEmployee}" labelName="" labelValue="${complaintInfo.receptionEmployee}"
+				<sys:treeselect id="receptionEmployee" name="receptionEmployee" value="${complaintInfo.receptionEmployee}" labelName="employee.name" labelValue="${complaintInfo.employee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required" dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 
@@ -181,6 +208,13 @@
 			</td>
 		</tr>
 		<tr >
+			<td class="tit"><font color="red">*</font>是否进入医调委调解：</td>
+			<td>
+				<form:select id="isMediate" path="isMediate" style='width:110px;text-align: center;' onchange="next(this.value)">
+					<form:option value="0">否</form:option>
+					<form:option value="1">是</form:option>
+				</form:select>
+			</td>
 			<%--<td class="hidden"><font color="red">*</font>下一处理环节：</td>--%>
 			<%--<td class="hidden">--%>
 				<%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
@@ -188,13 +222,14 @@
 			<td class="tit"><font color="red">*</font>下一环节处理人：</td>
 			<td >
 				<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintInfo.nextLinkMan}" labelName="" labelValue="${complaintInfo.nextLinkMan}"
+				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintInfo.nextLinkMan}" labelName="link.name" labelValue="${complaintInfo.link.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="请选择下一环节处理人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 		</tr>
 	</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="complaint:complaintInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="complaint:complaintInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="complaint:complaintInfo:edit"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

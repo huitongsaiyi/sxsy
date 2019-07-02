@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.complaint.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 投诉接待DAO接口
@@ -19,5 +20,5 @@ public interface ComplaintInfoDao extends CrudDao<ComplaintInfo> {
      * @param caseNumber
      * @return
      */
-	public ComplaintInfo checkcaseNumber(String caseNumber);
+	public ComplaintInfo checkcaseNumber(@Param("caseNumber") String caseNumber,@Param("complaintId") String complaintId);
 }

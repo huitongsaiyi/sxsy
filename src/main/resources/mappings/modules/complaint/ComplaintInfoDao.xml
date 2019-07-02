@@ -23,82 +23,42 @@
 		a.reception_employee AS "receptionEmployee",
 		a.reception_date AS "receptionDate",
 		a.next_link AS "nextLink",
-		a.next_link_man AS "nextLinkMan"
-	</sql>
-
-	<sql id="FindcomplaintInfoColumns">
-		a.case_number AS "caseNumber",
-		a.visitor_name AS "visitorName",
-		a.visitor_mobile AS "visitorMobile",
-		o3.label AS "patientRelation",
-		a.patient_name AS "patientName",
-		o4.label AS "patientSex",
-		a.patient_age AS "patientAge",
-		a.visitor_number AS "visitorNumber",
-		a.involve_hospital AS "involveHospital",
-		a.involve_department AS "involveDepartment",
-		a.complaint_id AS "complaintId",
-		a.involve_employee AS "involveEmployee",
-		a.summary_of_disputes AS "summaryOfDisputes",
-		a.visitor_date AS "visitorDate",
-		a.complaint_mode AS "complaintMode",
-		a.is_major AS "isMajor",
-		a.appeal AS "appeal",
-		a.reception_employee AS "receptionEmployee",
-		a.reception_date AS "receptionDate",
-		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan",
-		o1.name AS "office.name",
-		o2.name AS "office.name1"
-	</sql>
-	<sql id="GetcomplaintInfoColumns">
-		a.case_number AS "caseNumber",
-		a.visitor_name AS "visitorName",
-		a.visitor_mobile AS "visitorMobile",
-		a .patient_relation AS "patientRelation",
-		a.patient_name AS "patientName",
-		a.patient_sex AS "patientSex",
-		a.patient_age AS "patientAge",
-		a.visitor_number AS "visitorNumber",
-		o1.name AS "involveHospital",
-		o2.name AS "involveDepartment",
-		a.complaint_id AS "complaintId",
-		a.involve_employee AS "involveEmployee",
-		a.summary_of_disputes AS "summaryOfDisputes",
-		a.visitor_date AS "visitorDate",
-		a.complaint_mode AS "complaintMode",
-		a.is_major AS "isMajor",
-		a.appeal AS "appeal",
-		a.reception_employee AS "receptionEmployee",
-		a.reception_date AS "receptionDate",
-		a.next_link AS "nextLink",
-		a.next_link_man AS "nextLinkMan"
+		a.is_mediate AS "isMediate",
+		a.handle_result AS "handleResult",
+		a.handle_pass AS "handlePass",
+		o1.name AS "hospitalName",
+		o2.name AS "departmentName",
+		o3.label AS "relationName",
+		o4.label AS "sexName",
+		o5.name AS "employeeName",
+		u1.name AS "employee.name",
+		u2.name AS "link.name"
 	</sql>
 	
 	<sql id="complaintInfoJoins">
-		LEFT JOIN  SYS_OFFICE o1 ON o1.id = a.involve_hospital
-		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
-	</sql>
-	<sql id="FindcomplaintInfoJoins">
 		LEFT JOIN SYS_OFFICE o1 ON o1.id = a.involve_hospital
 		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
 		LEFT JOIN SYS_DICT o3 ON o3.`value` = a.patient_relation AND o3.type = 'patient_relation'
 		LEFT JOIN SYS_DICT o4 ON o4.value = a.patient_sex AND o4.type = 'sex'
+		LEFT JOIN SYS_USER o5 ON o5.id = a.involve_employee
+		LEFT JOIN SYS_USER u1 ON u1.id = a.reception_employee
+		LEFT JOIN SYS_USER u2 ON u2.id = a.next_link_man
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">
 		SELECT 
-			<include refid="GetcomplaintInfoColumns"/>
+			<include refid="complaintInfoColumns"/>
 		FROM COMPLAINT_INFO  a
 		<include refid="complaintInfoJoins"/>
-		WHERE a.complaint_id = #{id}
+		WHERE a.complaint_id = #{complaintId}
 	</select>
 	
 	<select id="findList" resultType="ComplaintInfo">
 		SELECT 
-			<include refid="FindcomplaintInfoColumns"/>
+			<include refid="complaintInfoColumns"/>
 		FROM COMPLAINT_INFO a
-		<include refid="FindcomplaintInfoJoins"/>
+		<include refid="complaintInfoJoins"/>
 		<where>
 			
 			<if test="caseNumber != null and caseNumber != ''">
@@ -187,7 +147,11 @@
 			reception_employee,
 			reception_date,
 			next_link,
-			next_link_man
+			next_link_man,
+			is_mediate,
+			handle_result,
+			handle_pass,
+			del_flag
 		) VALUES (
 			#{caseNumber},
 			#{visitorName},
@@ -209,7 +173,11 @@
 			#{receptionEmployee},
 			#{receptionDate},
 			#{nextLink},
-			#{nextLinkMan}
+			#{nextLinkMan},
+			#{isMediate},
+			#{handleResult},
+			#{handlePass},
+			#{delFlag}
 		)
 	</insert>
 	
@@ -235,7 +203,10 @@
 			reception_employee = #{receptionEmployee},
 			reception_date = #{receptionDate},
 			next_link = #{nextLink},
-			next_link_man = #{nextLinkMan}
+			next_link_man = #{nextLinkMan},
+			is_mediate = #{isMediate},
+			handle_result = #{handleResult},
+			handle_pass =#{handlePass}
 		WHERE complaint_id = #{complaintId}
 	</update>
 	
@@ -251,5 +222,8 @@
 		FROM COMPLAINT_INFO a
 		<include refid="complaintInfoJoins"/>
 		WHERE a.case_number = #{caseNumber}
+		<if test="complaintId !=null and complaintId !=''">
+			AND a.complaint_id != #{complaintId}
+		</if>
 	</select>
 </mapper>

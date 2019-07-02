@@ -14,6 +14,8 @@ import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
 import com.sayee.sxsy.modules.complaint.dao.ComplaintInfoDao;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 投诉接待Service
  * @author zhangfan
@@ -36,8 +38,25 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(ComplaintInfo complaintInfo) {
-		super.save(complaintInfo);
+	public void save(ComplaintInfo complaintInfo, HttpServletRequest request) {
+		if(StringUtils.isBlank(complaintInfo.getComplaintId())){
+			complaintInfo.preInsert();
+			complaintInfo.setComplaintId(complaintInfo.getId());
+			complaintInfo.setDelFlag("0");
+			dao.insert(complaintInfo);
+		}else{
+			complaintInfo.preUpdate();
+			dao.update(complaintInfo);
+		}
+		String flag=request.getParameter("flag");
+		if("yes".equals(flag)){
+			//如果是点击的下一步  则对医调委的投诉接待进行新增  新增主表与子表
+
+
+
+		}
+
+//		super.save(complaintInfo);
 	}
 	
 	@Transactional(readOnly = false)
@@ -51,9 +70,9 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
 	 * @return
 	 */
 	@Transactional(readOnly = false)
-	public boolean checkcaseNumber(String caseNumber){
+	public boolean checkcaseNumber(String caseNumber,String complaintId){
 		if(StringUtils.isNotBlank(caseNumber)){
-			ComplaintInfo complaintInfo = dao.checkcaseNumber(caseNumber);
+			ComplaintInfo complaintInfo = dao.checkcaseNumber(caseNumber,complaintId);
 			if (complaintInfo!=null){
 				return false;
 			}else{
@@ -62,6 +81,5 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
 		}else {
 			return false;
 		}
-
 	}
 }

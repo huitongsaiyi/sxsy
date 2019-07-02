@@ -39,12 +39,12 @@
 				<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
 			<li><label>涉及医院：</label>
-				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="office.name" labelValue="${complaintInfo.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
+				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="hospitalName" labelValue="${complaintInfo.hospitalName}"
+					title="部门" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
 			</li>
 			<li><label>涉及科室：</label>
-				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="office.name1" labelValue="${complaintInfo.office.name1}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"
+					title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" pid="involveHospital" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -66,6 +66,7 @@
 				<th class="sort-column involve_department">涉及科室</th>
 				<th class="sort-column involve_employee">涉及人员</th>
 				<th class="sort-column summary_of_disputes">投诉纠纷概要</th>
+				<th class="sort-column is_mediate">是否进入医调委调解</th>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -82,13 +83,13 @@
 					${complaintInfo.visitorMobile}
 				</td>
 				<td>
-					${complaintInfo.patientRelation}
+					${complaintInfo.relationName}
 				</td>
 				<td>
 					${complaintInfo.patientName}
 				</td>
 				<td>
-					${complaintInfo.patientSex}
+					${complaintInfo.sexName}
 				</td>
 				<td>
 					${complaintInfo.patientAge}
@@ -97,20 +98,30 @@
 					${complaintInfo.visitorNumber}
 				</td>
 				<td>
-					${complaintInfo.office.name}
+					${complaintInfo.hospitalName}
 				</td>
 				<td>
-					${complaintInfo.office.name1}
+					${complaintInfo.departmentName}
 				</td>
 				<td>
-					${complaintInfo.involveEmployee}
+					${complaintInfo.employeeName}
 				</td>
 				<td>
 					${complaintInfo.summaryOfDisputes}
 				</td>
+				<td>
+					<c:if test="${complaintInfo.isMediate eq 1}">
+						是
+					</c:if>
+					<c:if test="${complaintInfo.isMediate ne 1}">
+						否
+					</c:if>
+				</td>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><td>
+					<c:if test="${complaintInfo.isMediate ne 1}">
     				<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">修改</a>
 					<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.complaintId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
+					</c:if>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

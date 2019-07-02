@@ -61,7 +61,9 @@ public class ComplaintInfoController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(ComplaintInfo complaintInfo, Model model) {
 		if (null==complaintInfo.getCaseNumber()){
-			complaintInfo.setCaseNumber(BaseUtils.getCode("time","3","COMPLAINT_MAIN","case_number"));
+			ComplaintMain complaintMain=new ComplaintMain();
+			complaintMain.setCaseNumber(BaseUtils.getCode("time","3","COMPLAINT_INFO","case_number"));
+			complaintInfo.setCaseNumber(complaintMain.getCaseNumber());
 		}
 		model.addAttribute("complaintInfo", complaintInfo);
 		return "modules/complaint/complaintInfoForm";
@@ -69,11 +71,12 @@ public class ComplaintInfoController extends BaseController {
 
 	@RequiresPermissions("complaint:complaintInfo:edit")
 	@RequestMapping(value = "save")
-	public String save(ComplaintInfo complaintInfo, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, complaintInfo )|| false==complaintInfoService.checkcaseNumber(complaintInfo.getCaseNumber())){
+	public String save(ComplaintInfo complaintInfo, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
+		if (!beanValidator(model, complaintInfo )|| false==complaintInfoService.checkcaseNumber(complaintInfo.getCaseNumber(),complaintInfo.getComplaintId())){
+			addMessage(model, "案件编号 "+complaintInfo.getCaseNumber()+" 重复");
 			return form(complaintInfo, model);
 		}
-		complaintInfoService.save(complaintInfo);
+		complaintInfoService.save(complaintInfo,request);
 		addMessage(redirectAttributes, "保存投诉接待成功");
 		return "redirect:"+Global.getAdminPath()+"/complaint/complaintInfo/?repage";
 	}
