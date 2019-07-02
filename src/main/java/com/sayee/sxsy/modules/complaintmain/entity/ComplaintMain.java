@@ -41,6 +41,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
     private String key; //放 流程节点编码
     private String url; //不同模块 的不同路径
     private String nodeName; //节点名称
+	private String source;		//案子的来源  1医调委录入 2 医院录入 默认是1
 
 	public ComplaintMain() {
 		super();
@@ -48,6 +49,14 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 
 	public ComplaintMain(String id){
 		super(id);
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	public String getNodeName() {

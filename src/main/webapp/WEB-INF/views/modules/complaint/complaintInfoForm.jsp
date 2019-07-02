@@ -46,6 +46,8 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="complaintInfo" action="${ctx}/complaint/complaintInfo/save" method="post" class="form-horizontal">
 		<form:hidden path="complaintId"/>
+		<form:hidden path="complaintMainId"/>
+		<form:hidden path="complaintMain.complaintMainId"/>
 		<input type="hidden" id="flag" name="flag"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">

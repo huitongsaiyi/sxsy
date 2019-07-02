@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.complaint.entity;
 
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.sys.entity.Dict;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -21,6 +22,8 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 	private Office office;  //部门
 	private Dict  dict;  //字典
 	private String caseNumber;		// 案件编号
+	private String complaintMainId;	//主表Id
+	private ComplaintMain complaintMain;	//主表信息
 	private String visitorName;		// 访客姓名
 	private String visitorMobile;		// 访客电话
 	private String patientRelation;		// 与患者关系  字典维护
@@ -60,7 +63,23 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		super(id);
 	}
 
-    @Length(min=1, max=20, message="处理经过不能为空,且长度必须介于 1 和 20 之间")
+	public void setComplaintMainId(String complaintMainId) {
+		this.complaintMainId = complaintMainId;
+	}
+
+	public String getComplaintMainId() {
+		return complaintMainId;
+	}
+
+	public ComplaintMain getComplaintMain() {
+		return complaintMain;
+	}
+
+	public void setComplaintMain(ComplaintMain complaintMain) {
+		this.complaintMain = complaintMain;
+	}
+
+	@Length(min=1, max=20, message="处理经过不能为空,且长度必须介于 1 和 20 之间")
     public String getHandlePass() {
         return handlePass;
     }

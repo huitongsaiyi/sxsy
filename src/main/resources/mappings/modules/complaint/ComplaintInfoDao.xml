@@ -4,6 +4,7 @@
     
 	<sql id="complaintInfoColumns">
 		a.case_number AS "caseNumber",
+		a.complaint_main_id AS "complaintMainId",
 		a.visitor_name AS "visitorName",
 		a.visitor_mobile AS "visitorMobile",
 		a.patient_relation AS "patientRelation",
@@ -33,7 +34,26 @@
 		o4.label AS "sexName",
 		o5.name AS "employeeName",
 		u1.name AS "employee.name",
-		u2.name AS "link.name"
+		u2.name AS "link.name",
+		b.complaint_main_id AS "complaintMain.complaintMainId",
+		b.case_number AS "complaintMain.caseNumber",
+		b.patient_name AS "complaintMain.patientName",
+		b.patient_sex AS "complaintMain.patientSex",
+		b.patient_age AS "complaintMain.patientAge",
+		b.patient_card AS "complaintMain.patientCard",
+		b.patient_mobile AS "complaintMain.patientMobile",
+		b.involve_hospital AS "complaintMain.involveHospital",
+		b.hospital_level AS "complaintMain.hospitalLevel",
+		b.hospital_grade AS "complaintMain.hospitalGrade",
+		b.involve_department AS "complaintMain.involveDepartment",
+		b.involve_employee AS "complaintMain.involveEmployee",
+		b.proc_ins_id AS "complaintMain.procInsId",
+		b.create_by AS "complaintMain.createById",
+		b.create_date AS "complaintMain.createDate",
+		b.update_by AS "complaintMain.updateById",
+		b.update_date AS "complaintMain.updateDate",
+		b.del_flag AS "complaintMain.delFlag",
+		b.source AS  "complaintMain.source"
 	</sql>
 	
 	<sql id="complaintInfoJoins">
@@ -44,6 +64,7 @@
 		LEFT JOIN SYS_USER o5 ON o5.id = a.involve_employee
 		LEFT JOIN SYS_USER u1 ON u1.id = a.reception_employee
 		LEFT JOIN SYS_USER u2 ON u2.id = a.next_link_man
+		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id AND source = '2'
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">
@@ -128,6 +149,7 @@
 	<insert id="insert">
 		INSERT INTO COMPLAINT_INFO(
 			case_number,
+			complaint_main_id,
 			visitor_name,
 			visitor_mobile,
 			patient_relation,
@@ -154,6 +176,7 @@
 			del_flag
 		) VALUES (
 			#{caseNumber},
+			#{complaintMainId},
 			#{visitorName},
 			#{visitorMobile},
 			#{patientRelation},
@@ -184,6 +207,7 @@
 	<update id="update">
 		UPDATE COMPLAINT_INFO SET 	
 			case_number = #{caseNumber},
+			complaint_main_id = #{complaintMainId},
 			visitor_name = #{visitorName},
 			visitor_mobile = #{visitorMobile},
 			patient_relation = #{patientRelation},
@@ -219,11 +243,18 @@
 	<select id="checkcaseNumber" resultType="ComplaintInfo">
 		SELECT
 		<include refid="complaintInfoColumns"/>
-		FROM COMPLAINT_INFO a
-		<include refid="complaintInfoJoins"/>
-		WHERE a.case_number = #{caseNumber}
-		<if test="complaintId !=null and complaintId !=''">
-			AND a.complaint_id != #{complaintId}
+		FROM COMPLAINT_MAIN b
+		LEFT JOIN COMPLAINT_INFO a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN SYS_OFFICE o1 ON o1.id = a.involve_hospital
+		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
+		LEFT JOIN SYS_DICT o3 ON o3.`value` = a.patient_relation AND o3.type = 'patient_relation'
+		LEFT JOIN SYS_DICT o4 ON o4.value = a.patient_sex AND o4.type = 'sex'
+		LEFT JOIN SYS_USER o5 ON o5.id = a.involve_employee
+		LEFT JOIN SYS_USER u1 ON u1.id = a.reception_employee
+		LEFT JOIN SYS_USER u2 ON u2.id = a.next_link_man
+		WHERE b.case_number = #{caseNumber}
+		<if test="complaintMainId !=null and complaintMainId !=''">
+			AND b.complaint_main_id != ${complaintMainId}
 		</if>
 	</select>
 </mapper>
