@@ -73,7 +73,6 @@ public class ComplaintInfoController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(ComplaintInfo complaintInfo, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		if (!beanValidator(model, complaintInfo )){
-			addMessage(model, "案件编号 "+complaintInfo.getCaseNumber()+" 重复");
 			return form(complaintInfo, model);
 		}
 		boolean a= complaintInfoService.save(complaintInfo,request);

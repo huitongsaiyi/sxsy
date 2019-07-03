@@ -23,6 +23,7 @@
 		a.appeal AS "appeal",
 		a.reception_employee AS "receptionEmployee",
 		a.reception_date AS "receptionDate",
+		a.complaint_type AS "complaintType",
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan",
 		a.is_mediate AS "isMediate",
@@ -53,7 +54,8 @@
 		b.update_by AS "complaintMain.updateById",
 		b.update_date AS "complaintMain.updateDate",
 		b.del_flag AS "complaintMain.delFlag",
-		b.source AS  "complaintMain.source"
+		b.source AS  "complaintMain.source",
+		t.name AS "typeName"
 	</sql>
 	
 	<sql id="complaintInfoJoins">
@@ -65,6 +67,7 @@
 		LEFT JOIN SYS_USER u1 ON u1.id = a.reception_employee
 		LEFT JOIN SYS_USER u2 ON u2.id = a.next_link_man
 		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id AND source = '2'
+		LEFT JOIN TEST_TREE t ON t.id = a.complaint_type
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">
@@ -173,6 +176,7 @@
 			is_mediate,
 			handle_result,
 			handle_pass,
+			complaint_type,
 			del_flag
 		) VALUES (
 			#{caseNumber},
@@ -200,6 +204,7 @@
 			#{isMediate},
 			#{handleResult},
 			#{handlePass},
+			#{complaintType},
 			#{delFlag}
 		)
 	</insert>
@@ -230,7 +235,8 @@
 			next_link_man = #{nextLinkMan},
 			is_mediate = #{isMediate},
 			handle_result = #{handleResult},
-			handle_pass =#{handlePass}
+			handle_pass =#{handlePass},
+			complaint_type=#{complaintType}
 		WHERE complaint_id = #{complaintId}
 	</update>
 	

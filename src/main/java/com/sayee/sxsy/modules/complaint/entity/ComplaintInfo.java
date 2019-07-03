@@ -54,6 +54,8 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
     private String isMediate;       //是否进入医调委调解
     private String handleResult;       //处理结果
     private String handlePass;          //处理经过
+    private String complaintType;       //投诉类别
+    private String typeName;            //投诉类型名称
 
 	public ComplaintInfo() {
 		super();
@@ -63,7 +65,23 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		super(id);
 	}
 
-	public void setComplaintMainId(String complaintMainId) {
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getComplaintType() {
+        return complaintType;
+    }
+
+    public void setComplaintType(String complaintType) {
+        this.complaintType = complaintType;
+    }
+
+    public void setComplaintMainId(String complaintMainId) {
 		this.complaintMainId = complaintMainId;
 	}
 

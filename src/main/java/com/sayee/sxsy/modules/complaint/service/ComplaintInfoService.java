@@ -89,6 +89,7 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             complaintMainDetail.setReceptionDate(complaintInfo.getReceptionDate());            //接待日期
             complaintMainDetail.setPatientRelation(complaintInfo.getPatientRelation());        //患者关系
             complaintMainDetail.setIsMajor(complaintInfo.getIsMajor());        //是否重大
+            complaintMainDetail.getCreateBy().setId(complaintInfo.getNextLinkMan());           //将创建人更改为从医院投诉接待拿到的下一步处理人
             //保存子表
             complaintMainDetailDao.insert(complaintMainDetail);
         }
@@ -117,7 +118,7 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
                 return true;
             }
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -128,12 +129,11 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     @Transactional(readOnly = false)
     public ComplaintInfo saveComplaint(ComplaintInfo complaintInfo) {
         ComplaintMain complaintMain = complaintMainService.get(complaintInfo.getComplaintMainId());
-        if (org.springframework.util.StringUtils.isEmpty(complaintInfo)) {
+        if (org.springframework.util.StringUtils.isEmpty(complaintMain)) {
             //将信息保存到主表
             ComplaintMain complaintMain1 = new ComplaintMain();
-            if (StringUtils.isBlank(complaintMain.getCaseNumber())) {
                 complaintMain1.preInsert();
-                complaintMain1.setComplaintMainId(complaintMain.getId());
+                complaintMain1.setComplaintMainId(complaintMain1.getId());
                 complaintMain1.setCaseNumber(complaintInfo.getCaseNumber());        //案件编号
                 complaintMain1.setPatientName(complaintInfo.getPatientName());        //患者姓名
                 complaintMain1.setPatientAge(complaintInfo.getPatientAge());            //患者年龄
@@ -145,20 +145,19 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
                 complaintInfo.setComplaintMain(complaintMain1);
                 complaintMainService.insert(complaintInfo.getComplaintMain());            //保存主表
                 complaintInfo.setComplaintMainId(complaintInfo.getComplaintMain().getComplaintMainId());
-            }
-            } else {
-                complaintMain.preUpdate();
-                complaintMain.setComplaintMainId(complaintInfo.getComplaintMainId());
-                complaintMain.setCaseNumber(complaintInfo.getCaseNumber());        //案件编号
-                complaintMain.setPatientName(complaintInfo.getPatientName());        //患者姓名
-                complaintMain.setPatientAge(complaintInfo.getPatientAge());            //患者年龄
-                complaintMain.setPatientSex(complaintInfo.getPatientSex());            //患者性别
-                complaintMain.setInvolveHospital(complaintInfo.getInvolveHospital());        //涉及医院
-                complaintMain.setInvolveDepartment(complaintInfo.getInvolveDepartment());        //涉及科室
-                complaintMain.setInvolveEmployee(complaintInfo.getInvolveEmployee());        //涉及人员
-                complaintInfo.setComplaintMain(complaintMain);
-                complaintMainService.update(complaintInfo.getComplaintMain());            //保存主表
-            }
+        } else {
+            complaintMain.preUpdate();
+            complaintMain.setComplaintMainId(complaintInfo.getComplaintMainId());
+            complaintMain.setCaseNumber(complaintInfo.getCaseNumber());        //案件编号
+            complaintMain.setPatientName(complaintInfo.getPatientName());        //患者姓名
+            complaintMain.setPatientAge(complaintInfo.getPatientAge());            //患者年龄
+            complaintMain.setPatientSex(complaintInfo.getPatientSex());            //患者性别
+            complaintMain.setInvolveHospital(complaintInfo.getInvolveHospital());        //涉及医院
+            complaintMain.setInvolveDepartment(complaintInfo.getInvolveDepartment());        //涉及科室
+            complaintMain.setInvolveEmployee(complaintInfo.getInvolveEmployee());        //涉及人员
+            complaintInfo.setComplaintMain(complaintMain);
+            complaintMainService.update(complaintInfo.getComplaintMain());            //保存主表
+        }
 
         return complaintInfo;
     }
