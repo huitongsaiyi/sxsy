@@ -2,6 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ attribute name="id" type="java.lang.String" required="true" description="编号"%>
 <%@ attribute name="pid" type="java.lang.String" required="false" description="父级编号"%>
+<%@ attribute name="role" type="java.lang.String" required="false" description="角色编码，查找人员是过滤"%>
 <%@ attribute name="name" type="java.lang.String" required="true" description="隐藏域名称（ID）"%>
 <%@ attribute name="value" type="java.lang.String" required="true" description="隐藏域值（ID）"%>
 <%@ attribute name="labelName" type="java.lang.String" required="true" description="输入框名称（Name）"%>
@@ -38,7 +39,7 @@
 		var pid=$("#${pid}Id").val();
 		$("#${pid}").val(pid);
 		// 正常打开
-		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}&pid="+pid, "选择${title}", 300, 420, {
+		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}&role=${role}&pid="+pid, "选择${title}", 300, 420, {
 			ajaxData:{selectIds: $("#${id}Id").val()},buttons:{"确定":"ok", ${allowClear?"\"清除\":\"clear\", ":""}"关闭":true}, submit:function(v, h, f){
 				if (v=="ok"){
 					var tree = h.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();

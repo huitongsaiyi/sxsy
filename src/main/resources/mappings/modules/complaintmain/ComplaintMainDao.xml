@@ -163,7 +163,7 @@
         RIGHT JOIN COMPLAINT_MAIN c on c.PROC_INS_ID=a.PROC_INST_ID_
 		<choose>
 			<when test="loginName != null and loginName != ''">
-				WHERE a.ASSIGNEE_ = #{loginName}
+				WHERE a.ASSIGNEE_ = #{loginName}  AND (a.DELETE_REASON_ IS NULL or a.END_TIME_ IS NULL or a.DURATION_ IS NULL)
 			</when>
 			<otherwise>
 				WHERE 1=2

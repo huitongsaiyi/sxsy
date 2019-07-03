@@ -95,7 +95,7 @@
             <a href="#mediation" data-toggle="tab">调解志</a>
         </li>
         <li>
-            <a href="#meeting" data-toggle="tab">调解会议表</a>
+            <a href="#meeting" data-toggle="tab">调解程序表</a>
         </li>
         <li>
             <a href="#recorded_patient" data-toggle="tab">调解会笔录（患方）</a>

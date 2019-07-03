@@ -73,9 +73,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="complaintInfo">
 			<tr>
-				<td><a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">
+				<td>
 					${complaintInfo.caseNumber}
-				</a></td>
+				</td>
 				<td>
 					${complaintInfo.visitorName}
 				</td>

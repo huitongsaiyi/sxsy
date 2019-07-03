@@ -93,8 +93,17 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
             huanf.setType("1");
             huanf.setModuleType("1");
             recordInfoDao.insert(huanf);
-            //保存笔录（医方）
+            //保存笔录（医方） 由于医方笔录共用患方的笔录 所以先把共用的信息赋值给医方
             RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
+            yif.setStartTime(huanf.getStartTime());
+            yif.setEndTime(huanf.getEndTime());
+            yif.setRecordAddress(huanf.getRecordAddress());
+            yif.setCause(huanf.getCause());
+            yif.setHost(huanf.getHost());
+            yif.setNoteTaker(huanf.getNoteTaker());
+            yif.setPatient(huanf.getPatient());
+            yif.setDoctor(huanf.getDoctor());
+            yif.setOtherParticipants(huanf.getOtherParticipants());
             yif.preInsert();
             yif.setRecordId(IdGen.uuid());
             yif.setRelationId(mediateEvidence.getMediateEvidenceId());
@@ -112,6 +121,15 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
             recordInfoDao.update(huanf);
             //更新笔录(医方)
             RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
+            yif.setStartTime(huanf.getStartTime());
+            yif.setEndTime(huanf.getEndTime());
+            yif.setRecordAddress(huanf.getRecordAddress());
+            yif.setCause(huanf.getCause());
+            yif.setHost(huanf.getHost());
+            yif.setNoteTaker(huanf.getNoteTaker());
+            yif.setPatient(huanf.getPatient());
+            yif.setDoctor(huanf.getDoctor());
+            yif.setOtherParticipants(huanf.getOtherParticipants());
             yif.preUpdate();
             recordInfoDao.update(yif);
 		}
@@ -123,7 +141,8 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 
 			Map<String,Object> var=new HashMap<String, Object>();
-			var.put("pass","0");
+
+			var.put("pass",StringUtils.isBlank(mediateEvidence.getNextLink()) ? "0" : mediateEvidence.getNextLink());
 			User assigness= UserUtils.get(mediateEvidence.getNextLinkMan());
 			var.put("apply_user",assigness.getLoginName());
 			// 执行流程
@@ -253,7 +272,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			params.put("doctor", mediateEvidence.getDoctorUser()==null ? "" : mediateEvidence.getDoctorUser().getName());
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeetingM.docx";
-			newFileName="调解会议表.docx";
+			newFileName="调解程序表.docx";
 		}
 		try{
 			List<String[]> testList = new ArrayList<String[]>();

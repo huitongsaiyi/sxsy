@@ -203,7 +203,9 @@
 			handle_people = #{handlePeople},
 			handle_time = #{handleTime},
 			next_link = #{nextLink},
-			next_link_man = #{nextLinkMan}
+			next_link_man = #{nextLinkMan},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
 		WHERE mediate_evidence_id = #{mediateEvidenceId}
 	</update>
 	

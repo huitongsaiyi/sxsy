@@ -130,7 +130,9 @@
 			patient = #{patient},
 			doctor = #{doctor},
 			other_participants = #{otherParticipants},
-			record_content = #{recordContent}
+			record_content = #{recordContent},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
 		WHERE record_id = #{recordId}
 	</update>
 	

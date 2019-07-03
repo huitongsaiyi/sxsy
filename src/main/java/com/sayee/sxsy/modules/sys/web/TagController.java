@@ -34,6 +34,7 @@ public class TagController extends BaseController {
 		model.addAttribute("isAll", request.getParameter("isAll")); 	// 是否读取全部数据，不进行权限过滤
 		model.addAttribute("module", request.getParameter("module"));	// 过滤栏目模型（仅针对CMS的Category树）
 		model.addAttribute("pid", request.getParameter("pid"));	// 父节点主键
+		model.addAttribute("role", request.getParameter("role"));	// 角色编码
 		return "modules/sys/tagTreeselect";
 	}
 	
