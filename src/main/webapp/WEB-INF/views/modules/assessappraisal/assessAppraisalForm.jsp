@@ -1238,7 +1238,7 @@
 				下一环节处理人：
 			</td>
 			<td>
-				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessAppraisal.nextLinkMan}" labelName="" labelValue="${assessAppraisal.linkEmployee.name}"
+				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty assessAppraisal.nextLinkMan?fns:getUser().id:assessAppraisal.nextLinkMan}" labelName="" labelValue="${empty assessAppraisal.linkEmployee.name?fns:getUser().name:assessAppraisal.nextLinkMan}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" />
 			</td>
 		</tr>

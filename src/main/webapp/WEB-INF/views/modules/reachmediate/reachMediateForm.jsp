@@ -459,8 +459,8 @@
 				<%--</td>--%>
 				<td class="tit"><font color="red">*</font>下一环节处理人：</td>
 				<td>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${reachMediate.nextLinkMan}" labelName=""
-									labelValue="${reachMediate.linkEmployee.name}"
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty reachMediate.nextLinkMan?fns:getUser().id:reachMediate.nextLinkMan}" labelName=""
+									labelValue="${empty reachMediate.linkEmployee.name?fns:getUser().name:reachMediate.linkEmployee.name}"
 									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true"
 									notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
 				</td>

@@ -479,8 +479,8 @@
             <td class="tit"><font color="red">*</font>下一环节处理人：</td>
             <td>
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${mediateEvidence.nextLinkMan}" labelName=""
-                                labelValue="${mediateEvidence.linkEmployee.name}"
+                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty mediateEvidence.nextLinkMan?fns:getUser().id:mediateEvidence.nextLinkMan}" labelName=""
+                                labelValue="${empty mediateEvidence.linkEmployee.name?fns:getUser().name:mediateEvidence.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" allowClear="true"
                                 notAllowSelectParent="true"  dataMsgRequired="必填信息" cssClass="required" />
             </td>
