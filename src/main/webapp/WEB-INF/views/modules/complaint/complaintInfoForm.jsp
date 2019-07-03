@@ -209,7 +209,14 @@
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 			</td>
 		</tr>
-		<tr >
+        <tr>
+            <td class="tit">投诉类别：</td>
+            <td>
+                <sys:treeselect id="complaintType" name="complaintType" value="${complaintInfo.complaintType}" labelName="typeName" labelValue="${complaintInfo.typeName}" title="调解类别"
+								url="/test/testTree/treeData" isAll="true" allowClear="true" notAllowSelectParent="true"/>
+            </td>
+        </tr>
+		<tr>
 			<td class="tit"><font color="red">*</font>是否进入医调委调解：</td>
 			<td>
 				<form:select id="isMediate" path="isMediate" style='width:110px;text-align: center;' onchange="next(this.value)">
