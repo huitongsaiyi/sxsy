@@ -448,8 +448,8 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             }
 
             params.put("content1",investigateEvidence.getContent());//笔录内容
-            path += "partiesRecord.docx";  //模板文件位置
-            modelPath += "partiesRecord.docx";
+            path += "doc/partiesRecord.docx";  //模板文件位置
+            modelPath += "doc/partiesRecord.docx";
             newFileName = "患方笔录.docx";
         } else if ("hospitalTake".equals(export)) {
             params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
@@ -604,8 +604,8 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 params.put("post1","");//职务
             }
             params.put("content1",investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
-            path += "doctorRecord.docx";  //模板文件位置
-            modelPath += "doctorRecord.docx";
+            path += "doc/doctorRecord.docx";  //模板文件位置
+            modelPath += "doc/doctorRecord.docx";
             newFileName = "医方笔录.docx";
         }
 
