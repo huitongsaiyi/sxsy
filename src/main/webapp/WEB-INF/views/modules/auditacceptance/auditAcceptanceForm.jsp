@@ -1044,8 +1044,8 @@
                 下一环节处理人：
             </td>
             <td>
-                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${auditAcceptance.nextLinkMan}" labelName=""
-                                labelValue="${auditAcceptance.linkEmployee.name}"
+                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty auditAcceptance.nextLinkMan?fns:getUser().id:auditAcceptance.nextLinkMan}" labelName=""
+                                labelValue="${empty auditAcceptance.linkEmployee.name?fns:getUser().name:auditAcceptance.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true"
                                 notAllowSelectParent="true" />
             </td>

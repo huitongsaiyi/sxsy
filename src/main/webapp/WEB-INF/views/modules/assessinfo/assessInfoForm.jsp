@@ -99,8 +99,8 @@
             <%--</td>--%>
             <td class="tit">下一环节处理人</td>
             <td>
-                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessInfo.nextLinkMan}" labelName=""
-                                labelValue="${assessInfo.linkEmployee.name}"
+                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty assessInfo.nextLinkMan?fns:getUser().id:assessInfo.nextLinkMan}" labelName=""
+                                labelValue="${empty assessInfo.linkEmployee.name?fns:getUser().name:assessInfo.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
                                 allowClear="true" notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
             </td>

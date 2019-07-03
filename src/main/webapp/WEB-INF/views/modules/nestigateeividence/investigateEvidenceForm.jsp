@@ -465,7 +465,7 @@
 				<td class="tit" width="100px" style="display: inline-block; border-right:1px #e2e2e2 solid; width: 120px;padding-top: 8px;height: 25px;margin-top: -15px;margin-left: 0px;"><font color="red">*</font>下一环节处理人：</td>
 
 				<td width="540px;" style="display:inline-block;margin-top: -15px;margin-left: 1px;">
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${investigateEvidence.nextLinkMan}" labelName="" labelValue="${investigateEvidence.linkEmployee.name}"
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty investigateEvidence.nextLinkMan?fns:getUser().id:investigateEvidence.nextLinkMan}" labelName="" labelValue="${empty investigateEvidence.linkEmployee.name?fns:getUser().name:investigateEvidence.linkEmployee.name}"
 									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true"  cssStyle="width: 230px;" dataMsgRequired="必填信息"/>
 
 				</td>
