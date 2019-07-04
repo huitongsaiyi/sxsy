@@ -402,7 +402,7 @@ public class SystemService extends BaseService implements InitializingBean {
 	public static boolean printKeyLoadMessage(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("\r\n======================================================================\r\n");
-		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  - Powered By http://jeesite.com\r\n");
+		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  - Powered By sayee\r\n");
 		sb.append("\r\n======================================================================\r\n");
 		System.out.println(sb.toString());
 		return true;
@@ -541,7 +541,12 @@ public class SystemService extends BaseService implements InitializingBean {
 	}
 
     public List<User> findUserByOfficeRoleId(String officeId, String role) {
-			return userDao.findUserByOfficeRoleId(officeId,role);
+        List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ROLE_ID_ + officeId);
+        if (list == null){
+            list = userDao.findUserByOfficeRoleId(officeId,role);
+            CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ROLE_ID_ + officeId, list);
+        }
+			return list;
     }
 
     ///////////////// Synchronized to the Activiti end //////////////////
