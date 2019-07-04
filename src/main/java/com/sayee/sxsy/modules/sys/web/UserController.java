@@ -361,7 +361,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String officeId,@RequestParam(required=false) String role, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<User> list = new ArrayList<>();
+		List<User> list = new ArrayList<User>();
 		if (StringUtils.isNotBlank(role)){
 			list=systemService.findUserByOfficeRoleId(officeId,role);
 		}else{
