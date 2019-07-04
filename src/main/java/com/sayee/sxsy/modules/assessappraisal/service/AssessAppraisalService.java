@@ -130,6 +130,10 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			huanf.setRelationId(assessAppraisal.getAssessAppraisalId());
 			huanf.setType("1");
 			huanf.setModuleType("2");
+			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+			huanf.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
+ 			huanf.setHost(assessAppraisal.getHosts().getName());
+			huanf.setNoteTaker(assessAppraisal.getClerks().getName());
 			recordInfoDao.insert(huanf);
 			//保存医方笔录
 			RecordInfo yif = assessAppraisal.getRecordInfo1().getYrecordInfo();
@@ -138,6 +142,13 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			yif.setRelationId(assessAppraisal.getAssessAppraisalId());
 			yif.setType("2");
 			yif.setModuleType("2");
+			yif.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+			yif.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
+			yif.setRecordAddress(assessAppraisal.getRecordInfo1().getRecordAddress());
+			yif.setHost(assessAppraisal.getHosts().getName());
+			yif.setNoteTaker(assessAppraisal.getClerks().getName());
+			yif.setStartTime(assessAppraisal.getRecordInfo1().getStartTime());
+			yif.setEndTime(assessAppraisal.getRecordInfo1().getEndTime());
 			recordInfoDao.insert(yif);
 			//保存附件
 			if(StringUtils.isNotBlank(files1)){
@@ -167,10 +178,21 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			//修改患方笔录
 			RecordInfo huanf = assessAppraisal.getRecordInfo1();
 			huanf.preUpdate();
+			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+			huanf.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
+			huanf.setHost(assessAppraisal.getHosts().getName());
+			huanf.setNoteTaker(assessAppraisal.getClerks().getName());
 			recordInfoDao.update(huanf);
 			//修改医方笔录
 			RecordInfo yif = assessAppraisal.getRecordInfo1().getYrecordInfo();
 			yif.preUpdate();
+			yif.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+			yif.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
+			yif.setRecordAddress(assessAppraisal.getRecordInfo1().getRecordAddress());
+			yif.setHost(assessAppraisal.getHosts().getName());
+			yif.setNoteTaker(assessAppraisal.getClerks().getName());
+			yif.setStartTime(assessAppraisal.getRecordInfo1().getStartTime());
+			yif.setEndTime(assessAppraisal.getRecordInfo1().getEndTime());
 			recordInfoDao.update(yif);
 			//更新评估鉴定主表
 			assessAppraisal.preUpdate();

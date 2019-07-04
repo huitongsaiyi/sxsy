@@ -29,7 +29,17 @@ public class Proposal extends DataEntity<Proposal> {
 	private String treatment;		// 治疗
 	private String other;		// 其他
 	private String conclusion;		// 结论 关联&ldquo;类型&rdquo;表主键 多个用逗号分开
+	private String proposalCode;//意见书编码
 
+
+	@Length(min=1, max=30, message="意见书编码长度必须介于 1 和 30 之间")
+	public String getProposalCode() {
+		return proposalCode;
+	}
+
+	public void setProposalCode(String proposalCode) {
+		this.proposalCode = proposalCode;
+	}
 
 	public Proposal() {
 		super();

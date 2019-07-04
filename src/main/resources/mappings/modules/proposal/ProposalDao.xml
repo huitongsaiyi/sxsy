@@ -18,6 +18,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
+		a.proposal_code AS"proposalCode",
 		a.del_flag AS "delFlag"
 	</sql>
 	
@@ -85,6 +86,7 @@
 			update_by,
 			update_date,
 			remarks,
+			proposal_code,
 			del_flag
 		) VALUES (
 			#{proposalId},
@@ -102,6 +104,7 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
+			#{proposalCode},
 			#{delFlag}
 		)
 	</insert>
@@ -120,6 +123,7 @@
 			conclusion = #{conclusion},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
+			proposal_code = #{proposalCode},
 			remarks = #{remarks}
 		WHERE proposal_id = #{proposalId}
 	</update>
@@ -128,6 +132,7 @@
 		UPDATE PROPOSAL SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE proposal_id = #{proposalId}
+
 	</update>
 	
 </mapper>

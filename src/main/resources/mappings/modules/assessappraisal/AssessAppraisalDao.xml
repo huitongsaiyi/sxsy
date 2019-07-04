@@ -28,6 +28,8 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
+		a.medical_expert_name AS "medicalExpertName",
+		a.legal_expert_name AS"legalExpertName",
 		a.del_flag AS "delFlag",
 		b.case_number AS "complaintMain.caseNumber",
 		b.patient_name AS "complaintMain.patientName",
@@ -81,8 +83,10 @@
 		p.diagnosis AS "proposal.diagnosis",
 		p.treatment AS "proposal.treatment",
 		p.other AS "proposal.other",
-		p.conclusion AS "proposal.conclusion"
-
+		p.conclusion AS "proposal.conclusion",
+		p.proposal_code AS "proposal.proposalCode",
+		u3.name AS "hosts.name",
+		u4.name AS "clerks.name"
 	</sql>
 
 	<sql id="assessAppraisalJoins">
@@ -104,6 +108,8 @@
         LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
         LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
         LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+        LEFT Join SYS_USER u3 ON u3.id=a.host
+        LEFT Join SYS_USER u4 ON u4.id=a.clerk
 	</sql>
 
 	<select id="get" resultType="AssessAppraisal">
@@ -189,6 +195,8 @@
 			create_date,
 			update_by,
 			update_date,
+			medical_expert_name,
+		    legal_expert_name,
 			del_flag
 		) VALUES (
 			#{assessAppraisalId},
@@ -216,6 +224,8 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
+			#{medicalExpertName},
+			#{legalExpertName},
 			#{delFlag}
 		)
 	</insert>
@@ -244,6 +254,8 @@
 			next_link = #{nextLink},
 			next_link_man = #{nextLinkMan},
 			update_by = #{updateBy.id},
+			medical_expert_name = #{medicalExpertName},
+			legal_expert_name = #{legalExpertName},
 			update_date = #{updateDate}
 		WHERE assess_appraisal_id = #{assessAppraisalId}
 	</update>

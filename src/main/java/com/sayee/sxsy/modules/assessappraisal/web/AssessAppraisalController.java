@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
+import com.sayee.sxsy.modules.proposal.entity.Proposal;
+import com.sayee.sxsy.modules.proposal.service.ProposalService;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
@@ -31,6 +34,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal;
 import com.sayee.sxsy.modules.assessappraisal.service.AssessAppraisalService;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +57,8 @@ public class AssessAppraisalController extends BaseController {
 	SummaryInfoService summaryInfoService;
 	@Autowired
     private MachineAccountService machineAccountService;
-
+	@Autowired
+	ProposalService proposalService;
 	@ModelAttribute
 	public AssessAppraisal get(@RequestParam(required=false) String id) {
 		AssessAppraisal entity = null;
@@ -77,6 +82,29 @@ public class AssessAppraisalController extends BaseController {
 	@RequiresPermissions("assessappraisal:assessAppraisal:view")
 	@RequestMapping(value = "form")
 	public String form(AssessAppraisal assessAppraisal, Model model,HttpServletRequest request) {
+		if(null==assessAppraisal.getProposal()){
+			Proposal proposal =new Proposal();
+			List<Proposal> list = proposalService.findList(proposal);
+			if(list.size()==0){
+				String code = BaseUtils.getCode("time", "3", "PROPOSAL", "proposal_code");
+				String c1= code.substring(0, 4);
+				proposal.setProposalCode("晋医人调鉴(评)["+c1+"]001号");
+				assessAppraisal.setProposal(proposal);
+			}else{
+				String proposalCode = list.get(0).getProposalCode();
+				String a=BaseUtils.getCode("time","3","PROPOSAL","proposal_code");
+				String c=a.substring(0,4);
+				String d = proposalCode.substring(14, 17);
+				int d1=Integer.valueOf(d);
+				int d2=d1+1;
+				String format = String.format("%0" + 3 + "d", d2);
+				String e=proposalCode.replace(proposalCode.substring(9,13),c);
+				String e1=e.replace(e.substring(14,17),format);
+				proposal.setProposalCode(e1);
+				assessAppraisal.setProposal(proposal);
+
+			}
+		}
 
 		List<TypeInfo> fxyj = BaseUtils.getType("1");
 		List<TypeInfo> jl = BaseUtils.getType("2");

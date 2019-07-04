@@ -28,6 +28,7 @@ import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -156,7 +157,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 
 			var.put("pass",StringUtils.isBlank(mediateEvidence.getNextLink()) ? "0" : mediateEvidence.getNextLink());
 			User assigness= UserUtils.get(mediateEvidence.getNextLinkMan());
-			var.put("apply_user",assigness.getLoginName());
+			var.put("0".equals(MapUtils.getString(var,"pass","0")) ? "evaluation_user" : "sign_user",assigness.getLoginName());
 			// 执行流程
 			actTaskService.complete(mediateEvidence.getComplaintMain().getAct().getTaskId(), mediateEvidence.getComplaintMain().getAct().getProcInsId(), mediateEvidence.getComplaintMain().getAct().getComment(), mediateEvidence.getComplaintMain().getCaseNumber(), var);
 

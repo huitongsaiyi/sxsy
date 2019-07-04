@@ -132,7 +132,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.cause = cause;
 	}
 	
-	@Length(min=1, max=32, message="主持人长度必须介于 1 和 32 之间")
+	//@Length(min=1, max=32, message="主持人长度必须介于 1 和 32 之间")
 	public String getHost() {
 		return host;
 	}
@@ -141,7 +141,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.host = host;
 	}
 	
-	@Length(min=1, max=32, message="记录人长度必须介于 1 和 32 之间")
+	//@Length(min=1, max=32, message="记录人长度必须介于 1 和 32 之间")
 	public String getNoteTaker() {
 		return noteTaker;
 	}

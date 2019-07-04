@@ -35,6 +35,8 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private String responsibilityRatio;		// 责任比例
 	private String host;		// 主持人
 	private String clerk;		// 书记员
+	private User hosts;//主持人
+	private User clerks;//书记员
 	private String patientName;		// 患者姓名
 	private String patientSex;		// 患者性别
 	private String patientAge;		// 患者年龄
@@ -65,8 +67,43 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private List<TypeInfo> typeInfosList;//意见
 	private List<TypeInfo> typeInfosList2;//结论
     private MachineAccount machineAccount;//台账信息
+	private String medicalExpertName;//医学专家（名称）
+	private String legalExpertName;//法律专家（名称）
 
-    public MachineAccount getMachineAccount() {
+	public User getClerks() {
+		return clerks;
+	}
+
+	public void setClerks(User clerks) {
+		this.clerks = clerks;
+	}
+
+	public User getHosts() {
+		return hosts;
+	}
+
+	public void setHosts(User hosts) {
+		this.hosts = hosts;
+	}
+
+	@Length(min=1, max=30, message="法律专家长度必须介于 1 和 30 之间")
+	public String getLegalExpertName() {
+		return legalExpertName;
+	}
+
+	public void setLegalExpertName(String legalExpertName) {
+		this.legalExpertName = legalExpertName;
+	}
+	@Length(min=1, max=30, message="医学专家长度必须介于 1 和 30 之间")
+	public String getMedicalExpertName() {
+		return medicalExpertName;
+	}
+
+	public void setMedicalExpertName(String medicalExpertName) {
+		this.medicalExpertName = medicalExpertName;
+	}
+
+	public MachineAccount getMachineAccount() {
         return machineAccount;
     }
 
