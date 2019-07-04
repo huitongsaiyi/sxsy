@@ -17,6 +17,8 @@ import com.sayee.sxsy.modules.act.entity.Act;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.mediateapplyinfo.entity.MediateApplyInfo;
+import com.sayee.sxsy.modules.program.dao.MediateProgramDao;
+import com.sayee.sxsy.modules.program.entity.MediateProgram;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.record.service.MediateRecordService;
@@ -51,6 +53,8 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
 	private MediateRecordDao mediateRecordDao;		//调解志DAO层
+    @Autowired
+	private MediateProgramDao mediateProgramDao;		//程序表DAO层
 	@Autowired
 	private RecordInfoDao recordInfoDao;    //笔录Dao
 	@Autowired
@@ -63,6 +67,10 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		MediateRecord mediateRecord=new MediateRecord();
 		mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
 		mediateEvidence.setMediateEvidenceList(mediateRecordDao.findList(mediateRecord));
+		//调解会议查询
+        MediateProgram mediateProgram = new MediateProgram();
+        mediateProgram.setRelationId(mediateEvidence.getMediateEvidenceId());
+        mediateEvidence.setMediateProgramList(mediateProgramDao.findList(mediateProgram));
 		return mediateEvidence;
 	}
 	
@@ -138,6 +146,10 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
         this.tjz(mediateEvidence);
 		//保存附件
 		this.savefj(request,mediateEvidence);
+		//保存调解程序 与 调解志
+        if(StringUtils.isNotBlank(mediateEvidence.getMeetingTime())){
+            this.saveMeeting(mediateEvidence);
+        }
 		if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 
 			Map<String,Object> var=new HashMap<String, Object>();
@@ -282,5 +294,44 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			e.printStackTrace();
 		}
 	}
+    public void clearDomain(MediateEvidence mediateEvidence){
+        mediateEvidence.setMeetingTime("");
+        mediateEvidence.setMeetingAddress("");
+        mediateEvidence.setDoctor("");
+        mediateEvidence.setDoctorUser(new User());
+        mediateEvidence.setUserId("");
+        mediateEvidence.setYtwUser(new User());
+        mediateEvidence.setPatient("");
+    }
+
+    public void saveMeeting(MediateEvidence mediateEvidence){
+        int cishu=mediateProgramDao.getMax(mediateEvidence.getMediateEvidenceId())+1;
+        MediateProgram mediateProgram=new MediateProgram();
+        mediateProgram.setAddress(mediateEvidence.getMeetingAddress());
+        mediateProgram.setMeetingTime(mediateEvidence.getMeetingTime());
+        mediateProgram.setCaseInfo(mediateEvidence.getCaseInfoName());
+        mediateProgram.setDoctor(mediateEvidence.getDoctor());
+        mediateProgram.setUser(new User());
+        mediateProgram.getUser().setId(mediateEvidence.getUserId());
+        mediateProgram.setMediator(mediateEvidence.getUserId());
+        mediateProgram.setClerk(mediateEvidence.getClerk());
+        mediateProgram.setPatient(mediateEvidence.getPatient());
+        mediateProgram.setOther(mediateEvidence.getOther());
+        mediateProgram.preInsert();
+        mediateProgram.setMediateProgramId(mediateProgram.getId());
+        mediateProgram.setMeetingFrequency(String.valueOf(cishu));
+        mediateProgram.setRelationId(mediateEvidence.getMediateEvidenceId());
+        mediateProgramDao.insert(mediateProgram);
+        //保存一条 调解会的 调解志
+        MediateRecord mediateRecord=new MediateRecord();
+        mediateRecord.setTime(mediateEvidence.getMeetingTime());
+        mediateRecord.setContent("调解会");
+        mediateRecord.setResult("");
+        mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
+        mediateRecord.setMediateRecord(IdGen.uuid());
+        mediateRecord.preInsert();
+        mediateRecord.setDelFlag("0");
+        mediateRecordDao.insert(mediateRecord);
+    }
 
 }

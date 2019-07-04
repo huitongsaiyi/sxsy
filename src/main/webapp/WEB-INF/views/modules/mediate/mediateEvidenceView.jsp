@@ -113,12 +113,10 @@
                 <thead>
                 <tr>
                     <th class="hide"></th>
-                    <th width="10">时间</th>
-                    <th width="100">内容</th>
-                    <th width="100">结果</th>
-                    <shiro:hasPermission name="mediate:mediateEvidence:edit">
-                        <th width="100">&nbsp;</th>
-                    </shiro:hasPermission>
+                    <th width="10"  style="text-align: center">时间</th>
+                    <th width="100" style="text-align: center">内容</th>
+                    <th width="100" style="text-align: center">结果</th>
+
                 </tr>
                 </thead>
                 <tbody id="mediateEvidenceList"></tbody>
@@ -129,32 +127,64 @@
             </table>
             <script type="text/template" id="mediateEvidenceTpl">//<!--
 						<tr id="mediateEvidenceList{{idx}}">
-							<td class="hide">
-								<input id="mediateEvidenceList{{idx}}_id" name="mediateEvidenceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="mediateEvidenceList{{idx}}_mediateRecord" name="mediateEvidenceList[{{idx}}].mediateRecord" type="hidden" value="{{row.mediateRecord}}"/>
-								<input id="mediateEvidenceList{{idx}}_relationId" name="mediateEvidenceList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="{{row.delFlag}}"/>
+							<td style="text-align: center">
+							    {{row.time}}
 							</td>
-							<td >
-								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" maxlength="20" class="input-medium Wdate required"
-                                   value="{{row.time}}"
-                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" disabled="disabled"/>
-
+							<td style="text-align: center">
+								{{row.content}}
 							</td>
-							<td>
-								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="required" readonly="readonly"/>
+							<td style="text-align: center">
+							    {{row.result}}
 							</td>
-							<td>
-								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="required" readonly="readonly"/>
-							</td>
-							<shiro:hasPermission name="mediate:mediateEvidence:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
 						</tr>//-->
             </script>
         </div>
         <div class="tab-pane fade" id="meeting">
-            <table class="table-form">
+            <table id="programTable" class="table table-striped table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th class="hide"></th>
+                    <th width="10" style="text-align: center">时间</th>
+                    <th width="10" style="text-align: center">地点</th>
+                    <th width="10" style="text-align: center">调解员</th>
+                    <th width="10" style="text-align: center">书记员</th>
+                    <th width="10" style="text-align: center">医方</th>
+                    <th width="10" style="text-align: center">患方</th>
+                    <th width="10" style="text-align: center">其他</th>
+                    <th width="10" style="text-align: center">会议次数</th>
+                </tr>
+                </thead>
+                <tbody id="mediateProgramList"></tbody>
+            </table>
+            <script type="text/template" id="mediateProgramTpl">//<!--
+						<tr id="mediateProgramList{{idx}}">
+							<td style="text-align: center">
+                                   {{row.meetingTime}}
+							</td>
+							<td style="text-align: center">
+							        {{row.address}}
+							</td>
+							<td style="text-align: center">
+							        {{row.mediatorUser.name}}
+							</td>
+							<td style="text-align: center">
+							        {{row.clerkUser.name}}
+							</td>
+							<td style="text-align: center">
+							        {{row.doctorUser.name}}
+							</td>
+							<td style="text-align: center">
+							        {{row.patient}}
+							</td>
+							<td style="text-align: center">
+							        {{row.other}}
+							</td>
+							<td style="text-align: center">
+							        第{{row.meetingFrequency}}次会议
+							</td>
+						</tr>//-->
+            </script>
+            <%--<table class="table-form">
                 <tr>
                     <td class="tit">时间:</td>
                     <td>
@@ -185,7 +215,7 @@
                             ${mediateEvidence.patient}
                     </td>
                 </tr>
-            </table>
+            </table>--%>
         </div>
         <div class="tab-pane fade" id="recorded_patient">
             <table class="table-form">
@@ -513,6 +543,16 @@
             mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
         }
     });
+
+    var mediateProgramRowIdx = 0, mediateProgramTpl = $("#mediateProgramTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+    $(document).ready(function() {
+        var data = ${fns:toJson(mediateEvidence.mediateProgramList)};
+        for (var i=0; i<data.length; i++){
+            addRow('#mediateProgramList', mediateProgramRowIdx, mediateProgramTpl, data[i]);
+            mediateProgramRowIdx = mediateProgramRowIdx + 1;
+        }
+    });
+
 </script>
 </body>
 </html>

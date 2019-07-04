@@ -95,6 +95,9 @@ public class MediateEvidenceController extends BaseController {
 				model.addAttribute("acceId5",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 		}
+		//每次 进入调解程序 表 是将 查到的置空
+		mediateEvidenceService.clearDomain(mediateEvidence);
+
 		String type = request.getParameter("type");		//接受从页面传回的数据
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");

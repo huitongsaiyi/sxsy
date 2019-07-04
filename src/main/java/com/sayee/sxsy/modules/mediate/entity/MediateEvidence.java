@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
+import com.sayee.sxsy.modules.program.entity.MediateProgram;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
@@ -30,6 +31,9 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private static final long serialVersionUID = 1L;
     private String mediateEvidenceId;        // 质证调解主键
     private String complaintMainId;        // 主表主键
+    private String mediator;		// 调解员
+    private String clerk;		// 书记员
+    private String other;		// 其他
     private String mediateResult;        // 调解结果  1成功 2 失败
     private String summary;        // 会议总结
     private String patient;        // 患方
@@ -48,6 +52,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private User linkEmployee;		// 下一环节人员
     private ComplaintMain complaintMain;        //关联主表
     private List<MediateRecord> mediateEvidenceList = Lists.newArrayList();     //关联调解志子表
+    private List<MediateProgram> mediateProgramList = Lists.newArrayList();     //关联调解程序子表
     private RecordInfo recordInfo;      //关联笔录子表
     private Area area;
     private AuditAcceptance auditAcceptance;
@@ -61,6 +66,38 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
 
     public MediateEvidence(String id) {
         super(id);
+    }
+
+    public List<MediateProgram> getMediateProgramList() {
+        return mediateProgramList;
+    }
+
+    public void setMediateProgramList(List<MediateProgram> mediateProgramList) {
+        this.mediateProgramList = mediateProgramList;
+    }
+
+    public String getMediator() {
+        return mediator;
+    }
+
+    public void setMediator(String mediator) {
+        this.mediator = mediator;
+    }
+
+    public String getClerk() {
+        return clerk;
+    }
+
+    public void setClerk(String clerk) {
+        this.clerk = clerk;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
     }
 
     public MachineAccount getMachineAccount() {

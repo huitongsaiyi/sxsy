@@ -177,33 +177,53 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit">案件:</td>
-                    <td>
-                        <form:input path="caseInfoName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+                    <td class="tit" width="160px">调解员:</td>
+                    <td width="476px">
+                        <sys:treeselect id="userId" name="userId"
+                                        value="${mediateEvidence.userId}" labelName="tjy"
+                                        labelValue="${mediateEvidence.ytwUser.name}"
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
+                                        allowClear="true" notAllowSelectParent="true"   />
                     </td>
-                    <td class="tit">医方:</td>
-                    <td class="controls">
-                        <sys:treeselect id="doctor" name="doctor"
-                                        value="${mediateEvidence.doctor}" labelName=""
-                                        labelValue="${mediateEvidence.doctorUser.name}"
-                                        title="用户" url="/sys/office/treeData?type=3&officeType=2"
-                                        allowClear="true" notAllowSelectParent="true" isAll="true" dataMsgRequired="必填信息" cssClass="required" />
+                    <td class="tit">书记员:</td>
+                    <td >
+                        <sys:treeselect id="clerk" name="clerk"
+                                        value="${mediateEvidence.clerk}" labelName="sjy"
+                                        labelValue=""
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
+                                        allowClear="true" notAllowSelectParent="true" disabled="true"  />
+
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit">医调委人员:</td>
+                    <td class="tit">医方:</td>
+                    <td class="controls">
+                        <sys:treeselect id="doctor" name="doctor"
+                                        value="${mediateEvidence.doctor}" labelName="name"
+                                        labelValue="${mediateEvidence.doctorUser.name}"
+                                        title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true" cssClass="required" dataMsgRequired="必填信息"
+                                        allowClear="true" notAllowSelectParent="true"   />
+
+                    </td>
+                    <td class="tit">患方:</td>
+                    <td>
+                        <form:input path="patient" htmlEscape="false" maxlength="20" class="input-xlarge required"
+                                    value="${mediateEvidence.patient}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <%--<td class="tit">医调委人员:</td>
                     <td>
                         <sys:treeselect id="userId" name="userId"
                                         value="${mediateEvidence.userId}" labelName=""
                                         labelValue="${mediateEvidence.ytwUser.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=1"
                                         allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
-                    </td>
-                    <td class="tit">患方</td>
-                    <td>
-                        <form:input path="patient" htmlEscape="false" maxlength="20" class="input-xlarge required"
-                                    value="${mediateEvidence.patient}"/>
-                    </td>
+                    </td>--%>
+                        <td class="tit">其他:</td>
+                        <td>
+                            <form:input path="other" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+                        </td>
                 </tr>
                 <td colspan="4" style="text-align: center;">
                     <input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="$('#export').val('meeting')">
