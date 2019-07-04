@@ -112,7 +112,7 @@ public class SystemService extends BaseService implements InitializingBean {
 
 	/**
 	 * 通过部门ID获取用户列表，仅返回用户id和name（树查询用户时用）
-	 * @param user
+	 * @param officeId
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -539,7 +539,11 @@ public class SystemService extends BaseService implements InitializingBean {
 			identityService.deleteUser(userId);
 		}
 	}
-	
-	///////////////// Synchronized to the Activiti end //////////////////
+
+    public List<User> findUserByOfficeRoleId(String officeId, String role) {
+			return userDao.findUserByOfficeRoleId(officeId,role);
+    }
+
+    ///////////////// Synchronized to the Activiti end //////////////////
 	
 }

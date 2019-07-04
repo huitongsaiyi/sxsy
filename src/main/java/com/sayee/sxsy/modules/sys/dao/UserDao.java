@@ -20,7 +20,7 @@ public interface UserDao extends CrudDao<User> {
 
 	/**
 	 * 根据登录名称查询用户
-	 * @param loginName
+	 * @param user
 	 * @return
 	 */
 	public User getByLoginName(User user);
@@ -85,4 +85,10 @@ public interface UserDao extends CrudDao<User> {
 	 * @return listmap
 	 */
 	public List getFilePath(@Param("itemId")String itemId);
+	/**
+	 * 通过OfficeId,role获取用户列表，仅返回用户id和name（树查询用户时用）
+	 * @param officeId,role
+	 * @return
+	 */
+	public List<User> findUserByOfficeRoleId(@Param("officeId")String officeId,@Param("role") String role);
 }

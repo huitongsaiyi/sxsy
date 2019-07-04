@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.sys.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -360,7 +361,12 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String officeId,@RequestParam(required=false) String role, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<User> list = systemService.findUserByOfficeId(officeId);
+		List<User> list = new ArrayList<>();
+		if (StringUtils.isNotBlank(role)){
+			list=systemService.findUserByOfficeRoleId(officeId,role);
+		}else{
+			list=systemService.findUserByOfficeId(officeId);
+		}
 		for (int i=0; i<list.size(); i++){
 			User e = list.get(i);
 			Map<String, Object> map = Maps.newHashMap();
