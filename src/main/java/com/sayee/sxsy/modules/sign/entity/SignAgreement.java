@@ -239,7 +239,7 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 		this.insuranceAmount = insuranceAmount;
 	}
 	
-	@Length(min=0, max=20, message="交理赔时间长度必须介于 0 和 20 之间")
+	//@Length(min=0, max=20, message="交理赔时间长度必须介于 0 和 20 之间")
 	public String getClaimSettlementTime() {
 		return claimSettlementTime;
 	}
@@ -247,7 +247,7 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 	public void setClaimSettlementTime(String claimSettlementTime) {
 		this.claimSettlementTime = claimSettlementTime;
 	}
-	@Length(min=1, max=10000, message="交理赔时间长度必须介于 1 和 10000 之间")
+	//@Length(min=1, max=10000, message="交理赔时间长度必须介于 1 和 10000 之间")
 	public String getSummaryOfDisputes() {
 		return summaryOfDisputes;
 	}
@@ -292,7 +292,7 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 		this.agreementExplain = agreementExplain;
 	}
 	
-	@Length(min=0, max=20, message="赔付时间长度必须介于 0 和 20 之间")
+	//@Length(min=0, max=20, message="赔付时间长度必须介于 0 和 20 之间")
 	public String getCompensateTime() {
 		return compensateTime;
 	}

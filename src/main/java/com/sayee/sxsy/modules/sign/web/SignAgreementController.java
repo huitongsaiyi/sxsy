@@ -71,7 +71,28 @@ public class SignAgreementController extends BaseController {
 	@RequiresPermissions("sign:signAgreement:view")
 	@RequestMapping(value = "form")
 	public String form(SignAgreement signAgreement, Model model,HttpServletRequest request) {
+		//协议号
+		if(null==signAgreement.getAgreementNumber()){
+			List<SignAgreement> numx = signAgreementService.findList(signAgreement);
+			if(numx.size()<=1){
+				String code = BaseUtils.getCode("time", "3", "PROPOSAL", "proposal_code");
+				String c1= code.substring(0, 4);
+				signAgreement.setAgreementNumber("晋医人调字["+c1+"]001号");
+			}else{
+//				String proposalCode = list.get(0).getProposalCode();
+				String agreementNumber = numx.get(0).getAgreementNumber();
+				String a=BaseUtils.getCode("time","3","SIGN_AGREEMENT","agreement_number");
+				String c=a.substring(0,4);
+				String d = agreementNumber.substring(11,14);
+				int d1=Integer.valueOf(d);
+				int d2=d1+1;
+				String format = String.format("%0" + 3 + "d", d2);
+				String e=agreementNumber.replace(agreementNumber.substring(6,10),c);
+				String e1=e.replace(e.substring(11,14),format);
+				signAgreement.setAgreementNumber(e1);
 
+			}
+		}
 		//在修改时 拿到 用逗号分割的数据  进行处理
 		List<TypeInfo> tjqk=BaseUtils.getType("3");
 		signAgreementService.label(tjqk,signAgreement.getMediation());
