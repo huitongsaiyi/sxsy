@@ -114,7 +114,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.endTime = endTime;
 	}
 	
-	@Length(min=1, max=100, message="地点长度必须介于 1 和 100 之间")
+	//@Length(min=1, max=100, message="地点长度必须介于 1 和 100 之间")
 	public String getRecordAddress() {
 		return recordAddress;
 	}
@@ -123,7 +123,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.recordAddress = recordAddress;
 	}
 
-	@Length(min=1, max=1000, message="事由长度必须介于 1 和 1000 之间")
+	//@Length(min=1, max=1000, message="事由长度必须介于 1 和 1000 之间")
 	public String getCause() {
 		return cause;
 	}
@@ -150,7 +150,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.noteTaker = noteTaker;
 	}
 	
-	@Length(min=1, max=32, message="患方长度必须介于 1 和 32 之间")
+	//@Length(min=1, max=32, message="患方长度必须介于 1 和 32 之间")
 	public String getPatient() {
 		return patient;
 	}
