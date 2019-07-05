@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.summaryinfo.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -66,15 +67,27 @@ public class SummaryInfoController extends BaseController {
 	public String form(HttpServletRequest request,SummaryInfo summaryInfo, Model model) {
 		String type = request.getParameter("type");
 		//卷宗编号
-		List<SummaryInfo> list = summaryInfoService.findListSummmary(summaryInfo);
-		if(list.size() == 0){
-			summaryInfo.setFileNumber("1000001");
-		}else{
-			String fileNumber=list.get(0).getFileNumber();
-			int a=Integer.valueOf(fileNumber);
-			int b=a+1;
-			summaryInfo.setFileNumber(String.valueOf(b));
+		if(null==summaryInfo.getFileNumber()){
+			List<SummaryInfo> list = summaryInfoService.findListSummmary(summaryInfo);
+			if(list.size()==0){
+				String code = BaseUtils.getCode("time", "4", "SUMMARY_INFO", "file_number");
+				String num=code.substring(0,4);
+				summaryInfo.setFileNumber(num+"-0001");
+			}else{
+				String code1 = BaseUtils.getCode("time", "4", "SUMMARY_INFO", "file_number");
+				String time= code1.substring(0,4);
+				String fileNumber = list.get(0).getFileNumber();
+				String n=fileNumber.substring(5,9);
+				int n1=Integer.valueOf(n);
+				int n2=n1+1;
+				String format = String.format("%0" + 4 + "d", n2);
+				String f = fileNumber.replace(fileNumber.substring(0,4),time);
+				String f1 = f.replace(f.substring(5,9),format);
+				summaryInfo.setFileNumber(f1);
+			}
 		}
+
+
 		//附件
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(summaryInfo.getSummaryId());
 		for(Map<String, Object> map:filePath){
