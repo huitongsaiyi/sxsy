@@ -131,9 +131,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			huanf.setType("1");
 			huanf.setModuleType("2");
 			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
-			huanf.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
- 			huanf.setHost(assessAppraisal.getHosts().getName());
-			huanf.setNoteTaker(assessAppraisal.getClerks().getName());
+			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
+ 			huanf.setHost(assessAppraisal.getHost());
+			huanf.setNoteTaker(assessAppraisal.getClerk());
 			recordInfoDao.insert(huanf);
 			//保存医方笔录
 			RecordInfo yif = assessAppraisal.getRecordInfo1().getYrecordInfo();
@@ -143,10 +143,10 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			yif.setType("2");
 			yif.setModuleType("2");
 			yif.setPatient(assessAppraisal.getComplaintMain().getPatientName());
-			yif.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
+			yif.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
 			yif.setRecordAddress(assessAppraisal.getRecordInfo1().getRecordAddress());
-			yif.setHost(assessAppraisal.getHosts().getName());
-			yif.setNoteTaker(assessAppraisal.getClerks().getName());
+			yif.setHost(assessAppraisal.getHost());
+			yif.setNoteTaker(assessAppraisal.getClerk());
 			yif.setStartTime(assessAppraisal.getRecordInfo1().getStartTime());
 			yif.setEndTime(assessAppraisal.getRecordInfo1().getEndTime());
 			recordInfoDao.insert(yif);
@@ -179,18 +179,18 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			RecordInfo huanf = assessAppraisal.getRecordInfo1();
 			huanf.preUpdate();
 			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
-			huanf.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
-			huanf.setHost(assessAppraisal.getHosts().getName());
-			huanf.setNoteTaker(assessAppraisal.getClerks().getName());
+			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
+			huanf.setHost(assessAppraisal.getHost());
+			huanf.setNoteTaker(assessAppraisal.getClerk());
 			recordInfoDao.update(huanf);
 			//修改医方笔录
 			RecordInfo yif = assessAppraisal.getRecordInfo1().getYrecordInfo();
 			yif.preUpdate();
 			yif.setPatient(assessAppraisal.getComplaintMain().getPatientName());
-			yif.setDoctor(assessAppraisal.getComplaintMain().getHospital().getName());
+			yif.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
 			yif.setRecordAddress(assessAppraisal.getRecordInfo1().getRecordAddress());
-			yif.setHost(assessAppraisal.getHosts().getName());
-			yif.setNoteTaker(assessAppraisal.getClerks().getName());
+			yif.setHost(assessAppraisal.getHost());
+			yif.setNoteTaker(assessAppraisal.getClerk());
 			yif.setStartTime(assessAppraisal.getRecordInfo1().getStartTime());
 			yif.setEndTime(assessAppraisal.getRecordInfo1().getEndTime());
 			recordInfoDao.update(yif);
