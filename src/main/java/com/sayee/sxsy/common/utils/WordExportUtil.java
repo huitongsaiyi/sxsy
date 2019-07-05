@@ -23,12 +23,13 @@ public class WordExportUtil  {
     /**
      * 根据模板生成word
      * @param path     模板的路径
+     * @param savePath    文件保存的路径
      * @param params   需要替换的参数
      * @param tableList   需要插入的参数
      * @param fileName 生成word文件的文件名
      * @param response
      */
-    public void getWord(String path,String tempPath , Map<String, Object> params, List<String[]> tableList, String fileName, HttpServletResponse response) throws Exception {
+    public void getWord(String path,String tempPath ,String savePath, Map<String, Object> params, List<String[]> tableList, String fileName, HttpServletResponse response) throws Exception {
         File file = new File(path);
         InputStream is = new FileInputStream(file);
         CustomXWPFDocument doc = new CustomXWPFDocument(is);
@@ -40,9 +41,12 @@ public class WordExportUtil  {
         this.setStyle(tempXdf,doc);
         this.setTableStyle(tempXdf,doc);
 
+
         OutputStream os = response.getOutputStream();
         response.setHeader("Content-disposition", "attachment; filename=" + fileName);
         doc.write(os);
+        FileOutputStream output=new FileOutputStream(savePath);
+        doc.write(output);
         this.close(os);
         this.close(is);
 

@@ -3,11 +3,19 @@
  */
 package com.sayee.sxsy.modules.auditacceptance.service;
 
+import java.awt.print.Book;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jacob.activeX.ActiveXComponent;
+import com.jacob.com.Dispatch;
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.IdGen;
@@ -23,6 +31,10 @@ import com.sayee.sxsy.modules.mediateapplyinfo.service.MediateApplyInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.printing.PDFPrintable;
+import org.apache.pdfbox.printing.Scaling;
+import org.apache.poi.hpsf.Variant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +44,9 @@ import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.auditacceptance.dao.AuditAcceptanceDao;
 
+import javax.print.PrintService;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.standard.Sides;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -409,21 +424,28 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		if (auditAcceptance.getMediateApplyInfo()==null){
 			auditAcceptance.setMediateApplyInfo(new MediateApplyInfo());
 		}
+		String printName=request.getParameter("printName");
 		String path=request.getServletContext().getRealPath("/");
 		String modelPath=path;
 		String newFileName="无标题文件.docx";
+		String savaPath=path;
+		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("patientAcc".equals(export)){
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/acceptanceP.docx";  //模板文件位置
 			modelPath += "/doc/acceptancePM.docx";
+			savaPath +="/userfiles/audit/acceptanceP.docx";
+			pdfPath +="/userfiles/audit/acceptanceP.pdf";
 			newFileName="患方通知书.docx";
 		}else if("hospitalAcc".equals(export)){
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/acceptanceD.docx";  //模板文件位置
 			modelPath += "/doc/acceptanceDM.docx";
+			savaPath +="/userfiles/audit/acceptanceD.docx";
+			pdfPath +="/userfiles/audit/acceptanceD.pdf";
 			newFileName="医方通知书.docx";
 		}else if("patientDis".equals(export)){
 			params.put("sqr", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getApplyer()) ? "" : auditAcceptance.getMediateApplyInfo().getApplyer());
@@ -432,13 +454,15 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("name", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientName()) ? "" : auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("sex", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientSex()) ? "" : "1".equals(auditAcceptance.getMediateApplyInfo().getPatientSex()) ? "男" :"女");
 			params.put("age", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getPatientAge()) ? "" : auditAcceptance.getMediateApplyInfo().getPatientAge());
-			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getInvolveHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getInvolveHospital());
+			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getInvolveHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getSjOffice().getName());
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyPatient.docx";  //模板文件位置
 			modelPath += "/doc/disputeApplyPatientM.docx";
+			savaPath +="/userfiles/audit/disputeApplyPatient.docx";
+			pdfPath +="/userfiles/audit/disputeApplyPatient.pdf";
 			newFileName="医疗纠纷调解申请书（患方）.docx";
 		}else if("doctorDis".equals(export)){
-			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital());
+			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSqOffice().getName());
 			params.put("agent", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getAgent());
 			params.put("phone", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getHospitalMobile());
 			params.put("patientName", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getPatientName());
@@ -447,6 +471,8 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyDoctor.docx";  //模板文件位置
 			modelPath += "/doc/disputeApplyDoctorM.docx";
+			savaPath +="/userfiles/audit/disputeApplyDoctor.docx";
+			pdfPath +="/userfiles/audit/disputeApplyDoctor.pdf";
 			newFileName="医疗纠纷调解申请书（医方）.docx";
 		}else if("DisAcc".equals(export)){
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
@@ -456,15 +482,134 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/disputeAcceptance.docx";  //模板文件位置
 			modelPath += "/doc/disputeAcceptanceM.docx";
+			savaPath +="/userfiles/audit/disputeAcceptance.docx";
+			pdfPath +="/userfiles/audit/disputeAcceptance.pdf";
 			newFileName="人民调解受理登记表.docx";
+
 		}
 
 		try{
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/audit");
+			if (!file.exists()){
+				file.mkdirs();
+			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,modelPath,params,testList,fileName,response);
+			wordExportUtil.getWord(path,modelPath,savaPath,params,testList,fileName,response);
+			/*wToPdfChange(savaPath,pdfPath);
+			PDFprint(new File(pdfPath),"KONICA MINOLTA XPS Color Laser Class Driver");*/
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+
+	//word转化pdf，传入转换前的文件路径（例："E:\\a.docx"）和转换后的文件路径（例："E:\\a.pdf"）
+	public static void wToPdfChange(String wordFile,String pdfFile){//wordFile word 的路径  //pdfFile pdf 的路径
+
+		ActiveXComponent app = null;
+		System.out.println("开始转换...");
+		// 开始时间
+		// long start = System.currentTimeMillis();
+		try {
+			// 打开word
+			app = new ActiveXComponent("Word.Application");
+			// 获得word中所有打开的文档
+			Dispatch documents = app.getProperty("Documents").toDispatch();
+			System.out.println("打开文件: " + wordFile);
+			// 打开文档
+			Dispatch document = Dispatch.call(documents, "Open", wordFile, false, true).toDispatch();
+			// 如果文件存在的话，不会覆盖，会直接报错，所以我们需要判断文件是否存在
+			File target = new File(pdfFile);
+			if (target.exists()) {
+				target.delete();
+			}
+			System.out.println("另存为: " + pdfFile);
+			Dispatch.call(document, "SaveAs", pdfFile, 17);
+			// 关闭文档
+			Dispatch.call(document, "Close", false);
+		}catch(Exception e) {
+			System.out.println("转换失败"+e.getMessage());
+		}finally {
+			// 关闭office
+			app.invoke("Quit", 0);
+		}
+	}
+
+
+
+	//这里传入的文件为word转化生成的pdf文件
+	public static void PDFprint(File file ,String printerName) throws Exception {
+		PDDocument document = null;
+		try {
+			document = PDDocument.load(file);
+			PrinterJob printJob = PrinterJob.getPrinterJob();
+			printJob.setJobName(file.getName());
+			if (printerName != null) {
+				// 查找并设置打印机
+				//获得本台电脑连接的所有打印机
+				PrintService[] printServices = PrinterJob.lookupPrintServices();                			 if(printServices == null || printServices.length == 0) {
+					System.out.print("打印失败，未找到可用打印机，请检查。");
+					return ;
+				}
+				PrintService printService = null;
+				//匹配指定打印机
+				for (int i = 0;i < printServices.length; i++) {
+					System.out.println(printServices[i].getName());
+					if (printServices[i].getName().contains(printerName)) {
+						printService = printServices[i];
+						break;
+					}
+				}
+				if(printService!=null){
+					printJob.setPrintService(printService);
+				}else{
+					System.out.print("打印失败，未找到名称为" + printerName + "的打印机，请检查。");
+					return ;
+				}
+			}
+			//设置纸张及缩放
+			PDFPrintable pdfPrintable = new PDFPrintable(document, Scaling.ACTUAL_SIZE);
+			//设置多页打印
+			Book book = new Book();
+			PageFormat pageFormat = new PageFormat();
+			//设置打印方向
+			pageFormat.setOrientation(PageFormat.PORTRAIT);//纵向
+			pageFormat.setPaper(getPaper());//设置纸张
+			book.append(pdfPrintable, pageFormat, document.getNumberOfPages());
+			printJob.setPageable(book);
+			printJob.setCopies(1);//设置打印份数
+			//添加打印属性
+			HashPrintRequestAttributeSet pars = new HashPrintRequestAttributeSet();
+			pars.add(Sides.DUPLEX); //设置单双页
+			printJob.print(pars);
+		}finally {
+			if (document != null) {
+				try {
+					document.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public static Paper getPaper() {
+		Paper paper = new Paper();
+		// 默认为A4纸张，对应像素宽和高分别为 595, 842
+		int width = 595;
+		int height = 842;
+		// 设置边距，单位是像素，10mm边距，对应 28px
+		int marginLeft = 10;
+		int marginRight = 0;
+		int marginTop = 10;
+		int marginBottom = 0;
+		paper.setSize(width, height);
+		// 下面一行代码，解决了打印内容为空的问题
+		paper.setImageableArea(marginLeft, marginRight, width - (marginLeft + marginRight), height - (marginTop + marginBottom));
+		return paper;
+	}
+
+
+
+
 }
