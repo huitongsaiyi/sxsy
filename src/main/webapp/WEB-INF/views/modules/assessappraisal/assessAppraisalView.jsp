@@ -68,16 +68,16 @@
             var zztj= document.getElementById("zztjDetail");
             zztj.height=document.documentElement.clientHeight-130;
             zztj.width=document.documentElement.clientWidth;
-            //评估坚定申请
-            $("#pgjdsqDetail").attr("src","${ctx}/assessapply/assessApply/form?id=${map.pgjdsq}&type=view&show2=y");
-            var pgjdsq= document.getElementById("pgjdsqDetail");
-            pgjdsq.height=document.documentElement.clientHeight-130;
-            pgjdsq.width=document.documentElement.clientWidth;
-            //评估鉴定审批
-            $("#pgjdspDetail").attr("src","${ctx}/assessaudit/assessAudit/form?id=${map.pgjdsq}&type=view&show2=y");
-            var pgjdsp= document.getElementById("pgjdspDetail");
-            pgjdsp.height=document.documentElement.clientHeight-130;
-            pgjdsp.width=document.documentElement.clientWidth;
+            <%--//评估坚定申请--%>
+            <%--$("#pgjdsqDetail").attr("src","${ctx}/assessapply/assessApply/form?id=${map.pgjdsq}&type=view&show2=y");--%>
+            <%--var pgjdsq= document.getElementById("pgjdsqDetail");--%>
+            <%--pgjdsq.height=document.documentElement.clientHeight-130;--%>
+            <%--pgjdsq.width=document.documentElement.clientWidth;--%>
+            <%--//评估鉴定审批--%>
+            <%--$("#pgjdspDetail").attr("src","${ctx}/assessaudit/assessAudit/form?id=${map.pgjdsq}&type=view&show2=y");--%>
+            <%--var pgjdsp= document.getElementById("pgjdspDetail");--%>
+            <%--pgjdsp.height=document.documentElement.clientHeight-130;--%>
+            <%--pgjdsp.width=document.documentElement.clientWidth;--%>
             }
         });
     </script>
@@ -1250,12 +1250,12 @@
                 <li>
                     <a href="#zztj" data-toggle="tab">质证调解</a>
                 </li>
-                <li>
-                    <a href="#pgjdsq" data-toggle="tab">评估鉴定申请</a>
-                </li>
-                <li>
-                    <a href="#pgjdsp" data-toggle="tab">评估鉴定审批</a>
-                </li>
+                <%--<li>--%>
+                    <%--<a href="#pgjdsq" data-toggle="tab">评估鉴定申请</a>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<a href="#pgjdsp" data-toggle="tab">评估鉴定审批</a>--%>
+                <%--</li>--%>
             </ul>
             <div id="iframeTabContent" class="tab-content">
                 <div class="tab-pane fade in active" id="tsjd">
@@ -1273,12 +1273,12 @@
                 <div class="tab-pane fade" id="zztj">
                     <iframe id="zztjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
                 </div>
-                <div class="tab-pane fade" id="pgjdsq">
-                    <iframe id="pgjdsqDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="pgjdsp">
-                    <iframe id="pgjdspDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
+                <%--<div class="tab-pane fade" id="pgjdsq">--%>
+                    <%--<iframe id="pgjdsqDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>--%>
+                <%--</div>--%>
+                <%--<div class="tab-pane fade" id="pgjdsp">--%>
+                    <%--<iframe id="pgjdspDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>--%>
+                <%--</div>--%>
             </div>
         </div>
     </div>
