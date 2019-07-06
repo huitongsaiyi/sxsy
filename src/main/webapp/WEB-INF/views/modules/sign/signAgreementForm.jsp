@@ -44,7 +44,7 @@
 					}
 				}
 			});
-			$("#huan").hide();
+
 		}
 		function delRow(obj, prefix,key){
 			var id = $(prefix+key);
@@ -60,7 +60,7 @@
 				$(obj).html("&times;").attr("title", "删除");
 				$(obj).parent().parent().removeClass("error");
 			}
-			$("#huan").show();
+
 		}
 		function clearCheckBox(na,table) {
 			$("#"+table+" tr td input:checkbox").each(function() {
@@ -562,9 +562,6 @@
 		}
 
 		var PatientData = ${fns:toJson(signAgreement.patientLinkEmpList)};
-		if(0!=PatientData.length){
-			$("#huan").hide();
-		}
 		for (var i=0; i<PatientData.length; i++){
 			addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp, PatientData[i]);
 			patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;

@@ -58,11 +58,11 @@
 					<tr>
 						<td class="tit">协议赔付金额</td>
 						<td>
-							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required"/>
+							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
 						</td>
 						<td class="tit">医院赔付金额</td>
 						<td>
-							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge required"/>
+							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" />
 						</td>
 					</tr>
 					<tr>
@@ -74,7 +74,7 @@
 						</td>
 						<td class="tit">保险公司赔付金额</td>
 						<td>
-							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required"/>
+							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
 						</td>
 					</tr>
 					<tr>

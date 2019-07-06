@@ -158,9 +158,9 @@ public class AssessAppraisalController extends BaseController {
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")
 	@RequestMapping(value = "save")
 	public String save(AssessAppraisal assessAppraisal, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if (!beanValidator(model, assessAppraisal)&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getComplaintMain())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getProposal())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
-			return form(assessAppraisal, model,request);
-		}
+//		if (!beanValidator(model, assessAppraisal)&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getComplaintMain())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getProposal())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
+//			return form(assessAppraisal, model,request);
+//		}
 		try{
 			assessAppraisalService.save(assessAppraisal,request);
             machineAccountService.savetz(assessAppraisal.getMachineAccount(), "d", assessAppraisal.getAssessAppraisalId());

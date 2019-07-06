@@ -32,7 +32,9 @@
 		au.policy_number AS "auditAcceptance.policyNumber",
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
-		r.patient_mobile AS "reportRegistration.patientMobile"
+		r.patient_mobile AS "reportRegistration.patientMobile",
+		group_concat(us.name) AS "feedbackEmps.name",
+		group_concat(off.name) AS "feedbackOffices.name"
 	</sql>
 	
 	<sql id="caseFeedbackJoins">
@@ -44,6 +46,8 @@
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+		LEFT JOIN SYS_USER us ON INSTR(a.feedback_emp,us.id)>0 and length(us.id)=32
+		LEFT JOIN SYS_OFFICE off ON INSTR(a.feedback_office,off.id)>0 and length(off.id)=32
 
 	</sql>
     
