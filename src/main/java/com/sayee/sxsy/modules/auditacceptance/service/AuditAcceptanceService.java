@@ -496,117 +496,13 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
 			wordExportUtil.getWord(path,modelPath,savaPath,params,testList,fileName,response);
-			/*wToPdfChange(savaPath,pdfPath);
-			PDFprint(new File(pdfPath),"KONICA MINOLTA XPS Color Laser Class Driver");*/
+			if (StringUtils.isNotBlank(printName)){
+				wordExportUtil.wToPdfChange(savaPath,pdfPath);
+				wordExportUtil.PDFprint(new File(pdfPath),printName);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
-
-	//word转化pdf，传入转换前的文件路径（例："E:\\a.docx"）和转换后的文件路径（例："E:\\a.pdf"）
-	public static void wToPdfChange(String wordFile,String pdfFile){//wordFile word 的路径  //pdfFile pdf 的路径
-
-		ActiveXComponent app = null;
-		System.out.println("开始转换...");
-		// 开始时间
-		// long start = System.currentTimeMillis();
-		try {
-			// 打开word
-			app = new ActiveXComponent("Word.Application");
-			// 获得word中所有打开的文档
-			Dispatch documents = app.getProperty("Documents").toDispatch();
-			System.out.println("打开文件: " + wordFile);
-			// 打开文档
-			Dispatch document = Dispatch.call(documents, "Open", wordFile, false, true).toDispatch();
-			// 如果文件存在的话，不会覆盖，会直接报错，所以我们需要判断文件是否存在
-			File target = new File(pdfFile);
-			if (target.exists()) {
-				target.delete();
-			}
-			System.out.println("另存为: " + pdfFile);
-			Dispatch.call(document, "SaveAs", pdfFile, 17);
-			// 关闭文档
-			Dispatch.call(document, "Close", false);
-		}catch(Exception e) {
-			System.out.println("转换失败"+e.getMessage());
-		}finally {
-			// 关闭office
-			app.invoke("Quit", 0);
-		}
-	}
-
-
-
-	//这里传入的文件为word转化生成的pdf文件
-	public static void PDFprint(File file ,String printerName) throws Exception {
-		PDDocument document = null;
-		try {
-			document = PDDocument.load(file);
-			PrinterJob printJob = PrinterJob.getPrinterJob();
-			printJob.setJobName(file.getName());
-			if (printerName != null) {
-				// 查找并设置打印机
-				//获得本台电脑连接的所有打印机
-				PrintService[] printServices = PrinterJob.lookupPrintServices();                			 if(printServices == null || printServices.length == 0) {
-					System.out.print("打印失败，未找到可用打印机，请检查。");
-					return ;
-				}
-				PrintService printService = null;
-				//匹配指定打印机
-				for (int i = 0;i < printServices.length; i++) {
-					System.out.println(printServices[i].getName());
-					if (printServices[i].getName().contains(printerName)) {
-						printService = printServices[i];
-						break;
-					}
-				}
-				if(printService!=null){
-					printJob.setPrintService(printService);
-				}else{
-					System.out.print("打印失败，未找到名称为" + printerName + "的打印机，请检查。");
-					return ;
-				}
-			}
-			//设置纸张及缩放
-			PDFPrintable pdfPrintable = new PDFPrintable(document, Scaling.ACTUAL_SIZE);
-			//设置多页打印
-			Book book = new Book();
-			PageFormat pageFormat = new PageFormat();
-			//设置打印方向
-			pageFormat.setOrientation(PageFormat.PORTRAIT);//纵向
-			pageFormat.setPaper(getPaper());//设置纸张
-			book.append(pdfPrintable, pageFormat, document.getNumberOfPages());
-			printJob.setPageable(book);
-			printJob.setCopies(1);//设置打印份数
-			//添加打印属性
-			HashPrintRequestAttributeSet pars = new HashPrintRequestAttributeSet();
-			pars.add(Sides.DUPLEX); //设置单双页
-			printJob.print(pars);
-		}finally {
-			if (document != null) {
-				try {
-					document.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	public static Paper getPaper() {
-		Paper paper = new Paper();
-		// 默认为A4纸张，对应像素宽和高分别为 595, 842
-		int width = 595;
-		int height = 842;
-		// 设置边距，单位是像素，10mm边距，对应 28px
-		int marginLeft = 10;
-		int marginRight = 0;
-		int marginTop = 10;
-		int marginBottom = 0;
-		paper.setSize(width, height);
-		// 下面一行代码，解决了打印内容为空的问题
-		paper.setImageableArea(marginLeft, marginRight, width - (marginLeft + marginRight), height - (marginTop + marginBottom));
-		return paper;
 	}
 
 

@@ -26,7 +26,7 @@
                 }
             });
         });
-        
+
         function exportWord() {
             var url='${ctx}'+'/auditacceptance/auditAcceptance/exportWord';
             $.ajax({
@@ -253,7 +253,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc')"/>
+                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc');"/>
+                <input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientAcc'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=patientAcc&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
             </table>
         </div>
         <div class="tab-pane fade" id="hospitalS">
@@ -471,7 +472,7 @@
                         <form:textarea path="mediateApplyInfo.docMediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
-               <tr >
+                <tr >
                     <td colspan="4">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1034,12 +1035,12 @@
             </td>
         </tr>
         <tr>
-            <%--<td class="tit"><font color="red">*</font>--%>
+                <%--<td class="tit"><font color="red">*</font>--%>
                 <%--下一处理环节：--%>
-            <%--</td>--%>
-            <%--<td>--%>
+                <%--</td>--%>
+                <%--<td>--%>
                 <%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge"/>--%>
-            <%--</td>--%>
+                <%--</td>--%>
             <td class="tit"><font color="red">*</font>
                 下一环节处理人：
             </td>

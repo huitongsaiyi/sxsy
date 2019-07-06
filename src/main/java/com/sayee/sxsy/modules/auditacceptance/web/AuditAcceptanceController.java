@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.auditacceptance.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.auditacceptance.dao.AuditAcceptanceDao;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -149,8 +150,9 @@ public class AuditAcceptanceController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request, AuditAcceptance auditAcceptance, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
-		if (!export.equals("no")){
-			auditAcceptanceService.exportWord(auditAcceptance,export,request,response);
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
+			AuditAcceptance audit=auditAcceptanceService.get(auditAcceptance.getAuditAcceptanceId());
+			auditAcceptanceService.exportWord(audit,export,request,response);
 			return "";
 		}else {
 			if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo()))  ){
