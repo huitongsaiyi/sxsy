@@ -56,6 +56,10 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
     private String handlePass;          //处理经过
     private String complaintType;       //投诉类别
     private String typeName;            //投诉类型名称
+	private String receptionEndDate;	//接待结束时间
+	private String handleWay;			//处理方式
+	private String shiftHandle;			//转办科室
+	private String shiftHandleName;		//转办科室名称
 
 	public ComplaintInfo() {
 		super();
@@ -65,7 +69,40 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		super(id);
 	}
 
-    public String getTypeName() {
+	public String getShiftHandleName() {
+		return shiftHandleName;
+	}
+
+	public void setShiftHandleName(String shiftHandleName) {
+		this.shiftHandleName = shiftHandleName;
+	}
+
+	public String getHandleWay() {
+		return handleWay;
+	}
+
+
+	public void setHandleWay(String handleWay) {
+		this.handleWay = handleWay;
+	}
+
+	public String getShiftHandle() {
+		return shiftHandle;
+	}
+
+	public void setShiftHandle(String shiftHandle) {
+		this.shiftHandle = shiftHandle;
+	}
+
+	public String getReceptionEndDate() {
+		return receptionEndDate;
+	}
+
+	public void setReceptionEndDate(String receptionEndDate) {
+		this.receptionEndDate = receptionEndDate;
+	}
+
+	public String getTypeName() {
         return typeName;
     }
 

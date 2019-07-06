@@ -46,7 +46,15 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	
 	@Transactional(readOnly = false)
 	public void save(ComplaintMain complaintMain) {
-		super.save(complaintMain);
+		if(StringUtils.isBlank(complaintMain.getComplaintMainId())){
+			complaintMain.preInsert();
+			complaintMain.setComplaintMainId(complaintMain.getId());
+			dao.insert(complaintMain);
+		}else{
+			complaintMain.preUpdate();
+			dao.update(complaintMain);
+		}
+//		super.save(complaintMain);
 	}
 	
 	@Transactional(readOnly = false)

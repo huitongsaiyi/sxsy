@@ -84,6 +84,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.mediator = mediator;
     }
 
+    @Length(min = 0, max = 100, message = "书记员长度必须介于 0 和 100 之间")
     public String getClerk() {
         return clerk;
     }
@@ -92,6 +93,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.clerk = clerk;
     }
 
+    @Length(min = 0, max = 100, message = "其他长度必须介于 0 和 100 之间")
     public String getOther() {
         return other;
     }
@@ -107,6 +109,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     public void setMachineAccount(MachineAccount machineAccount) {
         this.machineAccount = machineAccount;
     }
+
 
     public User getDoctorUser() {
         return doctorUser;
@@ -179,7 +182,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     public void setComplaintMain(ComplaintMain complaintMain) {
         this.complaintMain = complaintMain;
     }
-    @Length(min = 1, max = 100, message = "医调委人员长度必须介于 1 和 100 之间")
+    @Length(min = 0, max = 100, message = "医调委人员长度必须介于 0 和 100 之间")
     public String getUserId() {
         return userId;
     }
@@ -231,7 +234,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.ytwUser = ytwUser;
     }
 
-    @Length(min = 1, max = 100, message = "患方长度必须介于 1 和 100 之间")
+    @Length(min = 0, max = 100, message = "患方长度必须介于 0 和 100 之间")
     public String getPatient() {
         return patient;
     }
@@ -240,7 +243,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.patient = patient;
     }
 
-    @Length(min = 1, max = 200, message = "医方长度必须介于 1 和 200 之间")
+    @Length(min = 0, max = 200, message = "医方长度必须介于 0 和 200 之间")
     public String getDoctor() {
         return doctor;
     }
@@ -258,7 +261,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.caseInfoName = caseInfoName;
     }
 
-    @Length(min = 1, max = 100, message = "地点长度必须介于 1 和 100 之间")
+    @Length(min = 0, max = 100, message = "地点长度必须介于 0 和 100 之间")
     public String getMeetingAddress() {
         return meetingAddress;
     }
@@ -267,7 +270,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.meetingAddress = meetingAddress;
     }
 
-    @Length(min = 1, max = 20, message = "会议时间长度必须介于 1 和 20 之间")
+    @Length(min = 0, max = 20, message = "会议时间长度必须介于 0 和 20 之间")
     public String getMeetingTime() {
         return meetingTime;
     }

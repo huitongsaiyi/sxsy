@@ -39,6 +39,7 @@ public class Office extends TreeEntity<Office> {
 	private User primaryPerson;//主负责人
 	private User deputyPerson;//副负责人
 	private List<String> childDeptList;//快速添加子部门
+	private String remarks;		//备注
 
 
 	public String getName1() { return name1; }
@@ -57,6 +58,16 @@ public class Office extends TreeEntity<Office> {
 
 	public List<String> getChildDeptList() {
 		return childDeptList;
+	}
+
+	@Override
+	public String getRemarks() {
+		return remarks;
+	}
+
+	@Override
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	public void setChildDeptList(List<String> childDeptList) {

@@ -19,7 +19,7 @@
 		a.phone, 
 		a.fax, 
 		a.email, 
-		a.remarks,
+		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date,
 		a.update_by AS "updateBy.id",
@@ -80,6 +80,16 @@
 		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
+		ORDER BY a.code
+	</select>
+
+	<select id="findByRemarksIdsLike" resultType="Office">
+		SELECT
+		<include refid="officeColumns"/>
+		FROM SYS_OFFICE a
+		<include refid="officeJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
+		AND a.remarks = #{remarks}
 		ORDER BY a.code
 	</select>
 

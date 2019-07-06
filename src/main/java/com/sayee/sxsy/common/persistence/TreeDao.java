@@ -26,5 +26,10 @@ public interface TreeDao<T extends TreeEntity<T>> extends CrudDao<T> {
 	 * @return
 	 */
 	public int updateParentIds(T entity);
-	
+	/**
+	 *
+	 *
+	 *
+	 */
+	public List<T> findByRemarksIdsLike(T entity);
 }
