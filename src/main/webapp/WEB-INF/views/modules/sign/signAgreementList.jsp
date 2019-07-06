@@ -60,7 +60,7 @@
 				<th class="sort-column a.ratify_accord" style="text-align:center;">签署协议/判决时间</th>
 				<th class="sort-column a.agreement_amount" style="text-align:center;">协议金额</th>
 				<th class="sort-column a.insurance_amount" style="text-align:center;">保险金额</th>
-				<th class="sort-column a.compensate_time" style="text-align:center;">赔付时间</th>
+				<%--<th class="sort-column a.compensate_time" style="text-align:center;">赔付时间</th>--%>
 				<th class="sort-column a.create_date" style="text-align:center;">创建时间</th>
 				<th class="sort-column a.update_date" style="text-align:center;">更新时间</th>
 				<shiro:hasPermission name="sign:signAgreement:edit"><th style="text-align:center;">操作</th></shiro:hasPermission>
@@ -121,9 +121,9 @@
 				<td style="text-align:center;">
 						${signAgreement.insuranceAmount}
 				</td>
-				<td style="text-align:center;">
-						${signAgreement.compensateTime}
-				</td>
+				<%--<td style="text-align:center;">--%>
+						<%--${signAgreement.compensateTime}--%>
+				<%--</td>--%>
 				<td style="text-align:center;">
 					<fmt:formatDate value="${signAgreement.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

@@ -874,7 +874,7 @@
                                 <input type="hidden" id="files13" name="files13" htmlEscape="false" class="input-xlarge"
                                        value="${files13}"/>
                                 <input type="hidden" id="acceId13" name="acceId13" value="${acceId13}">
-                                <div style="margin-top: -45px;"><sys:ckfinder input="files12" type="files"
+                                <div style="margin-top: -45px;"><sys:ckfinder input="files13" type="files"
                                                                               uploadPath="/AuditAcceptance/Doctor/Proxy" selectMultiple="true"/></div>
                             </td>
                         </tr>

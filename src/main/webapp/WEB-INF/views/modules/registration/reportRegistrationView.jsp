@@ -135,9 +135,20 @@
                                 ${reportRegistration.complaintMain.hospital.name}
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>医院等级：</td>
-                    <td>
-                        ${reportRegistration.complaintMain.hospitalGrade}
-                    </td>
+                    <c:choose>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='1'}">
+                            <td>特等</td>
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='2'}">
+                            <td>甲等</td>
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='3'}">
+                            <td>乙等</td>
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='4'}">
+                            <td>丙等</td>
+                        </c:when>
+                    </c:choose>
                 </tr>
                 <tr>
                     <td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
@@ -145,9 +156,19 @@
                             ${reportRegistration.complaintMain.department.name}
                     </td>
                     <td class="tit" width="199px"><font color="red">*</font>医院级别：</td>
-                    <td>
-                        ${reportRegistration.complaintMain.hospitalLevel}
-                    </td>
+                    <c:choose>
+                        <c:when test="${reportRegistration.complaintMain.hospitalLevel=='1'}">
+                            <td>一级</td>
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalLevel=='2'}">
+                            <td>二级</td>
+                        </c:when>
+                        <c:when test="${reportRegistration.complaintMain.hospitalLevel=='3'}">
+                            <td>三级</td>
+                        </c:when>
+                    </c:choose>
+
+
                 </tr>
                 <tr >
                     <td class="tit"><font color="red">*</font>涉及人员：</td>

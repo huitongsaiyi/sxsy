@@ -47,7 +47,7 @@
 		<div class="control-group">
 			<label class="control-label">反馈给人员：</label>
 			<div class="controls">
-				<sys:treeselect id="feedbackEmp" name="caseFeedBackIds" value="${caseFeedback.caseFeedBackIds}" labelName="oaNotifyRecordNames" labelValue="${caseFeedback.oaNotifyRecordNames}"
+				<sys:treeselect id="feedbackEmp" name="feedbackEmp" value="${caseFeedback.feedbackEmp}" labelName="" labelValue="${caseFeedback.feedbackEmps.name}"
 					title="用户" url="/sys/office/treeData?type=3&officeType=1" isAll="false" cssClass="input-xxlarge required" allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
 				<span class="helper"><font color="red">*</font></span>
 			</div>
@@ -55,7 +55,7 @@
 		<div class="control-group">
 			<label class="control-label">反馈给部门：</label>
 			<div class="controls">
-				<sys:treeselect id="feedbackOffice" name="caseFeedOfficeIds" value="${caseFeedback.caseFeedOfficeIds}" labelName="oaNotifyOfficeNames" labelValue="${caseFeedback.oaNotifyOfficeNames}"
+				<sys:treeselect id="feedbackOffice" name="feedbackOffice" value="${caseFeedback.feedbackOffice}" labelName="" labelValue="${caseFeedback.feedbackOffices.name}"
 					title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="input-xxlarge required" allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
 				<span class="helper"><font color="red">*</font></span>
 			</div>

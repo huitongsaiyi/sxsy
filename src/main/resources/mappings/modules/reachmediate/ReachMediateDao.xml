@@ -22,7 +22,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		u5.name AS "ytwUser.name",u6.name AS "doctorUser.name",
+	    group_concat(u5.name) AS "ytwUser.name",
+		u6.name AS "doctorUser.name",
 		r.record_id AS "recordInfo.recordId",yr.record_id AS "recordInfo.yrecordInfo.recordId",
   	    r.start_time AS "recordInfo.startTime", r.end_time AS "recordInfo.endTime",
   	    r.address AS "recordInfo.recordAddress", r.cause AS "recordInfo.cause", r.host AS "recordInfo.host",
@@ -68,7 +69,7 @@
 		LEFT JOIN SYS_USER uz1 ON uz1.id = yr.host
 		LEFT JOIN SYS_USER uj1 ON uj1.id=yr.note_taker
 		LEFT JOIN SYS_USER uy1 ON uy1.id=yr.doctor
-		LEFT JOIN SYS_USER u5 ON u5.id = a.rea_user_id
+		LEFT JOIN SYS_USER u5 ON INSTR(a.rea_user_id,u5.id)>0 and length(u5.id)=32
 		LEFT JOIN SYS_USER u6 ON u6.id = a.rea_doctor
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
@@ -200,5 +201,4 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE reach_mediate_id = #{reachMediateId}
 	</update>
-	
 </mapper>

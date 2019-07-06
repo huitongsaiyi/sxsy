@@ -36,13 +36,26 @@ public class CaseFeedback extends DataEntity<CaseFeedback> {
 	private ReportRegistration reportRegistration;//报案人姓名
 	private User linkEmployee;
 	private User user;  //当前登陆人
-	private List<User> listUser = Lists.newArrayList();		//反馈人员姓名
-	private List<Office> listOffice = Lists.newArrayList();		//反馈部门名
-	private String caseFeedBackIds;
-	private String caseFeedOfficeIds;
 	private Office office;
+	private User feedbackEmps;//反馈给人员
+	private Office feedbackOffices;//反馈给部门
 
-	
+	public Office getFeedbackOffices() {
+		return feedbackOffices;
+	}
+
+	public void setFeedbackOffices(Office feedbackOffices) {
+		this.feedbackOffices = feedbackOffices;
+	}
+
+	public User getFeedbackEmps() {
+		return feedbackEmps;
+	}
+
+	public void setFeedbackEmps(User feedbackEmps) {
+		this.feedbackEmps = feedbackEmps;
+	}
+
 	public CaseFeedback() {
 		super();
 	}
@@ -59,60 +72,13 @@ public class CaseFeedback extends DataEntity<CaseFeedback> {
 		this.office = office;
 	}
 
-	public String getCaseFeedBackIds() {
-		return Collections3.extractToString(listUser, "id", ",") ;
-	}
-
-	public void setCaseFeedOfficeIds(String feedbackOffice){
-		this.listOffice = Lists.newArrayList();
-		for(String id: StringUtils.split(feedbackOffice,",")){
-			this.listOffice.add(this.getOffice());
-		}
-	}
-
-	public String getCaseFeedOfficeIds() {
-		return Collections3.extractToString(listOffice, "id", ",") ;
-	}
-
-	public void setCaseFeedBackIds(String feedbackEmp){
-		this.listUser = Lists.newArrayList();
-		for(String id: StringUtils.split(feedbackEmp,",")){
-			this.listUser.add(this.getUser());
-		}
-	}
-
-	public String getOaNotifyOfficeNames() {
-		return Collections3.extractToString(listOffice, "name", ",") ;
-	}
-
 	public void setOaNotifyOfficeNames(String oaNotifyRecord) {
 		// 什么也不做
-	}
-
-	public String getOaNotifyRecordNames() {
-		return Collections3.extractToString(listUser, "name", ",") ;
 	}
 
 	public void setOaNotifyRecordNames(String oaNotifyRecord) {
 		// 什么也不做
 	}
-
-	public List<Office> getListOffice() {
-		return listOffice;
-	}
-
-	public void setListOffice(List<Office> listOffice) {
-		this.listOffice = listOffice;
-	}
-
-	public List<User> getListUser() {
-		return listUser;
-	}
-
-	public void setListUser(List<User> listUser) {
-		this.listUser = listUser;
-	}
-
 	public AuditAcceptance getAuditAcceptance() {
 		return auditAcceptance;
 	}
