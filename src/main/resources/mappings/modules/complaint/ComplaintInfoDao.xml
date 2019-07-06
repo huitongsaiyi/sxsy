@@ -19,6 +19,9 @@
 		a.summary_of_disputes AS "summaryOfDisputes",
 		a.visitor_date AS "visitorDate",
 		a.complaint_mode AS "complaintMode",
+		a.handle_way AS "handleWay",
+		a.shift_handle AS "shiftHandle",
+
 		a.is_major AS "isMajor",
 		a.appeal AS "appeal",
 		a.reception_employee AS "receptionEmployee",
@@ -55,7 +58,8 @@
 		b.update_date AS "complaintMain.updateDate",
 		b.del_flag AS "complaintMain.delFlag",
 		b.source AS  "complaintMain.source",
-		t.name AS "typeName"
+		t.name AS "typeName",
+		o6.name AS "shiftHandleName"
 	</sql>
 	
 	<sql id="complaintInfoJoins">
@@ -68,6 +72,7 @@
 		LEFT JOIN SYS_USER u2 ON u2.id = a.next_link_man
 		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id AND source = '2'
 		LEFT JOIN TEST_TREE t ON t.id = a.complaint_type
+		LEFT JOIN SYS_OFFICE o6 ON  o6.id = a.shift_handle
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">
@@ -121,6 +126,9 @@
 					<if test="dbName == 'mssql'">'%'+#{involveDepartment}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{involveDepartment},'%')</if>
 			</if>
+			<if test="receptionDate != null and receptionDate != '' or receptionEndDate != null and receptionEndDate != ''">
+				AND (a.reception_date BETWEEN #{receptionDate} AND #{receptionEndDate})
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -167,6 +175,8 @@
 			summary_of_disputes,
 			visitor_date,
 			complaint_mode,
+			handle_way,
+			shift_handle,
 			is_major,
 			appeal,
 			reception_employee,
@@ -195,6 +205,8 @@
 			#{summaryOfDisputes},
 			#{visitorDate},
 			#{complaintMode},
+			#{handleWay},
+			#{shiftHandle},
 			#{isMajor},
 			#{appeal},
 			#{receptionEmployee},
@@ -227,6 +239,8 @@
 			summary_of_disputes = #{summaryOfDisputes},
 			visitor_date = #{visitorDate},
 			complaint_mode = #{complaintMode},
+			handle_way = #{handleWay},
+			shift_handle = #{shiftHandle},
 			is_major = #{isMajor},
 			appeal = #{appeal},
 			reception_employee = #{receptionEmployee},

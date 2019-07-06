@@ -22,20 +22,32 @@
 					}
 				}
 			});
-			var value='${complaintInfo.isMediate}';
+			var value='${complaintInfo.shiftHandle}';
 			if(value==''){
 			    value = 0;
             }
             next(value);
         });
         function next(value) {
-            if(value==1){
+            if(value==2){
                 document.getElementById("btnSubmit1").style.display="inline";
                 document.getElementById("btnSubmit").style.display="none";
-            }else if (value==0){
+            }else{
                 document.getElementById("btnSubmit1").style.display="none";
                 document.getElementById("btnSubmit").style.display="inline";
             }
+
+            if(value==1){
+                $("<td id='shiftBody' class='tit'>转办科室:</td>").insertAfter("#handleWay");
+				$("#shiftHandle").show();
+                // document.getElementById("shiftHead").style.display="inline";
+                // document.getElementById("shiftHandle").style.display="inline";
+			}else{
+                $("#shiftBody").remove();
+                $("#shiftHandle").hide();
+                // document.getElementById("shiftHead").style.display="none";
+                // document.getElementById("shiftHandle").style.display="none";
+			}
         }
 	</script>
 </head>
@@ -122,8 +134,7 @@
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
-							<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"
-											title="部门" url="/sys/office/treeData?type=2&officeType=2" pid="involveHospital" isAll="true" cssClass="required" dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true" disabled="true"/>
+
 						</td>
 					</tr>
 					<tr >
@@ -168,6 +179,17 @@
 					<form:option value="1">是</form:option>
 				</form:select>
 			</td>
+			<td class="hidden">
+				<sys:treeselect id='shiftHandle' name='shiftHandle' value='${complaintInfo.shiftHandle}' labelName='shiftHandleName' labelValue='${complaintInfo.shiftHandleName}' title='部门' url='/sys/office/treeData?type=2&officeType=2'
+								pid='${fns:getUser().company.id}' isAll='true' cssClass='required' dataMsgRequired='请选择科室' allowClear='true' notAllowSelectParent='true' disabled='true'/>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit">投诉类别：</td>
+			<td>
+				<sys:treeselect id="complaintType" name="complaintType" value="${complaintInfo.complaintType}" labelName="typeName" labelValue="${complaintInfo.typeName}" title="调解类别"
+								url="/test/testTree/treeData" isAll="true" allowClear="true" notAllowSelectParent="true"/>
+			</td>
 		</tr>
 		<tr>
 			<td class="tit"><font color="red">*</font>投诉纠纷概要：</td>
@@ -180,6 +202,21 @@
 			<td colspan="3">
 				<form:textarea path="appeal" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 939px; height: 24px;"/>
 			</td>
+		</tr>
+		<tr>
+			<td  class="tit">处理方式：</td>
+			<td id="handleWay">
+				<form:select path="handleWay" style='width:110px;text-align: center;' onchange="next(this.value)">
+					<form:option value="0">当面处理</form:option>
+					<form:option value="1">转办处理</form:option>
+					<form:option value="2">转调解处理</form:option>
+				</form:select>
+			</td>
+			<td id="shiftHandle">
+				<sys:treeselect id="shiftHandle" name="shiftHandle" value="${complaintInfo.shiftHandle}" labelName="shiftHandleName" labelValue="${complaintInfo.shiftHandleName}" title="部门" url="/sys/office/treeData?type=2&officeType=2"
+								pid="${fns:getUser().company.id}" isAll="true" cssClass="required" dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true" disabled="true"/>
+			</td>
+
 		</tr>
 		<tr>
 			<td class="tit"><font color="red">*</font>处理经过</td>
@@ -209,21 +246,15 @@
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 			</td>
 		</tr>
-        <tr>
-            <td class="tit">投诉类别：</td>
-            <td>
-                <sys:treeselect id="complaintType" name="complaintType" value="${complaintInfo.complaintType}" labelName="typeName" labelValue="${complaintInfo.typeName}" title="调解类别"
-								url="/test/testTree/treeData" isAll="true" allowClear="true" notAllowSelectParent="true"/>
-            </td>
-        </tr>
+
 		<tr>
-			<td class="tit"><font color="red">*</font>是否进入医调委调解：</td>
-			<td>
-				<form:select id="isMediate" path="isMediate" style='width:110px;text-align: center;' onchange="next(this.value)">
-					<form:option value="0">否</form:option>
-					<form:option value="1">是</form:option>
-				</form:select>
-			</td>
+			<%--<td class="tit"><font color="red">*</font>是否进入医调委调解：</td>--%>
+			<%--<td>--%>
+				<%--<form:select id="isMediate" path="isMediate" style='width:110px;text-align: center;' >--%>
+					<%--<form:option value="0">否</form:option>--%>
+					<%--<form:option value="1">是</form:option>--%>
+				<%--</form:select>--%>
+			<%--</td>--%>
 			<%--<td class="hidden"><font color="red">*</font>下一处理环节：</td>--%>
 			<%--<td class="hidden">--%>
 				<%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>

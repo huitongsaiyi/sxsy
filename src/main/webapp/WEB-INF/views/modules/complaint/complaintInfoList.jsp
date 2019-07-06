@@ -46,6 +46,15 @@
 				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"
 					title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" pid="involveHospital" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
+			<li><label>接待日期：</label>
+				<input name="receptionDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="${complaintInfo.receptionDate}"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd 0:0',isShowClear:true});"/>
+				　--　
+				<input id="receptionEndDate" name="receptionEndDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
+					   value="${complaintInfo.receptionEndDate}"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd 23:59'});"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -119,7 +128,7 @@
 				</td>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><td>
 					<c:if test="${complaintInfo.isMediate ne 1}">
-    				<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">修改</a>
+    				<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">处理</a>
 					<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.complaintId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
 					</c:if>
 				</td></shiro:hasPermission>

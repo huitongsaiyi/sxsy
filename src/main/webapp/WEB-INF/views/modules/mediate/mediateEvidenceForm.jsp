@@ -23,8 +23,11 @@
                     } else {
                         error.insertAfter(element);
                     }
+
                 }
+
             });
+            removeCssClass();
         });
 
         function page(n, s) {
@@ -68,6 +71,30 @@
         function synValue(val,id) {
             $("#"+id).text(val);
         }
+        function removeCssClass(){
+            if($("#meetingTime").hasClass("required")==true){
+                $("#meetingTime").removeClass("required");
+            }
+            if($("#meetingAddress").hasClass("required")==true){
+                $("#meetingAddress").removeClass("required");
+            }
+            if($("#userIdName").hasClass("required")==true){
+                $("#userIdName").removeClass("required");
+            }
+            if($("#clerkName").hasClass("required")==true){
+                $("#clerkName").removeClass("required");
+            }
+            if($("#doctorName").hasClass("required")==true){
+                $("#doctorName").removeClass("required");
+            }
+            if($("#patient").hasClass("required")==true){
+                $("#patient").removeClass("required");
+            }
+            if($("#other").hasClass("required")==true){
+                $("#other").removeClass("required");
+            }
+        }
+
 
     </script>
 </head>
@@ -166,14 +193,15 @@
                 <tr>
                     <td class="tit">时间:</td>
                     <td>
-                        <input name="meetingTime" type="text" readonly="readonly" maxlength="20"
+                        <input id="meetingTime" name="meetingTime" type="text" readonly="readonly" maxlength="20"
                                class="input-medium Wdate required"
                                value="${mediateEvidence.meetingTime}"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
+                                onchange="changeClass()"/>
                     </td>
                     <td class="tit">地点:</td>
                     <td>
-                        <form:input path="meetingAddress" htmlEscape="false" maxlength="20" class="input-xlarge required" />
+                        <form:input id="meetingAddress" path="meetingAddress" htmlEscape="false" maxlength="20" class="input-xlarge required" />
                     </td>
                 </tr>
                 <tr>
@@ -207,7 +235,7 @@
                     </td>
                     <td class="tit">患方:</td>
                     <td>
-                        <form:input path="patient" htmlEscape="false" maxlength="20" class="input-xlarge required"
+                        <form:input id="patient" path="patient" htmlEscape="false" maxlength="20" class="input-xlarge required"
                                     value="${mediateEvidence.patient}"/>
                     </td>
                 </tr>
@@ -222,7 +250,7 @@
                     </td>--%>
                         <td class="tit">其他:</td>
                         <td>
-                            <form:input path="other" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+                            <form:input id="other" path="other" htmlEscape="false" maxlength="20" class="input-xlarge "/>
                         </td>
                 </tr>
                 <td colspan="4" style="text-align: center;">
@@ -581,6 +609,50 @@
             mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
         }
     });
+    function changeClass(){
+
+        if($("#meetingTime").hasClass("required")==true){
+            $("#meetingTime").removeClass("required");
+        }else{
+            $("#meetingTime").addClass("required");
+        }
+
+        if($("#meetingAddress").hasClass("required")==true){
+            $("#meetingAddress").removeClass("required");
+        }else{
+            $("#meetingAddress").addClass("required");
+        }
+
+        if($("#userIdName").hasClass("required")==true){
+            $("#userIdName").removeClass("required");
+        }else{
+            $("#userIdName").addClass("required");
+        }
+
+        if($("#clerkName").hasClass("required")==true){
+            $("#clerkName").removeClass("required");
+        }else{
+            $("#clerkName").addClass("required");
+        }
+
+        if($("#doctorName").hasClass("required")==true){
+            $("#doctorName").removeClass("required");
+        }else{
+            $("#doctorName").addClass("required");
+        }
+
+        if($("#patient").hasClass("required")==true){
+            $("#patient").removeClass("required");
+        }else{
+            $("#patient").addClass("required");
+        }
+
+        if($("#other").hasClass("required")==true){
+            $("#other").removeClass("required");
+        }else{
+            $("#other").addClass("required");
+        }
+    }
 </script>
 </body>
 </html>
