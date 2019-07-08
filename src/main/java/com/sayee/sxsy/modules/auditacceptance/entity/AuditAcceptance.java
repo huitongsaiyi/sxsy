@@ -32,6 +32,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	private String policyNumber;		// 保单号
 	private String diagnosisMode;		// 诊疗方式
 	private String treatmentOutcome;		// 治疗结果
+	private String summaryOfDisputes;		// 纠纷概要
 	private String handlePeople;		// 处理人
 	private String handleTime;		// 处理日期
 	private String nextLink;		// 下一处理环节
@@ -186,7 +187,15 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	public void setTreatmentOutcome(String treatmentOutcome) {
 		this.treatmentOutcome = treatmentOutcome;
 	}
-	
+
+	public String getSummaryOfDisputes() {
+		return summaryOfDisputes;
+	}
+
+	public void setSummaryOfDisputes(String summaryOfDisputes) {
+		this.summaryOfDisputes = summaryOfDisputes;
+	}
+
 	@Length(min=1, max=32, message="处理人长度必须介于 1 和 32 之间")
 	public String getHandlePeople() {
 		return handlePeople;
