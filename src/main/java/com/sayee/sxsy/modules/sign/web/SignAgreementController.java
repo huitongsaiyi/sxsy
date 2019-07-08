@@ -47,7 +47,6 @@ public class SignAgreementController extends BaseController {
 	SummaryInfoService summaryInfoService;
     @Autowired
     private MachineAccountService machineAccountService;
-
 	@ModelAttribute
 	public SignAgreement get(@RequestParam(required=false) String id) {
 		SignAgreement entity = null;
@@ -73,22 +72,26 @@ public class SignAgreementController extends BaseController {
 	public String form(SignAgreement signAgreement, Model model,HttpServletRequest request) {
 		//协议号
 		if(null==signAgreement.getAgreementNumber()){
-			List<SignAgreement> numx = signAgreementService.findList(signAgreement);
-			if(numx.size()<=1){
+			List<SignAgreement> numx = signAgreementService.selectAgreementNumber(signAgreement);
+			if(numx.size()==0){
 				String code = BaseUtils.getCode("time", "3", "PROPOSAL", "proposal_code");
 				String c1= code.substring(0, 4);
 				signAgreement.setAgreementNumber("晋医人调字["+c1+"]001号");
 			}else{
-//				String proposalCode = list.get(0).getProposalCode();
-				String agreementNumber = numx.get(0).getAgreementNumber();
+				int max=0;
+				for(int i=0;i<numx.size();i++){
+					String agreementNumber = numx.get(i).getAgreementNumber();
+					String d = agreementNumber.substring(11,14);
+					int d1=Integer.valueOf(d);
+					if(d1>max){
+						max=d1;
+					}
+				}
+				int d2=max+1;
 				String a=BaseUtils.getCode("time","3","SIGN_AGREEMENT","agreement_number");
 				String c=a.substring(0,4);
-				String d = agreementNumber.substring(11,14);
-				int d1=Integer.valueOf(d);
-				int d2=d1+1;
 				String format = String.format("%0" + 3 + "d", d2);
-				String e=agreementNumber.replace(agreementNumber.substring(6,10),c);
-				String e1=e.replace(e.substring(11,14),format);
+				String e1="晋医人调字["+c+"]"+format+"号";
 				signAgreement.setAgreementNumber(e1);
 
 			}
@@ -146,7 +149,7 @@ public class SignAgreementController extends BaseController {
 		}
 		try {
 			signAgreementService.save(request,signAgreement);
-            machineAccountService.savetz(signAgreement.getMachineAccount(), "e", signAgreement.getSignAgreementId());
+            machineAccountService.savetz(signAgreement.getMachineAccount(),"si",signAgreement.getSignAgreementId());
 			if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + signAgreement.getComplaintMain().getProcInsId());
 			}else {

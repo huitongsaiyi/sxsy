@@ -74,15 +74,20 @@ public class SummaryInfoController extends BaseController {
 				String num=code.substring(0,4);
 				summaryInfo.setFileNumber(num+"-0001");
 			}else{
+				int max=0;
+				for (int i=0;i<list.size();i++) {
+					String fileNumber = list.get(i).getFileNumber();
+					String n=fileNumber.substring(5,9);
+					int n1=Integer.valueOf(n);
+					if(n1>max){
+						max=n1;
+					}
+				}
+				int n2=max+1;
+				String format = String.format("%0" + 4 + "d", n2);
 				String code1 = BaseUtils.getCode("time", "4", "SUMMARY_INFO", "file_number");
 				String time= code1.substring(0,4);
-				String fileNumber = list.get(0).getFileNumber();
-				String n=fileNumber.substring(5,9);
-				int n1=Integer.valueOf(n);
-				int n2=n1+1;
-				String format = String.format("%0" + 4 + "d", n2);
-				String f = fileNumber.replace(fileNumber.substring(0,4),time);
-				String f1 = f.replace(f.substring(5,9),format);
+				String f1 =time+"-"+format;
 				summaryInfo.setFileNumber(f1);
 			}
 		}

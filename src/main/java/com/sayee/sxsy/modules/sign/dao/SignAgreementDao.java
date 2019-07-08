@@ -7,6 +7,8 @@ import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 
+import java.util.List;
+
 /**
  * 签署协议DAO接口
  * @author zhangfan
@@ -14,5 +16,5 @@ import com.sayee.sxsy.modules.sign.entity.SignAgreement;
  */
 @MyBatisDao
 public interface SignAgreementDao extends CrudDao<SignAgreement> {
-	
+	public List<SignAgreement> selectAgreementNumber(SignAgreement signAgreement);
 }

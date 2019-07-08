@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.perform.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -36,7 +37,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "${adminPath}/perform/performAgreement")
 public class PerformAgreementController extends BaseController {
-
+	@Autowired
+	private MachineAccountService machineAccountService;
 	@Autowired
 	private PerformAgreementService performAgreementService;
 	@Autowired
@@ -93,6 +95,7 @@ public class PerformAgreementController extends BaseController {
 	public String save(HttpServletRequest request,PerformAgreement performAgreement, Model model, RedirectAttributes redirectAttributes) {
 		try {
 			performAgreementService.save(performAgreement);
+			machineAccountService.savetz(performAgreement.getMachineAccount(),"per",performAgreement.getPerformAgreementId());
 			performAgreementService.savefj(request,performAgreement);
 			if("yes".equals(performAgreement.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes,"流程已启动，流程ID："+performAgreement.getComplaintMain().getProcInsId());

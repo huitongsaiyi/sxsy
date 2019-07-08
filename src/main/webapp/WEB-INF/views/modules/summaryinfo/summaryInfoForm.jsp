@@ -43,6 +43,7 @@
 		<form:hidden path="complaintMain.act.procDefId"/>
 		<form:hidden path="complaintMain.procInsId"/>
 		<form:hidden id="flag" path="complaintMain.act.flag"/>
+		<form:hidden path="fileNumber"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
@@ -59,7 +60,7 @@
 				<tr>
 					<td style="text-align: center;" >卷宗编号:</td>
 					<td >
-						<form:input path="fileNumber" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
+						${summaryInfo.fileNumber}
 					</td>
 				</tr>
 				<tr>

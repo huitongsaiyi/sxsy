@@ -30,6 +30,7 @@ import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sign.dao.SignAgreementDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
 
 /**
  * 签署协议Service
@@ -45,7 +46,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
 	private PatientLinkEmpDao patientLinkEmpDao;
-
+	@Autowired
+	SignAgreementDao signAgreementDao;
 	@Autowired
 	private MedicalOfficeEmpDao medicalOfficeEmpDao;
 	public SignAgreement get(String id) {
@@ -302,5 +304,10 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		}else{
 			preOperativeConsentService.delefj(itemId,fjtype4);
 		}
+	}
+	//查询编号
+	public List<SignAgreement> selectAgreementNumber(SignAgreement signAgreement){
+	 	List<SignAgreement> signAgreements = signAgreementDao.selectAgreementNumber(signAgreement);
+	 	return signAgreements;
 	}
 }
