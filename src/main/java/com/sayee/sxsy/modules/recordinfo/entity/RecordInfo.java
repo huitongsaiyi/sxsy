@@ -34,6 +34,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 	private User ytwHost;  //医调委的主持人实体类
 	private User ytwNoteTaker;  //医调委的记录人实体类
 	private User yfDoctor;  //医方实体类
+	private Office yfOffice;	//医方公司实体类
 	private RecordInfo yrecordInfo;		//医方笔录
 
 
@@ -44,6 +45,14 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 
 	public RecordInfo(String id){
 		super(id);
+	}
+
+	public Office getYfOffice() {
+		return yfOffice;
+	}
+
+	public void setYfOffice(Office yfOffice) {
+		this.yfOffice = yfOffice;
 	}
 
 	public User getYtwHost() {

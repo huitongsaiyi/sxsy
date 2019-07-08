@@ -5,61 +5,96 @@
 	<title>达成调解管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			//$("#name").focus();
-			$("#inputForm").validate({
-				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
-				},
-				errorContainer: "#messageBox",
-				errorPlacement: function(error, element) {
-					$("#messageBox").text("输入有误，请先更正。");
-					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-						error.appendTo(element.parent().parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-		});
-		function page(n, s) {
-			$("#pageNo").val(n);
-			$("#pageSize").val(s);
-			$("#searchForm").submit();
-			return false;
-		}
-		function addRow(list, idx, tpl, row){
-			$(list).append(Mustache.render(tpl, {
-				idx: idx, delBtn: true, row: row
-			}));
-			$(list+idx).find("select").each(function(){
-				$(this).val($(this).attr("data-value"));
-			});
-			$(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
-				var ss = $(this).attr("data-value").split(',');
-				for (var i=0; i<ss.length; i++){
-					if($(this).val() == ss[i]){
-						$(this).attr("checked","checked");
-					}
-				}
-			});
-		}
-		function delRow(obj, prefix){
-			var id = $(prefix+"_mediateRecord");
-			var delFlag = $(prefix+"_delFlag");
-			if (id.val() == ""){
-				$(obj).parent().parent().remove();
-			}else if(delFlag.val() == "0"){
-				delFlag.val("1");
-				$(obj).html("&divide;").attr("title", "撤销删除");
-				$(obj).parent().parent().addClass("error");
-			}else if(delFlag.val() == "1"){
-				delFlag.val("0");
-				$(obj).html("&times;").attr("title", "删除");
-				$(obj).parent().parent().removeClass("error");
-			}
-		}
+        $(document).ready(function () {
+            //$("#name").focus();
+            $("#inputForm").validate({
+                submitHandler: function (form) {
+                    var aa=$("#export").val();
+                    if(aa!='meeting'){
+                        loading('正在提交，请稍等...');
+                    }
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+
+                }
+
+            });
+            removeCssClass();
+        });
+
+        function page(n, s) {
+            $("#pageNo").val(n);
+            $("#pageSize").val(s);
+            $("#searchForm").submit();
+            return false;
+        }
+        function addRow(list, idx, tpl, row){
+            $(list).append(Mustache.render(tpl, {
+                idx: idx, delBtn: true, row: row
+            }));
+            $(list+idx).find("select").each(function(){
+                $(this).val($(this).attr("data-value"));
+            });
+            $(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
+                var ss = $(this).attr("data-value").split(',');
+                for (var i=0; i<ss.length; i++){
+                    if($(this).val() == ss[i]){
+                        $(this).attr("checked","checked");
+                    }
+                }
+            });
+        }
+        function delRow(obj, prefix,key){
+            var id = $(prefix+key);
+            var delFlag = $(prefix+"_delFlag");
+            if (id.val() == ""){
+                $(obj).parent().parent().remove();
+            }else if(delFlag.val() == "0"){
+                delFlag.val("1");
+                $(obj).html("&divide;").attr("title", "撤销删除");
+                $(obj).parent().parent().addClass("error");
+            }else if(delFlag.val() == "1"){
+                delFlag.val("0");
+                $(obj).html("&times;").attr("title", "删除");
+                $(obj).parent().parent().removeClass("error");
+            }
+        }
+
+        function synValue(val,id) {
+            $("#"+id).text(val);
+        }
+        function removeCssClass(){
+            if($("#meetingTime").hasClass("required")==true){
+                $("#meetingTime").removeClass("required");
+            }
+            if($("#meetingAddress").hasClass("required")==true){
+                $("#meetingAddress").removeClass("required");
+            }
+            if($("#userIdName").hasClass("required")==true){
+                $("#userIdName").removeClass("required");
+            }
+            if($("#clerkName").hasClass("required")==true){
+                $("#clerkName").removeClass("required");
+            }
+            if($("#doctorName").hasClass("required")==true){
+                $("#doctorName").removeClass("required");
+            }
+            if($("#patient").hasClass("required")==true){
+                $("#patient").removeClass("required");
+            }
+            if($("#other").hasClass("required")==true){
+                $("#other").removeClass("required");
+            }
+        }
+
 
 	</script>
 </head>
@@ -83,6 +118,25 @@
 	<form:hidden path="complaintMain.act.procDefId"/>
 	<form:hidden path="complaintMain.procInsId"/>
 	<form:hidden id="flag" path="complaintMain.act.flag"/>
+	<form:hidden path="reaDoctor"/>
+	<form:hidden path="doctorOffice.id"/>
+	<form:hidden path="recordInfo.startTime"/>
+	<form:hidden path="recordInfo.endTime"/>
+	<form:hidden path="recordInfo.recordAddress"/>
+	<form:hidden path="recordInfo.patient"/>
+	<form:hidden path="recordInfo.yrecordInfo.startTime"/>
+	<form:hidden path="recordInfo.yrecordInfo.endTime"/>
+	<form:hidden path="recordInfo.yrecordInfo.recordAddress"/>
+	<form:hidden path="recordInfo.yrecordInfo.patient"/>
+	<form:hidden path="recordInfo.host"/>
+	<form:hidden path="recordInfo.noteTaker"/>
+	<form:hidden path="recordInfo.doctor"/>
+	<form:hidden path="recordInfo.yrecordInfo.host"/>
+	<form:hidden path="recordInfo.yrecordInfo.noteTaker"/>
+	<form:hidden path="recordInfo.yrecordInfo.doctor"/>
+	<form:hidden path="recordInfo.yrecordInfo.ytwHost.name"/>
+
+	<input type="hidden"  id="export" name="export"/>
 	<sys:message content="${message}"/>
 	<ul id="myTab" class="nav nav-tabs">
 		<li class="active">
@@ -118,10 +172,10 @@
 				<tbody id="mediateEvidenceList"></tbody>
 				<shiro:hasPermission name="reachmediate:reachMediate:edit">
 					<tfoot>
-					<tr><td colspan="7"><a href="javascript:" onclick="addRow('#mediateEvidenceList', reachMediateRowIdx, reachMediateTpl);reachMediateRowIdx = reachMediateRowIdx + 1;" class="btn">新增</a></td></tr>
+					<tr><td colspan="7"><a href="javascript:" onclick="addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl);mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;" class="btn">新增</a></td></tr>
 					</tfoot></shiro:hasPermission>
 			</table>
-			<script type="text/template" id="reachMediateTpl">//<!--
+			<script type="text/template" id="mediateEvidenceTpl">//<!--
 						<tr id="mediateEvidenceList{{idx}}">
 							<td class="hide">
 								<input id="mediateEvidenceList{{idx}}_id" name="mediateEvidenceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -131,9 +185,10 @@
 							</td>
 							<td >
 								<%--<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" value="{{row.time}}" maxlength="32" class="input-small "/>--%>
-								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" "
+								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text"  maxlength="20" class="input-medium Wdate required" "
                                     value="{{row.time}}"
                                     onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+
 							</td>
 							<td>
 								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="required" />
@@ -142,126 +197,493 @@
 								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="required" />
 							</td>
 							<shiro:hasPermission name="reachmediate:reachMediate:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}','_mediateRecord')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 			</script>
 		</div>
 		<div class="tab-pane fade" id="meeting">
 			<table class="table-form">
-				<tr>
-					<td class="tit">时间:</td>
-					<td>
-						<input name="reaMeetingTime" type="text" readonly="readonly" maxlength="20"
+				<p style="margin:0pt; text-align:center">
+					<span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">山西省医疗纠纷人民调解委员会</span>
+				<p style="margin:0 auto ;width: 270px;">
+					<span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;">医疗纠纷调解会工作程序</span>
+				</p>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                        <input id="reaMeetingTime" name="reaMeetingTime" type="text" readonly="readonly" maxlength="20"
 							   class="input-medium Wdate required"
 							   value="${reachMediate.reaMeetingTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-					</td>
-					<td class="tit">地点:</td>
-					<td>
-						<form:input path="reaAddress" htmlEscape="false" maxlength="20" class="input-xlarge required" />
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">案件:</td>
-					<td>
-						<form:input path="reaCaseInfo" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
-					</td>
-					<td class="tit">医方:</td>
-					<td class="controls">
-						<sys:treeselect id="reaDoctor" name="reaDoctor"
-										value="${reachMediate.reaDoctor}" labelName=""
-										labelValue="${reachMediate.doctorUser.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="required"
-										allowClear="true" isAll="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">医调委人员:</td>
-					<td>
-						<sys:treeselect id="reaUserId" name="reaUserId"
-										value="${reachMediate.reaUserId}" labelName=""
-										labelValue="${reachMediate.ytwUser.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
-										allowClear="true" notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>
-					</td>
-					<td class="tit">患方</td>
-					<td>
-						<form:input path="reaPatient" htmlEscape="false" maxlength="20" class="input-xlarge required"
-									value="${reachMediate.reaPatient}"/>
-					</td>
-				</tr>
-				<td style="text-align: center;"><input id="btnGenerate" class="btn" type="button" value="生成会议表"></td>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
+							   onchange="changeClass()"/>
+                    </span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">地点：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                            <form:input id="reaAddress" path="reaAddress" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+                    </span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">一、介绍医调委、患方、医方的身份</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医调委：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                            <sys:treeselect id="reaUserId" name="reaUserId"
+											value="${reachMediate.reaUserId}" labelName="tjy"
+											labelValue="${reachMediate.ytwUser.name}"
+											title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
+											allowClear="true" notAllowSelectParent="true" />
+                    </span>
+					<span style="font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
+                            <sys:treeselect id="reaClerk" name="reaClerk"
+											value="${reachMediate.reaClerk}" labelName="sjy"
+											labelValue=""
+											title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
+											allowClear="true" notAllowSelectParent="true" disabled="true"  />
+                    </span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                            <form:input id="reaPatient" path="reaPatient" htmlEscape="false" maxlength="20" class="input-xlarge required"
+										value="${reachMediate.reaPatient}"/>
+                    </span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+							${empty reachMediate.doctorOffice.name?reachMediate.complaintMain.hospital.name:reachMediate.doctorOffice.name}
+					</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">二、医患双方确认以上参会人员身份有无要求回避</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">三、宣读有关纪律及注意事项：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、双方当事人及工作人员酒后不的参会，会议中不得吸烟、不得中途退场、不得当众喧哗。保持会场安静，遵守会场秩序。</span>
+
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、参会人应当将通讯工具关闭或调至静音状态（请大家配合一下）。会议期间不得录音、录像。</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、一方陈述时，对方及其他参会人员不的发言，需要补充时，需在当事人（代理人）结束发言后，经主持人同意方可进行补充。发言时不得使用人身攻击言语及过激的言语。</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提供的证据应当真实、合法、有效，不得伪造、毁灭证据，妨碍调解人员正确作出调解。</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、不得以暴力，威胁或者其他方法阻碍调解人员执行职务。</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、对于有不良行为的参加人，山西省医疗纠纷人民调解委员会将责令其退出会议室。</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">四、宣布纠纷当事人在人民调解活动中享有的权利：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（一）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 选择或者接受人民调解员；</span>
+
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（二）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 接受调解、拒绝调解或者要求终止调解；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（三）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 要求调解公开进行或者不公开进行；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（四）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 自主表达意愿、自愿达成调解协议。</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">五、宣布纠纷当事人在人民调解活动中履行下列义务：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（一）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 如实陈述纠纷事实；</span>
+
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（二）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 遵守调解现场秩序，尊重人民调解员；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（三）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 尊重对方当事人行使权力；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、以上宣读内容听清楚了吗？</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">七、开始调解</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、患方及其代理人陈述主要事实、医方过错及诉求，提交相关证据；</span>
+
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医方及其代理人陈述，针对患方提出问题进行答辩，提交相关证据；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员总结双方争议要点；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患双方就争议要点进行辩论；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员调解；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患各方最后陈述；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员总结；</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">八、宣布调解结束</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方署名：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方署名：</span>
+				</p>
+				<p style="margin:0pt">
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">调解员署名：</span>
+				</p>
+				<td colspan="4" style="text-align: center;">
+					<input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="$('#export').val('meeting')">
+				</td>
 			</table>
 		</div>
 		<div class="tab-pane fade" id="recorded_patient">
 			<table class="table-form">
-				<tr>
-					<td class="tit">开始时间</td>
-					<td>
-						<input name="recordInfo.startTime" type="text" readonly="readonly" maxlength="20"
-							   class="input-medium Wdate required"
-							   value="${reachMediate.recordInfo.startTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-					</td>
-					<td class="tit">结束时间</td>
-					<td>
-						<input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
-							   class="input-medium Wdate required"
-							   value="${reachMediate.recordInfo.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">地点</td>
-					<td>
-						<form:input path="recordInfo.recordAddress" htmlEscape="false" maxlength="20"
-									class="input-xlarge required"/>
-					</td>
-					<td class="tit">事由</td>
-					<td>
-						<form:input path="recordInfo.cause" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">主持人</td>
-					<td>
-						<sys:treeselect id="h_host" name="recordInfo.host"
-										value="${reachMediate.recordInfo.host}" labelName=""
-										labelValue="${reachMediate.recordInfo.ytwHost.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
-										allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
-					</td>
-					<td class="tit">记录人</td>
-					<td>
-						<sys:treeselect id="h_noteTaker" name="recordInfo.noteTaker"
-										value="${reachMediate.recordInfo.noteTaker}" labelName=""
-										labelValue="${reachMediate.recordInfo.ytwNoteTaker.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
-										allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">患方</td>
-					<td>
-						<form:input path="recordInfo.patient" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
-					</td>
-					<td class="tit">医方</td>
-					<td>
-						<sys:treeselect id="h_doctor" name="recordInfo.doctor"
-										value="${reachMediate.recordInfo.doctor}" labelName=""
-										labelValue="${reachMediate.recordInfo.yfDoctor.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="required"
-										allowClear="true" isAll="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">其他参加人员</td>
-					<td>
-						<form:input path="recordInfo.otherParticipants" htmlEscape="false" maxlength="20"
-									class="input-xlarge "/>
-					</td>
-				</tr>
+					<%--<tr>--%>
+					<%--<td class="tit">开始时间</td>--%>
+					<%--<td>--%>
+					<%--<input name="recordInfo.startTime" type="text" readonly="readonly" maxlength="20"--%>
+					<%--class="input-medium Wdate required"--%>
+					<%--value="${mediateEvidence.recordInfo.startTime}"--%>
+					<%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>--%>
+					<%--</td>--%>
+					<%--<td class="tit">结束时间</td>--%>
+					<%--<td>--%>
+					<%--<input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"--%>
+					<%--class="input-medium Wdate required"--%>
+					<%--value="${mediateEvidence.recordInfo.endTime}"--%>
+					<%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>--%>
+					<%--</td>--%>
+					<%--</tr>--%>
+					<%--<tr>--%>
+					<%--<td class="tit">地点</td>--%>
+					<%--<td>--%>
+					<%--<form:input path="recordInfo.recordAddress" htmlEscape="false" maxlength="20"--%>
+					<%--class="input-xlarge required"/>--%>
+					<%--</td>--%>
+					<%--<td class="tit">事由</td>--%>
+					<%--<td>--%>
+					<%--<form:input path="recordInfo.cause" htmlEscape="false" maxlength="20" class="input-xlarge required"/>--%>
+					<%--</td>--%>
+					<%--</tr>--%>
+					<%--<tr>--%>
+					<%--<td class="tit">主持人</td>--%>
+					<%--<td>--%>
+					<%--<sys:treeselect id="h_host" name="recordInfo.host"--%>
+					<%--value="${mediateEvidence.recordInfo.host}" labelName=""--%>
+					<%--labelValue="${mediateEvidence.recordInfo.ytwHost.name}"--%>
+					<%--title="用户" url="/sys/office/treeData?type=3&officeType=1"--%>
+					<%--allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />--%>
+					<%--</td>--%>
+					<%--<td class="tit">记录人</td>--%>
+					<%--<td>--%>
+					<%--<sys:treeselect id="h_noteTaker" name="recordInfo.noteTaker"--%>
+					<%--value="${mediateEvidence.recordInfo.noteTaker}" labelName=""--%>
+					<%--labelValue="${mediateEvidence.recordInfo.ytwNoteTaker.name}"--%>
+					<%--title="用户" url="/sys/office/treeData?type=3&officeType=1"--%>
+					<%--allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />--%>
+					<%--</td>--%>
+					<%--</tr>--%>
+					<%--<tr>--%>
+					<%--<td class="tit">患方</td>--%>
+					<%--<td>--%>
+					<%--<form:input path="recordInfo.patient" htmlEscape="false" maxlength="20" class="input-xlarge required"/>--%>
+					<%--</td>--%>
+					<%--<td class="tit">医方</td>--%>
+					<%--<td>--%>
+					<%--<sys:treeselect id="h_doctor" name="recordInfo.doctor"--%>
+					<%--value="${mediateEvidence.recordInfo.doctor}" labelName=""--%>
+					<%--labelValue="${mediateEvidence.recordInfo.yfDoctor.name}"--%>
+					<%--title="用户" url="/sys/office/treeData?type=3&officeType=2"--%>
+					<%--allowClear="true" notAllowSelectParent="true" isAll="true" dataMsgRequired="必填信息" cssClass="required" />--%>
+					<%--</td>--%>
+					<%--</tr>--%>
+					<%--<tr>--%>
+					<%--<td class="tit">其他参加人员</td>--%>
+					<%--<td>--%>
+					<%--<form:input path="recordInfo.otherParticipants" htmlEscape="false" maxlength="20"--%>
+					<%--class="input-xlarge required"/>--%>
+					<%--</td>--%>
+					<%--</tr>--%>
 				<tr>
 					<td class="tit">笔录内容</td>
 					<td colspan="3">
@@ -273,74 +695,74 @@
 		</div>
 		<div class="tab-pane fade" id="recorded_doctor">
 			<table class="table-form">
-				<tr>
-					<td class="tit">开始时间</td>
-					<td>
-						<input name="recordInfo.yrecordInfo.startTime" type="text" readonly="readonly" maxlength="20"
-							   class="input-medium Wdate required"
-							   value="${reachMediate.recordInfo.yrecordInfo.startTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-					</td>
-					<td class="tit">结束时间</td>
-					<td>
-						<input name="recordInfo.yrecordInfo.endTime" type="text" readonly="readonly" maxlength="20"
-							   class="input-medium Wdate required"
-							   value="${reachMediate.recordInfo.yrecordInfo.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">地点</td>
-					<td>
-						<form:input path="recordInfo.yrecordInfo.recordAddress" htmlEscape="false" maxlength="20"
-									class="input-xlarge required"/>
-					</td>
-					<td class="tit">事由</td>
-					<td>
-						<form:input path="recordInfo.yrecordInfo.cause" htmlEscape="false" maxlength="20"
-									class="input-xlarge required"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">主持人</td>
-					<td>
-						<sys:treeselect id="y_host" name="recordInfo.yrecordInfo.host"
-										value="${reachMediate.recordInfo.yrecordInfo.host}" labelName=""
-										labelValue="${reachMediate.recordInfo.yrecordInfo.ytwHost.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
-										allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
-					</td>
-					<td class="tit">记录人</td>
-					<td>
-						<sys:treeselect id="y_noteTaker" name="recordInfo.yrecordInfo.noteTaker"
-										value="${reachMediate.recordInfo.yrecordInfo.noteTaker}" labelName=""
-										labelValue="${reachMediate.recordInfo.yrecordInfo.ytwNoteTaker.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
-										allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">患方</td>
-					<td>
-						<form:input path="recordInfo.yrecordInfo.patient" htmlEscape="false" maxlength="20"
-									class="input-xlarge required"/>
-					</td>
-					<td class="tit">医方</td>
-					<td>
-						<sys:treeselect id="y_doctor" name="recordInfo.yrecordInfo.doctor"
-										value="${reachMediate.recordInfo.yrecordInfo.doctor}" labelName=""
-										labelValue="${reachMediate.recordInfo.yrecordInfo.yfDoctor.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=2" cssClass="required"
-										allowClear="true" isAll="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">其他参加人员</td>
-					<td>
-						<form:input path="recordInfo.yrecordInfo.otherParticipants" htmlEscape="false" maxlength="20"
-									class="input-xlarge required"/>
-					</td>
-				</tr>
+					<%--<tr>
+                        <td class="tit">开始时间</td>
+                        <td id="d_startTime">
+                            &lt;%&ndash;<input name="recordInfo.yrecordInfo.startTime" type="text" readonly="readonly" maxlength="20"
+                                   class="input-medium Wdate required"
+                                   value="${mediateEvidence.recordInfo.yrecordInfo.startTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>&ndash;%&gt;
+                        </td>
+                        <td class="tit">结束时间</td>
+                        <td>
+                            <input name="recordInfo.yrecordInfo.endTime" type="text" readonly="readonly" maxlength="20"
+                                   class="input-medium Wdate required"
+                                   value="${mediateEvidence.recordInfo.yrecordInfo.endTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">地点</td>
+                        <td>
+                            <form:input path="recordInfo.yrecordInfo.recordAddress" htmlEscape="false" maxlength="20"
+                                        class="input-xlarge required"/>
+                        </td>
+                        <td class="tit">事由</td>
+                        <td>
+                            <form:input path="recordInfo.yrecordInfo.cause" htmlEscape="false" maxlength="20"
+                                        class="input-xlarge required"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">主持人</td>
+                        <td>
+                            <sys:treeselect id="y_host" name="recordInfo.yrecordInfo.host"
+                                            value="${mediateEvidence.recordInfo.yrecordInfo.host}" labelName=""
+                                            labelValue="${mediateEvidence.recordInfo.yrecordInfo.ytwHost.name}"
+                                            title="用户" url="/sys/office/treeData?type=3&officeType=1"
+                                            allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
+                        </td>
+                        <td class="tit">记录人</td>
+                        <td>
+                            <sys:treeselect id="y_noteTaker" name="recordInfo.yrecordInfo.noteTaker"
+                                            value="${mediateEvidence.recordInfo.yrecordInfo.noteTaker}" labelName=""
+                                            labelValue="${mediateEvidence.recordInfo.yrecordInfo.ytwNoteTaker.name}"
+                                            title="用户" url="/sys/office/treeData?type=3&officeType=1"
+                                            allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">患方</td>
+                        <td>
+                            <form:input path="recordInfo.yrecordInfo.patient" htmlEscape="false" maxlength="20"
+                                        class="input-xlarge required"/>
+                        </td>
+                        <td class="tit">医方</td>
+                        <td>
+                            <sys:treeselect id="y_doctor" name="recordInfo.yrecordInfo.doctor"
+                                            value="${mediateEvidence.recordInfo.yrecordInfo.doctor}" labelName=""
+                                            labelValue="${mediateEvidence.recordInfo.yrecordInfo.yfDoctor.name}"
+                                            title="用户" url="/sys/office/treeData?type=3&officeType=2"
+                                            allowClear="true" notAllowSelectParent="true" isAll="true" dataMsgRequired="必填信息" cssClass="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">其他参加人员</td>
+                        <td>
+                            <form:input path="recordInfo.yrecordInfo.otherParticipants" htmlEscape="false" maxlength="20"
+                                        class="input-xlarge required"/>
+                        </td>
+                    </tr>--%>
 				<tr>
 					<td class="tit">笔录内容</td>
 					<td colspan="3">
@@ -364,7 +786,7 @@
 						<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/mediate/mediateEvidence/sign" selectMultiple="false"
+						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/reach/reachMeadiate/sign" selectMultiple="false"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
@@ -379,7 +801,7 @@
 						<input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
 							<%--<form:hidden id="files1" path="files1" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files" uploadPath="/mediate/mediateEvidence/huanRecord"
+						<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files" uploadPath="/reach/reachMeadiate/huanRecord"
 																	  selectMultiple="false"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
@@ -395,7 +817,7 @@
 						<input type="hidden" id="acceId3" name="acceId3" value="${acceId3}">
 							<%--<form:hidden id="files2" path="files2" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files" uploadPath="/mediate/mediateEvidence/huanAdd"
+						<div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files" uploadPath="/reach/reachMeadiate/huanAdd"
 																	  selectMultiple="false"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
@@ -411,7 +833,7 @@
 						<input type="hidden" id="acceId4" name="acceId4" value="${acceId4}">
 							<%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files" uploadPath="/mediate/mediateEvidence/yiRecord"
+						<div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files" uploadPath="/reach/reachMeadiate/yiRecord"
 																	  selectMultiple="false"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
@@ -427,7 +849,7 @@
 						<input type="hidden" id="acceId5" name="acceId5" value="${acceId5}">
 							<%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files" uploadPath="/mediate/mediateEvidence/yiAdd"
+						<div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files" uploadPath="/reach/reachMeadiate/yiAdd"
 																	  selectMultiple="false"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
@@ -439,17 +861,10 @@
 		<tr>
 			<td class="tit">调解结果</td>
 			<td>
-				<form:select path="reaMediateResult" cssStyle="width: 180px">
+				<form:select path="reaSummary" cssStyle="width: 180px">
 					<form:option value="1">成功</form:option>
 					<form:option value="2">失败</form:option>
 				</form:select>
-			</td>
-		</tr>
-		<tr>
-			<td class="tit">会议总结</td>
-			<td colspan="3">
-				<form:textarea path="reaSummary" htmlEscape="false" class="input-xlarge required"
-							   style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
 		<tr>
@@ -474,12 +889,12 @@
 	<act:histoicFlow procInsId="${reachMediate.complaintMain.procInsId}" />
 </form:form>
 <script type="text/javascript">
-	var reachMediateRowIdx = 0, reachMediateTpl = $("#reachMediateTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+	var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
 	$(document).ready(function() {
 		var data = ${fns:toJson(reachMediate.mediateEvidenceList)};
 		for (var i=0; i<data.length; i++){
-			addRow('#mediateEvidenceList', reachMediateRowIdx, reachMediateTpl, data[i]);
-			reachMediateRowIdx = reachMediateRowIdx + 1;
+			addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl, data[i]);
+			mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
 		}
 	});
 </script>

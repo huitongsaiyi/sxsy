@@ -168,10 +168,10 @@
 							        {{row.mediatorUser.name}}
 							</td>
 							<td style="text-align: center">
-							        {{row.clerkUser.name}}
+							        {{row.clerkuser.name}}
 							</td>
 							<td style="text-align: center">
-							        {{row.doctorUser.name}}
+							        {{row.doctorOffice.name}}
 							</td>
 							<td style="text-align: center">
 							        {{row.patient}}
@@ -234,37 +234,37 @@
                     <td>
                             ${mediateEvidence.recordInfo.recordAddress}
                     </td>
-                    <td class="tit">事由</td>
-                    <td>
-                            ${mediateEvidence.recordInfo.cause}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">主持人</td>
+                    <%--<td class="tit">事由</td>--%>
+                    <%--<td>--%>
+                            <%--${mediateEvidence.recordInfo.cause}--%>
+                    <%--</td>--%>
+                    <td class="tit">调解员</td>
                     <td>
                             ${mediateEvidence.recordInfo.ytwHost.name}
                     </td>
-                    <td class="tit">记录人</td>
+                </tr>
+                <tr>
+                    <td class="tit">书记员</td>
                     <td>
                             ${mediateEvidence.recordInfo.ytwNoteTaker.name}
                     </td>
-                </tr>
-                <tr>
                     <td class="tit">患方</td>
                     <td>
                             ${mediateEvidence.recordInfo.patient}
                     </td>
-                    <td class="tit">医方</td>
-                    <td>
-                            ${mediateEvidence.recordInfo.yfDoctor.name}
-                    </td>
                 </tr>
                 <tr>
-                    <td class="tit">其他参加人员</td>
+                    <td class="tit">医方</td>
                     <td>
-                            ${mediateEvidence.recordInfo.otherParticipants}
+                            ${mediateEvidence.recordInfo.yfOffice.name}
                     </td>
                 </tr>
+                <%--<tr>--%>
+                    <%--&lt;%&ndash;<td class="tit">其他参加人员</td>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<td>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;${mediateEvidence.recordInfo.otherParticipants}&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
+                <%--</tr>--%>
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
@@ -290,37 +290,37 @@
                     <td>
                             ${mediateEvidence.recordInfo.yrecordInfo.recordAddress}
                     </td>
-                    <td class="tit">事由</td>
-                    <td>
-                            ${mediateEvidence.recordInfo.yrecordInfo.cause}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">主持人</td>
+                    <%--<td class="tit">事由</td>--%>
+                    <%--<td>--%>
+                            <%--${mediateEvidence.recordInfo.yrecordInfo.cause}--%>
+                    <%--</td>--%>
+                    <td class="tit">调解员</td>
                     <td>
                             ${mediateEvidence.recordInfo.yrecordInfo.ytwHost.name}
                     </td>
-                    <td class="tit">记录人</td>
+                </tr>
+                <tr>
+                    <td class="tit">书记员</td>
                     <td>
                             ${mediateEvidence.recordInfo.yrecordInfo.ytwNoteTaker.name}
                     </td>
-                </tr>
-                <tr>
                     <td class="tit">患方</td>
                     <td>
                             ${mediateEvidence.recordInfo.yrecordInfo.patient}
                     </td>
-                    <td class="tit">医方</td>
-                    <td>
-                            ${mediateEvidence.recordInfo.yrecordInfo.yfDoctor.name}
-                    </td>
                 </tr>
                 <tr>
-                    <td class="tit">其他参加人员</td>
+                    <td class="tit">医方</td>
                     <td>
-                            ${mediateEvidence.recordInfo.yrecordInfo.otherParticipants}
+                            ${mediateEvidence.recordInfo.yrecordInfo.yfOffice.name}
                     </td>
                 </tr>
+                <%--<tr>--%>
+                    <%--<td class="tit">其他参加人员</td>--%>
+                    <%--<td>--%>
+                            <%--${mediateEvidence.recordInfo.yrecordInfo.otherParticipants}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
@@ -427,12 +427,12 @@
                 </c:choose>
             </td>
         </tr>
-        <tr>
-            <td class="tit">会议总结</td>
-            <td colspan="3">
-                    ${mediateEvidence.summary}
-            </td>
-        </tr>
+        <%--<tr>--%>
+            <%--<td class="tit">会议总结</td>--%>
+            <%--<td colspan="3">--%>
+                    <%--${mediateEvidence.summary}--%>
+            <%--</td>--%>
+        <%--</tr>--%>
             <%--<tr>
                 <td class="tit">处理人</td>
                 <td>

@@ -22,13 +22,13 @@
 		a.del_flag AS "delFlag",
 		u3.name AS "mediatorUser.name",
 		u4.name AS "clerkuser.name",
-		u7.name AS "doctorUser.name"
+		u7.name AS "doctorOffice.name"
 	</sql>
 	
 	<sql id="mediateProgramJoins">
 		LEFT JOIN SYS_USER u3 ON u3.id = a.mediator
 		LEFT JOIN SYS_USER u4 ON u4.id = a.clerk
-		LEFT JOIN SYS_USER u7 ON u7.id = a.doctor
+		LEFT JOIN SYS_OFFICE u7 ON u7.id = a.doctor
 	</sql>
     
 	<select id="get" resultType="MediateProgram">

@@ -92,12 +92,20 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		if(StringUtils.isBlank(mediateEvidence.getCreateBy().getId())){
             mediateEvidence.preInsert();
             mediateEvidence.setMediateEvidenceId(mediateEvidence.getId());
+            mediateEvidence.setDoctor(mediateEvidence.getDoctorOffice().getId());
             //将主键ID设为UUID
             dao.insert(mediateEvidence);
             //保存笔录(患方)
             RecordInfo huanf = mediateEvidence.getRecordInfo();
             huanf.preInsert();
             huanf.setRecordId(IdGen.uuid());
+            huanf.setDoctor(mediateEvidence.getDoctor());
+			huanf.setHost(mediateEvidence.getUserId());
+			huanf.setNoteTaker(mediateEvidence.getClerk());
+            huanf.setStartTime(mediateEvidence.getMeetingTime());
+            huanf.setEndTime(mediateEvidence.getMeetingTime());
+            huanf.setRecordAddress(mediateEvidence.getMeetingAddress());
+            huanf.setPatient(mediateEvidence.getPatient());
             huanf.setRelationId(mediateEvidence.getMediateEvidenceId());
             huanf.setType("1");
             huanf.setModuleType("1");
@@ -123,10 +131,18 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		    //如果不为空进行更新
 			//修改报案登记表
 			mediateEvidence.preUpdate();
+			mediateEvidence.setDoctor(mediateEvidence.getDoctorOffice().getId());
 			dao.update(mediateEvidence);
 			//更新笔录(患方)
             RecordInfo huanf = mediateEvidence.getRecordInfo();
             huanf.preUpdate();
+			huanf.setDoctor(mediateEvidence.getDoctor());
+			huanf.setHost(mediateEvidence.getUserId());
+			huanf.setNoteTaker(mediateEvidence.getClerk());
+			huanf.setStartTime(mediateEvidence.getMeetingTime());
+			huanf.setEndTime(mediateEvidence.getMeetingTime());
+			huanf.setRecordAddress(mediateEvidence.getMeetingAddress());
+			huanf.setPatient(mediateEvidence.getPatient());
             recordInfoDao.update(huanf);
             //更新笔录(医方)
             RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
@@ -272,7 +288,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	public void exportWord(MediateEvidence mediateEvidence, String export, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		mediateEvidence=this.get(mediateEvidence.getMediateEvidenceId());
-		String path=request.getServletContext().getRealPath("/");
+		String path=request.getSession().getServletContext().getRealPath("/");
 		String modelPath=path;
 		String newFileName="无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();

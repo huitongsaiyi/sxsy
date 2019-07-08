@@ -6,10 +6,12 @@ package com.sayee.sxsy.modules.reachmediate.entity;
 import com.google.common.collect.Lists;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.program.entity.MediateProgram;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
+import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
@@ -34,17 +36,22 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 	private String reaDoctor;		// 医方
 	private String reaCaseInfo;		// 案件
 	private String reaAddress;		// 地点
+	private String reamediator;		// 调解员
+	private String reaClerk;		//书记员
 	private String reaMeetingTime;		// 会议时间
 	private String handlePeople;		// 处理人
 	private String handleTime;		// 处理时间
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
+	private String reaOther;		//其他参加人员
 	private User user;        // 当前登录人员
 	private User ytwUser;        // 医调委人员  多人用逗号隔开
 	private User doctorUser;        // 医方实体类
+	private Office doctorOffice;	//医方公司实体类
 	private User linkEmployee;		// 下一环节人员
 	private ComplaintMain complaintMain;        //关联主表
 	private List<MediateRecord> mediateEvidenceList = Lists.newArrayList();     //关联调解志子表
+	private List<MediateProgram> mediateProgramList = Lists.newArrayList();     //关联调解程序子表
 	private RecordInfo recordInfo;      //关联笔录子表
 	private Area area;
 	private AuditAcceptance auditAcceptance;
@@ -57,6 +64,46 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 
 	public ReachMediate(String id){
 		super(id);
+	}
+
+	public String getReamediator() {
+		return reamediator;
+	}
+
+	public void setReamediator(String reamediator) {
+		this.reamediator = reamediator;
+	}
+
+	public String getReaOther() {
+		return reaOther;
+	}
+
+	public void setReaOther(String reaOther) {
+		this.reaOther = reaOther;
+	}
+
+	public List<MediateProgram> getMediateProgramList() {
+		return mediateProgramList;
+	}
+
+	public void setMediateProgramList(List<MediateProgram> mediateProgramList) {
+		this.mediateProgramList = mediateProgramList;
+	}
+
+	public String getReaClerk() {
+		return reaClerk;
+	}
+
+	public void setReaClerk(String reaClerk) {
+		this.reaClerk = reaClerk;
+	}
+
+	public Office getDoctorOffice() {
+		return doctorOffice;
+	}
+
+	public void setDoctorOffice(Office doctorOffice) {
+		this.doctorOffice = doctorOffice;
 	}
 
 	public User getLinkEmployee() {
