@@ -23,7 +23,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 
 	private static final long serialVersionUID = 1L;
 	private Office office;	// 归属部门
-	private User user;	// 归属部门
+	private User user;	// 调解员
 	private String machineAccountId;		// machine_account_id
 	private String complaintMainId;			//主表主键
 	private String reportingTime;		// 报案时间

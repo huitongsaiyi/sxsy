@@ -35,32 +35,15 @@
 					<td class="tit">报案时间：</td>
 					<td>${machineAccount.reportingTime}</td>
 					<td class="tit">部门名称：</td>
-					<c:choose>
-						<c:when test="${ empty machineAccount.office.name }">
-							<td>${machineAccount.deptId}</td>
-						</c:when>
-						<c:otherwise>
 							<td>${machineAccount.office.name}</td>
-						</c:otherwise>
-					</c:choose>
-
 					<td class="tit">调解员</td>
-					<c:choose>
-						<c:when test="${ empty machineAccount.user.name }">
-							<td>${machineAccount.mediatorId}</td>
-						</c:when>
-						<c:otherwise>
 							<td>${machineAccount.user.name}</td>
-						</c:otherwise>
-					</c:choose>
-
-
 				</tr>
 				<tr>
 					<td class="tit">患者名称：</td>
 					<td >${machineAccount.patientName}</td>
 					<td class="tit">医院名称：</td>
-					<td >${machineAccount.hospitalId}</td>
+					<td >${machineAccount.hospital.name}</td>
 					<%--<td class="tit">重大：</td>
 					<td >${machineAccount.major}</td>--%>
 				</tr>

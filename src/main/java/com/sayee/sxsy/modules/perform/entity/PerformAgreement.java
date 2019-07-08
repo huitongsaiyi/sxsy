@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.perform.entity;
 
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -37,9 +38,36 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 	private ReportRegistration reportRegistration;//报案人姓名
 	private User linkEmployee;
 	private User user;  //当前登陆人
+	private String compensateTime;//赔付时间
+	private String claimSettlementTime;//交理赔时间
+	private MachineAccount machineAccount;//台账信息
+
+	public MachineAccount getMachineAccount() {
+		return machineAccount;
+	}
+
+	public void setMachineAccount(MachineAccount machineAccount) {
+		this.machineAccount = machineAccount;
+	}
 
 	public PerformAgreement() {
 		super();
+	}
+
+	public String getClaimSettlementTime() {
+		return claimSettlementTime;
+	}
+
+	public void setClaimSettlementTime(String claimSettlementTime) {
+		this.claimSettlementTime = claimSettlementTime;
+	}
+
+	public String getCompensateTime() {
+		return compensateTime;
+	}
+
+	public void setCompensateTime(String compensateTime) {
+		this.compensateTime = compensateTime;
 	}
 
 	public PerformAgreement(String id){

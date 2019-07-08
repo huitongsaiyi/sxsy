@@ -242,9 +242,6 @@
 			complaint_main_id = #{complaintMainId},
 		</if>
 		<if test="reportingTime != null and reportingTime !=''">
-			complaint_main_id = #{complaintMainId},
-		</if>
-		<if test="reportingTime != null and reportingTime !=''">
 			reporting_time = #{reportingTime},
 		</if>
 		<if test="deptId != null and deptId !=''">
@@ -346,9 +343,11 @@
 		<if test="updateBy.id != null and updateBy.id !=''">
 			update_by = #{updateBy.id},
 		</if>
-		<if test="updateDate != null and updateDate !=''">
-			update_date = #{updateDate}
+
+		<if test="hospitalAmount !=null and hospitalAmount !=''">
+			hospital_amount = #{hospitalAmount}，
 		</if>
+		update_date = #{updateDate}
 		WHERE machine_account_id = #{machineAccountId}
 	</update>
 

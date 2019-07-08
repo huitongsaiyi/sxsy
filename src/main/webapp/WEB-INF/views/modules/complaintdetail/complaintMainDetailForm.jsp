@@ -144,7 +144,7 @@
 						<%--<form:input path="visitorDate" htmlEscape="false" maxlength="10" class="input-xlarge "/>--%>
 					<input name="visitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 						   value="${complaintMainDetail.visitorDate}"
-						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 				</td>
 			</tr>
 			<tr >

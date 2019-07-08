@@ -6,6 +6,16 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			var a=$("#ag").val();
+			var b=parseInt(a);
+			var a1=$("#in").val();
+			var b1=parseInt(a1);
+			var c=b-b1;
+			if(c<=0){
+				$("#hos").val(0)
+			}else{
+				$("#hos").val(c)
+			}
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
@@ -22,7 +32,21 @@
 					}
 				}
 			});
+
 		});
+
+		function aa(va){
+			var a=$("#ag").val();
+			var b=parseInt(a);
+			var a1=$("#in").val();
+			var b1=parseInt(a1);
+			var c=b-b1;
+			if(c<=0){
+				$("#hos").val(0)
+			}else{
+				$("#hos").val(c)
+			}
+		}
 	</script>
 </head>
 <body>
@@ -56,13 +80,28 @@
 			<div class="tab-pane fade in active" id="patient">
 				<table class="table-form">
 					<tr>
+						<td>交理赔时间</td>
+						<td>
+							<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${performAgreement.claimSettlementTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+						</td>
+						<td>赔付时间</td>
+						<td>
+							<input name="compensateTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${performAgreement.compensateTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+						</td>
+					</tr>
+					<tr>
 						<td class="tit">协议赔付金额</td>
 						<td>
-							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
+							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" id="ag" onchange="aa(this.value)"/>
+							<%--<input id="agreementPayAmount" name="agreementPayAmount" value="${performAgreement.agreementPayAmount}">--%>
 						</td>
 						<td class="tit">医院赔付金额</td>
 						<td>
-							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" />
+							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" onchange="aa(this.value)" id="hos"/>
 						</td>
 					</tr>
 					<tr>
@@ -74,7 +113,7 @@
 						</td>
 						<td class="tit">保险公司赔付金额</td>
 						<td>
-							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
+							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" onchange="aa(this.value)" id="in"/>
 						</td>
 					</tr>
 					<tr>

@@ -21,11 +21,14 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		u7.name AS "ytwHost.name",
+		o.name AS "ytwHost.office.name"
 	</sql>
 	
 	<sql id="recordInfoJoins">
 		LEFT JOIN SYS_USER u7 ON u7.id = a.host
+		left join sys_office o on o.id=u7.office_id
 		LEFT JOIN SYS_USER u8 ON u8.id = a.note_taker
 		LEFT JOIN SYS_USER u10 ON u10.id = a.doctor
 		LEFT JOIN SYS_USER u11 ON u11.id = a.other_participants

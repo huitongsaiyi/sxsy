@@ -915,7 +915,7 @@
 						责任比例：
 					</td>
 						<td>
-						<form:select path="responsibilityRatio" class="input-medium" style="text-align:center">
+					<form:select path="responsibilityRatio" class="input-medium" style="text-align:center">
 						<%--<form:options items="${fns:getDictList('assessmentAppraisal')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
 						<form:option value="无责"/>
 						<form:option value="轻微责任"/>
@@ -923,8 +923,8 @@
 						<form:option value="对等责任"/>
 						<form:option value="主要责任"/>
 						<form:option value="全部责任"/>
-						</form:select>
-						</td>
+					</form:select>
+				</td>
 				</tr>
 				<tr>
 					<td class="tit">

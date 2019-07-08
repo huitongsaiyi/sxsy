@@ -27,6 +27,7 @@
 					}
 				}
 			});
+
 		});
 
 		function addRow(list, idx, tpl, row){
@@ -510,13 +511,13 @@
 		<tr>
 			<td class="tit" >协议金额：</td>
 			<td >
-				<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge required"/>
+				<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
 			</td>
 		</tr>
 		<tr>
 			<td class="tit">保险金额：</td>
 			<td >
-				<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge required"/>
+				<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
 			</td>
 		</tr>
 		<%--<tr>--%>

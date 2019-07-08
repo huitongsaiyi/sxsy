@@ -91,15 +91,20 @@ public class AssessAppraisalController extends BaseController {
 				proposal.setProposalCode("晋医人调鉴(评)["+c1+"]001号");
 				assessAppraisal.setProposal(proposal);
 			}else{
-				String proposalCode = list.get(0).getProposalCode();
+			    int max=0;
+			    for(int i=0;i<list.size();i++){
+                    String proposalCode = list.get(i).getProposalCode();
+                    String d = proposalCode.substring(14, 17);
+                    int d1=Integer.valueOf(d);
+                    if(d1>max){
+                        max=d1;
+                    }
+                }
+                int d2=max+1;
 				String a=BaseUtils.getCode("time","3","PROPOSAL","proposal_code");
 				String c=a.substring(0,4);
-				String d = proposalCode.substring(14, 17);
-				int d1=Integer.valueOf(d);
-				int d2=d1+1;
 				String format = String.format("%0" + 3 + "d", d2);
-				String e=proposalCode.replace(proposalCode.substring(9,13),c);
-				String e1=e.replace(e.substring(14,17),format);
+				String e1="晋医人调鉴(评)["+c+"]"+format;
 				proposal.setProposalCode(e1);
 				assessAppraisal.setProposal(proposal);
 

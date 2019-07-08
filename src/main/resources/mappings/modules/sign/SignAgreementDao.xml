@@ -59,7 +59,7 @@
 			<include refid="signAgreementColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="signAgreementJoins"/>
-		WHERE a.sign_agreement_id = #{id} OR r.report_registration_id = #{id}
+		WHERE a.sign_agreement_id = #{signAgreementId} OR r.report_registration_id = #{id}
 	</select>
 	
 	<select id="findList" resultType="SignAgreement">
@@ -189,5 +189,7 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE sign_agreement_id = #{signAgreementId}
 	</update>
-	
+	<select id="selectAgreementNumber" resultType="SignAgreement">
+		select si.agreement_number from SIGN_AGREEMENT si where si.del_flag=#{delFlag}
+	</select>
 </mapper>

@@ -35,6 +35,7 @@
 		<form:hidden path="createBy"/>
 		<form:hidden path="createDate"/>
 		<form:hidden path="delFlag"/>
+		<form:hidden path="complaintMainId"/>
 		<sys:message content="${message}"/>
 		<fieldset>
 		<table class="table-form">
