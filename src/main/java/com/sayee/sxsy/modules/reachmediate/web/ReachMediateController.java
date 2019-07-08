@@ -87,6 +87,8 @@ public class ReachMediateController extends BaseController {
 				model.addAttribute("acceId5",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 		}
+		//每次 进入调解程序 表 是将 查到的置空
+		reachMediateService.clearDomain(reachMediate);
 		String type = request.getParameter("type");
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");
@@ -103,20 +105,26 @@ public class ReachMediateController extends BaseController {
 
 	@RequiresPermissions("reachmediate:reachMediate:edit")
 	@RequestMapping(value = "save")
-	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, reachMediate)&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())||!beanValidator(model,reachMediate.getComplaintMain())&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())||!beanValidator(model,reachMediate.getRecordInfo())&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())||!beanValidator(model,reachMediate.getRecordInfo().getYrecordInfo())&&"yes".equals(reachMediate.getComplaintMain().getAct().getFlag())){
-			return form(reachMediate, model,request);
-		}
-		try{
-			reachMediateService.save(reachMediate,request);
-			if("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())){
-				addMessage(redirectAttributes,"流程已启动，流程ID："+reachMediate.getComplaintMain().getProcInsId());
-			}else{
-				addMessage(redirectAttributes,"保存达成调解成功");
+	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
+		String export=request.getParameter("export");
+		if (export.equals("meeting")){
+			reachMediateService.exportWord(reachMediate,export,request,response);
+			return "";
+		}else {
+			if (!beanValidator(model, reachMediate) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getComplaintMain()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getRecordInfo()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getRecordInfo().getYrecordInfo()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag())) {
+				return form(reachMediate, model, request);
 			}
-		}catch(Exception e){
-			logger.error("启动纠纷调解流程失败:", e);
-			addMessage(redirectAttributes,"系统内部错误");
+			try {
+				reachMediateService.save(reachMediate, request);
+				if ("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())) {
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + reachMediate.getComplaintMain().getProcInsId());
+				} else {
+					addMessage(redirectAttributes, "保存达成调解成功");
+				}
+			} catch (Exception e) {
+				logger.error("启动纠纷调解流程失败:", e);
+				addMessage(redirectAttributes, "系统内部错误");
+			}
 		}
 
 //		reachMediateService.save(reachMediate);

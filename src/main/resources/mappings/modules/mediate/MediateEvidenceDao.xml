@@ -8,14 +8,16 @@
          a.mediate_result AS "mediateResult",
          a.summary AS "summary",
          a.user_id AS "userId", a.patient AS "patient",
-         a.doctor AS "doctor", a.case_info AS "caseInfoName",
+         a.doctor AS "doctor",
+         a.case_info AS "caseInfoName",
          a.address AS "meetingAddress", a.meeting_time AS "meetingTime",
          a.handle_people AS "handlePeople", a.handle_time AS "handleTime",
          a.next_link AS "nextLink", a.next_link_man AS "nextLinkMan",
          a.create_by AS "createBy.id",
          a.create_date AS "createDate", a.update_by AS "updateBy.id",
          a.update_date AS "updateDate", a.del_flag AS "delFlag",
-         u5.name AS "ytwUser.name",u6.name AS "doctorUser.name",
+         u5.name AS "ytwUser.name",
+--          u6.name AS "doctorUser.name",
          r.record_id AS "recordInfo.recordId",
          r.start_time AS "recordInfo.startTime",
          r.end_time AS "recordInfo.endTime",
@@ -54,12 +56,14 @@
          o.id AS "recordInfo.ytwHost.office.id",
          uz.name AS "recordInfo.ytwHost.name",
          uj.name AS "recordInfo.ytwNoteTaker.name",
-         uy.name AS "recordInfo.yfDoctor.name",
+         uy.name AS "recordInfo.yfOffice.name",
          uz1.name AS "recordInfo.yrecordInfo.ytwHost.name",
          uj1.name AS "recordInfo.yrecordInfo.ytwNoteTaker.name",
-         uy1.name AS "recordInfo.yrecordInfo.yfDoctor.name",
+         uy1.name AS "recordInfo.yrecordInfo.yfOffice.name",
          au.policy_number AS "auditAcceptance.policyNumber",
-         sa.name AS "area.name"
+         sa.name AS "area.name",
+         o3.id AS "doctorOffice.id",
+         o3.name AS "doctorOffice.name"
 	</sql>
 	
 	<sql id="mediateEvidenceJoins">
@@ -67,13 +71,13 @@
 		LEFT JOIN RECORD_INFO r ON r.relation_id = a.mediate_evidence_id and r.type='1'
 		LEFT JOIN SYS_USER uz ON uz.id = r.host
 		LEFT JOIN SYS_USER uj ON uj.id=r.note_taker
-		LEFT JOIN SYS_USER uy ON uy.id=r.doctor
+		LEFT JOIN SYS_OFFICE uy ON uy.id=r.doctor
 		LEFT JOIN RECORD_INFO yr ON yr.relation_id = a.mediate_evidence_id and yr.type='2'
 		LEFT JOIN SYS_USER uz1 ON uz1.id = yr.host
 		LEFT JOIN SYS_USER uj1 ON uj1.id=yr.note_taker
-		LEFT JOIN SYS_USER uy1 ON uy1.id=yr.doctor
+		LEFT JOIN SYS_OFFICE uy1 ON uy1.id=yr.doctor
 		LEFT JOIN SYS_USER u5 ON u5.id = a.user_id
-		LEFT JOIN SYS_USER u6 ON u6.id = a.doctor
+-- 		LEFT JOIN SYS_USER u6 ON u6.id = a.doctor
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
@@ -83,6 +87,7 @@
 		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
 		LEFT JOIN REPORT_REGISTRATION r1 ON b.complaint_main_id=r1.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+		LEFT JOIN SYS_OFFICE o3 on o3.id=b.involve_hospital
 </sql>
     
 	<select id="get" resultType="MediateEvidence">

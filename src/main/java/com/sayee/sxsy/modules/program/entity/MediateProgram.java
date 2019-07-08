@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.program.entity;
 
+import com.sayee.sxsy.modules.sys.entity.Office;
 import org.hibernate.validator.constraints.Length;
 import com.sayee.sxsy.modules.sys.entity.User;
 
@@ -26,6 +27,7 @@ public class MediateProgram extends DataEntity<MediateProgram> {
 	private User mediatorUser;		// 调解员名称
 	private User clerkuser;		// 书记员名称
 	private User doctorUser;		// 医方
+	private Office doctorOffice;	//医方公司实体类
 	private String other;		// 其他
 	private String caseInfo;		// 案件
 	private String address;		// 地点
@@ -38,6 +40,14 @@ public class MediateProgram extends DataEntity<MediateProgram> {
 
 	public MediateProgram(String id){
 		super(id);
+	}
+
+	public Office getDoctorOffice() {
+		return doctorOffice;
+	}
+
+	public void setDoctorOffice(Office doctorOffice) {
+		this.doctorOffice = doctorOffice;
 	}
 
 	public User getMediatorUser() {

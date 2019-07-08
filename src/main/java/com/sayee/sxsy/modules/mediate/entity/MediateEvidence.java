@@ -49,6 +49,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private User user;        // 当前登录人员
     private User ytwUser;        // 医调委人员  多人用逗号隔开
     private User doctorUser;        // 医方实体类
+    private Office doctorOffice;    //医方公司实体类
     private User linkEmployee;		// 下一环节人员
     private ComplaintMain complaintMain;        //关联主表
     private List<MediateRecord> mediateEvidenceList = Lists.newArrayList();     //关联调解志子表
@@ -66,6 +67,14 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
 
     public MediateEvidence(String id) {
         super(id);
+    }
+
+    public void setDoctorOffice(Office doctorOffice) {
+        this.doctorOffice = doctorOffice;
+    }
+
+    public Office getDoctorOffice() {
+        return doctorOffice;
     }
 
     public List<MediateProgram> getMediateProgramList() {
@@ -252,7 +261,7 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
         this.doctor = doctor;
     }
 
-    @Length(min = 1, max = 500, message = "案件长度必须介于 1 和 500 之间")
+    @Length(min = 0, max = 500, message = "案件长度必须介于 1 和 500 之间")
     public String getCaseInfoName() {
         return caseInfoName;
     }
