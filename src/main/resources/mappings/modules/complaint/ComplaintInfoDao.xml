@@ -129,6 +129,9 @@
 			<if test="receptionDate != null and receptionDate != '' or receptionEndDate != null and receptionEndDate != ''">
 				AND (a.reception_date BETWEEN #{receptionDate} AND #{receptionEndDate})
 			</if>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.create_by = #{user.id}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -187,6 +190,10 @@
 			handle_result,
 			handle_pass,
 			complaint_type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
 			del_flag
 		) VALUES (
 			#{caseNumber},
@@ -217,6 +224,10 @@
 			#{handleResult},
 			#{handlePass},
 			#{complaintType},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
 			#{delFlag}
 		)
 	</insert>
@@ -250,7 +261,9 @@
 			is_mediate = #{isMediate},
 			handle_result = #{handleResult},
 			handle_pass =#{handlePass},
-			complaint_type=#{complaintType}
+			complaint_type=#{complaintType},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
 		WHERE complaint_id = #{complaintId}
 	</update>
 	
@@ -276,5 +289,52 @@
 		<if test="complaintMainId !=null and complaintMainId !=''">
 			AND b.complaint_main_id != ${complaintMainId}
 		</if>
+	</select>
+
+	<!--工作量统计  先查找 今天所有人的-->
+	<select id="selectEveryOne" resultType="java.util.Map">
+		SELECT count(1) amount,a.create_by,a.visitor_date,u.name,u.office_id,o.name AS deptName
+		FROM COMPLAINT_INFO a
+		LEFT JOIN SYS_USER u on u.id=a.create_by
+		LEFT JOIN SYS_OFFICE o ON o.id=u.office_id
+		WHERE a.del_flag ='0'
+		<if test="visitorDate !=null and visitorDate !=''">
+			AND a.visitor_date like concat('%',#{visitorDate},'%')
+		</if>
+		<if test="visitorMonthDate !=null and visitorMonthDate !=''">
+			AND a.visitor_date like concat('%',#{visitorMonthDate},'%')
+		</if>
+		<if test="involveDepartment !=null and involveDepartment !=''">
+			AND u.office_id like concat('%',#{involveDepartment},'%')
+		</if>
+		<if test="involveEmployee !=null and involveEmployee !=''">
+			AND u.id like concat('%',#{involveEmployee},'%')
+		</if>
+		GROUP BY a.create_by
+	</select>
+
+	<!--工作量统计  根据人员id去过滤-->
+	<select id="selectPerson" resultType="java.util.Map">
+		select
+		Max(case a.handle_way when '0' then a.amount else 0 end ) 'ytw',
+		Max(case a.handle_way when '1' then a.amount else 0 end ) 'dm',
+		Max(case a.handle_way when '2' then a.amount else 0 end ) 'zb'
+		FROM (
+			SELECT count(1)AS amount,cc.handle_way
+			FROM COMPLAINT_INFO cc
+			WHERE cc.del_flag ='0'
+			<if test="visitorDate !=null and visitorDate !=''">
+				AND cc.visitor_date like concat('%',#{visitorDate},'%')
+			</if>
+			<if test="visitorMonthDate !=null and visitorMonthDate !=''">
+				AND cc.visitor_date like concat('%',#{visitorMonthDate},'%')
+			</if>
+			<if test="createBy !=null and createBy !=''">
+				AND cc.create_by like concat('%',#{createBy},'%')
+			</if>
+			GROUP BY cc.handle_way
+		)a
+
+
 	</select>
 </mapper>

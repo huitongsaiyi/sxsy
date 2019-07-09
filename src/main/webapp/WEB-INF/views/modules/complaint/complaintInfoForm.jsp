@@ -135,7 +135,7 @@
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
 							<sys:treeselect id='involveDepartment' name='involveDepartment' value='${complaintInfo.involveDepartment}' labelName='departmentName' labelValue='${complaintInfo.departmentName}' title='部门' url='/sys/office/treeData?type=2&officeType=2'
-											pid='${fns:getUser().company.id}' isAll='true' cssClass='required' dataMsgRequired='请选择科室' allowClear='true' notAllowSelectParent='true' disabled='true'/>
+											pid='involveHospital' isAll='true' cssClass='required' dataMsgRequired='请选择科室' allowClear='true' notAllowSelectParent='true' disabled='true'/>
 						</td>
 					</tr>
 					<tr >
@@ -261,7 +261,7 @@
 			<td >
 				<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintInfo.nextLinkMan}" labelName="link.name" labelValue="${complaintInfo.link.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" role="" cssClass="required" dataMsgRequired="请选择下一环节处理人" allowClear="true" notAllowSelectParent="true"/>
+								title="用户" url="/sys/office/treeData?type=3&officeType=1" role="distribution" isAll="true" cssClass="required" dataMsgRequired="请选择下一环节处理人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 		</tr>
 	</table>

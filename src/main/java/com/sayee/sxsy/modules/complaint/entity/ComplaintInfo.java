@@ -51,6 +51,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 	private String sexName;		//性别
     private User employee;      //接待人员
     private User link;          //下一环节处理人
+    private User user;          //当前登陆人
     private String isMediate;       //是否进入医调委调解
     private String handleResult;       //处理结果
     private String handlePass;          //处理经过
@@ -132,6 +133,14 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 
 	public void setComplaintMain(ComplaintMain complaintMain) {
 		this.complaintMain = complaintMain;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Length(min=1, max=20, message="处理经过不能为空,且长度必须介于 1 和 20 之间")

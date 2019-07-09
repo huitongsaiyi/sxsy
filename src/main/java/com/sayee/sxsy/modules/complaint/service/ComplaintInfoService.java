@@ -3,16 +3,24 @@
  */
 package com.sayee.sxsy.modules.complaint.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.common.utils.UserAgentUtils;
 import com.sayee.sxsy.modules.complaintdetail.dao.ComplaintMainDetailDao;
 import com.sayee.sxsy.modules.complaintdetail.entity.ComplaintMainDetail;
 import com.sayee.sxsy.modules.complaintdetail.service.ComplaintMainDetailService;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +30,7 @@ import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
 import com.sayee.sxsy.modules.complaint.dao.ComplaintInfoDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 投诉接待Service
@@ -39,16 +48,20 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     @Autowired
     private ComplaintMainDetailDao complaintMainDetailDao;
 
+    @Autowired
+    private ComplaintInfoDao complaintInfoDao;
 
     public ComplaintInfo get(String id) {
         return super.get(id);
     }
 
     public List<ComplaintInfo> findList(ComplaintInfo complaintInfo) {
+        complaintInfo.setUser(UserUtils.getUser());
         return super.findList(complaintInfo);
     }
 
     public Page<ComplaintInfo> findPage(Page<ComplaintInfo> page, ComplaintInfo complaintInfo) {
+        complaintInfo.setUser(UserUtils.getUser());
         return super.findPage(page, complaintInfo);
     }
 
@@ -161,4 +174,33 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
 
         return complaintInfo;
     }
+
+
+    public Page<List> statementPage(Page<List> page,HttpServletRequest request, HttpServletResponse response) {
+        String type=request.getParameter("type");
+        String visitorDate=request.getParameter("visitorDate");
+        String visitorMonthDate=request.getParameter("visitorMonthDate");
+        String involveDepartment=request.getParameter("involveDepartment");
+        String involveEmployee=request.getParameter("involveEmployee");
+        if (StringUtils.isBlank(visitorDate) && StringUtils.isBlank(visitorMonthDate)){
+            visitorDate= DateUtils.getDate();
+        }
+        List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+
+        List<Map<String,Object>> every =complaintInfoDao.selectEveryOne(visitorDate,visitorMonthDate,involveDepartment,involveEmployee);
+        //根据拿到的所有人员数据 在进行 单个人员统计
+        person(every,list,visitorDate,visitorMonthDate);
+        page.setList(Collections.singletonList(every));
+        return page;//super.findPage(page, complaintInfo);
+    }
+
+    public void person(List<Map<String,Object>> every,List<Map<String,Object>> list,String visitorDate,String visitorMonthDate){
+            if (every.size()>0){
+                for (Map<String,Object> map: every) {
+                    map.putAll(complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by","'"),visitorDate,visitorMonthDate));
+                }
+            }
+    }
+
+
 }

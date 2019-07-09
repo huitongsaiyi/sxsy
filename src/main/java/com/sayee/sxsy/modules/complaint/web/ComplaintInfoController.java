@@ -24,6 +24,8 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
 import com.sayee.sxsy.modules.complaint.service.ComplaintInfoService;
 
+import java.util.List;
+
 /**
  * 投诉接待Controller
  * @author zhangfan
@@ -91,5 +93,14 @@ public class ComplaintInfoController extends BaseController {
 		addMessage(redirectAttributes, "删除投诉接待成功");
 		return "redirect:"+Global.getAdminPath()+"/complaint/complaintInfo/?repage";
 	}
+
+	//工作量统计
+	@RequestMapping(value = "statement")
+	public String statement( HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<List> page = complaintInfoService.statementPage(new Page<List>(request, response),request, response);
+		model.addAttribute("page", page);
+		return "modules/complaint/numericalStatement";
+	}
+
 
 }
