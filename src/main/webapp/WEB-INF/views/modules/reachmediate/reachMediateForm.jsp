@@ -252,22 +252,29 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医调委：</span>
-					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+					<div style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+							<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+							<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+							<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+							<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+							<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+							<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+							<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">调解员：</span>
                             <sys:treeselect id="reaUserId" name="reaUserId"
 											value="${reachMediate.reaUserId}" labelName="tjy"
 											labelValue="${reachMediate.ytwUser.name}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
 											allowClear="true" notAllowSelectParent="true" />
-                    </span>
-					<span style="font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-					<span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
-                            <sys:treeselect id="reaClerk" name="reaClerk"
-											value="${reachMediate.reaClerk}" labelName="sjy"
-											labelValue=""
-											title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
-											allowClear="true" notAllowSelectParent="true" disabled="true"  />
-                    </span>
+							<span style="font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
+							<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">书记员</span>
+							<span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
+												<sys:treeselect id="reaClerk" name="reaClerk"
+																value="${reachMediate.reaClerk}" labelName="sjy"
+																labelValue=""
+																title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
+																allowClear="true" notAllowSelectParent="true" disabled="true"  />
+							</span>
+					</div>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -330,7 +337,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">1</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、双方当事人及工作人员酒后不的参会，会议中不得吸烟、不得中途退场、不得当众喧哗。保持会场安静，遵守会场秩序。</span>
 
 				</p>
@@ -342,7 +349,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">2</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、参会人应当将通讯工具关闭或调至静音状态（请大家配合一下）。会议期间不得录音、录像。</span>
 				</p>
 				<p style="margin:0pt">
@@ -353,7 +360,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">3</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、一方陈述时，对方及其他参会人员不的发言，需要补充时，需在当事人（代理人）结束发言后，经主持人同意方可进行补充。发言时不得使用人身攻击言语及过激的言语。</span>
 				</p>
 				<p style="margin:0pt">
@@ -364,7 +371,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">4</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提供的证据应当真实、合法、有效，不得伪造、毁灭证据，妨碍调解人员正确作出调解。</span>
 				</p>
 				<p style="margin:0pt">
@@ -375,7 +382,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">5</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、不得以暴力，威胁或者其他方法阻碍调解人员执行职务。</span>
 				</p>
 				<p style="margin:0pt">
@@ -386,7 +393,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">6</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、对于有不良行为的参加人，山西省医疗纠纷人民调解委员会将责令其退出会议室。</span>
 				</p>
 				<p style="margin:0pt">
@@ -400,7 +407,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（一）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（一）</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 选择或者接受人民调解员；</span>
 
 				</p>
@@ -412,7 +419,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（二）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（二）</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 接受调解、拒绝调解或者要求终止调解；</span>
 				</p>
 				<p style="margin:0pt">
@@ -423,7 +430,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（三）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（三）</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 要求调解公开进行或者不公开进行；</span>
 				</p>
 				<p style="margin:0pt">
@@ -434,7 +441,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（四）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（四）</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 自主表达意愿、自愿达成调解协议。</span>
 				</p>
 				<p style="margin:0pt">
@@ -448,7 +455,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（一）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（一）</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 如实陈述纠纷事实；</span>
 
 				</p>
@@ -460,7 +467,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（二）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（二）</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 遵守调解现场秩序，尊重人民调解员；</span>
 				</p>
 				<p style="margin:0pt">
@@ -471,7 +478,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">（三）</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（三）</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 尊重对方当事人行使权力；</span>
 				</p>
 				<p style="margin:0pt">
@@ -508,7 +515,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">1</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、患方及其代理人陈述主要事实、医方过错及诉求，提交相关证据；</span>
 
 				</p>
@@ -520,7 +527,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">2</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医方及其代理人陈述，针对患方提出问题进行答辩，提交相关证据；</span>
 				</p>
 				<p style="margin:0pt">
@@ -531,7 +538,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">3</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员总结双方争议要点；</span>
 				</p>
 				<p style="margin:0pt">
@@ -542,7 +549,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">4</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患双方就争议要点进行辩论；</span>
 				</p>
 				<p style="margin:0pt">
@@ -553,7 +560,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">5</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员调解；</span>
 				</p>
 				<p style="margin:0pt">
@@ -564,7 +571,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">6</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患各方最后陈述；</span>
 				</p>
 				<p style="margin:0pt">
@@ -575,7 +582,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span>
+					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">7</span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员总结；</span>
 				</p>
 				<p style="margin:0pt">
