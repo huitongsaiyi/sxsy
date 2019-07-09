@@ -90,11 +90,11 @@
         <div class="tab-pane fade" id="patient">
             <table class="table-form">
                 <tr>
-                    <td class="tit" width="199px">患者姓名：</td>
+                    <td class="tit" width="240px">患者姓名：</td>
                     <td width="522px">
                         <form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
                     </td>
-                    <td class="tit" width="180px">患者性别：</td>
+                    <td class="tit" >患者性别：</td>
                     <td >
                             <%--<form:input path="patientSex" htmlEscape="false" maxlength="1" class="input-xlarge "/>--%>
                         <form:select path="complaintMain.patientSex" class="input-medium">

@@ -10,7 +10,7 @@
 		a.agreement_amount AS "agreementAmount",
 		a.insurance_amount AS "insuranceAmount",
 		a.claim_settlement_time AS "claimSettlementTime",
-		a.summary_of_disputes AS "summaryOfDisputes",
+		if(a.summary_of_disputes IS NULL,au.summary_of_disputes,a.summary_of_disputes) AS "summaryOfDisputes",
 		a.mediation AS "mediation",
 		a.agreed_matter AS "agreedMatter",
 		a.perform_agreement_mode AS "performAgreementMode",
@@ -52,6 +52,7 @@
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+
 	</sql>
     
 	<select id="get" resultType="SignAgreement">

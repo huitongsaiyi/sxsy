@@ -7,6 +7,8 @@ import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 
+import java.util.List;
+
 /**
  * 角色DAO接口
  * @author ThinkGem
@@ -36,5 +38,8 @@ public interface RoleDao extends CrudDao<Role> {
 	public int deleteRoleOffice(Role role);
 
 	public int insertRoleOffice(Role role);
-
+	/**
+	 * 根据用户的id查询角色
+	 */
+	public List<Role> selectRole (String id);
 }
