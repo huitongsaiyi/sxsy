@@ -179,10 +179,6 @@
 					<form:option value="1">是</form:option>
 				</form:select>
 			</td>
-			<td class="hidden">
-				<sys:treeselect id='shiftHandle' name='shiftHandle' value='${complaintInfo.shiftHandle}' labelName='shiftHandleName' labelValue='${complaintInfo.shiftHandleName}' title='部门' url='/sys/office/treeData?type=2&officeType=2'
-								pid='${fns:getUser().company.id}' isAll='true' cssClass='required' dataMsgRequired='请选择科室' allowClear='true' notAllowSelectParent='true' disabled='true'/>
-			</td>
 		</tr>
 		<tr>
 			<td class="tit">投诉类别：</td>
