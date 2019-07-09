@@ -319,6 +319,9 @@
 		<if test="insuranceAmount != null and insuranceAmount !=''">
 			insurance_amount = #{insuranceAmount},
 		</if>
+		<if test="hospitalAmount !=null and hospitalAmount !=''">
+			hospital_amount = #{hospitalAmount},
+		</if>
 		<if test="claimSettlementTime != null and claimSettlementTime !=''">
 			claim_settlement_time = #{claimSettlementTime},
 		</if>
@@ -342,10 +345,6 @@
 		</if>
 		<if test="updateBy.id != null and updateBy.id !=''">
 			update_by = #{updateBy.id},
-		</if>
-
-		<if test="hospitalAmount !=null and hospitalAmount !=''">
-			hospital_amount = #{hospitalAmount}，
 		</if>
 		update_date = #{updateDate}
 		WHERE machine_account_id = #{machineAccountId}
