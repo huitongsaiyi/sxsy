@@ -105,7 +105,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.relationId = relationId;
 	}
 	
-	@Length(min=1, max=20, message="开始时间长度必须介于 1 和 20 之间")
+	@Length(min=0, max=20, message="开始时间长度必须介于 0 和 20 之间")
 	public String getStartTime() {
 		return startTime;
 	}
@@ -114,7 +114,7 @@ public class RecordInfo extends DataEntity<RecordInfo> {
 		this.startTime = startTime;
 	}
 	
-	@Length(min=1, max=20, message="结束时间长度必须介于 0 和 20 之间")
+	@Length(min=0, max=20, message="结束时间长度必须介于 0 和 20 之间")
 	public String getEndTime() {
 		return endTime;
 	}

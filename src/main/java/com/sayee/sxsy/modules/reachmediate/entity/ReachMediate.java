@@ -221,7 +221,7 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 		this.reaSummary = reaSummary;
 	}
 	
-	@Length(min=1, max=200, message="医调委人员  多人用逗号隔开长度必须介于 1 和 200 之间")
+	@Length(min=0, max=200, message="医调委人员  多人用逗号隔开长度必须介于 0 和 200 之间")
 	public String getReaUserId() {
 		return reaUserId;
 	}
@@ -230,7 +230,7 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 		this.reaUserId = reaUserId;
 	}
 	
-	@Length(min=1, max=100, message="患方长度必须介于 1 和 100 之间")
+	@Length(min=0, max=100, message="患方长度必须介于 0 和 100 之间")
 	public String getReaPatient() {
 		return reaPatient;
 	}
@@ -239,7 +239,7 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 		this.reaPatient = reaPatient;
 	}
 	
-	@Length(min=1, max=200, message="医方长度必须介于 1 和 200 之间")
+	@Length(min=0, max=200, message="医方长度必须介于 0 和 200 之间")
 	public String getReaDoctor() {
 		return reaDoctor;
 	}
@@ -248,7 +248,7 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 		this.reaDoctor = reaDoctor;
 	}
 	
-	@Length(min=1, max=200, message="案件长度必须介于 1 和 200 之间")
+	@Length(min=0, max=200, message="案件长度必须介于 0 和 200 之间")
 	public String getReaCaseInfo() {
 		return reaCaseInfo;
 	}
@@ -257,7 +257,7 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 		this.reaCaseInfo = reaCaseInfo;
 	}
 	
-	@Length(min=1, max=100, message="地点长度必须介于 1 和 100 之间")
+	@Length(min=0, max=100, message="地点长度必须介于 0 和 100 之间")
 	public String getReaAddress() {
 		return reaAddress;
 	}
@@ -266,7 +266,7 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 		this.reaAddress = reaAddress;
 	}
 	
-	@Length(min=1, max=20, message="会议时间长度必须介于 1 和 20 之间")
+	@Length(min=0, max=20, message="会议时间长度必须介于 0 和 20 之间")
 	public String getReaMeetingTime() {
 		return reaMeetingTime;
 	}
