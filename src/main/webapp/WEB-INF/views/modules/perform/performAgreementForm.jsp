@@ -80,13 +80,13 @@
 			<div class="tab-pane fade in active" id="patient">
 				<table class="table-form">
 					<tr>
-						<td>交理赔时间</td>
+						<td  class="tit">交理赔时间</td>
 						<td>
 							<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.claimSettlementTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 						</td>
-						<td>赔付时间</td>
+						<td  class="tit">赔付时间</td>
 						<td>
 							<input name="compensateTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.compensateTime}"
