@@ -134,7 +134,8 @@
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
 						<td >
-
+							<sys:treeselect id='involveDepartment' name='involveDepartment' value='${complaintInfo.involveDepartment}' labelName='departmentName' labelValue='${complaintInfo.departmentName}' title='部门' url='/sys/office/treeData?type=2&officeType=2'
+											pid='${fns:getUser().company.id}' isAll='true' cssClass='required' dataMsgRequired='请选择科室' allowClear='true' notAllowSelectParent='true' disabled='true'/>
 						</td>
 					</tr>
 					<tr >
@@ -179,6 +180,7 @@
 					<form:option value="1">是</form:option>
 				</form:select>
 			</td>
+
 		</tr>
 		<tr>
 			<td class="tit">投诉类别：</td>
@@ -231,7 +233,7 @@
 			<td >
 				<%--<form:input path="receptionEmployee" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
 				<sys:treeselect id="receptionEmployee" name="receptionEmployee" value="${complaintInfo.receptionEmployee}" labelName="employee.name" labelValue="${complaintInfo.employee.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required" dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true"/>
+								title="用户" url="/sys/office/treeData?type=3&officeType=1" isAll="true" cssClass="input-big required" dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 
 			<td class="tit"><font color="red">*</font>接待时间：</td>
