@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.medicalofficeemp.dao.MedicalOfficeEmpDao;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
@@ -29,6 +30,7 @@ import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
+import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,7 @@ import com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal;
 import com.sayee.sxsy.modules.assessappraisal.dao.AssessAppraisalDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 评估鉴定Service
@@ -62,6 +65,8 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 	private RecordInfoDao recordInfoDao;//笔录
 	@Autowired
 	private ProposalDao proposalDao;
+	@Autowired
+	private TypeInfoService typeInfoService;
 	public AssessAppraisal get(String id) {
 		AssessAppraisal assessAppraisal=super.get(id);
 		//患方 明细查询
@@ -413,6 +418,139 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 					}
 				}
 			}
+		}
+	}
+	/*
+	 * 生成意见书
+	 */
+	public void exportWord(AssessAppraisal assessAppraisal, String export, HttpServletRequest request, HttpServletResponse response){
+		WordExportUtil wordExportUtil = new WordExportUtil();
+		assessAppraisal = this.get(assessAppraisal.getAssessAppraisalId());
+		List<PatientLinkEmp> patientLinkEmpList = assessAppraisal.getPatientLinkEmpList();//患方
+		List<PatientLinkEmp> patientLinkDList = assessAppraisal.getPatientLinkDList();//患方联系人
+		List<MedicalOfficeEmp> medicalOfficeEmpList = assessAppraisal.getMedicalOfficeEmpList();//医方
+		String analysisOpinion = assessAppraisal.getProposal().getAnalysisOpinion();//分析意见id
+		String analysisOpinion1=analysisOpinion.substring(0,32);
+		String conclusion = assessAppraisal.getProposal().getConclusion();//结论id
+		String conclusion1=conclusion.substring(0,32);
+		TypeInfo typeInfo = typeInfoService.get(analysisOpinion1);
+		TypeInfo typeInfo1 = typeInfoService.get(conclusion1);
+		//String path = request.getSession().getServletContext().getRealPath("/");
+		String path = "C:\\a/";
+		String modelPath = path;
+		String newFileName = "无标题文件.docx";
+		Map<String, Object> params = new HashMap<String, Object>();
+		if("proposalDis".equals(export)){
+			//患方信息
+			if(patientLinkEmpList.size()!=0){
+				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName());
+				if("1".equals(patientLinkEmpList.get(0).getPatientLinkSex())){
+					params.put("pSex","男");
+				}else{
+					params.put("pSex","女");
+				}
+				params.put("idNumber",patientLinkEmpList.get(0).getIdNumber());
+				params.put("pAddress",patientLinkEmpList.get(0).getPatientLinkAddress());
+			}
+			if(patientLinkDList.size()!=0){
+				params.put("cName",patientLinkDList.get(0).getPatientLinkName());
+				if("1".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("r","亲人");
+				}else if("2".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("r","朋友");
+				}else{
+					params.put("r","代理人");
+				}
+				params.put("pMobile",patientLinkDList.get(0).getPatientLinkMobile());
+			}
+			if(medicalOfficeEmpList.size()!=0){
+				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName());
+				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
+				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost());
+				params.put("hMobile",medicalOfficeEmpList.get(0).getMedicalOfficeMobile());
+			}
+			//意见书编码
+			params.put("code",assessAppraisal.getProposal().getProposalCode());
+			//意见书类型
+			if("1".equals(assessAppraisal.getApplyType())){
+				params.put("applyType","医疗责任保险事故鉴定");
+			}else{
+				params.put("applyType","医疗纠纷技术评估");
+			}
+			//评估时间
+			if(StringUtils.isNotBlank(assessAppraisal.getRecordInfo1().getStartTime())){
+				params.put("startTime",assessAppraisal.getRecordInfo1().getStartTime());
+			}else {
+				params.put("startTime","");
+			}
+			if(StringUtils.isNotBlank(assessAppraisal.getRecordInfo1().getEndTime())){
+				params.put("endTime",assessAppraisal.getRecordInfo1().getEndTime());
+			}else {
+				params.put("endTime","");
+			}
+			//诊疗概要
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getTreatmentSummary())){
+				params.put("treatmentSummary",assessAppraisal.getProposal().getTreatmentSummary());
+			}else{
+				params.put("treatmentSummary","");
+			}
+			//争议要点（患方认为，医方认为）
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getPatientThink())){
+				params.put("patientThink",assessAppraisal.getProposal().getPatientThink());
+			}else{
+				params.put("patientThink","");
+			}
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getDoctorThink())){
+				params.put("doctorThink",assessAppraisal.getProposal().getDoctorThink());
+			}else{
+				params.put("doctorThink","");
+			}
+			//分析意见
+			if(typeInfo!=null){
+				params.put("typeName",typeInfo.getTypeName());
+				params.put("content",typeInfo.getContent());
+			}else{
+				params.put("typeName","");
+				params.put("content","");
+			}
+			//诊断
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getDiagnosis())){
+				params.put("diagnosis",assessAppraisal.getProposal().getDiagnosis());
+			}else {
+				params.put("diagnosis","");
+			}
+			//治疗
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getTreatment())){
+				params.put("treatment",assessAppraisal.getProposal().getTreatment());
+			}else {
+				params.put("treatment","");
+			}
+			//其他
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getOther())){
+				params.put("other",assessAppraisal.getProposal().getOther());
+			}else{
+				params.put("other","");
+			}
+			//结论
+			if(typeInfo1!=null){
+				params.put("jTypeName",typeInfo1.getTypeName());
+				params.put("jContent",typeInfo1.getContent());
+			}else{
+				params.put("jTypeName","");
+				params.put("jContent","");
+			}
+
+
+			path += "/submissions.docx";  //模板文件位置
+			modelPath += "/submissions.docx";
+			newFileName = "意见书.docx";
+		}
+		try{
+			List<String[]> testList = new ArrayList<String[]>();
+			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
+			wordExportUtil.getWord(path,modelPath,"",params,testList,fileName,response);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 }
