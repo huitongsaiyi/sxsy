@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.sys.security;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -136,6 +137,30 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 				}
 			}
 		}
+		if (!Global.TRUE.equals(Global.getConfig("user.singleLogin"))){
+			Collection<Session> sessions = getSystemService().getSessionDao().getActiveSessions(true, principal, UserUtils.getSession());
+			if (sessions.size() > 0){
+				// 如果是登录进来的，则踢出其他设备的自己
+				if (UserUtils.getSubject().isAuthenticated()){
+					for (Session session : sessions){
+						SimpleAuthorizationInfo ss=(SimpleAuthorizationInfo) session.getAttribute("authInfo");
+						if (ss!=null){
+							Set<String> a=(Set<String>)ss.getStringPermissions();
+							for (String c : a ) {
+								if (c.equals(principal.getId())){
+									getSystemService().getSessionDao().delete(session);
+								}
+							}
+						}
+					}
+				}
+				// 记住我进来的，并且当前用户已登录，则退出当前用户提示信息。
+				else{
+					UserUtils.getSubject().logout();
+					throw new AuthenticationException("msg:账号已在其它地方登录，请重新登录。");
+				}
+			}
+		}
 		User user = getSystemService().getUserByLoginName(principal.getLoginName());
 		if (user != null) {
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -150,6 +175,8 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 			}
 			// 添加用户权限
 			info.addStringPermission("user");
+			//添加用户id
+			info.addStringPermission(user.getId());
 			// 添加用户角色信息
 			for (Role role : user.getRoleList()){
 				info.addRole(role.getEnname());
