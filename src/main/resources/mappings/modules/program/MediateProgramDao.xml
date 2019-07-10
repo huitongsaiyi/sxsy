@@ -20,6 +20,10 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
+		a.doctor_avoid AS "doctorAvoid",
+		a.patient_avoid AS "patientAvoid",
+		a.patient_clear AS "patientClear",
+		a.doctor_clear AS "doctorClear",
 		u3.name AS "mediatorUser.name",
 		u4.name AS "clerkuser.name",
 		u7.name AS "doctorOffice.name"
