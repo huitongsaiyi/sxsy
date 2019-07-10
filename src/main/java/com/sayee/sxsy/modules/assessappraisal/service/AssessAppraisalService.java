@@ -124,6 +124,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		if(StringUtils.isBlank(assessAppraisal.getCreateBy().getId())){
 			assessAppraisal.preInsert();
 			assessAppraisal.setAssessAppraisalId(assessAppraisal.getId());
+			assessAppraisal.setPatientAge(assessAppraisal.getComplaintMain().getPatientAge());
+			assessAppraisal.setPatientName(assessAppraisal.getComplaintMain().getPatientName());
+			assessAppraisal.setPatientSex(assessAppraisal.getComplaintMain().getPatientSex());
 			if(StringUtils.isBlank(assessAppraisal.getPatientAge())){
 				assessAppraisal.setPatientAge("0");
 			}
@@ -201,6 +204,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			recordInfoDao.update(yif);
 			//更新评估鉴定主表
 			assessAppraisal.preUpdate();
+			assessAppraisal.setPatientAge(assessAppraisal.getComplaintMain().getPatientAge());
+			assessAppraisal.setPatientName(assessAppraisal.getComplaintMain().getPatientName());
+			assessAppraisal.setPatientSex(assessAppraisal.getComplaintMain().getPatientSex());
 			dao.update(assessAppraisal);
 			//更新附件
 			if(StringUtils.isNotBlank(files1)){

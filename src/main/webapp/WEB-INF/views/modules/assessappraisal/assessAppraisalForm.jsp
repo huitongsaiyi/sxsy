@@ -233,6 +233,7 @@
 	<form:hidden path="recordInfo1.yrecordInfo.host"/>
 	<form:hidden path="recordInfo1.yrecordInfo.noteTaker"/>
     <form:hidden path="proposal.proposalCode"/>
+	<form:hidden path="complaintMain.patientSex"/>
 	<input type="hidden"  id="export" name="export"/>
 	<sys:message content="${message}"/>
 	<ul id="myTab" class="nav nav-tabs">
@@ -422,6 +423,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="patientAvoid" name="patientAvoid" value="${assessAppraisal.patientAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -432,6 +436,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="doctorAvoid" name="doctorAvoid" value="${assessAppraisal.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">四、宣读有关纪律及注意事项：</span>
@@ -546,6 +553,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="patientClear" name="patientClear" value="${assessAppraisal.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -556,6 +566,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="doctorClear" name="doctorClear" value="${assessAppraisal.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">五、患方陈述、提出诉求，提交证明材料。</span>
@@ -865,6 +878,9 @@
 							<c:when test="${assessAppraisal.complaintMain.patientSex=='2'}">
 								女
 							</c:when>
+							<c:otherwise>
+								无
+							</c:otherwise>
 						</c:choose>
 						<%--<form:select path="patientSex" class="input-medium" style="text-align:center">--%>
 							<%--<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>

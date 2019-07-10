@@ -56,6 +56,10 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 	private Area area;
 	private AuditAcceptance auditAcceptance;
 	private ReportRegistration reportRegistration;
+	private  String doctorAvoid;//医方回避
+	private String patientAvoid;//患方回避
+	private String patientClear;//患方是否清楚
+	private String doctorClear;//医方是否清楚
 
 
 	public ReachMediate() {
@@ -64,6 +68,38 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 
 	public ReachMediate(String id){
 		super(id);
+	}
+
+	public void setPatientClear(String patientClear) {
+		this.patientClear = patientClear;
+	}
+
+	public String getPatientClear() {
+		return patientClear;
+	}
+
+	public void setPatientAvoid(String patientAvoid) {
+		this.patientAvoid = patientAvoid;
+	}
+
+	public String getPatientAvoid() {
+		return patientAvoid;
+	}
+
+	public void setDoctorClear(String doctorClear) {
+		this.doctorClear = doctorClear;
+	}
+
+	public String getDoctorClear() {
+		return doctorClear;
+	}
+
+	public void setDoctorAvoid(String doctorAvoid) {
+		this.doctorAvoid = doctorAvoid;
+	}
+
+	public String getDoctorAvoid() {
+		return doctorAvoid;
 	}
 
 	public String getReamediator() {

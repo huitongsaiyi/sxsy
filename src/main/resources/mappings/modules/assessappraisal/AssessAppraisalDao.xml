@@ -22,6 +22,10 @@
 		a.other AS "other",
 		a.handle_people AS "handlePeople",
 		a.handle_time AS "handleTime",
+		a.doctor_clear AS "doctorClear",
+		a.patient_clear AS "patientClear",
+		a.patient_avoid AS "patientAvoid",
+		a.doctor_avoid AS "doctorAvoid",
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan",
 		a.create_by AS "createBy.id",
@@ -90,12 +94,12 @@
 	</sql>
 
 	<sql id="assessAppraisalJoins">
-        LEFT JOIN ASSESS_APPRAISAL a on a.complaint_main_id = b.complaint_main_id
-        LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
-        LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
-        LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
-        LEFT JOIN PROPOSAL p ON p.assess_appraisal_id=a.assess_appraisal_id
-        LEFT JOIN RECORD_INFO hr ON hr.relation_id = a.assess_appraisal_id and hr.type='1'
+		LEFT JOIN ASSESS_APPRAISAL a on a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
+		LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
+		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
+		LEFT JOIN PROPOSAL p ON p.assess_appraisal_id=a.assess_appraisal_id
+		LEFT JOIN RECORD_INFO hr ON hr.relation_id = a.assess_appraisal_id and hr.type='1'
 		LEFT JOIN SYS_USER uz ON uz.id = hr.host
 		LEFT JOIN SYS_USER uj ON uj.id=hr.note_taker
 		LEFT JOIN SYS_USER uy ON uy.id=hr.doctor
@@ -103,13 +107,13 @@
 		LEFT JOIN SYS_USER uz1 ON uz1.id = yr.host
 		LEFT JOIN SYS_USER uj1 ON uj1.id=yr.note_taker
 		LEFT JOIN SYS_USER uy1 ON uy1.id=yr.doctor
-        LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
-        LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
-        LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
-        LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
-        LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
-        LEFT Join SYS_USER u3 ON u3.id=a.host
-        LEFT Join SYS_USER u4 ON u4.id=a.clerk
+		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
+		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
+		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
+		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+		LEFT Join SYS_USER u3 ON u3.id=a.host
+		LEFT Join SYS_USER u4 ON u4.id=a.clerk
 	</sql>
 
 	<select id="get" resultType="AssessAppraisal">
@@ -170,63 +174,71 @@
 
 	<insert id="insert">
 		INSERT INTO ASSESS_APPRAISAL(
-			assess_appraisal_id,
-			complaint_main_id,
-			apply_type,
-			responsibility_ratio,
-			host,
-			clerk,
-			patient_name,
-			patient_sex,
-			patient_age,
-			hospital_number,
-			involve_hospital,
-			diagnostic_analysis,
-			treatment_analysis,
-			other_medical_analysis,
-			medical_expert,
-			legal_expert,
-			other,
-			handle_people,
-			handle_time,
-			next_link,
-			next_link_man,
-			create_by,
-			create_date,
-			update_by,
-			update_date,
-			medical_expert_name,
-		    legal_expert_name,
-			del_flag
+		assess_appraisal_id,
+		complaint_main_id,
+		apply_type,
+		responsibility_ratio,
+		host,
+		clerk,
+		patient_name,
+		patient_sex,
+		patient_age,
+		hospital_number,
+		involve_hospital,
+		diagnostic_analysis,
+		treatment_analysis,
+		other_medical_analysis,
+		medical_expert,
+		legal_expert,
+		other,
+		handle_people,
+		handle_time,
+		doctor_clear ,
+		patient_clear,
+		patient_avoid,
+		doctor_avoid,
+		next_link,
+		next_link_man,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		medical_expert_name,
+		legal_expert_name,
+		del_flag
 		) VALUES (
-			#{assessAppraisalId},
-			#{complaintMainId},
-			#{applyType},
-			#{responsibilityRatio},
-			#{host},
-			#{clerk},
-			#{patientName},
-			#{patientSex},
-			#{patientAge},
-			#{hospitalNumber},
-			#{involveHospital},
-			#{diagnosticAnalysis},
-			#{treatmentAnalysis},
-			#{otherMedicalAnalysis},
-			#{medicalExpert},
-			#{legalExpert},
-			#{other},
-			#{handlePeople},
-			#{handleTime},
-			#{nextLink},
-			#{nextLinkMan},
-			#{createBy.id},
-			#{createDate},
-			#{updateBy.id},
-			#{updateDate},
-			#{medicalExpertName},
-			#{legalExpertName},
-			#{delFlag}
+		#{assessAppraisalId},
+		#{complaintMainId},
+		#{applyType},
+		#{responsibilityRatio},
+		#{host},
+		#{clerk},
+		#{patientName},
+		#{patientSex},
+		#{patientAge},
+		#{hospitalNumber},
+		#{involveHospital},
+		#{diagnosticAnalysis},
+		#{treatmentAnalysis},
+		#{otherMedicalAnalysis},
+		#{medicalExpert},
+		#{legalExpert},
+		#{other},
+		#{handlePeople},
+		#{handleTime},
+		#{doctorClear} ,
+		#{patientClear},
+		#{patientAvoid},
+		#{doctorAvoid},
+		#{nextLink},
+		#{nextLinkMan},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{medicalExpertName},
+		#{legalExpertName},
+		#{delFlag}
 		)
 	</insert>
 
@@ -251,6 +263,10 @@
 			other = #{other},
 			handle_people = #{handlePeople},
 			handle_time = #{handleTime},
+			doctor_clear = #{doctorClear},
+			patient_clear = #{patientClear},
+			patient_avoid = #{patientAvoid},
+			doctor_avoid = #{doctorAvoid},
 			next_link = #{nextLink},
 			next_link_man = #{nextLinkMan},
 			update_by = #{updateBy.id},

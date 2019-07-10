@@ -315,6 +315,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="patientAvoid" name="patientAvoid" value="${reachMediate.patientAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -325,6 +328,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="doctorAvoid" name="doctorAvoid" value="${reachMediate.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">三、宣读有关纪律及注意事项：</span>
@@ -493,6 +499,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="patientClear" name="patientClear" value="${reachMediate.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -503,6 +512,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+						<input id="doctorClear" name="doctorClear" value="${reachMediate.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">七、开始调解</span>

@@ -352,6 +352,10 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		mediateProgram.setMediateProgramId(mediateProgram.getId());
 		mediateProgram.setMeetingFrequency(String.valueOf(cishu));
 		mediateProgram.setRelationId(reachMediate.getReachMediateId());
+		mediateProgram.setPatientClear(reachMediate.getPatientClear());
+		mediateProgram.setPatientAvoid(reachMediate.getPatientAvoid());
+		mediateProgram.setDoctorClear(reachMediate.getDoctorClear());
+		mediateProgram.setDoctorAvoid(reachMediate.getDoctorAvoid());
 		mediateProgramDao.insert(mediateProgram);
 		//保存一条 调解会的 调解志
 		MediateRecord mediateRecord=new MediateRecord();
