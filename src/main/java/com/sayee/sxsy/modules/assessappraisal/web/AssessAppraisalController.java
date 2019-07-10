@@ -162,25 +162,32 @@ public class AssessAppraisalController extends BaseController {
 
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")
 	@RequestMapping(value = "save")
-	public String save(AssessAppraisal assessAppraisal, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
+	public String save(AssessAppraisal assessAppraisal, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request,HttpServletResponse response) {
 //		if (!beanValidator(model, assessAppraisal)&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getComplaintMain())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getProposal())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
 //			return form(assessAppraisal, model,request);
 //		}
-		try{
-			assessAppraisalService.save(assessAppraisal,request);
-            machineAccountService.savetz(assessAppraisal.getMachineAccount(), "d", assessAppraisal.getAssessAppraisalId());
-			if("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
-				addMessage(redirectAttributes, "流程已启动，流程ID：" + assessAppraisal.getComplaintMain().getProcInsId());
-			}else {
-				addMessage(redirectAttributes, "保存评估鉴定成功");
+		String export=request.getParameter("export");
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
+			AssessAppraisal assessAppraisal1 = assessAppraisalService.get(assessAppraisal.getAssessAppraisalId());
+			assessAppraisalService.exportWord(assessAppraisal1,export,request,response);
+			return "";
+		}else {
+			try {
+				assessAppraisalService.save(assessAppraisal, request);
+				machineAccountService.savetz(assessAppraisal.getMachineAccount(), "d", assessAppraisal.getAssessAppraisalId());
+				if ("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())) {
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + assessAppraisal.getComplaintMain().getProcInsId());
+				} else {
+					addMessage(redirectAttributes, "保存评估鉴定成功");
+				}
+
+			} catch (Exception e) {
+				logger.error("启动鉴定评估流程失败：", e);
+				addMessage(redirectAttributes, "系统内部错误");
+
 			}
-
-		}catch(Exception e){
-			logger.error("启动鉴定评估流程失败：",e);
-			addMessage(redirectAttributes,"系统内部错误");
-
+			return "redirect:" + Global.getAdminPath() + "/assessappraisal/assessAppraisal/?repage";
 		}
-		return "redirect:"+Global.getAdminPath()+"/assessappraisal/assessAppraisal/?repage";
 	}
 
 	@RequiresPermissions("assessappraisal:assessAppraisal:edit")

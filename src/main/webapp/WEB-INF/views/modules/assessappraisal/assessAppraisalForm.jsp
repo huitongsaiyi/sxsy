@@ -7,26 +7,29 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//$("#name").focus();
+			// $("#inputForm").validate({
+			// 	submitHandler: function(form){
+			// 		loading('正在提交，请稍等...');
+			// 		form.submit();
+			// 	},
+			// 	errorContainer: "#messageBox",
+			// 	errorPlacement: function(error, element) {
+			// 		$("#messageBox").text("输入有误，请先更正。");
+			// 		if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+			// 			error.appendTo(element.parent().parent());
+			// 		} else {
+			// 			error.insertAfter(element);
+			// 		}
+			// 	}
+			// });
+
+
 			$("#inputForm").validate({
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
-				},
-				errorContainer: "#messageBox",
-				errorPlacement: function(error, element) {
-					$("#messageBox").text("输入有误，请先更正。");
-					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-						error.appendTo(element.parent().parent());
-					} else {
-						error.insertAfter(element);
+					var aa=$("#export").val();
+					if(aa=='no') {
+						loading('正在提交，请稍等...');
 					}
-				}
-			});
-
-
-			$("#inputForm").validate({
-				submitHandler: function(form){
-					loading('正在提交，请稍等...');
 					$("input[type=checkbox]").each(function(){
 						$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
 								+($(this).attr("checked")?"1":"0")+"\"/>");
@@ -46,7 +49,7 @@
 			});
 			var c=$("#a").val();
 			if(c==""){
-				$("#a").text("医疗责任保险事故鉴定");
+				$("#a").text("医疗纠纷技术评估");
 			}else{
 				show_input(vas,idss);
 			}
@@ -230,6 +233,7 @@
 	<form:hidden path="recordInfo1.yrecordInfo.host"/>
 	<form:hidden path="recordInfo1.yrecordInfo.noteTaker"/>
     <form:hidden path="proposal.proposalCode"/>
+	<input type="hidden"  id="export" name="export"/>
 	<sys:message content="${message}"/>
 	<ul id="myTab" class="nav nav-tabs">
 		<li class="active">
@@ -1113,7 +1117,7 @@
 						</tr>//-->
 					</script>
 					<legend style="color: black;">二、评估时间</legend>
-					<span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline" id="time1">
+					<span style="font-family:宋体; font-size:16pt; font-weight:normal; text-decoration:underline;color: black;" id="time1">
 
 					</span>
 					<span>&nbsp;</span>
@@ -1121,7 +1125,7 @@
 						至
 					</span>
 					<span>&nbsp;</span>
-					<span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline" id="time2">
+					<span style="font-family:宋体; font-size:16pt; font-weight:normal; text-decoration:underline;color: black;" id="time2">
 
 					</span>
 					<legend style="color: black;">三、诊疗概要</legend>
@@ -1219,7 +1223,10 @@
 						</c:forEach>
 					</table>
 					<legend style="color: black;">七、说明</legend>
-					<span style="font-size: 20px;">该意见仅作为山西省医疗纠纷人民调解委员会调解医疗纠纷的参考，不具备法律效率。</span>
+					<span style="font-size: 20px;">该意见仅作为山西省医疗纠纷人民调解委员会调解医疗纠纷的参考，不具备法律效率。</span><br><br>
+					<div style="width: 100px;margin: auto">
+						<input id="proposalExport" class="btn btn-primary" type="submit" value="生成意见书" onclick="$('#export').val('proposalDis')"/>
+				   </div>
 				</div>
 
 			</div>
