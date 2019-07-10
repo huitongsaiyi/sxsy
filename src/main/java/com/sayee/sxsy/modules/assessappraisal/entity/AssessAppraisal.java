@@ -69,6 +69,43 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
     private MachineAccount machineAccount;//台账信息
 	private String medicalExpertName;//医学专家（名称）
 	private String legalExpertName;//法律专家（名称）
+	private String doctorClear;	//医方是否听清楚
+	private String patientClear;	//患方是否听清楚
+	private String patientAvoid;	//患方是否回避
+	private String doctorAvoid;	//医方是否回避
+
+
+	public String getDoctorAvoid() {
+		return doctorAvoid;
+	}
+
+	public void setDoctorAvoid(String doctorAvoid) {
+		this.doctorAvoid = doctorAvoid;
+	}
+
+	public String getDoctorClear() {
+		return doctorClear;
+	}
+
+	public void setDoctorClear(String doctorClear) {
+		this.doctorClear = doctorClear;
+	}
+
+	public String getPatientAvoid() {
+		return patientAvoid;
+	}
+
+	public void setPatientAvoid(String patientAvoid) {
+		this.patientAvoid = patientAvoid;
+	}
+
+	public String getPatientClear() {
+		return patientClear;
+	}
+
+	public void setPatientClear(String patientClear) {
+		this.patientClear = patientClear;
+	}
 
 	public User getClerks() {
 		return clerks;

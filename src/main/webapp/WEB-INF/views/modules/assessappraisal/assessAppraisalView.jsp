@@ -642,25 +642,25 @@
                     <td>
                         ${assessAppraisal.recordInfo1.recordAddress}
                     </td>
-                    <td class="tit">
-                        事由：
-                    </td>
-                    <td>
-                        ${assessAppraisal.recordInfo1.cause}
-                    </td>
-                </tr>
-                <tr>
+                    <%--<td class="tit">--%>
+                        <%--事由：--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                        <%--${assessAppraisal.recordInfo1.cause}--%>
+                    <%--</td>--%>
                     <td class="tit">
                         主持人：
                     </td>
                     <td>
-                        ${assessAppraisal.recordInfo1.host}
+                            ${assessAppraisal.hosts.name}
                     </td>
+                </tr>
+                <tr>
                     <td class="tit">
                         记录人：
                     </td>
                     <td>
-                        ${assessAppraisal.recordInfo1.noteTaker}
+                        ${assessAppraisal.clerks.name}
                     </td>
                 </tr>
                 <tr>
@@ -697,25 +697,25 @@
                     <td>
                        ${assessAppraisal.recordInfo1.yrecordInfo.recordAddress}
                     </td>
-                    <td class="tit">
-                        事由：
-                    </td>
-                    <td>
-                        ${assessAppraisal.recordInfo1.yrecordInfo.cause}
-                    </td>
-                </tr>
-                <tr>
+                    <%--<td class="tit">--%>
+                        <%--事由：--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                        <%--${assessAppraisal.recordInfo1.yrecordInfo.cause}--%>
+                    <%--</td>--%>
                     <td class="tit">
                         主持人：
                     </td>
                     <td>
-                       ${assessAppraisal.recordInfo1.yrecordInfo.host}
+                            ${assessAppraisal.hosts.name}
                     </td>
+                </tr>
+                <tr>
                     <td class="tit">
                         记录人：
                     </td>
                     <td>
-                        ${assessAppraisal.recordInfo1.yrecordInfo.noteTaker}
+                        ${assessAppraisal.clerks.name}
                     </td>
                 </tr>
                 <tr>
@@ -791,7 +791,7 @@
                         医学专家：
                     </td>
                     <td colspan="3">
-                        ${assessAppraisal.medicalExpert}
+                        ${assessAppraisal.medicalExpertName}
                     </td>
                 </tr>
                 <tr>
@@ -1197,13 +1197,13 @@
                 主持人：
             </td>
             <td>
-               ${assessAppraisal.host}
+               ${assessAppraisal.hosts.name}
             </td>
             <td class="tit">
                 书记员：
             </td>
             <td>
-                ${assessAppraisal.clerk}
+                ${assessAppraisal.clerks.name}
             </td>
         </tr>
             <%--<tr>--%>

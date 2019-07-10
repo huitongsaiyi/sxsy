@@ -338,6 +338,10 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
         mediateProgram.setMediateProgramId(mediateProgram.getId());
         mediateProgram.setMeetingFrequency(String.valueOf(cishu));
         mediateProgram.setRelationId(mediateEvidence.getMediateEvidenceId());
+        mediateProgram.setDoctorAvoid(mediateEvidence.getDoctorAvoid());
+        mediateProgram.setDoctorClear(mediateEvidence.getDoctorClear());
+        mediateProgram.setPatientAvoid(mediateEvidence.getPatientAvoid());
+        mediateProgram.setPatientClear(mediateEvidence.getPatientClear());
         mediateProgramDao.insert(mediateProgram);
         //保存一条 调解会的 调解志
         MediateRecord mediateRecord=new MediateRecord();
