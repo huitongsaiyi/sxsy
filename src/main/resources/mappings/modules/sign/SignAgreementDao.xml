@@ -39,7 +39,28 @@
 		au.policy_number AS "auditAcceptance.policyNumber",
 	    r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
-		r.patient_mobile AS "reportRegistration.patientMobile"
+		r.patient_mobile AS "reportRegistration.patientMobile",
+		re.record_id AS "recordInfo.recordId",
+		re.start_time AS "recordInfo.startTime",
+		re.end_time AS "recordInfo.endTime",
+		re.address AS "recordInfo.recordAddress",
+		re.host AS "recordInfo.host",
+		re.note_taker AS "recordInfo.noteTaker",
+		re.patient AS "recordInfo.patient",
+        re.doctor AS "recordInfo.doctor",
+ 		re.record_content AS "recordInfo.recordContent",
+ 		re.cause AS "recordInfo.cause",
+ 		me.mediate_program_id AS "mediateProgram.mediateProgramId",
+ 		me.mediator AS "mediateProgram.mediator",
+ 		me.clerk AS "mediateProgram.clerk",
+ 		me.patient AS "mediateProgram.patient",
+ 		me.doctor AS "mediateProgram.doctor",
+ 		me.meeting_time AS "mediateProgram.meetingTime",
+ 		me.address AS "mediateProgram.address",
+ 		me.doctor_avoid AS "mediateProgram.doctorAvoid",
+ 		me.patient_avoid AS "mediateProgram.patientAvoid",
+ 		me.patient_clear AS "mediateProgram.patientClear",
+ 		me.doctor_clear AS "mediateProgram.doctorClear"
 	</sql>
 	
 	<sql id="signAgreementJoins">
@@ -52,6 +73,8 @@
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+		LEFT JOIN RECORD_INFO re ON re.relation_id=a.sign_agreement_id AND re.module_type ='4'
+		LEFT JOIN MEDIATE_PROGRAM me ON me.relation_id=a.sign_agreement_id
 
 	</sql>
     

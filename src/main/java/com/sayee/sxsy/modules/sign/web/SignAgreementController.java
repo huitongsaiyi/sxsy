@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
@@ -135,6 +136,13 @@ public class SignAgreementController extends BaseController {
 			model.addAttribute("signAgreement", signAgreement);
 			return "modules/sign/signAgreementView";
 		}else{
+			if(signAgreement !=null){
+				if(signAgreement.getRecordInfo()==null){
+					RecordInfo recordInfo=new RecordInfo();
+					recordInfo.setRecordContent("调解员:请全体起立，宣读人民调解协议书。\n确认协议书中约定的履行事项双方是否听清?\n患方:\n医方:\n调解员:双方对协议有无异议?是否自愿签署协议?\n患方:\n医方:\n调解员:请双方签名、按手印确认。\n患方:\n医方:");
+					signAgreement.setRecordInfo(recordInfo);
+				}
+			}
 			model.addAttribute("signAgreement", signAgreement);
 			return "modules/sign/signAgreementForm";
 		}

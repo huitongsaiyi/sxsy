@@ -9,7 +9,9 @@ import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
+import com.sayee.sxsy.modules.program.entity.MediateProgram;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
+import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.Office;
@@ -65,7 +67,24 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 	private List<PatientLinkEmp> patientLinkDList = Lists.newArrayList();		//患方代理人
 	private List<MedicalOfficeEmp> medicalOfficeEmpList = Lists.newArrayList();		//医方管理人员
     private MachineAccount machineAccount;//台账信息
+    private RecordInfo recordInfo;//签署协议会议记录
+	private MediateProgram mediateProgram;//调解程序表
 
+	public MediateProgram getMediateProgram() {
+		return mediateProgram;
+	}
+
+	public void setMediateProgram(MediateProgram mediateProgram) {
+		this.mediateProgram = mediateProgram;
+	}
+
+	public RecordInfo getRecordInfo() {
+		return recordInfo;
+	}
+
+	public void setRecordInfo(RecordInfo recordInfo) {
+		this.recordInfo = recordInfo;
+	}
 
 	public SignAgreement() {
 		super();
