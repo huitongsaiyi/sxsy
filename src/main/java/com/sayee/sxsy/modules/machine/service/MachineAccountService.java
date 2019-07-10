@@ -241,7 +241,8 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 if(m!=null){
                     m.preUpdate();
                     m.setClaimSettlementTime(performAgreement.getClaimSettlementTime());
-                    m.setCompensateTime(performAgreement.getCompensateTime());
+                    m.setCompensateTime(performAgreement.getInsurancePayTime());
+                    this.TianShu(m);
                     if (StringUtils.isNotBlank(performAgreement.getAgreementPayAmount()) || "0".equals(performAgreement.getAgreementPayAmount()) || "".equals(performAgreement.getAgreementPayAmount())) {
                         m.setAgreementAmount(performAgreement.getAgreementPayAmount());
                     } else {
@@ -269,5 +270,27 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
 
             }
         }
+    }
+
+    public MachineAccount TianShu(MachineAccount machineAccount){
+        String strat = machineAccount.getClaimSettlementTime();
+        String end = machineAccount.getCompensateTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = format.parse(strat);
+            d2 = format.parse(end);
+
+            long diff = d1.getTime() - d2.getTime();
+
+            Integer total = (int)(diff/1000);
+            Integer day = total/(3600*24);
+            machineAccount.setFlowDays(String.valueOf(day));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return machineAccount;
     }
 }

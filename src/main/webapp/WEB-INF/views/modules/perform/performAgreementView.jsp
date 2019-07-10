@@ -96,25 +96,27 @@
                             <td>
                                 ${performAgreement.agreementPayAmount}
                             </td>
+                            <td class="tit">保险公司赔付金额</td>
+                            <td>
+                                    ${performAgreement.insurancePayAmount}
+                            </td>
                             <td class="tit">医院赔付金额</td>
                             <td>
                                 ${performAgreement.hospitalPayAmount}
                             </td>
                         </tr>
                         <tr>
+                            <td  class="tit">交理赔时间</td>
+                            <td>
+                                ${performAgreement.claimSettlementTime}
+                            </td>
+                            <td class="tit">保险公司赔付时间</td>
+                            <td>
+                                    ${performAgreement.insurancePayTime}
+                            </td>
                             <td class="tit">医院赔付时间</td>
                             <td>
                                 ${performAgreement.hospitalPayTime}
-                            </td>
-                            <td class="tit">保险公司赔付金额</td>
-                            <td>
-                                ${performAgreement.insurancePayAmount}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tit">保险公司赔付时间</td>
-                            <td>
-                                ${performAgreement.insurancePayTime}
                             </td>
                         </tr>
                     </table>

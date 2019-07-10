@@ -118,7 +118,7 @@
 		<th class="sort-column treatment_result">治疗结果</th>
 		<th class="sort-column patients_reflect_focus">患方反映焦点</th>
 		<th class="sort-column related_major">涉及专业</th>
-		<th class="sort-column risk_people">出险义务人员</th>
+		<th class="sort-column risk_people">出险医务人员</th>
 		<th class="sort-column assess_time">评估时间</th>
 		<th class="sort-column assess_number">评估号</th>
 		<th class="sort-column duty_ratio">责任比例</th>

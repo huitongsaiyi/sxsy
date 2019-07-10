@@ -80,24 +80,14 @@
 			<div class="tab-pane fade in active" id="patient">
 				<table class="table-form">
 					<tr>
-						<td  class="tit">交理赔时间</td>
-						<td>
-							<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="${performAgreement.claimSettlementTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-						</td>
-						<td  class="tit">赔付时间</td>
-						<td>
-							<input name="compensateTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="${performAgreement.compensateTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-						</td>
-					</tr>
-					<tr>
-						<td class="tit">协议赔付金额</td>
+						<td class="tit">协议总金额</td>
 						<td>
 							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" id="ag" onchange="aa(this.value)"/>
-							<%--<input id="agreementPayAmount" name="agreementPayAmount" value="${performAgreement.agreementPayAmount}">--%>
+								<%--<input id="agreementPayAmount" name="agreementPayAmount" value="${performAgreement.agreementPayAmount}">--%>
+						</td>
+						<td class="tit">保险公司赔付金额</td>
+						<td>
+							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" onchange="aa(this.value)" id="in"/>
 						</td>
 						<td class="tit">医院赔付金额</td>
 						<td>
@@ -105,25 +95,36 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="tit">医院赔付时间</td>
+						<td  class="tit">交理赔时间</td>
 						<td>
-							<input name="hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-								   value="${performAgreement.hospitalPayTime}"
-								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+							<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${performAgreement.claimSettlementTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
+							onchange="DateDiff()"/>
 						</td>
-						<td class="tit">保险公司赔付金额</td>
-						<td>
-							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" onchange="aa(this.value)" id="in"/>
-						</td>
-					</tr>
-					<tr>
 						<td class="tit">保险公司赔付时间</td>
 						<td>
 							<input name="insurancePayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.insurancePayTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 						</td>
+						<td class="tit">医院赔付时间</td>
+						<td>
+							<input name="hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${performAgreement.hospitalPayTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+						</td>
+
 					</tr>
+					<%--<tr>--%>
+						<%--<td  class="tit">赔付时间</td>--%>
+						<%--<td>--%>
+							<%--<input name="compensateTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"--%>
+								   <%--value="${performAgreement.compensateTime}"--%>
+								   <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>--%>
+						<%--</td>--%>
+
+					<%--</tr>--%>
 				</table>
 			</div>
 			<div class="tab-pane fade" id="annex">

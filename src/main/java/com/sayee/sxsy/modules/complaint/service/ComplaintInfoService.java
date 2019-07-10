@@ -18,6 +18,7 @@ import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -183,21 +184,28 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         String involveDepartment=request.getParameter("involveDepartment");
         String involveEmployee=request.getParameter("involveEmployee");
         if (StringUtils.isBlank(visitorDate) && StringUtils.isBlank(visitorMonthDate)){
-            visitorDate= DateUtils.getDate();
+            visitorDate= DateUtils.getDate();//"2019-07-09";
         }
-        List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+        List list=new ArrayList();
 
         List<Map<String,Object>> every =complaintInfoDao.selectEveryOne(visitorDate,visitorMonthDate,involveDepartment,involveEmployee);
+        if(CollectionUtils.isEmpty(every)){
+            every=new ArrayList<Map<String,Object>>();
+        }
         //根据拿到的所有人员数据 在进行 单个人员统计
         person(every,list,visitorDate,visitorMonthDate);
-        page.setList(Collections.singletonList(every));
+        list.add(every);
+        page.setList(list);
         return page;//super.findPage(page, complaintInfo);
     }
 
-    public void person(List<Map<String,Object>> every,List<Map<String,Object>> list,String visitorDate,String visitorMonthDate){
+    public void person(List<Map<String,Object>> every,List<Object> list,String visitorDate,String visitorMonthDate){
             if (every.size()>0){
                 for (Map<String,Object> map: every) {
-                    map.putAll(complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by","'"),visitorDate,visitorMonthDate));
+                    Map<String,Object> person=complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by",""),visitorDate,visitorMonthDate);
+                        if (MapUtils.isNotEmpty(person)){
+                            map.putAll(person);
+                        }
                 }
             }
     }
