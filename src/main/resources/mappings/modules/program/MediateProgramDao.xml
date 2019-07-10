@@ -100,7 +100,11 @@
 			create_date,
 			update_by,
 			update_date,
-			del_flag
+			del_flag,
+			doctor_avoid,
+		    patient_avoid,
+		    patient_clear,
+		    doctor_clear
 		) VALUES (
 			#{mediateProgramId},
 			#{relationId},
@@ -118,7 +122,11 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{delFlag}
+			#{delFlag},
+			#{doctorAvoid},
+		    #{patientAvoid},
+		    #{patientClear},
+		    #{doctorClear}
 		)
 	</insert>
 	
@@ -137,7 +145,11 @@
 			meeting_time = #{meetingTime},
 			meeting_frequency = #{meetingFrequency},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			doctor_avoid=#{doctorAvoid},
+			patient_avoid = #{patientAvoid},
+			patient_clear = #{patientClear},
+			doctor_clear = #{doctorClear}
 		WHERE id = #{id}
 	</update>
 	
