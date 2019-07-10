@@ -22,7 +22,7 @@
 					}
 				}
 			});
-			var value='${complaintInfo.shiftHandle}';
+			var value='${complaintInfo.handleWay}';
 			if(value==''){
 			    value = 0;
             }

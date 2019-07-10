@@ -119,15 +119,15 @@
 					${complaintInfo.summaryOfDisputes}
 				</td>
 				<td>
-					<c:if test="${complaintInfo.isMediate eq 1}">
+					<c:if test="${complaintInfo.handleWay eq 2}">
 						是
 					</c:if>
-					<c:if test="${complaintInfo.isMediate ne 1}">
+					<c:if test="${complaintInfo.handleWay ne 2}">
 						否
 					</c:if>
 				</td>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><td>
-					<c:if test="${complaintInfo.isMediate ne 1}">
+					<c:if test="${complaintInfo.handleWay ne 2}">
     				<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">处理</a>
 					<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.complaintId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
 					</c:if>

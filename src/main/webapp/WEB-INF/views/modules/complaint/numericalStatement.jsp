@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			changeDate('day');
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -14,6 +14,15 @@
 			$("#searchForm").submit();
         	return false;
         }
+        function changeDate(value){
+		    if(value=='day'){
+		        $("#day").show();
+		        $("#month").hide();
+			}else if(value=='month'){
+                $("#day").hide();
+                $("#month").show();
+			}
+		}
 	</script>
 </head>
 <body>
@@ -38,7 +47,7 @@
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 			</li>
 
-			<li id="month" style="display:none">
+			<li id="month" style="">
 				<label>日期：</label>
 				<input id="visitorMonthDate" name="visitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					   value=""
@@ -46,11 +55,11 @@
 			</li>
 
 			<li><label>部门：</label>
-				<sys:treeselect id="involveDepartment" name="involveDepartment" value="" labelName="departmentName" labelValue=""
+				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"
 					title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true"  cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>人员</label>
-				<sys:treeselect id="involveEmployee" name="involveEmployee" value="" labelName="departmentName" labelValue=""
+				<sys:treeselect id="involveEmployee" name="involveEmployee" value="${complaintInfo.involveEmployee}" labelName="employeeName" labelValue="${complaintInfo.employeeName}"
 								title="部门" url="/sys/office/treeData?type=3&officeType=2" isAll="true"  cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="统计"/></li>
