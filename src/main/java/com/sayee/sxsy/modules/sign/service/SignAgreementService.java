@@ -8,13 +8,21 @@ import java.util.*;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.gen.entity.GenTableColumn;
 import com.sayee.sxsy.modules.mediate.entity.MediateEvidence;
 import com.sayee.sxsy.modules.medicalofficeemp.dao.MedicalOfficeEmpDao;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.dao.PatientLinkEmpDao;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
+import com.sayee.sxsy.modules.program.dao.MediateProgramDao;
+import com.sayee.sxsy.modules.program.entity.MediateProgram;
+import com.sayee.sxsy.modules.program.service.MediateProgramService;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
+import com.sayee.sxsy.modules.recordinfo.dao.RecordInfoDao;
+import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
+import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
@@ -50,6 +58,16 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	SignAgreementDao signAgreementDao;
 	@Autowired
 	private MedicalOfficeEmpDao medicalOfficeEmpDao;
+	@Autowired
+	private MediateProgramDao mediateProgramDao;
+	@Autowired
+	private MediateProgramService mediateProgramService;
+	@Autowired
+	private RecordInfoDao recordInfoDao;
+	@Autowired
+	private RecordInfoService recordInfoService;
+	@Autowired
+	private ComplaintMainService complaintMainService;
 	public SignAgreement get(String id) {
 		SignAgreement signAgreement=super.get(id);
 		//患方 明细查询
@@ -66,6 +84,14 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		MedicalOfficeEmp medicalOfficeEmp=new MedicalOfficeEmp();
 		medicalOfficeEmp.setRelationId(signAgreement.getSignAgreementId());
 		signAgreement.setMedicalOfficeEmpList(medicalOfficeEmpDao.findList(medicalOfficeEmp));
+		if(signAgreement.getMediateProgram()!=null){
+			signAgreement.setMediateProgram(mediateProgramService.get(signAgreement.getMediateProgram().getMediateProgramId()));
+		}
+		if(signAgreement.getRecordInfo()!=null){
+			signAgreement.setRecordInfo(recordInfoService.get(signAgreement.getRecordInfo().getRecordId()));
+		}
+
+
 		return signAgreement;
 	}
 	
@@ -93,12 +119,17 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			signAgreement.setSignAgreementId(signAgreement.getId());
 			//将主键ID设为UUID
 			dao.insert(signAgreement);
+			//保存调解程序表
 		}else{//如果不为空进行更新
 
 			//修改签署协议
 			signAgreement.preUpdate();
 			dao.update(signAgreement);
 		}
+		//保存调解程序表
+		this.saveMe(signAgreement);
+		//保存笔录
+		this.saveRecordInfo(signAgreement);
 		//保存患方
 		this.detail(signAgreement,"1");
 		//保存患方代理人
@@ -309,5 +340,43 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	public List<SignAgreement> selectAgreementNumber(SignAgreement signAgreement){
 	 	List<SignAgreement> signAgreements = signAgreementDao.selectAgreementNumber(signAgreement);
 	 	return signAgreements;
+	}
+	//调解程序表
+	public void saveMe(SignAgreement signAgreement){
+	 	MediateProgram mediateProgram=signAgreement.getMediateProgram();
+	     ComplaintMain complaintMain = complaintMainService.get(signAgreement.getComplaintMainId());
+		if(StringUtils.isBlank(mediateProgram.getMediateProgramId())){
+	 		mediateProgram.setMediateProgramId(IdGen.uuid());
+	 		mediateProgram.setRelationId(signAgreement.getSignAgreementId());
+	 		mediateProgram.setPatient(complaintMain.getPatientName());
+	 		mediateProgram.setDoctor(complaintMain.getInvolveHospital());
+	 		mediateProgram.preInsert();
+	 		mediateProgramDao.insert(mediateProgram);
+		}else {
+	 		mediateProgram.preUpdate();
+			mediateProgram.setPatient(complaintMain.getPatientName());
+			mediateProgram.setDoctor(complaintMain.getInvolveHospital());
+			mediateProgram.setRelationId(signAgreement.getSignAgreementId());
+	 		mediateProgramDao.update(mediateProgram);
+		}
+	}
+	//保存笔录
+	public void saveRecordInfo(SignAgreement signAgreement){
+		RecordInfo recordInfo=signAgreement.getRecordInfo();
+		ComplaintMain complaintMain = complaintMainService.get(signAgreement.getComplaintMainId());
+		if(StringUtils.isBlank(recordInfo.getRecordId())){
+			recordInfo.setRecordId(IdGen.uuid());
+			recordInfo.setRelationId(signAgreement.getSignAgreementId());
+			recordInfo.setModuleType("4");
+			recordInfo.setCause(complaintMain.getPatientName()+"与"+complaintMain.getHospital().getName()+"医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。");
+			recordInfo.preInsert();
+			recordInfoDao.insert(recordInfo);
+		}else{
+			recordInfo.preUpdate();
+			recordInfo.setModuleType("4");
+			recordInfo.setRelationId(signAgreement.getSignAgreementId());
+			recordInfo.setCause(complaintMain.getPatientName()+"与"+complaintMain.getHospital().getName()+"医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。");
+			recordInfoDao.update(recordInfo);
+		}
 	}
 }

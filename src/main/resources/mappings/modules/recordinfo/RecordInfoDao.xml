@@ -23,7 +23,8 @@
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
 		u7.name AS "ytwHost.name",
-		o.name AS "ytwHost.office.name"
+		o.name AS "ytwHost.office.name",
+		u8.name AS "ytwNoteTaker.name"
 	</sql>
 	
 	<sql id="recordInfoJoins">
@@ -39,7 +40,7 @@
 			<include refid="recordInfoColumns"/>
 		FROM RECORD_INFO a
 		<include refid="recordInfoJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.record_id = #{recordId}
 	</select>
 	
 	<select id="findList" resultType="RecordInfo">
