@@ -7,6 +7,7 @@ import java.util.*;
 
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
@@ -27,6 +28,7 @@ import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentSer
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
+import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
 import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,7 @@ import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sign.dao.SignAgreementDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 
 /**
@@ -68,6 +71,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	private RecordInfoService recordInfoService;
 	@Autowired
 	private ComplaintMainService complaintMainService;
+	@Autowired
+	TypeInfoService typeInfoService;
 	public SignAgreement get(String id) {
 		SignAgreement signAgreement=super.get(id);
 		//患方 明细查询
@@ -377,6 +382,152 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			recordInfo.setRelationId(signAgreement.getSignAgreementId());
 			recordInfo.setCause(complaintMain.getPatientName()+"与"+complaintMain.getHospital().getName()+"医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。");
 			recordInfoDao.update(recordInfo);
+		}
+	}
+
+	//导出
+	public void exportWord(SignAgreement signAgreement,String export, HttpServletRequest request, HttpServletResponse response){
+		WordExportUtil wordExportUtil = new WordExportUtil();
+		signAgreement = this.get(signAgreement.getSignAgreementId());
+		List<PatientLinkEmp> patientLinkEmpList = signAgreement.getPatientLinkEmpList();//患方（甲方）
+		List<PatientLinkEmp> patientLinkDList = signAgreement.getPatientLinkDList();//患方（法定）代理人
+		List<MedicalOfficeEmp> medicalOfficeEmpList = signAgreement.getMedicalOfficeEmpList();//医方（乙方）
+		String mediation = signAgreement.getMediation();
+		String mediation1 = mediation.substring(0, 32);//调节情况id
+		String agreedMatter = signAgreement.getAgreedMatter();
+		String agreedMatter1 = agreedMatter.substring(0, 32);//协议约定事项id
+		String performAgreementMode = signAgreement.getPerformAgreementMode();
+		String performAgreementMode1 = performAgreementMode.substring(0, 32);//履行协议方式id
+		String agreementExplain = signAgreement.getAgreementExplain();
+		String agreementExplain1 = agreementExplain.substring(0, 32);//协议说明id
+		TypeInfo typeInfo1 = typeInfoService.get(mediation1);
+		TypeInfo typeInfo2 = typeInfoService.get(agreedMatter1);
+		TypeInfo typeInfo3 = typeInfoService.get(performAgreementMode1);
+		TypeInfo typeInfo4 = typeInfoService.get(agreementExplain1);
+		//String path = request.getSession().getServletContext().getRealPath("/");
+		String path = "C:\\a/";
+		String modelPath = path;
+		String newFileName = "无标题文件.docx";
+		Map<String, Object> params = new HashMap<String, Object>();
+		if("agreementExport".equals(export)){
+			if(patientLinkEmpList.size()!=0){
+				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName());
+				if("1".equals(patientLinkEmpList.get(0).getPatientRelation())){
+					params.put("pRlation","本人");
+				}else if("2".equals(patientLinkEmpList.get(0).getPatientRelation())){
+					params.put("pRlation","夫妻");
+				}else if("3".equals(patientLinkEmpList.get(0).getPatientRelation())){
+					params.put("pRlation","子女");
+				}else if("4".equals(patientLinkEmpList.get(0).getPatientRelation())){
+					params.put("pRlation","父母");
+				}else if("5".equals(patientLinkEmpList.get(0).getPatientRelation())){
+					params.put("pRlation","兄妹");
+				}else if("6".equals(patientLinkEmpList.get(0).getPatientRelation())){
+					params.put("pRlation","亲属");
+				}else if("7".equals(patientLinkEmpList.get(0).getPatientRelation())){
+					params.put("pRlation","其他");
+				}
+				params.put("pIdNum",patientLinkEmpList.get(0).getIdNumber());
+				params.put("pAdress",patientLinkEmpList.get(0).getPatientLinkAddress());
+			}else{
+				params.put("pName","");
+				params.put("pRlation","");
+				params.put("pIdNum","");
+				params.put("pAdress","");
+			}
+			if(patientLinkDList.size()!=0){
+				params.put("pdName",patientLinkDList.get(0).getPatientLinkName());
+				if("1".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("pdRelation","本人");
+				}else if("2".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("pdRelation","夫妻");
+				}else if("3".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("pdRelation","子女");
+				}else if("4".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("pdRelation","父母");
+				}else if("5".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("pdRelation","兄妹");
+				}else if("6".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("pdRelation","亲属");
+				}else if("7".equals(patientLinkDList.get(0).getPatientRelation())){
+					params.put("pdRelation","其他");
+				}
+				params.put("pdNumber",patientLinkDList.get(0).getIdNumber());
+				params.put("pdAdress",patientLinkDList.get(0).getPatientLinkAddress());
+			}else{
+				params.put("pdName","");
+				params.put("pdRelation","");
+				params.put("pdNumber","");
+				params.put("pdAdress","");
+			}
+			if (medicalOfficeEmpList.size()!=0){
+				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName());
+				params.put("hAdress",medicalOfficeEmpList.get(0).getMedicalOfficeAddress());
+				params.put("legal",medicalOfficeEmpList.get(0).getLegalRepresentative());
+				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost());
+				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
+				if ("1".equals(medicalOfficeEmpList.get(0).getMedicalOfficeSex())) {
+					params.put("hSex","男");
+				}else{
+					params.put("hSex","女");
+				}
+				params.put("idCard",medicalOfficeEmpList.get(0).getMedicalOfficeIdcard());
+				params.put("company",medicalOfficeEmpList.get(0).getMedicalOfficeCompany());
+			}else{
+				params.put("hName","");
+				params.put("hAdress","");
+				params.put("legal","");
+				params.put("post","");
+				params.put("agent","");
+				params.put("hSex","");
+				params.put("idCard","");
+				params.put("company","");
+			}
+			if(StringUtils.isNotBlank(signAgreement.getSummaryOfDisputes())){
+				params.put("summary",signAgreement.getSummaryOfDisputes());
+			}else{
+				params.put("summary","");
+			}
+			if(typeInfo1 != null){
+				params.put("tjTypeName",typeInfo1.getTypeName());
+				params.put("tjContent",typeInfo1.getContent());
+			}else{
+				params.put("tjTypeName","");
+				params.put("tjContent","");
+			}
+			if(typeInfo2 != null){
+				params.put("yContent",typeInfo2.getContent());
+			}else{
+				params.put("yContent","");
+			}
+			if(typeInfo3 !=null){
+				params.put("lTypeName",typeInfo3.getTypeName());
+				params.put("lContent",typeInfo3.getContent());
+			}else{
+				params.put("lTypeName","");
+				params.put("lContent","");
+			}
+			if(typeInfo4 != null){
+				params.put("xTypeName",typeInfo4.getTypeName());
+				params.put("xContent",typeInfo4.getContent());
+			}else{
+				params.put("xTypeName","");
+				params.put("xContent","");
+			}
+			//协议号
+			if(StringUtils.isNotBlank(signAgreement.getAgreementNumber())){
+				params.put("agreementNumber",signAgreement.getAgreementNumber());
+			}
+			path += "/agreement.docx";  //模板文件位置
+			modelPath += "/agreement.docx";
+			newFileName = "山西省医疗纠纷人民调解委员会人民调解协议书.docx";
+		}
+		try{
+			List<String[]> testList = new ArrayList<String[]>();
+			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
+			wordExportUtil.getWord(path,modelPath,"",params,testList,fileName,response);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 }

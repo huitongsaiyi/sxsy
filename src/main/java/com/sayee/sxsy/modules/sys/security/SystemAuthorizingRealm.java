@@ -137,7 +137,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 				}
 			}
 		}
-		if (!Global.TRUE.equals(Global.getConfig("user.singleLogin"))){
+		if (Global.TRUE.equals(Global.getConfig("user.singleLogin"))){
 			Collection<Session> sessions = getSystemService().getSessionDao().getActiveSessions(true, principal, UserUtils.getSession());
 			if (sessions.size() > 0){
 				// 如果是登录进来的，则踢出其他设备的自己
