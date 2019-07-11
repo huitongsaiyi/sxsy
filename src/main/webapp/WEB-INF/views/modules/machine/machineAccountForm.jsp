@@ -34,7 +34,7 @@
 		<form:hidden path="machineAccountId"/>
 		<form:hidden path="createBy"/>
 		<form:hidden path="createDate"/>
-		<form:hidden path="delFlag"/>
+		<form:hidden path="delFlag" value="0"/>
 		<form:hidden path="complaintMainId"/>
 		<sys:message content="${message}"/>
 		<fieldset>

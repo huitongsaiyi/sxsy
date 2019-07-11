@@ -390,7 +390,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 
 	@Length(min=0,max=20,message = "协议金额不能为空，且长度必须介于 0 和 20 之间")
-	@DecimalMin(value = "0",message = "协议金额最低为0,且不能为空")
+	//@DecimalMin(value = "0",message = "协议金额最低为0,且不能为空")
 	@ExcelField(title = "协议金额",align = 2,sort = 25)
 	public String getAgreementAmount() {
 		return agreementAmount;
@@ -401,7 +401,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	}
 
 	@Length(min=0,max=20,message = "保险赔付金额不能为空，长度必须介于 1 和 20 之间")
-	@DecimalMin(value = "0",message = "保险赔付金额最低为0,且不能为空")
+	//@DecimalMin(value = "0",message = "保险赔付金额最低为0,且不能为空")
 	@ExcelField(title = "保险赔付金额",align = 2,sort = 26)
 	public String getInsuranceAmount() {
 		return insuranceAmount;
