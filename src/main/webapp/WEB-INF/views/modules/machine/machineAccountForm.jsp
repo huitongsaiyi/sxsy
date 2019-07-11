@@ -26,43 +26,43 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/machine/machineAccount/">台账信息展示列表</a></li>
-		<li class="active"><a href="${ctx}/machine/machineAccount/form?id=${machineAccount.id}">台账信息展示<shiro:hasPermission name="machine:machineAccount:edit">${not empty machineAccount.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="machine:machineAccount:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
-	<form:form id="inputForm" modelAttribute="machineAccount" action="${ctx}/machine/machineAccount/save" method="post" class="form-horizontal">
-		<form:hidden path="machineAccountId"/>
-		<form:hidden path="createBy"/>
-		<form:hidden path="createDate"/>
-		<form:hidden path="delFlag"/>
-		<form:hidden path="complaintMainId"/>
-		<sys:message content="${message}"/>
-		<fieldset>
+<ul class="nav nav-tabs">
+	<li><a href="${ctx}/machine/machineAccount/">台账信息展示列表</a></li>
+	<li class="active"><a href="${ctx}/machine/machineAccount/form?id=${machineAccount.id}">台账信息展示<shiro:hasPermission name="machine:machineAccount:edit">${not empty machineAccount.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="machine:machineAccount:edit">查看</shiro:lacksPermission></a></li>
+</ul><br/>
+<form:form id="inputForm" modelAttribute="machineAccount" action="${ctx}/machine/machineAccount/save" method="post" class="form-horizontal">
+	<form:hidden path="machineAccountId"/>
+	<form:hidden path="createBy"/>
+	<form:hidden path="createDate"/>
+	<form:hidden path="delFlag" value="0"/>
+	<form:hidden path="complaintMainId"/>
+	<sys:message content="${message}"/>
+	<fieldset>
 		<table class="table-form">
-		    <tr >
-		    	<td class="tit"><font color="red">*</font>报案时间：</td>
-		    	<td >
-		    		<input name="reportingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-		    			value="${machineAccount.reportingTime}"
-		    			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
-		    	</td>
-		    	<td class="tit"><font color="red">*</font>部门：</td>
-		    	<td >
-		    		<sys:treeselect id="deptId" name="deptId" value="${machineAccount.deptId}" labelName="" labelValue="${machineAccount.deptId}"
-		    						title="部门" url="/sys/office/treeData?type=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
-		    	</td>
-		    </tr>
-		    <tr >
-		    	<td class="tit"><font color="red">*</font>调解员：</td>
-		    	<td >
-		    		<sys:treeselect id="mediatorId" name="mediatorId" value="${machineAccount.mediatorId}" labelName="" labelValue="${machineAccount.mediatorId}"
-		    						title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
-		    	</td>
+			<tr >
+				<td class="tit"><font color="red">*</font>报案时间：</td>
+				<td >
+					<input name="reportingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+						   value="${machineAccount.reportingTime}"
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+				</td>
+				<td class="tit"><font color="red">*</font>部门：</td>
+				<td >
+					<sys:treeselect id="deptId" name="deptId" value="${machineAccount.deptId}" labelName="" labelValue="${machineAccount.deptId}"
+									title="部门" url="/sys/office/treeData?type=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+				</td>
+			</tr>
+			<tr >
+				<td class="tit"><font color="red">*</font>调解员：</td>
+				<td >
+					<sys:treeselect id="mediatorId" name="mediatorId" value="${machineAccount.mediatorId}" labelName="" labelValue="${machineAccount.mediatorId}"
+									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+				</td>
 				<td class="tit"><font color="red">*</font>患者名称：</td>
 				<td >
 					<form:input path="patientName" htmlEscape="false" maxlength="10" class="input-xlarge "/>
 				</td>
-		    </tr>
+			</tr>
 			<tr>
 				<td class="tit"><font color="red">*</font>医院名称：</td>
 				<td >
@@ -201,12 +201,12 @@
 
 				<td class="tit">协议金额：</td>
 				<td >
-					<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge "/>
+					<form:input path="agreementAmount" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 				</td>
 
 				<td class="tit">保险金额：</td>
 				<td >
-					<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge "/>
+					<form:input path="insuranceAmount" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 				</td>
 			</tr>
 			<tr>
@@ -259,15 +259,15 @@
 				</td>
 			</tr>
 		</table>
-		</fieldset>
-        <div class="form-actions">
-            <shiro:hasPermission name="machine:machineAccount:edit">
-                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
-            </shiro:hasPermission>
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-        </div>
+	</fieldset>
+	<div class="form-actions">
+		<shiro:hasPermission name="machine:machineAccount:edit">
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
+		</shiro:hasPermission>
+		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+	</div>
 
 
-	</form:form>
+</form:form>
 </body>
 </html>

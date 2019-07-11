@@ -125,7 +125,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.user = user;
 	}
 
-	@Length(min=1, max=20, message="报案时间不能为空，且长度必须介于 1 和 20 之间")
+	@Length(min=0, max=20, message="报案时间不能为空，且长度必须介于 0 和 20 之间")
 	@ExcelField(title="报案时间", align=2, sort=1)
 	public String getReportingTime() {
 		return reportingTime;
@@ -151,7 +151,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.endInsuranceTime = endInsuranceTime;
 	}
 
-	@Length(min=1, max=32, message="部门不能为空")
+	@Length(min=0, max=32, message="部门不能为空")
 	@ExcelField(title = "部门", align=2,sort = 2)
 	public String getDeptId() {
 		return deptId;
@@ -161,7 +161,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.deptId = deptId;
 	}
 
-	@Length(min=1, max=32, message="调解员不能为空")
+	@Length(min=0, max=32, message="调解员不能为空")
 	@ExcelField(title = "调解员",align = 2,sort = 3)
 	public String getMediatorId() {
 		return mediatorId;
@@ -171,7 +171,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.mediatorId = mediatorId;
 	}
 
-	@Length(min=1, max=10, message="患者名称不能为空，长度必须介于 1 和 10 之间")
+	@Length(min=0, max=10, message="患者名称不能为空，长度必须介于 0 和 10 之间")
 	@ExcelField(title="患者名称", align=2, sort=4)
 	public String getPatientName() {
 		return patientName;
@@ -181,7 +181,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.patientName = patientName;
 	}
 
-	@Length(min=1, max=32, message="医院名称不能为空，且长度必须介于 0 和 32 之间")
+	@Length(min=0, max=32, message="医院名称不能为空，且长度必须介于 0 和 32 之间")
 	@ExcelField(title="医疗机构名称", align=2, sort=5)
 	public String getHospitalId() {
 		return hospitalId;
@@ -389,8 +389,8 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.agreementStampTime = agreementStampTime;
 	}
 
-	@Length(min=1,max=20,message = "协议金额不能为空，且长度必须介于 0 和 20 之间")
-	@DecimalMin(value = "0",message = "协议金额最低为0,且不能为空")
+	@Length(min=0,max=20,message = "协议金额不能为空，且长度必须介于 0 和 20 之间")
+	//@DecimalMin(value = "0",message = "协议金额最低为0,且不能为空")
 	@ExcelField(title = "协议金额",align = 2,sort = 25)
 	public String getAgreementAmount() {
 		return agreementAmount;
@@ -400,8 +400,8 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.agreementAmount = agreementAmount;
 	}
 
-	@Length(min=1,max=20,message = "保险赔付金额不能为空，长度必须介于 1 和 20 之间")
-	@DecimalMin(value = "0",message = "保险赔付金额最低为0,且不能为空")
+	@Length(min=0,max=20,message = "保险赔付金额不能为空，长度必须介于 0 和 20 之间")
+	//@DecimalMin(value = "0",message = "保险赔付金额最低为0,且不能为空")
 	@ExcelField(title = "保险赔付金额",align = 2,sort = 26)
 	public String getInsuranceAmount() {
 		return insuranceAmount;
@@ -411,8 +411,8 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.insuranceAmount = insuranceAmount;
 	}
 
-	@Length(min=1,max=20,message = "医院赔付金额不能为空，长度必须介于 1 和 20 之间")
-	@DecimalMin(value = "0",message = "医院赔付金额最低为0,且不能为空")
+	@Length(min=0,max=20,message = "医院赔付金额不能为空，长度必须介于 0 和 20 之间")
+	//@DecimalMin(value = "0",message = "医院赔付金额最低为0,且不能为空")
 	//@ExcelField(title = "医院赔付金额",align = 2,sort = 26)
 	public String getHospitalAmount() {
 		return hospitalAmount;
@@ -472,7 +472,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 		this.archiveTime = archiveTime;
 	}
 
-	@Length(min=1, max=20, message="卷宗编号不能为空，且长度必须介于 1 和 20 之间")
+	@Length(min=0, max=20, message="卷宗编号不能为空，且长度必须介于 0 和 20 之间")
 	@ExcelField(title="卷宗编号", align=2, sort=32)
 	public String getFileNumber() {
 		return fileNumber;

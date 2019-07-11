@@ -83,7 +83,7 @@ public class MachineAccountController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,MachineAccount machineAccount, Model model, RedirectAttributes redirectAttributes) {
 		//!beanValidator(model, machineAccount) ||
-		if (!beanValidator(model, machineAccount) || false==machineAccountService.checkFileNumber(machineAccount.getFileNumber())){
+		if (!beanValidator(model, machineAccount) || (StringUtils.isNotBlank(machineAccount.getFileNumber()) && false==machineAccountService.checkFileNumber(machineAccount.getFileNumber()))){
 			return form(request,machineAccount, model);
 		}
 		machineAccountService.save(machineAccount);

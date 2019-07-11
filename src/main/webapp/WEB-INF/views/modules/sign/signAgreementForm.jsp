@@ -898,7 +898,7 @@
 					<input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
 					class="input-medium Wdate required"
 					value="${signAgreement.recordInfo.endTime}"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px; margin-left: -900px;"/>
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px;"/>
 					</td>
 						<td style="border-left: hidden;"></td>
 					</tr>
