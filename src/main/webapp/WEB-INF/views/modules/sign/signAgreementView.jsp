@@ -90,7 +90,10 @@
     </script>
 </head>
 <body>
-<br/>
+<ul class="nav nav-tabs">
+    <li><a href="${ctx}/sign/signAgreement/">签署协议列表</a></li>
+    <li class="active"><a href="${ctx}/sign/signAgreement/form?id=${signAgreement.id}">签署协议<shiro:hasPermission name="sign:signAgreement:edit">${not empty signAgreement.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sign:signAgreement:edit">查看</shiro:lacksPermission></a></li>
+</ul><br/>
 <form:form id="inputForm" modelAttribute="signAgreement" action="${ctx}/sign/signAgreement/save" method="post" class="form-horizontal">
     <form:hidden path="signAgreementId"/>
     <form:hidden path="createDate"/>
@@ -104,78 +107,70 @@
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
+    <form:hidden path="recordInfo.recordId"/>
+    <form:hidden path="mediateProgram.mediateProgramId"/>
+    <form:hidden path="recordInfo.moduleType"/>
+    <form:hidden path="recordInfo.cause"/>
+    <form:hidden path="agreementNumber"/>
+    <form:hidden path="mediateProgram.patient"/>
+    <form:hidden path="mediateProgram.doctor"/>
+    <input type="hidden"  id="export" name="export"/>
     <sys:message content="${message}"/>
-<fieldset>
-    <ul id="myTab2" class="nav nav-tabs">
-        <li class="active">
-            <a href="#qsxy" data-toggle="tab">签署协议</a>
-        </li>
-        <c:if test="${empty show2}">
-        <li>
-            <a href="#details" data-toggle="tab">详情</a>
-        </li>
-        </c:if>
-    </ul>
-    <div id="myTabContent1" class="tab-content">
-        <div id="qsxy" class="tab-pane fade in active">
-    <legend>签署协议详情</legend>
+
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
             <a href="#sign" data-toggle="tab">调解协议书</a>
+        </li>
+        <li>
+            <a href="#meeting" data-toggle="tab">调解程序表</a>
+        </li>
+        <li>
+            <a href="#recorded_patient" data-toggle="tab">签署协议会议记录</a>
         </li>
         <li>
             <a href="#annex" data-toggle="tab">附件</a>
         </li>
     </ul>
     <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="meetings">
+            <table class="table-form">
+                <p style="margin:0pt; text-align:center">
+                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">山西省医疗纠纷人民调解委员会</span>
+                <p style="margin:0 auto ;width: 270px;">
+                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;margin-left: 70px;display: inline-block">人民调解协议书</span>
+
+                </p>
+                </p>
+                <p style="float:right;width:300px;height: 25px;font-size: 20px;">
+                        ${signAgreement.agreementNumber}
+                </p>
+
+            </table>
+        </div>
         <div class="tab-pane fade in active" id="sign">
-            <ul id="myTab1" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#patient" data-toggle="tab">甲方(患方)</a>
-                </li>
-                <li>
-                    <a href="#hospital" data-toggle="tab">乙方(医方)</a>
-                </li>
-                <li>
-                    <a href="#jfgy" data-toggle="tab">纠纷概要</a>
-                </li>
-                <li>
-                    <a href="#tjqk" data-toggle="tab">调解情况</a>
-                </li>
-                <li>
-                    <a href="#xyydsx" data-toggle="tab">协议约定事项</a>
-                </li>
-                <li>
-                    <a href="#lxxyfs" data-toggle="tab">履行协议方式</a>
-                </li>
-                <li>
-                    <a href="#xysm" data-toggle="tab">协议说明</a>
-                </li>
-            </ul>
             <div id="myTab1Content" class="tab-content">
-                <div class="tab-pane fade in active" id="patient">
-                    <table id="patientTable" class="table table-striped table-bordered table-condensed">
-                        <legend>患方</legend>
-                        <thead>
-                        <tr>
-                            <th class="hide"></th>
-                            <th >姓名</th>
-                            <th >与患者关系</th>
-                            <th >身份证号</th>
-                            <th >住址</th>
-                            <th >操作</th>
-                            <shiro:hasPermission name="sign:signAgreement:edit">
-                                <th >&nbsp;</th>
-                            </shiro:hasPermission>
-                        </tr>
-                        </thead>
-                        <tbody id="patientLinkEmpList"></tbody>
+                <table id="patientTable" class="table table-striped table-bordered table-condensed">
+                    <legend style="color: black;">甲方（患方）</legend>
+                    <thead>
+                    <tr>
+                        <th class="hide"></th>
+                        <th >姓名</th>
+                        <th >与患者关系</th>
+                        <th >身份证号</th>
+                        <th >住址</th>
+                        <th >操作</th>
                         <shiro:hasPermission name="sign:signAgreement:edit">
-                            <tfoot>
-                            <tr><td colspan="7"></td></tr>
-                            </tfoot></shiro:hasPermission>
-                    </table>
-                    <script type="text/template" id="patientLinkEmpTp">
+                            <th >&nbsp;</th>
+                        </shiro:hasPermission>
+                    </tr>
+                    </thead>
+                    <tbody id="patientLinkEmpList"></tbody>
+                    <shiro:hasPermission name="sign:signAgreement:edit">
+                        <tfoot>
+                        <%--<tr><td colspan="7"><a href="javascript:" onclick="addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp);patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;" class="btn" id="huan">新增</a></td></tr>--%>
+                        </tfoot></shiro:hasPermission>
+                </table>
+                <script type="text/template" id="patientLinkEmpTp">//<!--
 						<tr id="patientLinkEmpList{{idx}}">
 							<td class="hide">
 								<input id="patientLinkEmpList{{idx}}_id" name="patientLinkEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -186,47 +181,53 @@
 							</td>
 
 							<td>
-								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
+								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkEmpList{{idx}}_patientRelation" name="patientLinkEmpList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" disabled="disabled"/>
+								<%--<input id="patientLinkEmpList{{idx}}_patientRelation" name="patientLinkEmpList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />--%>
+								<select id="patientLinkEmpList{{idx}}_patientRelation" name="patientLinkEmpList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini">
+									<option value=""></option>
+									<option value="1"  >本人</option>
+									<option value="2"  >夫妻</option>
+									<option value="3"  >子女</option>
+									<option value="4"  >父母</option>
+									<option value="5"  >兄妹</option>
+									<option value="6"  >亲属</option>
+									<option value="7"  >其他</option>
+								</select>
 							</td>
 							<td>
-								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" disabled="disabled"/>
+								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" disabled="disabled"/>
+								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" />
 							</td>
-
-							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmpList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
-						</tr>
-                    </script>
+						</tr>//-->
+                </script>
 
 
-                    <table id="patientDTable" class="table table-striped table-bordered table-condensed">
-                        <legend>委托（法定）代理人</legend>
-                        <thead>
-                        <tr>
-                            <th class="hide"></th>
-                            <th >姓名</th>
-                            <th >与患者关系</th>
-                            <th >身份证号</th>
-                            <th >住址</th>
-                            <th >操作</th>
-                            <shiro:hasPermission name="sign:signAgreement:edit">
-                                <th >&nbsp;</th>
-                            </shiro:hasPermission>
-                        </tr>
-                        </thead>
-                        <tbody id="patientLinkDList"></tbody>
+                <table id="patientDTable" class="table table-striped table-bordered table-condensed">
+                    <legend style="color: black;">委托（法定）代理人</legend>
+                    <thead>
+                    <tr>
+                        <th class="hide"></th>
+                        <th >姓名</th>
+                        <th >与患者关系</th>
+                        <th >身份证号</th>
+                        <th >住址</th>
+                        <th >操作</th>
                         <shiro:hasPermission name="sign:signAgreement:edit">
-                            <tfoot>
-                            <tr><td colspan="7"></td></tr>
-                            </tfoot></shiro:hasPermission>
-                    </table>
-                    <script type="text/template" id="patientLinkDTp">
+                            <th >&nbsp;</th>
+                        </shiro:hasPermission>
+                    </tr>
+                    </thead>
+                    <tbody id="patientLinkDList"></tbody>
+                    <shiro:hasPermission name="sign:signAgreement:edit">
+                        <tfoot>
+                        <%--<tr><td colspan="7"><a href="javascript:" onclick="addRow('#patientLinkDList', patientLinkDRowIdx, patientLinkDTp);patientLinkDRowIdx = patientLinkDRowIdx + 1;" class="btn">新增</a></td></tr>--%>
+                        </tfoot></shiro:hasPermission>
+                </table>
+                <script type="text/template" id="patientLinkDTp">//<!--
 						<tr id="patientLinkDList{{idx}}">
 							<td class="hide">
 								<input id="patientLinkDList{{idx}}_id" name="patientLinkDList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -237,52 +238,56 @@
 							</td>
 
 							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
+								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" disabled="disabled"/>
+								<%--<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />--%>
+								<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini">
+
+									<option value="1"  >本人</option>
+									<option value="2"  >夫妻</option>
+									<option value="3"  >子女</option>
+									<option value="4"  >父母</option>
+									<option value="5"  >兄妹</option>
+									<option value="6"  >亲属</option>
+									<option value="7"  >其他</option>
+								</select>
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_idNumber" name="patientLinkDList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" disabled="disabled"/>
+								<input id="patientLinkDList{{idx}}_idNumber" name="patientLinkDList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" />
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkAddress" name="patientLinkDList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" disabled="disabled"/>
+								<input id="patientLinkDList{{idx}}_patientLinkAddress" name="patientLinkDList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" />
 							</td>
+						</tr>//-->
+                </script>
 
-							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkDList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
-						</tr>
-                    </script>
-
-
-                </div>
-                <div class="tab-pane fade" id="hospital">
-                    <table id="hospitalTable" class="table table-striped table-bordered table-condensed">
-                        <thead>
-                        <tr>
-                            <th class="hide"></th>
-                            <th >医疗机构名称</th>
-                            <th >地址</th>
-                            <th >法定代表人</th>
-                            <th >职务</th>
-                            <th >委托代理人</th>
-                            <th >性别</th>
-                            <th >身份证号</th>
-                            <th >单位及职务</th>
-                            <th >操作</th>
-                            <shiro:hasPermission name="sign:signAgreement:edit">
-                                <th >&nbsp;</th>
-                            </shiro:hasPermission>
-                        </tr>
-                        </thead>
-                        <tbody id="medicalOfficeEmpList"></tbody>
+                <table id="hospitalTable" class="table table-striped table-bordered table-condensed">
+                    <legend style="color: black;">乙方（医方）</legend>
+                    <thead>
+                    <tr>
+                        <th class="hide"></th>
+                        <th >医疗机构名称</th>
+                        <th >地址</th>
+                        <th >法定代表人</th>
+                        <th >职务</th>
+                        <th >委托代理人</th>
+                        <th >性别</th>
+                        <th >身份证号</th>
+                        <th >单位及职务</th>
+                        <th >操作</th>
                         <shiro:hasPermission name="sign:signAgreement:edit">
-                            <tfoot>
-                            <tr><td colspan="7"></td></tr>
-                            </tfoot></shiro:hasPermission>
-                    </table>
-                    <script type="text/template" id="medicalOfficeEmpTp">
+                            <th >&nbsp;</th>
+                        </shiro:hasPermission>
+                    </tr>
+                    </thead>
+                    <tbody id="medicalOfficeEmpList"></tbody>
+                    <shiro:hasPermission name="sign:signAgreement:edit">
+                        <tfoot>
+                        <%--<tr><td colspan="7"><a href="javascript:" onclick="addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp);medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;" class="btn">新增</a></td></tr>--%>
+                        </tfoot></shiro:hasPermission>
+                </table>
+                <script type="text/template" id="medicalOfficeEmpTp">//<!--
 						<tr id="medicalOfficeEmpList{{idx}}">
 							<td class="hide">
 								<input id="medicalOfficeEmpList{{idx}}_id" name="medicalOfficeEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -292,162 +297,644 @@
 							</td>
 
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" disabled="disabled"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAddress" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAddress" type="text" value="{{row.medicalOfficeAddress}}" maxlength="100" class="required" disabled="disabled"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAddress" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAddress" type="text" value="{{row.medicalOfficeAddress}}" maxlength="100" class="required" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_legalRepresentative" name="medicalOfficeEmpList[{{idx}}].legalRepresentative" type="text" value="{{row.legalRepresentative}}" maxlength="20" class="required" disabled="disabled"/>
+								<input id="medicalOfficeEmpList{{idx}}_legalRepresentative" name="medicalOfficeEmpList[{{idx}}].legalRepresentative" type="text" value="{{row.legalRepresentative}}" maxlength="20" class="required" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" disabled="disabled"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" disabled="disabled"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" />
 							</td>
 							<td>
-								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeSex" name="medicalOfficeEmpList[{{idx}}].medicalOfficeSex" value="{{row.medicalOfficeSex}}" data-value="{{row.medicalOfficeSex}}" class="input-mini" disabled="disabled">
-									<option value=""></option>
+								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeSex" name="medicalOfficeEmpList[{{idx}}].medicalOfficeSex" value="{{row.medicalOfficeSex}}" data-value="{{row.medicalOfficeSex}}" class="input-mini">
 									<option value="1"  >男</option>
 									<option value="2"  >女</option>
 								</select>
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeIdcard" name="medicalOfficeEmpList[{{idx}}].medicalOfficeIdcard" type="text" value="{{row.medicalOfficeIdcard}}" maxlength="20" class="required" disabled="disabled"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeIdcard" name="medicalOfficeEmpList[{{idx}}].medicalOfficeIdcard" type="text" value="{{row.medicalOfficeIdcard}}" maxlength="20" class="required" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeCompany" name="medicalOfficeEmpList[{{idx}}].medicalOfficeCompany" type="text" value="{{row.medicalOfficeCompany}}" maxlength="200" class="required" disabled="disabled"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeCompany" name="medicalOfficeEmpList[{{idx}}].medicalOfficeCompany" type="text" value="{{row.medicalOfficeCompany}}" maxlength="200" class="required" />
 							</td>
-							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}','_medicalOfficeEmpId')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
-						</tr>
-                    </script>
-                </div>
-                <div class="tab-pane fade" id="jfgy">
-                    <table  class="table-form">
-                        <tr>
-                            <td class="tit" width="225px">
-                                纠纷概要：
+						</tr>//-->
+                </script>
+                <table  class="table-form">
+                    <legend style="color: black;">纠纷概要</legend>
+                    <tr>
+                        <td >
+                            <form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" cssStyle="width: 1620px;" rows="15"/>
+                        </td>
+                    </tr>
+                </table>
+                <table id="tjqk" class="table table-striped table-bordered table-condensed">
+                    <legend style="color: black;">调解情况</legend>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align:center;">类型</th>
+                        <th style="text-align:center;">内容</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${tjqk}" var="column" varStatus="vs">
+                        <tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
+                            <td nowrap style="text-align:center;vertical-align:middle;">
+                                <input type="hidden" name="mediationList[${vs.index}].typeId" value="${column.typeId}"/>
+                                <input type="hidden" name="mediationList[${vs.index}].delFlag" value="${column.delFlag}"/>
+                                <input type="checkbox" name="mediationList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'tjqk')"/>
                             </td>
-                            <td >
-                               ${signAgreement.summaryOfDisputes}
+                            <td style="text-align:center;vertical-align:middle;">
+                                    ${column.typeName}
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                    ${column.content}
                             </td>
                         </tr>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="tjqk">
-                    <table id="contentTable" class="table table-striped table-bordered table-condensed">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th style="text-align:center;">类型</th>
-                            <th style="text-align:center;">内容</th>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                    <%--<p style="margin:0pt">--%>
+                    <%--<span style="color:#333333; font-family:宋体; font-size:14pt; font-weight:normal">年 月 日，经×××司法鉴定中心（×××医学会医疗事故鉴定），×××[2017]×××号鉴定结论：××××××××××××。</span>--%>
+                    <%--</p>--%>
+                <table id="xyydsx" class="table table-striped table-bordered table-condensed">
+                    <legend style="color: black;">协议约定事项</legend>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align:center;">内容</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${xyydsx}" var="column" varStatus="vs">
+                        <tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
+                            <td nowrap style="text-align:center;vertical-align:middle;">
+                                <input type="hidden" name="meatterList[${vs.index}].typeId" value="${column.typeId}"/>
+                                <input type="hidden" name="meatterList[${vs.index}].delFlag" value="${column.delFlag}"/>
+                                <input type="checkbox" name="meatterList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'xyydsx')"/>
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                    ${column.content}
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${tjqk}" var="column" varStatus="vs">
-                            <tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
-                                <td nowrap style="text-align:center;vertical-align:middle;">
-                                    <input type="hidden" name="mediationList[${vs.index}].typeId" value="${column.typeId}" disabled="disabled"/>
-                                    <input type="hidden" name="mediationList[${vs.index}].delFlag" value="${column.delFlag}" disabled="disabled"/>
-                                    <input type="checkbox" name="mediationList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} disabled="disabled"/>
-                                </td>
-                                <td style="text-align:center;vertical-align:middle;">
-                                        ${column.typeName}
-                                </td>
-                                <td style="text-align:center;vertical-align:middle;">
-                                        ${column.content}
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="xyydsx">
-                    <table id="content1Table" class="table table-striped table-bordered table-condensed">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th style="text-align:center;">内容</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${xyydsx}" var="column" varStatus="vs">
-                            <tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
-                                <td nowrap style="text-align:center;vertical-align:middle;">
-                                    <input type="hidden" name="meatterList[${vs.index}].typeId" value="${column.typeId}" disabled="disabled"/>
-                                    <input type="hidden" name="meatterList[${vs.index}].delFlag" value="${column.delFlag}" disabled="disabled"/>
-                                    <input type="checkbox" name="meatterList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} disabled="disabled"/>
-                                </td>
-                                <td style="text-align:center;vertical-align:middle;">
-                                        ${column.content}
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="lxxyfs">
-                    <table id="content2Table" class="table table-striped table-bordered table-condensed">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th style="text-align:center;">类型</th>
-                            <th style="text-align:center;">内容</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${lxxyfs}" var="column" varStatus="vs">
-                            <tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
-                                <td nowrap style="text-align:center;vertical-align:middle;">
-                                    <input type="hidden" name="performList[${vs.index}].typeId" value="${column.typeId}" disabled="disabled"/>
-                                    <input type="hidden" name="performList[${vs.index}].delFlag" value="${column.delFlag}" disabled="disabled"/>
-                                    <input type="checkbox" name="performList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} disabled="disabled"/>
-                                </td>
-                                <td style="text-align:center;vertical-align:middle;">
-                                        ${column.typeName}
-                                </td>
-                                <td style="text-align:center;vertical-align:middle;">
-                                        ${column.content}
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                    </c:forEach>
+                    </tbody>
+                </table>
 
-                </div>
-                <div class="tab-pane fade" id="xysm">
-                    <table id="content3Table" class="table table-striped table-bordered table-condensed">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th style="text-align:center;">类型</th>
-                            <th style="text-align:center;">内容</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${xysm}" var="column" varStatus="vs">
-                            <tr>
-                                <td nowrap style="text-align:center;vertical-align:middle;">
-                                    <input type="hidden" name="agreementList[${vs.index}].typeId" value="${column.typeId}" disabled="disabled"/>
-                                    <input type="hidden" name="agreementList[${vs.index}].delFlag" value="${column.delFlag}" disabled="disabled"/>
-                                    <input type="checkbox" name="agreementList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} disabled="disabled"/>
-                                </td>
-                                <td style="text-align:center;vertical-align:middle;">
-                                        ${column.typeName}
-                                </td>
-                                <td style="text-align:center;vertical-align:middle;">
-                                        ${column.content}
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
 
-                </div>
+                <table id="lxxyfs" class="table table-striped table-bordered table-condensed">
+                    <legend style="color: black;">履行协议方式</legend>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align:center;">类型</th>
+                        <th style="text-align:center;">内容</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${lxxyfs}" var="column" varStatus="vs">
+                        <tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
+                            <td nowrap style="text-align:center;vertical-align:middle;">
+                                <input type="hidden" name="performList[${vs.index}].typeId" value="${column.typeId}"/>
+                                <input type="hidden" name="performList[${vs.index}].delFlag" value="${column.delFlag}"/>
+                                <input type="checkbox" name="performList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'lxxyfs')"/>
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                    ${column.typeName}
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                    ${column.content}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+
+
+
+                <table id="xysm" class="table table-striped table-bordered table-condensed">
+                    <legend style="color: black;">协议说明</legend>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align:center;">类型</th>
+                        <th style="text-align:center;">内容</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${xysm}" var="column" varStatus="vs">
+                        <tr>
+                            <td nowrap style="text-align:center;vertical-align:middle;">
+                                <input type="hidden" name="agreementList[${vs.index}].typeId" value="${column.typeId}"/>
+                                <input type="hidden" name="agreementList[${vs.index}].delFlag" value="${column.delFlag}"/>
+                                <input type="checkbox" name="agreementList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'xysm')"/>
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                    ${column.typeName}
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                    ${column.content}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
+        </div>
+
+        <div class="tab-pane fade" id="meeting">
+            <table class="table-form">
+                <p style="margin:0pt; text-align:center">
+                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">山西省医疗纠纷人民调解委员会</span>
+                <p style="margin:0 auto ;width: 270px;">
+                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;">医疗纠纷调解会工作程序</span>
+                </p>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                        ${signAgreement.mediateProgram.meetingTime}
+					</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">地点：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                           ${signAgreement.mediateProgram.address}
+                    </span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">一、介绍医调委、患方、医方的身份</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医调委：</span>
+                <div style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">调解员：</span>
+                    ${signAgreement.mediateProgram.mediatorUser.name}
+                    <span style="font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">书记员：</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
+                            ${signAgreement.mediateProgram.clerkuser.name}
+                    </span>
+                </div>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                            ${empty signAgreement.mediateProgram.patient?signAgreement.complaintMain.patientName:signAgreement.mediateProgram.patient}
+                    </span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
+                            ${signAgreement.complaintMain.hospital.name}
+                    </span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">二、医患双方确认以上参会人员身份有无要求回避</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+                    <span style="display: inline-block; color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;height:30px;width: 425px;">
+						${signAgreement.mediateProgram.patientAvoid}
+					</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+                    <span style="display: inline-block; color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;height:30px;width: 425px;">
+						${signAgreement.mediateProgram.doctorAvoid}
+					</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">三、宣读有关纪律及注意事项：</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">1</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、双方当事人及工作人员酒后不的参会，会议中不得吸烟、不得中途退场、不得当众喧哗。保持会场安静，遵守会场秩序。</span>
+
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">2</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、参会人应当将通讯工具关闭或调至静音状态（请大家配合一下）。会议期间不得录音、录像。</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">3</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、一方陈述时，对方及其他参会人员不的发言，需要补充时，需在当事人（代理人）结束发言后，经主持人同意方可进行补充。发言时不得使用人身攻击言语及过激的言语。</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">4</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提供的证据应当真实、合法、有效，不得伪造、毁灭证据，妨碍调解人员正确作出调解。</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">5</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、不得以暴力，威胁或者其他方法阻碍调解人员执行职务。</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">6</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、对于有不良行为的参加人，山西省医疗纠纷人民调解委员会将责令其退出会议室。</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">四、宣布纠纷当事人在人民调解活动中享有的权利：</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（一）</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 选择或者接受人民调解员；</span>
+
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（二）</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 接受调解、拒绝调解或者要求终止调解；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（三）</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 要求调解公开进行或者不公开进行；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（四）</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 自主表达意愿、自愿达成调解协议。</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">五、宣布纠纷当事人在人民调解活动中履行下列义务：</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（一）</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 如实陈述纠纷事实；</span>
+
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（二）</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 遵守调解现场秩序，尊重人民调解员；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">（三）</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 尊重对方当事人行使权力；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、以上宣读内容听清楚了吗？</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+                    <span style="display: inline-block; color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;height:30px;width: 425px;">
+						${signAgreement.mediateProgram.patientClear}
+					</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+                    <span style="display: inline-block; color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;height:30px;width: 425px;">
+						${signAgreement.mediateProgram.doctorClear}
+					</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">七、开始调解</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">1</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、患方及其代理人陈述主要事实、医方过错及诉求，提交相关证据；</span>
+
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">2</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医方及其代理人陈述，针对患方提出问题进行答辩，提交相关证据；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">3</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员总结双方争议要点；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">4</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患双方就争议要点进行辩论；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">5</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员调解；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">6</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患各方最后陈述；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">7</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、调解员总结；</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">八、宣布调解结束</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方署名：</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方署名：</span>
+                </p>
+                <p style="margin:0pt">
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">调解员署名：</span>
+                </p>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="recorded_patient">
+            <p style="margin:0pt; text-align:center">
+                <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">签署协议会议记录</span>
+            </p><br><br>
+            <table class="table-form">
+
+                <tr>
+                    <td class="tit"width="200px;">时间</td>
+                    <td width="200px;" style="border-right: hidden;">
+                        ${signAgreement.recordInfo.startTime}
+                    </td>
+                    <td style="" colspan="2">至</td>
+                    <td style="border-bottom: hidden;border-left: hidden;">
+                        ${signAgreement.recordInfo.endTime}
+                    </td>
+                    <td style="border-left: hidden;"></td>
+                </tr>
+                <tr>
+                    <td class="tit">地点</td>
+                    <td colspan="4">
+                        ${signAgreement.recordInfo.recordAddress}
+                    </td>
+                    <td style="border-left: hidden;"></td>
+                </tr>
+                <tr>
+                    <td class="tit">主持人</td>
+                    <td colspan="4">
+                            ${signAgreement.mediateProgram.mediatorUser.name}
+                    <td style="border-left: hidden;"></td>
+                </tr>
+                <tr>
+                    </td>
+
+                    <td class="tit" width="10px;">记录人</td>
+                    <td colspan="4">
+                            ${signAgreement.mediateProgram.clerkuser.name}
+                    </td>
+                    <td style="border-left: hidden;"></td>
+                </tr>
+                <tr>
+                    <td class="tit">患方参加人员</td>
+                    <td colspan="4">
+                        ${signAgreement.recordInfo.patient}
+                    </td>
+                    <td style="border-left: hidden;"></td>
+                </tr>
+                <tr>
+                    <td class="tit">医方参加人员</td>
+                    <td colspan="4">
+                        ${signAgreement.recordInfo.doctor}
+                    </td>
+                    <td style="border-left: hidden;"></td>
+                </tr>
+                <tr>
+                    <td class="tit">事由</td>
+                    <td colspan="4" style="font-size: 16px;">
+                        <span style="color:red;">${empty signAgreement.mediateProgram.patient?signAgreement.complaintMain.patientName:signAgreement.mediateProgram.patient}</span>&nbsp;与&nbsp;<span style="color: red;">${signAgreement.complaintMain.hospital.name}</span>&nbsp;医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。
+                    </td>
+                    <td style="border-left: hidden;"></td>
+                </tr>
+                <tr>
+                    <td class="tit">笔录内容</td>
+                    <td colspan="4">
+                        <form:textarea path="recordInfo.recordContent" htmlEscape="false" class="input-xlarge"
+                                       style="margin:0px; width:900px;" rows="15px;"/>
+                    </td>
+                    <td style="border-left: hidden;"></td>
+                </tr>
+            </table>
         </div>
         <div class="tab-pane fade" id="annex">
             <table class="table-form">
@@ -460,8 +947,8 @@
                         <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
                                value="${files1}"/>
                         <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
-                        <sys:ckfinder input="files1" type="files" uploadPath="/sign/signAgreement/sign" selectMultiple="false"
-                                      maxWidth="100" maxHeight="100" readonly="true"/>
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/sign/signAgreement/sign" selectMultiple="false"
+                                                                      maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
                 </tr>
                 <tr>
@@ -473,9 +960,9 @@
                         <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
                                value="${files2}"/>
                         <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
-                        <sys:ckfinder input="files2" type="files" uploadPath="/sign/signAgreement/meet"
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files" uploadPath="/sign/signAgreement/meet"
                                       selectMultiple="false"
-                                      maxWidth="100" maxHeight="100" readonly="true"/>
+                                                                      maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
                 </tr>
                 <tr>
@@ -487,9 +974,9 @@
                         <input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"
                                value="${files3}"/>
                         <input type="hidden" id="acceId3" name="acceId3" value="${acceId3}">
-                        <sys:ckfinder input="files3" type="files" uploadPath="/sign/signAgreement/xieyi"
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files" uploadPath="/sign/signAgreement/xieyi"
                                       selectMultiple="false"
-                                      maxWidth="100" maxHeight="100" readonly="true"/>
+                                                                      maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
                 </tr>
                 <tr>
@@ -501,9 +988,9 @@
                         <input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"
                                value="${files4}"/>
                         <input type="hidden" id="acceId4" name="acceId4" value="${acceId4}">
-                        <sys:ckfinder input="files4" type="files" uploadPath="/sign/signAgreement/other"
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files" uploadPath="/sign/signAgreement/other"
                                       selectMultiple="false"
-                                      maxWidth="100" maxHeight="100" readonly="true"/>
+                                                                      maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
                 </tr>
             </table>
@@ -512,111 +999,51 @@
 
     <table class="table-form">
         <tr>
-            <td class="tit" width="225px">协议号：</td>
+            <td class="tit" width="230px"><font color="red" style="width: 10px;">*</font>签署协议/判决时间：</td>
             <td >
-                ${signAgreement.agreementNumber}
+                ${signAgreement.ratifyAccord}
             </td>
-            <td class="tit" width="225px">签署协议/判决时间：</td>
-            <td >
-                    ${signAgreement.ratifyAccord}
-            </td>
+                <%--<td class="tit" >交理赔时间：</td>--%>
+                <%--<td >--%>
+                <%--<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"--%>
+                <%--value="${signAgreement.claimSettlementTime}"--%>
+                <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>--%>
+                <%--<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>--%>
+                <%--</td>--%>
         </tr>
         <tr>
             <td class="tit" >协议金额：</td>
             <td >
-               ${signAgreement.agreementAmount}
-            </td>
-            <td class="tit">保险金额：</td>
-            <td >
-                ${signAgreement.insuranceAmount}
+                    ${signAgreement.agreementAmount}
             </td>
         </tr>
         <tr>
-            <td class="tit" >交理赔时间：</td>
+            <td class="tit">保险金额：</td>
             <td >
-                    ${signAgreement.claimSettlementTime}
-            </td>
-            <td class="tit">赔付时间：</td>
-            <td >
-                    ${signAgreement.compensateTime}
+                    ${signAgreement.insuranceAmount}
             </td>
         </tr>
+            <%--<tr>--%>
+
+            <%--<td class="tit">赔付时间：</td>--%>
+            <%--<td >--%>
+            <%--<input name="compensateTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"--%>
+            <%--value="${signAgreement.compensateTime}"--%>
+            <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>--%>
+            <%--<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>--%>
+            <%--</td>--%>
+            <%--</tr>--%>
         <tr>
             <td class="tit">下一环节处理人：</td>
             <td >
-                    ${signAgreement.linkEmployee.name}
+                ${empty signAgreement.linkEmployee.name?fns:getUser().name:signAgreement.linkEmployee.name}
             </td>
         </tr>
     </table>
-        </div>
-        <div class="tab-pane fade" id="details">
-            <ul id="iframe" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#tsjd" data-toggle="tab">投诉接待</a>
-                </li>
-                <li>
-                    <a href="#badj" data-toggle="tab">报案登记</a>
-                </li>
-                <li>
-                    <a href="#shsl" data-toggle="tab">审核受理</a>
-                </li>
-                <li>
-                    <a href="#dcqz" data-toggle="tab">调查取证</a>
-                </li>
-                <li>
-                    <a href="#zztj" data-toggle="tab">质证调解</a>
-                </li>
-                <%--<li>--%>
-                    <%--<a href="#pgjdsq" data-toggle="tab">评估鉴定申请</a>--%>
-                <%--</li>--%>
-                <%--<li>--%>
-                    <%--<a href="#pgjdsp" data-toggle="tab">评估鉴定审批</a>--%>
-                <%--</li>--%>
-                <li>
-                    <a href="#pgjd" data-toggle="tab">评估鉴定</a>
-                </li>
-                <li>
-                    <a href="#dctj" data-toggle="tab">达成调解</a>
-                </li>
-            </ul>
-            <div id="iframeTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="tsjd">
-                    <iframe id="tsjdDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="badj">
-                    <iframe id="badjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="shsl">
-                    <iframe id="shslDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="dcqz">
-                    <iframe id="dcqzDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="zztj">
-                    <iframe id="zztjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <%--<div class="tab-pane fade" id="pgjdsq">--%>
-                    <%--<iframe id="pgjdsqDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>--%>
-                <%--</div>--%>
-                <%--<div class="tab-pane fade" id="pgjdsp">--%>
-                    <%--<iframe id="pgjdspDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>--%>
-                <%--</div>--%>
-                <div class="tab-pane fade" id="pgjd">
-                    <iframe id="pgjdDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="dctj">
-                    <iframe id="dctjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-</fieldset>
-    <c:if test="${empty show2}">
     <div class="form-actions">
-        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 550px;"/>
+        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <act:histoicFlow procInsId="${signAgreement.complaintMain.procInsId}" />
-    </c:if>
 </form:form>
 <script type="text/javascript">
     var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
