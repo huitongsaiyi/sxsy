@@ -221,10 +221,10 @@
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">贵院与患者</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_____</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">患者姓名</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span
+                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_____</span>
+                        <span
+                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span>
+                        <span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">发生的医疗纠纷案件</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
@@ -510,9 +510,19 @@
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">案件来源</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
+                            <c:choose>
+                                <c:when test="${auditAcceptance.caseSource=='1'}">
+                                    当事人申请
+                                </c:when>
+                                <c:when test="${auditAcceptance.caseSource=='2'}">
+                                    人民调解委员会主动调解
+                                </c:when>
+                                <c:otherwise>
+                                    无
+                                </c:otherwise>
+                            </c:choose>
+                    </span>
                     </p>
                     <p style="margin:0pt"><span
                             style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
@@ -523,9 +533,7 @@
                             style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt"> </span><span
                             style="color:#333333; font-family:宋体; font-size:12pt">纠纷简要情况：</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; text-decoration:underline">纠纷概要</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; text-decoration:underline">}</span><span
+                            style="color:#d9001b; font-family:宋体; font-size:12pt; text-decoration:underline">${auditAcceptance.summaryOfDisputes}</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt">__________________________________________________________________</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt">_______________________________</span>
                     </p>
