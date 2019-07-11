@@ -201,12 +201,12 @@
 
 				<td class="tit">协议金额：</td>
 				<td >
-					<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge "/>
+					<form:input path="agreementAmount" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 				</td>
 
 				<td class="tit">保险金额：</td>
 				<td >
-					<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge "/>
+					<form:input path="insuranceAmount" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 				</td>
 			</tr>
 			<tr>
