@@ -72,17 +72,17 @@
             <table class="table-form">
                 <tr>
                     <td class="tit" width="180px"><font color="red">*</font>报案人姓名：</td>
-                    <td width="429px">
+                    <td width="480px">
                         ${reportRegistration.reportEmp}
                     </td>
                     <td class="tit" width="180px"><font color="red">*</font>患方联系方式：</td>
-                    <td width="429px">
+                    <td width="458px">
                        ${reportRegistration.patientMobile}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit" width="160px"><font color="red">*</font>与患者关系：</td>
-                    <td width="476px">
+                    <td width="470px">
                         <%--<form:select path="patientRelation" class="input-medium">--%>
                             <%--<form:options items="${fns:getDictList('patient_relation')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
                         <%--</form:select>--%>
@@ -100,11 +100,11 @@
         <div class="tab-pane fade" id="patient">
             <table class="table-form">
                 <tr>
-                    <td class="tit" width="199px">患者姓名：</td>
-                    <td width="522px">
+                    <td class="tit" width="175px">患者姓名：</td>
+                    <td width="454px">
                       ${reportRegistration.complaintMain.patientName}
                     </td>
-                    <td class="tit" width="180px">患者性别：</td>
+                    <td class="tit" width="175px">患者性别：</td>
                     <td >
                             <%--<form:input path="patientSex" htmlEscape="false" maxlength="1" class="input-xlarge "/>--%>
                         <%--<form:select path="complaintMain.patientSex" class="input-medium">--%>
@@ -128,13 +128,13 @@
         <div class="tab-pane fade" id="hospital">
             <table class="table-form">
                 <tr >
-                    <td class="tit" width="199px"><font color="red">*</font>涉及医院：</td>
-                    <td width="522px">
+                    <td class="tit" width="175px"><font color="red">*</font>涉及医院：</td>
+                    <td width="454px">
                         <%--<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${reportRegistration.complaintMain.involveHospital}" labelName="" labelValue="${reportRegistration.complaintMain.hospital.name}"--%>
                                         <%--title="机构" url="/sys/office/treeData?type=1&officeType=2"  dataMsgRequired="必填信息" cssClass="required"   allowClear="true" notAllowSelectParent="false"/>--%>
                                 ${reportRegistration.complaintMain.hospital.name}
                     </td>
-                    <td class="tit" width="199px"><font color="red">*</font>医院等级：</td>
+                    <td class="tit" width="175px"><font color="red">*</font>医院等级：</td>
                     <c:choose>
                         <c:when test="${reportRegistration.complaintMain.hospitalGrade=='1'}">
                             <td>特等</td>
@@ -148,14 +148,17 @@
                         <c:when test="${reportRegistration.complaintMain.hospitalGrade=='4'}">
                             <td>丙等</td>
                         </c:when>
+                        <c:otherwise>
+                            <td>无</td>
+                        </c:otherwise>
                     </c:choose>
                 </tr>
                 <tr>
-                    <td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
+                    <td class="tit"><font color="red">*</font>涉及科室：</td>
                     <td >
                             ${reportRegistration.complaintMain.department.name}
                     </td>
-                    <td class="tit" width="199px"><font color="red">*</font>医院级别：</td>
+                    <td class="tit"><font color="red">*</font>医院级别：</td>
                     <c:choose>
                         <c:when test="${reportRegistration.complaintMain.hospitalLevel=='1'}">
                             <td>一级</td>
@@ -166,6 +169,9 @@
                         <c:when test="${reportRegistration.complaintMain.hospitalLevel=='3'}">
                             <td>三级</td>
                         </c:when>
+                        <c:otherwise>
+                            <td>无</td>
+                        </c:otherwise>
                     </c:choose>
 
 
@@ -204,21 +210,21 @@
     <table class="table-form">
         <tr>
             <td class="tit" width="160px">案件编号：</td>
-            <td width="476px">
+            <td width="450px">
                 ${reportRegistration.complaintMain.caseNumber}
             </td>
             <td class="tit" width="160px">登记人员：</td>
-            <td width="476px">
+            <td width="450px">
                     ${reportRegistration.djEmployee.name}
 
             </td>
         </tr>
         <tr>
-            <td class="tit" width="180px">登记日期：</td>
+            <td class="tit" width="173px">登记日期：</td>
             <td >
                     ${reportRegistration.registrationTime}
             </td>
-            <td class="tit" width="180px">纠纷发生时间：</td>
+            <td class="tit" width="173px">纠纷发生时间：</td>
             <td >
                     ${reportRegistration.disputeTime}
             </td>
@@ -255,10 +261,10 @@
             </td>
         </tr>
         <tr >
-            <td class="tit"><font color="red">*</font>下一处理环节：</td>
-            <td >
-                ${reportRegistration.nextLink}
-            </td>
+            <%--<td class="tit"><font color="red">*</font>下一处理环节：</td>--%>
+            <%--<td >--%>
+                <%--${reportRegistration.nextLink}--%>
+            <%--</td>--%>
             <td class="tit"><font color="red">*</font>下一环节处理人：</td>
             <td >
                     ${reportRegistration.linkEmployee.name}

@@ -76,9 +76,7 @@
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">患者</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">患者姓名</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">及其家属</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span>
@@ -94,9 +92,8 @@
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">你方与</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">_</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">涉及医院名称</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span>
+                    <span
                         style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">发生的医疗纠纷</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
@@ -210,9 +207,8 @@
                     </p>
                     <p style="margin:0pt"><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">涉及医院名称</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span
+                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span><span
+                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">医院</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span></p>
@@ -307,38 +303,40 @@
         <div class="tab-pane fade" id="patientT">
             <table class="table-form">
                 <tr>
-                    <td class="tit"><font color="red">*</font>申请人</td>
-                    <td>
+                    <td class="tit" width="180px"><font color="red">*</font>申请人</td>
+                    <td width="460px">
                         <%--<form:input path="mediateApplyInfo.applyer" htmlEscape="false" maxlength="32" class="input-xlarge required"/>--%>
                         ${auditAcceptance.mediateApplyInfo.applyer}
                     </td>
-                    <td class="tit"><font color="red">*</font>与患者关系</td>
+                    <td class="tit" width="180px"><font color="red">*</font>与患者关系</td>
+                    <td width="460px">
                         <%--<form:select path="mediateApplyInfo.patientRelation" class="input-medium required">--%>
                             <%--<form:options items="${fns:getDictList('patient_relation')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
                         <%--</form:select>--%>
                             <c:choose>
                             <c:when test="${auditAcceptance.mediateApplyInfo.patientRelation == '1'}">
-                    <td>本人</td>
+                    本人
                     </c:when>
                     <c:when test="${auditAcceptance.mediateApplyInfo.patientRelation =='2'}">
-                        <td>夫妻</td>
+                        夫妻
                     </c:when>
                     <c:when test="${auditAcceptance.mediateApplyInfo.patientRelation =='3'}">
-                        <td>子女</td>
+                        子女
                     </c:when>
                     <c:when test="${auditAcceptance.mediateApplyInfo.patientRelation =='4'}">
-                        <td>父母</td>
+                        父母
                     </c:when>
                     <c:when test="${auditAcceptance.mediateApplyInfo.patientRelation =='5'}">
-                        <td>兄妹</td>
+                        兄妹
                     </c:when>
                     <c:when test="${auditAcceptance.mediateApplyInfo.patientRelation =='6'}">
-                        <td>亲属</td>
+                        亲属
                     </c:when>
                     <c:when test="${auditAcceptance.mediateApplyInfo.patientRelation =='7'}">
-                        <td>其他</td>
+                        其他
                     </c:when>
                     </c:choose>
+                    </td>
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>患者姓名</td>
@@ -405,14 +403,14 @@
         <div class="tab-pane fade" id="hospitalT">
             <table class="table-form">
                 <tr>
-                    <td class="tit"><font color="red">*</font>申请医院</td>
-                    <td>
+                    <td class="tit" width="175px"><font color="red">*</font>申请医院</td>
+                    <td width="460px">
                         <%--<sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"--%>
                                         <%--title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>--%>
                                 ${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}
                     </td>
-                    <td class="tit"><font color="red">*</font>代理人</td>
-                    <td>
+                    <td class="tit" width="175px"><font color="red">*</font>代理人</td>
+                    <td width="460px">
                         <%--<form:input path="mediateApplyInfo.docMediateApplyInfo.agent" htmlEscape="false" maxlength="32" class="input-xlarge required "/>--%>
                         ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.agent}
                     </td>
@@ -430,10 +428,10 @@
                         <%--</form:select>--%>
                      <c:choose>
                      <c:when test="${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.patientSex == '1'}">
-                    <td>男</td>
+                        男
                     </c:when>
                     <c:when test="${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.patientSex == '2'}">
-                        <td>女</td>
+                        女
                     </c:when>
                     </c:choose>
                     </td>
@@ -492,17 +490,15 @@
                             style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">人民调解委员会依当事人申请（人民调解委员会主动调解），经当事人同意，调解</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">患者姓名</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span
+                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
+                            <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span>
+                        <span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">与</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">_</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">涉及医院名称</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span
+                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">_</span>
+                        <span
+                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">之前的纠纷。</span></p>
                     <p style="margin:0pt"><span
@@ -972,25 +968,30 @@
     </div>
     <table class="table-form">
         <tr>
-            <td class="tit"><font color="red">*</font>
+            <td class="tit" width="180px"><font color="red">*</font>
                 案件来源：
             </td>
+            <td width="460px">
                 <%--<form:select path="caseSource" class="input-medium required">--%>
                     <%--<form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
                 <%--</form:select>--%>
                 <%--<span class="help-inline"><font color="red">*</font> </span>--%>
                 <c:choose>
                     <c:when test="${auditAcceptance.caseSource=='1'}">
-                        <td>当事人申请</td>
+                        当事人申请
                     </c:when>
                     <c:when test="${auditAcceptance.caseSource=='2'}">
-                        <td>人民调解委员会主动调解</td>
+                        人民调解委员会主动调解
                     </c:when>
+                    <c:otherwise>
+                        无
+                    </c:otherwise>
                 </c:choose>
-            <td class="tit"><font color="red">*</font>
+            </td>
+            <td class="tit" width="180px"><font color="red">*</font>
                 起保日期：
             </td>
-            <td>
+            <td width="460px">
                 <%--<input name="guaranteeTime" type="text" readonly="readonly" maxlength="20"--%>
                        <%--class="input-medium Wdate required"--%>
                        <%--value="${auditAcceptance.guaranteeTime}"--%>

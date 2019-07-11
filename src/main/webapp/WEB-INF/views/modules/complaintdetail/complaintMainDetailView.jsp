@@ -45,8 +45,8 @@
         <div class="tab-pane fade in active" id="visitor">
             <table class="table-form">
                 <tr >
-                    <td class="tit" width="300px">来访者姓名：</td>
-                    <td width="800px">
+                    <td class="tit" width="270px">来访者姓名：</td>
+                    <td width="300px">
                             ${complaintMainDetail.visitorName}
                     </td>
                     <td class="tit" width="300px">联系电话：</td>
@@ -55,8 +55,8 @@
                     </td>
                 </tr>
                 <tr >
-                    <td class="tit" width="300px">与患者关系：</td>
-                    <td width="800px">
+                    <td class="tit" width="270px">与患者关系：</td>
+                    <td width="300px">
                             ${complaintMainDetail.patientRelation}
                     </td>
                     <td class="tit" width="300px">来访人数：</td>
@@ -69,8 +69,8 @@
         <div class="tab-pane fade" id="patient">
             <table class="table-form">
                 <tr >
-                    <td class="tit" width="300px">患者姓名：</td>
-                    <td width="800px">
+                    <td class="tit" width="270px">患者姓名：</td>
+                    <td width="300px">
                             ${complaintMainDetail.complaintMain.patientName}
                     </td>
                     <td class="tit" width="300px">患者性别：</td>
@@ -96,8 +96,8 @@
         <div class="tab-pane fade" id="hospital">
             <table class="table-form">
                 <tr >
-                    <td class="tit" width="300px">涉及医院：</td>
-                    <td width="800px">
+                    <td class="tit" width="270px">涉及医院：</td>
+                    <td width="300px">
                             ${complaintMainDetail.complaintMain.hospital.name}
                     </td>
                     <td class="tit" width="300px">涉及科室：</td>
@@ -117,8 +117,8 @@
 
     <table class="table-form">
         <tr>
-            <td class="tit" width="300px">案件编号：</td>
-            <td width="800px">
+            <td class="tit" width="270px">案件编号：</td>
+            <td width="300px">
                     ${complaintMainDetail.complaintMain.caseNumber}
             </td>
             <td class="tit" width="300px">来访日期：</td>

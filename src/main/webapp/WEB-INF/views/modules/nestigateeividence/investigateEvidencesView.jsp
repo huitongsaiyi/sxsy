@@ -76,55 +76,53 @@
     </ul>
     <div id="myTabContent1" class="tab-content">
         <div class="tab-pane fade in active" id="visitor">
-            <input type="hidden" name="investigateType" value="1">
             <table class="table-form">
                 <tr >
-                    <td class="tit" width="140px" style=" border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
-                    <td style="width: 105px;">
+                    <td class="tit" width="220px">
+                        <font color="red">*</font>调查时间：
+                    </td>
+                    <td width="460px">
                             ${investigateEvidence.startTime}
                     </td>
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
-
-                    <td width="195px;">
+                    <td class="tit" width="220px"><font color="red">*</font>结束时间：</td>
+                    <td width="460px">
                             ${investigateEvidence.endTime}
                     </td>
                 </tr>
                 <tr >
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
-                    <td style="width: 105px;">
+                    <td class="tit"><font color="red">*</font>调查地点：</td>
+                    <td >
                             ${investigateEvidence.address}
                     </td>
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
+                    <td class="tit"><font color="red">*</font>调查事由：</td>
 
-                    <td width="195px;">
+                    <td>
                             ${investigateEvidence.cause}
                     </td>
                 </tr>
                 <tr >
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查人：</td>
-                    <td style="width: 105px;">
+                    <td class="tit"><font color="red">*</font>调查人：</td>
+                    <td >
                             ${investigateEvidence.investigator}
                     </td>
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>记录人：</td>
+                    <td class="tit"><font color="red">*</font>记录人：</td>
 
-                    <td width="195px;">
+                    <td>
                             ${investigateEvidence.noteTaker}
                     </td>
                 </tr>
                 <tr >
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>反应焦点：</td>
-                    <td style="width: 105px;">
+                    <td class="tit"><font color="red">*</font>反应焦点：</td>
+                    <td >
                             ${investigateEvidence.focus}
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;" ><font color="red">*</font>笔录内容：</td>
-                    <td style="width: 105px;" colspan="3">
-                        <form:textarea path="content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;" readonly="true"/>
+                    <td class="tit"><font color="red">*</font>笔录内容：</td>
+                    <td colspan="3">
+                        <form:textarea path="content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:900px;" readonly="true"/>
                     </td>
                 </tr>
-                <tr></tr>
-                <tr></tr>
             </table>
             <ul  class="nav nav-tabs">
                 <li class="active">
@@ -140,33 +138,33 @@
 
                         <tr >
                             <td class="tit" width="140px" ><font color="red">*</font>姓名：</td>
-                            <td style="display: inline-block; width: 115px; text-align: center;height: 20px;">
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo.respondentName}
                             </td>
-                            <td class="tit" style="display: inline-block; margin-left: -1px;width: 140px;"><font color="red">*</font>性别：</td>
-                            <td style=" display: inline-block;margin-left: 0px; width: 60px; text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>性别：</td>
+                            <td width="180px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo.respondentSex,'sex', '无')}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;"><font color="red">*</font>年龄：</td>
-                            <td style="display: inline-block;margin-left: 0px; width: 65px;text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>年龄：</td>
+                            <td width="60px">
                                     ${investigateEvidence.respondentInfo.respondentAge}
                             </td>
-                            <td class="tit"  style="display: inline-block; width: 140px; "><font color="red">*</font>联系方式：</td>
-                            <td style="display: inline-block;width: 302px;text-align: center;height: 20px;">
+                            <td class="tit" width="70px"><font color="red">*</font>联系方式：</td>
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo.respondentMobile}
                             </td>
-                            <td class="tit" style="width: 140px;display: inline-block;text-align: center;"><font color="red">*</font>被调查人身份:</td>
-                            <td style="display: inline-block;width: 312px;text-align:center;height: 20px;" >
+                            <td class="tit" width="70px"><font color="red">*</font>被调查人身份:</td>
+                            <td class="280px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo.respondentIdentity,'investigation', '无')}
                             </td>
                         </tr>
                         <tr >
                             <td class="tit" style=""><font color="red">*</font>工作单位:</td>
-                            <td style="display: inline-block; width: 1033px; text-align: center;height: 20px;">
+                            <td >
                                     ${investigateEvidence.respondentInfo.respondentWorkUnit}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;margin-left: 0px; "><font color="red">*</font>职务:</td>
-                            <td style="display: inline-block; width: 312px;text-align: center;height: 20px;">
+                            <td class="tit"  ><font color="red">*</font>职务:</td>
+                            <td >
                                     ${investigateEvidence.respondentInfo.respondentPost}
                             </td>
                         </tr>
@@ -176,33 +174,33 @@
                     <table class="table-form">
                         <tr >
                             <td class="tit" width="140px" ><font color="red">*</font>姓名：</td>
-                            <td style="display: inline-block; width: 115px; text-align: center;height: 20px;">
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo2.respondentName}
                             </td>
-                            <td class="tit" style="display: inline-block; margin-left: -1px;width: 140px;"><font color="red">*</font>性别：</td>
-                            <td style=" display: inline-block;margin-left: 0px; width: 60px; text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>性别：</td>
+                            <td width="180px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo2.respondentSex,'sex', '无')}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;"><font color="red">*</font>年龄：</td>
-                            <td style="display: inline-block;margin-left: 0px; width: 65px;text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>年龄：</td>
+                            <td width="60px">
                                     ${investigateEvidence.respondentInfo2.respondentAge}
                             </td>
-                            <td class="tit"  style="display: inline-block; width: 140px; "><font color="red">*</font>联系方式：</td>
-                            <td style="display: inline-block;width: 302px;text-align: center;height: 20px;">
+                            <td class="tit" width="70px"><font color="red">*</font>联系方式：</td>
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo2.respondentMobile}
                             </td>
-                            <td class="tit" style="width: 140px;display: inline-block;text-align: center;"><font color="red">*</font>被调查人身份:</td>
-                            <td style="display: inline-block;width: 312px;text-align:center;height: 20px;" >
+                            <td class="tit" width="70px"><font color="red">*</font>被调查人身份:</td>
+                            <td class="280px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo2.respondentIdentity,'investigation', '无')}
                             </td>
                         </tr>
                         <tr >
-                            <td class="tit" style=""><font color="red">*</font>工作单位:</td>
-                            <td style="display: inline-block; width: 1033px; text-align: center;height: 20px;">
+                            <td class="tit" ><font color="red">*</font>工作单位:</td>
+                            <td >
                                     ${investigateEvidence.respondentInfo2.respondentWorkUnit}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;margin-left: 0px; "><font color="red">*</font>职务:</td>
-                            <td style="display: inline-block; width: 312px;text-align: center;height: 20px;">
+                            <td class="tit"><font color="red">*</font>职务:</td>
+                            <td >
                                     ${investigateEvidence.respondentInfo2.respondentPost}
                             </td>
                         </tr>
@@ -214,42 +212,41 @@
             <input type="hidden" name="investigateType2" value="2">
             <table class="table-form">
                 <tr >
-                    <td class="tit" width="140px" style=" border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
-                    <td style="width: 105px;">
+                    <td class="tit" width="220px"><font color="red">*</font>调查时间：</td>
+                    <td width="460px">
                             ${investigateEvidence.investigateEvidence.startTime}
                     </td>
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
-
-                    <td width="195px;">
+                    <td class="tit" width="220px"><font color="red">*</font>结束时间：</td>
+                    <td width="460px">
                         ${investigateEvidence.investigateEvidence.endTime}
                     </td>
                 </tr>
                 <tr >
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
-                    <td style="width: 105px;">
+                    <td class="tit" ><font color="red">*</font>调查地点：</td>
+                    <td >
                             ${investigateEvidence.investigateEvidence.address}
                     </td>
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
+                    <td class="tit"><font color="red">*</font>调查事由：</td>
 
                     <td width="195px;">
                             ${investigateEvidence.investigateEvidence.cause}
                     </td>
                 </tr>
                 <tr >
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查人：</td>
-                    <td style="width: 105px;">
+                    <td class="tit"><font color="red">*</font>调查人：</td>
+                    <td >
                             ${investigateEvidence.investigateEvidence.investigator}
                     </td>
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>记录人：</td>
+                    <td class="tit"><font color="red">*</font>记录人：</td>
 
-                    <td width="195px;">
+                    <td>
                             ${investigateEvidence.investigateEvidence.noteTaker}
                     </td>
                 </tr>
                 <tr >
-                    <td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; "><font color="red">*</font>笔录内容：</td>
-                    <td style="width: 105px;" colspan="3">
-                        <form:textarea path="investigateEvidence.content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;" readonly="true"/>
+                    <td class="tit"><font color="red">*</font>笔录内容：</td>
+                    <td colspan="3">
+                        <form:textarea path="investigateEvidence.content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:900px;" readonly="true"/>
                     </td>
                 </tr>
             </table>
@@ -266,33 +263,33 @@
                     <table class="table-form">
                         <tr >
                             <td class="tit" width="140px" ><font color="red">*</font>姓名：</td>
-                            <td style="display: inline-block; width: 115px; text-align: center;height: 20px;">
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo3.respondentName}
                             </td>
-                            <td class="tit" style="display: inline-block; margin-left: -1px;width: 140px;"><font color="red">*</font>性别：</td>
-                            <td style=" display: inline-block;margin-left: 0px; width: 60px; text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>性别：</td>
+                            <td width="180px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo3.respondentSex,'sex', '无')}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;"><font color="red">*</font>年龄：</td>
-                            <td style="display: inline-block;margin-left: 0px; width: 65px;text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>年龄：</td>
+                            <td width="60px">
                                     ${investigateEvidence.respondentInfo3.respondentAge}
                             </td>
-                            <td class="tit"  style="display: inline-block; width: 140px; "><font color="red">*</font>联系方式：</td>
-                            <td style="display: inline-block;width: 302px;text-align: center;height: 20px;">
+                            <td class="tit" width="70px"><font color="red">*</font>联系方式：</td>
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo3.respondentMobile}
                             </td>
-                            <td class="tit" style="width: 140px;display: inline-block;text-align: center;"><font color="red">*</font>被调查人身份:</td>
-                            <td style="display: inline-block;width: 312px;text-align:center;height: 20px;" >
+                            <td class="tit" width="70px"><font color="red">*</font>被调查人身份:</td>
+                            <td class="280px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo3.respondentIdentity,'investigation', '无')}
                             </td>
                         </tr>
                         <tr >
-                            <td class="tit" style=""><font color="red">*</font>工作单位:</td>
-                            <td style="display: inline-block; width: 1033px; text-align: center;height: 20px;">
+                            <td class="tit"><font color="red">*</font>工作单位:</td>
+                            <td>
                                     ${investigateEvidence.respondentInfo3.respondentWorkUnit}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;margin-left: 0px; "><font color="red">*</font>职务:</td>
-                            <td style="display: inline-block; width: 312px;text-align: center;height: 20px;">
+                            <td class="tit" ><font color="red">*</font>职务:</td>
+                            <td>
                                     ${investigateEvidence.respondentInfo3.respondentPost}
                             </td>
                         </tr>
@@ -302,33 +299,33 @@
                     <table class="table-form">
                         <tr >
                             <td class="tit" width="140px" ><font color="red">*</font>姓名：</td>
-                            <td style="display: inline-block; width: 115px; text-align: center;height: 20px;">
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo4.respondentName}
                             </td>
-                            <td class="tit" style="display: inline-block; margin-left: -1px;width: 140px;"><font color="red">*</font>性别：</td>
-                            <td style=" display: inline-block;margin-left: 0px; width: 60px; text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>性别：</td>
+                            <td width="180px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo4.respondentSex,'sex', '无')}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;"><font color="red">*</font>年龄：</td>
-                            <td style="display: inline-block;margin-left: 0px; width: 65px;text-align: center;height: 20px;">
+                            <td class="tit" width="80px"><font color="red">*</font>年龄：</td>
+                            <td width="60px">
                                     ${investigateEvidence.respondentInfo4.respondentAge}
                             </td>
-                            <td class="tit"  style="display: inline-block; width: 140px; "><font color="red">*</font>联系方式：</td>
-                            <td style="display: inline-block;width: 302px;text-align: center;height: 20px;">
+                            <td class="tit" width="70px"><font color="red">*</font>联系方式：</td>
+                            <td width="150px">
                                     ${investigateEvidence.respondentInfo4.respondentMobile}
                             </td>
-                            <td class="tit" style="width: 140px;display: inline-block;text-align: center;"><font color="red">*</font>被调查人身份:</td>
-                            <td style="display: inline-block;width: 312px;text-align:center;height: 20px;" >
+                            <td class="tit" width="70px"><font color="red">*</font>被调查人身份:</td>
+                            <td class="280px">
                                     ${fns:getDictLabel(investigateEvidence.respondentInfo4.respondentIdentity,'investigation', '无')}
                             </td>
                         </tr>
                         <tr >
-                            <td class="tit" style=""><font color="red">*</font>工作单位:</td>
-                            <td style="display: inline-block; width: 1033px; text-align: center;height: 20px;">
+                            <td class="tit"><font color="red">*</font>工作单位:</td>
+                            <td>
                                     ${investigateEvidence.respondentInfo4.respondentWorkUnit}
                             </td>
-                            <td class="tit"  style="display: inline-block;width: 140px;margin-left: 0px; "><font color="red">*</font>职务:</td>
-                            <td style="display: inline-block; width: 312px;text-align: center;height: 20px;">
+                            <td class="tit"><font color="red">*</font>职务:</td>
+                            <td >
                                     ${investigateEvidence.respondentInfo4.respondentPost}
                             </td>
                         </tr>
@@ -340,7 +337,7 @@
             <table class="table-form">
 
                 <tr style=" " >
-                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方笔录：</td>
+                    <td >患方笔录：</td>
                     <input type="hidden"  name="fjtype1" value="3">
                     <td style="width: 450px; ">
 
@@ -351,9 +348,9 @@
 
                 </tr>
                 <tr style="" >
-                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方补充材料：</td>
+                    <td >患方补充材料：</td>
                     <input type="hidden" name="fjtype2" value="4">
-                    <td style="width: 450px; ">
+                    <td >
                         <input type="hidden" id="files2" name="files1" htmlEscape="false" class="input-xlarge" value="${files1}" />
                         <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
@@ -362,7 +359,7 @@
 
                 </tr>
                 <tr style="" >
-                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">医方笔录：</td>
+                    <td >医方笔录：</td>
                     <input type="hidden"  name="fjtype3" value="5">
                     <td style="width: 450px; ">
 
@@ -374,7 +371,7 @@
 
                 </tr>
                 <tr style="" >
-                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">医方补充材料：</td>
+                    <td >医方补充材料：</td>
                     <input type="hidden" name="fjtype4" value="6">
                     <td style="width: 450px;">
                         <input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge" value="${files4}" />
@@ -392,9 +389,9 @@
 
     <table class="table-form" style="margin-top: 20px;">
         <tr  style="">
-            <td class="tit"  style="display: inline-block; width: 140px;"><font color="red">*</font>下一环节处理人：</td>
+            <td class="tit" width="280px"><font color="red">*</font>下一环节处理人：</td>
 
-            <td width="540px;" style="display:inline-block;text-align: center;width: 312px;height: 20px;">
+            <td width="540px;">
                     ${investigateEvidence.linkEmployee.name}
             </td>
         </tr>
