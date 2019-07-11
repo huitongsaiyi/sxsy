@@ -10,7 +10,10 @@
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
+					var aa=$("#export").val();
+					if(aa=='no'){
+						loading('正在提交，请稍等...');
+					}
 					$("input[type=checkbox]").each(function(){
 						$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
 								+($(this).attr("checked")?"1":"0")+"\"/>");
@@ -97,6 +100,7 @@
 	<form:hidden path="agreementNumber"/>
 	<form:hidden path="mediateProgram.patient"/>
 	<form:hidden path="mediateProgram.doctor"/>
+	<input type="hidden"  id="export" name="export"/>
 	<sys:message content="${message}"/>
 
 	<ul id="myTab" class="nav nav-tabs">
@@ -229,7 +233,7 @@
 							<td>
 								<%--<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />--%>
 								<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini">
-									<option value=""></option>
+
 									<option value="1"  >本人</option>
 									<option value="2"  >夫妻</option>
 									<option value="3"  >子女</option>
@@ -303,7 +307,6 @@
 							</td>
 							<td>
 								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeSex" name="medicalOfficeEmpList[{{idx}}].medicalOfficeSex" value="{{row.medicalOfficeSex}}" data-value="{{row.medicalOfficeSex}}" class="input-mini">
-									<option value=""></option>
 									<option value="1"  >男</option>
 									<option value="2"  >女</option>
 								</select>
@@ -354,9 +357,9 @@
 					</c:forEach>
 					</tbody>
 				</table>
-				<%--<p style="margin:0pt">--%>
+					<%--<p style="margin:0pt">--%>
 					<%--<span style="color:#333333; font-family:宋体; font-size:14pt; font-weight:normal">年 月 日，经×××司法鉴定中心（×××医学会医疗事故鉴定），×××[2017]×××号鉴定结论：××××××××××××。</span>--%>
-				<%--</p>--%>
+					<%--</p>--%>
 				<table id="xyydsx" class="table table-striped table-bordered table-condensed">
 					<legend style="color: black;">协议约定事项</legend>
 					<thead>
@@ -442,6 +445,7 @@
 
 
 			</div>
+			<input id="agreementExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('agreementExport');"/>
 		</div>
 
 		<div class="tab-pane fade" id="meeting">
@@ -530,7 +534,7 @@
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
 							${empty signAgreement.mediateProgram.patient?signAgreement.complaintMain.patientName:signAgreement.mediateProgram.patient}
-                    </span>
+					</span>
 				</p>
 				<p style="margin:0pt">
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -880,46 +884,46 @@
 		</div>
 
 		<div class="tab-pane fade" id="recorded_patient">
-					<p style="margin:0pt; text-align:center">
-						<span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">签署协议会议记录</span>
-					</p><br><br>
+			<p style="margin:0pt; text-align:center">
+				<span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">签署协议会议记录</span>
+			</p><br><br>
 			<table class="table-form">
 
-					<tr>
+				<tr>
 					<td class="tit"width="200px;">时间</td>
 					<td width="10px;" style="border-right: hidden;">
-					<input name="recordInfo.startTime" type="text" readonly="readonly" maxlength="20"
-					class="input-medium Wdate required"
-					value="${signAgreement.recordInfo.startTime}"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px;"/>
+						<input name="recordInfo.startTime" type="text" readonly="readonly" maxlength="20"
+							   class="input-medium Wdate required"
+							   value="${signAgreement.recordInfo.startTime}"
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px;"/>
 					</td>
 					<td style="" colspan="2">至</td>
-						<td style="border-bottom: hidden;border-left: hidden;">
-					<input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
-					class="input-medium Wdate required"
-					value="${signAgreement.recordInfo.endTime}"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px;"/>
+					<td style="border-bottom: hidden;border-left: hidden;">
+						<input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
+							   class="input-medium Wdate required"
+							   value="${signAgreement.recordInfo.endTime}"
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px; margin-left: -900px;"/>
 					</td>
-						<td style="border-left: hidden;"></td>
-					</tr>
-					<tr>
+					<td style="border-left: hidden;"></td>
+				</tr>
+				<tr>
 					<td class="tit">地点</td>
 					<td colspan="4">
-					<form:input path="recordInfo.recordAddress" htmlEscape="false" maxlength="20"
-					class="input-xlarge required" cssStyle="width: 450px;"/>
+						<form:input path="recordInfo.recordAddress" htmlEscape="false" maxlength="20"
+									class="input-xlarge required" cssStyle="width: 450px;"/>
 					</td>
-						<td style="border-left: hidden;"></td>
-					</tr>
-					<tr>
+					<td style="border-left: hidden;"></td>
+				</tr>
+				<tr>
 					<td class="tit">主持人</td>
 					<td colspan="4">
-					<sys:treeselect id="host" name="recordInfo.host"
-					value="${signAgreement.recordInfo.host}" labelName=""
-					labelValue="${signAgreement.recordInfo.ytwHost.name}"
-					title="用户" url="/sys/office/treeData?type=3&officeType=1"
-					allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
-						<td style="border-left: hidden;"></td>
-					</tr>
+							<sys:treeselect id="host" name="recordInfo.host"
+											value="${signAgreement.recordInfo.host}" labelName=""
+											labelValue="${signAgreement.recordInfo.ytwHost.name}"
+											title="用户" url="/sys/office/treeData?type=3&officeType=1"
+											allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
+					<td style="border-left: hidden;"></td>
+				</tr>
 				<tr>
 					</td>
 
@@ -933,13 +937,13 @@
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>
-					<tr>
+				<tr>
 					<td class="tit">患方参加人员</td>
 					<td colspan="4">
-					<form:input path="recordInfo.patient" htmlEscape="false" maxlength="100" class="input-xlarge required" cssStyle="width: 450px;"/>
+						<form:input path="recordInfo.patient" htmlEscape="false" maxlength="100" class="input-xlarge required" cssStyle="width: 450px;"/>
 					</td>
-						<td style="border-left: hidden;"></td>
-					</tr>
+					<td style="border-left: hidden;"></td>
+				</tr>
 				<tr>
 					<td class="tit">医方参加人员</td>
 					<td colspan="4">
@@ -1034,13 +1038,13 @@
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>
 				<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
 			</td>
-			<%--<td class="tit" >交理赔时间：</td>--%>
-			<%--<td >--%>
+				<%--<td class="tit" >交理赔时间：</td>--%>
+				<%--<td >--%>
 				<%--<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"--%>
-					   <%--value="${signAgreement.claimSettlementTime}"--%>
-					   <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>--%>
+				<%--value="${signAgreement.claimSettlementTime}"--%>
+				<%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>--%>
 				<%--<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>--%>
-			<%--</td>--%>
+				<%--</td>--%>
 		</tr>
 		<tr>
 			<td class="tit" >协议金额：</td>
@@ -1054,16 +1058,16 @@
 				<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
 			</td>
 		</tr>
-		<%--<tr>--%>
+			<%--<tr>--%>
 
 			<%--<td class="tit">赔付时间：</td>--%>
 			<%--<td >--%>
-				<%--<input name="compensateTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"--%>
-					   <%--value="${signAgreement.compensateTime}"--%>
-					   <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>--%>
-				<%--<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>--%>
+			<%--<input name="compensateTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"--%>
+			<%--value="${signAgreement.compensateTime}"--%>
+			<%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>--%>
+			<%--<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>--%>
 			<%--</td>--%>
-		<%--</tr>--%>
+			<%--</tr>--%>
 		<tr>
 			<td class="tit">下一环节处理人：</td>
 			<td >

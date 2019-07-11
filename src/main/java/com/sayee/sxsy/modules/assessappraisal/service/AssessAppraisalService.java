@@ -457,6 +457,11 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 				}
 				params.put("idNumber",patientLinkEmpList.get(0).getIdNumber());
 				params.put("pAddress",patientLinkEmpList.get(0).getPatientLinkAddress());
+			}else{
+				params.put("pName","");
+				params.put("pSex","");
+				params.put("idNumber","");
+				params.put("pAddress","");
 			}
 			if(patientLinkDList.size()!=0){
 				params.put("cName",patientLinkDList.get(0).getPatientLinkName());
@@ -468,12 +473,21 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 					params.put("r","代理人");
 				}
 				params.put("pMobile",patientLinkDList.get(0).getPatientLinkMobile());
+			}else{
+				params.put("cName","");
+				params.put("r","");
+				params.put("pMobile","");
 			}
 			if(medicalOfficeEmpList.size()!=0){
 				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName());
 				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
 				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost());
 				params.put("hMobile",medicalOfficeEmpList.get(0).getMedicalOfficeMobile());
+			}else{
+				params.put("hName","");
+				params.put("agent","");
+				params.put("post","");
+				params.put("hMobile","");
 			}
 			//意见书编码
 			params.put("code",assessAppraisal.getProposal().getProposalCode());

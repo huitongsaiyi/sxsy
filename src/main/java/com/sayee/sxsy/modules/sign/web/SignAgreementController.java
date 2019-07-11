@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
@@ -151,23 +152,30 @@ public class SignAgreementController extends BaseController {
 
 	@RequiresPermissions("sign:signAgreement:edit")
 	@RequestMapping(value = "save")
-	public String save(HttpServletRequest request,SignAgreement signAgreement, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, signAgreement)&&"yes".equals(signAgreement.getComplaintMain().getAct().getFlag())){
-			return form(signAgreement, model,request);
-		}
-		try {
-			signAgreementService.save(request,signAgreement);
-            machineAccountService.savetz(signAgreement.getMachineAccount(),"si",signAgreement.getSignAgreementId());
-			if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag())){
-				addMessage(redirectAttributes, "流程已启动，流程ID：" + signAgreement.getComplaintMain().getProcInsId());
-			}else {
-				addMessage(redirectAttributes, "保存签署协议成功");
+	public String save(HttpServletRequest request,SignAgreement signAgreement, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
+		String export=request.getParameter("export");
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
+		    SignAgreement signAgreement1 = signAgreementService.get(signAgreement.getSignAgreementId());
+			signAgreementService.exportWord(signAgreement1,export,request,response);
+			return "";
+		}else {
+			if (!beanValidator(model, signAgreement) && "yes".equals(signAgreement.getComplaintMain().getAct().getFlag())) {
+				return form(signAgreement, model, request);
 			}
-		} catch (Exception e) {
-			logger.error("启动纠纷调解流程失败：", e);
-			addMessage(redirectAttributes, "系统内部错误！");
+			try {
+				signAgreementService.save(request, signAgreement);
+				machineAccountService.savetz(signAgreement.getMachineAccount(), "si", signAgreement.getSignAgreementId());
+				if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag())) {
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + signAgreement.getComplaintMain().getProcInsId());
+				} else {
+					addMessage(redirectAttributes, "保存签署协议成功");
+				}
+			} catch (Exception e) {
+				logger.error("启动纠纷调解流程失败：", e);
+				addMessage(redirectAttributes, "系统内部错误！");
+			}
+			return "redirect:" + Global.getAdminPath() + "/sign/signAgreement/?repage";
 		}
-		return "redirect:"+Global.getAdminPath()+"/sign/signAgreement/?repage";
 	}
 	
 	@RequiresPermissions("sign:signAgreement:edit")
