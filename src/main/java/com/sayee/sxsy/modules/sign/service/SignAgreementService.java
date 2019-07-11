@@ -404,8 +404,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		TypeInfo typeInfo2 = typeInfoService.get(agreedMatter1);
 		TypeInfo typeInfo3 = typeInfoService.get(performAgreementMode1);
 		TypeInfo typeInfo4 = typeInfoService.get(agreementExplain1);
-		//String path = request.getSession().getServletContext().getRealPath("/");
-		String path = "C:\\a/";
+		String path = request.getSession().getServletContext().getRealPath("/");
 		String modelPath = path;
 		String newFileName = "无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();
