@@ -9,8 +9,10 @@ import javax.validation.ConstraintViolationException;
 
 import com.google.common.collect.Lists;
 import com.sayee.sxsy.common.beanvalidator.BeanValidators;
+import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.excel.ExportExcel;
 import com.sayee.sxsy.common.utils.excel.ImportExcel;
+import com.sayee.sxsy.modules.machine.dao.MachineAccountDao;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
@@ -174,4 +176,38 @@ public class MachineAccountController extends BaseController {
 		}
 		return "redirect:" + adminPath + "/machine/machineAccount/list?repage";
 	}
+
+	/**
+	 * 导出台账
+	 */
+	@RequiresPermissions("machine:machineAccount:view")
+	@RequestMapping(value = "export",method = RequestMethod.POST)
+	public String exportFile(MachineAccount machineAccount,HttpServletRequest request,HttpServletResponse response,RedirectAttributes redirectAttributes){
+		try {
+			MachineAccount machineAccount1 = new MachineAccount();
+			if(StringUtils.isNotBlank(machineAccount.getStartInsuranceTime1())) {
+				machineAccount1.setStartInsuranceTime1(machineAccount.getStartInsuranceTime1());
+			}else {
+				machineAccount1.setStartInsuranceTime1(DateUtils.getDate()+" 00:00");
+			}
+			if (StringUtils.isNotBlank(machineAccount.getEndInsuranceTime1())) {
+				machineAccount1.setEndInsuranceTime1(machineAccount.getEndInsuranceTime1());
+			} else {
+				machineAccount1.setEndInsuranceTime1(DateUtils.getDate()+" 23:59");
+			}
+				String fileName = "台账数据" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+				Page<MachineAccount> page = machineAccountService.getMachine(new Page<MachineAccount>(request, response, -1), machineAccount);
+				if (page.getList().size() != 0) {
+					new ExportExcel("台账数据", MachineAccount.class).setDataList(page.getList()).write(response, fileName).dispose();
+					return null;
+				} else {
+					addMessage(redirectAttributes, "导出台账失败！失败信息：这段时间内没有台账可导出");
+					return "redirect:" + adminPath + "/machine/machineAccount/list?repage";
+				}
+		}catch (Exception e){
+			addMessage(redirectAttributes,"导出台账失败！失败信息："+e.getMessage());
+		}
+		return "redirect:" + adminPath + "/machine/machineAccount/list?repage";
+	}
+
 }
