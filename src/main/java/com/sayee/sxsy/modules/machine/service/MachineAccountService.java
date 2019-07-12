@@ -293,4 +293,11 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
 
         return machineAccount;
     }
+
+    public Page<MachineAccount> getMachine(Page<MachineAccount> page,MachineAccount machineAccount){
+//        machineAccount.getSqlMap().get("",);
+        machineAccount.setPage(page);
+        page.setList(machineAccountDao.findMachine(machineAccount));
+        return page;
+    }
 }

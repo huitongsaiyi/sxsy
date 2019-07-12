@@ -9,6 +9,8 @@ import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 台账信息展示DAO接口
  * @author zhangfan
@@ -29,4 +31,8 @@ public interface MachineAccountDao extends CrudDao<MachineAccount> {
      * @return
      */
     public MachineAccount getDetail(String machineAccountId);
+    /**
+     * 导出台账
+     */
+    public List<MachineAccount> findMachine(MachineAccount machineAccount);
 }

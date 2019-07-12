@@ -369,4 +369,55 @@
 		WHERE a.file_number = #{fileNumber}
 	</select>
 
+
+	<select id="findMachine" resultType="MachineAccount">
+		SELECT
+		a.machine_account_id AS "machineAccountId",
+		a.complaint_main_id AS "complaintMainId",
+		a.reporting_time AS "reportingTime",
+		o3.name AS "deptId",
+		u4.name AS "mediatorId",
+		a.patient_name AS "patientName",
+		o4.name AS "hospitalId",
+		a.major AS "major",
+		a.insurance_company AS "insuranceCompany",
+		a.policy_number AS "policyNumber",
+		a.start_insurance_time AS "startInsuranceTime",
+		a.disputes_time AS "disputesTime",
+		a.risk_time AS "riskTime",
+		a.summary_of_disputes AS "summaryOfDisputes",
+		a.is_major AS "isMajor",
+		a.treatment_mode AS "treatmentMode",
+		a.treatment_result AS "treatmentResult",
+		a.patients_reflect_focus AS "patientsReflectFocus",
+		a.related_major AS "relatedMajor",
+		a.assess_time AS "assessTime",
+		a.assess_number AS "assessNumber",
+		a.duty_ratio AS "dutyRatio",
+		a.feedback_time AS "feedbackTime",
+		a.agreement_number AS "agreementNumber",
+		a.ratify_accord AS "ratifyAccord",
+		a.agreement_stamp_time AS "agreementStampTime",
+		a.agreement_amount AS "agreementAmount",
+		a.insurance_amount AS "insuranceAmount",
+		a.hospital_amount AS "hospitalAmount",
+		a.claim_settlement_time AS "claimSettlementTime",
+		a.compensate_time AS "compensateTime",
+		a.flow_days AS "flowDays",
+		a.hand_over AS "handOver",
+		a.archive_time AS "archiveTime",
+		a.file_number AS "fileNumber",
+		a.remark AS "remark",
+		u5.name AS "createBy.id",
+		a.create_date AS "createDate",
+		u6.name AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+		FROM MACHINE_ACCOUNT a
+		<include refid="machineAccountJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} AND (a.reporting_time BETWEEN #{startInsuranceTime1} AND #{endInsuranceTime1})
+		</where>
+
+	</select>
 </mapper>
