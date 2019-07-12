@@ -441,8 +441,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		String conclusion1=conclusion.substring(0,32);
 		TypeInfo typeInfo = typeInfoService.get(analysisOpinion1);
 		TypeInfo typeInfo1 = typeInfoService.get(conclusion1);
-		//String path = request.getSession().getServletContext().getRealPath("/");
-		String path = "C:\\a/";
+		String path = request.getSession().getServletContext().getRealPath("/");
 		String modelPath = path;
 		String newFileName = "无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();

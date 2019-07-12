@@ -35,7 +35,9 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String major;		// 重大
 	private String insuranceCompany;		// 保险公司名称
 	private String policyNumber;		// 保单号
-	private String startInsuranceTime;		// 起保日期
+	private String startInsuranceTime;// 起保日期
+	private String startInsuranceTime1;		//导出开始日期
+	private String endInsuranceTime1;		//导出结束时间
 	private String endInsuranceTime;		// 起保日期
 	private String disputesTime;		// 纠纷发生日期
 	private String riskTime;		// 出险日期
@@ -76,6 +78,22 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 
 	public Office getHospital() {
 		return hospital;
+	}
+
+	public String getStartInsuranceTime1() {
+		return startInsuranceTime1;
+	}
+
+	public void setStartInsuranceTime1(String startInsuranceTime1) {
+		this.startInsuranceTime1 = startInsuranceTime1;
+	}
+
+	public String getEndInsuranceTime1() {
+		return endInsuranceTime1;
+	}
+
+	public void setEndInsuranceTime1(String endInsuranceTime1) {
+		this.endInsuranceTime1 = endInsuranceTime1;
 	}
 
 	public void setHospital(Office hospital) {

@@ -99,6 +99,11 @@ public class ComplaintInfoController extends BaseController {
 	public String statement( HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<List> page = complaintInfoService.statementPage(new Page<List>(request, response),request, response);
 		model.addAttribute("page", page);
+		model.addAttribute("type", request.getParameter("type"));
+		model.addAttribute("visitorDate", request.getParameter("visitorDate"));
+		model.addAttribute("visitorMonthDate", request.getParameter("visitorMonthDate"));
+		model.addAttribute("involveDepartment", request.getParameter("involveDepartment"));
+		model.addAttribute("involveEmployee", request.getParameter("involveEmployee"));
 		return "modules/complaint/numericalStatement";
 	}
 

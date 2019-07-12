@@ -142,12 +142,18 @@
             <table class="table-form">
                 <p style="margin:0pt; text-align:center">
                     <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">山西省医疗纠纷人民调解委员会</span>
-                <p style="margin:0 auto ;width: 190px;">
+                <p style="margin:0 auto ;width: 320px;">
 
-                    <span style="color:#d9001b; font-family:Arial; font-size:15pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:15pt; font-weight:normal; text-decoration:underline">申请类型</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:15pt; font-weight:normal; text-decoration:underline">}</span>
-                    <span style="color:#333333; font-family:Arial; font-size:15pt; font-weight:normal"></span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:15pt; font-weight:normal; text-decoration:underline">
+                        <c:choose>
+                            <c:when test="${assessAppraisal.applyType=='2'}">
+                                医疗纠纷技术评估
+                            </c:when>
+                            <c:when test="${assessAppraisal.applyType=='1'}">
+                                医疗责任保险事故鉴定
+                            </c:when>
+                        </c:choose>
+                    </span>
                     <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;">工作程序</span>
 
                 </p>
@@ -162,9 +168,7 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">时间</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.recordInfo1.startTime}&nbsp;至&nbsp;${assessAppraisal.recordInfo1.endTime}</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
 
                 </p>
@@ -178,28 +182,26 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">地点：</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">地点</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.recordInfo1.recordAddress}</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
 
                 </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">案件：</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">案件</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
+                <%--<p style="margin:0pt">--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>--%>
+                    <%--<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">案件：</span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>--%>
+                    <%--<span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>--%>
+                    <%--<span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">案件</span>--%>
+                    <%--<span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>--%>
+                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>--%>
 
-                </p>
+                <%--</p>--%>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">一、主持人向评估委员会成员介绍纠纷概要、纠纷焦点</span>
                 </p>
@@ -218,13 +220,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">专家：</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">医学专家</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.medicalExpertName}</span>
                     <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">法学专家</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.legalExpertName}</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -235,9 +233,7 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">患方</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.patientName}</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -248,9 +244,7 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">医方</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.hospital.name}</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -261,9 +255,7 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">主持人：</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">主持人</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.hosts.name}</span>
 
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -289,9 +281,7 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">书记员：</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">书记员</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.clerks.name}</span>
                 </p>
 
                 <p style="margin:0pt">

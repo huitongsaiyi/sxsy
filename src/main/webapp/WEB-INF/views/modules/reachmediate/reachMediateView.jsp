@@ -14,37 +14,7 @@
             $("#searchForm").submit();
             return false;
         }
-        function addRow(list, idx, tpl, row){
-            $(list).append(Mustache.render(tpl, {
-                idx: idx, delBtn: true, row: row
-            }));
-            $(list+idx).find("select").each(function(){
-                $(this).val($(this).attr("data-value"));
-            });
-            $(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
-                var ss = $(this).attr("data-value").split(',');
-                for (var i=0; i<ss.length; i++){
-                    if($(this).val() == ss[i]){
-                        $(this).attr("checked","checked");
-                    }
-                }
-            });
-        }
-        function delRow(obj, prefix){
-            var id = $(prefix+"_mediateRecord");
-            var delFlag = $(prefix+"_delFlag");
-            if (id.val() == ""){
-                $(obj).parent().parent().remove();
-            }else if(delFlag.val() == "0"){
-                delFlag.val("1");
-                $(obj).html("&divide;").attr("title", "撤销删除");
-                $(obj).parent().parent().addClass("error");
-            }else if(delFlag.val() == "1"){
-                delFlag.val("0");
-                $(obj).html("&times;").attr("title", "删除");
-                $(obj).parent().parent().removeClass("error");
-            }
-        }
+
             //投诉接待详情
             $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view");
             var tsjd= document.getElementById("tsjdDetail");
@@ -89,6 +59,22 @@
             pgjd.width=document.documentElement.clientWidth;
             }
         });
+        function addRow(list, idx, tpl, row){
+            $(list).append(Mustache.render(tpl, {
+                idx: idx, delBtn: true, row: row
+            }));
+            $(list+idx).find("select").each(function(){
+                $(this).val($(this).attr("data-value"));
+            });
+            $(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
+                var ss = $(this).attr("data-value").split(',');
+                for (var i=0; i<ss.length; i++){
+                    if($(this).val() == ss[i]){
+                        $(this).attr("checked","checked");
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -146,79 +132,76 @@
                 <thead>
                 <tr>
                     <th class="hide"></th>
-                    <th width="10">时间</th>
-                    <th width="100">内容</th>
-                    <th width="100">结果</th>
-                    <shiro:hasPermission name="reachmediate:reachMediate:edit">
-                        <th width="100">&nbsp;</th>
-                    </shiro:hasPermission>
+                    <th width="100" style="text-align: center">时间</th>
+                    <th width="100" style="text-align: center">内容</th>
+                    <th width="100" style="text-align: center">结果</th>
                 </tr>
                 </thead>
                 <tbody id="mediateEvidenceList"></tbody>
                 <shiro:hasPermission name="reachmediate:reachMediate:edit">
                     <tfoot>
-                    <tr><td colspan="7"></td></tr>
+                        <%--<tr><td colspan="7"><a href="javascript:" onclick="addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl);mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;" class="btn">新增</a></td></tr>--%>
                     </tfoot></shiro:hasPermission>
             </table>
-            <script type="text/template" id="reachMediateTpl">
+            <script type="text/template" id="mediateEvidenceTpl">//<!--
 						<tr id="mediateEvidenceList{{idx}}">
-							<td class="hide">
-								<input id="mediateEvidenceList{{idx}}_id" name="mediateEvidenceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="mediateEvidenceList{{idx}}_mediateRecord" name="mediateEvidenceList[{{idx}}].mediateRecord" type="hidden" value="{{row.mediateRecord}}"/>
-								<input id="mediateEvidenceList{{idx}}_relationId" name="mediateEvidenceList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="mediateEvidenceList{{idx}}_delFlag" name="mediateEvidenceList[{{idx}}].delFlag" type="hidden" value="0"/>
+							<td style="text-align: center">
+							    {{row.time}}
 							</td>
-							<td >
-								<%--<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" value="{{row.time}}" maxlength="32" class="input-small "/>--%>
-								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-                                    value="{{row.time}}"
-                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" disabled="disabled"/>
+							<td style="text-align: center">
+								{{row.content}}
 							</td>
-							<td>
-								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="required" disabled="disabled"/>
+							<td style="text-align: center">
+							    {{row.result}}
 							</td>
-							<td>
-								<input id="mediateEvidenceList{{idx}}_result" name="mediateEvidenceList[{{idx}}].result" type="text" value="{{row.result}}" maxlength="32" class="required" disabled="disabled"/>
-							</td>
-							<shiro:hasPermission name="reachmediate:reachMediate:edit"><td class="text-center" width="10">
-								{{delBtn}}<span class="close" onclick="delRow(this, '#mediateEvidenceList{{idx}}')" title="删除">&times;</span>{{delBtn}}
-							</td></shiro:hasPermission>
-						</tr>
+						</tr>//-->
             </script>
         </div>
         <div class="tab-pane fade" id="meeting">
-            <table class="table-form">
+            <table id="programTable" class="table table-striped table-bordered table-condensed">
+                <thead>
                 <tr>
-                    <td class="tit">时间:</td>
-                    <td>
-                        ${reachMediate.reaMeetingTime}
-                    </td>
-                    <td class="tit">地点:</td>
-                    <td>
-                        ${reachMediate.reaAddress}
-                    </td>
+                    <th class="hide"></th>
+                    <th width="10" style="text-align: center">时间</th>
+                    <th width="10" style="text-align: center">地点</th>
+                    <th width="10" style="text-align: center">调解员</th>
+                    <th width="10" style="text-align: center">书记员</th>
+                    <th width="10" style="text-align: center">医方</th>
+                    <th width="10" style="text-align: center">患方</th>
+                    <th width="10" style="text-align: center">其他</th>
+                    <th width="10" style="text-align: center">会议次数</th>
                 </tr>
-                <tr>
-                    <td class="tit">案件:</td>
-                    <td>
-                            ${reachMediate.reaCaseInfo}
-                    </td>
-                    <td class="tit">医方:</td>
-                    <td class="controls">
-                       ${reachMediate.doctorUser.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">医调委人员:</td>
-                    <td>
-                       ${reachMediate.ytwUser.name}
-                    </td>
-                    <td class="tit">患方</td>
-                    <td>
-                        ${reachMediate.reaPatient}
-                    </td>
-                </tr>
+                </thead>
+                <tbody id="mediateProgramList"></tbody>
             </table>
+            <script type="text/template" id="mediateProgramTpl">//<!--
+						<tr id="mediateProgramList{{idx}}">
+							<td style="text-align: center">
+                                   {{row.meetingTime}}
+							</td>
+							<td style="text-align: center">
+							        {{row.address}}
+							</td>
+							<td style="text-align: center">
+							        {{row.mediatorUser.name}}
+							</td>
+							<td style="text-align: center">
+							        {{row.clerkuser.name}}
+							</td>
+							<td style="text-align: center">
+							        {{row.doctorOffice.name}}
+							</td>
+							<td style="text-align: center">
+							        {{row.patient}}
+							</td>
+							<td style="text-align: center">
+							        {{row.other}}
+							</td>
+							<td style="text-align: center">
+							        第{{row.meetingFrequency}}次会议
+							</td>
+						</tr>//-->
+            </script>
         </div>
         <div class="tab-pane fade" id="recorded_patient">
             <table class="table-form">
@@ -237,37 +220,37 @@
                     <td>
                             ${reachMediate.recordInfo.recordAddress}
                     </td>
-                    <td class="tit">事由</td>
+                    <%--<td class="tit">事由</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.cause}--%>
+                    <%--</td>--%>
+                    <td class="tit">调解员</td>
                     <td>
-                            ${reachMediate.recordInfo.cause}
+                            ${reachMediate.recordInfo.ytwHost.name}
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit">主持人</td>
-                    <td>
-                        ${reachMediate.recordInfo.ytwHost.name}
-                    </td>
-                    <td class="tit">记录人</td>
+                    <td class="tit">书记员</td>
                     <td>
                         ${reachMediate.recordInfo.ytwNoteTaker.name}
                     </td>
-                </tr>
-                <tr>
                     <td class="tit">患方</td>
                     <td>
                             ${reachMediate.recordInfo.patient}
                     </td>
-                    <td class="tit">医方</td>
-                    <td>
-                        ${reachMediate.recordInfo.yfDoctor.name}
-                    </td>
                 </tr>
                 <tr>
-                    <td class="tit">其他参加人员</td>
+                    <td class="tit">医方</td>
                     <td>
-                            ${reachMediate.recordInfo.otherParticipants}
+                        ${reachMediate.recordInfo.yfOffice.name}
                     </td>
                 </tr>
+                <%--<tr>--%>
+                    <%--<td class="tit">其他参加人员</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.otherParticipants}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
@@ -292,38 +275,38 @@
                     <td class="tit">地点</td>
                     <td>
                             ${reachMediate.recordInfo.yrecordInfo.recordAddress}
-                    </td>
-                    <td class="tit">事由</td>
+                    <%--</td>--%>
+                    <%--<td class="tit">事由</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.yrecordInfo.cause}--%>
+                    <%--</td>--%>
+                    <td class="tit">调解员</td>
                     <td>
-                            ${reachMediate.recordInfo.yrecordInfo.cause}
+                            ${reachMediate.recordInfo.yrecordInfo.ytwHost.name}
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit">主持人</td>
-                    <td>
-                        ${reachMediate.recordInfo.yrecordInfo.ytwHost.name}
-                    </td>
-                    <td class="tit">记录人</td>
+                    <td class="tit">书记员</td>
                     <td>
                         ${reachMediate.recordInfo.yrecordInfo.ytwNoteTaker.name}
                     </td>
-                </tr>
-                <tr>
                     <td class="tit">患方</td>
                     <td>
                             ${reachMediate.recordInfo.yrecordInfo.patient}
                     </td>
-                    <td class="tit">医方</td>
-                    <td>
-                        ${reachMediate.recordInfo.yrecordInfo.yfDoctor.name}
-                    </td>
                 </tr>
                 <tr>
-                    <td class="tit">其他参加人员</td>
+                    <td class="tit">医方</td>
                     <td>
-                            ${reachMediate.recordInfo.yrecordInfo.otherParticipants}
+                        ${reachMediate.recordInfo.yrecordInfo.yfOffice.name}
                     </td>
                 </tr>
+                <%--<tr>--%>
+                    <%--<td class="tit">其他参加人员</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.yrecordInfo.otherParticipants}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
@@ -418,7 +401,7 @@
     </div>
     <table class="table-form">
         <tr>
-            <td class="tit">调解结果</td>
+            <td class="tit" width="140px">调解结果</td>
             <td>
                 <c:choose>
                     <c:when test="${reachMediate.reaMediateResult=='1'}">
@@ -430,12 +413,12 @@
                 </c:choose>
             </td>
         </tr>
-        <tr>
-            <td class="tit">会议总结</td>
-            <td colspan="3">
-                    ${reachMediate.reaSummary}
-            </td>
-        </tr>
+        <%--<tr>--%>
+            <%--<td class="tit">会议总结</td>--%>
+            <%--<td colspan="3">--%>
+                    <%--${reachMediate.reaSummary}--%>
+            <%--</td>--%>
+        <%--</tr>--%>
         <%--<tr>--%>
                 <%--&lt;%&ndash;<td class="tit"><font color="red">*</font>下一处理环节：</td>&ndash;%&gt;--%>
                 <%--&lt;%&ndash;<td>&ndash;%&gt;--%>
@@ -449,6 +432,12 @@
                                 <%--notAllowSelectParent="true" checked="true" dataMsgRequired="必填信息"/>--%>
             <%--</td>--%>
         <%--</tr>--%>
+        <tr>
+            <td class="tit">下一环节处理人</td>
+            <td>
+                    ${reachMediate.linkEmployee.name}
+            </td>
+        </tr>
     </table>
         </div>
         <div class="tab-pane fade" id="details">
@@ -515,12 +504,20 @@
     </c:if>
 </form:form>
 <script type="text/javascript">
-    var reachMediateRowIdx = 0, reachMediateTpl = $("#reachMediateTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+    var mediateEvidenceRowIdx = 0, mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
     $(document).ready(function() {
         var data = ${fns:toJson(reachMediate.mediateEvidenceList)};
         for (var i=0; i<data.length; i++){
-            addRow('#mediateEvidenceList', reachMediateRowIdx, reachMediateTpl, data[i]);
-            reachMediateRowIdx = reachMediateRowIdx + 1;
+            addRow('#mediateEvidenceList', mediateEvidenceRowIdx, mediateEvidenceTpl, data[i]);
+            mediateEvidenceRowIdx = mediateEvidenceRowIdx + 1;
+        }
+    });
+    var mediateProgramRowIdx = 0, mediateProgramTpl = $("#mediateProgramTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+    $(document).ready(function() {
+        var data = ${fns:toJson(reachMediate.mediateProgramList)};
+        for (var i=0; i<data.length; i++){
+            addRow('#mediateProgramList', mediateProgramRowIdx, mediateProgramTpl, data[i]);
+            mediateProgramRowIdx = mediateProgramRowIdx + 1;
         }
     });
 </script>

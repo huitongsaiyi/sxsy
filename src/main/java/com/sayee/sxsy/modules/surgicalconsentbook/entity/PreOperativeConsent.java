@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.surgicalconsentbook.entity;
 
+import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 
@@ -32,6 +33,7 @@ public class PreOperativeConsent extends DataEntity<PreOperativeConsent> {
 	private String witnessContent;		// 见证内容
 //	private String files;          //医方附件
 //	private String hFiles;   //患方附件
+	private User user;   //当前登录人
 	public PreOperativeConsent() {
 		super();
 	}
@@ -55,6 +57,14 @@ public class PreOperativeConsent extends DataEntity<PreOperativeConsent> {
 //	public void sethFiles(String hFiles) {
 //		this.hFiles = hFiles;
 //	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	@Override
 	public String getId() {

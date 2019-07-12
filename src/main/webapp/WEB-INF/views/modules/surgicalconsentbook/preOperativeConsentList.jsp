@@ -74,7 +74,7 @@
 					${preOperativeConsent.operationType}
 			</td>
 			<td>
-				<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${preOperativeConsent.witnessTime}"/>
+				<fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${preOperativeConsent.witnessTime}"/>
 
 			</td>
 			<td>

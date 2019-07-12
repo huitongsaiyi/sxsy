@@ -204,10 +204,10 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	<select id="selectRole" parameterType="java.lang.String" resultType="java.util.List">
-		SELECT  from sys_role sr
-		LEFT JOIN sys_user_role ur on sr.id=ur.role_id
-		LEFT JOIN sys_user us ON ur.user_id=us.id
+	<select id="selectRole" parameterType="java.lang.String" resultType="Role">
+		SELECT * from SYS_ROLE sr
+		LEFT JOIN SYS_USER_ROLE ur ON sr.id=ur.role_id
+		LEFT JOIN SYS_USER us ON ur.user_id=us.id
 		where us.id=#{id}
 	</select>
 </mapper>
