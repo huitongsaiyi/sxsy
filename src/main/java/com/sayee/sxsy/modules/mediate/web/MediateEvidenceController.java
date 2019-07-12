@@ -117,7 +117,9 @@ public class MediateEvidenceController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,MediateEvidence mediateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
+
 		if (export.equals("meeting")){
+			mediateEvidenceService.save(mediateEvidence,request);
 			mediateEvidenceService.exportWord(mediateEvidence,export,request,response);
 			return "";
 		}else {

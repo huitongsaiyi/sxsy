@@ -286,8 +286,7 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-                            <form:input id="reaPatient" path="reaPatient" htmlEscape="false" maxlength="20" class="input-xlarge required"
-										value="${reachMediate.reaPatient}"/>
+                            ${reachMediate.complaintMain.patientName}
                     </span>
 				</p>
 				<p style="margin:0pt">

@@ -288,17 +288,33 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	public void exportWord(MediateEvidence mediateEvidence, String export, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		mediateEvidence=this.get(mediateEvidence.getMediateEvidenceId());
-		String path=request.getSession().getServletContext().getRealPath("/");
+
+        List<MediateProgram> mediateProgramList = mediateEvidence.getMediateProgramList();
+        int a=0;
+        for (int i=0;i<mediateProgramList.size();i++){
+            String meetingFrequency = mediateProgramList.get(i).getMeetingFrequency();
+            int in = Integer.valueOf(meetingFrequency);
+            if(a<in){
+                a=in-1;
+            }
+        }
+        String path=request.getSession().getServletContext().getRealPath("/");
+//        String path = "C:\\a/";
 		String modelPath=path;
 		String newFileName="无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("meeting".equals(export)){
-			params.put("time}", mediateEvidence.getMeetingTime());
-			params.put("address", mediateEvidence.getMeetingAddress());
-			params.put("case", mediateEvidence.getCaseInfoName());
-			params.put("ytw", mediateEvidence.getYtwUser()==null ? "" : mediateEvidence.getYtwUser().getName());
-			params.put("patient", mediateEvidence.getPatient());
-			params.put("doctor", mediateEvidence.getDoctorUser()==null ? "" : mediateEvidence.getDoctorUser().getName());
+			params.put("time", mediateEvidence.getMediateProgramList().get(a).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(a).getMeetingTime());
+			params.put("address", mediateEvidence.getMediateProgramList().get(a).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(a).getAddress());
+            params.put("case",mediateEvidence.getComplaintMain().getPatientName()==null||mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getPatientName()+"与"+mediateEvidence.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
+            params.put("tiao",mediateEvidence.getMediateProgramList().get(a).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(a).getMediatorUser().getName());
+            params.put("pen",mediateEvidence.getMediateProgramList().get(a).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(a).getClerkuser().getName());
+            params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());
+            params.put("doctor", mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getHospital().getName());
+            params.put("hAvoid",mediateEvidence.getMediateProgramList().get(a).getPatientAvoid()==null?"":mediateEvidence.getMediateProgramList().get(a).getPatientAvoid());
+            params.put("yAvoid",mediateEvidence.getMediateProgramList().get(a).getDoctorAvoid()==null?"":mediateEvidence.getMediateProgramList().get(a).getDoctorAvoid());
+            params.put("hclear",mediateEvidence.getMediateProgramList().get(a).getPatientClear()==null?"":mediateEvidence.getMediateProgramList().get(a).getPatientClear());
+            params.put("yclear",mediateEvidence.getMediateProgramList().get(a).getDoctorClear()==null?"":mediateEvidence.getMediateProgramList().get(a).getDoctorClear());
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeetingM.docx";
 			newFileName="调解程序表.docx";

@@ -99,19 +99,19 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 
 		return signAgreement;
 	}
-	
+
 	public List<SignAgreement> findList(SignAgreement signAgreement) {
 		//获取当前登陆用户
 		signAgreement.setUser(UserUtils.getUser());
 		return super.findList(signAgreement);
 	}
-	
+
 	public Page<SignAgreement> findPage(Page<SignAgreement> page, SignAgreement signAgreement) {
 		//获取当前登陆用户
 		signAgreement.setUser(UserUtils.getUser());
 		return super.findPage(page, signAgreement);
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void save(HttpServletRequest request, SignAgreement signAgreement) {
 		//super.save(signAgreement);
@@ -153,7 +153,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			actTaskService.complete(signAgreement.getComplaintMain().getAct().getTaskId(), signAgreement.getComplaintMain().getAct().getProcInsId(), signAgreement.getComplaintMain().getAct().getComment(), signAgreement.getComplaintMain().getCaseNumber(), var);
 		}
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void delete(SignAgreement signAgreement) {
 		super.delete(signAgreement);
@@ -264,10 +264,10 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		}
 	}
 	/*
-	*对 逗号分割的数据进行  处理  然后放入list中
-	* @param
-	*/
-	 public void label(List<TypeInfo> typeInfos,String data){
+	 *对 逗号分割的数据进行  处理  然后放入list中
+	 * @param
+	 */
+	public void label(List<TypeInfo> typeInfos,String data){
 		if (StringUtils.isNotBlank(data)){//有数据进行 处理
 			String[] asplit=data.split(",");
 			for (TypeInfo typeInfo:typeInfos) {// 根据类型 拿到 数据
@@ -279,9 +279,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				}
 			}
 		}
-	 }
+	}
 
-	 //保存附件
+	//保存附件
 	public void savefj(SignAgreement signAgreement,HttpServletRequest request){
 		String files1 = request.getParameter("files1");
 		String files2 = request.getParameter("files2");
@@ -343,26 +343,26 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	}
 	//查询编号
 	public List<SignAgreement> selectAgreementNumber(SignAgreement signAgreement){
-	 	List<SignAgreement> signAgreements = signAgreementDao.selectAgreementNumber(signAgreement);
-	 	return signAgreements;
+		List<SignAgreement> signAgreements = signAgreementDao.selectAgreementNumber(signAgreement);
+		return signAgreements;
 	}
 	//调解程序表
 	public void saveMe(SignAgreement signAgreement){
-	 	MediateProgram mediateProgram=signAgreement.getMediateProgram();
-	     ComplaintMain complaintMain = complaintMainService.get(signAgreement.getComplaintMainId());
+		MediateProgram mediateProgram=signAgreement.getMediateProgram();
+		ComplaintMain complaintMain = complaintMainService.get(signAgreement.getComplaintMainId());
 		if(StringUtils.isBlank(mediateProgram.getMediateProgramId())){
-	 		mediateProgram.setMediateProgramId(IdGen.uuid());
-	 		mediateProgram.setRelationId(signAgreement.getSignAgreementId());
-	 		mediateProgram.setPatient(complaintMain.getPatientName());
-	 		mediateProgram.setDoctor(complaintMain.getInvolveHospital());
-	 		mediateProgram.preInsert();
-	 		mediateProgramDao.insert(mediateProgram);
+			mediateProgram.setMediateProgramId(IdGen.uuid());
+			mediateProgram.setRelationId(signAgreement.getSignAgreementId());
+			mediateProgram.setPatient(complaintMain.getPatientName());
+			mediateProgram.setDoctor(complaintMain.getInvolveHospital());
+			mediateProgram.preInsert();
+			mediateProgramDao.insert(mediateProgram);
 		}else {
-	 		mediateProgram.preUpdate();
+			mediateProgram.preUpdate();
 			mediateProgram.setPatient(complaintMain.getPatientName());
 			mediateProgram.setDoctor(complaintMain.getInvolveHospital());
 			mediateProgram.setRelationId(signAgreement.getSignAgreementId());
-	 		mediateProgramDao.update(mediateProgram);
+			mediateProgramDao.update(mediateProgram);
 		}
 	}
 	//保存笔录
@@ -389,22 +389,49 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	public void exportWord(SignAgreement signAgreement,String export, HttpServletRequest request, HttpServletResponse response){
 		WordExportUtil wordExportUtil = new WordExportUtil();
 		signAgreement = this.get(signAgreement.getSignAgreementId());
-		List<PatientLinkEmp> patientLinkEmpList = signAgreement.getPatientLinkEmpList();//患方（甲方）
-		List<PatientLinkEmp> patientLinkDList = signAgreement.getPatientLinkDList();//患方（法定）代理人
-		List<MedicalOfficeEmp> medicalOfficeEmpList = signAgreement.getMedicalOfficeEmpList();//医方（乙方）
-		String mediation = signAgreement.getMediation();
-		String mediation1 = mediation.substring(0, 32);//调节情况id
-		String agreedMatter = signAgreement.getAgreedMatter();
-		String agreedMatter1 = agreedMatter.substring(0, 32);//协议约定事项id
-		String performAgreementMode = signAgreement.getPerformAgreementMode();
-		String performAgreementMode1 = performAgreementMode.substring(0, 32);//履行协议方式id
-		String agreementExplain = signAgreement.getAgreementExplain();
-		String agreementExplain1 = agreementExplain.substring(0, 32);//协议说明id
-		TypeInfo typeInfo1 = typeInfoService.get(mediation1);
-		TypeInfo typeInfo2 = typeInfoService.get(agreedMatter1);
-		TypeInfo typeInfo3 = typeInfoService.get(performAgreementMode1);
-		TypeInfo typeInfo4 = typeInfoService.get(agreementExplain1);
+		List<PatientLinkEmp> patientLinkEmpList=new ArrayList<PatientLinkEmp>();
+		List<PatientLinkEmp> patientLinkDList = new ArrayList<PatientLinkEmp>();
+		List<MedicalOfficeEmp> medicalOfficeEmpList = new ArrayList<MedicalOfficeEmp>();
+		TypeInfo typeInfo1 = new TypeInfo();
+		TypeInfo typeInfo2 = new TypeInfo();
+		TypeInfo typeInfo3 = new TypeInfo();
+		TypeInfo typeInfo4 = new TypeInfo();
+		if(signAgreement.getPatientLinkEmpList().size()!=0){
+			patientLinkEmpList = signAgreement.getPatientLinkEmpList();//患方（甲方）
+		}
+		if(signAgreement.getPatientLinkDList().size()!=0){
+			patientLinkDList = signAgreement.getPatientLinkDList();//患方（法定）代理人
+		}
+		if(signAgreement.getMedicalOfficeEmpList().size()!=0){
+			medicalOfficeEmpList = signAgreement.getMedicalOfficeEmpList();//医方（乙方）
+		}
+		if(StringUtils.isNotBlank(signAgreement.getMediation())){
+			String mediation = signAgreement.getMediation();
+			String mediation1 = mediation.substring(0, 32);//调节情况id
+			typeInfo1 = typeInfoService.get(mediation1);
+		}
+		if(StringUtils.isNotBlank(signAgreement.getAgreedMatter())){
+			String agreedMatter = signAgreement.getAgreedMatter();
+			String agreedMatter1 = agreedMatter.substring(0, 32);//协议约定事项id
+			typeInfo2 = typeInfoService.get(agreedMatter1);
+		}
+		if(StringUtils.isNotBlank(signAgreement.getPerformAgreementMode())){
+			String performAgreementMode = signAgreement.getPerformAgreementMode();
+			String performAgreementMode1 = performAgreementMode.substring(0, 32);//履行协议方式id
+			typeInfo3 = typeInfoService.get(performAgreementMode1);
+		}
+		if(StringUtils.isNotBlank(signAgreement.getAgreementExplain())){
+			String agreementExplain = signAgreement.getAgreementExplain();
+			String agreementExplain1 = agreementExplain.substring(0, 32);//协议说明id
+			typeInfo4 = typeInfoService.get(agreementExplain1);
+		}
+
+
+
+
+
 		String path = request.getSession().getServletContext().getRealPath("/");
+		//String path = "C:\\a/";
 		String modelPath = path;
 		String newFileName = "无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -520,6 +547,21 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			path += "/agreement.docx";  //模板文件位置
 			modelPath += "/agreement.docx";
 			newFileName = "山西省医疗纠纷人民调解委员会人民调解协议书.docx";
+		}else if ("meeting".equals(export)){
+			params.put("time", signAgreement.getMediateProgram().getMeetingTime()==null?"":signAgreement.getMediateProgram().getMeetingTime());
+			params.put("address",signAgreement.getMediateProgram().getAddress()==null?"":signAgreement.getMediateProgram().getAddress());
+			params.put("case",signAgreement.getComplaintMain().getPatientName()==null||signAgreement.getComplaintMain().getHospital().getName()==null?"":signAgreement.getComplaintMain().getPatientName()+"与"+signAgreement.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
+			params.put("tiao",signAgreement.getMediateProgram().getMediatorUser().getName()==null?"":signAgreement.getMediateProgram().getMediatorUser().getName());
+			params.put("pen",signAgreement.getMediateProgram().getClerkuser().getName()==null?"":signAgreement.getMediateProgram().getClerkuser().getName());
+			params.put("patient",signAgreement.getComplaintMain().getPatientName()==null?"":signAgreement.getComplaintMain().getPatientName());
+			params.put("doctor", signAgreement.getComplaintMain().getHospital().getName()==null?"":signAgreement.getComplaintMain().getHospital().getName());
+			params.put("hAvoid",signAgreement.getMediateProgram().getPatientAvoid()==null?"":signAgreement.getMediateProgram().getPatientAvoid());
+			params.put("yAvoid",signAgreement.getMediateProgram().getDoctorAvoid()==null?"":signAgreement.getMediateProgram().getDoctorAvoid());
+			params.put("hclear",signAgreement.getMediateProgram().getPatientClear()==null?"":signAgreement.getMediateProgram().getPatientClear());
+			params.put("yclear",signAgreement.getMediateProgram().getDoctorClear()==null?"":signAgreement.getMediateProgram().getDoctorClear());
+			path += "/doc/mediateMeeting.docx";  //模板文件位置
+			modelPath += "/doc/mediateMeetingM.docx";
+			newFileName="调解程序表.docx";
 		}
 		try{
 			List<String[]> testList = new ArrayList<String[]>();

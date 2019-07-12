@@ -302,19 +302,35 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 	public void exportWord(ReachMediate reachMediate, String export, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		reachMediate=this.get(reachMediate.getReachMediateId());
-		String path=request.getSession().getServletContext().getRealPath("/");
+		List<MediateProgram> mediateProgramList = reachMediate.getMediateProgramList();
+		int a=0;
+		for (int i=0;i<mediateProgramList.size();i++){
+			String meetingFrequency = mediateProgramList.get(i).getMeetingFrequency();
+			int in = Integer.valueOf(meetingFrequency);
+			if(a<in){
+				a=in-1;
+			}
+		}
+		System.out.println(a);
+		//String path=request.getSession().getServletContext().getRealPath("/");
+		String path = "C:\\a/";
 		String modelPath=path;
 		String newFileName="无标题文件.docx";
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("meeting".equals(export)){
-			params.put("time}", reachMediate.getReaMeetingTime());
-			params.put("address", reachMediate.getReaAddress());
-			params.put("case", reachMediate.getReaCaseInfo());
-			params.put("ytw", reachMediate.getYtwUser()==null ? "" : reachMediate.getYtwUser().getName());
-			params.put("patient", reachMediate.getReaPatient());
-			params.put("doctor", reachMediate.getDoctorUser()==null ? "" : reachMediate.getDoctorUser().getName());
-			path += "/doc/mediateMeeting.docx";  //模板文件位置
-			modelPath += "/doc/mediateMeetingM.docx";
+			params.put("time", reachMediate.getMediateProgramList().get(0).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(0).getMeetingTime());
+			params.put("address", reachMediate.getMediateProgramList().get(0).getAddress()==null?"":reachMediate.getMediateProgramList().get(0).getAddress());
+			params.put("case",reachMediate.getComplaintMain().getPatientName()==null||reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getPatientName()+"与"+reachMediate.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
+			params.put("tiao",reachMediate.getMediateProgramList().get(0).getMediatorUser().getName()==null?"":reachMediate.getMediateProgramList().get(0).getMediatorUser().getName());
+			params.put("pen",reachMediate.getMediateProgramList().get(0).getClerkuser().getName()==null?"":reachMediate.getMediateProgramList().get(0).getClerkuser().getName());
+			params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());
+			params.put("doctor", reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getHospital().getName());
+			params.put("hAvoid",reachMediate.getMediateProgramList().get(0).getPatientAvoid()==null?"":reachMediate.getMediateProgramList().get(0).getPatientAvoid());
+			params.put("yAvoid",reachMediate.getMediateProgramList().get(0).getDoctorAvoid()==null?"":reachMediate.getMediateProgramList().get(0).getDoctorAvoid());
+			params.put("hclear",reachMediate.getMediateProgramList().get(0).getPatientClear()==null?"":reachMediate.getMediateProgramList().get(0).getPatientClear());
+			params.put("yclear",reachMediate.getMediateProgramList().get(0).getDoctorClear()==null?"":reachMediate.getMediateProgramList().get(0).getDoctorClear());
+			path += "/mediateMeeting.docx";  //模板文件位置
+			modelPath += "/mediateMeeting.docx";
 			newFileName="调解程序表.docx";
 		}
 		try{

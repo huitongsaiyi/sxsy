@@ -350,6 +350,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalAcc')"/>
+                <input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalAcc'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=hospitalAcc&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
             </table>
         </div>
         <div class="tab-pane fade" id="patientT">
@@ -413,6 +415,8 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input id="patientDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientDis')"/>
+                        <input id="patientDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientDis'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=patientDis&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
                     </td>
                 </tr>
             </table>
@@ -471,6 +475,8 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input id="doctorDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('doctorDis')"/>
+                        <input id="doctorDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('doctorDis'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=doctorDis&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
                     </td>
                 </tr>
 
@@ -578,6 +584,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')"/>
+                <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=DisAcc&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
 
             </table>
         </div>
