@@ -17,6 +17,7 @@ import com.sayee.sxsy.modules.complaintdetail.service.ComplaintMainDetailService
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
+import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -52,6 +53,8 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     @Autowired
     private ComplaintInfoDao complaintInfoDao;
 
+    @Autowired
+    private PreOperativeConsentDao preOperativeConsentDao;
     public ComplaintInfo get(String id) {
         return super.get(id);
     }
@@ -189,25 +192,37 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         List list=new ArrayList();
 
         List<Map<String,Object>> every =complaintInfoDao.selectEveryOne(visitorDate,visitorMonthDate,involveDepartment,involveEmployee);
+        List<Map<String,Object>> book=preOperativeConsentDao.selectCreatby(visitorDate,visitorMonthDate,involveDepartment,involveEmployee);
         if(CollectionUtils.isEmpty(every)){
             every=new ArrayList<Map<String,Object>>();
         }
         //根据拿到的所有人员数据 在进行 单个人员统计
-        person(every,list,visitorDate,visitorMonthDate);
+        person(every,book,visitorDate,visitorMonthDate);
+        //合并list
+       every.addAll(book);
         list.add(every);
         page.setList(list);
         return page;//super.findPage(page, complaintInfo);
     }
 
-    public void person(List<Map<String,Object>> every,List<Object> list,String visitorDate,String visitorMonthDate){
-            if (every.size()>0){
+    public void person(List<Map<String,Object>> every,List<Map<String,Object>> book,String visitorDate,String visitorMonthDate){
+        List<Map<String,Object>> newlist=new ArrayList<Map<String,Object>>();
+        if (every.size()>0){
                 for (Map<String,Object> map: every) {
                     Map<String,Object> person=complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by",""),visitorDate,visitorMonthDate);
                         if (MapUtils.isNotEmpty(person)){
                             map.putAll(person);
                         }
+                    //遍历术前同意书见证的list  有相同人员增加，且删除map
+                    for (Map<String,Object> bookMap: book) {
+                        if (MapUtils.getString(bookMap,"create_by").equals(MapUtils.getString(map,"create_by"))){
+                            map.put("sq",MapUtils.getString(bookMap,"sq"));
+                            newlist.add(bookMap);
+                        }
+                    }
                 }
             }
+        book.removeAll(newlist);
     }
 
 

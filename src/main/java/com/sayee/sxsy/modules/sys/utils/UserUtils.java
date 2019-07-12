@@ -336,7 +336,7 @@ public class UserUtils {
 //		}
 //		return new HashMap<String, Object>();
 //	}
-	public List<Role> selectRoles(String id){
+	public static List<Role> selectRoles(String id){
 		return roleDao.selectRole(id);
 	}
 }

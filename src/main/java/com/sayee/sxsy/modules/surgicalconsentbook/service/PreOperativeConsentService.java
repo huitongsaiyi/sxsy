@@ -5,6 +5,11 @@ package com.sayee.sxsy.modules.surgicalconsentbook.service;
 
 import java.util.List;
 
+import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.modules.sys.entity.Role;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.activiti.engine.impl.util.CollectionUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +36,12 @@ public class PreOperativeConsentService extends CrudService<PreOperativeConsentD
 	}
 	
 	public Page<PreOperativeConsent> findPage(Page<PreOperativeConsent> page, PreOperativeConsent preOperativeConsent) {
+		List<Role> roles=UserUtils.selectRoles(UserUtils.getUser().getId());
+		Object[] objs = roles.toArray();
+		List<String> roleType=BaseUtils.convert(objs,"roleType",false);
+		if (!roleType.contains("assignment")){
+			preOperativeConsent.setUser(UserUtils.getUser());
+		}
 		return super.findPage(page, preOperativeConsent);
 	}
 	
