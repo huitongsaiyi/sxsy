@@ -26,6 +26,42 @@
 				}
 			});
 		});
+		function exportWord() {
+			var url='${ctx}'+'/auditacceptance/auditAcceptance/exportWord';
+			$.ajax({
+				type: "POST",
+				url: url,
+				data:{'auditAcceptanceId':'${auditAcceptance.auditAcceptanceId}' },
+				dataType: "json",
+				async:true
+			});
+		}
+		function download(url, downLoadFileRename) {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', url, true);        // 也可以使用POST方式，根据接口
+			xhr.responseType = "blob";    // 返回类型blob
+			// 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+			xhr.onload = function () {
+				// 请求完成
+				if (this.status === 200) {
+					// 返回200
+					var blob = this.response;
+					var reader = new FileReader();
+					reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+					reader.onload = function (e) {
+						// 转换完成，创建一个a标签用于下载
+						var a = document.createElement('a');
+						a.download = downLoadFileRename;
+						a.href = e.target.result;
+						$("body").append(a);    // 修复firefox中无法触发click
+						a.click();
+						$(a).remove();
+					}
+				}
+			};
+			// 发送ajax请求
+			xhr.send()
+		}
 	</script>
 </head>
 <body>
@@ -130,6 +166,8 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientTake')"/>
+							<input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientTake'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?investigateEvidenceId=${investigateEvidence.investigateEvidenceId}&export=patientTake&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
 						</td>
 					</tr>
 				</table>
@@ -287,6 +325,8 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalTake')"/>
+							<input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalTake'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?investigateEvidenceId=${investigateEvidence.investigateEvidenceId}&export=hospitalTake&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
 						</td>
 					</tr>
 					</table>
@@ -475,9 +515,9 @@
 		<div class="form-actions">
 			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
 			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary"
-																					type="submit" value="导出全部"
-																					onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>
+			<%--<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary"--%>
+																					<%--type="submit" value="导出全部"--%>
+																					<%--onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>--%>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 		<act:histoicFlow procInsId="${investigateEvidence.complaintMain.procInsId}" />

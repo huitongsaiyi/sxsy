@@ -108,6 +108,7 @@ public class ReachMediateController extends BaseController {
 	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
 		if (export.equals("meeting")){
+			reachMediateService.save(reachMediate, request);
 			reachMediateService.exportWord(reachMediate,export,request,response);
 			return "";
 		}else {
@@ -115,6 +116,7 @@ public class ReachMediateController extends BaseController {
 				return form(reachMediate, model, request);
 			}
 			try {
+
 				reachMediateService.save(reachMediate, request);
 				if ("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())) {
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + reachMediate.getComplaintMain().getProcInsId());

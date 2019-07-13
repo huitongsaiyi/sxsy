@@ -33,8 +33,8 @@
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile",
-		group_concat(us.name) AS "feedbackEmps.name",
-		group_concat(off.name) AS "feedbackOffices.name"
+		group_concat(DISTINCT(us.name)) AS "feedbackEmps.name",
+		group_concat(DISTINCT(off.name)) AS "feedbackOffices.name"
 	</sql>
 	
 	<sql id="caseFeedbackJoins">
@@ -52,7 +52,7 @@
 	</sql>
     
 	<select id="get" resultType="CaseFeedback">
-		SELECT 
+		SELECT
 			<include refid="caseFeedbackColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="caseFeedbackJoins"/>
