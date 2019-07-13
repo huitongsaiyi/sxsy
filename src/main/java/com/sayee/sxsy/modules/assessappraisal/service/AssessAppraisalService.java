@@ -101,26 +101,6 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 
 	@Transactional(readOnly = false)
 	public void save(AssessAppraisal assessAppraisal, HttpServletRequest request) {
-//从前台获取到的附件
-		String files1 = request.getParameter("files1");
-		String files2 = request.getParameter("files2");
-		String files3 = request.getParameter("files3");
-		String files4 = request.getParameter("files4");
-		String files5 = request.getParameter("files5");
-		String files6 = request.getParameter("files6");
-		String files7 = request.getParameter("files7");
-		//附件的主键
-		String acceId = null;
-		//从前台获取到的附件类型
-		String fjtype1 = request.getParameter("fjtype1");
-		String fjtype2 = request.getParameter("fjtype2");
-		String fjtype3 = request.getParameter("fjtype3");
-		String fjtype4 = request.getParameter("fjtype4");
-		String fjtype5 = request.getParameter("fjtype5");
-		String fjtype6 = request.getParameter("fjtype6");
-		String fjtype7 = request.getParameter("fjtype7");
-		//itemId1关联评估鉴定表的主键
-		String itemId = assessAppraisal.getAssessAppraisalId();
 		if(StringUtils.isBlank(assessAppraisal.getCreateBy().getId())){
 			assessAppraisal.preInsert();
 			assessAppraisal.setAssessAppraisalId(assessAppraisal.getId());
@@ -158,29 +138,6 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			yif.setStartTime(assessAppraisal.getRecordInfo1().getStartTime());
 			yif.setEndTime(assessAppraisal.getRecordInfo1().getEndTime());
 			recordInfoDao.insert(yif);
-			//保存附件
-			if(StringUtils.isNotBlank(files1)){
-				acceId=IdGen.uuid();
-				preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
-			}else if(StringUtils.isNotBlank(files2)){
-				acceId=IdGen.uuid();
-				preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
-			}else if(StringUtils.isNotBlank(files3)){
-				acceId=IdGen.uuid();
-				preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
-			}else if(StringUtils.isNotBlank(files4)){
-				acceId=IdGen.uuid();
-				preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
-			}else if(StringUtils.isNotBlank(files5)){
-				acceId=IdGen.uuid();
-				preOperativeConsentService.save1(acceId,itemId,files5,fjtype5);
-			}else if(StringUtils.isNotBlank(files6)){
-				acceId=IdGen.uuid();
-				preOperativeConsentService.save1(acceId,itemId,files6,fjtype6);
-			}else if(StringUtils.isNotBlank(files7)){
-				acceId=IdGen.uuid();
-				preOperativeConsentService.save1(acceId,itemId,files7,fjtype7);
-			}
 
 		}else{
 			//修改患方笔录
@@ -208,84 +165,6 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			assessAppraisal.setPatientName(assessAppraisal.getComplaintMain().getPatientName());
 			assessAppraisal.setPatientSex(assessAppraisal.getComplaintMain().getPatientSex());
 			dao.update(assessAppraisal);
-			//更新附件
-			if(StringUtils.isNotBlank(files1)){
-				String acceIds=request.getParameter("acceId1");
-				if(StringUtils.isNotBlank(acceIds)){
-					preOperativeConsentService.updatefj(files1,itemId,fjtype1);
-				}else{
-					acceId=IdGen.uuid();
-					preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
-				}
-			}else{
-				preOperativeConsentService.delefj(itemId,fjtype1);
-			}
-			if(StringUtils.isNotBlank(files2)){
-				String acceIds=request.getParameter("acceId2");
-				if(StringUtils.isNotBlank(acceIds)){
-					preOperativeConsentService.updatefj(files2,itemId,fjtype2);
-				}else{
-					acceId=IdGen.uuid();
-					preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
-				}
-			}else{
-				preOperativeConsentService.delefj(itemId,fjtype2);
-			}
-			if(StringUtils.isNotBlank(files3)){
-				String acceIds=request.getParameter("acceId3");
-				if(StringUtils.isNotBlank(acceIds)){
-					preOperativeConsentService.updatefj(files3,itemId,fjtype3);
-				}else{
-					acceId=IdGen.uuid();
-					preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
-				}
-			}else{
-				preOperativeConsentService.delefj(itemId,fjtype3);
-			}
-			if(StringUtils.isNotBlank(files4)){
-				String acceIds=request.getParameter("acceId4");
-				if(StringUtils.isNotBlank(acceIds)){
-					preOperativeConsentService.updatefj(files4,itemId,fjtype4);
-				}else{
-					acceId=IdGen.uuid();
-					preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
-				}
-			}else{
-				preOperativeConsentService.delefj(itemId,fjtype4);
-			}
-			if(StringUtils.isNotBlank(files5)){
-				String acceIds=request.getParameter("acceId5");
-				if(StringUtils.isNotBlank(acceIds)){
-					preOperativeConsentService.updatefj(files5,itemId,fjtype5);
-				}else{
-					acceId=IdGen.uuid();
-					preOperativeConsentService.save1(acceId,itemId,files5,fjtype5);
-				}
-			}else{
-				preOperativeConsentService.delefj(itemId,fjtype5);
-			}
-			if(StringUtils.isNotBlank(files6)){
-				String acceIds=request.getParameter("acceId6");
-				if(StringUtils.isNotBlank(acceIds)){
-					preOperativeConsentService.updatefj(files6,itemId,fjtype6);
-				}else{
-					acceId=IdGen.uuid();
-					preOperativeConsentService.save1(acceId,itemId,files6,fjtype6);
-				}
-			}else{
-				preOperativeConsentService.delefj(itemId,fjtype6);
-			}
-			if(StringUtils.isNotBlank(files7)){
-				String acceIds=request.getParameter("acceId7");
-				if(StringUtils.isNotBlank(acceIds)){
-					preOperativeConsentService.updatefj(files7,itemId,fjtype7);
-				}else{
-					acceId=IdGen.uuid();
-					preOperativeConsentService.save1(acceId,itemId,files7,fjtype7);
-				}
-			}else{
-				preOperativeConsentService.delefj(itemId,fjtype7);
-			}
 
 		}
 		//保存患方信息
@@ -296,6 +175,8 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		this.doctorDetail(assessAppraisal);
 		//保存意见书
 		this.submissions(assessAppraisal);
+		//保存附件
+		this.savefj(request,assessAppraisal);
 
 		if ("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
 
@@ -570,6 +451,106 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			wordExportUtil.getWord(path,modelPath,"",params,testList,fileName,response);
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+	/**
+	 * 保存附件
+	 */
+	public void savefj(HttpServletRequest request,AssessAppraisal assessAppraisal){
+		//从前台获取到的附件
+		String files1 = request.getParameter("files1");
+		String files2 = request.getParameter("files2");
+		String files3 = request.getParameter("files3");
+		String files4 = request.getParameter("files4");
+		String files5 = request.getParameter("files5");
+		String files6 = request.getParameter("files6");
+		String files7 = request.getParameter("files7");
+		String acceId = null;
+		String itemId = assessAppraisal.getAssessAppraisalId();
+		//从前台获取到的附件类型
+		String fjtype1 = request.getParameter("fjtype1");
+		String fjtype2 = request.getParameter("fjtype2");
+		String fjtype3 = request.getParameter("fjtype3");
+		String fjtype4 = request.getParameter("fjtype4");
+		String fjtype5 = request.getParameter("fjtype5");
+		String fjtype6 = request.getParameter("fjtype6");
+		String fjtype7 = request.getParameter("fjtype7");
+		if(StringUtils.isNotBlank(files1)){
+			String acceId1=request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype1);
+		}
+		if(StringUtils.isNotBlank(files2)){
+			String acceId2=request.getParameter("acceId2");
+			if(StringUtils.isNotBlank(acceId2)){
+				preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype2);
+		}
+		if(StringUtils.isNotBlank(files3)){
+			String acceId3=request.getParameter("acceId3");
+			if(StringUtils.isNotBlank(acceId3)){
+				preOperativeConsentService.updatefj(files3,itemId,fjtype3);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype3);
+		}
+		if(StringUtils.isNotBlank(files4)){
+			String acceId4=request.getParameter("acceId4");
+			if(StringUtils.isNotBlank(acceId4)){
+				preOperativeConsentService.updatefj(files4,itemId,fjtype4);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype4);
+		}
+		if(StringUtils.isNotBlank(files5)){
+			String acceId5=request.getParameter("acceId5");
+			if(StringUtils.isNotBlank(acceId5)){
+				preOperativeConsentService.updatefj(files5,itemId,fjtype5);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files5,fjtype5);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype5);
+		}
+		if(StringUtils.isNotBlank(files6)){
+			String acceId6=request.getParameter("acceId6");
+			if(StringUtils.isNotBlank(acceId6)){
+				preOperativeConsentService.updatefj(files6,itemId,fjtype6);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files6,fjtype6);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype6);
+		}
+		if(StringUtils.isNotBlank(files7)){
+			String acceId7=request.getParameter("acceId7");
+			if(StringUtils.isNotBlank(acceId7)){
+				preOperativeConsentService.updatefj(files7,itemId,fjtype7);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files7,fjtype7);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype7);
 		}
 	}
 }

@@ -104,10 +104,10 @@ public class InvestigateEvidenceController extends BaseController {
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(investigateEvidence.getId());
 		for (Map<String, Object> map :filePath){
 			if ("3".equals(MapUtils.getString(map,"fjtype"))){
-				model.addAttribute("files",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
 				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("4".equals(MapUtils.getString(map,"fjtype"))){
-				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
 				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("5".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files3",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));

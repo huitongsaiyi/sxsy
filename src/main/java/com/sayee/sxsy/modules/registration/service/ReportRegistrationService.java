@@ -74,10 +74,6 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 	@Transactional(readOnly = false)
 	public void save(ReportRegistration reportRegistration, HttpServletRequest request) {
 //		if(reportRegistration.getCreateDate()==null){
-		String files = request.getParameter("files");
-		String acceId1 = null;
-		String itemId1 = reportRegistration.getReportRegistrationId();
-		String fjtype1 = request.getParameter("fjtype");
 
         if(StringUtils.isBlank(reportRegistration.getCreateBy().getId())){
 			//判断主键ID是否为空
@@ -85,33 +81,20 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 			reportRegistration.setReportRegistrationId(reportRegistration.getId());
 			//将主键ID设为UUID
 			dao.insert(reportRegistration);
-			//保存附件
-			if(StringUtils.isNotBlank(files)){
-				acceId1=IdGen.uuid();
-				preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
-			}
+
 		}else{//如果不为空进行更新
 			//修改报案登记表
 			reportRegistration.preUpdate();
 			dao.update(reportRegistration);
-			 if(StringUtils.isNotBlank(files)){
-			 	String acceId=request.getParameter("acceId1");
-				 if(StringUtils.isNotBlank(acceId)){
-					 preOperativeConsentService.updatefj(files,itemId1,fjtype1);
-				 }else{
-					 acceId1=IdGen.uuid();
 
-					 preOperativeConsentService.save1(acceId1,itemId1,files,fjtype1);
-				 }
-			}else{
-				preOperativeConsentService.delefj(itemId1,fjtype1);
-			}
 		}
 		//修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
 		ComplaintMain complaintMain=reportRegistration.getComplaintMain();
 		complaintMain.preUpdate();
 		complaintMain.setComplaintMainId(reportRegistration.getComplaintMainId());
 		complaintMainDao.update(complaintMain);
+		//保存附件
+		this.savefj(request,reportRegistration);
 //		super.save(reportRegistration);
 		if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
 			List<Act> list = actTaskService.todoList(reportRegistration.getComplaintMain().getAct());
@@ -133,5 +116,23 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 	@Transactional(readOnly = false)
 	public void savefj(String acceId1,String itemId1,String files1,String fjtype){
 		super.dao.insertzf(acceId1,itemId1,files1,fjtype);
+	}
+	//保存附件
+	public void savefj(HttpServletRequest request,ReportRegistration reportRegistration){
+		String files = request.getParameter("files");
+		String acceId = null;
+		String itemId1 = reportRegistration.getReportRegistrationId();
+		String fjtype1 = request.getParameter("fjtype");
+		if(StringUtils.isNotBlank(files)){
+			String acceId1=request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files,itemId1,fjtype1);
+			}else{
+				acceId=IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId1,files,fjtype1);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId1,fjtype1);
+		}
 	}
 }

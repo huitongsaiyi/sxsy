@@ -26,42 +26,7 @@
 				}
 			});
 		});
-		function exportWord() {
-			var url='${ctx}'+'/auditacceptance/auditAcceptance/exportWord';
-			$.ajax({
-				type: "POST",
-				url: url,
-				data:{'auditAcceptanceId':'${auditAcceptance.auditAcceptanceId}' },
-				dataType: "json",
-				async:true
-			});
-		}
-		function download(url, downLoadFileRename) {
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET', url, true);        // 也可以使用POST方式，根据接口
-			xhr.responseType = "blob";    // 返回类型blob
-			// 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
-			xhr.onload = function () {
-				// 请求完成
-				if (this.status === 200) {
-					// 返回200
-					var blob = this.response;
-					var reader = new FileReader();
-					reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
-					reader.onload = function (e) {
-						// 转换完成，创建一个a标签用于下载
-						var a = document.createElement('a');
-						a.download = downLoadFileRename;
-						a.href = e.target.result;
-						$("body").append(a);    // 修复firefox中无法触发click
-						a.click();
-						$(a).remove();
-					}
-				}
-			};
-			// 发送ajax请求
-			xhr.send()
-		}
+
 	</script>
 </head>
 <body>
@@ -431,7 +396,7 @@
 						<input type="hidden"  name="fjtype1" value="3">
 					<td style="width: 450px; ">
 
-						<input type="hidden" id="files1" name="files" htmlEscape="false" class="input-xlarge"  value="${files}"/>
+						<input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"  value="${files1}"/>
 						<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/nestigateeividence/investigateEvidence/huanbilu" selectMultiple="true" maxWidth="100" maxHeight="100"/></div>
@@ -442,7 +407,7 @@
 						<td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方补充材料：</td>
 						<input type="hidden" name="fjtype2" value="4">
 					<td style="width: 450px; ">
-						<input type="hidden" id="files2" name="files1" htmlEscape="false" class="input-xlarge" value="${files1}" />
+						<input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge" value="${files2}" />
 						<input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 						<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"  uploadPath="/nestigateeividence/investigateEvidence/huanbuchong" selectMultiple="true" maxWidth="100" maxHeight="100"/></div>

@@ -79,20 +79,6 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         RespondentInfo d2 = investigateEvidence.getRespondentInfo2();
         RespondentInfo d3 = investigateEvidence.getRespondentInfo3();
         RespondentInfo d4 = investigateEvidence.getRespondentInfo4();
-        //从前台获取到的附件
-        String files = request.getParameter("files");
-        String files1 = request.getParameter("filse1");
-        String files3 = request.getParameter("filse3");
-        String files4 = request.getParameter("filse4");
-        //附件的主键
-        String acceId = null;
-        //从前台获取附件类型
-        String fjtype4 = request.getParameter("fjtype4");
-        String fjtype3 = request.getParameter("fjtype3");
-        String fjtype2 = request.getParameter("fjtype2");
-        String fjtype1 = request.getParameter("fjtype1");
-        //itemId1关联调查取证表的主键
-        String itemId = investigateEvidence.getInvestigateEvidenceId();
         if (StringUtils.isBlank(investigateEvidence.getCreateBy().getId())) {
             //判断主键ID是否为空
             investigateEvidence.preInsert();
@@ -121,27 +107,6 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
 //			RespondentInfo d4 = investigateEvidence.getRespondentInfo4();
             this.respondent(d4, investigateEvidence.getInvestigateEvidence().getInvestigateEvidenceId());
 
-            //保存附件
-
-            //附件表的主键都设为UUID
-
-            if (StringUtils.isNotBlank(files)) {
-                acceId = IdGen.uuid();
-                preOperativeConsentService.save1(acceId, itemId, files, fjtype1);
-            }
-            if (StringUtils.isNotBlank(files1)) {
-                acceId = IdGen.uuid();
-                preOperativeConsentService.save1(acceId, itemId, files1, fjtype2);
-            }
-            if (StringUtils.isNotBlank(files3)) {
-                acceId = IdGen.uuid();
-                preOperativeConsentService.save1(acceId, itemId, files3, fjtype3);
-            }
-            if (StringUtils.isNotBlank(files3)) {
-                acceId = IdGen.uuid();
-                preOperativeConsentService.save1(acceId, itemId, files4, fjtype4);
-            }
-
         } else {
             //如果不为空进行更新
             //修改调查取证表
@@ -163,55 +128,11 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             //更新医方调查人2的信息
             d4.preUpdate();
             this.respondent(d4, yinvestigateEvidence.getInvestigateEvidenceId());
-            //更新附件
-            //先判断由前台传过来的file是否为"",如果是，将附件表进行物理删除，如果不是就更新
-            if (StringUtils.isNotBlank(files)) {
-                String acceId1 = request.getParameter("acceId1");
-                if (StringUtils.isNotBlank(acceId1)) {
-                    preOperativeConsentService.updatefj(files, itemId, fjtype1);
-                } else {
-                    acceId = IdGen.uuid();
-                    preOperativeConsentService.save1(acceId, itemId, files, fjtype1);
-                }
-            } else {
-                preOperativeConsentService.delefj(itemId, fjtype1);
-            }
-            if (StringUtils.isNotBlank(files1)) {
-                String acceId2 = request.getParameter("acceId2");
-                if (StringUtils.isNotBlank(acceId2)) {
-                    preOperativeConsentService.updatefj(files1, itemId, fjtype2);
-                } else {
-                    acceId = IdGen.uuid();
-                    preOperativeConsentService.save1(acceId, itemId, files1, fjtype2);
-                }
-            } else {
-                preOperativeConsentService.delefj(itemId, fjtype2);
-            }
-            if (StringUtils.isNotBlank(files3)) {
-                String acceId3 = request.getParameter("acceId3");
-                if (StringUtils.isNotBlank(acceId3)) {
-                    preOperativeConsentService.updatefj(files3, itemId, fjtype3);
-                } else {
-                    acceId = IdGen.uuid();
-                    preOperativeConsentService.save1(acceId, itemId, files3, fjtype3);
-                }
-            } else {
-                preOperativeConsentService.delefj(itemId, fjtype3);
-            }
-            if (StringUtils.isNotBlank(files4)) {
-                String acceId4 = request.getParameter("acceId4");
-                if (StringUtils.isNotBlank(acceId4)) {
-                    preOperativeConsentService.updatefj(files4, itemId, fjtype4);
-                } else {
-                    acceId = IdGen.uuid();
-                    preOperativeConsentService.save1(acceId, itemId, files4, fjtype4);
-                }
-            } else {
-                preOperativeConsentService.delefj(itemId, fjtype4);
-            }
-
 
         }
+        //保存附件
+        this.savefj(request,investigateEvidence);
+
         //修改主表信息 因为处理的是  主表事由信息的  对主表信息进行修改即可
 
 //		ComplaintMain complaintMain =investigateEvidence.getComplaintMain();
@@ -617,5 +538,66 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             e.printStackTrace();
         }
 
+    }
+    //保存附件
+    public void savefj(HttpServletRequest request,InvestigateEvidence investigateEvidence){
+        //从前台获取到的附件
+        String files1 = request.getParameter("files1");
+        String files2 = request.getParameter("files2");
+        String files3 = request.getParameter("files3");
+        String files4 = request.getParameter("files4");
+        //附件的主键
+        String acceId = null;
+        //从前台获取附件类型
+        String fjtype4 = request.getParameter("fjtype4");
+        String fjtype3 = request.getParameter("fjtype3");
+        String fjtype2 = request.getParameter("fjtype2");
+        String fjtype1 = request.getParameter("fjtype1");
+        //itemId1关联调查取证表的主键
+        String itemId = investigateEvidence.getInvestigateEvidenceId();
+        if(StringUtils.isNotBlank(files1)){
+            String acceId1=request.getParameter("acceId1");
+            if(StringUtils.isNotBlank(acceId1)){
+                preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+            }else{
+                acceId=IdGen.uuid();
+                preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+            }
+        }else{
+            preOperativeConsentService.delefj(itemId,fjtype1);
+        }
+        if(StringUtils.isNotBlank(files2)){
+            String acceId2=request.getParameter("acceId2");
+            if(StringUtils.isNotBlank(acceId2)){
+                preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+            }else{
+                acceId = IdGen.uuid();
+                preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+            }
+        }else{
+            preOperativeConsentService.delefj(itemId,fjtype2);
+        }
+        if(StringUtils.isNotBlank(files3)){
+            String acceId3=request.getParameter("acceId3");
+            if(StringUtils.isNotBlank(acceId3)){
+                preOperativeConsentService.updatefj(files3,itemId,fjtype3);
+            }else{
+                acceId = IdGen.uuid();
+                preOperativeConsentService.save1(acceId,itemId,files3,fjtype3);
+            }
+        }else{
+            preOperativeConsentService.delefj(itemId,fjtype3);
+        }
+        if(StringUtils.isNotBlank(files4)){
+            String acceId4=request.getParameter("acceId4");
+            if(StringUtils.isNotBlank(acceId4)){
+                preOperativeConsentService.updatefj(files4,itemId,fjtype4);
+            }else{
+                acceId = IdGen.uuid();
+                preOperativeConsentService.save1(acceId,itemId,files4,fjtype4);
+            }
+        }else{
+            preOperativeConsentService.delefj(itemId,fjtype4);
+        }
     }
 }

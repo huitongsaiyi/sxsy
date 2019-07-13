@@ -544,8 +544,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			if(StringUtils.isNotBlank(signAgreement.getAgreementNumber())){
 				params.put("agreementNumber",signAgreement.getAgreementNumber());
 			}
-			path += "/agreement.docx";  //模板文件位置
-			modelPath += "/agreement.docx";
+			path += "/doc/agreement.docx";  //模板文件位置
+			modelPath += "/doc/agreementM.docx";
 			newFileName = "山西省医疗纠纷人民调解委员会人民调解协议书.docx";
 		}else if ("meeting".equals(export)){
 			params.put("time", signAgreement.getMediateProgram().getMeetingTime()==null?"":signAgreement.getMediateProgram().getMeetingTime());
@@ -562,6 +562,20 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeetingM.docx";
 			newFileName="调解程序表.docx";
+		}else if("record".equals(export)){
+			params.put("startTime",signAgreement.getRecordInfo().getStartTime()==null?"":signAgreement.getRecordInfo().getStartTime());
+			params.put("endTime",signAgreement.getRecordInfo().getEndTime()==null?"":signAgreement.getRecordInfo().getEndTime());
+			params.put("address",signAgreement.getRecordInfo().getRecordAddress()==null?"":signAgreement.getRecordInfo().getRecordAddress());
+			params.put("host",signAgreement.getRecordInfo().getYtwHost().getName()==null?"":signAgreement.getRecordInfo().getYtwHost().getName());
+			params.put("noteTaker",signAgreement.getRecordInfo().getYtwNoteTaker().getName()==null?"":signAgreement.getRecordInfo().getYtwNoteTaker().getName());
+			params.put("patient",signAgreement.getRecordInfo().getPatient()==null?"":signAgreement.getRecordInfo().getPatient());
+			params.put("doctor",signAgreement.getRecordInfo().getDoctor()==null?"":signAgreement.getRecordInfo().getDoctor());
+			params.put("patName",signAgreement.getComplaintMain().getPatientName()==null?"":signAgreement.getComplaintMain().getPatientName());
+			params.put("docName",signAgreement.getComplaintMain().getHospital().getName()==null?"":signAgreement.getComplaintMain().getHospital().getName());
+			params.put("content",signAgreement.getRecordInfo().getRecordContent()==null?"":signAgreement.getRecordInfo().getRecordContent());
+			path += "/doc/signRecord.docx";  //模板文件位置
+			modelPath += "/doc/signRecordM.docx";
+			newFileName="签署协议笔录.docx";
 		}
 		try{
 			List<String[]> testList = new ArrayList<String[]>();

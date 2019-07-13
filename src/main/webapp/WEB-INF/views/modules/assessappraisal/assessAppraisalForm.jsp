@@ -1240,9 +1240,11 @@
 					</table>
 					<legend style="color: black;">七、说明</legend>
 					<span style="font-size: 20px;">该意见仅作为山西省医疗纠纷人民调解委员会调解医疗纠纷的参考，不具备法律效率。</span><br><br>
-					<div style="width: 100px;margin: auto">
+					<div style="width: 200px;margin: auto">
 						<input id="proposalExport" class="btn btn-primary" type="submit" value="生成意见书" onclick="$('#export').val('proposalDis')"/>
-				   </div>
+						<input id="proposalPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('proposalDis'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?assessAppraisalId=${assessAppraisal.assessAppraisalId}&export=proposalDis&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
+					</div>
 				</div>
 
 			</div>
