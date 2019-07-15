@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.sys.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sayee.sxsy.common.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class OfficeService extends TreeService<OfficeDao, Office> {
 	@Transactional(readOnly = true)
 	public List<Office> findList(Office office){
 		if(office != null){
-			if(office.getRemarks()!=null){
+			if(StringUtils.isNotBlank(office.getRemarks())){
 				office.setParentIds(office.getParentIds()+"%");
 				return dao.findByRemarksIdsLike(office);
 			}

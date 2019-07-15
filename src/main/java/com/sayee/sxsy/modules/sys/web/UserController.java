@@ -79,7 +79,6 @@ public class UserController extends BaseController {
 		String officeType=request.getParameter("officeType");
 		String officeId = request.getParameter("office.id");
 		String companyId= request.getParameter("company.id");
-
         if (officeType !=null && officeType != ""){
             Office office=new Office();
             office.setOfficeType(officeType);
@@ -175,9 +174,13 @@ public class UserController extends BaseController {
 		}
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
 		//return "redirect:" + adminPath + "/sys/user?repage";
-		String offtype=request.getParameter("officeType");
+	     String offtype=request.getParameter("officeType");
+	     user.getOffice().setId("");
+	     user.setLoginName("");
+	     user.setName("");
 		 String list = list(user, request, response, model);
 		return list;
+//        return "redirect:" + adminPath + "/sys/user/?repage";
 	}
 	
 	@RequiresPermissions("sys:user:edit")
