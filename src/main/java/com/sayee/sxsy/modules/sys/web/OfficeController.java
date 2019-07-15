@@ -142,6 +142,9 @@ public class OfficeController extends BaseController {
 		addMessage(redirectAttributes, "保存机构'" + office.getName() + "'成功");
 		//String id = "0".equals(office.getParentId()) ? "" : office.getParentId();
 		//return "redirect:" + adminPath + "/sys/office/list?id="+id+"&parentIds="+office.getParentIds();
+		office.setRemarks("");
+		office.setParentIds("");
+		office.setId("");
 		String list = list(request, office, model);
 		return list;
 	}
