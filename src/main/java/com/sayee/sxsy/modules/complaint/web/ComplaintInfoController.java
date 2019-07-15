@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
+import com.sayee.sxsy.common.utils.DateUtils;
+import com.sayee.sxsy.common.utils.excel.ExportExcel;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,7 +27,9 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
 import com.sayee.sxsy.modules.complaint.service.ComplaintInfoService;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 投诉接待Controller
@@ -107,5 +112,31 @@ public class ComplaintInfoController extends BaseController {
 		return "modules/complaint/numericalStatement";
 	}
 
+	@RequestMapping(value = "export",method = RequestMethod.POST)
+	public String exportExcel(HttpServletResponse response,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		try{
+			String date = request.getParameter("type");
+			Page<List> page = complaintInfoService.statementPage(new Page<List>(request, response),request, response);
+
+			String[] title = {"部门","人员","医院转办数量","当面处理数量","投诉接待数量(总)","转调解数量","同意书见证","接待日期"};
+			if(page.getList().size()!=0){
+
+				if("day".equals(date)){
+					String fileName = "日工作量统计" + DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+					new ExportExcel("日工作量统计",title).setDataList(page.getList()).write(response,fileName).dispose();
+				}else if("month".equals(date)){
+					String fileName = "月工作量统计" + DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+					new ExportExcel("月工作量统计",title).setDataList(page.getList()).write(response,fileName).dispose();
+				}
+				return null;
+			}else{
+				addMessage(redirectAttributes, "导出工作量统计失败！失败信息：这段时间内没有工作量数据可导出");
+				return "redirect:"+Global.getAdminPath()+"/complaint/complaintInfo/?repage";
+			}
+		}catch (Exception e){
+			addMessage(redirectAttributes,"导出工作量统计数据失败！失败信息："+e.getMessage());
+		}
+		return "redirect:"+Global.getAdminPath()+"/complaint/complaintInfo/statement";
+	}
 
 }
