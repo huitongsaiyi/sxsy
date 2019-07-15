@@ -94,6 +94,7 @@
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
+    <form:hidden path="reaPatient"/>
     <sys:message content="${message}"/>
 <fieldset>
     <ul id="myTab1" class="nav nav-tabs">
@@ -192,7 +193,7 @@
 							        {{row.doctorOffice.name}}
 							</td>
 							<td style="text-align: center">
-							        {{row.patient}}
+							        {{row.reaPatient}}
 							</td>
 							<td style="text-align: center">
 							        {{row.other}}
@@ -205,46 +206,46 @@
         </div>
         <div class="tab-pane fade" id="recorded_patient">
             <table class="table-form">
-                <tr>
-                    <td class="tit">开始时间</td>
-                    <td>
-                       ${reachMediate.recordInfo.startTime}
-                    </td>
-                    <td class="tit">结束时间</td>
-                    <td>
-                        ${reachMediate.recordInfo.endTime}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">地点</td>
-                    <td>
-                            ${reachMediate.recordInfo.recordAddress}
-                    </td>
-                    <%--<td class="tit">事由</td>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">开始时间</td>--%>
                     <%--<td>--%>
-                            <%--${reachMediate.recordInfo.cause}--%>
+                       <%--${reachMediate.recordInfo.startTime}--%>
                     <%--</td>--%>
-                    <td class="tit">调解员</td>
-                    <td>
-                            ${reachMediate.recordInfo.ytwHost.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">书记员</td>
-                    <td>
-                        ${reachMediate.recordInfo.ytwNoteTaker.name}
-                    </td>
-                    <td class="tit">患方</td>
-                    <td>
-                            ${reachMediate.recordInfo.patient}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">医方</td>
-                    <td>
-                        ${reachMediate.recordInfo.yfOffice.name}
-                    </td>
-                </tr>
+                    <%--<td class="tit">结束时间</td>--%>
+                    <%--<td>--%>
+                        <%--${reachMediate.recordInfo.endTime}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">地点</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.recordAddress}--%>
+                    <%--</td>--%>
+                    <%--&lt;%&ndash;<td class="tit">事由</td>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<td>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;${reachMediate.recordInfo.cause}&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
+                    <%--<td class="tit">调解员</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.ytwHost.name}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">书记员</td>--%>
+                    <%--<td>--%>
+                        <%--${reachMediate.recordInfo.ytwNoteTaker.name}--%>
+                    <%--</td>--%>
+                    <%--<td class="tit">患方</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.patient}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">医方</td>--%>
+                    <%--<td>--%>
+                        <%--${reachMediate.recordInfo.yfOffice.name}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
                 <%--<tr>--%>
                     <%--<td class="tit">其他参加人员</td>--%>
                     <%--<td>--%>
@@ -252,7 +253,7 @@
                     <%--</td>--%>
                 <%--</tr>--%>
                 <tr>
-                    <td class="tit">笔录内容</td>
+                    <td class="tit" width="140px">笔录内容</td>
                     <td colspan="3">
                             ${reachMediate.recordInfo.recordContent}
                     </td>
@@ -261,46 +262,46 @@
         </div>
         <div class="tab-pane fade" id="recorded_doctor">
             <table class="table-form">
-                <tr>
-                    <td class="tit">开始时间</td>
-                    <td>
-                        ${reachMediate.recordInfo.yrecordInfo.startTime}
-                    </td>
-                    <td class="tit">结束时间</td>
-                    <td>
-                       ${reachMediate.recordInfo.yrecordInfo.endTime}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">地点</td>
-                    <td>
-                            ${reachMediate.recordInfo.yrecordInfo.recordAddress}
-                    <%--</td>--%>
-                    <%--<td class="tit">事由</td>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">开始时间</td>--%>
                     <%--<td>--%>
-                            <%--${reachMediate.recordInfo.yrecordInfo.cause}--%>
+                        <%--${reachMediate.recordInfo.yrecordInfo.startTime}--%>
                     <%--</td>--%>
-                    <td class="tit">调解员</td>
-                    <td>
-                            ${reachMediate.recordInfo.yrecordInfo.ytwHost.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">书记员</td>
-                    <td>
-                        ${reachMediate.recordInfo.yrecordInfo.ytwNoteTaker.name}
-                    </td>
-                    <td class="tit">患方</td>
-                    <td>
-                            ${reachMediate.recordInfo.yrecordInfo.patient}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">医方</td>
-                    <td>
-                        ${reachMediate.recordInfo.yrecordInfo.yfOffice.name}
-                    </td>
-                </tr>
+                    <%--<td class="tit">结束时间</td>--%>
+                    <%--<td>--%>
+                       <%--${reachMediate.recordInfo.yrecordInfo.endTime}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">地点</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.yrecordInfo.recordAddress}--%>
+                    <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<td class="tit">事由</td>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<td>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;${reachMediate.recordInfo.yrecordInfo.cause}&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
+                    <%--<td class="tit">调解员</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.yrecordInfo.ytwHost.name}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">书记员</td>--%>
+                    <%--<td>--%>
+                        <%--${reachMediate.recordInfo.yrecordInfo.ytwNoteTaker.name}--%>
+                    <%--</td>--%>
+                    <%--<td class="tit">患方</td>--%>
+                    <%--<td>--%>
+                            <%--${reachMediate.recordInfo.yrecordInfo.patient}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td class="tit">医方</td>--%>
+                    <%--<td>--%>
+                        <%--${reachMediate.recordInfo.yrecordInfo.yfOffice.name}--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
                 <%--<tr>--%>
                     <%--<td class="tit">其他参加人员</td>--%>
                     <%--<td>--%>
@@ -308,7 +309,7 @@
                     <%--</td>--%>
                 <%--</tr>--%>
                 <tr>
-                    <td class="tit">笔录内容</td>
+                    <td class="tit" width="140px">笔录内容</td>
                     <td colspan="3">
                             ${reachMediate.recordInfo.yrecordInfo.recordContent}
                     </td>

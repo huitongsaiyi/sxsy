@@ -12,6 +12,8 @@ import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.program.dao.MediateProgramDao;
 import com.sayee.sxsy.modules.program.entity.MediateProgram;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
@@ -63,6 +65,8 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 
 	@Autowired
 	private PreOperativeConsentService getPreOperativeConsentService;
+	@Autowired
+	private ComplaintMainService complaintMainService;
 
 	public ReachMediate get(String id) {
 		ReachMediate reachMediate = super.get(id);
@@ -89,12 +93,15 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 	
 	@Transactional(readOnly = false)
 	public void save(ReachMediate reachMediate,HttpServletRequest request) {
-         System.out.println(reachMediate.getReachMediateId());
+		ComplaintMain complaintMain = complaintMainService.get(reachMediate.getComplaintMainId());
 		if(StringUtils.isBlank(reachMediate.getCreateBy().getId())){
 			reachMediate.preInsert();
 			reachMediate.setReachMediateId(reachMediate.getId());
 			//将主键设为UUID
 			reachMediate.setReaDoctor(reachMediate.getDoctorOffice().getId());
+			reachMediate.setReaMeetingTime(reachMediate.getReaMeetingTime());
+			reachMediate.setReaAddress(reachMediate.getReaAddress());
+			reachMediate.setReaPatient(complaintMain.getPatientName());
 			dao.insert(reachMediate);
 			//保存笔录(患方)
 			RecordInfo huanf = reachMediate.getRecordInfo();
@@ -132,6 +139,9 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			//修改达成调解表
 			reachMediate.preUpdate();
 			reachMediate.setReaDoctor(reachMediate.getDoctorOffice().getId());
+			reachMediate.setReaMeetingTime(reachMediate.getReaMeetingTime());
+			reachMediate.setReaAddress(reachMediate.getReaAddress());
+			reachMediate.setReaPatient(complaintMain.getPatientName());
 			dao.update(reachMediate);
 			//更新笔录(患方)
 			RecordInfo huanf = reachMediate.getRecordInfo();

@@ -144,7 +144,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.caseSource = caseSource;
 	}
 	
-	@Length(min=1, max=20, message="起保日期长度必须介于 1 和 20 之间")
+	@Length(min=0, max=20, message="起保日期长度必须介于 0 和 20 之间")
 	public String getGuaranteeTime() {
 		return guaranteeTime;
 	}
@@ -153,7 +153,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.guaranteeTime = guaranteeTime;
 	}
 	
-	@Length(min=1, max=50, message="保险公司长度必须介于 1 和 50 之间")
+	@Length(min=0, max=50, message="保险公司长度必须介于 0 和 50 之间")
 	public String getInsuranceCompany() {
 		return insuranceCompany;
 	}
@@ -162,7 +162,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.insuranceCompany = insuranceCompany;
 	}
 	
-	@Length(min=1, max=15, message="保单号长度必须介于 1 和 15 之间")
+	@Length(min=0, max=15, message="保单号长度必须介于 0 和 15 之间")
 	public String getPolicyNumber() {
 		return policyNumber;
 	}

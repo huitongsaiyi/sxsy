@@ -250,7 +250,7 @@
                     </td>
                     <td class="tit">患方</td>
                     <td>
-                            ${mediateEvidence.recordInfo.patient}
+                            ${mediateEvidence.complaintMain.patientName}
                     </td>
                 </tr>
                 <tr>
@@ -306,7 +306,7 @@
                     </td>
                     <td class="tit">患方</td>
                     <td>
-                            ${mediateEvidence.recordInfo.yrecordInfo.patient}
+                            ${mediateEvidence.complaintMain.patientName}
                     </td>
                 </tr>
                 <tr>
