@@ -93,7 +93,7 @@
 		o.name AS "office.name",
 		o.parent_id AS "office.parent.id",
 		o.parent_ids AS "office.parentIds",
-		c.office_type AS "office.officeType",
+		c.office_type AS "company.officeType",
 		oa.id AS "office.area.id",
 		oa.name AS "office.area.name",
 		oa.parent_id AS "office.area.parent.id",
@@ -164,20 +164,11 @@
 		<if test="office !=null and office.officeType ==null and office.officeType == ''">
 			WHERE a.del_flag = #{DEL_FLAG_NORMAL} and o.office_type=""
 		</if>
-
-
-
-		<if test="company != null and company.id != null and company.id != ''">
-			AND (c.id = #{company.id} OR c.parent_ids LIKE
-			<if test="dbName == 'oracle'">'%,'||#{company.id}||',%')</if>
-			<if test="dbName == 'mssql'">'%,'+#{company.id}+',%')</if>
-			<if test="dbName == 'mysql'">CONCAT('%,', #{company.id}, ',%'))</if>
+		<if test="company !=null and company.id != null and company.id != ''">
+			AND a.company_id = #{company.id}
 		</if>
-		<if test="office != null and office.id != null and office.id != ''">
-			AND (o.id = #{office.id} OR o.parent_ids LIKE
-			<if test="dbName == 'oracle'">'%,'||#{office.id}||',%'</if>
-			<if test="dbName == 'mssql'">'%,'+#{office.id}+',%')</if>
-			<if test="dbName == 'mysql'">CONCAT('%,', #{office.id}, ',%'))</if>
+		<if test="office !=null and office.id != null and office.id != ''">
+			AND a.office_id=#{office.id}
 		</if>
 		<!-- 如果不是超级管理员，则不显示超级管理员用户 -->
 		<if test="!currentUser.admin">

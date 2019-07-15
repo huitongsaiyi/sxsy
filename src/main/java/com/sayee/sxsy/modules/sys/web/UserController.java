@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -76,10 +77,33 @@ public class UserController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String officeType=request.getParameter("officeType");
+		String officeId = request.getParameter("office.id");
+		String companyId= request.getParameter("company.id");
+
         if (officeType !=null && officeType != ""){
             Office office=new Office();
             office.setOfficeType(officeType);
-            user.setOffice(office);
+            if(StringUtils.isNotBlank(officeId)){
+				if(StringUtils.isNotBlank(user.getOffice().getName())){
+					office.setId(officeId);
+					user.setOffice(office);
+				}else{
+					office.setId("");
+					user.setOffice(office);
+				}
+			}
+			if(StringUtils.isNotBlank(companyId)){
+				if(StringUtils.isNotBlank(user.getCompany().getName())){
+					office.setId(companyId);
+					user.setCompany(office);
+				}else{
+					office.setId("");
+					user.setCompany(office);
+				}
+
+			}
+
+
             Page<User> page = systemService.findUser(new Page<User>(request, response), user);
             model.addAttribute("page", page);
         }
