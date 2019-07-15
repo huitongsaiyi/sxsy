@@ -104,7 +104,7 @@ public class AssessAppraisalController extends BaseController {
 				String a=BaseUtils.getCode("time","3","PROPOSAL","proposal_code");
 				String c=a.substring(0,4);
 				String format = String.format("%0" + 3 + "d", d2);
-				String e1="晋医人调鉴(评)["+c+"]"+format;
+				String e1="晋医人调鉴(评)["+c+"]"+format+"号";
 				proposal.setProposalCode(e1);
 				assessAppraisal.setProposal(proposal);
 

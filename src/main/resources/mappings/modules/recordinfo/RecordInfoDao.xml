@@ -29,7 +29,7 @@
 	
 	<sql id="recordInfoJoins">
 		LEFT JOIN SYS_USER u7 ON u7.id = a.host
-		left join sys_office o on o.id=u7.office_id
+		left join SYS_OFFICE o on o.id=u7.office_id
 		LEFT JOIN SYS_USER u8 ON u8.id = a.note_taker
 		LEFT JOIN SYS_USER u10 ON u10.id = a.doctor
 		LEFT JOIN SYS_USER u11 ON u11.id = a.other_participants

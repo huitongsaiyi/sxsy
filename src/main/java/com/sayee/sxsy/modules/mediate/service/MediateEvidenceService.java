@@ -16,6 +16,8 @@ import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.entity.Act;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.mediateapplyinfo.entity.MediateApplyInfo;
 import com.sayee.sxsy.modules.program.dao.MediateProgramDao;
 import com.sayee.sxsy.modules.program.entity.MediateProgram;
@@ -60,7 +62,8 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	private RecordInfoDao recordInfoDao;    //笔录Dao
 	@Autowired
 	private ActTaskService actTaskService;
-
+	@Autowired
+	private ComplaintMainService complaintMainService;
 
 	public MediateEvidence get(String id) {
 		MediateEvidence mediateEvidence=super.get(id);
@@ -73,6 +76,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
         mediateProgram.setRelationId(mediateEvidence.getMediateEvidenceId());
         mediateEvidence.setMediateProgramList(mediateProgramDao.findList(mediateProgram));
 		return mediateEvidence;
+
 	}
 	
 	public List<MediateEvidence> findList(MediateEvidence mediateEvidence) {
@@ -89,10 +93,12 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	
 	@Transactional(readOnly = false)
 	public void save(MediateEvidence mediateEvidence,HttpServletRequest request) {
+		ComplaintMain complaintMain = complaintMainService.get(mediateEvidence.getComplaintMainId());
 		if(StringUtils.isBlank(mediateEvidence.getCreateBy().getId())){
             mediateEvidence.preInsert();
             mediateEvidence.setMediateEvidenceId(mediateEvidence.getId());
             mediateEvidence.setDoctor(mediateEvidence.getDoctorOffice().getId());
+            mediateEvidence.setPatient(complaintMain.getPatientName());
             //将主键ID设为UUID
             dao.insert(mediateEvidence);
             //保存笔录(患方)
@@ -131,7 +137,11 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		    //如果不为空进行更新
 			//修改报案登记表
 			mediateEvidence.preUpdate();
+			mediateEvidence.setMeetingAddress(mediateEvidence.getMeetingAddress());
+			mediateEvidence.setMeetingTime(mediateEvidence.getMeetingTime());
+			mediateEvidence.setPatient(complaintMain.getPatientName());
 			mediateEvidence.setDoctor(mediateEvidence.getDoctorOffice().getId());
+
 			dao.update(mediateEvidence);
 			//更新笔录(患方)
             RecordInfo huanf = mediateEvidence.getRecordInfo();

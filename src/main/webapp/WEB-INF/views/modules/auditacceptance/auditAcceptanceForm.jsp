@@ -25,8 +25,19 @@
                     }
                 }
             });
+            var c=$("#anjian").val();
+            if(c==""){
+                $("#anjian").text("当事人申请");
+            }else{
+                show_input(vas,idss);
+            }
         });
+        function show_input(vas,idss){
+            var a=${fns:toJson(fns:getDictList('case_source'))}
+            var b=getDictLabel(a,vas)
+            $("#anjian").text(b);
 
+        }
         function exportWord() {
             var url='${ctx}'+'/auditacceptance/auditAcceptance/exportWord';
             $.ajax({
@@ -426,8 +437,9 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>申请医院</td>
                     <td>
-                        <sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>
+                        <%--<sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"--%>
+                                        <%--title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>--%>
+                                ${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}
                     </td>
                     <td class="tit"><font color="red">*</font>代理人</td>
                     <td>
@@ -521,10 +533,8 @@
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">案件来源</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
+                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span>
+                        <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline" id="anjian"></span>
                     </p>
                     <p style="margin:0pt"><span
                             style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
@@ -882,36 +892,35 @@
                 案件来源：
             </td>
             <td>
-                <form:select path="caseSource" class="input-medium required">
+                <form:select path="caseSource" class="input-medium required" onchange="show_input(this.value,'anjian')">
                     <form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                 </form:select>
                 <span class="help-inline"><font color="red">*</font> </span>
             </td>
-            <td class="tit"><font color="red">*</font>
+            <td class="tit">
                 起保日期：
             </td>
             <td>
                 <input name="guaranteeTime" type="text" readonly="readonly" maxlength="20"
-                       class="input-medium Wdate required"
+                       class="input-medium Wdate "
                        value="${auditAcceptance.guaranteeTime}"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" />
                 <span class="help-inline"><font color="red">*</font> </span>
             </td>
         </tr>
         <tr>
-            <td class="tit"><font color="red">*</font>
+            <td class="tit">
                 保险公司：
             </td>
             <td>
                 <form:input path="insuranceCompany" htmlEscape="false" maxlength="50"
-                            class="input-xlarge required"/><span class="help-inline"><font color="red">*</font> </span>
+                            class="input-xlarge "/>
             </td>
-            <td class="tit"><font color="red">*</font>
+            <td class="tit">
                 保单号：
             </td>
             <td>
-                <form:input path="policyNumber" htmlEscape="false" maxlength="15" class="input-xlarge required"/><span
-                    class="help-inline"><font color="red">*</font> </span>
+                <form:input path="policyNumber" htmlEscape="false" maxlength="15" class="input-xlarge "/>
             </td>
         </tr>
         <tr>

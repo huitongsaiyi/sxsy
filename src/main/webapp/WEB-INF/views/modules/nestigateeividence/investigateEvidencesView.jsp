@@ -337,47 +337,48 @@
             <table class="table-form">
 
                 <tr style=" " >
-                    <td >患方笔录：</td>
+                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方笔录：</td>
                     <input type="hidden"  name="fjtype1" value="3">
                     <td style="width: 450px; ">
 
-                        <input type="hidden" id="files1" name="files" htmlEscape="false" class="input-xlarge"  value="${files}"/>
+                        <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"  value="${files1}"/>
                         <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
-                        <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/nestigateeividence/investigateEvidence/huanbilu" readonly="true" selectMultiple="true" /></div>
+                            <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/nestigateeividence/investigateEvidence/huanbilu" selectMultiple="true" maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
 
                 </tr>
                 <tr style="" >
-                    <td >患方补充材料：</td>
+                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">患方补充材料：</td>
                     <input type="hidden" name="fjtype2" value="4">
-                    <td >
-                        <input type="hidden" id="files2" name="files1" htmlEscape="false" class="input-xlarge" value="${files1}" />
+                    <td style="width: 450px; ">
+                        <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge" value="${files2}" />
                         <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                        <div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"  uploadPath="/nestigateeividence/investigateEvidence/huanbuchong" readonly="true" selectMultiple="true" /></div>
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"  uploadPath="/nestigateeividence/investigateEvidence/huanbuchong" selectMultiple="true" maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
 
                 </tr>
                 <tr style="" >
-                    <td >医方笔录：</td>
+                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">医方笔录：</td>
                     <input type="hidden"  name="fjtype3" value="5">
                     <td style="width: 450px; ">
 
                         <input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"  value="${files3}"/>
                         <input type="hidden" id="acceId3" name="acceId1" value="${acceId3}">
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                        <div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files"  uploadPath="/nestigateeividence/investigateEvidence/yibilu" readonly="true" selectMultiple="true" /></div>
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files"  uploadPath="/nestigateeividence/investigateEvidence/yibilu" selectMultiple="true" maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
 
                 </tr>
                 <tr style="" >
-                    <td >医方补充材料：</td>
+                    <td style="text-align: center; width: 80px; font-weight: bolder;height: 120px;">医方补充材料：</td>
                     <input type="hidden" name="fjtype4" value="6">
                     <td style="width: 450px;">
                         <input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge" value="${files4}" />
                         <input type="hidden" id="acceId4" name="acceId1" value="${acceId4}">
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-                        <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"  uploadPath="/nestigateeividence/investigateEvidence/yibuchong" readonly="true" selectMultiple="true" /></div>
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"  uploadPath="/nestigateeividence/investigateEvidence/yibuchong" selectMultiple="true" maxWidth="100" maxHeight="100" readonly="true"/></div>
                     </td>
 
                 </tr>
