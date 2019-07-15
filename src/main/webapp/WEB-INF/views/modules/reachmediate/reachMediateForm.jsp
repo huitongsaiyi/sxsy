@@ -95,7 +95,6 @@
             }
         }
 
-
 	</script>
 </head>
 <body>
@@ -631,6 +630,8 @@
 				</p>
 				<td colspan="4" style="text-align: center;">
 					<input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="$('#export').val('meeting')">
+					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?reachMediateId=${reachMediate.reachMediateId}&export=meeting&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
 				</td>
 			</table>
 		</div>
@@ -804,7 +805,7 @@
 						<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
-						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/reach/reachMeadiate/sign" selectMultiple="false"
+						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/reach/reachMeadiate/sign" selectMultiple="true"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
@@ -820,7 +821,7 @@
 							<%--<form:hidden id="files1" path="files1" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 						<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files" uploadPath="/reach/reachMeadiate/huanRecord"
-																	  selectMultiple="false"
+																	  selectMultiple="true"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
@@ -836,7 +837,7 @@
 							<%--<form:hidden id="files2" path="files2" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 						<div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files" uploadPath="/reach/reachMeadiate/huanAdd"
-																	  selectMultiple="false"
+																	  selectMultiple="true"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
@@ -852,7 +853,7 @@
 							<%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 						<div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files" uploadPath="/reach/reachMeadiate/yiRecord"
-																	  selectMultiple="false"
+																	  selectMultiple="true"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
@@ -868,7 +869,7 @@
 							<%--<form:hidden id="nameImage" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
 							<%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
 						<div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files" uploadPath="/reach/reachMeadiate/yiAdd"
-																	  selectMultiple="false"
+																	  selectMultiple="true"
 																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>

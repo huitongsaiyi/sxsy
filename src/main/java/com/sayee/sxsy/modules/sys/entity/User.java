@@ -55,7 +55,6 @@ public class User extends DataEntity<User> {
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
     private String post;		//岗位（卫计委）
 	private String hospitalTitle;		//医院人员的职称
-
 	public User() {
 		super();
 		this.loginFlag = Global.YES;

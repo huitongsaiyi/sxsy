@@ -446,6 +446,8 @@
 
 			</div>
 			<input id="agreementExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('agreementExport');"/>
+			<input id="agreementPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('agreementExport'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?signAgreementId=${signAgreement.signAgreementId}&export=agreementExport&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
 		</div>
 
 		<div class="tab-pane fade" id="meeting">
@@ -879,6 +881,8 @@
 				<td colspan="4" style="text-align: center;">
 					<input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出"
 						   onclick="$('#export').val('meeting')">
+					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?signAgreementId=${signAgreement.signAgreementId}&export=meeting&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
 				</td>
 			</table>
 		</div>
@@ -966,6 +970,12 @@
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>
+				<td colspan="6" style="text-align: center;">
+					<input id="record" class="btn btn-primary" type="submit" value="导 出"
+						   onclick="$('#export').val('record')">
+					<input id="recordPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('record'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?signAgreementId=${signAgreement.signAgreementId}&export=record&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
+				</td>
 			</table>
 		</div>
 		<div class="tab-pane fade" id="annex">
@@ -979,8 +989,8 @@
 						<input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
 							   value="${files1}"/>
 						<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
-						<sys:ckfinder input="files1" type="files" uploadPath="/sign/signAgreement/sign" selectMultiple="false"
-									  maxWidth="100" maxHeight="100"/>
+						<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files" uploadPath="/sign/signAgreement/sign" selectMultiple="true"
+																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -992,9 +1002,9 @@
 						<input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
 							   value="${files2}"/>
 						<input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
-						<sys:ckfinder input="files2" type="files" uploadPath="/sign/signAgreement/meet"
-									  selectMultiple="false"
-									  maxWidth="100" maxHeight="100"/>
+						<div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files" uploadPath="/sign/signAgreement/meet"
+									  selectMultiple="true"
+																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -1006,9 +1016,9 @@
 						<input type="hidden" id="files3" name="files3" htmlEscape="false" class="input-xlarge"
 							   value="${files3}"/>
 						<input type="hidden" id="acceId3" name="acceId3" value="${acceId3}">
-						<sys:ckfinder input="files3" type="files" uploadPath="/sign/signAgreement/xieyi"
-									  selectMultiple="false"
-									  maxWidth="100" maxHeight="100"/>
+						<div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files" uploadPath="/sign/signAgreement/xieyi"
+									  selectMultiple="true"
+																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -1020,9 +1030,9 @@
 						<input type="hidden" id="files4" name="files4" htmlEscape="false" class="input-xlarge"
 							   value="${files4}"/>
 						<input type="hidden" id="acceId4" name="acceId4" value="${acceId4}">
-						<sys:ckfinder input="files4" type="files" uploadPath="/sign/signAgreement/other"
-									  selectMultiple="false"
-									  maxWidth="100" maxHeight="100"/>
+						<div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files" uploadPath="/sign/signAgreement/other"
+									  selectMultiple="true"
+																	  maxWidth="100" maxHeight="100"/></div>
 					</td>
 				</tr>
 			</table>

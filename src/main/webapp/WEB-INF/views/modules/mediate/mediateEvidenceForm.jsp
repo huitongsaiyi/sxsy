@@ -98,7 +98,6 @@
             }
         }
 
-
     </script>
 </head>
 <body>
@@ -301,9 +300,7 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
                     <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-                            <form:input id="patient" path="patient" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge required"
-                                        value="${mediateEvidence.patient}"/>
+                           ${mediateEvidence.complaintMain.patientName}
                     </span>
                 </p>
                 <p style="margin:0pt">
@@ -649,6 +646,8 @@
                 <td colspan="4" style="text-align: center;">
                     <input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出"
                            onclick="$('#export').val('meeting')">
+                    <input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?mediateEvidenceId=${mediateEvidence.mediateEvidenceId}&export=meeting&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+
                 </td>
             </table>
         </div>
@@ -820,11 +819,9 @@
                         <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
                                value="${files1}"/>
                         <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
-                            <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge"/>--%>
-                            <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
                         <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"
                                                                       uploadPath="/mediate/mediateEvidence/sign"
-                                                                      selectMultiple="false"
+                                                                      selectMultiple="true"
                                                                       maxWidth="100" maxHeight="100"/></div>
                     </td>
                 </tr>
@@ -841,7 +838,7 @@
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
                         <div style="margin-top: -45px;"><sys:ckfinder input="files2" type="files"
                                                                       uploadPath="/mediate/mediateEvidence/huanRecord"
-                                                                      selectMultiple="false"
+                                                                      selectMultiple="true"
                                                                       maxWidth="100" maxHeight="100"/></div>
                     </td>
                 </tr>
@@ -858,7 +855,7 @@
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
                         <div style="margin-top: -45px;"><sys:ckfinder input="files3" type="files"
                                                                       uploadPath="/mediate/mediateEvidence/huanAdd"
-                                                                      selectMultiple="false"
+                                                                      selectMultiple="true"
                                                                       maxWidth="100" maxHeight="100"/></div>
                     </td>
                 </tr>
@@ -875,7 +872,7 @@
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
                         <div style="margin-top: -45px;"><sys:ckfinder input="files4" type="files"
                                                                       uploadPath="/mediate/mediateEvidence/yiRecord"
-                                                                      selectMultiple="false"
+                                                                      selectMultiple="true"
                                                                       maxWidth="100" maxHeight="100"/></div>
                     </td>
                 </tr>
@@ -892,7 +889,7 @@
                             <%--<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="input-xlarge" name="filess" />--%>
                         <div style="margin-top: -45px;"><sys:ckfinder input="files5" type="files"
                                                                       uploadPath="/mediate/mediateEvidence/yiAdd"
-                                                                      selectMultiple="false"
+                                                                      selectMultiple="true"
                                                                       maxWidth="100" maxHeight="100"/></div>
                     </td>
                 </tr>

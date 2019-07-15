@@ -67,35 +67,35 @@ public class PreOperativeConsentController extends BaseController  {
 	@RequiresPermissions("surgicalconsentbook:preOperativeConsent:view")
 	@RequestMapping(value = "form")
 	public String form(PreOperativeConsent preOperativeConsent, Model model,HttpServletRequest request) {
-		List<PreOperativeConsent> list=preOperativeConsentService.findList(preOperativeConsent);
 		List<Map<String, Object>>  filePath = FileBaseUtils.getFilePath(preOperativeConsent.getId());
 		for (Map<String, Object> map :filePath){
 
 			if ("1".equals(MapUtils.getString(map,"fjtype"))){
-
-				model.addAttribute("files",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}else if("2".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 
 
 		}
-		 //
-
+        //手术同意书编号
+		List<PreOperativeConsent> list=preOperativeConsentService.findList(preOperativeConsent);
 		if(list.size()==0) {
-
 			preOperativeConsent.setSurgicalConsentId("1000001");
 
-//			itemId1=preOperativeConsent.getSurgicalConsentId();
-//			acceId1=IdGen.uuid();
 		}else{
-			String surgicalConsentId =list.get(0).getSurgicalConsentId();
-			int a=Integer.valueOf(surgicalConsentId);
-			int b=a+1;
-
-
+			int max=0;
+			for(int i=0; i<list.size(); i++){
+				String surgicalConsentId =list.get(i).getSurgicalConsentId();
+				int a=Integer.valueOf(surgicalConsentId);
+				if(a>max){
+					max = a;
+				}
+			}
+			int b=max+1;
 			preOperativeConsent.setSurgicalConsentId(String.valueOf(b));
-//			itemId=list.get(0).getSurgicalConsentId();
 		}
 
 
@@ -111,49 +111,9 @@ public class PreOperativeConsentController extends BaseController  {
 			return form(preOperativeConsent, model,request);
 
 		}
-		String files1 = request.getParameter("files");
-		String files2 = request.getParameter("files1");
-		String id = preOperativeConsent.getId();
-		String acceId1 = IdGen.uuid();
-		String acceId2 = IdGen.uuid();
-		String itemId1 = preOperativeConsent.getId();
-		String fjtype1 = request.getParameter("fjtype1");
-		String fjtype2 = request.getParameter("fjtype2");
-		if(StringUtils.isBlank(preOperativeConsent.getId())) {
-			preOperativeConsentService.save(preOperativeConsent);
 
+			preOperativeConsentService.save(preOperativeConsent,request);
 
-//request.setAttribute("s",files1);
-			if(files1 !=""){
-				preOperativeConsentService.save1(acceId1, itemId1, files1, fjtype1);
-			}
-			if(files2 !=""){
-				preOperativeConsentService.save1(acceId2, itemId1, files2, fjtype2);
-			}
-
-		}else {
-			preOperativeConsentService.save(preOperativeConsent);
-			//根据file_path是否存在判断，如果存在,则更新附件表，如果不存在就删除对应的附件表
-			if(StringUtils.isBlank(files1)){
-
-					preOperativeConsentService.delefj(preOperativeConsent.getId(),"1");
-
-
-			}else {
-				//更新 附件表  保存主表后有 业务主键 item——id
-
-					preOperativeConsentService.delefj(preOperativeConsent.getId(),"1");
-
-				preOperativeConsentService.save1(acceId1, itemId1, files1, fjtype1);
-			}
-			if(StringUtils.isBlank(files2)){
-				preOperativeConsentService.delefj(preOperativeConsent.getId(),"2");
-			}
-           else {
-				preOperativeConsentService.delefj(preOperativeConsent.getId(),"2");
-				preOperativeConsentService.save1(acceId2, itemId1, files2, fjtype2);
-			}
-		}
 		addMessage(redirectAttributes, "保存术前同意书成功");
 		return "redirect:"+Global.getAdminPath()+"/surgicalconsentbook/preOperativeConsent/?repage";
 	}
