@@ -3,10 +3,11 @@
  */
 package com.sayee.sxsy.modules.complaint.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
@@ -21,6 +22,7 @@ import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -181,7 +183,7 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
 
 
     public Page<List> statementPage(Page<List> page,HttpServletRequest request, HttpServletResponse response) {
-        String type=request.getParameter("type");
+        String type=request.getParameter("export");
         String visitorDate=request.getParameter("visitorDate");
         String visitorMonthDate=request.getParameter("visitorMonthDate");
         String involveDepartment=request.getParameter("involveDepartment");
@@ -198,11 +200,35 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         }
         //根据拿到的所有人员数据 在进行 单个人员统计
         person(every,book,visitorDate,visitorMonthDate);
-        //合并list
-       every.addAll(book);
-        list.add(every);
-        page.setList(list);
-        return page;//super.findPage(page, complaintInfo);
+        List<Map> maps = new ArrayList<Map>();
+        if("'yes'".equals(type)){
+            for (int i =0;i < every.size();i++){
+                every.get(i).remove("create_by");
+                every.get(i).remove("office_id");
+                Map<String,Object> map = new HashMap<String, Object>();
+                map.put("部门",every.get(i).get("deptName"));
+                map.put("接待日期",every.get(i).get("visitor_date"));
+                map.put("投诉接待数量(总)",every.get(i).get("amount"));
+                map.put("人员",every.get(i).get("name"));
+                map.put("医院转办数量",every.get(i).get("zb"));
+                map.put("转调解数量",every.get(i).get("ytw"));
+                map.put("当面处理数量",every.get(i).get("dm"));
+                if(every.get(i).size()==7){
+                    map.put("同意书见证","0");
+                }
+                maps.add(map);
+            }
+            maps.addAll(book);
+            list.add(maps);
+            page.setList(list);
+            return page;
+        }else {
+            //合并list
+            every.addAll(book);
+            list.add(every);
+            page.setList(list);
+            return page;//super.findPage(page, complaintInfo);
+        }
     }
 
     public void person(List<Map<String,Object>> every,List<Map<String,Object>> book,String visitorDate,String visitorMonthDate){
@@ -224,6 +250,4 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             }
         book.removeAll(newlist);
     }
-
-
 }

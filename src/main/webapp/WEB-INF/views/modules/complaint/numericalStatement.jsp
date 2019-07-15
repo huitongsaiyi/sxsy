@@ -7,6 +7,15 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			changeDate('day');
+            $("#btnExportSubmit").click(function () {
+                top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
+                    if(v=="ok"){
+                        $("#searchForm").attr("action","${ctx}/complaint/complaintInfo/export?export='yes'&dateType=${type}");
+                        $("#searchForm").submit();
+                    }
+                },{buttonsFocus:1});
+                top.$('.jbox-body .jbox-icon').css('top','55px');
+            });
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -53,7 +62,7 @@
 
 			<li id="month" style="">
 				<label>日期：</label>
-				<input id="visitorMonthDate" name="visitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+				<input id="visitorMonthDate" name="visitorMonthDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					   value="${visitorMonthDate}"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:true});"/>
 			</li>
@@ -67,7 +76,7 @@
 								title="部门" url="/sys/office/treeData?type=3&officeType=1" isAll="true"  cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="统计"/></li>
-			<li class="btns"><input id="btnExportSubmit" class="btn btn-primary" type="submit" value="导出"/></li>
+			<li class="btns"><input id="btnExportSubmit" class="btn btn-primary" type="button" value="导出" /></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

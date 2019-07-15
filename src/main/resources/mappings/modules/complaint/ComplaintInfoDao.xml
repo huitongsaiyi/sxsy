@@ -293,7 +293,7 @@
 
 	<!--工作量统计  先查找 今天所有人的-->
 	<select id="selectEveryOne" resultType="java.util.Map">
-		SELECT count(1) amount,a.create_by,a.visitor_date,u.name,u.office_id,o.name AS deptName
+		SELECT a.create_by,u.office_id,u.name,a.visitor_date,count(1) amount,o.name AS deptName
 		FROM COMPLAINT_INFO a
 		LEFT JOIN SYS_USER u on u.id=a.create_by
 		LEFT JOIN SYS_OFFICE o ON o.id=u.office_id
