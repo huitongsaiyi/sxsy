@@ -15,6 +15,7 @@ import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.service.OfficeService;
 import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -51,6 +52,8 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private OfficeService officeService;
 	
 	@ModelAttribute
 	public User get(@RequestParam(required=false) String id,HttpServletRequest request) {
@@ -77,6 +80,14 @@ public class UserController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String officeType=request.getParameter("officeType");
+		if(StringUtils.isBlank(officeType)){
+			if(StringUtils.isNotBlank(user.getOffice().getId())){
+				Office office = officeService.get(user.getOffice().getId());
+				officeType=office.getOfficeType();
+			}
+			user.getOffice().setId("");
+			user.getCompany().setId("");
+		}
 		String officeId = request.getParameter("office.id");
 		String companyId= request.getParameter("company.id");
         if (officeType !=null && officeType != ""){
@@ -119,7 +130,11 @@ public class UserController extends BaseController {
 
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = "form")
-	public String form(User user, Model model,String officeType) {
+	public String form(User user, Model model,String officeType,HttpServletRequest request) {
+		if(StringUtils.isNotBlank(user.getId())){
+			Office office = officeService.get(user.getOffice().getId());
+			model.addAttribute("off",office.getOfficeType());
+		}
 		if (user.getCompany()==null || user.getCompany().getId()==null){
 			user.setCompany(UserUtils.getUser().getCompany());
 		}
@@ -150,11 +165,11 @@ public class UserController extends BaseController {
 			user.setPassword(SystemService.entryptPassword(user.getNewPassword()));
 		}
 		if (!beanValidator(model, user)){
-			return form(user, model,officeType);
+			return form(user, model,officeType,request);
 		}
 		if (!"true".equals(checkLoginName(user.getOldLoginName(), user.getLoginName()))){
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
-			return form(user, model,officeType);
+			return form(user, model,officeType,request);
 		}
 		// 角色数据有效性验证，过滤不在授权内的角色
 		List<Role> roleList = Lists.newArrayList();
@@ -175,7 +190,7 @@ public class UserController extends BaseController {
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
 		//return "redirect:" + adminPath + "/sys/user?repage";
 	     String offtype=request.getParameter("officeType");
-	     user.getOffice().setId("");
+
 	     user.setLoginName("");
 	     user.setName("");
 		 String list = list(user, request, response, model);
@@ -185,7 +200,8 @@ public class UserController extends BaseController {
 	
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "delete")
-	public String delete(User user, RedirectAttributes redirectAttributes) {
+	public String delete(User user, RedirectAttributes redirectAttributes,HttpServletRequest request,Model model,HttpServletResponse response) {
+		Office office = officeService.get(user.getOffice().getId());
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/user/list?repage";
@@ -198,7 +214,14 @@ public class UserController extends BaseController {
 			systemService.deleteUser(user);
 			addMessage(redirectAttributes, "删除用户成功");
 		}
-		return "redirect:" + adminPath + "/sys/user/list?repage";
+//		return "redirect:" + adminPath + "/sys/user/list?id="+user.getId();
+		user.setLoginName("");
+		user.setName("");
+		user.getOffice().setName("");
+		user.getCompany().setName("");
+		user.getOffice().setOfficeType(office.getOfficeType());
+		String list = list(user, request, response, model);
+		return list;
 	}
 	
 	/**
