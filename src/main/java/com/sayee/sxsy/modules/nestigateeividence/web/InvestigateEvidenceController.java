@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.nestigateeividence.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.AjaxHelper;
+import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.respondentinfo.dao.RespondentInfoDao;
 import com.sayee.sxsy.modules.respondentinfo.service.RespondentInfoService;
@@ -29,6 +31,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.nestigateeividence.entity.InvestigateEvidence;
 import com.sayee.sxsy.modules.nestigateeividence.service.InvestigateEvidenceService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -146,9 +149,10 @@ public class InvestigateEvidenceController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(InvestigateEvidence investigateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request,HttpServletResponse response) {
 		String export=request.getParameter("export");
-		if (!export.equals("no")){
-			investigateEvidenceService.exportWord(investigateEvidence,export,request,response);
-			return "";
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
+			InvestigateEvidence investigateEvidence1 = investigateEvidenceService.get(investigateEvidence.getInvestigateEvidenceId());
+			String path = investigateEvidenceService.exportWord(investigateEvidence1, export, "false", request, response);
+			return path;
 		}else {
 			if (!beanValidator(model, investigateEvidence)&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())||!beanValidator(model,investigateEvidence.getInvestigateEvidence())&&"yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())){
 				return form(investigateEvidence, model,request);
@@ -175,6 +179,19 @@ public class InvestigateEvidenceController extends BaseController {
 		investigateEvidenceService.delete(investigateEvidence);
 		addMessage(redirectAttributes, "删除成功成功");
 		return "redirect:"+Global.getAdminPath()+"/nestigateeividence/investigateEvidence/?repage";
+	}
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String investigateEvidenceId=request.getParameter("investigateEvidenceId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		InvestigateEvidence investigateEvidence = investigateEvidenceService.get(investigateEvidenceId);
+		code=investigateEvidenceService.exportWord(investigateEvidence,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
+
 	}
 
 }

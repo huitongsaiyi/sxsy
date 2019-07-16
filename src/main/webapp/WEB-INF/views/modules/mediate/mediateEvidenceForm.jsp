@@ -97,6 +97,19 @@
                 $("#other").removeClass("required");
             }
         }
+        function exportWord() {
+            var aa=$("#export").val();
+            var path="${ctx}/mediate/mediateEvidence/pass";
+            $.post(path,{'mediateEvidenceId':'${mediateEvidence.mediateEvidenceId}','export':aa,"print":"true"},function(res){
+                if(res.data.url!=''){
+                    var url='${pageContext.request.contextPath}'+res.data.url;
+                    window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+                    //windowOpen(url,"pdf",1500,700);
+                    // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+                }else{
+                }
+            },"json");
+        }
 
     </script>
 </head>
@@ -646,7 +659,7 @@
                 <td colspan="4" style="text-align: center;">
                     <input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出"
                            onclick="$('#export').val('meeting')">
-                    <input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?mediateEvidenceId=${mediateEvidence.mediateEvidenceId}&export=meeting&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                    <input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting');exportWord();"/>
 
                 </td>
             </table>

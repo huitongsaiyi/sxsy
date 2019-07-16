@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.mediate.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -295,7 +297,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		}
 	}
 
-	public void exportWord(MediateEvidence mediateEvidence, String export, HttpServletRequest request, HttpServletResponse response) {
+	public String exportWord(MediateEvidence mediateEvidence, String export,String print,HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		mediateEvidence=this.get(mediateEvidence.getMediateEvidenceId());
 
@@ -311,9 +313,11 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
             }
         }
         String path=request.getSession().getServletContext().getRealPath("/");
-        //String path = "C:\\a/";
 		String modelPath=path;
+		String returnPath="";
 		String newFileName="无标题文件.docx";
+		String savaPath=path;
+		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("meeting".equals(export)){
 			params.put("time", mediateEvidence.getMediateProgramList().get(b).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(b).getMeetingTime());
@@ -329,15 +333,29 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
             params.put("yclear",mediateEvidence.getMediateProgramList().get(b).getDoctorClear()==null?"":mediateEvidence.getMediateProgramList().get(b).getDoctorClear());
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeetingM.docx";
+			savaPath +="/userfiles/mediateEvidence/mediateMeeting.docx";
+			pdfPath +="/userfiles/mediateEvidence/mediateMeeting.pdf";
+			returnPath="/userfiles/mediateEvidence/mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}
 		try{
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/mediateEvidence");
+			if (!file.exists()){
+				file.mkdirs();
+			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,modelPath,"","false",params,testList,fileName,response);
+			wordExportUtil.getWord(path,modelPath,savaPath,print,params,testList,fileName,response);
+			wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
+			System.out.println("转pdf成功");
+//			if (StringUtils.isNotBlank(printName)){
+			//wordExportUtil.wToPdfChange(savaPath,pdfPath);
+			//wordExportUtil.PDFprint(new File(pdfPath),printName);
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return returnPath;
 	}
     public void clearDomain(MediateEvidence mediateEvidence){
         mediateEvidence.setMeetingTime("");

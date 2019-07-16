@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.assessappraisal.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
@@ -35,6 +36,7 @@ import com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal;
 import com.sayee.sxsy.modules.assessappraisal.service.AssessAppraisalService;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -169,8 +171,8 @@ public class AssessAppraisalController extends BaseController {
 		String export=request.getParameter("export");
 		if (StringUtils.isNotBlank(export) && !export.equals("no")){
 			AssessAppraisal assessAppraisal1 = assessAppraisalService.get(assessAppraisal.getAssessAppraisalId());
-			assessAppraisalService.exportWord(assessAppraisal1,export,request,response);
-			return "";
+			String path = assessAppraisalService.exportWord(assessAppraisal1,export,"false",request,response);
+			return path;
 		}else {
 			try {
 				assessAppraisalService.save(assessAppraisal, request);
@@ -196,6 +198,19 @@ public class AssessAppraisalController extends BaseController {
 		assessAppraisalService.delete(assessAppraisal);
 		addMessage(redirectAttributes, "删除评估鉴定成功");
 		return "redirect:"+Global.getAdminPath()+"/assessappraisal/assessAppraisal/?repage";
+	}
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String assessAppraisalId=request.getParameter("assessAppraisalId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		AssessAppraisal assessAppraisal = assessAppraisalService.get(assessAppraisalId);
+		code=assessAppraisalService.exportWord(assessAppraisal,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
+
 	}
 
 }

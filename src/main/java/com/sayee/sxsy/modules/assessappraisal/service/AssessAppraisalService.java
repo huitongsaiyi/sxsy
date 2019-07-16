@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.assessappraisal.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -310,7 +312,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 	/*
 	 * 生成意见书
 	 */
-	public void exportWord(AssessAppraisal assessAppraisal, String export, HttpServletRequest request, HttpServletResponse response){
+	public String exportWord(AssessAppraisal assessAppraisal, String export,String print,HttpServletRequest request, HttpServletResponse response){
 		WordExportUtil wordExportUtil = new WordExportUtil();
 		assessAppraisal = this.get(assessAppraisal.getAssessAppraisalId());
 		List<PatientLinkEmp> patientLinkEmpList = assessAppraisal.getPatientLinkEmpList();//患方
@@ -324,7 +326,10 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		TypeInfo typeInfo1 = typeInfoService.get(conclusion1);
 		String path = request.getSession().getServletContext().getRealPath("/");
 		String modelPath = path;
+		String returnPath="";
 		String newFileName = "无标题文件.docx";
+		String savaPath=path;
+		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if("proposalDis".equals(export)){
 			//患方信息
@@ -442,17 +447,32 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 
 
 			path += "/submissions.docx";  //模板文件位置
-			modelPath += "/submissions.docx";
+			modelPath += "/submissionsM.docx";
+			savaPath +="/userfiles/assessAppraisal/submissions.docx";
+			pdfPath +="/userfiles/assessAppraisal/submissions.pdf";
+			returnPath="/userfiles/assessAppraisal/submissions.pdf";
 			newFileName = "意见书.docx";
 		}
 		try{
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/assessAppraisal");
+			if (!file.exists()){
+				file.mkdirs();
+			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,modelPath,"","false",params,testList,fileName,response);
+			wordExportUtil.getWord(path,modelPath,savaPath,print,params,testList,fileName,response);
+			wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
+			System.out.println("转pdf成功");
+//			if (StringUtils.isNotBlank(printName)){
+			//wordExportUtil.wToPdfChange(savaPath,pdfPath);
+			//wordExportUtil.PDFprint(new File(pdfPath),printName);
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return returnPath;
 	}
+
 	/**
 	 * 保存附件
 	 */

@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.reachmediate.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -25,6 +26,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.reachmediate.entity.ReachMediate;
 import com.sayee.sxsy.modules.reachmediate.service.ReachMediateService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,10 +109,11 @@ public class ReachMediateController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
-		if (export.equals("meeting")){
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
 			reachMediateService.save(reachMediate, request);
-			reachMediateService.exportWord(reachMediate,export,request,response);
-			return "";
+			ReachMediate reachMediate1 = reachMediateService.get(reachMediate.getReachMediateId());
+			String path = reachMediateService.exportWord(reachMediate1,export,"false",request,response);
+			return path;
 		}else {
 			if (!beanValidator(model, reachMediate) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getComplaintMain()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getRecordInfo()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getRecordInfo().getYrecordInfo()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag())) {
 				return form(reachMediate, model, request);
@@ -140,6 +143,20 @@ public class ReachMediateController extends BaseController {
 		reachMediateService.delete(reachMediate);
 		addMessage(redirectAttributes, "删除达成调解成功");
 		return "redirect:"+Global.getAdminPath()+"/reachmediate/reachMediate/?repage";
+	}
+
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String reachMediateId=request.getParameter("reachMediateId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		ReachMediate reachMediate = reachMediateService.get(reachMediateId);
+		code=reachMediateService.exportWord(reachMediate,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
+
 	}
 
 }
