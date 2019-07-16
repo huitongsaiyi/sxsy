@@ -22,9 +22,14 @@
 					}
 				}
 			});
+			aa();
 		});
-		function next(value) {
-			alert($("#isMajor").val());
+		function aa() {
+			var a = '${complaintMainDetail.typeName}';
+			if(a=="其他"){
+				$("#qitaanjian").show();
+			}
+
 		}
 	</script>
 </head>
@@ -164,11 +169,17 @@
 				<td class="tit"><font color="red">*</font>案件分类：</td>
 				<td >
 					<sys:treeselect id="isMajor" name="isMajor" value="${complaintMainDetail.isMajor}" labelName="typeName" labelValue="${complaintMainDetail.typeName}" title="案件分类"
-									url="/test/testTree/treeData" isAll="true" allowClear="true" notAllowSelectParent="true"/>
+									url="/test/testTree/treeData" isAll="true" variable="qitaanjian" allowClear="true" notAllowSelectParent="true"/>
 					<%--<form:select path="isMajor" style='width:110px;text-align: center;'>--%>
 						<%--<form:option value="1">是</form:option>--%>
 						<%--<form:option value="0">否</form:option>--%>
-					<%--</form:select>--%>
+						<%--</form:select>--%>
+				</td>
+			</tr>
+			<tr id="qitaanjian" class="hide">
+				<td>其他案件分类：</td>
+				<td>
+					<input id="qita" name="qita" type="text"/>
 				</td>
 			</tr>
 			<tr >
