@@ -39,14 +39,17 @@
 
         }
         function exportWord() {
-            var url='${ctx}'+'/auditacceptance/auditAcceptance/exportWord';
-            $.ajax({
-                type: "POST",
-                url: url,
-                data:{'auditAcceptanceId':'${auditAcceptance.auditAcceptanceId}' },
-                dataType: "json",
-                async:true
-            });
+            var aa=$("#export").val();
+            var path="${ctx}/auditacceptance/auditAcceptance/pass";
+            $.post(path,{'auditAcceptanceId':'${auditAcceptance.auditAcceptanceId}','export':aa,"print":"true"},function(res){
+                if(res.data.url!=''){
+                    var url='${pageContext.request.contextPath}'+res.data.url;
+                    window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+                    //windowOpen(url,"pdf",1500,700);
+                    // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+                }else{
+                }
+            },"json");
         }
 
         function download(url, downLoadFileRename) {
@@ -261,7 +264,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc');"/>
-                <input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientAcc'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=patientAcc&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                <input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientAcc');exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
             </table>
         </div>
         <div class="tab-pane fade" id="hospitalS">
@@ -361,7 +364,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalAcc')"/>
-                <input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalAcc'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=hospitalAcc&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                <input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalAcc'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
             </table>
         </div>
@@ -426,7 +429,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input id="patientDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientDis')"/>
-                        <input id="patientDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientDis'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=patientDis&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                        <input id="patientDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientDis'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
                     </td>
                 </tr>
@@ -437,9 +440,8 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>申请医院</td>
                     <td>
-                        <%--<sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"--%>
-                                        <%--title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>--%>
-                                ${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}
+                        <sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"
+                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>
                     </td>
                     <td class="tit"><font color="red">*</font>代理人</td>
                     <td>
@@ -487,7 +489,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input id="doctorDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('doctorDis')"/>
-                        <input id="doctorDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('doctorDis'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=doctorDis&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                        <input id="doctorDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('doctorDis'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
                     </td>
                 </tr>
@@ -533,8 +535,10 @@
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
                             style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span>
-                        <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline" id="anjian"></span>
+                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span><span
+                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
+                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">案件来源</span><span
+                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
                     </p>
                     <p style="margin:0pt"><span
                             style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
@@ -594,7 +598,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')"/>
-                <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?auditAcceptanceId=${auditAcceptance.auditAcceptanceId}&export=DisAcc&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
 
             </table>
@@ -892,24 +896,24 @@
                 案件来源：
             </td>
             <td>
-                <form:select path="caseSource" class="input-medium required" onchange="show_input(this.value,'anjian')">
+                <form:select path="caseSource" class="input-medium required">
                     <form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                 </form:select>
                 <span class="help-inline"><font color="red">*</font> </span>
             </td>
-            <td class="tit">
+            <td class="tit"><font color="red">*</font>
                 起保日期：
             </td>
             <td>
                 <input name="guaranteeTime" type="text" readonly="readonly" maxlength="20"
-                       class="input-medium Wdate "
+                       class="input-medium Wdate required"
                        value="${auditAcceptance.guaranteeTime}"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" />
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
                 <span class="help-inline"><font color="red">*</font> </span>
             </td>
         </tr>
         <tr>
-            <td class="tit">
+            <td class="tit"><font color="red">*</font>
                 保险公司：
             </td>
             <td>

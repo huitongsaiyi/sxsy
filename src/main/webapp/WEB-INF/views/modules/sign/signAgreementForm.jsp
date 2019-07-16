@@ -901,12 +901,12 @@
 							   value="${signAgreement.recordInfo.startTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px;"/>
 					</td>
-					<td style="" colspan="2">至</td>
+					<td style="text-align: center" colspan="2">至</td>
 					<td style="border-bottom: hidden;border-left: hidden;">
 						<input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
 							   class="input-medium Wdate required"
 							   value="${signAgreement.recordInfo.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px; margin-left: -900px;"/>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" />
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>

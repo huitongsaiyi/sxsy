@@ -2,14 +2,22 @@ package com.sayee.sxsy.common.utils;
 
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
+import com.sayee.sxsy.modules.act.rest.servlet.FilterServletOutputStream;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPrintable;
 import org.apache.pdfbox.printing.Scaling;
 import org.apache.poi.xwpf.usermodel.*;
+import com.aspose.words.Document;
+import com.aspose.words.License;
+import com.aspose.words.SaveFormat;
+import org.junit.Test;
 
+import javax.print.DocFlavor;
 import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.standard.Sides;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
@@ -41,7 +49,7 @@ public class WordExportUtil  {
      * @param fileName 生成word文件的文件名
      * @param response
      */
-    public void getWord(String path,String tempPath ,String savePath, Map<String, Object> params, List<String[]> tableList, String fileName, HttpServletResponse response) throws Exception {
+    public void getWord(String path,String tempPath ,String savePath,String print, Map<String, Object> params, List<String[]> tableList, String fileName, HttpServletResponse response) throws Exception {
         File file = new File(path);
         InputStream is = new FileInputStream(file);
         CustomXWPFDocument doc = new CustomXWPFDocument(is);
@@ -53,14 +61,18 @@ public class WordExportUtil  {
         this.setStyle(tempXdf,doc);
         this.setTableStyle(tempXdf,doc);
 
+        if (!"true".equals(print)){
+            OutputStream os = response.getOutputStream();
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+            doc.write(os);
+            this.close(os);
+        }
 
-        OutputStream os = response.getOutputStream();
-        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-        doc.write(os);
+
         FileOutputStream output=new FileOutputStream(savePath);
         doc.write(output);
-        this.close(os);
         this.close(is);
+        this.close(output);
 
     }
     /**
@@ -470,6 +482,36 @@ public class WordExportUtil  {
         return tt;
     }
 
+    public static boolean getLicense() {
+                 boolean result = false;
+                 try {
+                     InputStream is = WordExportUtil.class.getClassLoader().getResourceAsStream("license.xml"); //  license.xml应放在..\WebRoot\WEB-INF\classes路径下
+                     License aposeLic = new License();
+                     aposeLic.setLicense(is);
+                     result = true;
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                 }
+                 return result;
+             }
+    /**
+     * word转pdf
+     *
+     * @param inPath
+     */
+    public void doc2pdf(String inPath, FileOutputStream out) {
+        if (!getLicense()) {          // 验证License 若不验证则转化出的pdf文档会有水印产生
+               return;
+        }
+        try {
+            Document doc = new Document(inPath); // Address是将要被转化的word文档
+            doc.save(out, SaveFormat.PDF);// 全面支持DOC, DOCX, OOXML, RTF HTML, OpenDocument, PDF,
+            // EPUB, XPS, SWF 相互转换
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * word 转 pdf
      * @param wordFile
@@ -483,7 +525,9 @@ public class WordExportUtil  {
         // long start = System.currentTimeMillis();
         try {
             // 打开word
+            System.out.println("1111111111111111111111");
             app = new ActiveXComponent("Word.Application");
+            System.out.println("222222222222222222222");
             // 获得word中所有打开的文档
             Dispatch documents = app.getProperty("Documents").toDispatch();
             System.out.println("打开文件: " + wordFile);
@@ -515,8 +559,12 @@ public class WordExportUtil  {
             printJob.setJobName(file.getName());
             if (printerName != null) {
                 // 查找并设置打印机
+                HashPrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+                DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
                 //获得本台电脑连接的所有打印机
-                PrintService[] printServices = PrinterJob.lookupPrintServices();                			 if(printServices == null || printServices.length == 0) {
+                PrintService[] printServices = PrintServiceLookup.lookupPrintServices(flavor, pras);
+                //PrintService[] printServices = PrinterJob.lookupPrintServices();
+                if(printServices == null || printServices.length == 0) {
                     System.out.print("打印失败，未找到可用打印机，请检查。");
                     return ;
                 }

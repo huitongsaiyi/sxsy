@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.auditacceptance.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.modules.auditacceptance.dao.AuditAcceptanceDao;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
@@ -18,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sayee.sxsy.common.config.Global;
@@ -27,6 +30,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.auditacceptance.service.AuditAcceptanceService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -152,8 +156,8 @@ public class AuditAcceptanceController extends BaseController {
 		String export=request.getParameter("export");
 		if (StringUtils.isNotBlank(export) && !export.equals("no")){
 			AuditAcceptance audit=auditAcceptanceService.get(auditAcceptance.getAuditAcceptanceId());
-			auditAcceptanceService.exportWord(audit,export,request,response);
-			return "";
+			String path=auditAcceptanceService.exportWord(audit,export,"false",request,response);
+			return path;
 		}else {
 			if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo()))  ){
 				return form(request,auditAcceptance, model);
@@ -181,13 +185,20 @@ public class AuditAcceptanceController extends BaseController {
 		addMessage(redirectAttributes, "删除审核受理成功");
 		return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
 	}
-//	@RequestMapping(value = "exportWord")
-//	public String exportWord(AuditAcceptance auditAcceptance,HttpServletRequest request,HttpServletResponse response) {
-//		try {
-//			auditAcceptanceService.exportWord(auditAcceptance,request,response);
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//		return "导出成功";
-//	}
+
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String auditAcceptanceId=request.getParameter("auditAcceptanceId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		AuditAcceptance audit=auditAcceptanceService.get(auditAcceptanceId);
+		code=auditAcceptanceService.exportWord(audit,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+        AjaxHelper.responseWrite(request,response,"1","success",map);
+
+	}
+
+
 }

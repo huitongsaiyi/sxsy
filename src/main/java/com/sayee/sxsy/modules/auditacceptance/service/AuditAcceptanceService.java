@@ -8,6 +8,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import com.sayee.sxsy.modules.mediateapplyinfo.service.MediateApplyInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import net.sf.ehcache.constructs.web.filter.FilterServletOutputStream;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPrintable;
 import org.apache.pdfbox.printing.Scaling;
@@ -417,15 +419,15 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		}
 	}
 
-	public void exportWord(AuditAcceptance auditAcceptance,String export, HttpServletRequest request, HttpServletResponse response) {
+	public String exportWord(AuditAcceptance auditAcceptance,String export,String print, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		auditAcceptance=this.get(auditAcceptance.getAuditAcceptanceId());
 		if (auditAcceptance.getMediateApplyInfo()==null){
 			auditAcceptance.setMediateApplyInfo(new MediateApplyInfo());
 		}
-		String printName=request.getParameter("printName");
 		String path=request.getServletContext().getRealPath("/");
 		String modelPath=path;
+		String returnPath="";
 		String newFileName="无标题文件.docx";
 		String savaPath=path;
 		String pdfPath=path;
@@ -437,6 +439,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			modelPath += "/doc/acceptancePM.docx";
 			savaPath +="/userfiles/audit/acceptanceP.docx";
 			pdfPath +="/userfiles/audit/acceptanceP.pdf";
+			returnPath="/userfiles/audit/acceptanceP.pdf";
 			newFileName="患方通知书.docx";
 		}else if("hospitalAcc".equals(export)){
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
@@ -445,6 +448,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			modelPath += "/doc/acceptanceDM.docx";
 			savaPath +="/userfiles/audit/acceptanceD.docx";
 			pdfPath +="/userfiles/audit/acceptanceD.pdf";
+			returnPath="/userfiles/audit/acceptanceD.pdf";
 			newFileName="医方通知书.docx";
 		}else if("patientDis".equals(export)){
 			params.put("sqr", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getApplyer()) ? "" : auditAcceptance.getMediateApplyInfo().getApplyer());
@@ -459,6 +463,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			modelPath += "/doc/disputeApplyPatientM.docx";
 			savaPath +="/userfiles/audit/disputeApplyPatient.docx";
 			pdfPath +="/userfiles/audit/disputeApplyPatient.pdf";
+			returnPath="/userfiles/audit/disputeApplyPatient.pdf";
 			newFileName="医疗纠纷调解申请书（患方）.docx";
 		}else if("doctorDis".equals(export)){
 			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSqOffice().getName());
@@ -472,6 +477,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			modelPath += "/doc/disputeApplyDoctorM.docx";
 			savaPath +="/userfiles/audit/disputeApplyDoctor.docx";
 			pdfPath +="/userfiles/audit/disputeApplyDoctor.pdf";
+			returnPath="/userfiles/audit/disputeApplyDoctor.pdf";
 			newFileName="医疗纠纷调解申请书（医方）.docx";
 		}else if("DisAcc".equals(export)){
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
@@ -483,6 +489,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			modelPath += "/doc/disputeAcceptanceM.docx";
 			savaPath +="/userfiles/audit/disputeAcceptance.docx";
 			pdfPath +="/userfiles/audit/disputeAcceptance.pdf";
+			returnPath="/userfiles/audit/disputeAcceptance.pdf";
 			newFileName="人民调解受理登记表.docx";
 
 		}
@@ -494,14 +501,17 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,modelPath,savaPath,params,testList,fileName,response);
-			if (StringUtils.isNotBlank(printName)){
-				wordExportUtil.wToPdfChange(savaPath,pdfPath);
-				wordExportUtil.PDFprint(new File(pdfPath),printName);
-			}
+			wordExportUtil.getWord(path,modelPath,savaPath,print,params,testList,fileName,response);
+			wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
+			System.out.println("转pdf成功");
+//			if (StringUtils.isNotBlank(printName)){
+				//wordExportUtil.wToPdfChange(savaPath,pdfPath);
+				//wordExportUtil.PDFprint(new File(pdfPath),printName);
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return returnPath;
 	}
 
 

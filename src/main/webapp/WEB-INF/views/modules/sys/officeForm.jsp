@@ -89,38 +89,38 @@
 		<label class="control-label">主负责人:</label>
 		<div class="controls">
 			<sys:treeselect id="primaryPerson" name="primaryPerson.id" value="${office.primaryPerson.id}" labelName="office.primaryPerson.name" labelValue="${office.primaryPerson.name}"
-							title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required"/>
+							title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">副负责人:</label>
 		<div class="controls">
 			<sys:treeselect id="deputyPerson" name="deputyPerson.id" value="${office.deputyPerson.id}" labelName="office.deputyPerson.name" labelValue="${office.deputyPerson.name}"
-							title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required"/>
+							title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">联系地址:</label>
 		<div class="controls">
-			<form:input path="address" htmlEscape="false" maxlength="50" cssClass="required"/>
+			<form:input path="address" htmlEscape="false" maxlength="50" cssClass=""/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">邮政编码:</label>
 		<div class="controls">
-			<form:input path="zipCode" htmlEscape="false" maxlength="50" cssClass="required "/>
+			<form:input path="zipCode" htmlEscape="false" maxlength="50" cssClass=" "/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">负责人:</label>
 		<div class="controls">
-			<form:input path="master" htmlEscape="false" maxlength="50" cssClass="required"/>
+			<form:input path="master" htmlEscape="false" maxlength="50" cssClass=""/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">电话:</label>
 		<div class="controls">
-			<form:input path="phone" htmlEscape="false" maxlength="50" cssClass="mobile required"/>
+			<form:input path="phone" htmlEscape="false" maxlength="50" cssClass="mobile"/>
 		</div>
 	</div>
 	<div class="control-group">
@@ -132,7 +132,7 @@
 	<div class="control-group">
 		<label class="control-label">邮箱:</label>
 		<div class="controls">
-			<form:input path="email" htmlEscape="false" maxlength="50" cssClass="input-email required"/>
+			<form:input path="email" htmlEscape="false" maxlength="50" cssClass="input-email"/>
 		</div>
 	</div>
 	<div class="control-group">
