@@ -40,7 +40,8 @@
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		d.label AS "patientRelationlabel",
-		d2.label AS "isMajorlabel"
+-- 		d2.label AS "isMajorlabel",
+		te.name AS "typeName"
 	</sql>
 	
 	<sql id="complaintMainDetailJoins">
@@ -52,7 +53,8 @@
 		  LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		  LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		  LEFT JOIN SYS_DICT d ON d.value = a.patient_relation AND d.type = 'patient_relation' AND d.del_flag=0
-		  LEFT JOIN SYS_DICT d2 ON  d2.value = a.is_major AND  d2.type = 'yes_no' AND d2.del_flag=0
+-- 		  LEFT JOIN SYS_DICT d2 ON  d2.value = a.is_major AND  d2.type = 'yes_no' AND d2.del_flag=0
+		  LEFT JOIN TEST_TREE te ON te.id = a.is_major
 	</sql>
     
 	<select id="get" resultType="ComplaintMainDetail">

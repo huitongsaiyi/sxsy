@@ -56,7 +56,7 @@
 				<th class="sort-column visitor_date" style="text-align: center;">来访日期</th>
 				<th class="sort-column visitor_Number" style="text-align: center;">来访人数</th>
 				<th class="sort-column patient_relation" style="text-align: center;">与患者关系</th>
-				<th class="sort-column is_major" style="text-align: center;">是否重大</th>
+				<th class="sort-column is_major" style="text-align: center;">案件分类</th>
 				<th class="sort-column summary_of_disputes" style="text-align: center;">投诉纠纷概要</th>
 				<th class="sort-column appeal" style="text-align: center;">诉求</th>
 				<th class="sort-column a.update_date" style="text-align: center;">更新日期</th>
@@ -125,7 +125,8 @@
 					</c:choose>
 				</td>
 				<td style="text-align: center;">
-					${complaintMainDetail.isMajorlabel}
+					${complaintMainDetail.typeName}
+					<%--${complaintMainDetail.isMajorlabel}--%>
 				</td>
 				<td style="text-align: center;">
 					${complaintMainDetail.summaryOfDisputes}
