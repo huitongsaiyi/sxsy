@@ -23,6 +23,9 @@
 				}
 			});
 		});
+		function next(value) {
+			alert($("#isMajor").val());
+		}
 	</script>
 </head>
 <body>
@@ -118,7 +121,7 @@
                                             title="部门" url="/sys/office/treeData?type=2&officeType=2"
                                             pid="involveHospital" isAll="true" cssClass="required"
                                             dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true"
-                                            disabled="true"/>
+                                            disabled="true" />
                             <span class="help-inline"> </span>
                         </td>
 					</tr>
@@ -158,12 +161,14 @@
 						<form:option value="3">其他</form:option>
 					</form:select>
 				</td>
-				<td class="tit"><font color="red">*</font>是否重大：</td>
+				<td class="tit"><font color="red">*</font>案件分类：</td>
 				<td >
-					<form:select path="isMajor" style='width:110px;text-align: center;'>
-						<form:option value="1">是</form:option>
-						<form:option value="0">否</form:option>
-					</form:select>
+					<sys:treeselect id="isMajor" name="isMajor" value="${complaintMainDetail.isMajor}" labelName="typeName" labelValue="${complaintMainDetail.typeName}" title="案件分类"
+									url="/test/testTree/treeData" isAll="true" allowClear="true" notAllowSelectParent="true"/>
+					<%--<form:select path="isMajor" style='width:110px;text-align: center;'>--%>
+						<%--<form:option value="1">是</form:option>--%>
+						<%--<form:option value="0">否</form:option>--%>
+					<%--</form:select>--%>
 				</td>
 			</tr>
 			<tr >

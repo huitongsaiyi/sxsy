@@ -28,7 +28,7 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	private String visitorDate;		// 来访日期
 	private String visitorNumber;		// 来访 人数
 	private String patientRelation;		// 与患者关系 字典维护
-	private String isMajor;		// 是否重大
+	private String isMajor;		// 案件分类
 	private String summaryOfDisputes;		// 投诉纠纷概要
 	private String appeal;		// 诉求
 	private String receptionEmployee;		// 接待人员
@@ -40,10 +40,17 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	private String nextLinkMan;		// 下一环节处理人
 	private String beginVisitorDate;		// 开始 来访日期
 	private String endVisitorDate;		// 结束 来访日期
-
 	private String patientRelationlabel;    //患者关系 字典中的label值
+	private String typeName;//案件分类
 
-	private String isMajorlabel;        //是否重大 字典中的label值
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+	//	private String isMajorlabel;        //是否重大 字典中的label值
 
 	public ComplaintMainDetail() {
 		super();
@@ -61,17 +68,17 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 		this.user = user;
 	}
 
-	public String getIsMajorlabel() {
-		return isMajorlabel;
-	}
+//	public String getIsMajorlabel() {
+//		return isMajorlabel;
+//	}
 
 	public String getPatientRelationlabel() {
 		return patientRelationlabel;
 	}
 
-	public void setIsMajorlabel(String isMajorlabel) {
-		this.isMajorlabel = isMajorlabel;
-	}
+//	public void setIsMajorlabel(String isMajorlabel) {
+//		this.isMajorlabel = isMajorlabel;
+//	}
 
 	public void setPatientRelationlabel(String patientRelationlabel) {
 		this.patientRelationlabel = patientRelationlabel;
