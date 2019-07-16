@@ -46,9 +46,9 @@
 		<td>{{row.remarks}}</td>
 
 		<shiro:hasPermission name="sys:office:edit"><td>
-			<a href="${ctx}/sys/office/form?id={{row.id}}&office.officeType=${officeType}">修改</a>
+			<a href="${ctx}/sys/office/form?id={{row.id}}&office.officeType=${office.officeType}">修改</a>
 			<a href="${ctx}/sys/office/delete?id={{row.id}}" onclick="return confirmx('要删除该机构及所有子机构项吗？', this.href)">删除</a>
-			<a href="${ctx}/sys/office/form?parent.id={{row.id}}&office.officeType=${officeType}">添加下级机构</a>
+			<a href="${ctx}/sys/office/form?parent.id={{row.id}}&office.officeType=${office.officeType}">添加下级机构</a>
 		</td></shiro:hasPermission>
 	</tr>
 </script>

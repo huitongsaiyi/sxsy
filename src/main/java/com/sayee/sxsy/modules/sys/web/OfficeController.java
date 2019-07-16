@@ -80,11 +80,14 @@ public class OfficeController extends BaseController {
 		if (office.getParent()==null || office.getParent().getId()==null){
 			office.setParent(user.getOffice());
 		}
-
 		office.setParent(officeService.get(office.getParent().getId()));
         String officeType=request.getParameter("officeType");
-        office.setOfficeType(officeType);
-
+        if(StringUtils.isBlank(officeType)){
+			Office office1 = officeService.get(office.getId());
+			office.setOfficeType(office1.getOfficeType());
+		}else{
+            office.setOfficeType(officeType);
+		}
         //model.addAttribute("officeType",officeType);
 		if (office.getArea()==null){
 			office.setArea(user.getOffice().getArea());
@@ -151,7 +154,7 @@ public class OfficeController extends BaseController {
 
 	@RequiresPermissions("sys:office:edit")
 	@RequestMapping(value = "delete")
-	public String delete(Office office, RedirectAttributes redirectAttributes) {
+	public String delete(Office office, RedirectAttributes redirectAttributes,HttpServletRequest request,Model model) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/office/list";
@@ -162,7 +165,13 @@ public class OfficeController extends BaseController {
 		officeService.delete(office);
 		addMessage(redirectAttributes, "删除机构成功");
 //		}
-		return "redirect:" + adminPath + "/sys/office/list?id="+office.getParentId()+"&parentIds="+office.getParentIds();
+//		return "redirect:" + adminPath + "/sys/office/list?id="+office.getParentId()+"&parentIds="+office.getParentIds();
+        office.setParentIds("");
+        office.setName("");
+        office.setId("");
+
+        String list=list(request,office,model);
+        return list;
 	}
 
 	/**
