@@ -177,9 +177,9 @@
 				</td>
 			</tr>
 			<tr id="qitaanjian" class="hide">
-				<td>其他案件分类：</td>
+				<td class="tit">其他案件分类：</td>
 				<td>
-					<input id="qita" name="qita" type="text"/>
+					<form:input path="otherType" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 				</td>
 			</tr>
 			<tr >

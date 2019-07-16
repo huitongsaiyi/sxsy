@@ -42,6 +42,7 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	private String endVisitorDate;		// 结束 来访日期
 	private String patientRelationlabel;    //患者关系 字典中的label值
 	private String typeName;//案件分类
+	private String otherType;	//其他案件分类
 
 	public String getTypeName() {
 		return typeName;
@@ -51,6 +52,15 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 		this.typeName = typeName;
 	}
 	//	private String isMajorlabel;        //是否重大 字典中的label值
+
+
+	public String getOtherType() {
+		return otherType;
+	}
+
+	public void setOtherType(String otherType) {
+		this.otherType = otherType;
+	}
 
 	public ComplaintMainDetail() {
 		super();
@@ -180,7 +190,7 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 		this.patientRelation = patientRelation;
 	}
 	
-	@Length(min=0, max=1, message="是否重大长度必须介于 0 和 1 之间")
+	@Length(min=0, max=64, message="是否重大长度必须介于 0 和 64 之间")
 	public String getIsMajor() {
 		return isMajor;
 	}
