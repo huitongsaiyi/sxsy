@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.sign.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
@@ -31,6 +32,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -156,8 +158,8 @@ public class SignAgreementController extends BaseController {
 		String export=request.getParameter("export");
 		if (StringUtils.isNotBlank(export) && !export.equals("no")){
 		    SignAgreement signAgreement1 = signAgreementService.get(signAgreement.getSignAgreementId());
-			signAgreementService.exportWord(signAgreement1,export,request,response);
-			return "";
+			String path = signAgreementService.exportWord(signAgreement1,export,"false",request,response);
+			return path;
 		}else {
 			if (!beanValidator(model, signAgreement) && "yes".equals(signAgreement.getComplaintMain().getAct().getFlag())) {
 				return form(signAgreement, model, request);
@@ -184,6 +186,20 @@ public class SignAgreementController extends BaseController {
 		signAgreementService.delete(signAgreement);
 		addMessage(redirectAttributes, "删除签署协议成功");
 		return "redirect:"+Global.getAdminPath()+"/sign/signAgreement/?repage";
+	}
+
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String reachMediateId=request.getParameter("reachMediateId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		SignAgreement signAgreement = signAgreementService.get(reachMediateId);
+		code=signAgreementService.exportWord(signAgreement,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
+
 	}
 
 }

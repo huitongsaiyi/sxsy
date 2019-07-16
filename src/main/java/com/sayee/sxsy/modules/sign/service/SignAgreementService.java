@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.sign.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 
 import com.sayee.sxsy.common.utils.IdGen;
@@ -386,7 +388,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	}
 
 	//导出
-	public void exportWord(SignAgreement signAgreement,String export, HttpServletRequest request, HttpServletResponse response){
+	public String exportWord(SignAgreement signAgreement,String export,String print,HttpServletRequest request, HttpServletResponse response){
 		WordExportUtil wordExportUtil = new WordExportUtil();
 		signAgreement = this.get(signAgreement.getSignAgreementId());
 		List<PatientLinkEmp> patientLinkEmpList=new ArrayList<PatientLinkEmp>();
@@ -425,15 +427,12 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			String agreementExplain1 = agreementExplain.substring(0, 32);//协议说明id
 			typeInfo4 = typeInfoService.get(agreementExplain1);
 		}
-
-
-
-
-
 		String path = request.getSession().getServletContext().getRealPath("/");
-		//String path = "C:\\a/";
 		String modelPath = path;
+		String returnPath="";
 		String newFileName = "无标题文件.docx";
+		String savaPath=path;
+		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if("agreementExport".equals(export)){
 			if(patientLinkEmpList.size()!=0){
@@ -546,6 +545,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			}
 			path += "/doc/agreement.docx";  //模板文件位置
 			modelPath += "/doc/agreementM.docx";
+			savaPath +="/userfiles/signAgreement/agreement.docx";
+			pdfPath +="/userfiles/signAgreement/agreement.pdf";
+			returnPath="/userfiles/signAgreement/agreement.pdf";
 			newFileName = "山西省医疗纠纷人民调解委员会人民调解协议书.docx";
 		}else if ("meeting".equals(export)){
 			params.put("time", signAgreement.getMediateProgram().getMeetingTime()==null?"":signAgreement.getMediateProgram().getMeetingTime());
@@ -561,6 +563,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			params.put("yclear",signAgreement.getMediateProgram().getDoctorClear()==null?"":signAgreement.getMediateProgram().getDoctorClear());
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeetingM.docx";
+			savaPath +="/userfiles/signAgreement/mediateMeeting.docx";
+			pdfPath +="/userfiles/signAgreement/mediateMeeting.pdf";
+			returnPath="/userfiles/signAgreement/mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}else if("record".equals(export)){
 			params.put("startTime",signAgreement.getRecordInfo().getStartTime()==null?"":signAgreement.getRecordInfo().getStartTime());
@@ -575,14 +580,28 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			params.put("content",signAgreement.getRecordInfo().getRecordContent()==null?"":signAgreement.getRecordInfo().getRecordContent());
 			path += "/doc/signRecord.docx";  //模板文件位置
 			modelPath += "/doc/signRecordM.docx";
+			savaPath +="/userfiles/signAgreement/signRecord.docx";
+			pdfPath +="/userfiles/signAgreement/signRecord.pdf";
+			returnPath="/userfiles/signAgreement/signRecord.pdf";
 			newFileName="签署协议笔录.docx";
 		}
 		try{
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/signAgreement");
+			if (!file.exists()){
+				file.mkdirs();
+			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,modelPath,"","false",params,testList,fileName,response);
+			wordExportUtil.getWord(path,modelPath,savaPath,print,params,testList,fileName,response);
+			wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
+			System.out.println("转pdf成功");
+//			if (StringUtils.isNotBlank(printName)){
+			//wordExportUtil.wToPdfChange(savaPath,pdfPath);
+			//wordExportUtil.PDFprint(new File(pdfPath),printName);
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return returnPath;
 	}
 }

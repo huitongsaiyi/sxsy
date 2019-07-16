@@ -26,6 +26,19 @@
 				}
 			});
 		});
+		function exportWord() {
+			var aa=$("#export").val();
+			var path="${ctx}/nestigateeividence/investigateEvidence/pass";
+			$.post(path,{'investigateEvidenceId':'${investigateEvidence.investigateEvidenceId}','export':aa,"print":"true"},function(res){
+				if(res.data.url!=''){
+					var url='${pageContext.request.contextPath}'+res.data.url;
+					window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+					//windowOpen(url,"pdf",1500,700);
+					// window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+				}else{
+				}
+			},"json");
+		}
 
 	</script>
 </head>
@@ -131,7 +144,7 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientTake')"/>
-							<input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientTake'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?investigateEvidenceId=${investigateEvidence.investigateEvidenceId}&export=patientTake&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+							<input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientTake');exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
 						</td>
 					</tr>
@@ -290,7 +303,7 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalTake')"/>
-							<input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalTake'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?investigateEvidenceId=${investigateEvidence.investigateEvidenceId}&export=hospitalTake&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+							<input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalTake');exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
 						</td>
 					</tr>

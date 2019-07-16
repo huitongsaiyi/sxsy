@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.nestigateeividence.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -205,14 +207,16 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         //return  investigateEvidence;
     }
 
-    public void exportWord(InvestigateEvidence investigateEvidence, String export, HttpServletRequest request, HttpServletResponse response) {
+    public String exportWord(InvestigateEvidence investigateEvidence, String export,String print, HttpServletRequest request, HttpServletResponse response) {
         WordExportUtil wordExportUtil = new WordExportUtil();
         investigateEvidence = this.get(investigateEvidence.getInvestigateEvidenceId());
         this.respondent(investigateEvidence);
         String path = request.getSession().getServletContext().getRealPath("/");
-        // String path = "C:\\a/";
         String modelPath = path;
+        String returnPath="";
         String newFileName = "无标题文件.docx";
+        String savaPath=path;
+        String pdfPath=path;
         Map<String, Object> params = new HashMap<String, Object>();
         if ("patientTake".equals(export)) {
             params.put("date", investigateEvidence.getStartTime());//开始时间
@@ -371,6 +375,9 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             params.put("content1",investigateEvidence.getContent());//笔录内容
             path += "doc/partiesRecord.docx";  //模板文件位置
             modelPath += "doc/partiesRecord.docx";
+            savaPath +="/userfiles/investigateEvidence/partiesRecord.docx";
+            pdfPath +="/userfiles/investigateEvidence/partiesRecord.pdf";
+            returnPath="/userfiles/investigateEvidence/partiesRecord.pdf";
             newFileName = "患方笔录.docx";
         } else if ("hospitalTake".equals(export)) {
             params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
@@ -527,17 +534,30 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             params.put("content1",investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
             path += "doc/doctorRecord.docx";  //模板文件位置
             modelPath += "doc/doctorRecord.docx";
+            savaPath +="/userfiles/investigateEvidence/doctorRecord.docx";
+            pdfPath +="/userfiles/investigateEvidence/doctorRecord.pdf";
+            returnPath="/userfiles/investigateEvidence/doctorRecord.pdf";
             newFileName = "医方笔录.docx";
         }
 
         try{
+            File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/investigateEvidence");
+            if (!file.exists()){
+                file.mkdirs();
+            }
             List<String[]> testList = new ArrayList<String[]>();
             String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-            wordExportUtil.getWord(path,modelPath,"","false",params,testList,fileName,response);
+            wordExportUtil.getWord(path,modelPath,savaPath,print,params,testList,fileName,response);
+            wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
+            System.out.println("转pdf成功");
+//			if (StringUtils.isNotBlank(printName)){
+            //wordExportUtil.wToPdfChange(savaPath,pdfPath);
+            //wordExportUtil.PDFprint(new File(pdfPath),printName);
+//			}
         }catch(Exception e){
             e.printStackTrace();
         }
-
+        return returnPath;
     }
     //保存附件
     public void savefj(HttpServletRequest request,InvestigateEvidence investigateEvidence){

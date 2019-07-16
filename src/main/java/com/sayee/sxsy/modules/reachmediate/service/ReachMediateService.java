@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.reachmediate.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -309,7 +311,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 
 	}
 
-	public void exportWord(ReachMediate reachMediate, String export, HttpServletRequest request, HttpServletResponse response) {
+	public String exportWord(ReachMediate reachMediate, String export,String print,HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		reachMediate=this.get(reachMediate.getReachMediateId());
 		List<MediateProgram> mediateProgramList = reachMediate.getMediateProgramList();
@@ -325,9 +327,11 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		}
 		System.out.println(a);
 		String path=request.getSession().getServletContext().getRealPath("/");
-//		String path = "C:\\a/";
 		String modelPath=path;
+		String returnPath="";
 		String newFileName="无标题文件.docx";
+		String savaPath=path;
+		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("meeting".equals(export)){
 			params.put("time", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
@@ -343,15 +347,29 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			params.put("yclear",reachMediate.getMediateProgramList().get(b).getDoctorClear()==null?"":reachMediate.getMediateProgramList().get(b).getDoctorClear());
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeetingM.docx";
+			savaPath +="/userfiles/reachMediate/mediateMeeting.docx";
+			pdfPath +="/userfiles/reachMediate/mediateMeeting.pdf";
+			returnPath="/userfiles/reachMediate/mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}
 		try{
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/reachMediate");
+			if (!file.exists()){
+				file.mkdirs();
+			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,modelPath,"","false",params,testList,fileName,response);
+			wordExportUtil.getWord(path,modelPath,savaPath,print,params,testList,fileName,response);
+			wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
+			System.out.println("转pdf成功");
+//			if (StringUtils.isNotBlank(printName)){
+			//wordExportUtil.wToPdfChange(savaPath,pdfPath);
+			//wordExportUtil.PDFprint(new File(pdfPath),printName);
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return returnPath;
 	}
 	public void clearDomain(ReachMediate reachMediate){
 		reachMediate.setReaMeetingTime("");

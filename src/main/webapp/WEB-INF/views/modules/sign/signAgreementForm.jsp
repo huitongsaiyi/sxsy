@@ -73,6 +73,20 @@
 			});
 			$("input[name='"+na+"']").prop("checked",true);
 		}
+
+		function exportWord() {
+			var aa=$("#export").val();
+			var path="${ctx}/sign/signAgreement/pass";
+			$.post(path,{'signAgreementId':'${signAgreement.signAgreementId}','export':aa,"print":"true"},function(res){
+				if(res.data.url!=''){
+					var url='${pageContext.request.contextPath}'+res.data.url;
+					window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+					//windowOpen(url,"pdf",1500,700);
+					// window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+				}else{
+				}
+			},"json");
+		}
 	</script>
 </head>
 <body>
@@ -145,9 +159,9 @@
 						<th >身份证号</th>
 						<th >住址</th>
 						<th >操作</th>
-						<shiro:hasPermission name="sign:signAgreement:edit">
-							<th >&nbsp;</th>
-						</shiro:hasPermission>
+						<%--<shiro:hasPermission name="sign:signAgreement:edit">--%>
+							<%--<th >&nbsp;</th>--%>
+						<%--</shiro:hasPermission>--%>
 					</tr>
 					</thead>
 					<tbody id="patientLinkEmpList"></tbody>
@@ -206,9 +220,9 @@
 						<th >身份证号</th>
 						<th >住址</th>
 						<th >操作</th>
-						<shiro:hasPermission name="sign:signAgreement:edit">
-							<th >&nbsp;</th>
-						</shiro:hasPermission>
+						<%--<shiro:hasPermission name="sign:signAgreement:edit">--%>
+							<%--<th >&nbsp;</th>--%>
+						<%--</shiro:hasPermission>--%>
 					</tr>
 					</thead>
 					<tbody id="patientLinkDList"></tbody>
@@ -270,9 +284,9 @@
 						<th >身份证号</th>
 						<th >单位及职务</th>
 						<th >操作</th>
-						<shiro:hasPermission name="sign:signAgreement:edit">
-							<th >&nbsp;</th>
-						</shiro:hasPermission>
+						<%--<shiro:hasPermission name="sign:signAgreement:edit">--%>
+							<%--<th >&nbsp;</th>--%>
+						<%--</shiro:hasPermission>--%>
 					</tr>
 					</thead>
 					<tbody id="medicalOfficeEmpList"></tbody>
@@ -445,9 +459,10 @@
 
 
 			</div>
+			<div style="text-align: center;">
 			<input id="agreementExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('agreementExport');"/>
-			<input id="agreementPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('agreementExport'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?signAgreementId=${signAgreement.signAgreementId}&export=agreementExport&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
-
+			<input id="agreementPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('agreementExport');exportWord();"/>
+			</div>
 		</div>
 
 		<div class="tab-pane fade" id="meeting">
@@ -881,7 +896,7 @@
 				<td colspan="4" style="text-align: center;">
 					<input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出"
 						   onclick="$('#export').val('meeting')">
-					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?signAgreementId=${signAgreement.signAgreementId}&export=meeting&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting');exportWord();"/>
 
 				</td>
 			</table>
@@ -973,7 +988,7 @@
 				<td colspan="6" style="text-align: center;">
 					<input id="record" class="btn btn-primary" type="submit" value="导 出"
 						   onclick="$('#export').val('record')">
-					<input id="recordPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('record'); return promptx('打印文件','打印机名称',document.getElementById('inputForm').action+'?signAgreementId=${signAgreement.signAgreementId}&export=record&printName=');"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+					<input id="recordPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('record');exportWord();"/>
 
 				</td>
 			</table>
@@ -1086,7 +1101,7 @@
 			</td>
 		</tr>
 	</table>
-	<div class="form-actions">
+	<div class="form-actions" style="text-align: center;">
 		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
 		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

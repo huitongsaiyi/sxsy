@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
@@ -32,6 +33,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.mediate.entity.MediateEvidence;
 import com.sayee.sxsy.modules.mediate.service.MediateEvidenceService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,10 +120,11 @@ public class MediateEvidenceController extends BaseController {
 	public String save(HttpServletRequest request,MediateEvidence mediateEvidence, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
 
-		if (export.equals("meeting")){
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
 			mediateEvidenceService.save(mediateEvidence,request);
-			mediateEvidenceService.exportWord(mediateEvidence,export,request,response);
-			return "";
+			MediateEvidence mediateEvidence1 = mediateEvidenceService.get(mediateEvidence.getMediateEvidenceId());
+			String path = mediateEvidenceService.exportWord(mediateEvidence1,export,"false",request,response);
+			return path;
 		}else {
 			if (!beanValidator(model, mediateEvidence)&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())|| !beanValidator(model,mediateEvidence.getRecordInfo())&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())||!beanValidator(model,mediateEvidence.getRecordInfo().getYrecordInfo())&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 				return form(mediateEvidence,model,request);
@@ -153,6 +156,20 @@ public class MediateEvidenceController extends BaseController {
 		mediateEvidenceService.delete(mediateEvidence);
 		addMessage(redirectAttributes, "删除质证调解成功");
 		return "redirect:"+Global.getAdminPath()+"/mediate/mediateEvidence/?repage";
+	}
+
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String mediateEvidenceId=request.getParameter("mediateEvidenceId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		MediateEvidence mediateEvidence = mediateEvidenceService.get(mediateEvidenceId);
+		code=mediateEvidenceService.exportWord(mediateEvidence,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
+
 	}
 
 }
