@@ -211,7 +211,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         WordExportUtil wordExportUtil = new WordExportUtil();
         investigateEvidence = this.get(investigateEvidence.getInvestigateEvidenceId());
         this.respondent(investigateEvidence);
-        String path = request.getSession().getServletContext().getRealPath("/");
+        String path = request.getServletContext().getRealPath("/");
         String modelPath = path;
         String returnPath="";
         String newFileName = "无标题文件.docx";
@@ -219,14 +219,13 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         String pdfPath=path;
         Map<String, Object> params = new HashMap<String, Object>();
         if ("patientTake".equals(export)) {
-            params.put("date", investigateEvidence.getStartTime());//开始时间
-            params.put("time", investigateEvidence.getEndTime());//结束时间
-            params.put("address", investigateEvidence.getAddress());//地点
-            params.put("cause", investigateEvidence.getCause());//事由
-            params.put("investigators", investigateEvidence.getInvestigator());//调查人
-            params.put("noteTaker", investigateEvidence.getNoteTaker());//调查记录人
+            params.put("date", investigateEvidence.getStartTime()==null?"":investigateEvidence.getStartTime());//开始时间
+            params.put("time", investigateEvidence.getEndTime()==null?"":investigateEvidence.getEndTime());//结束时间
+            params.put("address", investigateEvidence.getAddress()==null?"":investigateEvidence.getAddress());//地点
+            params.put("cause", investigateEvidence.getCause()==null?"":investigateEvidence.getCause());//事由
+            params.put("investigators", investigateEvidence.getInvestigator()==null?"":investigateEvidence.getInvestigator());//调查人
+            params.put("noteTaker", investigateEvidence.getNoteTaker()==null?"":investigateEvidence.getNoteTaker());//调查记录人
             //被调查人1
-            if(investigateEvidence.getRespondentInfo()!=null){
                 // 身份
                 if("hz".equals(investigateEvidence.getRespondentInfo().getRespondentIdentity())){
                     params.put("respondentIdentity","患者本人");
@@ -253,11 +252,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else {
                     params.put("respondentIdentity","");
                 }
-                if(investigateEvidence.getRespondentInfo().getRespondentName()!=null){
-                    params.put("name",investigateEvidence.getRespondentInfo().getRespondentName());//姓名
-                }else{
-                    params.put("name","");//姓名
-                }
+                    params.put("name",investigateEvidence.getRespondentInfo().getRespondentName()==null?"":investigateEvidence.getRespondentInfo().getRespondentName());//姓名
 
                 //性别
                 if("1".equals(investigateEvidence.getRespondentInfo().getRespondentSex())){
@@ -267,40 +262,14 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else{
                     params.put("sex","");
                 }
-                if(investigateEvidence.getRespondentInfo().getRespondentAge()!=null){
-                    params.put("age",investigateEvidence.getRespondentInfo().getRespondentAge());//年龄
-                }else{
-                    params.put("age","");//年龄
-                }
-                if(investigateEvidence.getRespondentInfo().getRespondentMobile()!=null){
-                    params.put("phone",investigateEvidence.getRespondentInfo().getRespondentMobile());//联系方式
-                }else{
-                    params.put("phone","");//联系方式
-                }
-                if(investigateEvidence.getRespondentInfo().getRespondentWorkUnit()!=null){
-                    params.put("respondentWorkUnit",investigateEvidence.getRespondentInfo().getRespondentWorkUnit());//工作单位
-                }else{
-                    params.put("respondentWorkUnit","");//工作单位
-                }
-               if(investigateEvidence.getRespondentInfo().getRespondentPost()!=null){
-                   params.put("post",investigateEvidence.getRespondentInfo().getRespondentPost());//职务
-               }else{
-                   params.put("post","");//职务
-               }
+                    params.put("age",investigateEvidence.getRespondentInfo().getRespondentAge()==null?"":investigateEvidence.getRespondentInfo().getRespondentAge());//年龄
+                    params.put("phone",investigateEvidence.getRespondentInfo().getRespondentMobile()==null?"":investigateEvidence.getRespondentInfo().getRespondentMobile());//联系方式
+                    params.put("respondentWorkUnit",investigateEvidence.getRespondentInfo().getRespondentWorkUnit()==null?"":investigateEvidence.getRespondentInfo().getRespondentWorkUnit());//工作单位
+                    params.put("post",investigateEvidence.getRespondentInfo().getRespondentPost()==null?"":investigateEvidence.getRespondentInfo().getRespondentPost());//职务
 
-            }else{
-                params.put("respondentIdentity","");
-                params.put("name","");//姓名
-                params.put("sex","");
-                params.put("age","");//年龄
-                params.put("phone","");//联系方式
-                params.put("respondentWorkUnit","");//工作单位
-                params.put("post","");//职务
-            }
-
-            params.put("content",investigateEvidence.getContent());//笔录内容
+            params.put("content",investigateEvidence.getContent()==null?"":investigateEvidence.getContent());//笔录内容
             //被调查人2
-            if(investigateEvidence.getRespondentInfo2()!=null){
+
                 // 身份
                 if("hz".equals(investigateEvidence.getRespondentInfo2().getRespondentIdentity())){
                     params.put("respondentIdentity1","患者本人");
@@ -327,11 +296,8 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else{
                     params.put("respondentIdentity1","");
                 }
-                if(investigateEvidence.getRespondentInfo2().getRespondentName()!=null){
-                    params.put("name1",investigateEvidence.getRespondentInfo2().getRespondentName());//姓名
-                }else{
-                    params.put("name1","");//姓名
-                }
+                    params.put("name1",investigateEvidence.getRespondentInfo2().getRespondentName()==null?"":investigateEvidence.getRespondentInfo2().getRespondentName());//姓名
+
 
                 //性别
                 if("1".equals(investigateEvidence.getRespondentInfo2().getRespondentSex())){
@@ -341,38 +307,13 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else{
                     params.put("sex1","");
                 }
-                if(investigateEvidence.getRespondentInfo2().getRespondentAge()!=null){
-                    params.put("age1",investigateEvidence.getRespondentInfo2().getRespondentAge());//年龄
-                }else{
-                    params.put("age1","");//年龄
-                }
-                if(investigateEvidence.getRespondentInfo2().getRespondentMobile()!=null){
-                    params.put("phone1",investigateEvidence.getRespondentInfo2().getRespondentMobile());//联系方式
-                }else{
-                    params.put("phone1","");//联系方式
-                }
-                if(investigateEvidence.getRespondentInfo2().getRespondentWorkUnit()!=null){
-                    params.put("respondentWorkUnit1",investigateEvidence.getRespondentInfo2().getRespondentWorkUnit());//工作单位
-                }else{
-                    params.put("respondentWorkUnit1","");//工作单位
-                }
-                if(investigateEvidence.getRespondentInfo2().getRespondentPost()!=null){
-                    params.put("post1",investigateEvidence.getRespondentInfo2().getRespondentPost());//职务
-                }else{
-                    params.put("post1","");//职务
-                }
+                    params.put("age1",investigateEvidence.getRespondentInfo2().getRespondentAge()==null?"":investigateEvidence.getRespondentInfo2().getRespondentAge());//年龄
+                    params.put("phone1",investigateEvidence.getRespondentInfo2().getRespondentMobile()==null?"":investigateEvidence.getRespondentInfo2().getRespondentMobile());//联系方式
+                    params.put("respondentWorkUnit1",investigateEvidence.getRespondentInfo2().getRespondentWorkUnit()==null?"":investigateEvidence.getRespondentInfo2().getRespondentWorkUnit());//工作单位
+                    params.put("post1",investigateEvidence.getRespondentInfo2().getRespondentPost()==null?"":investigateEvidence.getRespondentInfo2().getRespondentPost());//职务
 
-            }else{
-                params.put("respondentIdentity1","");
-                params.put("name1","");//姓名
-                params.put("sex1","");
-                params.put("age1","");//年龄
-                params.put("phone1","");//联系方式
-                params.put("respondentWorkUnit1","");//工作单位
-                params.put("post1","");//职务
-            }
 
-            params.put("content1",investigateEvidence.getContent());//笔录内容
+            params.put("content1",investigateEvidence.getContent()==null?"":investigateEvidence.getContent());//笔录内容
             path += "doc/partiesRecord.docx";  //模板文件位置
             modelPath += "doc/partiesRecord.docx";
             savaPath +="/userfiles/investigateEvidence/partiesRecord.docx";
@@ -380,14 +321,13 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             returnPath="/userfiles/investigateEvidence/partiesRecord.pdf";
             newFileName = "患方笔录.docx";
         } else if ("hospitalTake".equals(export)) {
-            params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
-            params.put("time", investigateEvidence.getInvestigateEvidence().getEndTime());//结束时间
-            params.put("address", investigateEvidence.getInvestigateEvidence().getAddress());//地点
-            params.put("cause", investigateEvidence.getInvestigateEvidence().getCause());//事由
-            params.put("investigators", investigateEvidence.getInvestigateEvidence().getInvestigator());//调查人
-            params.put("noteTaker", investigateEvidence.getInvestigateEvidence().getNoteTaker());//调查记录人
+            params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime()==null?"":investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
+            params.put("time", investigateEvidence.getInvestigateEvidence().getEndTime()==null?"":investigateEvidence.getInvestigateEvidence().getEndTime());//结束时间
+            params.put("address", investigateEvidence.getInvestigateEvidence().getAddress()==null?"":investigateEvidence.getInvestigateEvidence().getAddress());//地点
+            params.put("cause", investigateEvidence.getInvestigateEvidence().getCause()==null?"":investigateEvidence.getInvestigateEvidence().getCause());//事由
+            params.put("investigators", investigateEvidence.getInvestigateEvidence().getInvestigator()==null?"":investigateEvidence.getInvestigateEvidence().getInvestigator());//调查人
+            params.put("noteTaker", investigateEvidence.getInvestigateEvidence().getNoteTaker()==null?"":investigateEvidence.getInvestigateEvidence().getNoteTaker());//调查记录人
             //医方调查人1
-            if(investigateEvidence.getRespondentInfo3()!=null){
                 // 身份
                 if("hz".equals(investigateEvidence.getRespondentInfo3().getRespondentIdentity())){
                     params.put("respondentIdentity","患者本人");
@@ -414,11 +354,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else{
                     params.put("respondentIdentity","");
                 }
-                if(investigateEvidence.getRespondentInfo3().getRespondentName()!=null){
-                    params.put("name",investigateEvidence.getRespondentInfo3().getRespondentName());//姓名
-                }else{
-                    params.put("name","");//姓名
-                }
+                    params.put("name",investigateEvidence.getRespondentInfo3().getRespondentName()==null?"":investigateEvidence.getRespondentInfo3().getRespondentName());//姓名
 
                 //性别
                 if("1".equals(investigateEvidence.getRespondentInfo3().getRespondentSex())){
@@ -428,39 +364,13 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else{
                     params.put("sex","");
                 }
-                if(investigateEvidence.getRespondentInfo3().getRespondentAge()!=null){
-                    params.put("age",investigateEvidence.getRespondentInfo3().getRespondentAge());//年龄
-                }else{
-                    params.put("age","");//年龄
-                }
-                if(investigateEvidence.getRespondentInfo3().getRespondentMobile()!=null){
-                    params.put("phone",investigateEvidence.getRespondentInfo3().getRespondentMobile());//联系方式
-                }else{
-                    params.put("phone","");//联系方式
-                }
-                if(investigateEvidence.getRespondentInfo3().getRespondentWorkUnit()!=null){
-                    params.put("respondentWorkUnit",investigateEvidence.getRespondentInfo3().getRespondentWorkUnit());//工作单位
-                }else{
-                    params.put("respondentWorkUnit","");//工作单位
-                }
-                if(investigateEvidence.getRespondentInfo3().getRespondentPost()!=null){
-                    params.put("post",investigateEvidence.getRespondentInfo3().getRespondentPost());//职务
-                }else{
-                    params.put("post","");//职务
-                }
+                    params.put("age",investigateEvidence.getRespondentInfo3().getRespondentAge()==null?"":investigateEvidence.getRespondentInfo3().getRespondentAge());//年龄
+                    params.put("phone",investigateEvidence.getRespondentInfo3().getRespondentMobile()==null?"":investigateEvidence.getRespondentInfo3().getRespondentMobile());//联系方式
+                    params.put("respondentWorkUnit",investigateEvidence.getRespondentInfo3().getRespondentWorkUnit()==null?"":investigateEvidence.getRespondentInfo3().getRespondentWorkUnit());//工作单位
+                    params.put("post",investigateEvidence.getRespondentInfo3().getRespondentPost()==null?"":investigateEvidence.getRespondentInfo3().getRespondentPost());//职务
 
-            }else{
-                params.put("respondentIdentity","");
-                params.put("name","");//姓名
-                params.put("sex","");
-                params.put("age","");//年龄
-                params.put("phone","");//联系方式
-                params.put("respondentWorkUnit","");//工作单位
-                params.put("post","");//职务
-            }
-            params.put("content",investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
+            params.put("content",investigateEvidence.getInvestigateEvidence().getContent()==null?"":investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
             //医方被调查人2
-            if(investigateEvidence.getRespondentInfo4()!=null){
                 // 身份
                 if("hz".equals(investigateEvidence.getRespondentInfo4().getRespondentIdentity())){
                     params.put("respondentIdentity1","患者本人");
@@ -487,11 +397,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else{
                     params.put("respondentIdentity1","");
                 }
-                if(investigateEvidence.getRespondentInfo4().getRespondentName()!=null){
-                    params.put("name1",investigateEvidence.getRespondentInfo4().getRespondentName());//姓名
-                }else{
-                    params.put("name1","");//姓名
-                }
+                    params.put("name1",investigateEvidence.getRespondentInfo4().getRespondentName()==null?"":investigateEvidence.getRespondentInfo4().getRespondentName());//姓名
 
                 //性别
                 if("1".equals(investigateEvidence.getRespondentInfo4().getRespondentSex())){
@@ -501,37 +407,12 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 }else{
                     params.put("sex1","");
                 }
-                if(investigateEvidence.getRespondentInfo4().getRespondentAge()!=null){
-                    params.put("age1",investigateEvidence.getRespondentInfo4().getRespondentAge());//年龄
-                }else{
-                    params.put("age1","");//年龄
-                }
-               if(investigateEvidence.getRespondentInfo4().getRespondentMobile()!=null){
-                   params.put("phone1",investigateEvidence.getRespondentInfo4().getRespondentMobile());//联系方式
-               }else{
-                   params.put("phone1","");//联系方式
-               }
-                if(investigateEvidence.getRespondentInfo4().getRespondentWorkUnit()!=null){
-                    params.put("respondentWorkUnit1",investigateEvidence.getRespondentInfo4().getRespondentWorkUnit());//工作单位
-                }else{
-                    params.put("respondentWorkUnit1","");//工作单位
-                }
-               if(investigateEvidence.getRespondentInfo4().getRespondentPost()!=null){
-                   params.put("post1",investigateEvidence.getRespondentInfo4().getRespondentPost());//职务
-               }else{
-                   params.put("post1","");//职务
-               }
+                    params.put("age1",investigateEvidence.getRespondentInfo4().getRespondentAge()==null?"":investigateEvidence.getRespondentInfo4().getRespondentAge());//年龄
+                    params.put("phone1",investigateEvidence.getRespondentInfo4().getRespondentMobile()==null?"":investigateEvidence.getRespondentInfo4().getRespondentMobile());//联系方式
+                    params.put("respondentWorkUnit1",investigateEvidence.getRespondentInfo4().getRespondentWorkUnit()==null?"":investigateEvidence.getRespondentInfo4().getRespondentWorkUnit());//工作单位
+                    params.put("post1",investigateEvidence.getRespondentInfo4().getRespondentPost()==null?"":investigateEvidence.getRespondentInfo4().getRespondentPost());//职务
 
-            }else{
-                params.put("respondentIdentity1","");
-                params.put("name1","");//姓名
-                params.put("sex1","");
-                params.put("age1","");//年龄
-                params.put("phone1","");//联系方式
-                params.put("respondentWorkUnit1","");//工作单位
-                params.put("post1","");//职务
-            }
-            params.put("content1",investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
+            params.put("content1",investigateEvidence.getInvestigateEvidence().getContent()==null?"":investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
             path += "doc/doctorRecord.docx";  //模板文件位置
             modelPath += "doc/doctorRecord.docx";
             savaPath +="/userfiles/investigateEvidence/doctorRecord.docx";
@@ -541,7 +422,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         }
 
         try{
-            File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/investigateEvidence");
+            File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/investigateEvidence");
             if (!file.exists()){
                 file.mkdirs();
             }
