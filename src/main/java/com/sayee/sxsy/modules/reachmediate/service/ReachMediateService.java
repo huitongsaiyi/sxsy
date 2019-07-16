@@ -326,7 +326,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			}
 		}
 		System.out.println(a);
-		String path=request.getSession().getServletContext().getRealPath("/");
+		String path=request.getServletContext().getRealPath("/");
 		String modelPath=path;
 		String returnPath="";
 		String newFileName="无标题文件.docx";
@@ -353,7 +353,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			newFileName="调解程序表.docx";
 		}
 		try{
-			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/reachMediate");
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/reachMediate");
 			if (!file.exists()){
 				file.mkdirs();
 			}

@@ -312,7 +312,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
                 b=i;
             }
         }
-        String path=request.getSession().getServletContext().getRealPath("/");
+        String path=request.getServletContext().getRealPath("/");
 		String modelPath=path;
 		String returnPath="";
 		String newFileName="无标题文件.docx";
@@ -339,7 +339,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			newFileName="调解程序表.docx";
 		}
 		try{
-			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/mediateEvidence");
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/mediateEvidence");
 			if (!file.exists()){
 				file.mkdirs();
 			}
