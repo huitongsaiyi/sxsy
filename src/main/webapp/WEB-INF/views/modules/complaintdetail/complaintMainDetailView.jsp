@@ -22,7 +22,14 @@
                     }
                 }
             });
+            ba();
         });
+        function ba(){
+            var tname = '${complaintMainDetail.typeName}';
+            if(tname=="其他"){
+                $("#qitaanjian").show();
+            }
+        }
     </script>
 </head>
 <body>
@@ -142,15 +149,21 @@
                     <td>其他</td>
                 </c:when>
             </c:choose>
-            <td class="tit">是否重大：</td>
-            <c:choose>
-                <c:when test="${complaintMainDetail.isMajor == '1'}">
-                    <td>是</td>
-                </c:when>
-                <c:otherwise>
-                    <td>否</td>
-                </c:otherwise>
-            </c:choose>
+            <%--<td class="tit">是否重大：</td>--%>
+            <%--<c:choose>--%>
+                <%--<c:when test="${complaintMainDetail.isMajor == '1'}">--%>
+                    <%--<td>是</td>--%>
+                <%--</c:when>--%>
+                <%--<c:otherwise>--%>
+                    <%--<td>否</td>--%>
+                <%--</c:otherwise>--%>
+            <%--</c:choose>--%>
+            <td class="tit">案件分类：</td>
+            <td>${complaintMainDetail.typeName}</td>
+        </tr>
+        <tr id="qitaanjian" class="hide">
+            <td class="tit">其他案件分类：</td>
+            <td>${complaintMainDetail.otherType}</td>
         </tr>
         <tr>
             <td class="tit">投诉纠纷概要：</td>

@@ -80,6 +80,7 @@
 						$("#"+anjianId).show();
 					}else{
 						$("#"+anjianId).hide();
+						$("#otherType").val("");
 					}
 				}//<c:if test="${allowClear}">
 				else if (v=="clear"){
