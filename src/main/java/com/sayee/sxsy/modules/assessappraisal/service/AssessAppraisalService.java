@@ -333,34 +333,47 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		Map<String, Object> params = new HashMap<String, Object>();
 		if("proposalDis".equals(export)){
 			//患方信息
-				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName()==null?"":patientLinkEmpList.get(0).getPatientLinkName());
+			if(patientLinkEmpList.size()!=0){
+				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName());
 				if("1".equals(patientLinkEmpList.get(0).getPatientLinkSex())){
 					params.put("pSex","男");
-				}else if("2".equals(patientLinkEmpList.get(0).getPatientLinkSex())){
-					params.put("pSex","女");
 				}else{
-                    params.put("pSex","");
+					params.put("pSex","女");
 				}
-				params.put("idNumber",patientLinkEmpList.get(0).getIdNumber()==null?"":patientLinkEmpList.get(0).getIdNumber());
-				params.put("pAddress",patientLinkEmpList.get(0).getPatientLinkAddress()==null?"":patientLinkEmpList.get(0).getPatientLinkAddress());
-			//患方代理人
-				params.put("cName",patientLinkDList.get(0).getPatientLinkName()==null?"":patientLinkDList.get(0).getPatientLinkName());
+				params.put("idNumber",patientLinkEmpList.get(0).getIdNumber());
+				params.put("pAddress",patientLinkEmpList.get(0).getPatientLinkAddress());
+			}else{
+				params.put("pName","");
+				params.put("pSex","");
+				params.put("idNumber","");
+				params.put("pAddress","");
+			}
+			if(patientLinkDList.size()!=0){
+				params.put("cName",patientLinkDList.get(0).getPatientLinkName());
 				if("1".equals(patientLinkDList.get(0).getPatientRelation())){
 					params.put("r","亲人");
 				}else if("2".equals(patientLinkDList.get(0).getPatientRelation())){
 					params.put("r","朋友");
-				}else if("3".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("r","代理人");
 				}else{
-                    params.put("r","");
-                }
-				params.put("pMobile",patientLinkDList.get(0).getPatientLinkMobile()==null?"":patientLinkDList.get(0).getPatientLinkMobile());
-			//医方
-				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeName());
-				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
-				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficePost());
-				params.put("hMobile",medicalOfficeEmpList.get(0).getMedicalOfficeMobile()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeMobile());
-
+					params.put("r","代理人");
+				}
+				params.put("pMobile",patientLinkDList.get(0).getPatientLinkMobile());
+			}else{
+				params.put("cName","");
+				params.put("r","");
+				params.put("pMobile","");
+			}
+			if(medicalOfficeEmpList.size()!=0){
+				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName());
+				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
+				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost());
+				params.put("hMobile",medicalOfficeEmpList.get(0).getMedicalOfficeMobile());
+			}else{
+				params.put("hName","");
+				params.put("agent","");
+				params.put("post","");
+				params.put("hMobile","");
+			}
 			//意见书编码
 			params.put("code",assessAppraisal.getProposal().getProposalCode()==null?"":assessAppraisal.getProposal().getProposalCode());
 			//意见书类型
@@ -368,29 +381,71 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 				params.put("applyType","医疗责任保险事故鉴定");
 			}else if("2".equals(assessAppraisal.getApplyType())){
 				params.put("applyType","医疗纠纷技术评估");
-			}else {
+			}else{
                 params.put("applyType","");
             }
 			//评估时间
-				params.put("startTime",assessAppraisal.getRecordInfo1().getStartTime()==null?"":assessAppraisal.getRecordInfo1().getStartTime());
-				params.put("endTime",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
+			if(StringUtils.isNotBlank(assessAppraisal.getRecordInfo1().getStartTime())){
+				params.put("startTime",assessAppraisal.getRecordInfo1().getStartTime());
+			}else {
+				params.put("startTime","");
+			}
+			if(StringUtils.isNotBlank(assessAppraisal.getRecordInfo1().getEndTime())){
+				params.put("endTime",assessAppraisal.getRecordInfo1().getEndTime());
+			}else {
+				params.put("endTime","");
+			}
 			//诊疗概要
-				params.put("treatmentSummary",assessAppraisal.getProposal().getTreatmentSummary()==null?"":assessAppraisal.getProposal().getTreatmentSummary());
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getTreatmentSummary())){
+				params.put("treatmentSummary",assessAppraisal.getProposal().getTreatmentSummary());
+			}else{
+				params.put("treatmentSummary","");
+			}
 			//争议要点（患方认为，医方认为）
-				params.put("patientThink",assessAppraisal.getProposal().getPatientThink()==null?"":assessAppraisal.getProposal().getPatientThink());
-				params.put("doctorThink",assessAppraisal.getProposal().getDoctorThink()==null?"":assessAppraisal.getProposal().getDoctorThink());
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getPatientThink())){
+				params.put("patientThink",assessAppraisal.getProposal().getPatientThink());
+			}else{
+				params.put("patientThink","");
+			}
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getDoctorThink())){
+				params.put("doctorThink",assessAppraisal.getProposal().getDoctorThink());
+			}else{
+				params.put("doctorThink","");
+			}
 			//分析意见
-				params.put("typeName",typeInfo.getTypeName()==null?"":typeInfo.getTypeName());
-				params.put("content",typeInfo.getContent()==null?"":typeInfo.getContent());
+			if(typeInfo!=null){
+				params.put("typeName",typeInfo.getTypeName());
+				params.put("content",typeInfo.getContent());
+			}else{
+				params.put("typeName","");
+				params.put("content","");
+			}
 			//诊断
-				params.put("diagnosis",assessAppraisal.getProposal().getDiagnosis()==null?"":assessAppraisal.getProposal().getDiagnosis());
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getDiagnosis())){
+				params.put("diagnosis",assessAppraisal.getProposal().getDiagnosis());
+			}else {
+				params.put("diagnosis","");
+			}
 			//治疗
-				params.put("treatment",assessAppraisal.getProposal().getTreatment()==null?"":assessAppraisal.getProposal().getTreatment());
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getTreatment())){
+				params.put("treatment",assessAppraisal.getProposal().getTreatment());
+			}else {
+				params.put("treatment","");
+			}
 			//其他
-				params.put("other",assessAppraisal.getProposal().getOther()==null?"":assessAppraisal.getProposal().getOther());
+			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getOther())){
+				params.put("other",assessAppraisal.getProposal().getOther());
+			}else{
+				params.put("other","");
+			}
 			//结论
-				params.put("jTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
-				params.put("jContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
+			if(typeInfo1!=null){
+				params.put("jTypeName",typeInfo1.getTypeName());
+				params.put("jContent",typeInfo1.getContent());
+			}else{
+				params.put("jTypeName","");
+				params.put("jContent","");
+			}
 
 
 			path += "/submissions.docx";  //模板文件位置
