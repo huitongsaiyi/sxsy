@@ -191,10 +191,10 @@ public class SignAgreementController extends BaseController {
 	@RequestMapping(value = "pass")
 	public void pass(HttpServletRequest request,HttpServletResponse response) {
 		String code="";//1.成功 0失败
-		String reachMediateId=request.getParameter("reachMediateId");//前台传过来的状态
+		String signAgreementId=request.getParameter("signAgreementId");//前台传过来的状态
 		String export=request.getParameter("export");//前台传过来的状态
 		String print=request.getParameter("print");//前台传过来的状态
-		SignAgreement signAgreement = signAgreementService.get(reachMediateId);
+		SignAgreement signAgreement = signAgreementService.get(signAgreementId);
 		code=signAgreementService.exportWord(signAgreement,export,print,request,response);
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("url",code);

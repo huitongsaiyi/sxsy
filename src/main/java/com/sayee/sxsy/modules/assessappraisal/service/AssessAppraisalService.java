@@ -318,12 +318,19 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		List<PatientLinkEmp> patientLinkEmpList = assessAppraisal.getPatientLinkEmpList();//患方
 		List<PatientLinkEmp> patientLinkDList = assessAppraisal.getPatientLinkDList();//患方联系人
 		List<MedicalOfficeEmp> medicalOfficeEmpList = assessAppraisal.getMedicalOfficeEmpList();//医方
-		String analysisOpinion = assessAppraisal.getProposal().getAnalysisOpinion();//分析意见id
-		String analysisOpinion1=analysisOpinion.substring(0,32);
-		String conclusion = assessAppraisal.getProposal().getConclusion();//结论id
-		String conclusion1=conclusion.substring(0,32);
-		TypeInfo typeInfo = typeInfoService.get(analysisOpinion1);
-		TypeInfo typeInfo1 = typeInfoService.get(conclusion1);
+        TypeInfo typeInfo = new TypeInfo();
+        TypeInfo typeInfo1 = new TypeInfo();
+        if(StringUtils.isNotBlank(assessAppraisal.getProposal().getAnalysisOpinion())){
+            String analysisOpinion = assessAppraisal.getProposal().getAnalysisOpinion();//分析意见id
+            String analysisOpinion1=analysisOpinion.substring(0,32);
+            typeInfo = typeInfoService.get(analysisOpinion1);
+        }
+		if(StringUtils.isNotBlank(assessAppraisal.getProposal().getConclusion())){
+            String conclusion = assessAppraisal.getProposal().getConclusion();//结论id
+            String conclusion1=conclusion.substring(0,32);
+            typeInfo1 = typeInfoService.get(conclusion1);
+        }
+
 		String path = request.getServletContext().getRealPath("/");
 		String modelPath = path;
 		String returnPath="";
