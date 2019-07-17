@@ -373,8 +373,8 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             }
 
             params.put("content1",investigateEvidence.getContent()==null?"":investigateEvidence.getContent());//笔录内容
-            path += "doc/partiesRecord.docx";  //模板文件位置
-            modelPath += "doc/partiesRecord.docx";
+            path += "/doc/partiesRecord.docx";  //模板文件位置
+            modelPath += "/doc/partiesRecord.docx";
             savaPath +="/userfiles/investigateEvidence/partiesRecord.docx";
             pdfPath +="/userfiles/investigateEvidence/partiesRecord.pdf";
             returnPath="/userfiles/investigateEvidence/partiesRecord.pdf";
@@ -532,8 +532,8 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
                 params.put("post1","");//职务
             }
             params.put("content1",investigateEvidence.getInvestigateEvidence().getContent()==null?"":investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
-            path += "doc/doctorRecord.docx";  //模板文件位置
-            modelPath += "doc/doctorRecord.docx";
+            path += "/doc/doctorRecord.docx";  //模板文件位置
+            modelPath += "/doc/doctorRecord.docx";
             savaPath +="/userfiles/investigateEvidence/doctorRecord.docx";
             pdfPath +="/userfiles/investigateEvidence/doctorRecord.pdf";
             returnPath="/userfiles/investigateEvidence/doctorRecord.pdf";

@@ -195,6 +195,7 @@ public class OfficeController extends BaseController {
 					&& (type == null || (type != null && (type.equals("1") ? type.equals(e.getType()) : true)))
 					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))
 					&& ((pid == null || "undefined".equals(pid)) || ( pid != null && (pid.equals(e.getId()) || e.getParentIds().indexOf(","+pid+",")!=-1) ))
+					|| ((pid == null || "undefined".equals(pid)) || ( pid != null && (pid.equals(e.getArea().getId()) || e.getParentIds().indexOf(","+pid+",")!=-1) ))
 					&& Global.YES.equals(e.getUseable())) {
 				if (officeType == null) {
 					Map<String, Object> map = Maps.newHashMap();

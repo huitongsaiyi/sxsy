@@ -346,7 +346,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 				params.put("yclear","");
 			}
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
-			modelPath += "/doc/mediateMeetingM.docx";
+			modelPath += "/doc/mediateMeeting.docx";
 			savaPath +="/userfiles/mediateEvidence/mediateMeeting.docx";
 			pdfPath +="/userfiles/mediateEvidence/mediateMeeting.pdf";
 			returnPath="/userfiles/mediateEvidence/mediateMeeting.pdf";

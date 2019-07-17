@@ -361,7 +361,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			}
 
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
-			modelPath += "/doc/mediateMeetingM.docx";
+			modelPath += "/doc/mediateMeeting.docx";
 			savaPath +="/userfiles/reachMediate/mediateMeeting.docx";
 			pdfPath +="/userfiles/reachMediate/mediateMeeting.pdf";
 			returnPath="/userfiles/reachMediate/mediateMeeting.pdf";
