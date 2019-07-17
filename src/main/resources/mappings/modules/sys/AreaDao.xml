@@ -44,13 +44,15 @@
 	</select>
 	
 	<select id="findAllList" resultType="Area">
-		SELECT
-			<include refid="areaColumns"/>
-		FROM SYS_AREA a
-		<include refid="areaJoins"/>
-		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		ORDER BY a.code
-	</select>
+	SELECT
+	<include refid="areaColumns"/>
+	FROM SYS_AREA a
+	<include refid="areaJoins"/>
+	WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+	and a.id='f0e2fe4d03834d598121e5ff31abf1d1'
+	OR a.parent_ids LIKE '%f0e2fe4d03834d598121e5ff31abf1d1%'
+	ORDER BY a.code
+</select>
 	
 	<select id="findByParentIdsLike" resultType="Area">
 		SELECT

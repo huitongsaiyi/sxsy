@@ -113,12 +113,13 @@ public class AreaController extends BaseController {
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
-	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response) {
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId,@RequestParam(required=false) String pid, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<Area> list = areaService.findAll();
 		for (int i=0; i<list.size(); i++){
 			Area e = list.get(i);
-			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)){
+			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)
+					&& ((pid == null || "undefined".equals(pid)) || ( pid != null && (pid.equals(e.getId()) || e.getParentIds().indexOf(","+pid+",")!=-1) ))){
 				Map<String, Object> map = Maps.newHashMap();
 				map.put("id", e.getId());
 				map.put("pId", e.getParentId());

@@ -131,6 +131,7 @@ public class UserController extends BaseController {
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = "form")
 	public String form(User user, Model model,String officeType,HttpServletRequest request) {
+		officeType=request.getParameter("officeType");
 		if(StringUtils.isNotBlank(user.getId())){
 			Office office = officeService.get(user.getOffice().getId());
 			model.addAttribute("off",office.getOfficeType());
@@ -143,6 +144,7 @@ public class UserController extends BaseController {
 			Office office=new Office();
 			office.setOfficeType(officeType);
 			user.setOffice(office);
+			model.addAttribute("officeType",officeType);
 		}
 
 		model.addAttribute("user", user);
