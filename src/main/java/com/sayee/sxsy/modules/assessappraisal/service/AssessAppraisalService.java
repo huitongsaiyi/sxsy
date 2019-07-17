@@ -320,16 +320,17 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		List<MedicalOfficeEmp> medicalOfficeEmpList = assessAppraisal.getMedicalOfficeEmpList();//医方
         TypeInfo typeInfo = new TypeInfo();
         TypeInfo typeInfo1 = new TypeInfo();
-        if(StringUtils.isNotBlank(assessAppraisal.getProposal().getAnalysisOpinion())){
+        if(assessAppraisal.getProposal()!=null){
             String analysisOpinion = assessAppraisal.getProposal().getAnalysisOpinion();//分析意见id
             String analysisOpinion1=analysisOpinion.substring(0,32);
             typeInfo = typeInfoService.get(analysisOpinion1);
+
+			String conclusion = assessAppraisal.getProposal().getConclusion();//结论id
+			String conclusion1=conclusion.substring(0,32);
+			typeInfo1 = typeInfoService.get(conclusion1);
         }
-		if(StringUtils.isNotBlank(assessAppraisal.getProposal().getConclusion())){
-            String conclusion = assessAppraisal.getProposal().getConclusion();//结论id
-            String conclusion1=conclusion.substring(0,32);
-            typeInfo1 = typeInfoService.get(conclusion1);
-        }
+
+
 
 		String path = request.getServletContext().getRealPath("/");
 		String modelPath = path;
@@ -382,7 +383,12 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 				params.put("hMobile","");
 			}
 			//意见书编码
-			params.put("code",assessAppraisal.getProposal().getProposalCode()==null?"":assessAppraisal.getProposal().getProposalCode());
+			if(assessAppraisal.getProposal()!=null){
+				params.put("code",assessAppraisal.getProposal().getProposalCode()==null?"":assessAppraisal.getProposal().getProposalCode());
+			}else{
+				params.put("code","");
+			}
+
 			//意见书类型
 			if("1".equals(assessAppraisal.getApplyType())){
 				params.put("applyType","医疗责任保险事故鉴定");
@@ -392,71 +398,71 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
                 params.put("applyType","");
             }
 			//评估时间
-			if(StringUtils.isNotBlank(assessAppraisal.getRecordInfo1().getStartTime())){
-				params.put("startTime",assessAppraisal.getRecordInfo1().getStartTime());
+			if(assessAppraisal.getRecordInfo1()!=null){
+				params.put("startTime",assessAppraisal.getRecordInfo1().getStartTime()==null?"":assessAppraisal.getRecordInfo1().getStartTime());
 			}else {
 				params.put("startTime","");
 			}
-			if(StringUtils.isNotBlank(assessAppraisal.getRecordInfo1().getEndTime())){
-				params.put("endTime",assessAppraisal.getRecordInfo1().getEndTime());
+			if(assessAppraisal.getRecordInfo1()!=null){
+				params.put("endTime",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
 			}else {
 				params.put("endTime","");
 			}
 			//诊疗概要
-			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getTreatmentSummary())){
-				params.put("treatmentSummary",assessAppraisal.getProposal().getTreatmentSummary());
+			if(assessAppraisal.getProposal()!=null){
+				params.put("treatmentSummary",assessAppraisal.getProposal().getTreatmentSummary()==null?"":assessAppraisal.getProposal().getTreatmentSummary());
 			}else{
 				params.put("treatmentSummary","");
 			}
 			//争议要点（患方认为，医方认为）
-			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getPatientThink())){
-				params.put("patientThink",assessAppraisal.getProposal().getPatientThink());
+			if(assessAppraisal.getProposal()!=null){
+				params.put("patientThink",assessAppraisal.getProposal().getPatientThink()==null?"":assessAppraisal.getProposal().getPatientThink());
 			}else{
 				params.put("patientThink","");
 			}
-			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getDoctorThink())){
-				params.put("doctorThink",assessAppraisal.getProposal().getDoctorThink());
+			if(assessAppraisal.getProposal()!=null){
+				params.put("doctorThink",assessAppraisal.getProposal().getDoctorThink()==null?"":assessAppraisal.getProposal().getDoctorThink());
 			}else{
 				params.put("doctorThink","");
 			}
 			//分析意见
 			if(typeInfo!=null){
-				params.put("typeName",typeInfo.getTypeName());
-				params.put("content",typeInfo.getContent());
+				params.put("typeName",typeInfo.getTypeName()==null?"":typeInfo.getTypeName());
+				params.put("content",typeInfo.getContent()==null?"":typeInfo.getContent());
 			}else{
 				params.put("typeName","");
 				params.put("content","");
 			}
 			//诊断
-			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getDiagnosis())){
-				params.put("diagnosis",assessAppraisal.getProposal().getDiagnosis());
+			if(assessAppraisal.getProposal()!=null){
+				params.put("diagnosis",assessAppraisal.getProposal().getDiagnosis()==null?"":assessAppraisal.getProposal().getDiagnosis());
 			}else {
 				params.put("diagnosis","");
 			}
 			//治疗
-			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getTreatment())){
-				params.put("treatment",assessAppraisal.getProposal().getTreatment());
+			if(assessAppraisal.getProposal()!=null){
+				params.put("treatment",assessAppraisal.getProposal().getTreatment()==null?"":assessAppraisal.getProposal().getTreatment());
 			}else {
 				params.put("treatment","");
 			}
 			//其他
-			if(StringUtils.isNotBlank(assessAppraisal.getProposal().getOther())){
-				params.put("other",assessAppraisal.getProposal().getOther());
+			if(assessAppraisal.getProposal()!=null){
+				params.put("other",assessAppraisal.getProposal().getOther()==null?"":assessAppraisal.getProposal().getOther());
 			}else{
 				params.put("other","");
 			}
 			//结论
 			if(typeInfo1!=null){
-				params.put("jTypeName",typeInfo1.getTypeName());
-				params.put("jContent",typeInfo1.getContent());
+				params.put("jTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
+				params.put("jContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
 			}else{
 				params.put("jTypeName","");
 				params.put("jContent","");
 			}
 
 
-			path += "/submissions.docx";  //模板文件位置
-			modelPath += "/submissionsM.docx";
+			path += "/doc/submissions.docx";  //模板文件位置
+			modelPath += "/doc/submissions.docx";
 			savaPath +="/userfiles/assessAppraisal/submissions.docx";
 			pdfPath +="/userfiles/assessAppraisal/submissions.pdf";
 			returnPath="/userfiles/assessAppraisal/submissions.pdf";

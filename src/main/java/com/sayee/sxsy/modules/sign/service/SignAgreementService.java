@@ -514,72 +514,97 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				params.put("summary","");
 			}
 			if(typeInfo1 != null){
-				params.put("tjTypeName",typeInfo1.getTypeName());
-				params.put("tjContent",typeInfo1.getContent());
+				params.put("tjTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
+				params.put("tjContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
 			}else{
 				params.put("tjTypeName","");
 				params.put("tjContent","");
 			}
 			if(typeInfo2 != null){
-				params.put("yContent",typeInfo2.getContent());
+				params.put("yContent",typeInfo2.getContent()==null?"":typeInfo2.getContent());
 			}else{
 				params.put("yContent","");
 			}
 			if(typeInfo3 !=null){
-				params.put("lTypeName",typeInfo3.getTypeName());
-				params.put("lContent",typeInfo3.getContent());
+				params.put("lTypeName",typeInfo3.getTypeName()==null?"":typeInfo3.getTypeName());
+				params.put("lContent",typeInfo3.getContent()==null?"":typeInfo3.getTypeName());
 			}else{
 				params.put("lTypeName","");
 				params.put("lContent","");
 			}
 			if(typeInfo4 != null){
-				params.put("xTypeName",typeInfo4.getTypeName());
-				params.put("xContent",typeInfo4.getContent());
+				params.put("xTypeName",typeInfo4.getTypeName()==null?"":typeInfo4.getTypeName());
+				params.put("xContent",typeInfo4.getContent()==null?"":typeInfo4.getContent());
 			}else{
 				params.put("xTypeName","");
 				params.put("xContent","");
 			}
-			//协议号
-			if(StringUtils.isNotBlank(signAgreement.getAgreementNumber())){
-				params.put("agreementNumber",signAgreement.getAgreementNumber());
-			}
+			    //协议号
+				params.put("agreementNumber",signAgreement.getAgreementNumber()==null?"":signAgreement.getAgreementNumber());
 			path += "/doc/agreement.docx";  //模板文件位置
-			modelPath += "/doc/agreementM.docx";
+			modelPath += "/doc/agreement.docx";
 			savaPath +="/userfiles/signAgreement/agreement.docx";
 			pdfPath +="/userfiles/signAgreement/agreement.pdf";
 			returnPath="/userfiles/signAgreement/agreement.pdf";
 			newFileName = "山西省医疗纠纷人民调解委员会人民调解协议书.docx";
 		}else if ("meeting".equals(export)){
-			params.put("time", signAgreement.getMediateProgram().getMeetingTime()==null?"":signAgreement.getMediateProgram().getMeetingTime());
-			params.put("address",signAgreement.getMediateProgram().getAddress()==null?"":signAgreement.getMediateProgram().getAddress());
-			params.put("case",signAgreement.getComplaintMain().getPatientName()==null||signAgreement.getComplaintMain().getHospital().getName()==null?"":signAgreement.getComplaintMain().getPatientName()+"与"+signAgreement.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
-			params.put("tiao",signAgreement.getMediateProgram().getMediatorUser().getName()==null?"":signAgreement.getMediateProgram().getMediatorUser().getName());
-			params.put("pen",signAgreement.getMediateProgram().getClerkuser().getName()==null?"":signAgreement.getMediateProgram().getClerkuser().getName());
-			params.put("patient",signAgreement.getComplaintMain().getPatientName()==null?"":signAgreement.getComplaintMain().getPatientName());
-			params.put("doctor", signAgreement.getComplaintMain().getHospital().getName()==null?"":signAgreement.getComplaintMain().getHospital().getName());
-			params.put("hAvoid",signAgreement.getMediateProgram().getPatientAvoid()==null?"":signAgreement.getMediateProgram().getPatientAvoid());
-			params.put("yAvoid",signAgreement.getMediateProgram().getDoctorAvoid()==null?"":signAgreement.getMediateProgram().getDoctorAvoid());
-			params.put("hclear",signAgreement.getMediateProgram().getPatientClear()==null?"":signAgreement.getMediateProgram().getPatientClear());
-			params.put("yclear",signAgreement.getMediateProgram().getDoctorClear()==null?"":signAgreement.getMediateProgram().getDoctorClear());
+			if(signAgreement.getMediateProgram()!=null) {
+				params.put("time", signAgreement.getMediateProgram().getMeetingTime() == null ? "" : signAgreement.getMediateProgram().getMeetingTime());
+				params.put("address", signAgreement.getMediateProgram().getAddress() == null ? "" : signAgreement.getMediateProgram().getAddress());
+				params.put("case", signAgreement.getComplaintMain().getPatientName() == null || signAgreement.getComplaintMain().getHospital().getName() == null ? "" : signAgreement.getComplaintMain().getPatientName() + "与" + signAgreement.getComplaintMain().getHospital().getName() + "的医疗纠纷。");
+				params.put("tiao", signAgreement.getMediateProgram().getMediatorUser().getName() == null ? "" : signAgreement.getMediateProgram().getMediatorUser().getName());
+				params.put("pen", signAgreement.getMediateProgram().getClerkuser().getName() == null ? "" : signAgreement.getMediateProgram().getClerkuser().getName());
+				params.put("patient", signAgreement.getComplaintMain().getPatientName() == null ? "" : signAgreement.getComplaintMain().getPatientName());
+				params.put("doctor", signAgreement.getComplaintMain().getHospital().getName() == null ? "" : signAgreement.getComplaintMain().getHospital().getName());
+				params.put("hAvoid", signAgreement.getMediateProgram().getPatientAvoid() == null ? "" : signAgreement.getMediateProgram().getPatientAvoid());
+				params.put("yAvoid", signAgreement.getMediateProgram().getDoctorAvoid() == null ? "" : signAgreement.getMediateProgram().getDoctorAvoid());
+				params.put("hclear", signAgreement.getMediateProgram().getPatientClear() == null ? "" : signAgreement.getMediateProgram().getPatientClear());
+				params.put("yclear", signAgreement.getMediateProgram().getDoctorClear() == null ? "" : signAgreement.getMediateProgram().getDoctorClear());
+			}else{
+				params.put("time", "");
+				params.put("address", "");
+				params.put("case", "");
+				params.put("tiao", "");
+				params.put("pen", "");
+				params.put("patient", "");
+				params.put("doctor", "");
+				params.put("hAvoid", "");
+				params.put("yAvoid", "");
+				params.put("hclear", "");
+				params.put("yclear", "");
+			}
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
-			modelPath += "/doc/mediateMeetingM.docx";
+			modelPath += "/doc/mediateMeeting.docx";
 			savaPath +="/userfiles/signAgreement/mediateMeeting.docx";
 			pdfPath +="/userfiles/signAgreement/mediateMeeting.pdf";
 			returnPath="/userfiles/signAgreement/mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}else if("record".equals(export)){
-			params.put("startTime",signAgreement.getRecordInfo().getStartTime()==null?"":signAgreement.getRecordInfo().getStartTime());
-			params.put("endTime",signAgreement.getRecordInfo().getEndTime()==null?"":signAgreement.getRecordInfo().getEndTime());
-			params.put("address",signAgreement.getRecordInfo().getRecordAddress()==null?"":signAgreement.getRecordInfo().getRecordAddress());
-			params.put("host",signAgreement.getRecordInfo().getYtwHost().getName()==null?"":signAgreement.getRecordInfo().getYtwHost().getName());
-			params.put("noteTaker",signAgreement.getRecordInfo().getYtwNoteTaker().getName()==null?"":signAgreement.getRecordInfo().getYtwNoteTaker().getName());
-			params.put("patient",signAgreement.getRecordInfo().getPatient()==null?"":signAgreement.getRecordInfo().getPatient());
-			params.put("doctor",signAgreement.getRecordInfo().getDoctor()==null?"":signAgreement.getRecordInfo().getDoctor());
-			params.put("patName",signAgreement.getComplaintMain().getPatientName()==null?"":signAgreement.getComplaintMain().getPatientName());
-			params.put("docName",signAgreement.getComplaintMain().getHospital().getName()==null?"":signAgreement.getComplaintMain().getHospital().getName());
-			params.put("content",signAgreement.getRecordInfo().getRecordContent()==null?"":signAgreement.getRecordInfo().getRecordContent());
+			if(signAgreement.getRecordInfo()!=null) {
+				params.put("startTime", signAgreement.getRecordInfo().getStartTime() == null ? "" : signAgreement.getRecordInfo().getStartTime());
+				params.put("endTime", signAgreement.getRecordInfo().getEndTime() == null ? "" : signAgreement.getRecordInfo().getEndTime());
+				params.put("address", signAgreement.getRecordInfo().getRecordAddress() == null ? "" : signAgreement.getRecordInfo().getRecordAddress());
+				params.put("host", signAgreement.getRecordInfo().getYtwHost().getName() == null ? "" : signAgreement.getRecordInfo().getYtwHost().getName());
+				params.put("noteTaker", signAgreement.getRecordInfo().getYtwNoteTaker().getName() == null ? "" : signAgreement.getRecordInfo().getYtwNoteTaker().getName());
+				params.put("patient", signAgreement.getRecordInfo().getPatient() == null ? "" : signAgreement.getRecordInfo().getPatient());
+				params.put("doctor", signAgreement.getRecordInfo().getDoctor() == null ? "" : signAgreement.getRecordInfo().getDoctor());
+				params.put("patName", signAgreement.getComplaintMain().getPatientName() == null ? "" : signAgreement.getComplaintMain().getPatientName());
+				params.put("docName", signAgreement.getComplaintMain().getHospital().getName() == null ? "" : signAgreement.getComplaintMain().getHospital().getName());
+				params.put("content", signAgreement.getRecordInfo().getRecordContent() == null ? "" : signAgreement.getRecordInfo().getRecordContent());
+			}else{
+				params.put("startTime", "");
+				params.put("endTime", "");
+				params.put("address", "");
+				params.put("host", "");
+				params.put("noteTaker", "");
+				params.put("patient", "");
+				params.put("doctor", "");
+				params.put("patName","");
+				params.put("docName", "");
+				params.put("content","");
+			}
 			path += "/doc/signRecord.docx";  //模板文件位置
-			modelPath += "/doc/signRecordM.docx";
+			modelPath += "/doc/signRecord.docx";
 			savaPath +="/userfiles/signAgreement/signRecord.docx";
 			pdfPath +="/userfiles/signAgreement/signRecord.pdf";
 			returnPath="/userfiles/signAgreement/signRecord.pdf";
