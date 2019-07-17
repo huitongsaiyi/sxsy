@@ -435,8 +435,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if("agreementExport".equals(export)){
-
-				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName()==null?"":patientLinkEmpList.get(0).getPatientLinkName());
+			if(patientLinkEmpList.size()!=0){
+				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName());
 				if("1".equals(patientLinkEmpList.get(0).getPatientRelation())){
 					params.put("pRlation","本人");
 				}else if("2".equals(patientLinkEmpList.get(0).getPatientRelation())){
@@ -451,13 +451,17 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 					params.put("pRlation","亲属");
 				}else if("7".equals(patientLinkEmpList.get(0).getPatientRelation())){
 					params.put("pRlation","其他");
-				}else{
-					params.put("pRlation","");
 				}
-				params.put("pIdNum",patientLinkEmpList.get(0).getIdNumber()==null?"":patientLinkEmpList.get(0).getIdNumber());
-				params.put("pAdress",patientLinkEmpList.get(0).getPatientLinkAddress()==null?"":patientLinkEmpList.get(0).getPatientLinkAddress());
-
-				params.put("pdName",patientLinkDList.get(0).getPatientLinkName()==null?"":patientLinkDList.get(0).getPatientLinkName());
+				params.put("pIdNum",patientLinkEmpList.get(0).getIdNumber());
+				params.put("pAdress",patientLinkEmpList.get(0).getPatientLinkAddress());
+			}else{
+				params.put("pName","");
+				params.put("pRlation","");
+				params.put("pIdNum","");
+				params.put("pAdress","");
+			}
+			if(patientLinkDList.size()!=0){
+				params.put("pdName",patientLinkDList.get(0).getPatientLinkName());
 				if("1".equals(patientLinkDList.get(0).getPatientRelation())){
 					params.put("pdRelation","本人");
 				}else if("2".equals(patientLinkDList.get(0).getPatientRelation())){
@@ -472,38 +476,73 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 					params.put("pdRelation","亲属");
 				}else if("7".equals(patientLinkDList.get(0).getPatientRelation())){
 					params.put("pdRelation","其他");
-				}else{
-					params.put("pdRelation","");
 				}
-				params.put("pdNumber",patientLinkDList.get(0).getIdNumber()==null?"":patientLinkDList.get(0).getIdNumber());
-				params.put("pdAdress",patientLinkDList.get(0).getPatientLinkAddress()==null?"":patientLinkDList.get(0).getPatientLinkAddress());
-
-				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeName());
-				params.put("hAdress",medicalOfficeEmpList.get(0).getMedicalOfficeAddress()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeAddress());
-				params.put("legal",medicalOfficeEmpList.get(0).getLegalRepresentative()==null?"":medicalOfficeEmpList.get(0).getLegalRepresentative());
-				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficePost());
-				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
+				params.put("pdNumber",patientLinkDList.get(0).getIdNumber());
+				params.put("pdAdress",patientLinkDList.get(0).getPatientLinkAddress());
+			}else{
+				params.put("pdName","");
+				params.put("pdRelation","");
+				params.put("pdNumber","");
+				params.put("pdAdress","");
+			}
+			if (medicalOfficeEmpList.size()!=0){
+				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName());
+				params.put("hAdress",medicalOfficeEmpList.get(0).getMedicalOfficeAddress());
+				params.put("legal",medicalOfficeEmpList.get(0).getLegalRepresentative());
+				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost());
+				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
 				if ("1".equals(medicalOfficeEmpList.get(0).getMedicalOfficeSex())) {
 					params.put("hSex","男");
-				}else if("2".equals(medicalOfficeEmpList.get(0).getMedicalOfficeSex())){
-					params.put("hSex","女");
 				}else{
-					params.put("hSex","");
+					params.put("hSex","女");
 				}
-				params.put("idCard",medicalOfficeEmpList.get(0).getMedicalOfficeIdcard()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeIdcard());
-				params.put("company",medicalOfficeEmpList.get(0).getMedicalOfficeCompany()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeCompany());
-
-				params.put("summary",signAgreement.getSummaryOfDisputes()==null?"":signAgreement.getSummaryOfDisputes());
-				params.put("tjTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
-				params.put("tjContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
-				params.put("yContent",typeInfo2.getContent()==null?"":typeInfo2.getContent());
-				params.put("lTypeName",typeInfo3.getTypeName()==null?"":typeInfo3.getTypeName());
-				params.put("lContent",typeInfo3.getContent()==null?"":typeInfo3.getContent());
-				params.put("xTypeName",typeInfo4.getTypeName()==null?"":typeInfo4.getTypeName());
-				params.put("xContent",typeInfo4.getContent()==null?"":typeInfo4.getContent());
+				params.put("idCard",medicalOfficeEmpList.get(0).getMedicalOfficeIdcard());
+				params.put("company",medicalOfficeEmpList.get(0).getMedicalOfficeCompany());
+			}else{
+				params.put("hName","");
+				params.put("hAdress","");
+				params.put("legal","");
+				params.put("post","");
+				params.put("agent","");
+				params.put("hSex","");
+				params.put("idCard","");
+				params.put("company","");
+			}
+			if(StringUtils.isNotBlank(signAgreement.getSummaryOfDisputes())){
+				params.put("summary",signAgreement.getSummaryOfDisputes());
+			}else{
+				params.put("summary","");
+			}
+			if(typeInfo1 != null){
+				params.put("tjTypeName",typeInfo1.getTypeName());
+				params.put("tjContent",typeInfo1.getContent());
+			}else{
+				params.put("tjTypeName","");
+				params.put("tjContent","");
+			}
+			if(typeInfo2 != null){
+				params.put("yContent",typeInfo2.getContent());
+			}else{
+				params.put("yContent","");
+			}
+			if(typeInfo3 !=null){
+				params.put("lTypeName",typeInfo3.getTypeName());
+				params.put("lContent",typeInfo3.getContent());
+			}else{
+				params.put("lTypeName","");
+				params.put("lContent","");
+			}
+			if(typeInfo4 != null){
+				params.put("xTypeName",typeInfo4.getTypeName());
+				params.put("xContent",typeInfo4.getContent());
+			}else{
+				params.put("xTypeName","");
+				params.put("xContent","");
+			}
 			//协议号
-				params.put("agreementNumber",signAgreement.getAgreementNumber()==null?"":signAgreement.getAgreementNumber());
-
+			if(StringUtils.isNotBlank(signAgreement.getAgreementNumber())){
+				params.put("agreementNumber",signAgreement.getAgreementNumber());
+			}
 			path += "/doc/agreement.docx";  //模板文件位置
 			modelPath += "/doc/agreementM.docx";
 			savaPath +="/userfiles/signAgreement/agreement.docx";

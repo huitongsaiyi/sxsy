@@ -320,17 +320,31 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("meeting".equals(export)){
-			params.put("time", mediateEvidence.getMediateProgramList().get(b).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(b).getMeetingTime());
-			params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(b).getAddress());
-            params.put("case",mediateEvidence.getComplaintMain().getPatientName()==null||mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getPatientName()+"与"+mediateEvidence.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
-            params.put("tiao",mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName());
-            params.put("pen",mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName());
-            params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());
-            params.put("doctor", mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getHospital().getName());
-            params.put("hAvoid",mediateEvidence.getMediateProgramList().get(b).getPatientAvoid()==null?"":mediateEvidence.getMediateProgramList().get(b).getPatientAvoid());
-            params.put("yAvoid",mediateEvidence.getMediateProgramList().get(b).getDoctorAvoid()==null?"":mediateEvidence.getMediateProgramList().get(b).getDoctorAvoid());
-            params.put("hclear",mediateEvidence.getMediateProgramList().get(b).getPatientClear()==null?"":mediateEvidence.getMediateProgramList().get(b).getPatientClear());
-            params.put("yclear",mediateEvidence.getMediateProgramList().get(b).getDoctorClear()==null?"":mediateEvidence.getMediateProgramList().get(b).getDoctorClear());
+			if(mediateProgramList.size()!=0){
+				params.put("time", mediateEvidence.getMediateProgramList().get(b).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(b).getMeetingTime());
+				params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(b).getAddress());
+				params.put("case",mediateEvidence.getComplaintMain().getPatientName()==null||mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getPatientName()+"与"+mediateEvidence.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
+				params.put("tiao",mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName());
+				params.put("pen",mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName());
+				params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());
+				params.put("doctor", mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getHospital().getName());
+				params.put("hAvoid",mediateEvidence.getMediateProgramList().get(b).getPatientAvoid()==null?"":mediateEvidence.getMediateProgramList().get(b).getPatientAvoid());
+				params.put("yAvoid",mediateEvidence.getMediateProgramList().get(b).getDoctorAvoid()==null?"":mediateEvidence.getMediateProgramList().get(b).getDoctorAvoid());
+				params.put("hclear",mediateEvidence.getMediateProgramList().get(b).getPatientClear()==null?"":mediateEvidence.getMediateProgramList().get(b).getPatientClear());
+				params.put("yclear",mediateEvidence.getMediateProgramList().get(b).getDoctorClear()==null?"":mediateEvidence.getMediateProgramList().get(b).getDoctorClear());
+			}else {
+				params.put("time","");
+				params.put("address","");
+				params.put("case","");
+				params.put("tiao","");
+				params.put("pen","");
+				params.put("patient","");
+				params.put("doctor","");
+				params.put("hAvoid","");
+				params.put("yAvoid","");
+				params.put("hclear","");
+				params.put("yclear","");
+			}
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeetingM.docx";
 			savaPath +="/userfiles/mediateEvidence/mediateMeeting.docx";
