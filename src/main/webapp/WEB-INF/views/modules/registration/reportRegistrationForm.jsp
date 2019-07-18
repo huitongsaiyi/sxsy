@@ -110,7 +110,7 @@
                         style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:4.5pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:255.1pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="input-xlarge required" cssStyle="width: 90%;height: 30px;border: hidden;"/>
+                                <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="input-xlarge required" cssStyle="width: 90%;height: 30px;border: hidden; text-align: center;"/>
                              </span>
                         </p></td>
                 </tr>
@@ -208,7 +208,7 @@
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:116.15pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge required card" cssStyle="width: 90%;height: 30px;border: hidden;"/>
+                                <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge required card" cssStyle="width: 90%;height: 30px;border: hidden; text-align: center;"/>
                             </span>
                         </p></td>
                 </tr>
@@ -367,16 +367,18 @@
                             </span>
                         </p></td>
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:62.3pt">
-                        <p style="margin:0pt; orphans:0; text-align:center; widows:0"><span
-                                style="font-family:宋体; font-size:12pt; font-weight:bold">审核日期</span></p></td>
+                        <p style="margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span style="font-family:宋体; font-size:12pt; font-weight:bold">审核日期</span></p></td>
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:116.15pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt">
                                 <input name="patientRelation" type="text" readonly="readonly" maxlength="20"
-                class="input-medium Wdate required"
-                value="${reportRegistration.patientRelation}"
-                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:90%;height:30px;text-align: center;"/>
-                            </span></p></td>
+                                    class="input-medium Wdate required"
+                                    value="${reportRegistration.patientRelation}"
+                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:90%;height:30px;text-align: center;"/>
+                            </span>
+                        </p>
+                    </td>
                 </tr>
                 <tr style="height:127pt">
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:4.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:4.5pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:3.15pt; padding-right:5.03pt; vertical-align:middle; width:64.1pt">
