@@ -23,6 +23,8 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
+		a.doctor_mobile AS "doctorMobile",
+		a.policy_number AS "policyNumber",
 		b.case_number AS "complaintMain.caseNumber",
 		b.patient_name AS "complaintMain.patientName",
 		b.patient_sex AS "complaintMain.patientSex",
@@ -141,7 +143,9 @@
 			create_date,
 			update_by,
 			update_date,
-			del_flag
+			del_flag,
+			doctor_mobile,
+		    policy_number
 		) VALUES (
 			#{reportRegistrationId},
 			#{complaintMainId},
@@ -162,7 +166,9 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{delFlag}
+			#{delFlag},
+			#{doctorMobile},
+			#{policyNumber}
 		)
 	</insert>
 
@@ -182,7 +188,9 @@
 			next_link = #{nextLink},
 			next_link_man = #{nextLinkMan},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			doctor_mobile = #{doctorMobile},
+		    policy_number = #{policyNumber}
 		WHERE report_registration_id = #{reportRegistrationId}
 	</update>
 
