@@ -9,7 +9,7 @@
 		a.case_source AS "caseSource",
 		a.guarantee_time AS "guaranteeTime",
 		a.insurance_company AS "insuranceCompany",
-		a.policy_number AS "policyNumber",
+		if(a.policy_number IS NULL,r.policy_number,a.policy_number)AS "policyNumber",
 		a.diagnosis_mode AS "diagnosisMode",
 		a.treatment_outcome AS "treatmentOutcome",
 		a.handle_people AS "handlePeople",
