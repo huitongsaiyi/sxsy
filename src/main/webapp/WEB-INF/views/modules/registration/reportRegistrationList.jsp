@@ -92,7 +92,7 @@
 
 				</td>
 				<td style="text-align: center;">
-						${reportRegistration.area.name}
+                        ${reportRegistration.complaintMain.hospital.area.name}
 				</td>
 
 				<td style="text-align: center;">

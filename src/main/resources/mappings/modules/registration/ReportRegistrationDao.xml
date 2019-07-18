@@ -36,7 +36,7 @@
 		b.involve_department AS "complaintMain.involveDepartment",
 		b.involve_employee AS "complaintMain.involveEmployee",
 		b.proc_ins_id AS "complaintMain.procInsId",
-		sa.name AS "area.name",
+		sa.name AS "complaintMain.hospital.area.name",
 		u.name AS "djEmployee.name",
 		o.name AS "complaintMain.hospital.name",
 		o1.name AS "complaintMain.department.name",
