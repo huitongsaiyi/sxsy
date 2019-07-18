@@ -23,6 +23,18 @@
                 }
             });
         });
+        function compareDate(){
+            var a=$("#jiufen").val();
+            var b=$("#chuxian").val();
+            var oDate1 = new Date(a);
+            var oDate2 = new Date(b);
+            if(oDate1 !=null && oDate2 !=null){
+                if(oDate1.getTime() < oDate2.getTime()){
+                    top.$.jBox.tip("纠纷发生时间应大于出险时间，请重新设置两个时间");
+                }
+            }
+
+        }
     </script>
 </head>
 <body>
@@ -48,6 +60,12 @@
 <form:hidden path="complaintMain.act.procDefId"/>
 <form:hidden path="complaintMain.procInsId"/>
 <form:hidden id="flag" path="complaintMain.act.flag"/>
+<form:hidden path="complaintMain.hospital.name"/>
+<form:hidden path="area.name"/>
+<form:hidden path="complaintMain.involveDepartment"/>
+<form:hidden path="complaintMain.involveEmployee"/>
+<form:hidden path="complaintMain.involveHospital"/>
+<form:hidden path="complaintMain.hospital.area.name"/>
 <sys:message content="${message}"/>
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
@@ -108,7 +126,7 @@
                                 <input name="disputeTime" type="text" readonly="readonly" maxlength="20"
                 class="input-medium Wdate required"
                 value="${reportRegistration.disputeTime}"
-                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:90%;height:30px;text-align: center;"/>
+                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:90%;height:30px;text-align: center;" id="jiufen" onchange="compareDate(this.value)"/>
                             </span>
                         </p></td>
                     <td colspan="2"
@@ -137,7 +155,7 @@
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:55pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                    ${reportRegistration.area.name}
+                                    ${reportRegistration.complaintMain.hospital.area.name}
                             </span>
                         </p></td>
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:62.3pt">
@@ -204,7 +222,7 @@
                                   <input name="reportTime" type="text" readonly="readonly" maxlength="20"
                 class="input-medium Wdate required"
                 value="${reportRegistration.reportTime}"
-                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:90%;height:30px;text-align: center;"/>
+                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:90%;height:30px;text-align: center;" id="chuxian" onchange="compareDate(this.value)"/>
                             </span>
                         </p></td>
                     <td colspan="2"
