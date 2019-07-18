@@ -121,7 +121,7 @@
 					<if test="dbName == 'mysql'">concat('%',#{involveHospital},'%')</if>
 			</if>
 			<if test="involveDepartment != null and involveDepartment != ''">
-				AND o2.id LIKE
+				AND a.involve_department LIKE
 					<if test="dbName == 'oracle'">'%'||#{involveDepartment}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{involveDepartment}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{involveDepartment},'%')</if>
