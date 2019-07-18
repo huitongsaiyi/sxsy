@@ -43,8 +43,12 @@
 					title="部门" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
 			</li>
 			<li><label>涉及科室：</label>
-				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"
-					title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" pid="involveHospital" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+				<form:select path="involveDepartment" class="input-medium">
+					<form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"
+								  htmlEscape="false"/>
+				</form:select>
+				<%--<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"--%>
+					<%--title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" pid="involveHospital" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>--%>
 			</li>
 			<li><label>接待日期：</label>
 				<input name="receptionDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -63,19 +67,19 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column case_number">案件编号</th>
-				<th class="sort-column visitor_name">访客姓名</th>
-				<th class="sort-column visitor_mobile">访客电话</th>
-				<th class="sort-column patient_relation">与患者关系</th>
-				<th class="sort-column patient_name">患者姓名</th>
-				<th class="sort-column patient_sex">患者性别</th>
-				<th class="sort-column patient_age">患者年龄</th>
-				<th class="sort-column visitor_number">来访人数</th>
-				<th class="sort-column involve_hospital">涉及医院</th>
-				<th class="sort-column involve_department">涉及科室</th>
-				<th class="sort-column involve_employee">涉及人员</th>
-				<th class="sort-column summary_of_disputes">投诉纠纷概要</th>
-				<th class="sort-column is_mediate">是否进入医调委调解</th>
+				<th class="sort-column a.case_number">案件编号</th>
+				<th class="sort-column a.visitor_name">访客姓名</th>
+				<th class="sort-column a.visitor_mobile">访客电话</th>
+				<th class="sort-column a.patient_relation">与患者关系</th>
+				<th class="sort-column a.patient_name">患者姓名</th>
+				<th class="sort-column a.patient_sex">患者性别</th>
+				<th class="sort-column a.patient_age">患者年龄</th>
+				<th class="sort-column a.visitor_number">来访人数</th>
+				<th class="sort-column a.involve_hospital">涉及医院</th>
+				<th class="sort-column a.involve_department">涉及科室</th>
+				<th class="sort-column a.involve_employee">涉及人员</th>
+				<th class="sort-column a.summary_of_disputes">投诉纠纷概要</th>
+				<th class="sort-column a.is_mediate">是否进入医调委调解</th>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -110,10 +114,10 @@
 					${complaintInfo.hospitalName}
 				</td>
 				<td>
-					${complaintInfo.departmentName}
+						${fns:getDictLabel(complaintInfo.involveDepartment, 'department', '未知')}
 				</td>
 				<td>
-					${complaintInfo.employeeName}
+						${empty complaintInfo.employeeName?complaintInfo.involveEmployee:complaintInfo.employeeName}
 				</td>
 				<td>
 					${complaintInfo.summaryOfDisputes}

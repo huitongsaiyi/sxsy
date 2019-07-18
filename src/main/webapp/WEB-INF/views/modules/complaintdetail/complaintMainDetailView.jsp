@@ -109,13 +109,13 @@
                     </td>
                     <td class="tit" width="300px">涉及科室：</td>
                     <td >
-                            ${complaintMainDetail.complaintMain.department.name}
+                            ${fns:getDictLabel(complaintMainDetail.complaintMain.involveDepartment, 'department', '未知')}
                     </td>
                 </tr>
                 <tr >
                     <td class="tit">涉及人员：</td>
                     <td >
-                            ${complaintMainDetail.complaintMain.employee.name}
+                            ${empty complaintMainDetail.complaintMain.employee.name?complaintMainDetail.complaintMain.involveEmployee:complaintMainDetail.complaintMain.employee.name}
                     </td>
                 </tr>
             </table>

@@ -116,7 +116,7 @@
     <sys:message content="${message}"/>
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
-            <a href="#patientS" data-toggle="tab">患方受理通知书</a>
+            <a href="#people" data-toggle="tab">人民调解受理登记信息</a>
         </li>
         <li>
             <a href="#hospitalS" data-toggle="tab">医方受理通知书</a>
@@ -128,14 +128,14 @@
             <a href="#hospitalT" data-toggle="tab">医方调解申请信息</a>
         </li>
         <li>
-            <a href="#people" data-toggle="tab">人民调解受理登记信息</a>
+            <a href="#patientS" data-toggle="tab">患方受理通知书</a>
         </li>
         <li>
             <a href="#annex" data-toggle="tab">附件</a>
         </li>
     </ul>
     <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active" id="patientS">
+        <div class="tab-pane fade " id="patientS">
             <table class="table-form">
                 <p style="margin:0pt; text-align:center">
                     <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bold">医疗纠纷调解受理通知书</span>
@@ -496,7 +496,7 @@
 
             </table>
         </div>
-        <div class="tab-pane fade" id="people">
+        <div class="tab-pane fade in active" id="people">
             <table class="table-form">
                 <div><p style="margin:0pt; text-align:center"><span
                         style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bold">人民调解受理登记表</span></p>
@@ -906,10 +906,9 @@
             </td>
             <td>
                 <input name="guaranteeTime" type="text" readonly="readonly" maxlength="20"
-                       class="input-medium Wdate required"
+                       class="input-medium Wdate "
                        value="${auditAcceptance.guaranteeTime}"
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
-                <span class="help-inline"><font color="red">*</font> </span>
             </td>
         </tr>
         <tr>
