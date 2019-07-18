@@ -26,22 +26,41 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 	private String complaintMainId;
 	private User user;  //当前登录人员
 	private Area area;
-	private User djEmployee;		// 登记人员
+	private User djEmployee;		// 登记人员（填表人签名）
 	private User linkEmployee;		// 下一环节人员
 	private String reportEmp;		// 报案人姓名
 	private String patientMobile;		// 患方联系方式
-	private String patientRelation;		// 与患者关系
-	private String reportTime;		// 报案日期
-	private String registrationEmp;		// 登记人员
-	private String registrationTime;		// 登记日期
+	private String patientRelation;		// 与患者关系（审核日期）
+	private String reportTime;		// 报案日期（出险日期  出险时间在前，纠纷发生时间在后）
+	private String registrationEmp;		// 登记人员（填表人签名）
+	private String registrationTime;		// 登记日期（填表日期）
 	private String disputeTime;		// 纠纷发生时间
 	private String isMajor;		// 是否重大
 	private String summaryOfDisputes;		// 投诉纠纷概要
 	private String focus;		// 投诉纠纷焦点
 	private String patientAsk;		// 患方要求
-	private String nextLink;		// 下一处理环节
+	private String nextLink;		// 下一处理环节（审核人）
 	private String nextLinkMan;		// 下一环节处理人
     private Dict dict;  //
+	private String doctorMobile;//医方联系方式
+	private String policyNumber;//保单号
+
+
+	public String getPolicyNumber() {
+		return policyNumber;
+	}
+
+	public void setPolicyNumber(String policyNumber) {
+		this.policyNumber = policyNumber;
+	}
+
+	public String getDoctorMobile() {
+		return doctorMobile;
+	}
+
+	public void setDoctorMobile(String doctorMobile) {
+		this.doctorMobile = doctorMobile;
+	}
 
 	public User getUser() {
 		return user;
@@ -136,7 +155,7 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 		this.patientMobile = patientMobile;
 	}
 
-	@Length(min=0, max=1, message="与患者关系长度必须介于 0 和 1 之间")
+	@Length(min=0, max=20, message="与患者关系长度必须介于 0 和 20 之间")
 	public String getPatientRelation() {
 		return patientRelation;
 	}
