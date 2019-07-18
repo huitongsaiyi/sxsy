@@ -7,7 +7,7 @@
 		if(a.complaint_main_id IS NULL,d.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
 		if(a.report_emp IS NULL,d.visitor_name,a.report_emp) AS "reportEmp",
 		if(a.patient_mobile IS NULL,d.visitor_mobile,a.patient_mobile) AS "patientMobile",
-		if(a.patient_relation IS NULL,d.patient_relation,a.patient_relation) AS "patientRelation",
+		a.patient_relation AS "patientRelation",
 		if(a.report_time IS NULL,d.visitor_date,a.report_time) AS "reportTime",
 		if(a.registration_emp IS NULL,d.reception_employee,a.registration_emp) AS "registrationEmp",
 		if(a.registration_time IS NULL,d.reception_date,a.registration_time )AS "registrationTime",
