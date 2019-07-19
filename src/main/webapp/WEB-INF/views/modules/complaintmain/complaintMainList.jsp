@@ -68,10 +68,10 @@
 					${complaintMain.hospital.name}
 				</td>
 				<td>
-					${complaintMain.department.name}
+						${fns:getDictLabel(complaintMain.involveDepartment, 'department', '未知')}
 				</td>
 				<td>
-					${complaintMain.employee.name}
+					${empty complaintMain.employee.name?complaintMain.involveEmployee:complaintMain.employee.name}
 				</td>
 				<td>
 					${complaintMain.nodeName}
@@ -89,6 +89,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	<%--<div class="pagination">${page}</div>--%>
 </body>
 </html>

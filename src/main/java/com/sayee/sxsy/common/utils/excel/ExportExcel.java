@@ -226,7 +226,7 @@ public class ExportExcel {
             sheet.autoSizeColumn(i);
         }
         for (int i = 0; i < headerList.size(); i++) {
-            int colWidth = sheet.getColumnWidth(i) * 2;
+            int colWidth = sheet.getColumnWidth(i) * 3;
             sheet.setColumnWidth(i, colWidth < 3000 ? 3000 : colWidth);
         }
         log.debug("Initialize success.");
@@ -431,27 +431,32 @@ public class ExportExcel {
                     Row row1 = this.addRow();
                     for (int i =0;i<map.size();i++) {
                         if(i==0) {
-                            val=map.get(zero);
+                            val=map.get(zero).toString();
                         }else if(i==1) {
-                            val=map.get(one);
+                            val=map.get(one).toString();
                         }else if(i==2) {
-                            val=map.get(two);
+                            val=Integer.parseInt(map.get(two).toString());
+//                            val=map.get(two);
                         }else if(i==3) {
-                            val=map.get(three);
+                            val=Integer.parseInt(map.get(three).toString());
+//                            val=(Integer)map.get(three);
                         }else if(i==4) {
-                            val=map.get(four);
+                            val=Integer.parseInt(map.get(four).toString());
+//                            val=(Integer)map.get(four);
                         }else if(i==5) {
-                            val=map.get(five);
+                            val=Integer.parseInt(map.get(five).toString());
+//                            val=(Integer)map.get(five);
                         }else if(i==6) {
-                            val=map.get(six);
+                            val=Integer.parseInt(map.get(six).toString());
+//                            val=(Integer)map.get(six);
                         }else if(i==7) {
-                            val=map.get(seven);
+                            val=map.get(seven).toString();
                         }
                         if(val!=null) {
-                            addCell(row1, colunm++, val, 2, val.getClass());
+                            addCell(row1, colunm++, val, 2,Class.class);
                         }else{
                             val=" ";
-                            addCell(row1, colunm++, val, 2, val.getClass());
+                            addCell(row1, colunm++, val, 2, Class.class);
                         }
                     }
                     colunm=0;
