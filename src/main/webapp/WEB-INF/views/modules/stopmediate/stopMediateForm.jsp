@@ -26,6 +26,21 @@
 				}
 			});
 		});
+
+
+		function exportWord() {
+			var aa=$("#export").val();
+			var path="${ctx}/stopmediate/stopMediate/exportWord";
+			$.post(path,{'stopMediateId':'${stopMediate.stopMediateId}','export':aa,"print":"true"},function(res){
+				if(res.data.url!='' && res.data.url!=undefined){
+					var url='${pageContext.request.contextPath}'+res.data.url;
+					window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+				}else{
+					alertx("请先保存数据,在进行打印!");
+				}
+			},"json");
+		}
+
 	</script>
 </head>
 <body>
@@ -96,8 +111,8 @@
 			<tr>
 				<td class="tit">下一环节处理人</td>
 				<td>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${stopMediate.nextLinkMan}" labelName="" labelValue="${stopMediate.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${stopMediate.nextLinkMan}" labelName="nextLink" labelValue="${stopMediate.linkEmployee.name}"
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
 				</td>
 			</tr>
 		</table>
@@ -111,6 +126,7 @@
 			<shiro:hasPermission name="stopmediate:stopMediate:edit">
 				<input id="export" type = "submit" class="btn btn-primary" value = "导出" onclick="$('#export').val('yes')"/>
 			</shiro:hasPermission>
+			<input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('yes'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 		<act:histoicFlow procInsId="${stopMediate.complaintMain.procInsId}" />

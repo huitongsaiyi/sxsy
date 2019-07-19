@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.stopmediate.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.AjaxHelper;
+import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -23,6 +25,9 @@ import com.sayee.sxsy.common.web.BaseController;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.stopmediate.entity.StopMediate;
 import com.sayee.sxsy.modules.stopmediate.service.StopMediateService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 终止调解Controller
@@ -108,7 +113,7 @@ public class StopMediateController extends BaseController {
 		String urlSignAgreement = request.getParameter("urlSignAgreement");
 		String urlPerformAgreement = request.getParameter("urlPerformAgreement");
 		if (export.equals("yes")){
-			stopMediateService.exportWord(stopMediate,export,request,response);
+			stopMediateService.exportWord(stopMediate,export,"fasle",request,response);
 			return "";
 		}else {
 			try {
@@ -166,4 +171,23 @@ public class StopMediateController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/stopmediate/stopMediate/?repage";
 	}
 
+	@RequestMapping(value = "exportWord")
+	public void exportWord(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		Map<String,Object> map=new HashMap<String,Object>();
+		String stopMediateId=request.getParameter("stopMediateId");//前台传过来的状态
+		if (StringUtils.isBlank(stopMediateId)){
+			map.put("status","0");
+			AjaxHelper.responseWrite(request,response,"1","success",map);
+			return;
+		}
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		StopMediate stopMediate=stopMediateService.get(stopMediateId);
+		code=stopMediateService.exportWord(stopMediate,export,print,request,response);
+
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
+
+	}
 }

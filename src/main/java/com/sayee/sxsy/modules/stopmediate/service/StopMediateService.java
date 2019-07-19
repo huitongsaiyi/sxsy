@@ -3,6 +3,8 @@
  */
 package com.sayee.sxsy.modules.stopmediate.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -134,27 +136,38 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
 		return stopMediate;
 	}
 
-	public void exportWord(StopMediate stopMediate, String export, HttpServletRequest request, HttpServletResponse response) {
+	public String exportWord(StopMediate stopMediate, String export,String print, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
         ComplaintMain complaintMain=complaintMainDao.get(stopMediate.getComplaintMainId());
 		stopMediate=this.get(stopMediate.getStopMediateId());
 		String path=request.getServletContext().getRealPath("/");
-		String modelPath=path;
 		String newFileName="无标题文件.docx";
+		String caseNumbr=stopMediate.getComplaintMain()==null ? "" : StringUtils.isBlank(stopMediate.getComplaintMain().getCaseNumber()) ? "" : stopMediate.getComplaintMain().getCaseNumber()+"/";
+		String returnPath="";
+		String savaPath=path;
+		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
 		if ("yes".equals(export)){
 			params.put("patient", stopMediate ==null ? complaintMain.getPatientName() :stopMediate.getPatientName());
 			params.put("hospital", stopMediate ==null ? complaintMain.getHospital().getName() : stopMediate.getHospital().getName());
 			path += "/doc/stopMediate.docx";  //模板文件位置
-			modelPath += "/doc/stopMediateM.docx";
 			newFileName="终止调解函.docx";
+			savaPath +="/userfiles/stopMediate/"+caseNumbr+"stopMediate.docx";
+			pdfPath +="/userfiles/stopMediate/"+caseNumbr+"stopMediate.pdf";
+			returnPath="/userfiles/stopMediate/"+caseNumbr+"stopMediate.pdf";
 		}
 		try{
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/stopMediate/"+caseNumbr);
+			if (!file.exists()){
+				file.mkdirs();
+			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
-			wordExportUtil.getWord(path,modelPath,"","false",params,testList,fileName,response);
+			wordExportUtil.getWord(path,path,savaPath,print,params,testList,fileName,response);
+			wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return returnPath;
 	}
 }
