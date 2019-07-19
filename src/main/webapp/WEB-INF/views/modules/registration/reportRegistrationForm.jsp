@@ -9,7 +9,10 @@
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function (form) {
-                    loading('正在提交，请稍等...');
+                    var aa=$("#export").val();
+                    if(aa=='no') {
+                        loading('正在提交，请稍等...');
+                    }
                     form.submit();
                 },
                 errorContainer: "#messageBox",
@@ -34,6 +37,20 @@
                 }
             }
 
+        }
+
+        function exportWord() {
+            var aa=$("#export").val();
+            var path="${ctx}/registration/reportRegistration/pass";
+            $.post(path,{'reportRegistrationId':'${reportRegistration.reportRegistrationId}','export':aa,"print":"true"},function(res){
+                if(res.data.url!=''){
+                    var url='${pageContext.request.contextPath}'+res.data.url;
+                    window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+                    //windowOpen(url,"pdf",1500,700);
+                    // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+                }else{
+                }
+            },"json");
         }
     </script>
 </head>
@@ -67,6 +84,7 @@
 <form:hidden path="complaintMain.involveHospital"/>
 <form:hidden path="complaintMain.hospital.area.name"/>
 <form:hidden path="complaintMain.patientAge"/>
+<input type="hidden"  id="export" name="export"/>
 <sys:message content="${message}"/>
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
@@ -654,14 +672,17 @@
             </td>
         </tr>
     </table>
-    <div class="form-actions">
+    <div class="form-actions" >
+            <input id="reportExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('reportDis')" style="margin-left: 500px;"/>
+            <input id="reportPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('reportDis');exportWord();"/>
+
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="保 存"
                                                                                 onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
                                                                                 onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
-        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style=""/>
     </div>
         <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}"/>
     </form:form>

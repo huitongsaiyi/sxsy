@@ -339,6 +339,13 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		String savaPath=path;
 		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
+		//判断有无案件编号
+		String num=null;
+		if(assessAppraisal.getComplaintMain()!=null){
+			num=assessAppraisal.getComplaintMain().getCaseNumber()==null?"":assessAppraisal.getComplaintMain().getCaseNumber();
+		}else{
+			num="";
+		}
 		if("proposalDis".equals(export)){
 			//患方信息
 			if(patientLinkEmpList.size()!=0){
@@ -463,13 +470,13 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 
 			path += "/doc/submissions.docx";  //模板文件位置
 			modelPath += "/doc/submissions.docx";
-			savaPath +="/userfiles/assessAppraisal/submissions.docx";
-			pdfPath +="/userfiles/assessAppraisal/submissions.pdf";
-			returnPath="/userfiles/assessAppraisal/submissions.pdf";
+			savaPath +="/userfiles/assessAppraisal/"+num+"/submissions.docx";
+			pdfPath +="/userfiles/assessAppraisal/"+num+"/submissions.pdf";
+			returnPath="/userfiles/assessAppraisal/"+num+"/submissions.pdf";
 			newFileName = "意见书.docx";
 		}
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/assessAppraisal");
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/assessAppraisal/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}

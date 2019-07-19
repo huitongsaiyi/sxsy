@@ -218,6 +218,13 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         String savaPath=path;
         String pdfPath=path;
         Map<String, Object> params = new HashMap<String, Object>();
+        //判断有无案件编号
+        String num=null;
+        if(investigateEvidence.getComplaintMain()!=null){
+            num=investigateEvidence.getComplaintMain().getCaseNumber()==null?"":investigateEvidence.getComplaintMain().getCaseNumber();
+        }else{
+            num="";
+        }
         if ("patientTake".equals(export)) {
             params.put("date", investigateEvidence.getStartTime()==null?"":investigateEvidence.getStartTime());//开始时间
             params.put("time", investigateEvidence.getEndTime()==null?"":investigateEvidence.getEndTime());//结束时间
@@ -375,9 +382,9 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             params.put("content1",investigateEvidence.getContent()==null?"":investigateEvidence.getContent());//笔录内容
             path += "/doc/partiesRecord.docx";  //模板文件位置
             modelPath += "/doc/partiesRecord.docx";
-            savaPath +="/userfiles/investigateEvidence/partiesRecord.docx";
-            pdfPath +="/userfiles/investigateEvidence/partiesRecord.pdf";
-            returnPath="/userfiles/investigateEvidence/partiesRecord.pdf";
+            savaPath +="/userfiles/investigateEvidence/"+num+"/partiesRecord.docx";
+            pdfPath +="/userfiles/investigateEvidence/"+num+"/partiesRecord.pdf";
+            returnPath="/userfiles/investigateEvidence/"+num+"/partiesRecord.pdf";
             newFileName = "患方笔录.docx";
         } else if ("hospitalTake".equals(export)) {
             params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime()==null?"":investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
@@ -534,14 +541,14 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             params.put("content1",investigateEvidence.getInvestigateEvidence().getContent()==null?"":investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
             path += "/doc/doctorRecord.docx";  //模板文件位置
             modelPath += "/doc/doctorRecord.docx";
-            savaPath +="/userfiles/investigateEvidence/doctorRecord.docx";
-            pdfPath +="/userfiles/investigateEvidence/doctorRecord.pdf";
-            returnPath="/userfiles/investigateEvidence/doctorRecord.pdf";
+            savaPath +="/userfiles/investigateEvidence/"+num+"/doctorRecord.docx";
+            pdfPath +="/userfiles/investigateEvidence/"+num+"/doctorRecord.pdf";
+            returnPath="/userfiles/investigateEvidence/"+num+"/doctorRecord.pdf";
             newFileName = "医方笔录.docx";
         }
 
         try{
-            File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/investigateEvidence");
+            File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/investigateEvidence/"+num);
             if (!file.exists()){
                 file.mkdirs();
             }
