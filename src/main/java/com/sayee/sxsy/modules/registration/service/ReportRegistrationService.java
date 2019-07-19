@@ -286,10 +286,10 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 			params.put("nextLink",reportRegistration.getNextLink()==null?"":reportRegistration.getNextLink());//审核人
 			params.put("pRelation",reportRegistration.getPatientRelation()==null?"":reportRegistration.getPatientRelation());//审核日期
 
-			path += "/doc/record.docx";  //模板文件位置
-			savaPath +="/userfiles/report/"+num+"record.docx";
-			pdfPath +="/userfiles/report/"+num+"record.pdf";
-			returnPath="/userfiles/report/"+num+"record.pdf";
+			path += "/doc/repord.docx";  //模板文件位置
+			savaPath +="/userfiles/report/"+num+"repord.docx";
+			pdfPath +="/userfiles/report/"+num+"repord.pdf";
+			returnPath="/userfiles/report/"+num+"repord.pdf";
 			newFileName="报案信息表.docx";
 		}
 		try{
