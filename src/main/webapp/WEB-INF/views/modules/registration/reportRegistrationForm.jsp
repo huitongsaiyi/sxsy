@@ -673,15 +673,14 @@
         </tr>
     </table>
     <div class="form-actions" >
-            <input id="reportExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('reportDis')" style="margin-left: 500px;"/>
-            <input id="reportPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('reportDis');exportWord();"/>
-
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="保 存"
-                                                                                onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('no'),$('#export').val('no')" style="margin-left: 30%;"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
                                                                                 onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+        <input id="reportExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('reportDis')" />
+        <input id="reportPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('reportDis');exportWord();"/>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style=""/>
     </div>
         <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}"/>
