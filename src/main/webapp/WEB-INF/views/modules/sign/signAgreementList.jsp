@@ -69,7 +69,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="signAgreement">
 			<tr>
-				<td style="text-align:center;"><a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}">
+				<td style="text-align:center;"><a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}&type=view">
 						${signAgreement.complaintMain.caseNumber}
 				</a></td>
 				<td style="text-align:center;">

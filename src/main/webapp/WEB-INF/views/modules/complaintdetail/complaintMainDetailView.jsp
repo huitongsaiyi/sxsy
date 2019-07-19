@@ -167,13 +167,13 @@
         </tr>
         <tr>
             <td class="tit">投诉纠纷概要：</td>
-            <td colspan="3">
+            <td colspan="3" style="word-break:break-all;white-space: normal;">
                     ${complaintMainDetail.summaryOfDisputes}
             </td>
         </tr>
         <tr>
             <td class="tit">诉求：</td>
-            <td colspan="3">
+            <td colspan="3" style="word-break:break-all;white-space: normal;">
                     ${complaintMainDetail.appeal}
             </td>
         </tr>

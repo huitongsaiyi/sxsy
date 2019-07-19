@@ -70,7 +70,7 @@
 		<c:forEach items="${page.list}" var="mediateEvidence">
 			<tr>
 				<td style="text-align:center;">
-					<a href="${ctx}/mediate/mediateEvidence/form?id=${mediateEvidence.mediateEvidenceId}">
+					<a href="${ctx}/mediate/mediateEvidence/form?id=${mediateEvidence.mediateEvidenceId}&type=view">
 							${mediateEvidence.complaintMain.caseNumber}
 					</a>
 				</td>

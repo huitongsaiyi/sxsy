@@ -379,16 +379,17 @@
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>投诉纠纷概要</td>
-                    <td colspan="3">
+                    <td colspan="3" style="word-break:break-all;white-space: normal;">
                         <%--<form:textarea path="mediateApplyInfo.summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>--%>
                         ${auditAcceptance.mediateApplyInfo.summaryOfDisputes}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>当事人申请事项</td>
-                    <td colspan="3">
+                    <td colspan="3" style="word-break:break-all;white-space: normal;">
                         <%--<form:textarea path="mediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>--%>
-                        ${auditAcceptance.mediateApplyInfo.applyMatter}
+                        <%--<span style="width: 1450px;word-break: break-all;white-space: normal;">--%>
+                                ${auditAcceptance.mediateApplyInfo.applyMatter}
                     </td>
                 </tr>
                 <tr >
@@ -450,14 +451,14 @@
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>投诉纠纷概要</td>
-                    <td colspan="3">
+                    <td colspan="3" style="word-break:break-all;white-space: normal;">
                         <%--<form:textarea path="mediateApplyInfo.docMediateApplyInfo.summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>--%>
                                 ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.summaryOfDisputes}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>当事人申请事项</td>
-                    <td colspan="3">
+                    <td colspan="3" style="word-break:break-all;white-space: normal;">
                         <%--<form:textarea path="mediateApplyInfo.docMediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>--%>
                                 ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyMatter}
                     </td>

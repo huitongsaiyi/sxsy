@@ -66,7 +66,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="auditAcceptance">
 			<tr>
-				<td style="text-align: center"><a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">
+				<td style="text-align: center"><a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}&type=view">
 					${auditAcceptance.complaintMain.caseNumber}
 				</a></td>
 				<td style="text-align: center">
