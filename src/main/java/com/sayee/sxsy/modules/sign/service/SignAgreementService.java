@@ -434,6 +434,13 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		String savaPath=path;
 		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
+		//判断有无案件编号
+		String num=null;
+		if(signAgreement.getComplaintMain()!=null){
+			num=signAgreement.getComplaintMain().getCaseNumber()==null?"":signAgreement.getComplaintMain().getCaseNumber();
+		}else{
+			num="";
+		}
 		if("agreementExport".equals(export)){
 			if(patientLinkEmpList.size()!=0){
 				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName());
@@ -543,9 +550,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				params.put("agreementNumber",signAgreement.getAgreementNumber()==null?"":signAgreement.getAgreementNumber());
 			path += "/doc/agreement.docx";  //模板文件位置
 			modelPath += "/doc/agreement.docx";
-			savaPath +="/userfiles/signAgreement/agreement.docx";
-			pdfPath +="/userfiles/signAgreement/agreement.pdf";
-			returnPath="/userfiles/signAgreement/agreement.pdf";
+			savaPath +="/userfiles/signAgreement/"+num+"/agreement.docx";
+			pdfPath +="/userfiles/signAgreement/"+num+"/agreement.pdf";
+			returnPath="/userfiles/signAgreement/"+num+"/agreement.pdf";
 			newFileName = "山西省医疗纠纷人民调解委员会人民调解协议书.docx";
 		}else if ("meeting".equals(export)){
 			if(signAgreement.getMediateProgram()!=null) {
@@ -575,9 +582,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			}
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeeting.docx";
-			savaPath +="/userfiles/signAgreement/mediateMeeting.docx";
-			pdfPath +="/userfiles/signAgreement/mediateMeeting.pdf";
-			returnPath="/userfiles/signAgreement/mediateMeeting.pdf";
+			savaPath +="/userfiles/signAgreement/"+num+"/mediateMeeting.docx";
+			pdfPath +="/userfiles/signAgreement/"+num+"/mediateMeeting.pdf";
+			returnPath="/userfiles/signAgreement/"+num+"/mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}else if("record".equals(export)){
 			if(signAgreement.getRecordInfo()!=null) {
@@ -605,13 +612,13 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			}
 			path += "/doc/signRecord.docx";  //模板文件位置
 			modelPath += "/doc/signRecord.docx";
-			savaPath +="/userfiles/signAgreement/signRecord.docx";
-			pdfPath +="/userfiles/signAgreement/signRecord.pdf";
-			returnPath="/userfiles/signAgreement/signRecord.pdf";
+			savaPath +="/userfiles/signAgreement/"+num+"/signRecord.docx";
+			pdfPath +="/userfiles/signAgreement/"+num+"/signRecord.pdf";
+			returnPath="/userfiles/signAgreement/"+num+"/signRecord.pdf";
 			newFileName="签署协议笔录.docx";
 		}
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/signAgreement");
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/signAgreement/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}

@@ -333,6 +333,13 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		String savaPath=path;
 		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
+		//判断有无案件编号
+		String num=null;
+		if(reachMediate.getComplaintMain()!=null){
+			num=reachMediate.getComplaintMain().getCaseNumber()==null?"":reachMediate.getComplaintMain().getCaseNumber();
+		}else{
+			num="";
+		}
 		if ("meeting".equals(export)){
 			if(mediateProgramList.size()!=0){
 				params.put("time", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
@@ -362,13 +369,13 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeeting.docx";
-			savaPath +="/userfiles/reachMediate/mediateMeeting.docx";
-			pdfPath +="/userfiles/reachMediate/mediateMeeting.pdf";
-			returnPath="/userfiles/reachMediate/mediateMeeting.pdf";
+			savaPath +="/userfiles/reachMediate/"+num+"/mediateMeeting.docx";
+			pdfPath +="/userfiles/reachMediate/"+num+"/mediateMeeting.pdf";
+			returnPath="/userfiles/reachMediate/"+num+"/mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/reachMediate");
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/reachMediate/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}

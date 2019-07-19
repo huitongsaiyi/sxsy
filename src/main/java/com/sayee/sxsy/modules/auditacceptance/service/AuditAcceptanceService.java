@@ -432,23 +432,30 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		String savaPath=path;
 		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
+		//判断有无案件编号
+		String num=null;
+		if(auditAcceptance.getComplaintMain()!=null){
+			num=auditAcceptance.getComplaintMain().getCaseNumber()==null?"":auditAcceptance.getComplaintMain().getCaseNumber();
+		}else{
+			num="";
+		}
 		if ("patientAcc".equals(export)){
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/acceptanceP.docx";  //模板文件位置
 			modelPath += "/doc/acceptancePM.docx";
-			savaPath +="/userfiles/audit/acceptanceP.docx";
-			pdfPath +="/userfiles/audit/acceptanceP.pdf";
-			returnPath="/userfiles/audit/acceptanceP.pdf";
+			savaPath +="/userfiles/audit/"+num+"/acceptanceP.docx";
+			pdfPath +="/userfiles/audit/"+num+"/acceptanceP.pdf";
+			returnPath="/userfiles/audit/"+num+"/acceptanceP.pdf";
 			newFileName="患方通知书.docx";
 		}else if("hospitalAcc".equals(export)){
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/acceptanceD.docx";  //模板文件位置
 			modelPath += "/doc/acceptanceDM.docx";
-			savaPath +="/userfiles/audit/acceptanceD.docx";
-			pdfPath +="/userfiles/audit/acceptanceD.pdf";
-			returnPath="/userfiles/audit/acceptanceD.pdf";
+			savaPath +="/userfiles/audit/"+num+"/acceptanceD.docx";
+			pdfPath +="/userfiles/audit/"+num+"/acceptanceD.pdf";
+			returnPath="/userfiles/audit/"+num+"/acceptanceD.pdf";
 			newFileName="医方通知书.docx";
 		}else if("patientDis".equals(export)){
 			params.put("sqr", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getApplyer()) ? "" : auditAcceptance.getMediateApplyInfo().getApplyer());
@@ -461,9 +468,9 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyPatient.docx";  //模板文件位置
 			modelPath += "/doc/disputeApplyPatientM.docx";
-			savaPath +="/userfiles/audit/disputeApplyPatient.docx";
-			pdfPath +="/userfiles/audit/disputeApplyPatient.pdf";
-			returnPath="/userfiles/audit/disputeApplyPatient.pdf";
+			savaPath +="/userfiles/audit/"+num+"/disputeApplyPatient.docx";
+			pdfPath +="/userfiles/audit/"+num+"/disputeApplyPatient.pdf";
+			returnPath="/userfiles/audit/"+num+"/disputeApplyPatient.pdf";
 			newFileName="医疗纠纷调解申请书（患方）.docx";
 		}else if("doctorDis".equals(export)){
 			params.put("hospital", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getApplyHospital()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSqOffice().getName());
@@ -475,9 +482,9 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo().getSummaryOfDisputes());
 			path += "/doc/disputeApplyDoctor.docx";  //模板文件位置
 			modelPath += "/doc/disputeApplyDoctorM.docx";
-			savaPath +="/userfiles/audit/disputeApplyDoctor.docx";
-			pdfPath +="/userfiles/audit/disputeApplyDoctor.pdf";
-			returnPath="/userfiles/audit/disputeApplyDoctor.pdf";
+			savaPath +="/userfiles/audit/"+num+"/disputeApplyDoctor.docx";
+			pdfPath +="/userfiles/audit/"+num+"/disputeApplyDoctor.pdf";
+			returnPath="/userfiles/audit/"+num+"/disputeApplyDoctor.pdf";
 			newFileName="医疗纠纷调解申请书（医方）.docx";
 		}else if("DisAcc".equals(export)){
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
@@ -487,15 +494,15 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/disputeAcceptance.docx";  //模板文件位置
 			modelPath += "/doc/disputeAcceptanceM.docx";
-			savaPath +="/userfiles/audit/disputeAcceptance.docx";
-			pdfPath +="/userfiles/audit/disputeAcceptance.pdf";
-			returnPath="/userfiles/audit/disputeAcceptance.pdf";
+			savaPath +="/userfiles/audit/"+num+"/disputeAcceptance.docx";
+			pdfPath +="/userfiles/audit/"+num+"/disputeAcceptance.pdf";
+			returnPath="/userfiles/audit/"+num+"/disputeAcceptance.pdf";
 			newFileName="人民调解受理登记表.docx";
 
 		}
 
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/audit");
+			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/audit/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}

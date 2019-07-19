@@ -6,7 +6,9 @@ package com.sayee.sxsy.modules.registration.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
@@ -27,6 +29,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.registration.service.ReportRegistrationService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,7 +93,13 @@ public class ReportRegistrationController extends BaseController {
 
 	@RequiresPermissions("registration:reportRegistration:edit")
 	@RequestMapping(value = "save")
-	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes) {
+	public String save(HttpServletRequest request,ReportRegistration reportRegistration, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
+		String export=request.getParameter("export");
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
+			ReportRegistration reportRegistration1 = reportRegistrationService.get(reportRegistration.getReportRegistrationId());
+			String path = reportRegistrationService.exportWord(reportRegistration1,export,"false",request,response);
+			return path;
+		}
 		try {
 			if (!beanValidator(model, reportRegistration)&&"yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())||!beanValidator(model,reportRegistration.getComplaintMain())&&"yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
 				return form(request,reportRegistration, model);
@@ -116,4 +125,17 @@ public class ReportRegistrationController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
 	}
 
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String reportRegistrationId=request.getParameter("reportRegistrationId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		ReportRegistration reportRegistration = reportRegistrationService.get(reportRegistrationId);
+		code=reportRegistrationService.exportWord(reportRegistration,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
+
+	}
 }
