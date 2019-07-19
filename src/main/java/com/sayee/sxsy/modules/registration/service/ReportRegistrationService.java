@@ -162,7 +162,7 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 		//判断有无案件编号
 		String num=null;
 		if(reportRegistration.getComplaintMain()!=null){
-			num=reportRegistration.getComplaintMain().getCaseNumber()==null?"":reportRegistration.getComplaintMain().getCaseNumber();
+			num=reportRegistration.getComplaintMain().getCaseNumber()==null?"":reportRegistration.getComplaintMain().getCaseNumber()+"/";
 		}else{
 			num="";
 		}

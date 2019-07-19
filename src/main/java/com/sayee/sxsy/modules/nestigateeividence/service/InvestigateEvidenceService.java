@@ -221,7 +221,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         //判断有无案件编号
         String num=null;
         if(investigateEvidence.getComplaintMain()!=null){
-            num=investigateEvidence.getComplaintMain().getCaseNumber()==null?"":investigateEvidence.getComplaintMain().getCaseNumber();
+            num=investigateEvidence.getComplaintMain().getCaseNumber()==null?"":investigateEvidence.getComplaintMain().getCaseNumber()+"/";
         }else{
             num="";
         }
@@ -382,9 +382,9 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             params.put("content1",investigateEvidence.getContent()==null?"":investigateEvidence.getContent());//笔录内容
             path += "/doc/partiesRecord.docx";  //模板文件位置
             modelPath += "/doc/partiesRecord.docx";
-            savaPath +="/userfiles/investigateEvidence/"+num+"/partiesRecord.docx";
-            pdfPath +="/userfiles/investigateEvidence/"+num+"/partiesRecord.pdf";
-            returnPath="/userfiles/investigateEvidence/"+num+"/partiesRecord.pdf";
+            savaPath +="/userfiles/investigateEvidence/"+num+"partiesRecord.docx";
+            pdfPath +="/userfiles/investigateEvidence/"+num+"partiesRecord.pdf";
+            returnPath="/userfiles/investigateEvidence/"+num+"partiesRecord.pdf";
             newFileName = "患方笔录.docx";
         } else if ("hospitalTake".equals(export)) {
             params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime()==null?"":investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
@@ -541,9 +541,9 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             params.put("content1",investigateEvidence.getInvestigateEvidence().getContent()==null?"":investigateEvidence.getInvestigateEvidence().getContent());//笔录内容
             path += "/doc/doctorRecord.docx";  //模板文件位置
             modelPath += "/doc/doctorRecord.docx";
-            savaPath +="/userfiles/investigateEvidence/"+num+"/doctorRecord.docx";
-            pdfPath +="/userfiles/investigateEvidence/"+num+"/doctorRecord.pdf";
-            returnPath="/userfiles/investigateEvidence/"+num+"/doctorRecord.pdf";
+            savaPath +="/userfiles/investigateEvidence/"+num+"doctorRecord.docx";
+            pdfPath +="/userfiles/investigateEvidence/"+num+"doctorRecord.pdf";
+            returnPath="/userfiles/investigateEvidence/"+num+"doctorRecord.pdf";
             newFileName = "医方笔录.docx";
         }
 

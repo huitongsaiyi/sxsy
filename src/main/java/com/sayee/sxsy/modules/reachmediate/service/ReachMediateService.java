@@ -336,7 +336,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		//判断有无案件编号
 		String num=null;
 		if(reachMediate.getComplaintMain()!=null){
-			num=reachMediate.getComplaintMain().getCaseNumber()==null?"":reachMediate.getComplaintMain().getCaseNumber();
+			num=reachMediate.getComplaintMain().getCaseNumber()==null?"":reachMediate.getComplaintMain().getCaseNumber()+"/";
 		}else{
 			num="";
 		}
@@ -369,9 +369,9 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeeting.docx";
-			savaPath +="/userfiles/reachMediate/"+num+"/mediateMeeting.docx";
-			pdfPath +="/userfiles/reachMediate/"+num+"/mediateMeeting.pdf";
-			returnPath="/userfiles/reachMediate/"+num+"/mediateMeeting.pdf";
+			savaPath +="/userfiles/reachMediate/"+num+"mediateMeeting.docx";
+			pdfPath +="/userfiles/reachMediate/"+num+"mediateMeeting.pdf";
+			returnPath="/userfiles/reachMediate/"+num+"mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}
 		try{

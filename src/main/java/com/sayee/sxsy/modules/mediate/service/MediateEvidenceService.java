@@ -322,7 +322,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		//判断有无案件编号
 		String num=null;
 		if(mediateEvidence.getComplaintMain()!=null){
-			num=mediateEvidence.getComplaintMain().getCaseNumber()==null?"":mediateEvidence.getComplaintMain().getCaseNumber();
+			num=mediateEvidence.getComplaintMain().getCaseNumber()==null?"":mediateEvidence.getComplaintMain().getCaseNumber()+"/";
 		}else{
 			num="";
 		}
@@ -354,9 +354,9 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			}
 			path += "/doc/mediateMeeting.docx";  //模板文件位置
 			modelPath += "/doc/mediateMeeting.docx";
-			savaPath +="/userfiles/mediateEvidence/"+num+"/mediateMeeting.docx";
-			pdfPath +="/userfiles/mediateEvidence/"+num+"/mediateMeeting.pdf";
-			returnPath="/userfiles/mediateEvidence/"+num+"/mediateMeeting.pdf";
+			savaPath +="/userfiles/mediateEvidence/"+num+"mediateMeeting.docx";
+			pdfPath +="/userfiles/mediateEvidence/"+num+"mediateMeeting.pdf";
+			returnPath="/userfiles/mediateEvidence/"+num+"mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
 		}
 		try{

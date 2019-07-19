@@ -342,7 +342,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		//判断有无案件编号
 		String num=null;
 		if(assessAppraisal.getComplaintMain()!=null){
-			num=assessAppraisal.getComplaintMain().getCaseNumber()==null?"":assessAppraisal.getComplaintMain().getCaseNumber();
+			num=assessAppraisal.getComplaintMain().getCaseNumber()==null?"":assessAppraisal.getComplaintMain().getCaseNumber()+"/";
 		}else{
 			num="";
 		}
@@ -470,9 +470,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 
 			path += "/doc/submissions.docx";  //模板文件位置
 			modelPath += "/doc/submissions.docx";
-			savaPath +="/userfiles/assessAppraisal/"+num+"/submissions.docx";
-			pdfPath +="/userfiles/assessAppraisal/"+num+"/submissions.pdf";
-			returnPath="/userfiles/assessAppraisal/"+num+"/submissions.pdf";
+			savaPath +="/userfiles/assessAppraisal/"+num+"submissions.docx";
+			pdfPath +="/userfiles/assessAppraisal/"+num+"submissions.pdf";
+			returnPath="/userfiles/assessAppraisal/"+num+"submissions.pdf";
 			newFileName = "意见书.docx";
 		}
 		try{
