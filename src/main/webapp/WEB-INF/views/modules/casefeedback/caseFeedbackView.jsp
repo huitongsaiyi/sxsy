@@ -91,11 +91,11 @@
                 <table class="table-form">
                     <tr>
                         <td class="tit">反馈给人员：</td>
-                        <td>${caseFeedback.oaNotifyRecordNames}</td>
+                        <td>${caseFeedback.feedbackEmps.name}</td>
                     </tr>
                     <tr>
                         <td class="tit">反馈给部门：</td>
-                        <td>${caseFeedback.oaNotifyOfficeNames}</td>
+                        <td>${caseFeedback.feedbackOffices.name}</td>
                     </tr>
                 </table>
             </div>

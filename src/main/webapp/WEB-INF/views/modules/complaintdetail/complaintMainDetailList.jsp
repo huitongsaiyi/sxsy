@@ -67,7 +67,7 @@
 		<c:forEach items="${page.list}" var="complaintMainDetail">
 			<tr>
 				<td style="text-align: center;">
-					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">
+					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}&type=view">
 							${complaintMainDetail.complaintMain.caseNumber}
 					</a>
 				</td>
