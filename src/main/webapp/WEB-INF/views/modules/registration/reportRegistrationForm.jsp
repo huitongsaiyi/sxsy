@@ -678,7 +678,7 @@
 
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="保 存"
-                                                                                onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
                                                                                 onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
