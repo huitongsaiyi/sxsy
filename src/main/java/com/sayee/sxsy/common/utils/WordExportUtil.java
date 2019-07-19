@@ -500,9 +500,9 @@ public class WordExportUtil  {
      * @param inPath
      */
     public void doc2pdf(String inPath, FileOutputStream out) {
-//        if (!getLicense()) {          // 验证License 若不验证则转化出的pdf文档会有水印产生
-//               return;
-//        }
+        if (!getLicense()) {          // 验证License 若不验证则转化出的pdf文档会有水印产生
+               return;
+        }
         try {
             Document doc = new Document(inPath); // Address是将要被转化的word文档
             doc.save(out, SaveFormat.PDF);// 全面支持DOC, DOCX, OOXML, RTF HTML, OpenDocument, PDF,
