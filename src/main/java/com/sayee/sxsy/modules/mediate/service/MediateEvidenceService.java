@@ -170,13 +170,13 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
             yif.preUpdate();
             recordInfoDao.update(yif);
 		}
-
-        //保存调解志
-        this.tjz(mediateEvidence);
+		//保存调解志
+		this.tjz(mediateEvidence);
 		//保存附件
 		this.savefj(request,mediateEvidence);
 		//保存调解程序 与 调解志
-        if(StringUtils.isNotBlank(mediateEvidence.getMeetingTime())){
+		String export=request.getParameter("export");
+        if(StringUtils.isNotBlank(mediateEvidence.getMeetingTime()) && !"meeting".equals(export)){
             this.saveMeeting(mediateEvidence);
         }
 		if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
