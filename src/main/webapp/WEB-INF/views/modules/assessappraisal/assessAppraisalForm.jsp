@@ -210,6 +210,11 @@
 				}
 			},"json");
 		}
+
+		//导出和打印加提示
+		$(function (){
+			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+		});
 	</script>
 </head>
 <body>
@@ -1255,8 +1260,8 @@
 					<legend style="color: black;">七、说明</legend>
 					<span style="font-size: 20px;">该意见仅作为山西省医疗纠纷人民调解委员会调解医疗纠纷的参考，不具备法律效率。</span><br><br>
 					<div style="width: 200px;margin: auto">
-						<input id="proposalExport" class="btn btn-primary" type="submit" value="生成意见书" onclick="$('#export').val('proposalDis')"/>
-						<input id="proposalPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('proposalDis');exportWord();"/>
+						<input id="proposalExport" class="btn btn-primary" type="submit" value="生成意见书" onclick="$('#export').val('proposalDis')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+						<input id="proposalPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('proposalDis');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
 					</div>
 				</div>
@@ -1358,7 +1363,7 @@
 	</table>
 	<div class="form-actions">
 		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 	</div>
     <act:histoicFlow procInsId="${assessAppraisal.complaintMain.procInsId}" />

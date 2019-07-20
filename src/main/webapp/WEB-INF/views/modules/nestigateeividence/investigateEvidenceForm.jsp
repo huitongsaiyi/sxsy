@@ -40,6 +40,11 @@
 			},"json");
 		}
 
+		//导出和打印加提示
+		$(function (){
+			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+		});
+
 	</script>
 </head>
 <body>
@@ -143,8 +148,8 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientTake')"/>
-							<input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientTake');exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+							<input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientTake')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+							<input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientTake');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
 						</td>
 					</tr>
@@ -302,8 +307,8 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalTake')"/>
-							<input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalTake');exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+							<input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalTake')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+							<input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalTake');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
 						</td>
 					</tr>

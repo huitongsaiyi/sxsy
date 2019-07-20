@@ -34,6 +34,8 @@
             if(oDate1 !=null && oDate2 !=null){
                 if(oDate1.getTime() < oDate2.getTime()){
                     top.$.jBox.tip("纠纷发生时间应大于出险时间，请重新设置两个时间");
+                    $("#jiufen").val("");
+                    $("#chuxian").val("");
                 }
             }
 
@@ -52,6 +54,10 @@
                 }
             },"json");
         }
+       //导出打印提示
+        $(function (){
+            $(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+        });
     </script>
 </head>
 <body>
@@ -678,9 +684,9 @@
                                                                                 onclick="$('#flag').val('no'),$('#export').val('no')" style="margin-left: 30%;"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="registration:reportRegistration:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
-                                                                                onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
-        <input id="reportExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('reportDis')" />
-        <input id="reportPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('reportDis');exportWord();"/>
+                                                                                onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+        <input id="reportExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('reportDis')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>" />
+        <input id="reportPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('reportDis');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>" />
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style=""/>
     </div>
         <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}"/>

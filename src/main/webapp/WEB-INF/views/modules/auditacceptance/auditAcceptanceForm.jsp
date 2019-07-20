@@ -32,6 +32,7 @@
                 show_input(vas,idss);
             }
         });
+
         function show_input(vas,idss){
             var a=${fns:toJson(fns:getDictList('case_source'))}
             var b=getDictLabel(a,vas)
@@ -78,10 +79,14 @@
             // 发送ajax请求
             xhr.send()
         }
-
-
+        //导出和打印加提示
+        $(function (){
+            $(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+        });
 
     </script>
+
+
 </head>
 <body>
 <ul class="nav nav-tabs">
@@ -263,8 +268,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc');"/>
-                <input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientAcc');exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                <input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientAcc');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>" />
             </table>
         </div>
         <div class="tab-pane fade" id="hospitalS">
@@ -363,8 +368,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalAcc')"/>
-                <input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalAcc'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                <input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalAcc')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                <input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalAcc'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
             </table>
         </div>
@@ -428,8 +433,8 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input id="patientDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientDis')"/>
-                        <input id="patientDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientDis'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                        <input id="patientDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientDis')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                        <input id="patientDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientDis'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
                     </td>
                 </tr>
@@ -488,8 +493,8 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input id="doctorDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('doctorDis')"/>
-                        <input id="doctorDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('doctorDis'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                        <input id="doctorDisExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('doctorDis')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                        <input id="doctorDisPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('doctorDis'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
                     </td>
                 </tr>
@@ -537,7 +542,7 @@
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
                             style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span><span
                             style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">案件来源</span><span
+                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline" id="anjian"></span><span
                             style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
                     </p>
                     <p style="margin:0pt"><span
@@ -597,8 +602,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')"/>
-                <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); exportWord();"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
 
 
             </table>
@@ -896,8 +901,8 @@
                 案件来源：
             </td>
             <td>
-                <form:select path="caseSource" class="input-medium required">
-                    <form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+                <form:select path="caseSource" class="input-medium required" onchange="show_input(this.value,'anjian')">
+                    <form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false" />
                 </form:select>
                 <span class="help-inline"><font color="red">*</font> </span>
             </td>
@@ -967,9 +972,9 @@
         <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
                                                                                 onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-        <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
-                                                                                type="submit" value="导出全部"
-                                                                                onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>
+        <%--<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"--%>
+                                                                                <%--type="submit" value="导出全部"--%>
+                                                                                <%--onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>--%>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <act:histoicFlow procInsId="${auditAcceptance.complaintMain.procInsId}"/>
