@@ -87,6 +87,11 @@
 				}
 			},"json");
 		}
+
+		//导出和打印加提示
+		$(function (){
+			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+		});
 	</script>
 </head>
 <body>
@@ -460,8 +465,8 @@
 
 			</div>
 			<div style="text-align: center;">
-			<input id="agreementExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('agreementExport');"/>
-			<input id="agreementPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('agreementExport');exportWord();"/>
+			<input id="agreementExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('agreementExport');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+			<input id="agreementPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('agreementExport');exportWord();"  data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 			</div>
 		</div>
 
@@ -895,8 +900,8 @@
 				</p>
 				<td colspan="4" style="text-align: center;">
 					<input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出"
-						   onclick="$('#export').val('meeting')">
-					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting');exportWord();"/>
+						   onclick="$('#export').val('meeting')"  data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成会议表之前请先保存数据。</h4>"/>
+					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting');exportWord();"  data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
 				</td>
 			</table>
@@ -987,8 +992,8 @@
 				</tr>
 				<td colspan="6" style="text-align: center;">
 					<input id="record" class="btn btn-primary" type="submit" value="导 出"
-						   onclick="$('#export').val('record')">
-					<input id="recordPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('record');exportWord();"/>
+						   onclick="$('#export').val('record')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+					<input id="recordPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('record');exportWord();"  data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
 				</td>
 			</table>
@@ -1103,7 +1108,7 @@
 	</table>
 	<div class="form-actions" style="text-align: center;">
 		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 	</div>
 	<act:histoicFlow procInsId="${signAgreement.complaintMain.procInsId}" />

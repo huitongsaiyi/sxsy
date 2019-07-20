@@ -108,6 +108,11 @@
 			},"json");
 		}
 
+		//导出和打印加提示
+		$(function (){
+			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+		});
+
 	</script>
 </head>
 <body>
@@ -642,8 +647,8 @@
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">调解员署名：</span>
 				</p>
 				<td colspan="4" style="text-align: center;">
-					<input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="$('#export').val('meeting')">
-					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting');exportWord();"/>
+					<input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="$('#export').val('meeting')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成会议表之前请先将调解程序表填写完整。</h4>"/>
+					<input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
 				</td>
 			</table>
@@ -915,7 +920,7 @@
 	</table>
 	<div class="form-actions">
 		<shiro:hasPermission name="reachmediate:reachMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-		<shiro:hasPermission name="reachmediate:reachMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="reachmediate:reachMediate:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 	</div>
 	<act:histoicFlow procInsId="${reachMediate.complaintMain.procInsId}" />

@@ -173,7 +173,8 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		this.tjz(reachMediate);
 		this.savefj(request,reachMediate);		//调解志保存
 		//保存调解程序 与 调解志
-		if(StringUtils.isNotBlank(reachMediate.getReaMeetingTime())){
+		String export=request.getParameter("export");
+		if(StringUtils.isNotBlank(reachMediate.getReaMeetingTime())&& !"meeting".equals(export)){
 			this.saveMeeting(reachMediate);
 		}
 		if("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())){
@@ -326,7 +327,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			}
 		}
 		System.out.println(a);
-		String path=request.getServletContext().getRealPath("/");
+		String path=request.getSession().getServletContext().getRealPath("/");
 		String modelPath=path;
 		String returnPath="";
 		String newFileName="无标题文件.docx";
@@ -375,7 +376,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			newFileName="调解程序表.docx";
 		}
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/reachMediate/"+num);
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/reachMediate/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}
