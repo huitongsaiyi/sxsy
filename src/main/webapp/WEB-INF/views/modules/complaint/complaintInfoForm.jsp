@@ -82,9 +82,9 @@
 						<td width="476px">
 							<form:input path="visitorName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 						</td>
-						<td class="tit" width="180px"><font color="red">*</font>访客电话：</td>
+						<td class="tit" width="180px">访客电话：</td>
 						<td >
-							<form:input path="visitorMobile" htmlEscape="false" maxlength="15" class="input-xlarge"/>
+							<form:input path="visitorMobile" htmlEscape="false" maxlength="15" class="input-xlarge mobile"/>
 						</td>
 					</tr>
 					<tr >
