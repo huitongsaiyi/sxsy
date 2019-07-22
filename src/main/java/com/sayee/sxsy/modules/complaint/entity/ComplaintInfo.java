@@ -261,7 +261,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.visitorName = visitorName;
 	}
 
-	@Length(min=11, max=15, message="访客电话不能为空,且长度必须介于 1 和 15 之间")
+	@Length(min=0, max=15, message="访客电话不能为空,且长度必须介于 0 和 15 之间")
 	public String getVisitorMobile() {
 		return visitorMobile;
 	}
