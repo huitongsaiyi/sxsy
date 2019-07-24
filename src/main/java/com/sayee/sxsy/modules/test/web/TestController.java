@@ -125,5 +125,9 @@ public class TestController extends BaseController {
 //		return "redirect:" + adminPath + "/test/test/?repage";
 		return "true";
 	}
-
+	@RequiresPermissions("test:test:edit")
+	@RequestMapping(value = "echarts")
+	public String echarts(HttpServletRequest request, HttpServletResponse response, Model model){
+		return "modules/test/testEcharts";
+	}
 }
