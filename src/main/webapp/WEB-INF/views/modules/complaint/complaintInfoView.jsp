@@ -195,7 +195,7 @@
                 </c:choose>
             </td>
             <td id="shiftHandle">
-                ${complaintInfo.shiftHandleName}
+                        ${fns:getDictLabel(complaintInfo.shiftHandle, 'department', '未知')}
             </td>
         </tr>
         <tr>
