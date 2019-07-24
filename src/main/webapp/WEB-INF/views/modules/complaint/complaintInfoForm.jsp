@@ -217,8 +217,12 @@
 				</form:select>
 			</td>
 			<td id="shiftHandle">
-				<sys:treeselect id="shiftHandle" name="shiftHandle" value="${complaintInfo.shiftHandle}" labelName="shiftHandleName" labelValue="${complaintInfo.shiftHandleName}" title="部门" url="/sys/office/treeData?type=2&officeType=2"
-								pid="${fns:getUser().company.id}" isAll="true" cssClass="required" dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true" disabled="true"/>
+				<%--<sys:treeselect id="shiftHandle" name="shiftHandle" value="${complaintInfo.shiftHandle}" labelName="shiftHandleName" labelValue="${complaintInfo.shiftHandleName}" title="部门" url="/sys/office/treeData?type=2&officeType=2"--%>
+								<%--pid="${fns:getUser().company.id}" isAll="true" cssClass="required" dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true" disabled="true"/>--%>
+				<form:select path="shiftHandle" class="input-medium">
+					<form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"
+								  htmlEscape="false"/>
+				</form:select>
 			</td>
 
 		</tr>
