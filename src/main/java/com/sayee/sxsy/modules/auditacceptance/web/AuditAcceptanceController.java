@@ -10,6 +10,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.modules.auditacceptance.dao.AuditAcceptanceDao;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
+import com.sayee.sxsy.modules.sys.service.OfficeService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
@@ -49,6 +50,8 @@ public class AuditAcceptanceController extends BaseController {
 	private MachineAccountService machineAccountService;
 	@Autowired
 	private SummaryInfoService summaryInfoService;
+	@Autowired
+	private OfficeService officeService;
 	@ModelAttribute
 	public AuditAcceptance get(@RequestParam(required=false) String id) {
 		AuditAcceptance entity = null;
@@ -160,6 +163,7 @@ public class AuditAcceptanceController extends BaseController {
 			return path;
 		}else {
 			if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo()))  ){
+				auditAcceptance=auditAcceptanceService.get(auditAcceptance.getAuditAcceptanceId());
 				return form(request,auditAcceptance, model);
 			}
 			try {
