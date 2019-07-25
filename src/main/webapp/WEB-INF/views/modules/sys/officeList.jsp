@@ -32,6 +32,21 @@
 	<li class="active"><a href="${ctx}/sys/office/list?id=${office.id}&parentIds=${office.parentIds}">机构列表</a></li>
 	<shiro:hasPermission name="sys:office:edit"><li><a href="${ctx}/sys/office/form?parent.id=${office.id}&officeType=${office.officeType}">机构添加</a></li></shiro:hasPermission>
 </ul>
+<c:choose>
+	<c:when test="${office.officeType == '2'}">
+		<form:form id="searchForm" modelAttribute="office" action="${ctx}/sys/office/list?officeType=${office.officeType}" method="post" class="breadcrumb form-search ">
+			<input type="hidden" id="company"name="company" value="${office.officeType}"/>
+			<form:input type="hidden" path="parentIds" value="${empty office.parentIds ? '' : office.parentIds}"/>
+			<ul class="ul-form">
+				<li class="clearfix"></li>
+				<li><label>归属区域：</label>
+						<sys:treeselect id="area" name="area.id" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
+										title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" />
+			</ul>
+		</form:form>
+	</c:when>
+</c:choose>
 <sys:message content="${message}"/>
 <table id="treeTable" class="table table-striped table-bordered table-condensed">
 	<thead><tr><th>机构名称</th><th>归属区域</th><th>机构编码</th><th>机构类型</th>

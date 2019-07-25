@@ -82,6 +82,9 @@
 		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
+		<if test="area!=null and area.id!=null and area.id!=''">
+			AND a.area_id LIKE CONCAT('%', #{area.id}, '%')
+		</if>
 		ORDER BY a.code
 	</select>
 
@@ -92,6 +95,9 @@
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
 		AND a.remarks = #{remarks}
+		<if test="area!=null and area.id!=null and area.id!=''">
+			AND a.area_id LIKE CONCAT('%', #{area.id}, '%')
+		</if>
 		ORDER BY a.code
 	</select>
 
