@@ -109,7 +109,7 @@
                     </td>
                     <td class="tit" width="300px">涉及科室：</td>
                     <td >
-                            ${fns:getDictLabel(complaintMainDetail.complaintMain.involveDepartment, 'department', '未知')}
+                            ${complaintMainDetail.complaintMain.testTree}
                     </td>
                 </tr>
                 <tr >

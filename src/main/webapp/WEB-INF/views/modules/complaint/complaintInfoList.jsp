@@ -43,10 +43,10 @@
 					title="部门" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
 			</li>
 			<li><label>涉及科室：</label>
-				<form:select path="involveDepartment" class="input-medium">
-					<form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"
-								  htmlEscape="false"/>
-				</form:select>
+				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="testTree"
+								labelValue="${complaintInfo.testTree}" title="涉及科室"
+								url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
+								notAllowSelectParent="true" checked="true"/>
 				<%--<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="departmentName" labelValue="${complaintInfo.departmentName}"--%>
 					<%--title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true" pid="involveHospital" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>--%>
 			</li>
