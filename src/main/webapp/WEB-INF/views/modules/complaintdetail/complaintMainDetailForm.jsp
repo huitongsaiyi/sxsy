@@ -161,7 +161,7 @@
                             <%--<form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"--%>
                                           <%--htmlEscape="false"/>--%>
                         <%--</form:select>--%>
-                            <sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="typeName"
+                            <sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="complaintMain.testTree"
                                             labelValue="${complaintMainDetail.complaintMain.testTree}" title="涉及科室"
                                             url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
                                             notAllowSelectParent="true" checked="true"/>
@@ -213,8 +213,8 @@
             <td>
                 <sys:treeselect id="isMajor" name="isMajor" value="${complaintMainDetail.isMajor}" labelName="typeName"
                                 labelValue="${complaintMainDetail.typeName}" title="案件分类"
-                                url="/test/testTree/treeData?mold=1" isAll="true" variable="qitaanjian" allowClear="true"
-                                notAllowSelectParent="true"/>
+                                url="/test/testTree/treeData?mold=1" variable="qitaanjian" allowClear="true"
+                                notAllowSelectParent="true" isAll="true"/>
                     <%--<form:select path="isMajor" style='width:110px;text-align: center;'>--%>
                     <%--<form:option value="1">是</form:option>--%>
                     <%--<form:option value="0">否</form:option>--%>
@@ -250,7 +250,7 @@
                                 labelName="${complaintMainDetail.receptionEmployee}"
                                 labelValue="${complaintMainDetail.jdEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required"
-                                dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true"/>
+                                dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true" isAll="true"/>
             </td>
 
             <td class="tit"><font color="red">*</font>接待时间：</td>
@@ -274,7 +274,7 @@
                                 labelName="${complaintMainDetail.linkEmployee.name}"
                                 labelValue="${complaintMainDetail.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required"
-                                dataMsgRequired="请选择处理人" allowClear="true" notAllowSelectParent="true"/>
+                                dataMsgRequired="请选择处理人" allowClear="true" notAllowSelectParent="true" isAll="true"/>
             </td>
         </tr>
     </table>

@@ -61,6 +61,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 	private String handleWay;			//处理方式
 	private String shiftHandle;			//转办科室
 	private String shiftHandleName;		//转办科室名称
+	private String testTree;//涉及科室（树）
 
 	public ComplaintInfo() {
 		super();
@@ -68,6 +69,14 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 
 	public ComplaintInfo(String id){
 		super(id);
+	}
+
+	public String getTestTree() {
+		return testTree;
+	}
+
+	public void setTestTree(String testTree) {
+		this.testTree = testTree;
 	}
 
 	public String getShiftHandleName() {
@@ -324,7 +333,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.involveHospital = involveHospital;
 	}
 
-	@Length(min=1, max=32, message="涉及科室不能为空")
+	@Length(min=1, max=1000, message="涉及科室不能为空")
 	public String getInvolveDepartment() {
 		return involveDepartment;
 	}

@@ -33,7 +33,7 @@
 		a.handle_result AS "handleResult",
 		a.handle_pass AS "handlePass",
 		o1.name AS "hospitalName",
-		o2.name AS "departmentName",
+-- 		o2.name AS "departmentName",
 		o3.label AS "relationName",
 		o4.label AS "sexName",
 		o5.name AS "employeeName",
@@ -59,12 +59,13 @@
 		b.del_flag AS "complaintMain.delFlag",
 		b.source AS  "complaintMain.source",
 		t.name AS "typeName",
-		o6.name AS "shiftHandleName"
+		o6.name AS "shiftHandleName",
+		group_concat(DISTINCT(te.name))AS "testTree"
 	</sql>
 	
 	<sql id="complaintInfoJoins">
 		LEFT JOIN SYS_OFFICE o1 ON o1.id = a.involve_hospital
-		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
+-- 		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.involve_department
 		LEFT JOIN SYS_DICT o3 ON o3.`value` = a.patient_relation AND o3.type = 'patient_relation'
 		LEFT JOIN SYS_DICT o4 ON o4.value = a.patient_sex AND o4.type = 'sex'
 		LEFT JOIN SYS_USER o5 ON o5.id = a.involve_employee
@@ -73,6 +74,7 @@
 		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id AND source = '2'
 		LEFT JOIN TEST_TREE t ON t.id = a.complaint_type
 		LEFT JOIN SYS_OFFICE o6 ON  o6.id = a.shift_handle
+		LEFT JOIN TEST_TREE te ON INSTR(a.involve_department,te.id)>0 and length(te.id)=32
 	</sql>
     
 	<select id="get" resultType="ComplaintInfo">

@@ -136,10 +136,14 @@
 						<td >
 							<%--<sys:treeselect id='involveDepartment' name='involveDepartment' value='${complaintInfo.involveDepartment}' labelName='departmentName' labelValue='${complaintInfo.departmentName}' title='部门' url='/sys/office/treeData?type=2&officeType=2'--%>
 											<%--pid='involveHospital' isAll='true' cssClass='required' dataMsgRequired='请选择科室' allowClear='true' notAllowSelectParent='true' disabled='true'/>--%>
-                            <form:select path="involveDepartment" class="input-medium">
-                                <form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"
-                                              htmlEscape="false"/>
-                            </form:select>
+                            <%--<form:select path="involveDepartment" class="input-medium">--%>
+                                <%--<form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"--%>
+                                              <%--htmlEscape="false"/>--%>
+                            <%--</form:select>--%>
+								<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="typeName"
+												labelValue="${complaintInfo.testTree}" title="涉及科室"
+												url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
+												notAllowSelectParent="true" checked="true"/>
                         </td>
 					</tr>
 					<tr >

@@ -103,7 +103,7 @@
                     <td>
                             <%--<sys:treeselect id='involveDepartment' name='involveDepartment' value='${complaintInfo.involveDepartment}' labelName='departmentName' labelValue='${complaintInfo.departmentName}' title='部门' url='/sys/office/treeData?type=2&officeType=2'--%>
                             <%--pid='involveHospital' isAll='true' cssClass='required' dataMsgRequired='请选择科室' allowClear='true' notAllowSelectParent='true' disabled='true'/>--%>
-                                    ${fns:getDictLabel(complaintInfo.involveDepartment, 'department', '未知')}
+                                    ${complaintInfo.testTree}
                     </td>
                 </tr>
                 <tr>
