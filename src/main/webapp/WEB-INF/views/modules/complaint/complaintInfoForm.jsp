@@ -196,7 +196,7 @@
 			<td class="tit">投诉类别：</td>
 			<td>
 				<sys:treeselect id="complaintType" name="complaintType" value="${complaintInfo.complaintType}" labelName="typeName" labelValue="${complaintInfo.typeName}" title="调解类别"
-								url="/test/testTree/treeData" isAll="true" allowClear="true" notAllowSelectParent="true"/>
+								url="/test/testTree/treeData?mold=1" isAll="true" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 		</tr>
 		<tr>
