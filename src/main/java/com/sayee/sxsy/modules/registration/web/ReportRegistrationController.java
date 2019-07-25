@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
@@ -47,6 +49,8 @@ public class ReportRegistrationController extends BaseController {
 
 	@Autowired
 	private SummaryInfoService summaryInfoService;
+	@Autowired
+	private ComplaintMainService complaintMainService;
 	@ModelAttribute
 	public ReportRegistration get(@RequestParam(required=false) String id) {
 		ReportRegistration entity = null;
@@ -86,6 +90,8 @@ public class ReportRegistrationController extends BaseController {
 			model.addAttribute("show2",show2);
 			return "modules/registration/reportRegistrationView";
 		}else{
+			ComplaintMain complaintMain = complaintMainService.get(reportRegistration.getComplaintMainId());
+			reportRegistration.getComplaintMain().setTestTree(complaintMain.getTestTree());
 			model.addAttribute("reportRegistration", reportRegistration);
 			return "modules/registration/reportRegistrationForm";
 		}

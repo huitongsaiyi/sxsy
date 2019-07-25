@@ -31,6 +31,7 @@
 				if ((${fns:jsGetVal('row.parentId')}) == pid){
 					$(list).append(Mustache.render(tpl, {
 						dict: {
+							type: getDictLabel(${fns:toJson(fns:getDictList('mold'))}, row.type),
 						blank123:0}, pid: (root?0:pid), row: row
 					}));
 					if(root==true){
@@ -47,7 +48,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/test/testTree/">调解类别列表</a></li>
-		<shiro:hasPermission name="test:testTree:edit"><li><a href="${ctx}/test/testTree/form">调解类别添加</a></li></shiro:hasPermission>
+		<shiro:hasPermission name="test:testTree:edit"><li><a href="${ctx}/test/testTree/form?mold=${testTree.mold}">调解类别添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="testTree" action="${ctx}/test/testTree/" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">

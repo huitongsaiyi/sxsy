@@ -157,10 +157,14 @@
                                         <%--dataMsgRequired="请选择科室" allowClear="true" notAllowSelectParent="true"--%>
                                         <%--disabled="true"/>--%>
                         <%--<span class="help-inline"> </span>--%>
-                        <form:select path="complaintMain.involveDepartment" class="input-medium">
-                            <form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"
-                                          htmlEscape="false"/>
-                        </form:select>
+                        <%--<form:select path="complaintMain.involveDepartment" class="input-medium" multiple="true" >--%>
+                            <%--<form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"--%>
+                                          <%--htmlEscape="false"/>--%>
+                        <%--</form:select>--%>
+                            <sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="typeName"
+                                            labelValue="${complaintMainDetail.complaintMain.testTree}" title="涉及科室"
+                                            url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
+                                            notAllowSelectParent="true" checked="true"/>
                     </td>
                     <td class="tit"><font color="red">*</font>涉及人员：</td>
                     <td>
@@ -209,7 +213,7 @@
             <td>
                 <sys:treeselect id="isMajor" name="isMajor" value="${complaintMainDetail.isMajor}" labelName="typeName"
                                 labelValue="${complaintMainDetail.typeName}" title="案件分类"
-                                url="/test/testTree/treeData" isAll="true" variable="qitaanjian" allowClear="true"
+                                url="/test/testTree/treeData?mold=1" isAll="true" variable="qitaanjian" allowClear="true"
                                 notAllowSelectParent="true"/>
                     <%--<form:select path="isMajor" style='width:110px;text-align: center;'>--%>
                     <%--<form:option value="1">是</form:option>--%>

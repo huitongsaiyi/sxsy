@@ -21,6 +21,9 @@ public class TestTree extends TreeEntity<TestTree> {
 	private String parentIds;		// 所有父级编号
 	private String name;		// 名称
 	private Integer sort;		// 排序
+	private String mold;//1调解类别 2科室
+
+
 	
 	public TestTree() {
 		super();
@@ -28,6 +31,14 @@ public class TestTree extends TreeEntity<TestTree> {
 
 	public TestTree(String id){
 		super(id);
+	}
+
+	public String getMold() {
+		return mold;
+	}
+
+	public void setMold(String mold) {
+		this.mold = mold;
 	}
 
 	@JsonBackReference

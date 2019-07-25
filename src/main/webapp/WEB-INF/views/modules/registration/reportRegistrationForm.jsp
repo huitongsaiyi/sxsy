@@ -257,7 +257,7 @@
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:43.9pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                              ${fns:getDictLabel(reportRegistration.complaintMain.involveDepartment,'department','无')}
+                                    ${reportRegistration.complaintMain.testTree}
                             </span>
                         </p></td>
                     <td colspan="2"
@@ -279,8 +279,8 @@
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
                                 <form:select path="isMajor" style='width:110px;text-align: center;'>
-                                     <form:option value="1">是</form:option>
                                      <form:option value="0">否</form:option>
+                                     <form:option value="1">是</form:option>
                                 </form:select>
                             </span>
                         </p></td>

@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.modules.sys.entity.Office;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,7 @@ public class TestTreeController extends BaseController {
 	@RequiresPermissions("test:testTree:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(TestTree testTree, HttpServletRequest request, HttpServletResponse response, Model model) {
+		String mold = request.getParameter("mold");
 		List<TestTree> list = testTreeService.findList(testTree); 
 		model.addAttribute("list", list);
 		return "jeesite/test/testTreeList";
@@ -61,7 +63,7 @@ public class TestTreeController extends BaseController {
 
 	@RequiresPermissions("test:testTree:view")
 	@RequestMapping(value = "form")
-	public String form(TestTree testTree, Model model) {
+	public String form(TestTree testTree, Model model,HttpServletRequest request) {
 		if (testTree.getParent()!=null && StringUtils.isNotBlank(testTree.getParent().getId())){
 			testTree.setParent(testTreeService.get(testTree.getParent().getId()));
 			// 获取排序号，最末节点排序号+30
@@ -77,6 +79,18 @@ public class TestTreeController extends BaseController {
 				}
 			}
 		}
+		String mold=request.getParameter("mold");
+		if(StringUtils.isBlank(mold)){
+			TestTree testTree1 = testTreeService.get(testTree.getId());
+			testTree.setMold(testTree1.getMold());
+		}else{
+			testTree.setMold(mold);
+			model.addAttribute("mold",testTree.getMold());
+		}
+		if(StringUtils.isNotBlank(testTree.getId())){
+			TestTree testTree1 = testTreeService.get(testTree.getId());
+			model.addAttribute("molds",testTree1.getMold());
+		}
 		if (testTree.getSort() == null){
 			testTree.setSort(30);
 		}
@@ -86,37 +100,54 @@ public class TestTreeController extends BaseController {
 
 	@RequiresPermissions("test:testTree:edit")
 	@RequestMapping(value = "save")
-	public String save(TestTree testTree, Model model, RedirectAttributes redirectAttributes) {
+	public String save(TestTree testTree, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request,HttpServletResponse response) {
 		if (!beanValidator(model, testTree)){
-			return form(testTree, model);
+			return form(testTree, model,request);
 		}
 		testTreeService.save(testTree);
 		addMessage(redirectAttributes, "保存调解类别成功");
-		return "redirect:"+Global.getAdminPath()+"/test/testTree/?repage";
+		testTree.getParent().setId("");
+		testTree.setParentIds("");
+		testTree.setName("");
+		String list = list(testTree, request, response, model);
+		return list;
 	}
 	
 	@RequiresPermissions("test:testTree:edit")
 	@RequestMapping(value = "delete")
-	public String delete(TestTree testTree, RedirectAttributes redirectAttributes) {
+	public String delete(TestTree testTree, RedirectAttributes redirectAttributes,Model model, HttpServletRequest request,HttpServletResponse response) {
 		testTreeService.delete(testTree);
 		addMessage(redirectAttributes, "删除调解类别成功");
-		return "redirect:"+Global.getAdminPath()+"/test/testTree/?repage";
+		testTree.getParent().setId("");
+		testTree.setParentIds("");
+		testTree.setName("");
+		String list = list(testTree, request, response, model);
+		return list;
 	}
 
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
-	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response) {
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response,@RequestParam(required=false) String mold) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<TestTree> list = testTreeService.findList(new TestTree());
 		for (int i=0; i<list.size(); i++){
 			TestTree e = list.get(i);
 			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)){
-				Map<String, Object> map = Maps.newHashMap();
-				map.put("id", e.getId());
-				map.put("pId", e.getParentId());
-				map.put("name", e.getName());
-				mapList.add(map);
+				if(mold==null){
+					Map<String, Object> map = Maps.newHashMap();
+					map.put("id", e.getId());
+					map.put("pId", e.getParentId());
+					map.put("name", e.getName());
+					mapList.add(map);
+				}else if(mold != null && mold.equals(e.getMold())){
+					Map<String, Object> map = Maps.newHashMap();
+					map.put("id", e.getId());
+					map.put("pId", e.getParentId());
+					map.put("name", e.getName());
+					mapList.add(map);
+				}
+
 			}
 		}
 		return mapList;

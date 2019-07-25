@@ -24,13 +24,15 @@
 		a.source AS  "source",
 		o.name AS "hospital.name",
 		o1.name AS "department.name",
-		u.name AS "employee.name"
+		u.name AS "employee.name",
+		group_concat(DISTINCT(te.name))AS "testTree"
 	</sql>
 	
 	<sql id="complaintMainJoins">
 		  LEFT JOIN SYS_OFFICE o ON o.id=a.involve_hospital
 		  LEFT JOIN SYS_OFFICE o1 ON o1.id=a.involve_department
 		  LEFT JOIN SYS_USER u ON u.id=a.involve_employee
+		  LEFT JOIN TEST_TREE te ON INSTR(a.involve_department,te.id)>0 and length(te.id)=32
 	</sql>
     
 	<select id="get" resultType="ComplaintMain">
