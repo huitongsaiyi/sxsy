@@ -119,7 +119,7 @@
 					<tr >
 						<td class="tit"><font color="red">*</font>患者年龄：</td>
 						<td >
-							<form:input path="patientAge" htmlEscape="false" maxlength="4" class="input-xlarge required"/>
+							<form:input path="patientAge" htmlEscape="false" maxlength="3" class="input-xlarge required digits"/>
 						</td>
 					</tr>
 				</table>
