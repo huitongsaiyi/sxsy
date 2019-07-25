@@ -38,7 +38,7 @@
 			<label class="control-label">上级父级编号:</label>
 			<div class="controls">
 				<sys:treeselect id="parent" name="parent.id" value="${testTree.parent.id}" labelName="parent.name" labelValue="${testTree.parent.name}"
-					title="父级编号" url="/test/testTree/treeData" extId="${testTree.id}" cssClass="" allowClear="true" />
+					title="父级编号" url="/test/testTree/treeData?mold=${mold}" extId="${testTree.id}" cssClass="" allowClear="true" />
 			</div>
 		</div>
 		<div class="control-group">
