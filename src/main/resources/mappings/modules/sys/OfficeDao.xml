@@ -18,7 +18,8 @@
 		a.master, 
 		a.phone, 
 		a.fax, 
-		a.email, 
+		a.email,
+		a.hospital_grade AS "hospitalGrade",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
 		a.create_date,
@@ -32,7 +33,8 @@
 		ar.name AS "area.name",
 		ar.parent_ids AS "area.parentIds",
 		pp.name AS "primaryPerson.name",
-		dp.name AS "deputyPerson.name"
+		dp.name AS "deputyPerson.name",
+		di.label AS "labelName"
 	</sql>
 
 	<sql id="officeJoins">
@@ -40,6 +42,7 @@
 		LEFT JOIN SYS_AREA ar ON ar.id = a.area_id
 		LEFT JOIN SYS_USER pp ON pp.id = a.primary_person
 		LEFT JOIN SYS_USER dp ON dp.id = a.deputy_person
+		LEFT JOIN SYS_DICT di ON di.value = a.hospital_grade AND di.type = 'hospital_grade'
     </sql>
 
 	<select id="get" resultType="Office">
@@ -56,7 +59,6 @@
 		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-
 		<!-- 数据范围过滤 -->
 		${sqlMap.dsf}
 		OR a.id = #{currentUser.office.id}
@@ -110,7 +112,8 @@
 			master, 
 			phone, 
 			fax, 
-			email, 
+			email,
+			hospital_grade,
 			create_by, 
 			create_date, 
 			update_by, 
@@ -136,7 +139,8 @@
 			#{master}, 
 			#{phone}, 
 			#{fax}, 
-			#{email}, 
+			#{email},
+			#{hospitalGrade},
 			#{createBy.id}, 
 			#{createDate}, 
 			#{updateBy.id}, 
@@ -164,7 +168,8 @@
 			master = #{master}, 
 			phone = #{phone}, 
 			fax = #{fax}, 
-			email = #{email}, 
+			email = #{email},
+			hospital_grade = #{hospitalGrade} ,
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
 			remarks = #{remarks},

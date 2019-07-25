@@ -34,7 +34,14 @@
 </ul>
 <sys:message content="${message}"/>
 <table id="treeTable" class="table table-striped table-bordered table-condensed">
-	<thead><tr><th>机构名称</th><th>归属区域</th><th>机构编码</th><th>机构类型</th><th>备注</th><shiro:hasPermission name="sys:office:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+	<thead><tr><th>机构名称</th><th>归属区域</th><th>机构编码</th><th>机构类型</th>
+		<c:choose>
+			<c:when test="${office.officeType == '2'}">
+				<th>医院等级</th>
+			</c:when>
+		</c:choose>
+
+		<th>备注</th><shiro:hasPermission name="sys:office:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 	<tbody id="treeTableList"></tbody>
 </table>
 <script type="text/template" id="treeTableTpl">
@@ -43,6 +50,11 @@
 		<td>{{row.area.name}}</td>
 		<td>{{row.code}}</td>
 		<td>{{dict.type}}</td>
+		<c:choose>
+			<c:when test="${office.officeType == '2'}">
+				<td>{{row.labelName}}</td>
+			</c:when>
+		</c:choose>
 		<td>{{row.remarks}}</td>
 
 		<shiro:hasPermission name="sys:office:edit"><td>

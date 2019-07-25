@@ -71,25 +71,7 @@
 						${reportRegistration.complaintMain.hospital.name}
 				</td>
 				<td style="text-align: center;">
-                    <c:choose>
-                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='1'}">
-                            特等
-                        </c:when>
-                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='2'}">
-                            甲等
-                        </c:when>
-                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='3'}">
-                            乙等
-                        </c:when>
-                        <c:when test="${reportRegistration.complaintMain.hospitalGrade=='4'}">
-                            丙等
-                        </c:when>
-                        <c:otherwise>
-                           无
-                        </c:otherwise>
-                    </c:choose>
-
-
+						${fns:getDictLabel(reportRegistration.complaintMain.hospitalGrade,"hospital_grade" ,"未知" )}
 				</td>
 				<td style="text-align: center;">
                         ${reportRegistration.complaintMain.hospital.area.name}

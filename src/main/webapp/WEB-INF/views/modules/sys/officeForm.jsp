@@ -78,6 +78,14 @@
 		</div>
 	</div>
 	<div class="control-group">
+		<label class="control-label">机构级别:</label>
+		<div class="controls">
+			<form:select path="hospitalGrade" class="input-medium">
+				<form:options items="${fns:getDictList('hospital_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+			</form:select>
+		</div>
+	</div>
+	<div class="control-group">
 		<label class="control-label">是否可用:</label>
 		<div class="controls">
 			<form:select path="useable">
