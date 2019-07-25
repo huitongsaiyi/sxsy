@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.common.collect.Maps;
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
+import com.sayee.sxsy.test.entity.TestTree;
+import com.sayee.sxsy.test.service.TestTreeService;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +44,8 @@ public class ComplaintMainDetailController extends BaseController {
 
 	@Autowired
 	private ComplaintMainDetailService complaintMainDetailService;
-	
+	@Autowired
+	private ComplaintMainService complaintMainService;
 	@ModelAttribute
 	public ComplaintMainDetail get(@RequestParam(required=false) String id) {
 		ComplaintMainDetail entity = null;
@@ -77,6 +81,11 @@ public class ComplaintMainDetailController extends BaseController {
 			model.addAttribute("complaintMainDetail", complaintMainDetail);
 			return "modules/complaintdetail/complaintMainDetailView";
 		}else {
+		    if(StringUtils.isNotBlank(complaintMainDetail.getComplaintMainDetailId())){
+                ComplaintMain complaintMain = complaintMainService.get(complaintMainDetail.getComplaintMainId());
+                complaintMainDetail.getComplaintMain().setTestTree(complaintMain.getTestTree());
+            }
+
 			model.addAttribute("complaintMainDetail", complaintMainDetail);
 			return "modules/complaintdetail/complaintMainDetailForm";
 		}

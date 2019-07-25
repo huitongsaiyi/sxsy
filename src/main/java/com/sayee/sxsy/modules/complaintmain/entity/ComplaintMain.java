@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.complaintmain.entity;
 
 import com.sayee.sxsy.common.persistence.ActEntity;
 import com.sayee.sxsy.modules.sys.entity.Office;
+import com.sayee.sxsy.test.entity.TestTree;
 import org.hibernate.validator.constraints.Length;
 import com.sayee.sxsy.modules.sys.entity.User;
 
@@ -42,6 +43,15 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
     private String url; //不同模块 的不同路径
     private String nodeName; //节点名称
 	private String source;		//案子的来源  1医调委录入 2 医院录入 默认是1
+	private String testTree;//涉及科室
+
+	public String getTestTree() {
+		return testTree;
+	}
+
+	public void setTestTree(String testTree) {
+		this.testTree = testTree;
+	}
 
 	public ComplaintMain() {
 		super();
@@ -229,7 +239,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.hospitalGrade = hospitalGrade;
 	}
 
-	@Length(min=1, max=32, message="涉及科室长度必须介于 1 和 32 之间")
+	@Length(min=1, max=1000, message="涉及科室长度必须介于 1 和 1000 之间")
 	public String getInvolveDepartment() {
 		return involveDepartment;
 	}

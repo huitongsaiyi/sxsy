@@ -27,11 +27,12 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/test/testTree/">调解类别列表</a></li>
+		<li><a href="${ctx}/test/testTree/list?mold=${empty molds ? mold:molds}">调解类别列表</a></li>
 		<li class="active"><a href="${ctx}/test/testTree/form?id=${testTree.id}&parent.id=${testTreeparent.id}">调解类别<shiro:hasPermission name="test:testTree:edit">${not empty testTree.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="test:testTree:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="testTree" action="${ctx}/test/testTree/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
+		<form:hidden path="mold" value="${mold}"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
 			<label class="control-label">上级父级编号:</label>
