@@ -40,11 +40,38 @@ public class Office extends TreeEntity<Office> {
 	private User deputyPerson;//副负责人
 	private List<String> childDeptList;//快速添加子部门
 	private String remarks;		//备注
+	private String hospitalGrade;	//医院等级
+	private String labelName;		//医院等级名称
+	private String areaName;		//地区名
 
 
 	public String getName1() { return name1; }
 
 	public void setName1(String name1) { this.name1 = name1; }
+
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
+	public String getLabelName() {
+		return labelName;
+	}
+
+	public void setLabelName(String labelName) {
+		this.labelName = labelName;
+	}
+
+	public String getHospitalGrade() {
+		return hospitalGrade;
+	}
+
+	public void setHospitalGrade(String hospitalGrade) {
+		this.hospitalGrade = hospitalGrade;
+	}
 
 	public Office(){
 		super();

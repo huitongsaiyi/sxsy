@@ -164,10 +164,7 @@
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bolder">
                             <form:select path="complaintMain.hospitalGrade" cssStyle="width: 80%;">
-                                <form:option value="1">特等</form:option>
-                                <form:option value="2">甲等</form:option>
-                                <form:option value="3">乙等</form:option>
-                                <form:option value="4">丙等</form:option>
+                                <form:options items="${fns:getDictList('hospital_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                             </form:select>
                              </span>
                         </p></td>
