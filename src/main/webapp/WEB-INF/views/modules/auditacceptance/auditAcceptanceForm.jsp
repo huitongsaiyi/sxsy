@@ -1,3 +1,4 @@
+<%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
@@ -103,6 +104,7 @@
     <form:hidden path="createDate"/>
     <form:hidden path="createBy"/>
     <form:hidden path="complaintMainId"/>
+    <form:hidden path="complaintMain"/>
     <form:hidden path="complaintMain.complaintMainId"/>
     <form:hidden path="complaintMain.act.taskId"/>
     <form:hidden path="complaintMain.act.taskName"/>
@@ -110,6 +112,7 @@
     <form:hidden path="complaintMain.act.procInsId"/>
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
+    <form:hidden path="complaintMain.involveHospital"/>
     <form:hidden path="machineAccount.complaintMainId"/>
     <form:hidden path="reportRegistration"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
@@ -117,7 +120,10 @@
     <form:hidden path="mediateApplyInfo.docMediateApplyInfo.mediateApplyId"/>
     <form:hidden path="mediateApplyInfo.auditAcceptanceId"/>
     <form:hidden path="mediateApplyInfo.docMediateApplyInfo.auditAcceptanceId"/>
+    <form:hidden path="mediateApplyInfo.involveHospital" value="${empty auditAcceptance.mediateApplyInfo.involveHospital ? auditAcceptance.complaintMain.involveHospital : auditAcceptance.mediateApplyInfo.involveHospital}"/>
+    <form:hidden path="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}"/>
     <input type="hidden"  id="export" name="export"/>
+    <form:hidden path="mediateApplyInfo.patientName"/>
     <sys:message content="${message}"/>
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
@@ -390,19 +396,22 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>患者姓名</td>
                     <td>
-                        <form:input path="mediateApplyInfo.patientName" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="border:0px;" readonly="true"/>
+                        <%--<form:input path="mediateApplyInfo.patientName" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="border:0px;" readonly="true"/>--%>
+                        ${auditAcceptance.mediateApplyInfo.patientName}
                     </td>
                     <td class="tit"><font color="red">*</font>患者性别</td>
                     <td>
-                        <form:select path="mediateApplyInfo.patientSex" class="input-medium required" disabled="true">
-                            <form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />
-                        </form:select>
+                        <%--<form:select path="mediateApplyInfo.patientSex" class="input-medium required" disabled="true">--%>
+                            <%--<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />--%>
+                        <%--</form:select>--%>
+                        ${fns:getDictLabel(auditAcceptance.mediateApplyInfo.patientSex,'sex','未知')}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>患者年龄</td>
                     <td>
-                        <form:input path="mediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" cssClass="input-xlarge required digits" cssStyle="border:0px;" readonly="true"/>
+                        <%--<form:input path="mediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" cssClass="input-xlarge required digits" cssStyle="border:0px;" readonly="true"/>--%>
+                        ${auditAcceptance.mediateApplyInfo.patientAge}
                     </td>
                     <td class="tit"><font color="red">*</font>患方联系电话</td>
                     <td>
@@ -412,8 +421,9 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>涉及医院</td>
                     <td>
-                        <sys:treeselect id="involveHospital" name="mediateApplyInfo.involveHospital" value="${empty auditAcceptance.mediateApplyInfo.involveHospital ? auditAcceptance.complaintMain.involveHospital : auditAcceptance.mediateApplyInfo.involveHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.involveHospital ? auditAcceptance.complaintMain.hospital.name : auditAcceptance.mediateApplyInfo.sjOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.involveHospital ?  auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.sjOffice.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>
+                        <%--<sys:treeselect id="involveHospital" name="mediateApplyInfo.involveHospital" value="${empty auditAcceptance.mediateApplyInfo.involveHospital ? auditAcceptance.complaintMain.involveHospital : auditAcceptance.mediateApplyInfo.involveHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.involveHospital ? auditAcceptance.complaintMain.hospital.name : auditAcceptance.mediateApplyInfo.sjOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.involveHospital ?  auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.sjOffice.name}"--%>
+                                        <%--title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>--%>
+                                ${empty auditAcceptance.mediateApplyInfo.involveHospital ?  auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.sjOffice.name}
                     </td>
                 </tr>
                 <tr>
@@ -445,8 +455,9 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>申请医院</td>
                     <td>
-                        <sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"
-                                        title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>
+                        <%--<sys:treeselect id="applyHospital" name="mediateApplyInfo.docMediateApplyInfo.applyHospital" value="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.involveHospital:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital}" labelName="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}" labelValue="${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}"--%>
+                                        <%--title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>--%>
+                                ${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}
                     </td>
                     <td class="tit"><font color="red">*</font>代理人</td>
                     <td>
@@ -456,19 +467,22 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>患者姓名</td>
                     <td>
-                        <form:input path="mediateApplyInfo.docMediateApplyInfo.patientName" htmlEscape="false" maxlength="32" class="input-xlarge required " cssStyle="border:0px;" readonly="true"/>
+                        <%--<form:input path="mediateApplyInfo.docMediateApplyInfo.patientName" htmlEscape="false" maxlength="32" class="input-xlarge required " cssStyle="border:0px;" readonly="true"/>--%>
+                        ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.patientName}
                     </td>
                     <td class="tit"><font color="red">*</font>患者性别</td>
                     <td>
-                        <form:select path="mediateApplyInfo.docMediateApplyInfo.patientSex" class="input-medium required" cssStyle="border:0px;" disabled="true">
-                            <form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-                        </form:select>
+                        <%--<form:select path="mediateApplyInfo.docMediateApplyInfo.patientSex" class="input-medium required" cssStyle="border:0px;" disabled="true">--%>
+                            <%--<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
+                        <%--</form:select>--%>
+                        ${fns:getDictLabel(auditAcceptance.mediateApplyInfo.docMediateApplyInfo.patientSex,'sex','未知')}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>患者年龄</td>
                     <td>
-                        <form:input path="mediateApplyInfo.docMediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" class="input-xlarge required digits" cssStyle="border:0px;" readonly="true"/>
+                        <%--<form:input path="mediateApplyInfo.docMediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" class="input-xlarge required digits" cssStyle="border:0px;" readonly="true"/>--%>
+                            ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.patientAge}
                     </td>
                     <td class="tit"><font color="red">*</font>医方联系电话</td>
                     <td>
@@ -917,7 +931,7 @@
             </td>
         </tr>
         <tr>
-            <td class="tit"><font color="red">*</font>
+            <td class="tit">
                 保险公司：
             </td>
             <td>
@@ -928,11 +942,11 @@
                 保单号：
             </td>
             <td>
-                <form:input path="policyNumber" htmlEscape="false" maxlength="15" class="input-xlarge "/>
+                <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="input-xlarge "/>
             </td>
         </tr>
         <tr>
-            <td class="tit"><font color="red">*</font>
+            <td class="tit">
                 诊疗方式：
             </td>
             <td>

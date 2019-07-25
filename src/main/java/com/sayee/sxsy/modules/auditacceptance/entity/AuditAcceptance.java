@@ -162,7 +162,7 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 		this.insuranceCompany = insuranceCompany;
 	}
 	
-	@Length(min=0, max=15, message="保单号长度必须介于 0 和 15 之间")
+	@Length(min=0, max=255, message="保单号长度必须介于 0 和 255 之间")
 	public String getPolicyNumber() {
 		return policyNumber;
 	}

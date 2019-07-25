@@ -98,12 +98,14 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			huanf.preInsert();
 			huanf.setMediateApplyId(IdGen.uuid());
 			huanf.setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+			huanf.setInvolveHospital(auditAcceptance.getComplaintMain().getInvolveHospital());
 			huanf.setApplyType("1");
 			mediateApplyInfoDao.insert(huanf);
 			//保存医方申请
 			yif.preInsert();
 			yif.setMediateApplyId(IdGen.uuid());
 			yif.setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+			yif.setInvolveHospital(auditAcceptance.getComplaintMain().getInvolveHospital());
 			yif.setApplyType("2");
 			mediateApplyInfoDao.insert(yif);
 		}else{//如果不为空进行更新
@@ -120,9 +122,15 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 //			}
 			//更新患方申请
 			huanf.preUpdate();
+			huanf.setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+			huanf.setInvolveHospital(auditAcceptance.getComplaintMain().getInvolveHospital());
+			huanf.setApplyType("1");
 			mediateApplyInfoDao.update(huanf);
 			//更新医方申请
 			yif.preUpdate();
+			yif.setAuditAcceptanceId(auditAcceptance.getAuditAcceptanceId());
+			yif.setInvolveHospital(auditAcceptance.getComplaintMain().getInvolveHospital());
+			yif.setApplyType("2");
 			mediateApplyInfoDao.update(yif);
 
 		}
