@@ -108,7 +108,18 @@ public class WordExportUtil  {
                     }
                     para.removeRun(i);
                     //重新插入run里内容格式可能与原来模板的格式不一致
-                    para.insertNewRun(i).setText(runText);
+                    int num=i;
+                    String [] aa=runText.split("\r\n");
+                    if (aa.length>1){
+                        for (String bb:aa) {
+                            XWPFRun fff =  para.insertNewRun(num++);
+                            fff.setText(bb);
+                            fff.addBreak();
+                        }
+                    }else {
+                        para.insertNewRun(i).setText(runText);
+                    }
+
                 }
             }
         }
@@ -147,10 +158,18 @@ public class WordExportUtil  {
                 XWPFRun run = runs.get(i);
                 XWPFRun run2 = runs2.get(i);
                 String runText = run.toString();
+                String run2Text = run2.toString();
                 matcher = matcher(runText);
                 if (matcher.find()) {
                     //按模板文件格式设置格式
-                    run2.getCTR().setRPr(run.getCTR().getRPr());
+                    if (run2Text.indexOf("\n")!=-1 || run2Text.indexOf("\r\n")!=-1){
+                        for (XWPFRun aa:runs2) {
+                            aa.getCTR().setRPr(run.getCTR().getRPr());
+                        }
+                    }else {
+                        run2.getCTR().setRPr(run.getCTR().getRPr());
+                    }
+
                 }
             }
         }
