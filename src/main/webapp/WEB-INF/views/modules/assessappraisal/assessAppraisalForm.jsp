@@ -756,7 +756,11 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
 				</p>
-				<div class="cnzz" style="display: none;"></div>
+				<div style="width: 200px;margin: auto">
+					<input id="assessExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('assess')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+					<input id="assessPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('assess');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
+				</div>
 			</table>
 		</div>
 		<div class="tab-pane fade " id="recordhf">
@@ -816,6 +820,11 @@
 					</td>
 
 				</tr>
+					<div style="width: 200px;margin: auto">
+						<input id="contentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('content')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+						<input id="contentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('content');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
+					</div>
 			</table>
 		</div>
 		<div class="tab-pane fade " id="recordyf">
@@ -875,6 +884,11 @@
 					</td>
 
 				</tr>
+					<div style="width: 200px;margin: auto">
+						<input id="ycontentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('ycontent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+						<input id="ycontentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('ycontent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
+					</div>
 			</table>
 		</div>
 		<div class="tab-pane fade " id="zjopinion">
