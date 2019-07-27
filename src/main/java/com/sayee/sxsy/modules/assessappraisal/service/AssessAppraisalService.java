@@ -332,7 +332,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 
 
 
-		String path = request.getServletContext().getRealPath("/");
+		String path = request.getSession().getServletContext().getRealPath("/");
 		String modelPath = path;
 		String returnPath="";
 		String newFileName = "无标题文件.docx";
@@ -481,57 +481,85 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 				params.put("as","医疗纠纷技术评估");
 			}else if("2".equals(assessAppraisal.getApplyType())){
 				params.put("as","医疗责任保险事故鉴定");
-			}
+			}else{
+                params.put("as","");
+            }
 			//开始时间
 			if(assessAppraisal.getRecordInfo1().getStartTime()!=null){
 				params.put("start",assessAppraisal.getRecordInfo1().getStartTime()==null?"":assessAppraisal.getRecordInfo1().getStartTime());
-			}
+			}else{
+                params.put("start","");
+            }
 			//结束时间
 			if(assessAppraisal.getRecordInfo1().getEndTime()!=null){
 				params.put("end",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
-			}
+			}else{
+                params.put("end","");
+            }
 			//地点
 			if(assessAppraisal.getRecordInfo1().getRecordAddress()!=null){
 				params.put("recordAddress",assessAppraisal.getRecordInfo1().getRecordAddress()==null?"":assessAppraisal.getRecordInfo1().getRecordAddress());
-			}
+			}else{
+                params.put("recordAddress","");
+            }
 			//专家
 			if(assessAppraisal.getMedicalExpertName()!=null){
 				params.put("medical",assessAppraisal.getMedicalExpertName()==null?"":assessAppraisal.getMedicalExpertName());
-			}
+			}else{
+                params.put("medical","");
+            }
 			if(assessAppraisal.getLegalExpert()!=null){
-				params.put("legal",assessAppraisal.getLegalExpert()==null?"":assessAppraisal.getLegalExpert());
-			}
+				params.put("legal",assessAppraisal.getLegalExpert()==null?"":assessAppraisal.getLegalExpertName());
+			}else{
+                params.put("legal","");
+            }
 			//患方
 			if(assessAppraisal.getComplaintMain().getPatientName()!=null){
 				params.put("patient",assessAppraisal.getComplaintMain().getPatientName()==null?"":assessAppraisal.getComplaintMain().getPatientName());
-			}
+			}else{
+                params.put("patient","");
+            }
 			//医方
 			if(assessAppraisal.getComplaintMain().getHospital().getName()!=null){
 				params.put("hospital",assessAppraisal.getComplaintMain().getHospital().getName()==null?"":assessAppraisal.getComplaintMain().getHospital().getName());
-			}
+			}else{
+                params.put("hospital","");
+            }
 			//主持人
-            if(assessAppraisal.getHosts().getName()!=null){
+            if(assessAppraisal.getHosts()!=null){
 			    params.put("host",assessAppraisal.getHosts().getName()==null?"":assessAppraisal.getHosts().getName());
+            }else{
+                params.put("host","");
             }
             //书记员
-            if(assessAppraisal.getClerks().getName()!=null){
+            if(assessAppraisal.getClerks()!=null){
 			    params.put("clerk",assessAppraisal.getClerks().getName()==null?"":assessAppraisal.getClerks().getName());
+            }else{
+                params.put("clerk","");
             }
             //患方是否回避
             if(assessAppraisal.getPatientAvoid()!=null){
                 params.put("patientAvoid",assessAppraisal.getPatientAvoid()==null?"":assessAppraisal.getPatientAvoid());
+            }else{
+                params.put("patientAvoid","");
             }
             //医方是否回避
             if(assessAppraisal.getDoctorAvoid()!=null){
 			    params.put("doctorAvoid",assessAppraisal.getDoctorAvoid()==null?"":assessAppraisal.getDoctorAvoid());
+            }else{
+                params.put("doctorAvoid","");
             }
             //患方是否听清楚
             if(assessAppraisal.getPatientClear()!=null){
 			    params.put("patientClear",assessAppraisal.getPatientClear()==null?"":assessAppraisal.getPatientClear());
+            }else{
+                params.put("patientClear","");
             }
             //医方是否听清楚
             if(assessAppraisal.getDoctorClear()!=null){
 			    params.put("doctorClear",assessAppraisal.getDoctorClear()==null?"":assessAppraisal.getDoctorClear());
+            }else{
+                params.put("doctorClear","");
             }
             path += "/doc/assessappraisal.docx";  //模板文件位置
             modelPath += "/doc/assessappraisal.docx";
@@ -545,93 +573,129 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			//开始时间
 			if(assessAppraisal.getRecordInfo1().getStartTime()!=null){
 				params.put("date",assessAppraisal.getRecordInfo1().getStartTime()==null?"":assessAppraisal.getRecordInfo1().getStartTime());
-			}
+			}else{
+                params.put("date","");
+            }
 			//结束时间
 			if(assessAppraisal.getRecordInfo1().getEndTime()!=null){
 				params.put("time",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
-			}
+			}else{
+                params.put("time","");
+            }
 			//地点
 			if(assessAppraisal.getRecordInfo1().getRecordAddress()!=null){
 				params.put("address",assessAppraisal.getRecordInfo1().getRecordAddress()==null?"":assessAppraisal.getRecordInfo1().getRecordAddress());
-			}
+			}else{
+                params.put("address","");
+            }
 			//主持人
-			if(assessAppraisal.getHosts().getName()!=null){
+			if(assessAppraisal.getHosts()!=null){
 				params.put("host",assessAppraisal.getHosts().getName()==null?"":assessAppraisal.getHosts().getName());
-			}
+			}else{
+                params.put("host","");
+            }
 			//书记员
-			if(assessAppraisal.getClerks().getName()!=null){
+			if(assessAppraisal.getClerks()!=null){
 				params.put("note",assessAppraisal.getClerks().getName()==null?"":assessAppraisal.getClerks().getName());
-			}
+			}else{
+                params.put("note","");
+            }
 			//患方
 			if(assessAppraisal.getComplaintMain().getPatientName()!=null){
 				params.put("patient",assessAppraisal.getComplaintMain().getPatientName()==null?"":assessAppraisal.getComplaintMain().getPatientName());
-			}
+			}else{
+                params.put("patient","");
+            }
 			//医方
 			if(assessAppraisal.getComplaintMain().getHospital().getName()!=null){
 				params.put("doctor",assessAppraisal.getComplaintMain().getHospital().getName()==null?"":assessAppraisal.getComplaintMain().getHospital().getName());
-			}
+			}else{
+                params.put("doctor","");
+            }
 			//其他参加人员
 			if(assessAppraisal.getOther()!=null){
 				params.put("other",assessAppraisal.getOther()==null?"":assessAppraisal.getOther());
-			}
+			}else{
+                params.put("other","");
+            }
 			//笔录内容
 			if(assessAppraisal.getRecordInfo1().getRecordContent()!=null){
 				params.put("content",assessAppraisal.getRecordInfo1().getRecordContent()==null?"":assessAppraisal.getRecordInfo1().getRecordContent());
-			}
+			}else{
+                params.put("content","");
+            }
 			path += "/doc/assessrecord.docx";  //模板文件位置
 			modelPath += "/doc/assessrecord.docx";
 			savaPath +="/userfiles/assessContent/"+num+"assessrecord.docx";
 			pdfPath +="/userfiles/assessContent/"+num+"assessrecord.pdf";
 			returnPath="/userfiles/assessContent/"+num+"assessrecord.pdf";
-			newFileName="患方调解笔录.docx";
+			newFileName="评估鉴定会患方笔录.docx";
 		}
 		//医方调解笔录
 		if("ycontent".equals(export)){
 			//开始时间
 			if(assessAppraisal.getRecordInfo1().getStartTime()!=null){
 				params.put("date",assessAppraisal.getRecordInfo1().getStartTime()==null?"":assessAppraisal.getRecordInfo1().getStartTime());
-			}
+			}else{
+                params.put("date","");
+            }
 			//结束时间
 			if(assessAppraisal.getRecordInfo1().getEndTime()!=null){
 				params.put("time",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
-			}
+			}else{
+                params.put("time","");
+            }
 			//地点
 			if(assessAppraisal.getRecordInfo1().getRecordAddress()!=null){
 				params.put("address",assessAppraisal.getRecordInfo1().getRecordAddress()==null?"":assessAppraisal.getRecordInfo1().getRecordAddress());
-			}
+			}else{
+                params.put("address","");
+            }
 			//主持人
-			if(assessAppraisal.getHosts().getName()!=null){
+			if(assessAppraisal.getHosts()!=null){
 				params.put("host",assessAppraisal.getHosts().getName()==null?"":assessAppraisal.getHosts().getName());
-			}
+			}else{
+                params.put("host","");
+            }
 			//书记员
-			if(assessAppraisal.getClerks().getName()!=null){
+			if(assessAppraisal.getClerks()!=null){
 				params.put("note",assessAppraisal.getClerks().getName()==null?"":assessAppraisal.getClerks().getName());
-			}
+			}else{
+                params.put("note","");
+            }
 			//患方
 			if(assessAppraisal.getComplaintMain().getPatientName()!=null){
 				params.put("patient",assessAppraisal.getComplaintMain().getPatientName()==null?"":assessAppraisal.getComplaintMain().getPatientName());
-			}
+			}else{
+                params.put("patient","");
+            }
 			//医方
 			if(assessAppraisal.getComplaintMain().getHospital().getName()!=null){
 				params.put("doctor",assessAppraisal.getComplaintMain().getHospital().getName()==null?"":assessAppraisal.getComplaintMain().getHospital().getName());
-			}
+			}else{
+                params.put("doctor","");
+            }
 			//其他参加人员
 			if(assessAppraisal.getOther()!=null){
 				params.put("other",assessAppraisal.getOther()==null?"":assessAppraisal.getOther());
-			}
+			}else{
+                params.put("other","");
+            }
 			//笔录内容
 			if(assessAppraisal.getRecordInfo1().getYrecordInfo().getRecordContent()!=null){
 				params.put("content",assessAppraisal.getRecordInfo1().getYrecordInfo().getRecordContent()==null?"":assessAppraisal.getRecordInfo1().getYrecordInfo().getRecordContent());
-			}
+			}else{
+                params.put("content","");
+            }
 			path += "/doc/assessrecord.docx";  //模板文件位置
 			modelPath += "/doc/assessrecord.docx";
 			savaPath +="/userfiles/assessYContent/"+num+"assessrecord.docx";
 			pdfPath +="/userfiles/assessYContent/"+num+"assessrecord.pdf";
 			returnPath="/userfiles/assessYContent/"+num+"assessrecord.pdf";
-			newFileName="医方调解笔录.docx";
+			newFileName="评估鉴定会医方笔录.docx";
 		}
 		try{
-			File file = new File(request.getServletContext().getRealPath("/") + "/userfiles/assessAppraisal/" + num);
+			File file = new File(request.getSession().getServletContext().getRealPath("/") + "/userfiles/assessAppraisal/" + num);
 			if (!file.exists()) {
 				file.mkdirs();
 			}
