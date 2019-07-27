@@ -5,6 +5,7 @@
 	<sql id="typeInfoColumns">
 		a.type_id AS "typeId",
 		a.type_name AS "typeName",
+		if(relation_model=2 and type_name='医疗纠纷技术评估','pg',if(relation_model=2 and type_name='医疗责任保险事故鉴定','jd','') ) AS "type1",
 		a.content AS "content",
 		a.relation_model AS "relationModel",
 		a.create_by AS "createById",

@@ -34,7 +34,8 @@
 			$.post(path,{'stopMediateId':'${stopMediate.stopMediateId}','export':aa,"print":"true"},function(res){
 				if(res.data.url!='' && res.data.url!=undefined){
 					var url='${pageContext.request.contextPath}'+res.data.url;
-					window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+					<%--window.location.href='${pageContext.request.contextPath}'+res.data.url ;--%>
+					windowOpen(url,"pdf",1500,700);
 				}else{
 					alertx("请先保存数据,在进行打印!");
 				}

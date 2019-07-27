@@ -10,6 +10,8 @@ import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
+import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
+import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.proposal.entity.Proposal;
 import com.sayee.sxsy.modules.proposal.service.ProposalService;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
@@ -17,6 +19,7 @@ import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
+import org.activiti.engine.impl.util.json.JSONArray;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -84,19 +87,20 @@ public class AssessAppraisalController extends BaseController {
 	@RequiresPermissions("assessappraisal:assessAppraisal:view")
 	@RequestMapping(value = "form")
 	public String form(AssessAppraisal assessAppraisal, Model model,HttpServletRequest request) {
-		if(null==assessAppraisal.getProposal()){
+		if(null==assessAppraisal.getProposal().getProposalCode()){
 			Proposal proposal =new Proposal();
 			List<Proposal> list = proposalService.findList(proposal);
 			if(list.size()==0){
 				String code = BaseUtils.getCode("time", "3", "PROPOSAL", "proposal_code");
 				String c1= code.substring(0, 4);
-				proposal.setProposalCode("晋医人调鉴(评)["+c1+"]001号");
+				proposal.setProposalCode("晋医人调评["+c1+"]001号");
+				proposal.setTreatmentSummary(assessAppraisal.getProposal().getTreatmentSummary());
 				assessAppraisal.setProposal(proposal);
 			}else{
 			    int max=0;
 			    for(int i=0;i<list.size();i++){
                     String proposalCode = list.get(i).getProposalCode();
-                    String d = proposalCode.substring(14, 17);
+                    String d = proposalCode.substring(11, 14);
                     int d1=Integer.valueOf(d);
                     if(d1>max){
                         max=d1;
@@ -106,11 +110,20 @@ public class AssessAppraisalController extends BaseController {
 				String a=BaseUtils.getCode("time","3","PROPOSAL","proposal_code");
 				String c=a.substring(0,4);
 				String format = String.format("%0" + 3 + "d", d2);
-				String e1="晋医人调鉴(评)["+c+"]"+format+"号";
+				String e1="晋医人调评["+c+"]"+format+"号";
 				proposal.setProposalCode(e1);
+				proposal.setTreatmentSummary(assessAppraisal.getProposal().getTreatmentSummary());
 				assessAppraisal.setProposal(proposal);
 
 			}
+		}
+		if(assessAppraisal.getPatientLinkEmpList().size()==0){
+			List<PatientLinkEmp> patientLinkEmpList = assessAppraisal.getPatientLinkEmpList();
+			patientLinkEmpList.add(assessAppraisal.getPatientLinkEmp());
+		}
+		if(assessAppraisal.getMedicalOfficeEmpList().size()==0){
+			List<MedicalOfficeEmp> medicalOfficeEmpList = assessAppraisal.getMedicalOfficeEmpList();
+			medicalOfficeEmpList.add(assessAppraisal.getMedicalOfficeEmp());
 		}
 
 		List<TypeInfo> fxyj = BaseUtils.getType("1");
@@ -156,6 +169,14 @@ public class AssessAppraisalController extends BaseController {
 			model.addAttribute("assessAppraisal", assessAppraisal);
 			return "modules/assessappraisal/assessAppraisalView";
 		}else{
+			if(assessAppraisal!=null){
+				if(StringUtils.isBlank(assessAppraisal.getRecordInfo1().getRecordContent())){
+					assessAppraisal.getRecordInfo1().setRecordContent("(注:以下调解员简称调,患方简称患,医方简称医,医学专家简称医专,法律专家简称法专)\n调:医患双方介绍身份，确认有无要求回避?\n患:\n医:\n调:介绍鉴定委员会成员 ，确认有无要求回避?\n患:\n医:\n调:宣读会议程序及注意事项，问询医患双方是否听清楚?\n患:\n医:\n调:宣布会议开始,请患方代表陈述。\n患:\n调:其他人员有无补充\n患:\n调:请医学专家提问\n医专:\n患:\n医专:\n患:\n调:请法律专家提问\n法专:\n患:\n调:请患方退场,确认笔录,若无异议请签名\n调:请医院代表入场、陈述\n医:\n调:请医学专家提问\n医专:\n医:\n医专:\n医:\n调:请法律专家提问\n法专:\n医:");
+				}
+				if(StringUtils.isBlank(assessAppraisal.getRecordInfo1().getYrecordInfo().getRecordContent())){
+					assessAppraisal.getRecordInfo1().getYrecordInfo().setRecordContent("(注:以下调解员简称调,患方简称患,医方简称医,医学专家简称医专,法律专家简称法专)\n调:医患双方介绍身份，确认有无要求回避?\n患:\n医:\n调:介绍鉴定委员会成员 ，确认有无要求回避?\n患:\n医:\n调:宣读会议程序及注意事项，问询医患双方是否听清楚?\n患:\n医:\n调:宣布会议开始,请患方代表陈述。\n患:\n调:其他人员有无补充\n患:\n调:请医学专家提问\n医专:\n患:\n医专:\n患:\n调:请法律专家提问\n法专:\n患:\n调:请患方退场,确认笔录,若无异议请签名\n调:请医院代表入场、陈述\n医:\n调:请医学专家提问\n医专:\n医:\n医专:\n医:\n调:请法律专家提问\n法专:\n医:");
+				}
+			}
 			model.addAttribute("assessAppraisal", assessAppraisal);
 			return "modules/assessappraisal/assessAppraisalForm";
 		}

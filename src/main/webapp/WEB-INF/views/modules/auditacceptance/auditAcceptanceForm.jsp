@@ -46,8 +46,8 @@
             $.post(path,{'auditAcceptanceId':'${auditAcceptance.auditAcceptanceId}','export':aa,"print":"true"},function(res){
                 if(res.data.url!=''){
                     var url='${pageContext.request.contextPath}'+res.data.url;
-                    window.location.href='${pageContext.request.contextPath}'+res.data.url ;
-                    //windowOpen(url,"pdf",1500,700);
+                    //window.location.href='${pageContext.request.contextPath}'+res.data.url ;
+                    windowOpen(url,"pdf",1500,700);
                     // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
                 }else{
                 }

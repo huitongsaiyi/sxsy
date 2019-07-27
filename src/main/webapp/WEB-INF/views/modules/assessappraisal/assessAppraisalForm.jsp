@@ -1,3 +1,4 @@
+<%@ page import="com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
@@ -6,24 +7,6 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//$("#name").focus();
-			// $("#inputForm").validate({
-			// 	submitHandler: function(form){
-			// 		loading('正在提交，请稍等...');
-			// 		form.submit();
-			// 	},
-			// 	errorContainer: "#messageBox",
-			// 	errorPlacement: function(error, element) {
-			// 		$("#messageBox").text("输入有误，请先更正。");
-			// 		if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-			// 			error.appendTo(element.parent().parent());
-			// 		} else {
-			// 			error.insertAfter(element);
-			// 		}
-			// 	}
-			// });
-
-
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					var aa=$("#export").val();
@@ -47,12 +30,26 @@
 					}
 				}
 			});
-			var c=$("#a").val();
+			var c="${assessAppraisal.applyType}"
+
 			if(c==""){
 				$("#a").text("医疗纠纷技术评估");
 			}else{
-				show_input(vas,idss);
+				$("#a").text("${fns:getDictLabel(assessAppraisal.applyType,'assessmentAppraisal','未知')}");
 			}
+
+			if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗纠纷技术评估"}){
+				$("#jd").hide();
+				$("#pg").show();
+			}else if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗责任保险事故鉴定"}){
+				$("#jd").show();
+				$("#pg").hide();
+			}
+
+
+
+
+
 			var d=$("#time1").val();
 			if(d==""){
 				var ss='${assessAppraisal.recordInfo1.startTime}'
@@ -61,14 +58,14 @@
 			}else{
 				show_input(vas,idss);
 			}
-			var e=$("#time2").val();
-			if(e==""){
-				var ss2='${assessAppraisal.recordInfo1.endTime}'
-						var ss3=ss2.substr(0,10);
-				$("#time2").text(ss3);
-			}else{
-				show_input(vas,idss);
-			}
+			<%--var e=$("#time2").val();--%>
+			<%--if(e==""){--%>
+				<%--var ss2='${assessAppraisal.recordInfo1.endTime}'--%>
+						<%--var ss3=ss2.substr(0,10);--%>
+				<%--$("#time2").text(ss3);--%>
+			<%--}else{--%>
+				<%--show_input(vas,idss);--%>
+			<%--}--%>
 
 
 		});
@@ -182,12 +179,28 @@
 			var a=${fns:toJson(fns:getDictList('assessmentAppraisal'))}
 					var b=getDictLabel(a,vas)
 			         $("#a").text(b);
+					if(b=="医疗纠纷技术评估"){
+						var code1="${assessAppraisal.proposal.proposalCode}"
+						var co=code1.substr(5,10);
+						$("#code").text("晋医人调评"+co);
+						$("#aa").val("晋医人调评"+co);
+						$("#jd").hide();
+						$("#pg").show();
+					}else if(b=="医疗责任保险事故鉴定"){
+						var code1="${assessAppraisal.proposal.proposalCode}"
+						var co=code1.substr(5,10);
+						$("#code").text("晋医人调鉴"+co);
+						$("#aa").val("晋医人调鉴"+co);
+						$("#jd").show();
+						$("#pg").hide();
+
+					}
 			var times1=$("#time3").val();
 			var times12=times1.substr(0,10);
 			$("#time1").text(times12);
-			var times2=$("#time4").val();
-			var times22=times2.substr(0,10);
-			$("#time2").text(times22);
+			// var times2=$("#time4").val();
+			// var times22=times2.substr(0,10);
+			// $("#time2").text(times22);
 		}
 
 		function clearCheckBox(na,table) {
@@ -203,8 +216,8 @@
 			$.post(path,{'assessAppraisalId':'${assessAppraisal.assessAppraisalId}','export':aa,"print":"true"},function(res){
 				if(res.data.url!=''){
 					var url='${pageContext.request.contextPath}'+res.data.url;
-					window.location.href='${pageContext.request.contextPath}'+res.data.url ;
-					//windowOpen(url,"pdf",1500,700);
+					<%--window.location.href='${pageContext.request.contextPath}'+res.data.url ;--%>
+					windowOpen(url,"pdf",1500,700);
 					// window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
 				}else{
 				}
@@ -251,8 +264,8 @@
 	<form:hidden path="recordInfo1.yrecordInfo.recordAddress"/>
 	<form:hidden path="recordInfo1.yrecordInfo.host"/>
 	<form:hidden path="recordInfo1.yrecordInfo.noteTaker"/>
-    <form:hidden path="proposal.proposalCode"/>
 	<form:hidden path="complaintMain.patientSex"/>
+	<input type="hidden" id="aa" name="proposal.proposalCode" value="${assessAppraisal.proposal.proposalCode}"/>
 	<input type="hidden"  id="export" name="export"/>
 	<sys:message content="${message}"/>
 	<ul id="myTab" class="nav nav-tabs">
@@ -812,20 +825,20 @@
 					<%--</td>--%>
 				<%--</tr>--%>
 				<tr>
-					<td class="tit">
+					<td class="tit" width="200px;">
 						笔录内容：
 					</td>
 					<td colspan="3">
-						<form:textarea path="recordInfo1.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;"/>
+						<form:textarea path="recordInfo1.recordContent" htmlEscape="false" rows="20" maxlength="500" class="input-xxlarge required" cssStyle="width: 80%;font-size: 16px;"/>
 					</td>
 
 				</tr>
-					<div style="width: 200px;margin: auto">
-						<input id="contentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('content')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
-						<input id="contentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('content');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
-
-					</div>
 			</table>
+            <div style="width: 200px;margin: auto">
+                <input id="contentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('content')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+                <input id="contentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('content');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
+            </div>
 		</div>
 		<div class="tab-pane fade " id="recordyf">
 			<table class="table-form">
@@ -876,20 +889,19 @@
 					<%--</td>--%>
 				<%--</tr>--%>
 				<tr>
-					<td class="tit">
+					<td class="tit" width="200px;">
 						笔录内容：
 					</td>
 					<td colspan="3">
-						<form:textarea path="recordInfo1.yrecordInfo.recordContent" htmlEscape="false" rows="4" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;"/>
+						<form:textarea path="recordInfo1.yrecordInfo.recordContent" htmlEscape="false" rows="20" maxlength="500" class="input-xxlarge required" cssStyle="width: 80%;font-size: 16px;"/>
 					</td>
 
 				</tr>
-					<div style="width: 200px;margin: auto">
-						<input id="ycontentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('ycontent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
-						<input id="ycontentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('ycontent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
-
-					</div>
 			</table>
+            <div style="width: 200px;margin: auto">
+                <input id="ycontentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('ycontent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+                <input id="ycontentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('ycontent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+            </div>
 		</div>
 		<div class="tab-pane fade " id="zjopinion">
 			<table class="table-form">
@@ -1006,7 +1018,7 @@
 						</span>
 						<span style="display: inline-block;text-align:center;width: 100px;">意见书</span>
 					</h2>
-					<p style="float:right;width:300px;height: 25px;font-size: 20px;">
+					<p style="float:right;width:300px;height: 25px;font-size: 20px;" id="code">
 					${assessAppraisal.proposal.proposalCode}
 					</p>
 					<table id="patientTable" class="table table-striped table-bordered table-condensed">
@@ -1169,14 +1181,6 @@
 					<span style="font-family:宋体; font-size:16pt; font-weight:normal; text-decoration:underline;color: black;" id="time1">
 
 					</span>
-					<span>&nbsp;</span>
-					<span>
-						至
-					</span>
-					<span>&nbsp;</span>
-					<span style="font-family:宋体; font-size:16pt; font-weight:normal; text-decoration:underline;color: black;" id="time2">
-
-					</span>
 					<legend style="color: black;">三、诊疗概要</legend>
 					<table class="table-form">
 						<tr>
@@ -1255,7 +1259,7 @@
 							<th>内容</th>
 						</tr>
 						<c:forEach items="${jl}" var="column" varStatus="vs">
-							<tr>
+							<tr id="${column.type1}">
 								<td nowrap style="text-align:center;vertical-align:middle;">
 									<input type="hidden" name="typeInfosList2[${vs.index}].typeId" value="${column.typeId}"/>
 									<input type="hidden" name="typeInfosList2[${vs.index}].delFlag" value="${column.delFlag}"/>

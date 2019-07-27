@@ -332,7 +332,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 
 
 
-		String path = request.getSession().getServletContext().getRealPath("/");
+		String path = request.getServletContext().getRealPath("/");
 		String modelPath = path;
 		String returnPath="";
 		String newFileName = "无标题文件.docx";
@@ -409,11 +409,11 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			}else {
 				params.put("startTime","");
 			}
-			if(assessAppraisal.getRecordInfo1()!=null){
-				params.put("endTime",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
-			}else {
-				params.put("endTime","");
-			}
+//			if(assessAppraisal.getRecordInfo1()!=null){
+//				params.put("endTime",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
+//			}else {
+//				params.put("endTime","");
+//			}
 			//诊疗概要
 			if(assessAppraisal.getProposal()!=null){
 				params.put("treatmentSummary",assessAppraisal.getProposal().getTreatmentSummary()==null?"":assessAppraisal.getProposal().getTreatmentSummary());
@@ -433,10 +433,10 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			}
 			//分析意见
 			if(typeInfo!=null){
-				params.put("typeName",typeInfo.getTypeName()==null?"":typeInfo.getTypeName());
+//				params.put("typeName",typeInfo.getTypeName()==null?"":typeInfo.getTypeName());
 				params.put("content",typeInfo.getContent()==null?"":typeInfo.getContent());
 			}else{
-				params.put("typeName","");
+//				params.put("typeName","");
 				params.put("content","");
 			}
 			//诊断
@@ -459,10 +459,10 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			}
 			//结论
 			if(typeInfo1!=null){
-				params.put("jTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
-				params.put("jContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
+//				params.put("jTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
+				params.put("jContent",typeInfo1.getContent()==null?"":typeInfo1.getContent().replaceAll("xxx",assessAppraisal.getComplaintMain().getPatientName()));
 			}else{
-				params.put("jTypeName","");
+//				params.put("jTypeName","");
 				params.put("jContent","");
 			}
 
@@ -631,29 +631,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			newFileName="医方调解笔录.docx";
 		}
 		try{
-			if("proposalDis".equals(export)) {
-				File file = new File(request.getSession().getServletContext().getRealPath("/") + "/userfiles/assessAppraisal/" + num);
-				if (!file.exists()) {
-					file.mkdirs();
-				}
-			}
-			if("assess".equals(export)){
-				File file = new File(request.getSession().getServletContext().getRealPath("/") + "/userfiles/assessAppraisalMeeting/" + num);
-				if (!file.exists()) {
-					file.mkdirs();
-				}
-			}
-			if("content".equals(export)){
-				File file = new File(request.getSession().getServletContext().getRealPath("/") + "/userfiles/assessContent/" + num);
-				if (!file.exists()) {
-					file.mkdirs();
-				}
-			}
-			if("ycontent".equals(export)){
-				File file = new File(request.getSession().getServletContext().getRealPath("/") + "/userfiles/assessYContent/" + num);
-				if (!file.exists()) {
-					file.mkdirs();
-				}
+			File file = new File(request.getServletContext().getRealPath("/") + "/userfiles/assessAppraisal/" + num);
+			if (!file.exists()) {
+				file.mkdirs();
 			}
 			List<String[]> testList = new ArrayList<String[]>();
 			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名

@@ -80,7 +80,7 @@
         yr.record_content AS "recordInfo1.yrecordInfo.recordContent",
         p.proposal_id AS "proposal.proposalId",
         p.assess_appraisal_id AS "proposal.assessAppraisalId",
-        p.treatment_summary AS "proposal.treatmentSummary",
+        if(p.treatment_summary IS NULL ,au.summary_of_disputes,p.treatment_summary) AS "proposal.treatmentSummary",
         p.patient_think AS "proposal.patientThink",
         p.doctor_think AS "proposal.doctorThink",
         p.analysis_opinion AS "proposal.analysisOpinion",
@@ -90,7 +90,11 @@
 		p.conclusion AS "proposal.conclusion",
 		p.proposal_code AS "proposal.proposalCode",
 		u3.name AS "hosts.name",
-		u4.name AS "clerks.name"
+		u4.name AS "clerks.name",
+		if(pa.patient_link_name IS NULL ,b.patient_name ,pa.patient_link_name) AS "patientLinkEmp.patientLinkName",
+		if(pa.patient_link_sex IS NUll,b.patient_sex,pa.patient_link_sex)AS "patientLinkEmp.patientLinkSex",
+		if(pa.id_number IS NULL ,b.patient_card ,pa.id_number)AS"patientLinkEmp.idNumber",
+		if(me.medical_office_name IS NULL ,o.name,me.medical_office_name)AS"medicalOfficeEmp.medicalOfficeName"
 	</sql>
 
 	<sql id="assessAppraisalJoins">
@@ -114,6 +118,8 @@
 		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 		LEFT Join SYS_USER u3 ON u3.id=a.host
 		LEFT Join SYS_USER u4 ON u4.id=a.clerk
+		LEFT JOIN PATIENT_LINK_EMP pa  ON a.assess_appraisal_id = pa.relation_id
+		LEFT JOIN MEDICAL_OFFICE_EMP me ON a.assess_appraisal_id = me.relation_id
 	</sql>
 
 	<select id="get" resultType="AssessAppraisal">
