@@ -374,6 +374,59 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			pdfPath +="/userfiles/reachMediate/"+num+"mediateMeeting.pdf";
 			returnPath="/userfiles/reachMediate/"+num+"mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
+		}else if("pContent".equals(export)){
+			if(mediateProgramList.size()!=0){
+				params.put("date", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
+				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":reachMediate.getMediateProgramList().get(b).getAddress());
+				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
+				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
+				params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());
+				params.put("doctor", reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getHospital().getName());
+				params.put("other","");
+				params.put("content",reachMediate.getMediateProgramList().get(b).getPatientContent()==null?"":reachMediate.getMediateProgramList().get(b).getPatientContent());
+			}else{
+				params.put("date", "");
+				params.put("address", "");
+				params.put("host","");
+				params.put("note","");
+				params.put("patient","");
+				params.put("doctor", "");
+				params.put("other","");
+				params.put("content","");
+			}
+			path += "/doc/tjRecord.docx";  //模板文件位置
+			modelPath += "/doc/tjRecord.docx";
+			savaPath +="/userfiles/reachMediate/"+num+"tjRecord.docx";
+			pdfPath +="/userfiles/reachMediate/"+num+"tjRecord.pdf";
+			returnPath="/userfiles/reachMediate/"+num+"tjRecord.pdf";
+			newFileName="达成调解患方笔录.docx";
+
+		}else if("dContent".equals(export)){
+			if(mediateProgramList.size()!=0){
+				params.put("date", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
+				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":reachMediate.getMediateProgramList().get(b).getAddress());
+				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
+				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
+				params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());
+				params.put("doctor", reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getHospital().getName());
+				params.put("other","");
+				params.put("content",reachMediate.getMediateProgramList().get(b).getDoctorContent()==null?"":reachMediate.getMediateProgramList().get(b).getDoctorContent());
+			}else{
+				params.put("date", "");
+				params.put("address", "");
+				params.put("host","");
+				params.put("note","");
+				params.put("patient","");
+				params.put("doctor", "");
+				params.put("other","");
+				params.put("content","");
+			}
+			path += "/doc/tjRecord.docx";  //模板文件位置
+			modelPath += "/doc/tjRecord.docx";
+			savaPath +="/userfiles/reachMediate/"+num+"tjRecord.docx";
+			pdfPath +="/userfiles/reachMediate/"+num+"tjRecord.pdf";
+			returnPath="/userfiles/reachMediate/"+num+"tjRecord.pdf";
+			newFileName="达成调解医方笔录.docx";
 		}
 		try{
 			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/reachMediate/"+num);

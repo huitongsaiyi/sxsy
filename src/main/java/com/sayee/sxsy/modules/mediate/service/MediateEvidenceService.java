@@ -312,7 +312,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
                 b=i;
             }
         }
-        String path=request.getServletContext().getRealPath("/");
+        String path=request.getSession().getServletContext().getRealPath("/");
 		String modelPath=path;
 		String returnPath="";
 		String newFileName="无标题文件.docx";
@@ -358,9 +358,61 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			pdfPath +="/userfiles/mediateEvidence/"+num+"mediateMeeting.pdf";
 			returnPath="/userfiles/mediateEvidence/"+num+"mediateMeeting.pdf";
 			newFileName="调解程序表.docx";
+		}else if("pContent".equals(export)){
+			if(mediateProgramList.size()!=0){
+				params.put("date", mediateEvidence.getMediateProgramList().get(b).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(b).getMeetingTime());
+				params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(b).getAddress());
+				params.put("host",mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName());
+				params.put("note",mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName());
+				params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());
+				params.put("doctor", mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getHospital().getName());
+				params.put("other","");
+				params.put("content",mediateEvidence.getMediateProgramList().get(b).getPatientContent()==null?"":mediateEvidence.getMediateProgramList().get(b).getPatientContent());
+			}else{
+				params.put("date", "");
+				params.put("address", "");
+				params.put("host","");
+				params.put("note","");
+				params.put("patient","");
+				params.put("doctor", "");
+				params.put("other","");
+				params.put("content","");
+			}
+			path += "/doc/tjRecord.docx";  //模板文件位置
+			modelPath += "/doc/tjRecord.docx";
+			savaPath +="/userfiles/mediateEvidence/"+num+"tjRecord.docx";
+			pdfPath +="/userfiles/mediateEvidence/"+num+"tjRecord.pdf";
+			returnPath="/userfiles/mediateEvidence/"+num+"tjRecord.pdf";
+			newFileName="调解会患方笔录.docx";
+		}else if("dContent".equals(export)){
+			if(mediateProgramList.size()!=0){
+				params.put("date", mediateEvidence.getMediateProgramList().get(b).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(b).getMeetingTime());
+				params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(b).getAddress());
+				params.put("host",mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName());
+				params.put("note",mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName());
+				params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());
+				params.put("doctor", mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getHospital().getName());
+				params.put("other","");
+				params.put("content",mediateEvidence.getMediateProgramList().get(b).getDoctorContent()==null?"":mediateEvidence.getMediateProgramList().get(b).getDoctorContent());
+			}else{
+				params.put("date", "");
+				params.put("address", "");
+				params.put("host","");
+				params.put("note","");
+				params.put("patient","");
+				params.put("doctor", "");
+				params.put("other","");
+				params.put("content","");
+			}
+			path += "/doc/tjRecord.docx";  //模板文件位置
+			modelPath += "/doc/tjRecord.docx";
+			savaPath +="/userfiles/mediateEvidence/"+num+"tjRecord.docx";
+			pdfPath +="/userfiles/mediateEvidence/"+num+"tjRecord.pdf";
+			returnPath="/userfiles/mediateEvidence/"+num+"tjRecord.pdf";
+			newFileName="调解会医方笔录.docx";
 		}
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/mediateEvidence/"+num);
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/mediateEvidence/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}

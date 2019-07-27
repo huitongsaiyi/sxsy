@@ -23,7 +23,16 @@ public class TypeInfo extends DataEntity<TypeInfo> {
 	private User createById;		// 创建人ID
 	private User updateById;		// 更新人ID
     private String label;
-	
+    private String type1;
+
+	public String getType1() {
+		return type1;
+	}
+
+	public void setType1(String type1) {
+		this.type1 = type1;
+	}
+
 	public TypeInfo() {
 		super();
 	}
