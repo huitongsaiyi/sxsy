@@ -9,8 +9,8 @@
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function (form) {
-                    var aa = $("#export").val();
-                    if (aa != 'meeting') {
+                    var aa=$("#export").val();
+                    if(aa=='no'){
                         loading('正在提交，请稍等...');
                     }
                     form.submit();
@@ -738,11 +738,16 @@
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
-                        <form:textarea path="recordInfo.recordContent" htmlEscape="false" class="input-xlarge required"
+                        <form:textarea path="recordInfo.recordContent" htmlEscape="false" class="input-xlarge "
                                        style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
             </table>
+            <div style="width: 200px;margin: auto">
+                <input id="pContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('pContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+                <input id="pContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('pContent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
+            </div>
         </div>
         <div class="tab-pane fade" id="recorded_doctor">
             <table class="table-form">
@@ -818,11 +823,16 @@
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
                         <form:textarea path="recordInfo.yrecordInfo.recordContent" htmlEscape="false"
-                                       class="input-xlarge required"
+                                       class="input-xlarge "
                                        style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
             </table>
+            <div style="width: 200px;margin: auto">
+                <input id="dContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('dContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+                <input id="dContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('dContent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
+            </div>
         </div>
         <div class="tab-pane fade" id="annex">
             <table class="table-form">

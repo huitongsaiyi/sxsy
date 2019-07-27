@@ -614,7 +614,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
             }
 			//其他参加人员
 			if(assessAppraisal.getOther()!=null){
-				params.put("other",assessAppraisal.getOther()==null?"":assessAppraisal.getOther());
+				params.put("other","");
 			}else{
                 params.put("other","");
             }
