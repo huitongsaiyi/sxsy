@@ -73,7 +73,25 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private String patientClear;	//患方是否听清楚
 	private String patientAvoid;	//患方是否回避
 	private String doctorAvoid;	//医方是否回避
+	private PatientLinkEmp patientLinkEmp;//患者信息
+	private MedicalOfficeEmp medicalOfficeEmp;//医方信息
 
+	public MedicalOfficeEmp getMedicalOfficeEmp() {
+		return medicalOfficeEmp;
+	}
+
+	public void setMedicalOfficeEmp(MedicalOfficeEmp medicalOfficeEmp) {
+		this.medicalOfficeEmp = medicalOfficeEmp;
+	}
+
+
+	public PatientLinkEmp getPatientLinkEmp() {
+		return patientLinkEmp;
+	}
+
+	public void setPatientLinkEmp(PatientLinkEmp patientLinkEmp) {
+		this.patientLinkEmp = patientLinkEmp;
+	}
 
 	public String getDoctorAvoid() {
 		return doctorAvoid;
