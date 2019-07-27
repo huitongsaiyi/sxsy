@@ -895,7 +895,7 @@
 		</div>
 	</div>
 	<table class="table-form">
-		<tr>
+		<%--<tr>
 			<td class="tit">调解结果</td>
 			<td>
 				<form:select path="reaSummary" cssStyle="width: 180px">
@@ -903,7 +903,7 @@
 					<form:option value="2">失败</form:option>
 				</form:select>
 			</td>
-		</tr>
+		</tr>--%>
 		<tr>
 				<%--<td class="tit"><font color="red">*</font>下一处理环节：</td>--%>
 				<%--<td>--%>

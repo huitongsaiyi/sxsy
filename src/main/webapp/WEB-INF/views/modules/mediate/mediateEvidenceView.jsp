@@ -97,12 +97,12 @@
         <li>
             <a href="#meeting" data-toggle="tab">调解程序表</a>
         </li>
-        <li>
+       <%-- <li>
             <a href="#recorded_patient" data-toggle="tab">调解会笔录（患方）</a>
         </li>
         <li>
             <a href="#recorded_doctor" data-toggle="tab">调解会笔录（医方）</a>
-        </li>
+        </li>--%>
         <li>
             <a href="#annex" data-toggle="tab">附件</a>
         </li>
@@ -140,46 +140,50 @@
             </script>
         </div>
         <div class="tab-pane fade" id="meeting">
-            <table id="programTable" class="table table-striped table-bordered table-condensed">
+            <table id="programTable" class="table table-striped table-bordered " style="width: 200%">
                 <thead>
-                <tr>
+                <tr >
                     <th class="hide"></th>
-                    <th width="10" style="text-align: center">时间</th>
-                    <th width="10" style="text-align: center">地点</th>
-                    <th width="10" style="text-align: center">调解员</th>
-                    <th width="10" style="text-align: center">书记员</th>
-                    <th width="10" style="text-align: center">医方</th>
-                    <th width="10" style="text-align: center">患方</th>
-                    <th width="10" style="text-align: center">其他</th>
-                    <th width="10" style="text-align: center">会议次数</th>
+                    <th  style="text-align: center">时间</th>
+                    <th  style="text-align: center">地点</th>
+                    <th  style="text-align: center">调解员</th>
+                    <th  style="text-align: center">书记员</th>
+                    <th  style="text-align: center">患方</th>
+                    <th  style="text-align: center">患方笔录</th>
+                    <th  style="text-align: center">医方</th>
+                    <th  style="text-align: center">医方笔录</th>
+                    <th  style="text-align: center">会议次数</th>
                 </tr>
                 </thead>
                 <tbody id="mediateProgramList"></tbody>
             </table>
             <script type="text/template" id="mediateProgramTpl">//<!--
 						<tr id="mediateProgramList{{idx}}">
-							<td style="text-align: center">
+							<td style="text-align: center;width : 8% ;">
                                    {{row.meetingTime}}
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        {{row.address}}
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        {{row.mediatorUser.name}}
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        {{row.clerkuser.name}}
 							</td>
-							<td style="text-align: center">
-							        {{row.doctorOffice.name}}
-							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        {{row.patient}}
 							</td>
-							<td style="text-align: center">
-							        {{row.other}}
+							<td style="text-align: center;width : 30% ;">
+							       <textarea style="boder:0,border-radius:5px;width: 255px;height: 100px;padding: 10px;" readonly="true"> {{row.patientContent}}</textarea>
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 7% ;">
+							        {{row.doctorOffice.name}}
+							</td>
+							<td style="text-align: center;width : 30% ;word-break : break-all;">
+							        <textarea style="boder:0,border-radius:5px;width: 255px;height: 100px;padding: 10px;" readonly="true"> {{row.doctorContent}}</textarea>
+							</td>
+							<td style="text-align: center;width : 5% ;">
 							        第{{row.meetingFrequency}}次会议
 							</td>
 						</tr>//-->
@@ -217,7 +221,7 @@
                 </tr>
             </table>--%>
         </div>
-        <div class="tab-pane fade" id="recorded_patient">
+        <%--<div class="tab-pane fade" id="recorded_patient">
             <table class="table-form">
                 <tr>
                     <td class="tit">开始时间</td>
@@ -234,10 +238,10 @@
                     <td>
                             ${mediateEvidence.recordInfo.recordAddress}
                     </td>
-                    <%--<td class="tit">事由</td>--%>
-                    <%--<td>--%>
-                            <%--${mediateEvidence.recordInfo.cause}--%>
-                    <%--</td>--%>
+                    &lt;%&ndash;<td class="tit">事由</td>&ndash;%&gt;
+                    &lt;%&ndash;<td>&ndash;%&gt;
+                            &lt;%&ndash;${mediateEvidence.recordInfo.cause}&ndash;%&gt;
+                    &lt;%&ndash;</td>&ndash;%&gt;
                     <td class="tit">调解员</td>
                     <td>
                             ${mediateEvidence.recordInfo.ytwHost.name}
@@ -259,12 +263,12 @@
                             ${mediateEvidence.recordInfo.yfOffice.name}
                     </td>
                 </tr>
-                <%--<tr>--%>
-                    <%--&lt;%&ndash;<td class="tit">其他参加人员</td>&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;<td>&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;${mediateEvidence.recordInfo.otherParticipants}&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
-                <%--</tr>--%>
+                &lt;%&ndash;<tr>&ndash;%&gt;
+                    &lt;%&ndash;&lt;%&ndash;<td class="tit">其他参加人员</td>&ndash;%&gt;&ndash;%&gt;
+                    &lt;%&ndash;&lt;%&ndash;<td>&ndash;%&gt;&ndash;%&gt;
+                            &lt;%&ndash;&lt;%&ndash;${mediateEvidence.recordInfo.otherParticipants}&ndash;%&gt;&ndash;%&gt;
+                    &lt;%&ndash;&lt;%&ndash;</td>&ndash;%&gt;&ndash;%&gt;
+                &lt;%&ndash;</tr>&ndash;%&gt;
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
@@ -290,10 +294,10 @@
                     <td>
                             ${mediateEvidence.recordInfo.yrecordInfo.recordAddress}
                     </td>
-                    <%--<td class="tit">事由</td>--%>
-                    <%--<td>--%>
-                            <%--${mediateEvidence.recordInfo.yrecordInfo.cause}--%>
-                    <%--</td>--%>
+                    &lt;%&ndash;<td class="tit">事由</td>&ndash;%&gt;
+                    &lt;%&ndash;<td>&ndash;%&gt;
+                            &lt;%&ndash;${mediateEvidence.recordInfo.yrecordInfo.cause}&ndash;%&gt;
+                    &lt;%&ndash;</td>&ndash;%&gt;
                     <td class="tit">调解员</td>
                     <td>
                             ${mediateEvidence.recordInfo.yrecordInfo.ytwHost.name}
@@ -315,12 +319,12 @@
                             ${mediateEvidence.recordInfo.yrecordInfo.yfOffice.name}
                     </td>
                 </tr>
-                <%--<tr>--%>
-                    <%--<td class="tit">其他参加人员</td>--%>
-                    <%--<td>--%>
-                            <%--${mediateEvidence.recordInfo.yrecordInfo.otherParticipants}--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
+                &lt;%&ndash;<tr>&ndash;%&gt;
+                    &lt;%&ndash;<td class="tit">其他参加人员</td>&ndash;%&gt;
+                    &lt;%&ndash;<td>&ndash;%&gt;
+                            &lt;%&ndash;${mediateEvidence.recordInfo.yrecordInfo.otherParticipants}&ndash;%&gt;
+                    &lt;%&ndash;</td>&ndash;%&gt;
+                &lt;%&ndash;</tr>&ndash;%&gt;
                 <tr>
                     <td class="tit">笔录内容</td>
                     <td colspan="3">
@@ -328,7 +332,7 @@
                     </td>
                 </tr>
             </table>
-        </div>
+        </div>--%>
         <div class="tab-pane fade" id="annex">
             <table class="table-form">
                 <tr >
@@ -414,7 +418,7 @@
         </div>
     </div>
     <table class="table-form">
-        <tr>
+        <%--<tr>
             <td class="tit" width="140px">调解结果</td>
             <td>
                 <c:choose>
@@ -426,7 +430,7 @@
                     </c:when>
                 </c:choose>
             </td>
-        </tr>
+        </tr>--%>
         <%--<tr>--%>
             <%--<td class="tit">会议总结</td>--%>
             <%--<td colspan="3">--%>
@@ -446,7 +450,7 @@
                 </td>
             </tr>--%>
         <tr>
-            <td class="tit"><font color="red">*</font>下一环节处理人：</td>
+            <td class="tit" style="width: 30%"><font color="red">*</font>下一环节处理人：</td>
             <td>
                     ${mediateEvidence.linkEmployee.name}
             </td>

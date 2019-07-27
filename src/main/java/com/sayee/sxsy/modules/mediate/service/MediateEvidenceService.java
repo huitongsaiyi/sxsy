@@ -104,37 +104,37 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
             //将主键ID设为UUID
             dao.insert(mediateEvidence);
             //保存笔录(患方)
-            RecordInfo huanf = mediateEvidence.getRecordInfo();
-            huanf.preInsert();
-            huanf.setRecordId(IdGen.uuid());
-            huanf.setDoctor(mediateEvidence.getDoctor());
-			huanf.setHost(mediateEvidence.getUserId());
-			huanf.setNoteTaker(mediateEvidence.getClerk());
-            huanf.setStartTime(mediateEvidence.getMeetingTime());
-            huanf.setEndTime(mediateEvidence.getMeetingTime());
-            huanf.setRecordAddress(mediateEvidence.getMeetingAddress());
-            huanf.setPatient(mediateEvidence.getPatient());
-            huanf.setRelationId(mediateEvidence.getMediateEvidenceId());
-            huanf.setType("1");
-            huanf.setModuleType("1");
-            recordInfoDao.insert(huanf);
+//            RecordInfo huanf = mediateEvidence.getRecordInfo();
+//            huanf.preInsert();
+//            huanf.setRecordId(IdGen.uuid());
+//            huanf.setDoctor(mediateEvidence.getDoctor());
+//			huanf.setHost(mediateEvidence.getUserId());
+//			huanf.setNoteTaker(mediateEvidence.getClerk());
+//            huanf.setStartTime(mediateEvidence.getMeetingTime());
+//            huanf.setEndTime(mediateEvidence.getMeetingTime());
+//            huanf.setRecordAddress(mediateEvidence.getMeetingAddress());
+//            huanf.setPatient(mediateEvidence.getPatient());
+//            huanf.setRelationId(mediateEvidence.getMediateEvidenceId());
+//            huanf.setType("1");
+//            huanf.setModuleType("1");
+//            recordInfoDao.insert(huanf);
             //保存笔录（医方） 由于医方笔录共用患方的笔录 所以先把共用的信息赋值给医方
-            RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
-            yif.setStartTime(huanf.getStartTime());
-            yif.setEndTime(huanf.getEndTime());
-            yif.setRecordAddress(huanf.getRecordAddress());
-            yif.setCause(huanf.getCause());
-            yif.setHost(huanf.getHost());
-            yif.setNoteTaker(huanf.getNoteTaker());
-            yif.setPatient(huanf.getPatient());
-            yif.setDoctor(huanf.getDoctor());
-            yif.setOtherParticipants(huanf.getOtherParticipants());
-            yif.preInsert();
-            yif.setRecordId(IdGen.uuid());
-            yif.setRelationId(mediateEvidence.getMediateEvidenceId());
-            yif.setType("2");
-            yif.setModuleType("1");
-            recordInfoDao.insert(yif);
+//            RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
+//            yif.setStartTime(huanf.getStartTime());
+//            yif.setEndTime(huanf.getEndTime());
+//            yif.setRecordAddress(huanf.getRecordAddress());
+//            yif.setCause(huanf.getCause());
+//            yif.setHost(huanf.getHost());
+//            yif.setNoteTaker(huanf.getNoteTaker());
+//            yif.setPatient(huanf.getPatient());
+//            yif.setDoctor(huanf.getDoctor());
+//            yif.setOtherParticipants(huanf.getOtherParticipants());
+//            yif.preInsert();
+//            yif.setRecordId(IdGen.uuid());
+//            yif.setRelationId(mediateEvidence.getMediateEvidenceId());
+//            yif.setType("2");
+//            yif.setModuleType("1");
+//            recordInfoDao.insert(yif);
 		}else{
 		    //如果不为空进行更新
 			//修改报案登记表
@@ -146,29 +146,29 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 
 			dao.update(mediateEvidence);
 			//更新笔录(患方)
-            RecordInfo huanf = mediateEvidence.getRecordInfo();
-            huanf.preUpdate();
-			huanf.setDoctor(mediateEvidence.getDoctor());
-			huanf.setHost(mediateEvidence.getUserId());
-			huanf.setNoteTaker(mediateEvidence.getClerk());
-			huanf.setStartTime(mediateEvidence.getMeetingTime());
-			huanf.setEndTime(mediateEvidence.getMeetingTime());
-			huanf.setRecordAddress(mediateEvidence.getMeetingAddress());
-			huanf.setPatient(mediateEvidence.getPatient());
-            recordInfoDao.update(huanf);
+//            RecordInfo huanf = mediateEvidence.getRecordInfo();
+//            huanf.preUpdate();
+//			huanf.setDoctor(mediateEvidence.getDoctor());
+//			huanf.setHost(mediateEvidence.getUserId());
+//			huanf.setNoteTaker(mediateEvidence.getClerk());
+//			huanf.setStartTime(mediateEvidence.getMeetingTime());
+//			huanf.setEndTime(mediateEvidence.getMeetingTime());
+//			huanf.setRecordAddress(mediateEvidence.getMeetingAddress());
+//			huanf.setPatient(mediateEvidence.getPatient());
+//            recordInfoDao.update(huanf);
             //更新笔录(医方)
-            RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
-            yif.setStartTime(huanf.getStartTime());
-            yif.setEndTime(huanf.getEndTime());
-            yif.setRecordAddress(huanf.getRecordAddress());
-            yif.setCause(huanf.getCause());
-            yif.setHost(huanf.getHost());
-            yif.setNoteTaker(huanf.getNoteTaker());
-            yif.setPatient(huanf.getPatient());
-            yif.setDoctor(huanf.getDoctor());
-            yif.setOtherParticipants(huanf.getOtherParticipants());
-            yif.preUpdate();
-            recordInfoDao.update(yif);
+//            RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
+//            yif.setStartTime(huanf.getStartTime());
+//            yif.setEndTime(huanf.getEndTime());
+//            yif.setRecordAddress(huanf.getRecordAddress());
+//            yif.setCause(huanf.getCause());
+//            yif.setHost(huanf.getHost());
+//            yif.setNoteTaker(huanf.getNoteTaker());
+//            yif.setPatient(huanf.getPatient());
+//            yif.setDoctor(huanf.getDoctor());
+//            yif.setOtherParticipants(huanf.getOtherParticipants());
+//            yif.preUpdate();
+//            recordInfoDao.update(yif);
 		}
 		//保存调解志
 		this.tjz(mediateEvidence);
@@ -409,6 +409,12 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
         mediateProgram.setDoctorClear(mediateEvidence.getDoctorClear());
         mediateProgram.setPatientAvoid(mediateEvidence.getPatientAvoid());
         mediateProgram.setPatientClear(mediateEvidence.getPatientClear());
+		//患方笔录
+		RecordInfo huanf = mediateEvidence.getRecordInfo();
+		//医方笔录
+		RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
+		mediateProgram.setPatientContent(huanf.getRecordContent());
+		mediateProgram.setDoctorContent(yif.getRecordContent());
         mediateProgramDao.insert(mediateProgram);
         //保存一条 调解会的 调解志
         MediateRecord mediateRecord=new MediateRecord();

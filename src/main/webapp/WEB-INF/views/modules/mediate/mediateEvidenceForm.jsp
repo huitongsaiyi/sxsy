@@ -913,7 +913,7 @@
         </div>
     </div>
     <table class="table-form">
-        <tr>
+        <%--<tr>
             <td class="tit">调解结果</td>
             <td>
                 <form:select path="mediateResult" cssStyle="width: 180px">
@@ -921,7 +921,7 @@
                     <form:option value="2">失败</form:option>
                 </form:select>
             </td>
-        </tr>
+        </tr>--%>
             <%--<tr>--%>
             <%--<td class="tit">会议总结</td>--%>
             <%--<td colspan="3">--%>

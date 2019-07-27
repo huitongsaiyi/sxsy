@@ -33,10 +33,12 @@ public class MediateProgram extends DataEntity<MediateProgram> {
 	private String address;		// 地点
 	private String meetingTime;		// 会议时间
 	private String meetingFrequency;		// 会议次数
-    private  String doctorAvoid;//医方回避
+    private String doctorAvoid;//医方回避
 	private String patientAvoid;//患方回避
 	private String patientClear;//患方是否清楚
 	private String doctorClear;//医方是否清楚
+	private String doctorContent;//医方笔录
+	private String patientContent;//患方笔录
 
 	public String getDoctorClear() {
 		return doctorClear;
@@ -216,5 +218,20 @@ public class MediateProgram extends DataEntity<MediateProgram> {
 	public void setMeetingFrequency(String meetingFrequency) {
 		this.meetingFrequency = meetingFrequency;
 	}
-	
+
+	public String getDoctorContent() {
+		return doctorContent;
+	}
+
+	public void setDoctorContent(String doctorContent) {
+		this.doctorContent = doctorContent;
+	}
+
+	public String getPatientContent() {
+		return patientContent;
+	}
+
+	public void setPatientContent(String patientContent) {
+		this.patientContent = patientContent;
+	}
 }

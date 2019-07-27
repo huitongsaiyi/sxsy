@@ -24,6 +24,8 @@
 		a.patient_avoid AS "patientAvoid",
 		a.patient_clear AS "patientClear",
 		a.doctor_clear AS "doctorClear",
+		a.doctor_content AS "doctorContent",
+		a.patient_content AS "patientContent",
 		u3.name AS "mediatorUser.name",
 		u4.name AS "clerkuser.name",
 		u7.name AS "doctorOffice.name"
@@ -104,7 +106,9 @@
 			doctor_avoid,
 		    patient_avoid,
 		    patient_clear,
-		    doctor_clear
+		    doctor_clear,
+		    patient_content,
+		    doctor_content
 		) VALUES (
 			#{mediateProgramId},
 			#{relationId},
@@ -126,7 +130,9 @@
 			#{doctorAvoid},
 		    #{patientAvoid},
 		    #{patientClear},
-		    #{doctorClear}
+		    #{doctorClear},
+		    #{patientContent},
+		    #{doctorContent}
 		)
 	</insert>
 	
@@ -149,7 +155,9 @@
 			doctor_avoid=#{doctorAvoid},
 			patient_avoid = #{patientAvoid},
 			patient_clear = #{patientClear},
-			doctor_clear = #{doctorClear}
+			doctor_clear = #{doctorClear},
+			patient_clear = #{patientContent},
+			doctor_clear = #{doctorContent}
 		WHERE mediate_program_id = #{mediateProgramId}
 	</update>
 	

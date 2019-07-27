@@ -105,38 +105,38 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			reachMediate.setReaAddress(reachMediate.getReaAddress());
 			reachMediate.setReaPatient(complaintMain.getPatientName());
 			dao.insert(reachMediate);
-			//保存笔录(患方)
-			RecordInfo huanf = reachMediate.getRecordInfo();
-			huanf.preInsert();
-			huanf.setRecordId(IdGen.uuid());
-			huanf.setDoctor(reachMediate.getReaDoctor());
-			huanf.setHost(reachMediate.getReaUserId());
-			huanf.setNoteTaker(reachMediate.getReaClerk());
-			huanf.setStartTime(reachMediate.getReaMeetingTime());
-			huanf.setEndTime(reachMediate.getReaMeetingTime());
-			huanf.setRecordAddress(reachMediate.getReaAddress());
-			huanf.setPatient(reachMediate.getReaPatient());
-			huanf.setRelationId(reachMediate.getReachMediateId());
-			huanf.setType("1");
-			huanf.setModuleType("1");
-			recordInfoDao.insert(huanf);
-			//保存笔录（医方） 由于医方笔录共用患方的笔录 所以先把共用的信息赋值给医方
-			RecordInfo yif = reachMediate.getRecordInfo().getYrecordInfo();
-			yif.setStartTime(huanf.getStartTime());
-			yif.setEndTime(huanf.getEndTime());
-			yif.setRecordAddress(huanf.getRecordAddress());
-			yif.setCause(huanf.getCause());
-			yif.setHost(huanf.getHost());
-			yif.setNoteTaker(huanf.getNoteTaker());
-			yif.setPatient(huanf.getPatient());
-			yif.setDoctor(huanf.getDoctor());
-			yif.setOtherParticipants(huanf.getOtherParticipants());
-			yif.preInsert();
-			yif.setRecordId(IdGen.uuid());
-			yif.setRelationId(reachMediate.getReachMediateId());
-			yif.setType("2");
-			yif.setModuleType("1");
-			recordInfoDao.insert(yif);
+//			//保存笔录(患方)
+//			RecordInfo huanf = reachMediate.getRecordInfo();
+//			huanf.preInsert();
+//			huanf.setRecordId(IdGen.uuid());
+//			huanf.setDoctor(reachMediate.getReaDoctor());
+//			huanf.setHost(reachMediate.getReaUserId());
+//			huanf.setNoteTaker(reachMediate.getReaClerk());
+//			huanf.setStartTime(reachMediate.getReaMeetingTime());
+//			huanf.setEndTime(reachMediate.getReaMeetingTime());
+//			huanf.setRecordAddress(reachMediate.getReaAddress());
+//			huanf.setPatient(reachMediate.getReaPatient());
+//			huanf.setRelationId(reachMediate.getReachMediateId());
+//			huanf.setType("1");
+//			huanf.setModuleType("1");
+//			recordInfoDao.insert(huanf);
+//			//保存笔录（医方） 由于医方笔录共用患方的笔录 所以先把共用的信息赋值给医方
+//			RecordInfo yif = reachMediate.getRecordInfo().getYrecordInfo();
+//			yif.setStartTime(huanf.getStartTime());
+//			yif.setEndTime(huanf.getEndTime());
+//			yif.setRecordAddress(huanf.getRecordAddress());
+//			yif.setCause(huanf.getCause());
+//			yif.setHost(huanf.getHost());
+//			yif.setNoteTaker(huanf.getNoteTaker());
+//			yif.setPatient(huanf.getPatient());
+//			yif.setDoctor(huanf.getDoctor());
+//			yif.setOtherParticipants(huanf.getOtherParticipants());
+//			yif.preInsert();
+//			yif.setRecordId(IdGen.uuid());
+//			yif.setRelationId(reachMediate.getReachMediateId());
+//			yif.setType("2");
+//			yif.setModuleType("1");
+//			recordInfoDao.insert(yif);
 		}else{	//如果不为空则进行更新
 			//修改达成调解表
 			reachMediate.preUpdate();
@@ -145,29 +145,29 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			reachMediate.setReaAddress(reachMediate.getReaAddress());
 			reachMediate.setReaPatient(complaintMain.getPatientName());
 			dao.update(reachMediate);
-			//更新笔录(患方)
-			RecordInfo huanf = reachMediate.getRecordInfo();
-			huanf.setDoctor(reachMediate.getReaDoctor());
-			huanf.setHost(reachMediate.getReaUserId());
-			huanf.setNoteTaker(reachMediate.getReaClerk());
-			huanf.setStartTime(reachMediate.getReaMeetingTime());
-			huanf.setEndTime(reachMediate.getReaMeetingTime());
-			huanf.setRecordAddress(reachMediate.getReaAddress());
-			huanf.setPatient(reachMediate.getReaPatient());
-			recordInfoDao.update(huanf);
-			//更新笔录(医方)
-			RecordInfo yif = reachMediate.getRecordInfo().getYrecordInfo();
-			yif.setStartTime(huanf.getStartTime());
-			yif.setEndTime(huanf.getEndTime());
-			yif.setRecordAddress(huanf.getRecordAddress());
-			yif.setCause(huanf.getCause());
-			yif.setHost(huanf.getHost());
-			yif.setNoteTaker(huanf.getNoteTaker());
-			yif.setPatient(huanf.getPatient());
-			yif.setDoctor(huanf.getDoctor());
-			yif.setOtherParticipants(huanf.getOtherParticipants());
-			yif.preUpdate();
-			recordInfoDao.update(yif);
+//			//更新笔录(患方)
+//			RecordInfo huanf = reachMediate.getRecordInfo();
+//			huanf.setDoctor(reachMediate.getReaDoctor());
+//			huanf.setHost(reachMediate.getReaUserId());
+//			huanf.setNoteTaker(reachMediate.getReaClerk());
+//			huanf.setStartTime(reachMediate.getReaMeetingTime());
+//			huanf.setEndTime(reachMediate.getReaMeetingTime());
+//			huanf.setRecordAddress(reachMediate.getReaAddress());
+//			huanf.setPatient(reachMediate.getReaPatient());
+//			recordInfoDao.update(huanf);
+//			//更新笔录(医方)
+//			RecordInfo yif = reachMediate.getRecordInfo().getYrecordInfo();
+//			yif.setStartTime(huanf.getStartTime());
+//			yif.setEndTime(huanf.getEndTime());
+//			yif.setRecordAddress(huanf.getRecordAddress());
+//			yif.setCause(huanf.getCause());
+//			yif.setHost(huanf.getHost());
+//			yif.setNoteTaker(huanf.getNoteTaker());
+//			yif.setPatient(huanf.getPatient());
+//			yif.setDoctor(huanf.getDoctor());
+//			yif.setOtherParticipants(huanf.getOtherParticipants());
+//			yif.preUpdate();
+//			recordInfoDao.update(yif);
 		}
 		//保存调解志
 		this.tjz(reachMediate);
@@ -425,6 +425,12 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		mediateProgram.setPatientAvoid(reachMediate.getPatientAvoid());
 		mediateProgram.setDoctorClear(reachMediate.getDoctorClear());
 		mediateProgram.setDoctorAvoid(reachMediate.getDoctorAvoid());
+		//患方笔录
+		RecordInfo huanf = reachMediate.getRecordInfo();
+		//医方笔录
+		RecordInfo yif = reachMediate.getRecordInfo().getYrecordInfo();
+		mediateProgram.setPatientContent(huanf.getRecordContent());
+		mediateProgram.setDoctorContent(yif.getRecordContent());
 		mediateProgramDao.insert(mediateProgram);
 		//保存一条 调解会的 调解志
 		MediateRecord mediateRecord=new MediateRecord();

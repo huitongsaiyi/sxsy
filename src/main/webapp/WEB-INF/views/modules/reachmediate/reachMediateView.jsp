@@ -117,12 +117,12 @@
         <li>
             <a href="#meeting" data-toggle="tab">调解程序表</a>
         </li>
-        <li>
+        <%--<li>
             <a href="#recorded_patient" data-toggle="tab">调解会笔录（患方）</a>
         </li>
         <li>
             <a href="#recorded_doctor" data-toggle="tab">调解会笔录（医方）</a>
-        </li>
+        </li>--%>
         <li>
             <a href="#annex" data-toggle="tab">附件</a>
         </li>
@@ -163,42 +163,46 @@
                 <thead>
                 <tr>
                     <th class="hide"></th>
-                    <th width="10" style="text-align: center">时间</th>
-                    <th width="10" style="text-align: center">地点</th>
-                    <th width="10" style="text-align: center">调解员</th>
-                    <th width="10" style="text-align: center">书记员</th>
-                    <th width="10" style="text-align: center">医方</th>
-                    <th width="10" style="text-align: center">患方</th>
-                    <th width="10" style="text-align: center">其他</th>
-                    <th width="10" style="text-align: center">会议次数</th>
+                    <th  style="text-align: center">时间</th>
+                    <th  style="text-align: center">地点</th>
+                    <th  style="text-align: center">调解员</th>
+                    <th  style="text-align: center">书记员</th>
+                    <th  style="text-align: center">患方</th>
+                    <th  style="text-align: center">患方笔录</th>
+                    <th  style="text-align: center">医方</th>
+                    <th  style="text-align: center">医方笔录</th>
+                    <th  style="text-align: center">会议次数</th>
                 </tr>
                 </thead>
                 <tbody id="mediateProgramList"></tbody>
             </table>
             <script type="text/template" id="mediateProgramTpl">//<!--
 						<tr id="mediateProgramList{{idx}}">
-							<td style="text-align: center">
+							<td style="text-align: center;width : 8% ;">
                                    {{row.meetingTime}}
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        {{row.address}}
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        {{row.mediatorUser.name}}
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        {{row.clerkuser.name}}
 							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
+							        {{row.patient}}
+							</td>
+							<td style="text-align: center;width : 30% ;">
+							       <textarea style="boder:0,border-radius:5px;width: 255px;height: 100px;padding: 10px;" readonly="true"> {{row.patientContent}}</textarea>
+							</td>
+							<td style="text-align: center;width : 7% ;">
 							        {{row.doctorOffice.name}}
 							</td>
-							<td style="text-align: center">
-							        {{row.reaPatient}}
+							<td style="text-align: center;width : 30% ;word-break : break-all;">
+							        <textarea style="boder:0,border-radius:5px;width: 255px;height: 100px;padding: 10px;" readonly="true"> {{row.doctorContent}}</textarea>
 							</td>
-							<td style="text-align: center">
-							        {{row.other}}
-							</td>
-							<td style="text-align: center">
+							<td style="text-align: center;width : 5% ;">
 							        第{{row.meetingFrequency}}次会议
 							</td>
 						</tr>//-->
@@ -401,7 +405,7 @@
         </div>
     </div>
     <table class="table-form">
-        <tr>
+        <%--<tr>
             <td class="tit" width="140px">调解结果</td>
             <td>
                 <c:choose>
@@ -413,7 +417,7 @@
                     </c:otherwise>
                 </c:choose>
             </td>
-        </tr>
+        </tr>--%>
         <%--<tr>--%>
             <%--<td class="tit">会议总结</td>--%>
             <%--<td colspan="3">--%>
@@ -434,7 +438,7 @@
             <%--</td>--%>
         <%--</tr>--%>
         <tr>
-            <td class="tit">下一环节处理人</td>
+            <td class="tit" style="width: 30%;">下一环节处理人</td>
             <td>
                     ${reachMediate.linkEmployee.name}
             </td>
