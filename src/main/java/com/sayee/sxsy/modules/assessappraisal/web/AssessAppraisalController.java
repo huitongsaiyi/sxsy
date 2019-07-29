@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
@@ -64,6 +65,8 @@ public class AssessAppraisalController extends BaseController {
     private MachineAccountService machineAccountService;
 	@Autowired
 	ProposalService proposalService;
+	@Autowired
+	ComplaintMainService complaintMainService;
 	@ModelAttribute
 	public AssessAppraisal get(@RequestParam(required=false) String id) {
 		AssessAppraisal entity = null;
@@ -117,13 +120,20 @@ public class AssessAppraisalController extends BaseController {
 
 			}
 		}
+		ComplaintMain complaintMain = complaintMainService.get(assessAppraisal.getComplaintMainId());
 		if(assessAppraisal.getPatientLinkEmpList().size()==0){
 			List<PatientLinkEmp> patientLinkEmpList = assessAppraisal.getPatientLinkEmpList();
-			patientLinkEmpList.add(assessAppraisal.getPatientLinkEmp());
+			PatientLinkEmp patientLinkEmp = new PatientLinkEmp();
+			patientLinkEmp.setPatientLinkName(complaintMain.getPatientName());
+			patientLinkEmp.setPatientLinkSex(complaintMain.getPatientSex());
+			patientLinkEmp.setIdNumber(complaintMain.getCaseNumber());
+			patientLinkEmpList.add(patientLinkEmp);
 		}
 		if(assessAppraisal.getMedicalOfficeEmpList().size()==0){
+			MedicalOfficeEmp medicalOfficeEmp = new MedicalOfficeEmp();
 			List<MedicalOfficeEmp> medicalOfficeEmpList = assessAppraisal.getMedicalOfficeEmpList();
-			medicalOfficeEmpList.add(assessAppraisal.getMedicalOfficeEmp());
+			medicalOfficeEmp.setMedicalOfficeName(complaintMain.getHospital().getName());
+			medicalOfficeEmpList.add(medicalOfficeEmp);
 		}
 
 		List<TypeInfo> fxyj = BaseUtils.getType("1");
