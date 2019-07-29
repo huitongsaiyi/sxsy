@@ -34,14 +34,10 @@
 
 			if(c==""){
 				$("#a").text("医疗纠纷技术评估");
-			}else{
-				$("#a").text("${fns:getDictLabel(assessAppraisal.applyType,'assessmentAppraisal','未知')}");
-			}
-
-			if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗纠纷技术评估"}){
 				$("#jd").hide();
 				$("#pg").show();
-			}else if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗责任保险事故鉴定"}){
+			}else{
+				$("#a").text("${fns:getDictLabel(assessAppraisal.applyType,'assessmentAppraisal','未知')}");
 				$("#jd").show();
 				$("#pg").hide();
 			}

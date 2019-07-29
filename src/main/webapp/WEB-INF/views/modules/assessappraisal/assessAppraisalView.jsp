@@ -1,3 +1,4 @@
+<%@ page import="com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
@@ -6,7 +7,56 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function() {
+            $("#inputForm").validate({
+                submitHandler: function(form){
+                    var aa=$("#export").val();
+                    if(aa=='no') {
+                        loading('正在提交，请稍等...');
+                    }
+                    $("input[type=checkbox]").each(function(){
+                        $(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
+                            +($(this).attr("checked")?"1":"0")+"\"/>");
+                        $(this).attr("name", "_"+$(this).attr("name"));
+                    });
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function(error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+            var c="${assessAppraisal.applyType}"
 
+            if(c==""){
+                $("#a").text("医疗纠纷技术评估");
+                $("#jd").hide();
+                $("#pg").show();
+            }else{
+                $("#a").text("${fns:getDictLabel(assessAppraisal.applyType,'assessmentAppraisal','未知')}");
+                $("#jd").show();
+                $("#pg").hide();
+            }
+
+
+
+
+
+            var d=$("#time1").val();
+            if(d==""){
+                var ss='${assessAppraisal.recordInfo1.startTime}'
+                var ss1=ss.substr(0,10);
+                $("#time1").text(ss1);
+            }else{
+                show_input(vas,idss);
+            }
+
+
+        });
 
 
 
@@ -25,7 +75,46 @@
                     }
                 }
             });
+            $("#a1").hide();
         }
+        function addRow2(list, idx, tpl, row){
+            $(list).append(Mustache.render(tpl, {
+                idx: idx, delBtn: true, row: row
+            }));
+            $(list+idx).find("select").each(function(){
+                $(this).val($(this).attr("data-value"));
+            });
+            $(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
+                var ss = $(this).attr("data-value").split(',');
+                for (var i=0; i<ss.length; i++){
+                    if($(this).val() == ss[i]){
+                        $(this).attr("checked","checked");
+                    }
+                }
+            });
+            $("#a2").hide();
+
+        }
+        function addRow3(list, idx, tpl, row){
+            $(list).append(Mustache.render(tpl, {
+                idx: idx, delBtn: true, row: row
+            }));
+            $(list+idx).find("select").each(function(){
+                $(this).val($(this).attr("data-value"));
+            });
+            $(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
+                var ss = $(this).attr("data-value").split(',');
+                for (var i=0; i<ss.length; i++){
+                    if($(this).val() == ss[i]){
+                        $(this).attr("checked","checked");
+                    }
+                }
+            });
+            $("#a3").hide();
+
+        }
+
+
         function delRow(obj, prefix,key){
             var id = $(prefix+key);
             var delFlag = $(prefix+"_delFlag");
@@ -40,50 +129,100 @@
                 $(obj).html("&times;").attr("title", "删除");
                 $(obj).parent().parent().removeClass("error");
             }
+            $("#a1").show();
         }
-            //投诉接待详情
-            $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view");
-            var tsjd= document.getElementById("tsjdDetail");
-            tsjd.height=document.documentElement.clientHeight-130;
-            tsjd.width=document.documentElement.clientWidth;
-            var show='${show2}';
-            if(show=='' || show== null){
-            //报案登记
-            $("#badjDetail").attr("src","${ctx}/registration/reportRegistration/form?id=${map.badj}&type=view&show2=y");
-            var badj= document.getElementById("badjDetail");
-            badj.height=document.documentElement.clientHeight-130;
-            badj.width=document.documentElement.clientWidth;
-            //审核受理
-            $("#shslDetail").attr("src","${ctx}/auditacceptance/auditAcceptance/form?id=${map.shsl}&type=view&show2=y");
-            var shsl= document.getElementById("shslDetail");
-            shsl.height=document.documentElement.clientHeight-130;
-            shsl.width=document.documentElement.clientWidth;
-            //调查取证
-            $("#dcqzDetail").attr("src","${ctx}/nestigateeividence/investigateEvidence/form?id=${map.dcqz}&type=view&show2=y");
-            var dcqz= document.getElementById("dcqzDetail");
-            dcqz.height=document.documentElement.clientHeight-130;
-            dcqz.width=document.documentElement.clientWidth;
-            //质证调解
-            $("#zztjDetail").attr("src","${ctx}/mediate/mediateEvidence/form?id=${map.zztj}&type=view&show2=y");
-            var zztj= document.getElementById("zztjDetail");
-            zztj.height=document.documentElement.clientHeight-130;
-            zztj.width=document.documentElement.clientWidth;
-            <%--//评估坚定申请--%>
-            <%--$("#pgjdsqDetail").attr("src","${ctx}/assessapply/assessApply/form?id=${map.pgjdsq}&type=view&show2=y");--%>
-            <%--var pgjdsq= document.getElementById("pgjdsqDetail");--%>
-            <%--pgjdsq.height=document.documentElement.clientHeight-130;--%>
-            <%--pgjdsq.width=document.documentElement.clientWidth;--%>
-            <%--//评估鉴定审批--%>
-            <%--$("#pgjdspDetail").attr("src","${ctx}/assessaudit/assessAudit/form?id=${map.pgjdsq}&type=view&show2=y");--%>
-            <%--var pgjdsp= document.getElementById("pgjdspDetail");--%>
-            <%--pgjdsp.height=document.documentElement.clientHeight-130;--%>
-            <%--pgjdsp.width=document.documentElement.clientWidth;--%>
+        function delRow2(obj, prefix,key){
+            var id = $(prefix+key);
+            var delFlag = $(prefix+"_delFlag");
+            if (id.val() == ""){
+                $(obj).parent().parent().remove();
+            }else if(delFlag.val() == "0"){
+                delFlag.val("1");
+                $(obj).html("&divide;").attr("title", "撤销删除");
+                $(obj).parent().parent().addClass("error");
+            }else if(delFlag.val() == "1"){
+                delFlag.val("0");
+                $(obj).html("&times;").attr("title", "删除");
+                $(obj).parent().parent().removeClass("error");
             }
+            $("#a2").show();
+        }
+        function delRow3(obj, prefix,key){
+            var id = $(prefix+key);
+            var delFlag = $(prefix+"_delFlag");
+            if (id.val() == ""){
+                $(obj).parent().parent().remove();
+            }else if(delFlag.val() == "0"){
+                delFlag.val("1");
+                $(obj).html("&divide;").attr("title", "撤销删除");
+                $(obj).parent().parent().addClass("error");
+            }else if(delFlag.val() == "1"){
+                delFlag.val("0");
+                $(obj).html("&times;").attr("title", "删除");
+                $(obj).parent().parent().removeClass("error");
+            }
+            $("#a3").show();
+        }
+        function show_input(vas,idss){
+            var a=${fns:toJson(fns:getDictList('assessmentAppraisal'))}
+            var b=getDictLabel(a,vas)
+            $("#a").text(b);
+            if(b=="医疗纠纷技术评估"){
+                var code1="${assessAppraisal.proposal.proposalCode}"
+                var co=code1.substr(5,10);
+                $("#code").text("晋医人调评"+co);
+                $("#aa").val("晋医人调评"+co);
+                $("#jd").hide();
+                $("#pg").show();
+            }else if(b=="医疗责任保险事故鉴定"){
+                var code1="${assessAppraisal.proposal.proposalCode}"
+                var co=code1.substr(5,10);
+                $("#code").text("晋医人调鉴"+co);
+                $("#aa").val("晋医人调鉴"+co);
+                $("#jd").show();
+                $("#pg").hide();
+
+            }
+            var times1=$("#time3").val();
+            var times12=times1.substr(0,10);
+            $("#time1").text(times12);
+            // var times2=$("#time4").val();
+            // var times22=times2.substr(0,10);
+            // $("#time2").text(times22);
+        }
+
+        function clearCheckBox(na,table) {
+            $("#"+table+" tr td input:checkbox").each(function() {
+                this.checked = false;
+            });
+            $("input[name='"+na+"']").prop("checked",true);
+        }
+
+        function exportWord() {
+            var aa=$("#export").val();
+            var path="${ctx}/assessappraisal/assessAppraisal/pass";
+            $.post(path,{'assessAppraisalId':'${assessAppraisal.assessAppraisalId}','export':aa,"print":"true"},function(res){
+                if(res.data.url!=''){
+                    var url='${pageContext.request.contextPath}'+res.data.url;
+                    <%--window.location.href='${pageContext.request.contextPath}'+res.data.url ;--%>
+                    windowOpen(url,"pdf",1500,700);
+                    // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+                }else{
+                }
+            },"json");
+        }
+
+        //导出和打印加提示
+        $(function (){
+            $(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
         });
     </script>
 </head>
 <body>
-<br/>
+<ul class="nav nav-tabs">
+    <li><a href="${ctx}/assessappraisal/assessAppraisal/">评估鉴定列表</a></li>
+    <li class="active"><a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.id}">评估鉴定<shiro:hasPermission name="assessappraisal:assessAppraisal:edit">${not empty assessAppraisal.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="assessappraisal:assessAppraisal:edit">查看</shiro:lacksPermission></a></li>
+</ul><br/>
 <form:form id="inputForm" modelAttribute="assessAppraisal" action="${ctx}/assessappraisal/assessAppraisal/save" method="post" class="form-horizontal">
     <form:hidden path="assessAppraisalId"/>
     <form:hidden path="createDate"/>
@@ -101,22 +240,23 @@
     <form:hidden path="complaintMain.act.procDefId"/>
     <form:hidden path="complaintMain.procInsId"/>
     <form:hidden id="flag" path="complaintMain.act.flag"/>
+    <form:hidden path="complaintMain.hospital.name"/>
+    <form:hidden path="clerks.name"/>
+    <form:hidden path="hosts.name"/>
+    <form:hidden path="recordInfo1.patient"/>
+    <form:hidden path="recordInfo1.doctor"/>
+    <form:hidden path="recordInfo1.host"/>
+    <form:hidden path="recordInfo1.noteTaker"/>
+    <form:hidden path="recordInfo1.yrecordInfo.patient"/>
+    <form:hidden path="recordInfo1.yrecordInfo.doctor"/>
+    <form:hidden path="recordInfo1.yrecordInfo.recordAddress"/>
+    <form:hidden path="recordInfo1.yrecordInfo.host"/>
+    <form:hidden path="recordInfo1.yrecordInfo.noteTaker"/>
+    <form:hidden path="complaintMain.patientSex"/>
+    <input type="hidden" id="aa" name="proposal.proposalCode" value="${assessAppraisal.proposal.proposalCode}"/>
+    <input type="hidden"  id="export" name="export"/>
     <sys:message content="${message}"/>
-<fieldset>
     <ul id="myTab" class="nav nav-tabs">
-        <li class="active">
-            <a href="#pgjd" data-toggle="tab">评估鉴定</a>
-        </li>
-        <c:if test="${empty show2}">
-        <li>
-            <a href="#details" data-toggle="tab">详情</a>
-        </li>
-        </c:if>
-    </ul>
-    <div id="myTabContent" class="tab-content">
-        <div id="pgjd" class="tab-pane fade in active">
-    <legend>评估鉴定详情</legend>
-    <ul id="myTab2" class="nav nav-tabs">
         <li class="active">
             <a href="#meetings" data-toggle="tab">评估鉴定会议表</a>
         </li>
@@ -137,23 +277,15 @@
         </li>
     </ul>
 
-    <div id="myTabContent1" class="tab-content">
+    <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="meetings">
             <table class="table-form">
                 <p style="margin:0pt; text-align:center">
                     <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">山西省医疗纠纷人民调解委员会</span>
-                <p style="margin:0 auto ;width: 320px;">
-
-                    <span style="color:#d9001b; font-family:宋体; font-size:15pt; font-weight:normal; text-decoration:underline">
-                        <c:choose>
-                            <c:when test="${assessAppraisal.applyType=='2'}">
-                                医疗纠纷技术评估
-                            </c:when>
-                            <c:when test="${assessAppraisal.applyType=='1'}">
-                                医疗责任保险事故鉴定
-                            </c:when>
-                        </c:choose>
-                    </span>
+                <p style="margin:0 auto ;width: 300px;">
+					<span style="font-family:宋体; font-size:15pt; font-weight:normal;">
+                        ${fns:getDictLabel(assessAppraisal.applyType,'assessmentAppraisal' ,"未知")}
+					</span>
                     <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;">工作程序</span>
 
                 </p>
@@ -167,9 +299,14 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.recordInfo1.startTime}&nbsp;至&nbsp;${assessAppraisal.recordInfo1.endTime}</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+                            ${assessAppraisal.recordInfo1.startTime}
+					</span>
+                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">至</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;">
+                            ${assessAppraisal.recordInfo1.endTime}
+					</span>
 
                 </p>
                 <p style="margin:0pt">
@@ -181,27 +318,11 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">地点：</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.recordInfo1.recordAddress}</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
+                    <span style="display: inline-block; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;height:30px;width: 425px;">
+						${assessAppraisal.recordInfo1.recordAddress}
+					</span>
 
                 </p>
-                <%--<p style="margin:0pt">--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>--%>
-                    <%--<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">案件：</span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>--%>
-                    <%--<span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span>--%>
-                    <%--<span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">案件</span>--%>
-                    <%--<span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>--%>
-                    <%--<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>--%>
-
-                <%--</p>--%>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">一、主持人向评估委员会成员介绍纠纷概要、纠纷焦点</span>
                 </p>
@@ -220,9 +341,14 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">专家：</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.medicalExpertName}</span>
-                    <span style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.legalExpertName}</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline">
+                            ${assessAppraisal.medicalExpertName}
+					</span>
+                    <span style="font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
+                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
+                            ${assessAppraisal.legalExpertName}
+					</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -233,7 +359,7 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.patientName}</span>
+                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.patientName}</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -244,45 +370,51 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.hospital.name}</span>
+                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.hospital.name}</span>
                 </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">主持人：</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.hosts.name}</span>
 
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">书记员：</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.clerks.name}</span>
-                </p>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;display: inline-block;width: 70px;">主持人：</span>
+                <span style="display: inline-block; font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+						<div style="margin-top: -20px;">
+                                ${assessAppraisal.hosts.name}
+						</div>
+                </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">书记员：</span>
+                <span style="font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+                        ${assessAppraisal.clerks.name}
+
+					</span>
+
 
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -304,6 +436,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+                            ${assessAppraisal.patientAvoid}
+					</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -314,6 +449,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+                            ${assessAppraisal.doctorAvoid}
+					</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">四、宣读有关纪律及注意事项：</span>
@@ -428,6 +566,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+                            ${assessAppraisal.patientClear}
+					</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
@@ -438,6 +579,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
+                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+                            ${assessAppraisal.doctorClear}
+					</span>
                 </p>
                 <p style="margin:0pt">
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">五、患方陈述、提出诉求，提交证明材料。</span>
@@ -606,59 +750,16 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
                 </p>
-                <div class="cnzz" style="display: none;"></div>
             </table>
         </div>
         <div class="tab-pane fade " id="recordhf">
             <table class="table-form">
                 <tr>
-                    <td class="tit">
-                        开始时间：
-                    </td>
-                    <td>
-                            ${assessAppraisal.recordInfo1.startTime}
-                    </td>
-                    <td class="tit">
-                        结束时间：
-                    </td>
-                    <td>
-                            ${assessAppraisal.recordInfo1.endTime}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">
-                        地点：
-                    </td>
-                    <td>
-                        ${assessAppraisal.recordInfo1.recordAddress}
-                    </td>
-                    <%--<td class="tit">--%>
-                        <%--事由：--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                        <%--${assessAppraisal.recordInfo1.cause}--%>
-                    <%--</td>--%>
-                    <td class="tit">
-                        主持人：
-                    </td>
-                    <td>
-                            ${assessAppraisal.hosts.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">
-                        记录人：
-                    </td>
-                    <td>
-                        ${assessAppraisal.clerks.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">
+                    <td class="tit" width="200px;">
                         笔录内容：
                     </td>
                     <td colspan="3">
-                        ${assessAppraisal.recordInfo1.recordContent}
+                        <form:textarea path="recordInfo1.recordContent" htmlEscape="false" rows="20" maxlength="500" class="input-xxlarge required" cssStyle="width: 80%;font-size: 16px;" disabled="true"/>
                     </td>
 
                 </tr>
@@ -667,53 +768,11 @@
         <div class="tab-pane fade " id="recordyf">
             <table class="table-form">
                 <tr>
-                    <td class="tit">
-                        开始时间：
-                    </td>
-                    <td>
-                            ${assessAppraisal.recordInfo1.yrecordInfo.startTime}
-                    </td>
-                    <td class="tit">
-                        结束时间：
-                    </td>
-                    <td>
-                            ${assessAppraisal.recordInfo1.yrecordInfo.endTime}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">
-                        地点：
-                    </td>
-                    <td>
-                       ${assessAppraisal.recordInfo1.yrecordInfo.recordAddress}
-                    </td>
-                    <%--<td class="tit">--%>
-                        <%--事由：--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                        <%--${assessAppraisal.recordInfo1.yrecordInfo.cause}--%>
-                    <%--</td>--%>
-                    <td class="tit">
-                        主持人：
-                    </td>
-                    <td>
-                            ${assessAppraisal.hosts.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">
-                        记录人：
-                    </td>
-                    <td>
-                        ${assessAppraisal.clerks.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tit">
+                    <td class="tit" width="200px;">
                         笔录内容：
                     </td>
                     <td colspan="3">
-                        ${assessAppraisal.recordInfo1.yrecordInfo.recordContent}
+                        <form:textarea path="recordInfo1.yrecordInfo.recordContent" htmlEscape="false" rows="20" maxlength="500" class="input-xxlarge required" cssStyle="width: 80%;font-size: 16px;" disabled="true"/>
                     </td>
 
                 </tr>
@@ -722,17 +781,27 @@
         <div class="tab-pane fade " id="zjopinion">
             <table class="table-form">
                 <tr>
-                    <td class="tit" width="225px">
+                    <td class="tit">
                         患者姓名：
                     </td>
                     <td>
-                        ${assessAppraisal.patientName}
+                        <form:input path="complaintMain.patientName" htmlEscape="false" maxlength="10" class="input-xlarge required" readonly="true"/>
                     </td>
-                    <td class="tit" width="225px">
+                    <td class="tit">
                         患者性别：
                     </td>
                     <td>
-                        ${fns:getDictLabel(assessAppraisal.patientSex,'sex' ,'无' )}
+                        <c:choose>
+                            <c:when test="${assessAppraisal.complaintMain.patientSex=='1'}">
+                                男
+                            </c:when>
+                            <c:when test="${assessAppraisal.complaintMain.patientSex=='2'}">
+                                女
+                            </c:when>
+                            <c:otherwise>
+                                无
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr>
@@ -740,13 +809,13 @@
                         患者年龄：
                     </td>
                     <td>
-                        ${assessAppraisal.patientAge}
+                        <form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="32" class="input-xlarge required" readonly="true"/>
                     </td>
                     <td class="tit">
                         住院号：
                     </td>
                     <td>
-                        ${assessAppraisal.hospitalNumber}
+                        <form:input path="hospitalNumber" htmlEscape="false" maxlength="32" class="input-xlarge required" disabled="true"/>
                     </td>
                 </tr>
                 <tr>
@@ -761,35 +830,43 @@
                 <tr>
                     <td class="tit">诊断分析：</td>
                     <td colspan="3">
-                        ${assessAppraisal.diagnosticAnalysis}
+                        <form:textarea path="diagnosticAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;" disabled="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">治疗分析：</td>
                     <td colspan="3">
-                        ${assessAppraisal.treatmentAnalysis}
+                        <form:textarea path="treatmentAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;" disabled="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">其他医疗分析：</td>
                     <td colspan="3">
-                       ${assessAppraisal.otherMedicalAnalysis}
+                        <form:textarea path="otherMedicalAnalysis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 560px;" disabled="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">
-                        医学专家：
+                        责任比例：
                     </td>
-                    <td colspan="3">
-                        ${assessAppraisal.medicalExpertName}
+                    <td>
+                        <form:select path="responsibilityRatio" class="input-medium" style="text-align:center" disabled="true">
+                            <%--<form:options items="${fns:getDictList('assessmentAppraisal')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
+                            <form:option value="无责"/>
+                            <form:option value="轻微责任"/>
+                            <form:option value="次要责任"/>
+                            <form:option value="对等责任"/>
+                            <form:option value="主要责任"/>
+                            <form:option value="全部责任"/>
+                        </form:select>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">
-                        法律顾问：
+                        法律顾问分析：
                     </td>
                     <td colspan="3">
-                        ${assessAppraisal.legalExpert}
+                        <form:input path="legalExpert" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;" disabled="true"/>
                     </td>
                 </tr>
                 <tr>
@@ -797,36 +874,26 @@
                         其他：
                     </td>
                     <td colspan="3">
-                        ${assessAppraisal.other}
+                        <form:input path="other" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;" disabled="true"/>
                     </td>
                 </tr>
 
             </table>
         </div>
         <div class="tab-pane fade " id="opinion">
-            <ul id="myTab1" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#affected" data-toggle="tab">患方</a>
-                </li>
-                <li>
-                    <a href="#medical" data-toggle="tab">医方</a>
-                </li>
-                <li>
-                    <a href="#profile" data-toggle="tab">诊疗概要</a>
-                </li>
-                <li>
-                    <a href="#points" data-toggle="tab">争议要点</a>
-                </li>
-                <li>
-                    <a href="#analysisOpinion" data-toggle="tab">分析意见</a>
-                </li>
-                <li>
-                    <a href="#conclusion" data-toggle="tab">结论</a>
-                </li>
-            </ul>
             <div id="myTabContent1" class="tab-content">
                 <div class="tab-pane fade in active" id="affected">
+                    <h2 style="margin: auto; width: 600px;">
+						<span id="a">
+						</span>
+                        <span style="display: inline-block;text-align:center;width: 100px;">意见书</span>
+                    </h2>
+                    <p style="float:right;width:300px;height: 25px;font-size: 20px;" id="code">
+                            ${assessAppraisal.proposal.proposalCode}
+                    </p>
                     <table id="patientTable" class="table table-striped table-bordered table-condensed">
+                        <legend style="color: black;">一、基本情况</legend>
+
                         <legend>患方</legend>
                         <thead>
                         <tr>
@@ -835,17 +902,9 @@
                             <th >性别</th>
                             <th >身份证号</th>
                             <th >住址</th>
-                            <th >操作</th>
-                            <shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-                                <th >&nbsp;</th>
-                            </shiro:hasPermission>
                         </tr>
                         </thead>
                         <tbody id="patientLinkEmpList"></tbody>
-                        <shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-                            <tfoot>
-                            <tr><td colspan="7"></td></tr>
-                            </tfoot></shiro:hasPermission>
                     </table>
                     <script type="text/template" id="patientLinkEmpTp">
 						<tr id="patientLinkEmpList{{idx}}">
@@ -870,15 +929,11 @@
 								</select>
 							</td>
 							<td>
-								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" readonly="readonly" />
+								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" disabled="disabled"/>
 							</td>
 							<td>
-								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" readonly="readonly" />
+								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" disabled="disabled"/>
 							</td>
-
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkEmpList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
 						</tr>
                     </script>
                     <table id="patientDTable" class="table table-striped table-bordered table-condensed">
@@ -889,17 +944,9 @@
                             <th >姓名</th>
                             <th >与患者关系</th>
                             <th >电话</th>
-                            <th >操作</th>
-                            <shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-                                <th >&nbsp;</th>
-                            </shiro:hasPermission>
                         </tr>
                         </thead>
                         <tbody id="patientLinkDList"></tbody>
-                        <shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-                            <tfoot>
-                            <tr><td colspan="7"></td></tr>
-                            </tfoot></shiro:hasPermission>
                     </table>
                     <script type="text/template" id="patientLinkDTp">
 						<tr id="patientLinkDList{{idx}}">
@@ -912,7 +959,7 @@
 							</td>
 
 							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required"disabled="disabled" />
+								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
 							</td>
 							<td>
                         		<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini" disabled="disabled">
@@ -923,17 +970,11 @@
 								</select>
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required" readonly="readonly"/>
+								<input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required" disabled="disabled"/>
 							</td>
-
-
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#patientLinkDList{{idx}}','_patientLinkEmpId')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
 						</tr>
                     </script>
-                </div>
-                <div class="tab-pane fade" id="medical">
+                    <legend>医方</legend>
                     <table id="hospitalTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                         <tr>
@@ -942,17 +983,9 @@
                             <th >委托代理人</th>
                             <th >联系方式</th>
                             <th >职务</th>
-                            <th >操作</th>
-                            <shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-                                <th >&nbsp;</th>
-                            </shiro:hasPermission>
                         </tr>
                         </thead>
                         <tbody id="medicalOfficeEmpList"></tbody>
-                        <shiro:hasPermission name="assessappraisal:assessAppraisal:edit">
-                            <tfoot>
-                            <tr><td colspan="7"></td></tr>
-                            </tfoot></shiro:hasPermission>
                     </table>
                     <script type="text/template" id="medicalOfficeEmpTp">
 						<tr id="medicalOfficeEmpList{{idx}}">
@@ -964,54 +997,48 @@
 							</td>
 
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" readonly="readonly" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" disabled="disabled"/>
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" readonly="readonly" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" disabled="disabled"/>
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeMobile" name="medicalOfficeEmpList[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="200" class="required" readonly="readonly"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeMobile" name="medicalOfficeEmpList[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="200" class="required" disabled="disabled"/>
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" readonly="readonly"/>
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" disabled="disabled"/>
 							</td>
-							<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}','_medicalOfficeEmpId')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
 						</tr>
                     </script>
+                    <legend style="color: black;">二、评估时间</legend>
+                    <span style="font-family:宋体; font-size:16pt; font-weight:normal; text-decoration:underline;color: black;" id="time1">
 
-
-
-                </div>
-                <div class="tab-pane fade" id="profile">
+					</span>
+                    <legend style="color: black;">三、诊疗概要</legend>
                     <table class="table-form">
                         <tr>
-                            <td class="tit" width="225px">诊疗概要:</td>
                             <td colspan="3">
-                                ${assessAppraisal.proposal.treatmentSummary}
+                                <form:textarea path="proposal.treatmentSummary" htmlEscape="false" rows="10" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;" disabled="true"/>
                             </td>
                         </tr>
                     </table>
-                </div>
-                <div class="tab-pane fade" id="points">
+                    <legend style="color: black;">四、争议要点</legend>
                     <table class="table-form">
                         <tr>
-                            <td class="tit" width="225px">患方认为:</td>
+                            <td class="tit">患方认为:</td>
                             <td colspan="3">
-                                ${assessAppraisal.proposal.patientThink}
+                                <form:textarea path="proposal.patientThink" htmlEscape="false" rows="5" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;" disabled="true"/>
                             </td>
                         </tr>
                         <tr>
                             <td class="tit">医方认为:</td>
                             <td colspan="3">
-                                ${assessAppraisal.proposal.doctorThink}
+                                <form:textarea path="proposal.doctorThink" htmlEscape="false" rows="5" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;" disabled="true"/>
                             </td>
                         </tr>
                     </table>
-                </div>
-                <div class="tab-pane fade" id="analysisOpinion">
-                    <table class="table-form">
+                    <legend style="color: black;">五、分析意见</legend>
+                    <table class="table-form" id="fxyj">
 
                         <tr>
                             <th></th>
@@ -1021,9 +1048,9 @@
                         <c:forEach items="${fxyj}" var="column" varStatus="vs">
                             <tr>
                                 <td nowrap style="text-align:center;vertical-align:middle;">
-                                    <input type="hidden" name="typeInfosList[${vs.index}].typeId" value="${column.typeId}" disabled="disabled"/>
-                                    <input type="hidden" name="typeInfosList[${vs.index}].delFlag" value="${column.delFlag}" disabled="disabled"/>
-                                    <input type="checkbox" name="typeInfosList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} disabled="disabled"/>
+                                    <input type="hidden" name="typeInfosList[${vs.index}].typeId" value="${column.typeId}" />
+                                    <input type="hidden" name="typeInfosList[${vs.index}].delFlag" value="${column.delFlag}"/>
+                                    <input type="checkbox" name="typeInfosList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'fxyj')" disabled="disabled"/>
                                 </td>
                                 <td style="text-align:center;vertical-align:middle;">${column.typeName}</td>
                                 <td style="text-align:center;vertical-align:middle;">${column.content}</td>
@@ -1036,7 +1063,7 @@
                                 诊断:
                             </td>
                             <td>
-                                ${assessAppraisal.proposal.diagnosis}
+                                <form:textarea path="proposal.diagnosis" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;" disabled="true"/>
                             </td>
                         </tr>
                         <tr>
@@ -1044,7 +1071,7 @@
                                 治疗:
                             </td>
                             <td>
-                                ${assessAppraisal.proposal.treatment}
+                                <form:textarea path="proposal.treatment" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;" disabled="true"/>
                             </td>
                         </tr>
                         <tr>
@@ -1052,13 +1079,12 @@
                                 其他:
                             </td>
                             <td>
-                                ${assessAppraisal.proposal.other}
+                                <form:textarea path="proposal.other" htmlEscape="false" rows="2" maxlength="500" class="input-xxlarge required" cssStyle="width: 1374px;" disabled="true"/>
                             </td>
                         </tr>
                     </table>
-                </div>
-                <div class="tab-pane fade" id="conclusion">
-                    <table class="table-form">
+                    <legend style="color: black;">六、结论</legend>
+                    <table class="table-form" id="jl">
                         <tr>
 
                             <td></td>
@@ -1066,11 +1092,11 @@
                             <th>内容</th>
                         </tr>
                         <c:forEach items="${jl}" var="column" varStatus="vs">
-                            <tr>
+                            <tr id="${column.type1}">
                                 <td nowrap style="text-align:center;vertical-align:middle;">
-                                    <input type="hidden" name="typeInfosList2[${vs.index}].typeId" value="${column.typeId}" disabled="disabled"/>
-                                    <input type="hidden" name="typeInfosList2[${vs.index}].delFlag" value="${column.delFlag}" disabled="disabled"/>
-                                    <input type="checkbox" name="typeInfosList2[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} disabled="disabled"/>
+                                    <input type="hidden" name="typeInfosList2[${vs.index}].typeId" value="${column.typeId}"/>
+                                    <input type="hidden" name="typeInfosList2[${vs.index}].delFlag" value="${column.delFlag}"/>
+                                    <input type="checkbox" name="typeInfosList2[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'jl')" disabled="disabled"/>
                                 </td>
 
                                 <td style="text-align:center;vertical-align:middle;">
@@ -1082,6 +1108,8 @@
                             </tr>
                         </c:forEach>
                     </table>
+                    <legend style="color: black;">七、说明</legend>
+                    <span style="font-size: 20px;">该意见仅作为山西省医疗纠纷人民调解委员会调解医疗纠纷的参考，不具备法律效率。</span><br><br>
                 </div>
 
             </div>
@@ -1095,7 +1123,7 @@
 
                         <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"  value="${files1}"/>
                         <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
-                        <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/assessappraisal/assessAppraisal/qiandao" selectMultiple="true" readonly="true" /></div>
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"  uploadPath="/assessappraisal/assessAppraisal/qiandao" selectMultiple="true" readonly="true"/></div>
                     </td>
 
                 </tr>
@@ -1169,116 +1197,20 @@
 
     <table class="table-form">
         <tr>
-            <td class="tit" width="225px">
-                申请类型：
-            </td>
-            <td width="520px">
-                ${fns:getDictLabel(assessAppraisal.applyType,'assessmentAppraisal' ,'无' )}
-            </td>
-            <td class="tit" width="225px">
-                责任比例：
-            </td>
-            <td>
-                ${assessAppraisal.responsibilityRatio}
-            </td>
-        </tr>
-        <tr>
-            <td class="tit">
-                主持人：
-            </td>
-            <td>
-               ${assessAppraisal.hosts.name}
-            </td>
-            <td class="tit">
-                书记员：
-            </td>
-            <td>
-                ${assessAppraisal.clerks.name}
-            </td>
-        </tr>
-            <%--<tr>--%>
-            <%--<td class="tit">--%>
-            <%--处理人：--%>
-            <%--</td>--%>
-            <%--<td>--%>
-            <%--<form:input path="handlePeople" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-            <%--</td>--%>
-            <%--<td class="tit">--%>
-            <%--处理日期：--%>
-            <%--</td>--%>
-            <%--<td>--%>
-            <%--<input name="handleTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "--%>
-            <%--value="${assessAppraisal.handleTime}"--%>
-            <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-        <tr>
 
             <td class="tit" width="225px">
                 下一环节处理人：
             </td>
             <td>
-                    ${assessAppraisal.linkEmployee.name}
+                <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty assessAppraisal.nextLinkMan?fns:getUser().id:assessAppraisal.nextLinkMan}" labelName="" labelValue="${empty assessAppraisal.linkEmployee.name?fns:getUser().name:assessAppraisal.linkEmployee.name}"
+                                title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" />
             </td>
         </tr>
     </table>
-        </div>
-        <div class="tab-pane fade" id="details">
-            <ul id="iframe" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#tsjd" data-toggle="tab">投诉接待</a>
-                </li>
-                <li>
-                    <a href="#badj" data-toggle="tab">报案登记</a>
-                </li>
-                <li>
-                    <a href="#shsl" data-toggle="tab">审核受理</a>
-                </li>
-                <li>
-                    <a href="#dcqz" data-toggle="tab">调查取证</a>
-                </li>
-                <li>
-                    <a href="#zztj" data-toggle="tab">质证调解</a>
-                </li>
-                <%--<li>--%>
-                    <%--<a href="#pgjdsq" data-toggle="tab">评估鉴定申请</a>--%>
-                <%--</li>--%>
-                <%--<li>--%>
-                    <%--<a href="#pgjdsp" data-toggle="tab">评估鉴定审批</a>--%>
-                <%--</li>--%>
-            </ul>
-            <div id="iframeTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="tsjd">
-                    <iframe id="tsjdDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="badj">
-                    <iframe id="badjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="shsl">
-                    <iframe id="shslDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="dcqz">
-                    <iframe id="dcqzDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <div class="tab-pane fade" id="zztj">
-                    <iframe id="zztjDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>
-                </div>
-                <%--<div class="tab-pane fade" id="pgjdsq">--%>
-                    <%--<iframe id="pgjdsqDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>--%>
-                <%--</div>--%>
-                <%--<div class="tab-pane fade" id="pgjdsp">--%>
-                    <%--<iframe id="pgjdspDetail" src="" style="box-shadow:0 0 10px rgba(0,0,0,0.3)" frameborder="0" scrolling="auto" ></iframe>--%>
-                <%--</div>--%>
-            </div>
-        </div>
-    </div>
-</fieldset>
-    <c:if test="${empty show2}">
     <div class="form-actions">
-        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 550px;"/>
+        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <act:histoicFlow procInsId="${assessAppraisal.complaintMain.procInsId}" />
-    </c:if>
 </form:form>
 <script type="text/javascript">
     var medicalOfficeEmpRowIdx = 0, medicalOfficeEmpTp = $("#medicalOfficeEmpTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
@@ -1286,19 +1218,27 @@
     var patientLinkDRowIdx = 0, patientLinkDTp = $("#patientLinkDTp").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
     $(document).ready(function() {
         var data = ${fns:toJson(assessAppraisal.medicalOfficeEmpList)};
-        console.log(data)
+        if(0!=data.length){
+            $("#a3").hide()
+        }
         for (var i=0; i<data.length; i++){
-            addRow('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, data[i]);
+            addRow3('#medicalOfficeEmpList', medicalOfficeEmpRowIdx, medicalOfficeEmpTp, data[i]);
             medicalOfficeEmpRowIdx = medicalOfficeEmpRowIdx + 1;
         }
 
-        var data = ${fns:toJson(assessAppraisal.patientLinkDList)};
-        for (var i=0; i<data.length; i++){
-            addRow('#patientLinkDList', patientLinkDRowIdx, patientLinkDTp, data[i]);
+        var data1 = ${fns:toJson(assessAppraisal.patientLinkDList)};
+        if(0!=data1.length){
+            $("#a2").hide()
+        }
+        for (var i=0; i<data1.length; i++){
+            addRow2('#patientLinkDList', patientLinkDRowIdx, patientLinkDTp, data1[i]);
             patientLinkDRowIdx = patientLinkDRowIdx + 1;
         }
 
         var PatientData = ${fns:toJson(assessAppraisal.patientLinkEmpList)};
+        if(0!=PatientData.length){
+            $("#a1").hide()
+        }
         for (var i=0; i<PatientData.length; i++){
             addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp, PatientData[i]);
             patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;
