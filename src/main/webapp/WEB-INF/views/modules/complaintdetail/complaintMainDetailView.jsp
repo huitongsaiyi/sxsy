@@ -103,16 +103,20 @@
         <div class="tab-pane fade" id="hospital">
             <table class="table-form">
                 <tr >
-                    <td class="tit" width="270px">涉及医院：</td>
+                    <td class="tit" width="270px">涉及医院所属地区：</td>
                     <td width="300px">
-                            ${complaintMainDetail.complaintMain.hospital.name}
+                            ${empty office.area.name ? complaintMainDetail.complaintMain.hospital.area.name :office.area.name}
                     </td>
-                    <td class="tit" width="300px">涉及科室：</td>
+                    <td class="tit" width="300px">涉及医院：</td>
                     <td >
-                            ${complaintMainDetail.complaintMain.testTree}
+                            ${complaintMainDetail.complaintMain.hospital.name}
                     </td>
                 </tr>
                 <tr >
+                    <td class="tit">涉及科室：</td>
+                    <td>
+                        ${complaintMainDetail.complaintMain.testTree}
+                    </td>
                     <td class="tit">涉及人员：</td>
                     <td >
                             ${empty complaintMainDetail.complaintMain.employee.name?complaintMainDetail.complaintMain.involveEmployee:complaintMainDetail.complaintMain.employee.name}
