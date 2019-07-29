@@ -121,7 +121,7 @@ public class MediateEvidenceController extends BaseController {
 		String export=request.getParameter("export");
 
 		if (StringUtils.isNotBlank(export) && !export.equals("no")){
-			mediateEvidenceService.save(mediateEvidence,request);
+//			mediateEvidenceService.save(mediateEvidence,request);
 			MediateEvidence mediateEvidence1 = mediateEvidenceService.get(mediateEvidence.getMediateEvidenceId());
 			String path = mediateEvidenceService.exportWord(mediateEvidence1,export,"false",request,response);
 			return path;

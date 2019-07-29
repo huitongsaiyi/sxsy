@@ -82,6 +82,8 @@ public class ReportRegistrationController extends BaseController {
 				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
 			}
 		}
+		ComplaintMain complaintMain = complaintMainService.get(reportRegistration.getComplaintMainId());
+		reportRegistration.getComplaintMain().setTestTree(complaintMain.getTestTree());
 		if("view".equals(type)) {		//判断数据内容是否一致，一致将数据发送到详情页面；不一致，页面跳转到添加页面
 			Map<String, Object> map = summaryInfoService.getViewDetail(reportRegistration.getComplaintMainId());
 			model.addAttribute("map",map);
@@ -90,8 +92,6 @@ public class ReportRegistrationController extends BaseController {
 			model.addAttribute("show2",show2);
 			return "modules/registration/reportRegistrationView";
 		}else{
-			ComplaintMain complaintMain = complaintMainService.get(reportRegistration.getComplaintMainId());
-			reportRegistration.getComplaintMain().setTestTree(complaintMain.getTestTree());
 			model.addAttribute("reportRegistration", reportRegistration);
 			return "modules/registration/reportRegistrationForm";
 		}
