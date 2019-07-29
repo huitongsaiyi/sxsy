@@ -75,16 +75,16 @@ public class ComplaintMainDetailController extends BaseController {
 			complaintMainDetail.setComplaintMain(complaintMain);
 		}
 		String type=request.getParameter("type");
+		if(StringUtils.isNotBlank(complaintMainDetail.getComplaintMainDetailId())){
+			ComplaintMain complaintMain = complaintMainService.get(complaintMainDetail.getComplaintMainId());
+			complaintMainDetail.getComplaintMain().setTestTree(complaintMain.getTestTree());
+		}
 		if ("view".equals(type)) {
 			String show2=request.getParameter("show2");
 			model.addAttribute("show2",show2);
 			model.addAttribute("complaintMainDetail", complaintMainDetail);
 			return "modules/complaintdetail/complaintMainDetailView";
 		}else {
-		    if(StringUtils.isNotBlank(complaintMainDetail.getComplaintMainDetailId())){
-                ComplaintMain complaintMain = complaintMainService.get(complaintMainDetail.getComplaintMainId());
-                complaintMainDetail.getComplaintMain().setTestTree(complaintMain.getTestTree());
-            }
 
 			model.addAttribute("complaintMainDetail", complaintMainDetail);
 			return "modules/complaintdetail/complaintMainDetailForm";
