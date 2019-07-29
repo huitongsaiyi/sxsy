@@ -563,9 +563,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
             }
             path += "/doc/assessappraisal.docx";  //模板文件位置
             modelPath += "/doc/assessappraisal.docx";
-            savaPath +="/userfiles/assessAppraisalMeeting/"+num+"assessappraisal.docx";
-            pdfPath +="/userfiles/assessAppraisalMeeting/"+num+"assessappraisal.pdf";
-            returnPath="/userfiles/assessAppraisalMeeting/"+num+"assessappraisal.pdf";
+            savaPath +="/userfiles/assessAppraisal/"+num+"assessappraisal.docx";
+            pdfPath +="/userfiles/assessAppraisal/"+num+"assessappraisal.pdf";
+            returnPath="/userfiles/assessAppraisal/"+num+"assessappraisal.pdf";
             newFileName="评估鉴定程序表.docx";
 		}
 		//患方调解笔录
@@ -626,9 +626,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
             }
 			path += "/doc/assessrecord.docx";  //模板文件位置
 			modelPath += "/doc/assessrecord.docx";
-			savaPath +="/userfiles/assessContent/"+num+"assessrecord.docx";
-			pdfPath +="/userfiles/assessContent/"+num+"assessrecord.pdf";
-			returnPath="/userfiles/assessContent/"+num+"assessrecord.pdf";
+			savaPath +="/userfiles/assessAppraisal/"+num+"assessrecord.docx";
+			pdfPath +="/userfiles/assessAppraisal/"+num+"assessrecord.pdf";
+			returnPath="/userfiles/assessAppraisal/"+num+"assessrecord.pdf";
 			newFileName="评估鉴定会患方笔录.docx";
 		}
 		//医方调解笔录
@@ -689,9 +689,9 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
             }
 			path += "/doc/assessrecord.docx";  //模板文件位置
 			modelPath += "/doc/assessrecord.docx";
-			savaPath +="/userfiles/assessYContent/"+num+"assessrecord.docx";
-			pdfPath +="/userfiles/assessYContent/"+num+"assessrecord.pdf";
-			returnPath="/userfiles/assessYContent/"+num+"assessrecord.pdf";
+			savaPath +="/userfiles/assessAppraisal/"+num+"assessrecord.docx";
+			pdfPath +="/userfiles/assessAppraisal/"+num+"assessrecord.pdf";
+			returnPath="/userfiles/assessAppraisal/"+num+"assessrecord.pdf";
 			newFileName="评估鉴定会医方笔录.docx";
 		}
 		try{
