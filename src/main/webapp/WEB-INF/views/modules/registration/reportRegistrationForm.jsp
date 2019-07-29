@@ -107,13 +107,13 @@
     </li>
 </ul>
 <div id="myTabContent" class="tab-content">
-    <p style="margin:0pt; text-align:center">
-        <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder; font-weight:bolder; ">山西省医疗纠纷人民调解委员会</span>
-    <p style="margin:0 auto ;width: 270px;">
-        <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;margin-left: 25px;">医疗纠纷报案信息登记表</span>
-    </p>
-    </p>
     <div class="tab-pane fade in active" id="visitor">
+        <p style="margin:0pt; text-align:center">
+            <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder; font-weight:bolder; ">山西省医疗纠纷人民调解委员会</span>
+        <p style="margin:0 auto ;width: 270px;">
+            <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;margin-left: 25px;">医疗纠纷报案信息登记表</span>
+        </p>
+        </p>
             <table cellspacing="0" cellpadding="0"
                    style="border-collapse:collapse; margin:0pt 9pt; width:80%; margin:auto;">
                 <tr style="height:39.6pt">

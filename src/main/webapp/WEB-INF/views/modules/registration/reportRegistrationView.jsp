@@ -69,13 +69,14 @@
             </li>
         </ul>
         <div id="myTabContent" class="tab-content">
-            <p style="margin:0pt; text-align:center">
-                <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder; font-weight:bolder; ">山西省医疗纠纷人民调解委员会</span>
-            <p style="margin:0 auto ;width: 270px;">
-                <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;margin-left: 25px;">医疗纠纷报案信息登记表</span>
-            </p>
-            </p>
+
             <div class="tab-pane fade in active" id="visitor">
+                <p style="margin:0pt; text-align:center">
+                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder; font-weight:bolder; ">山西省医疗纠纷人民调解委员会</span>
+                <p style="margin:0 auto ;width: 270px;">
+                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;margin-left: 25px;">医疗纠纷报案信息登记表</span>
+                </p>
+                </p>
                 <table cellspacing="0" cellpadding="0"
                        style="border-collapse:collapse; margin:0pt 9pt; width:80%; margin:auto;">
                     <tr style="height:39.6pt">
@@ -426,202 +427,6 @@
                 </p>
             </div>
 
-
-                <%--<table class="table-form">--%>
-                <%--<tr>--%>
-                <%--<td class="tit" width="199px"><font color="red">*</font>医疗机构名称：</td>--%>
-                <%--<td colspan="3">--%>
-                <%--<sys:treeselect id="involveHospital" name="complaintMain.involveHospital"--%>
-                <%--value="${reportRegistration.complaintMain.involveHospital}" labelName=""--%>
-                <%--labelValue="${reportRegistration.complaintMain.hospital.name}"--%>
-                <%--title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true"--%>
-                <%--dataMsgRequired="必填信息" cssClass="required" allowClear="true"--%>
-                <%--notAllowSelectParent="false"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit" width="199px"><font color="red">*</font>保单号：</td>--%>
-
-                <%--<td colspan="3">--%>
-                <%--<form:input path="policyNumber" htmlEscape="false" maxlength="255"--%>
-                <%--class="input-xlarge required"/>--%>
-                <%--</td>--%>
-
-                <%--&lt;%&ndash;<td class="tit" width="180px"><font color="red">*</font>报案人姓名：</td>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td width="429px">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-xlarge required"/>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td class="tit" width="180px"><font color="red">*</font>患方联系方式：</td>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td width="429px">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-xlarge required phone"/>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--&lt;%&ndash;<td class="tit" width="160px"><font color="red">*</font>与患者关系：</td>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td width="476px">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<form:select path="patientRelation" class="input-medium">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<form:options items="${fns:getDictList('patient_relation')}" itemLabel="label" itemValue="value" htmlEscape="false"/>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</form:select>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td class="tit" width="160px">报案日期：</td>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td width="476px">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"&ndash;%&gt;--%>
-                <%--&lt;%&ndash;value="${reportRegistration.reportTime}"&ndash;%&gt;--%>
-                <%--&lt;%&ndash;onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</td>&ndash;%&gt;--%>
-                <%--<td class="tit" width="180px">纠纷发生时间：</td>--%>
-                <%--<td>--%>
-                <%--<input name="disputeTime" type="text" readonly="readonly" maxlength="20"--%>
-                <%--class="input-medium Wdate required"--%>
-                <%--value="${reportRegistration.disputeTime}"--%>
-                <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit" width="199px"><font color="red">*</font>医院等级：</td>--%>
-                <%--<td>--%>
-                <%--<form:select path="complaintMain.hospitalGrade" cssStyle="width: 180px">--%>
-                <%--<form:option value="1">特等</form:option>--%>
-                <%--<form:option value="2">甲等</form:option>--%>
-                <%--<form:option value="3">乙等</form:option>--%>
-                <%--<form:option value="4">丙等</form:option>--%>
-                <%--</form:select>--%>
-                <%--</td>--%>
-                <%--<td class="tit" width="199px"><font color="red">*</font>所属地市：</td>--%>
-                <%--<td style="text-align: center;">${reportRegistration.area.name}</td>--%>
-                <%--<td class="tit" width="180px"><font color="red">*</font>报案人姓名：</td>--%>
-                <%--<td width="429px">--%>
-                <%--<form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-xlarge required"/>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit" width="240px">患者姓名：</td>--%>
-                <%--<td width="522px">--%>
-                <%--<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20"--%>
-                <%--class="input-xlarge required"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit">患者性别：</td>--%>
-                <%--<td>--%>
-                <%--&lt;%&ndash;<form:input path="patientSex" htmlEscape="false" maxlength="1" class="input-xlarge "/>&ndash;%&gt;--%>
-                <%--<form:select path="complaintMain.patientSex" class="input-medium">--%>
-                <%--<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value"--%>
-                <%--htmlEscape="false"/>--%>
-                <%--</form:select>--%>
-                <%--</td>--%>
-                <%--<td class="tit">患者年龄：</td>--%>
-                <%--<td>--%>
-                <%--<form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4"--%>
-                <%--class="input-xlarge required"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit">患者身份证号：</td>--%>
-                <%--<td>--%>
-                <%--<form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20"--%>
-                <%--class="input-xlarge required card"/>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit" width="160px">出险时间：</td>--%>
-                <%--<td width="476px">--%>
-                <%--<input name="reportTime" type="text" readonly="readonly" maxlength="20"--%>
-                <%--class="input-medium Wdate required"--%>
-                <%--value="${reportRegistration.reportTime}"--%>
-                <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit" width="180px"><font color="red">*</font>科室：</td>--%>
-                <%--<td>--%>
-                <%--<sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment"--%>
-                <%--value="${reportRegistration.complaintMain.involveDepartment}" labelName=""--%>
-                <%--labelValue="${reportRegistration.complaintMain.department.name}"--%>
-                <%--title="部门" url="/sys/office/treeData?type=2&officeType=2" isAll="true"--%>
-                <%--dataMsgRequired="必填信息" cssClass="required" allowClear="true"--%>
-                <%--notAllowSelectParent="true"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit"><font color="red">*</font>出险医生：</td>--%>
-                <%--<td class="controls">--%>
-                <%--<sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee"--%>
-                <%--value="${reportRegistration.complaintMain.involveEmployee}" labelName=""--%>
-                <%--labelValue="${reportRegistration.complaintMain.employee.name}"--%>
-                <%--title="用户" url="/sys/office/treeData?type=3&officeType=2" isAll="true"--%>
-                <%--dataMsgRequired="必填信息" cssClass="required" allowClear="true"--%>
-                <%--notAllowSelectParent="true"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit"><font color="red">*</font>是否重大纠纷：</td>--%>
-                <%--<td>--%>
-                <%--<form:select path="isMajor" style='width:110px;text-align: center;'>--%>
-                <%--<form:option value="1">是</form:option>--%>
-                <%--<form:option value="0">否</form:option>--%>
-                <%--</form:select>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit" width="180px"><font color="red">*</font>患方联系方式：</td>--%>
-                <%--<td width="" colspan="3">--%>
-                <%--<form:input path="patientMobile" htmlEscape="false" maxlength="15"--%>
-                <%--class="input-xlarge required phone"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit" width="180px"><font color="red">*</font>医方联系方式：</td>--%>
-                <%--<td width="" colspan="3">--%>
-                <%--<form:input path="doctorMobile" htmlEscape="false" maxlength="15"--%>
-                <%--class="input-xlarge required phone"/>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit"><font color="red">*</font>投诉纠纷概要：</td>--%>
-                <%--<td colspan="7">--%>
-                <%--<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required"--%>
-                <%--style="margin: 0px; width: 700px; height: 125px;"/>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit"><font color="red">*</font>投诉纠纷焦点：</td>--%>
-                <%--<td colspan="7">--%>
-                <%--<form:textarea path="focus" htmlEscape="false" class="input-xlarge required"--%>
-                <%--style="margin: 0px; width: 700px; height: 125px;"/>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit"><font color="red">*</font>患方要求：</td>--%>
-                <%--<td colspan="7">--%>
-                <%--<form:textarea path="patientAsk" htmlEscape="false" class="input-xlarge required"--%>
-                <%--style="margin: 0px; width: 700px; height: 125px;"/>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit" width="160px">填表人签名：</td>--%>
-                <%--<td width="" colspan="3">--%>
-                <%--<sys:treeselect id="registrationEmp" name="registrationEmp"--%>
-                <%--value="${reportRegistration.registrationEmp}" labelName=""--%>
-                <%--labelValue="${reportRegistration.djEmployee.name}"--%>
-                <%--title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息"--%>
-                <%--cssClass="required" allowClear="true" notAllowSelectParent="true"/>--%>
-
-                <%--</td>--%>
-                <%--<td class="tit" width="180px">填表日期：</td>--%>
-                <%--<td colspan="3">--%>
-                <%--<input name="registrationTime" type="text" readonly="readonly" maxlength="20"--%>
-                <%--class="input-medium Wdate required"--%>
-                <%--value="${reportRegistration.registrationTime}"--%>
-                <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                <%--<td class="tit" width="160px">报案号：</td>--%>
-                <%--<td width="">--%>
-                <%--<form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20"--%>
-                <%--class="input-xlarge required"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit"><font color="red">*</font>审核人：</td>--%>
-                <%--<td>--%>
-                <%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge required"/>--%>
-                <%--</td>--%>
-                <%--<td class="tit" width="160px">审核日期：</td>--%>
-                <%--<td width="" colspan="3">--%>
-                <%--<input name="patientRelation" type="text" readonly="readonly" maxlength="20"--%>
-                <%--class="input-medium Wdate required"--%>
-                <%--value="${reportRegistration.patientRelation}"--%>
-                <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>--%>
-                <%--</td>--%>
-
-                <%--</tr>--%>
-                <%--</table>--%>
-                <%--</div>--%>
-
             <div class="tab-pane fade" id="annex">
                 <input type="hidden" name="fjtype" value="0">
                 <td style="width: 450px;">
@@ -629,7 +434,7 @@
                            value="${files}"/>
                     <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
                     <sys:ckfinder input="files" type="files" uploadPath="/reportReigsation/annex" selectMultiple="true"
-                                  maxWidth="100" maxHeight="100"/>
+                                  maxWidth="100" maxHeight="100" readonly="true"/>
                 </td>
             </div>
         </div>
