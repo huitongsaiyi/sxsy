@@ -110,7 +110,7 @@ public class ReachMediateController extends BaseController {
 	public String save(HttpServletRequest request,ReachMediate reachMediate, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
 		if (StringUtils.isNotBlank(export) && !export.equals("no")){
-			reachMediateService.save(reachMediate, request);
+//			reachMediateService.save(reachMediate, request);
 			ReachMediate reachMediate1 = reachMediateService.get(reachMediate.getReachMediateId());
 			String path = reachMediateService.exportWord(reachMediate1,export,"false",request,response);
 			return path;
@@ -156,7 +156,6 @@ public class ReachMediateController extends BaseController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("url",code);
 		AjaxHelper.responseWrite(request,response,"1","success",map);
-
 	}
 
 }

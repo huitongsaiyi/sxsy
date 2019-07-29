@@ -27,18 +27,25 @@
 <%--</ul><br/>--%>
 <form:form id="inputForm" modelAttribute="reportRegistration" action="${ctx}/registration/reportRegistration/save"
            method="post" class="form-horizontal">
-<form:hidden path="reportRegistrationId"/>
-<form:hidden path="createDate"/>
-<form:hidden path="createBy"/>
-<form:hidden path="complaintMainId"/>
-<form:hidden path="complaintMain.complaintMainId"/>
-<form:hidden path="complaintMain.act.taskId"/>
-<form:hidden path="complaintMain.act.taskName"/>
-<form:hidden path="complaintMain.act.taskDefKey"/>
-<form:hidden path="complaintMain.act.procInsId"/>
-<form:hidden path="complaintMain.act.procDefId"/>
-<form:hidden path="complaintMain.procInsId"/>
-<form:hidden id="flag" path="complaintMain.act.flag"/>
+    <form:hidden path="reportRegistrationId"/>
+    <form:hidden path="createDate"/>
+    <form:hidden path="createBy"/>
+    <form:hidden path="complaintMainId"/>
+    <form:hidden path="complaintMain.complaintMainId"/>
+    <form:hidden path="complaintMain.act.taskId"/>
+    <form:hidden path="complaintMain.act.taskName"/>
+    <form:hidden path="complaintMain.act.taskDefKey"/>
+    <form:hidden path="complaintMain.act.procInsId"/>
+    <form:hidden path="complaintMain.act.procDefId"/>
+    <form:hidden path="complaintMain.procInsId"/>
+    <form:hidden id="flag" path="complaintMain.act.flag"/>
+    <form:hidden path="complaintMain.hospital.name"/>
+    <form:hidden path="area.name"/>
+    <form:hidden path="complaintMain.involveDepartment"/>
+    <form:hidden path="complaintMain.involveEmployee"/>
+    <form:hidden path="complaintMain.involveHospital"/>
+    <form:hidden path="complaintMain.hospital.area.name"/>
+    <form:hidden path="complaintMain.patientAge"/>
 <sys:message content="${message}"/>
 <fieldset>
 <ul id="myTab2" class="nav nav-tabs">
@@ -149,7 +156,7 @@
                         <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:55pt">
                             <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                    ${reportRegistration.area.name}
+                                    ${reportRegistration.complaintMain.hospital.area.name}
                             </span>
                             </p></td>
                         <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:62.3pt">
@@ -185,13 +192,12 @@
                                  <%--</form:select>--%>
                             </span>
                             </p></td>
-                        <td colspan="2
+                        <td colspan="2"
                         style=" border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt;
                             border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt;
                             border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt;
                             border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt;
-                            padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:53.15pt
-                        ">
+                            padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:53.15pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0"><span
                                 style="font-family:宋体; font-size:12pt; font-weight:bold">年龄</span></p></td>
                         <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:55pt">
@@ -338,7 +344,7 @@
                         <td colspan="2"
                             style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:189.3pt">
                             <p style="margin:0pt; orphans:0; text-align:center; widows:0"><span
-                                    style="font-family:宋体; font-size:12pt">
+                                    style="font-family:宋体; font-size:12pt;font-weight:bold;">
                                     ${reportRegistration.registrationTime}
                             </span></p></td>
                     </tr>
@@ -359,8 +365,8 @@
                                     style="font-family:宋体; font-size:12pt; font-weight:bold">审核人</span></p></td>
                         <td colspan="2"
                             style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:92.6pt">
-                            <p style="margin:0pt; orphans:0; text-align:justify; widows:0">
-                            <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
+                            <p style="margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold;">
                                     ${reportRegistration.nextLink}
                             </span>
                             </p></td>
@@ -369,7 +375,7 @@
                                     style="font-family:宋体; font-size:12pt; font-weight:bold">审核日期</span></p></td>
                         <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:116.15pt">
                             <p style="margin:0pt; orphans:0; text-align:center; widows:0">
-                            <span style="font-family:'Times New Roman'; font-size:12pt">
+                            <span style="font-family:'Times New Roman'; font-size:12pt;font-weight:bold;">
                                     ${reportRegistration.patientRelation}
                             </span></p></td>
                     </tr>
@@ -440,7 +446,7 @@
         </div>
         <table class="table-form">
             <tr>
-                <td class="tit"><font color="red">*</font>下一环节处理人：</td>
+                <td class="tit" width="220px;">下一环节处理人：</td>
                 <td>
                         <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                         ${empty reportRegistration.linkEmployee.name?fns:getUser().name:reportRegistration.linkEmployee.name}
@@ -465,7 +471,7 @@
 </fieldset>
     <c:if test="${empty show2}">
         <div class="form-actions">
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" style="margin-left: 45%;"/>
         </div>
         <act:histoicFlow procInsId="${reportRegistration.complaintMain.procInsId}"/>
     </c:if>

@@ -173,10 +173,10 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		this.tjz(reachMediate);
 		this.savefj(request,reachMediate);		//调解志保存
 		//保存调解程序 与 调解志
-		String export=request.getParameter("export");
-		if(StringUtils.isNotBlank(reachMediate.getReaMeetingTime())&& !"meeting".equals(export)){
+//		String export=request.getParameter("export");
+//		if(StringUtils.isNotBlank(reachMediate.getReaMeetingTime())&& "meeting".equals(export)||"no".equals(export)){
 			this.saveMeeting(reachMediate);
-		}
+//		}
 		if("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())){
 			Map<String,Object> var = new HashMap<String,Object>();
 			var.put("pass","0");

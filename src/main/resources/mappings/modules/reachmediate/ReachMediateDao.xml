@@ -102,7 +102,7 @@
 			<include refid="reachMediateColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="reachMediateJoins"/>
-		WHERE a.reach_mediate_id = #{reachMediateId} OR r1.report_registration_id = #{mediateEvidenceId}
+		WHERE a.reach_mediate_id = #{reachMediateId} OR r1.report_registration_id = #{reachMediateId}
 	</select>
 	
 	<select id="findList" resultType="ReachMediate">

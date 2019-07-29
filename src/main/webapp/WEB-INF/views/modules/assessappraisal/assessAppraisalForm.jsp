@@ -41,8 +41,13 @@
 				$("#jd").show();
 				$("#pg").hide();
 			}
-
-
+            if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗纠纷技术评估"}){
+            $("#jd").hide();
+            $("#pg").show();
+            }else if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗责任保险事故鉴定"}){
+            $("#jd").show();
+            $("#pg").hide();
+            }
 
 
 
