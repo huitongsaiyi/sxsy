@@ -50,7 +50,7 @@
 			<tr>
 				<th class="sort-column case_number" style="text-align:center;">案件编号</th>
 				<th class="sort-column b.involve_hospital" style="text-align:center;">涉及医院</th>
-				<th class="sort-column hospital_grade" style="text-align:center;">医院等级</th>
+				<th class="sort-column b.hospital_grade" style="text-align:center;">医院等级</th>
 				<th class="sort-column sa.name" style="text-align:center;">保单号</th>
 				<th class="sort-column report_emp" style="text-align:center;">报案人姓名</th>
 				<th class="sort-column dispute_time" style="text-align:center;">纠纷发生时间</th>

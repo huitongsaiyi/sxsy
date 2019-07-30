@@ -135,7 +135,7 @@
                         style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:4.5pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:255.1pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="input-xlarge required" cssStyle="width: 90%;height: 30px;border:1px solid black; text-align: center;"/>
+                                <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="required" cssStyle="width: 90%;height: 30px; text-align: center;"/>
                              </span>
                         </p></td>
                 </tr>
@@ -186,7 +186,7 @@
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:116.15pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 90%;height: 30px;border:1px solid black;text-align: center;font-size: 16px;"/>
+                                <form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 90%;height: 30px;text-align: center;font-size: 16px;"/>
                             </span>
                         </p></td>
                 </tr>
@@ -197,7 +197,7 @@
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:73.1pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge required" cssStyle="width: 90%;height: 30px;border:1px solid black;text-align: center;font-size: 16px;"/>
+                                <form:input path="complaintMain.patientName" htmlEscape="false" maxlength="20" class="input-xlarge required" cssStyle="width: 90%;height: 30px;text-align: center;font-size: 16px;"/>
                             </span>
                         </p></td>
                     <td colspan="2"
@@ -230,7 +230,7 @@
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:4.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:3.15pt; vertical-align:middle; width:116.15pt">
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge required card" cssStyle="width: 90%;height: 30px;border:1px solid black;text-align: center;"/>
+                                <form:input path="complaintMain.patientCard" htmlEscape="false" maxlength="20" class="input-xlarge required card" cssStyle="width: 90%;height: 30px;text-align: center;"/>
                             </span>
                         </p></td>
                 </tr>
@@ -291,7 +291,7 @@
                         <p style="margin:0pt; orphans:0; widows:0">
                             <span style="font-family:宋体; font-size:12pt; font-weight:bold">患方：</span>
                             <span style="font-family:宋体; font-size:12pt; font-weight:bold">
-                                <form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-xlarge required phone" cssStyle="width: 80%;height: 30px;border:1px solid black; font-size: 16px;"/>
+                                <form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-xlarge required phone" cssStyle="width: 80%;height: 30px; font-size: 16px;"/>
                             </span>
                         </p>
                     </td>
@@ -301,7 +301,7 @@
                                 style="font-family:宋体; font-size:12pt; font-weight:bold">医方：</span>
                         <span style="font-family:宋体; font-size:12pt; font-weight:bold">
                             <form:input path="doctorMobile" htmlEscape="false" maxlength="15"
-                class="input-xlarge required phone" cssStyle="width: 80%;height: 30px;border:1px solid black; font-size: 16px;"/>
+                class="input-xlarge required phone" cssStyle="width: 80%;height: 30px;font-size: 16px;"/>
                         </span>
                         </p></td>
 
@@ -385,7 +385,7 @@
                         style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:92.6pt">
                         <p style="margin:0pt; orphans:0; text-align:justify; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 90%;height: 30px;border: 1px solid black; text-align: center;"/>
+                                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 90%;height: 30px; text-align: center;"/>
                             </span>
                         </p></td>
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:62.3pt">
