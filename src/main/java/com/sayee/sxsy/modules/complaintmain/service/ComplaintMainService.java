@@ -3,12 +3,14 @@
  */
 package com.sayee.sxsy.modules.complaintmain.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sys.entity.User;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -176,4 +178,12 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	}
 
 
+    public List<ComplaintMain > getMyDone(String loginName) {
+    	//根据登录人 取得登陆人已经办理完成的数据
+		List<ComplaintMain> list=complaintMainDao.getMyDone(loginName);
+		//清除查到的  null  值
+		list.removeAll(Collections.singleton(null));
+		this.format(list);
+    	return list;
+    }
 }

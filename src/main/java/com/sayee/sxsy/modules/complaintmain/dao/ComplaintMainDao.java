@@ -31,4 +31,8 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * 获取某表的主键
      */
     public String getKey(@Param("complaintMainId") String complaintMainId,@Param("key") String key,@Param("table") String table);
+    /**
+     * 获取我的已办数据
+     */
+    public List<ComplaintMain> getMyDone(@Param("loginName") String loginName);
 }

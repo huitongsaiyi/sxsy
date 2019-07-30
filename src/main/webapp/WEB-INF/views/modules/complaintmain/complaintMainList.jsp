@@ -18,7 +18,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a>我的待办</a></li>
+		<li class="active"><a href="${ctx}/complaintmain/complaintMain/self">我的待办</a></li>
+		<li ><a href="${ctx}/complaintmain/complaintMain/home?type=myDone">我的已办</a></li>
 <%--
 		<shiro:hasPermission name="complaintmain:complaintMain:edit"><li><a href="${ctx}/complaintmain/complaintMain/form">纠纷调解添加</a></li></shiro:hasPermission>
 --%>
@@ -43,7 +44,7 @@
 				<th>涉及科室</th>
 				<th>涉及人员</th>
 				<th>当前节点</th>
-				<th>update_date</th>
+				<th>修改时间</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -68,7 +69,7 @@
 					${complaintMain.hospital.name}
 				</td>
 				<td>
-						${fns:getDictLabel(complaintMain.involveDepartment, 'department', '未知')}
+					${fns:getDictLabel(complaintMain.involveDepartment, 'department', '未知')}
 				</td>
 				<td>
 					${empty complaintMain.employee.name?complaintMain.involveEmployee:complaintMain.employee.name}

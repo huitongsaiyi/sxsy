@@ -224,4 +224,44 @@
 		</if>
 	</select>
 
+
+	<select id="getMyDone" resultType="ComplaintMain">
+		SELECT
+		c.complaint_main_id AS "complaintMainId",
+		c.case_number AS "caseNumber",
+		c.patient_name AS "patientName",
+		c.patient_sex AS "patientSex",
+		c.patient_age AS "patientAge",
+		c.patient_card AS "patientCard",
+		c.patient_mobile AS "patientMobile",
+		c.involve_hospital AS "involveHospital",
+		c.hospital_level AS "hospitalLevel",
+		c.hospital_grade AS "hospitalGrade",
+		c.involve_department AS "involveDepartment",
+		c.involve_employee AS "involveEmployee",
+		c.proc_ins_id AS "procInsId",
+		c.create_by AS "createById",
+		c.create_date AS "createDate",
+		c.update_by AS "updateById",
+		c.update_date AS "updateDate",
+		c.del_flag AS "delFlag",
+		aa.TASK_DEF_KEY_ AS "taskDefKey",
+		aa.NAME_ AS "nodeName"
+		FROM  (select PROC_INST_ID_,ASSIGNEE_ FROM act_hi_taskinst
+		where TASK_DEF_KEY_ in ('assess','feedback','end')
+		GROUP BY PROC_INST_ID_) a
+		<choose>
+			<when test="loginName != null and loginName != ''">
+				LEFT  JOIN (select * from act_hi_taskinst where ASSIGNEE_= #{loginName} and (END_TIME_ IS NULL or END_TIME_ ='')) aa on a.PROC_INST_ID_=aa.PROC_INST_ID_
+				LEFT JOIN complaint_main c on c.PROC_INS_ID=aa.PROC_INST_ID_
+				GROUP BY a.PROC_INST_ID_
+			</when>
+			<otherwise>
+				LEFT JOIN complaint_main c on c.PROC_INS_ID=a.PROC_INST_ID_
+				where 1=2
+			</otherwise>
+		</choose>
+
+	</select>
+
 </mapper>

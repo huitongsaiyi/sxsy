@@ -99,6 +99,17 @@ public class ComplaintMainController extends BaseController {
 		return "modules/complaintmain/complaintMainList";
 	}
 
+	//我的已办 列表
+	@RequestMapping(value = "home")
+	public String home(HttpServletRequest request, HttpServletResponse response, Model model) {
+		//查询当前登录人 有几条 数据时 在 结案总结 之后
+		String loginName=UserUtils.getUser().getLoginName();
+		List<ComplaintMain> list=complaintMainService.getMyDone(loginName);
+		model.addAttribute("list", list);
+		model.addAttribute("ywc", list.size());
+		model.addAttribute("wwc", complaintMainService.findCount(UserUtils.getUser()));
+		return "modules/home/homePage";
+	}
 
 	/**
 	 * 获取我的待办数目
