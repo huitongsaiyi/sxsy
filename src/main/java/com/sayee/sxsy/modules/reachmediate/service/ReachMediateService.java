@@ -326,6 +326,20 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 				b=i;
 			}
 		}
+		String nums = request.getParameter("nums");
+		int c = Integer.valueOf(nums);
+		if(c<=0 || c>=mediateProgramList.size()){
+			c=b;
+		}else{
+			for (int i=0;i<mediateProgramList.size();i++){
+				String meetingFrequency = mediateProgramList.get(i).getMeetingFrequency();
+				int in = Integer.valueOf(meetingFrequency);
+				if(c==in){
+					c=i;
+					break;
+				}
+			}
+		}
 		System.out.println(a);
 		String path=request.getSession().getServletContext().getRealPath("/");
 		String modelPath=path;

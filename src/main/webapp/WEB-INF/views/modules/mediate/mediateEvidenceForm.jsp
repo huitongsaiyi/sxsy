@@ -97,10 +97,10 @@
                 $("#other").removeClass("required");
             }
         }
-        function exportWord() {
+        function exportWord(txt) {
             var aa=$("#export").val();
             var path="${ctx}/mediate/mediateEvidence/pass";
-            $.post(path,{'mediateEvidenceId':'${mediateEvidence.mediateEvidenceId}','export':aa,"print":"true"},function(res){
+            $.post(path,{'mediateEvidenceId':'${mediateEvidence.mediateEvidenceId}','export':aa,"print":"true",'nums':txt},function(res){
                 if(res.data.url!=''){
                     var url='${pageContext.request.contextPath}'+res.data.url;
                     <%--window.location.href='${pageContext.request.contextPath}'+res.data.url ;--%>
@@ -669,8 +669,8 @@
                 </p>
                 <td colspan="4" style="text-align: center;">
                     <input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出"
-                           onclick="$('#export').val('meeting')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
-                    <input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+                           onclick="return promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',document.getElementById('inputForm').action+'?mediateEvidenceId=${mediateEvidence.mediateEvidenceId}&export=meeting&nums=');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                    <input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting'); promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',exportWord);" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
                 </td>
             </table>
