@@ -361,12 +361,14 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">专家：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="medicalExpertName" name="medicalExpertName" value="${assessAppraisal.medicalExpertName}" htmlEscape="false" maxlength="30" class="input-xlarge required" title="医学专家" placeholder="医学专家" />
+						<form:input id="medicalExpertName" path="medicalExpertName" htmlEscape="false" maxlength="32" class="input-xlarge required" title="医学专家" value="${assessAppraisal.medicalExpertName}" placeholder="医学专家"/>
+						<%--<input id="medicalExpertName" name="medicalExpertName" value="${assessAppraisal.medicalExpertName}" htmlEscape="false" maxlength="30" class="input-xlarge required" title="医学专家" placeholder="医学专家" />--%>
 					</span>
 					<span style="font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
 					<span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
-						<input id="legalExpertName" name="legalExpertName" value="${assessAppraisal.legalExpertName}" htmlEscape="false" maxlength="30" class="input-xlarge required" title="法学专家" placeholder="法学专家" />
+						<form:input id="legalExpertName" path="legalExpertName" htmlEscape="false" maxlength="32" class="input-xlarge required" title="法学专家" value="${assessAppraisal.legalExpertName}" placeholder="法学专家"/>
+						<%--<input id="legalExpertName" name="legalExpertName" value="${assessAppraisal.legalExpertName}" htmlEscape="false" maxlength="30" class="input-xlarge required" title="法学专家" placeholder="法学专家" />--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
@@ -457,7 +459,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="patientAvoid" name="patientAvoid" value="${assessAppraisal.patientAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20"
+									class="input-xlarge required" value="${assessAppraisal.patientAvoid}"/>
+						<%--<input id="patientAvoid" name="patientAvoid" value="${assessAppraisal.patientAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
@@ -470,7 +474,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="doctorAvoid" name="doctorAvoid" value="${assessAppraisal.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20"
+									class="input-xlarge required" value="${assessAppraisal.doctorAvoid}"/>
+						<%--<input id="doctorAvoid" name="doctorAvoid" value="${assessAppraisal.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
@@ -587,7 +593,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="patientClear" name="patientClear" value="${assessAppraisal.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20"
+									class="input-xlarge required" value="${assessAppraisal.patientClear}"/>
+						<%--<input id="patientClear" name="patientClear" value="${assessAppraisal.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
@@ -600,7 +608,9 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="doctorClear" name="doctorClear" value="${assessAppraisal.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20"
+									class="input-xlarge required" value="${assessAppraisal.doctorClear}"/>
+						<%--<input id="doctorClear" name="doctorClear" value="${assessAppraisal.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">

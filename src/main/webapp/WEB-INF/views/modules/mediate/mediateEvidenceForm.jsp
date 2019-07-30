@@ -345,7 +345,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
                     <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="patientAvoid" name="patientAvoid" value="${mediateEvidence.patientAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+                        <form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20"
+                                    class="input-xlarge required" value="${mediateEvidence.patientAvoid}"/>
+						<%--<input id="patientAvoid" name="patientAvoid" path="" htmlEscape="false" maxlength="30" class="input-xlarge required" value="${mediateEvidence.patientAvoid}"/>--%>
 					</span>
                 </p>
                 <p style="margin:0pt">
@@ -358,7 +360,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
                     <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="doctorAvoid" name="doctorAvoid" value="${mediateEvidence.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+                        <form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20"
+                                    class="input-xlarge required" value="${mediateEvidence.doctorAvoid}"/>
+						<%--<input id="doctorAvoid" name="doctorAvoid" value="${mediateEvidence.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
                 </p>
                 <p style="margin:0pt">
@@ -529,7 +533,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
                     <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="patientClear" name="patientClear" value="${mediateEvidence.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+                        <form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20"
+                                    class="input-xlarge required" value="${mediateEvidence.patientClear}"/>
+						<%--<input id="patientClear" name="patientClear" value="${mediateEvidence.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
                 </p>
                 <p style="margin:0pt">
@@ -542,7 +548,9 @@
                     <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
                     <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
                     <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="doctorClear" name="doctorClear" value="${mediateEvidence.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+                        <form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20"
+                                    class="input-xlarge required" value="${mediateEvidence.doctorClear}"/>
+						<%--<input id="doctorClear" name="doctorClear" value="${mediateEvidence.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
                 </p>
                 <p style="margin:0pt">

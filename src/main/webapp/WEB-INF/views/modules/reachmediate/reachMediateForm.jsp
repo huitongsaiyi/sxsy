@@ -332,7 +332,8 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="patientAvoid" name="patientAvoid" value="${reachMediate.patientAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.patientAvoid}"/>
+						<%--<input id="patientAvoid" name="patientAvoid"  htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
@@ -345,7 +346,8 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="doctorAvoid" name="doctorAvoid" value="${reachMediate.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.doctorAvoid}"/>
+						<%--<input id="doctorAvoid" name="doctorAvoid" value="${reachMediate.doctorAvoid}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
@@ -516,7 +518,8 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="patientClear" name="patientClear" value="${reachMediate.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.patientClear}"/>
+						<%--<input id="patientClear" name="patientClear" value="${reachMediate.patientClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
@@ -529,7 +532,8 @@
 					<span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
 					<span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
 					<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-						<input id="doctorClear" name="doctorClear" value="${reachMediate.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>
+						<form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.doctorClear}"/>
+						<%--<input id="doctorClear" name="doctorClear" value="${reachMediate.doctorClear}" htmlEscape="false" maxlength="30" class="input-xlarge required"/>--%>
 					</span>
 				</p>
 				<p style="margin:0pt">
