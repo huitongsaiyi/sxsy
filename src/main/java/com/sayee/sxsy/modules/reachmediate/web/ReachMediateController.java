@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.AjaxHelper;
+import com.sayee.sxsy.modules.program.entity.MediateProgram;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
@@ -91,6 +92,8 @@ public class ReachMediateController extends BaseController {
 		}
 		//每次 进入调解程序 表 是将 查到的置空
 		reachMediateService.clearDomain(reachMediate);
+		List<MediateProgram> mediateProgramList = reachMediate.getMediateProgramList();
+		model.addAttribute("proSize",mediateProgramList.size());
 		String type = request.getParameter("type");
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");

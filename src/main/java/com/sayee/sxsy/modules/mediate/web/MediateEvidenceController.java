@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
+import com.sayee.sxsy.modules.program.entity.MediateProgram;
 import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
 import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
@@ -99,7 +100,8 @@ public class MediateEvidenceController extends BaseController {
 		}
 		//每次 进入调解程序 表 是将 查到的置空
 		mediateEvidenceService.clearDomain(mediateEvidence);
-
+		List<MediateProgram> mediateProgramList = mediateEvidence.getMediateProgramList();
+		model.addAttribute("proSize",mediateProgramList.size());
 		String type = request.getParameter("type");		//接受从页面传回的数据
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");
@@ -112,6 +114,7 @@ public class MediateEvidenceController extends BaseController {
 			model.addAttribute("mediateEvidence", mediateEvidence);
 			return "modules/mediate/mediateEvidenceForm";
 		}
+
 
 	}
 
