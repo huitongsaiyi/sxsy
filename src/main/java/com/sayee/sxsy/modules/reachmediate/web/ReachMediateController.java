@@ -118,7 +118,7 @@ public class ReachMediateController extends BaseController {
 			String path = reachMediateService.exportWord(reachMediate1,export,"false",request,response);
 			return path;
 		}else {
-			if (!beanValidator(model, reachMediate) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getComplaintMain()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getRecordInfo()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getRecordInfo().getYrecordInfo()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag())) {
+			if (!beanValidator(model, reachMediate) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag()) || !beanValidator(model, reachMediate.getComplaintMain()) && "yes".equals(reachMediate.getComplaintMain().getAct().getFlag())) {
 				return form(reachMediate, model, request);
 			}
 			try {
