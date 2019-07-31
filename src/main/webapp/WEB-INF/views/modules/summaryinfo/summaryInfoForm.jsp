@@ -315,7 +315,7 @@
 					下一环节处理人：
 				</td>
 				<td>
-					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty summaryInfo.nextLinkMan?fns:getUser().id:summaryInfo.nextLinkMan}" labelName="" labelValue="${empty summaryInfo.linkEmployee.name?fns:getUser().name:summaryInfo.linkEmployee.name}"
+					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${summaryInfo.nextLinkMan}" labelName="" labelValue="${summaryInfo.linkEmployee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
 				</td>
 	</tr>
