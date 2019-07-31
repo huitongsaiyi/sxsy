@@ -129,7 +129,7 @@ public class MediateEvidenceController extends BaseController {
 			String path = mediateEvidenceService.exportWord(mediateEvidence1,export,"false",request,response);
 			return path;
 		}else {
-			if (!beanValidator(model, mediateEvidence)&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())|| !beanValidator(model,mediateEvidence.getRecordInfo())&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())||!beanValidator(model,mediateEvidence.getRecordInfo().getYrecordInfo())&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
+			if (!beanValidator(model, mediateEvidence)&&"yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 				return form(mediateEvidence,model,request);
 			}
 			try {
