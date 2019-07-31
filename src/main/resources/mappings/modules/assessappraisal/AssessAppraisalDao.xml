@@ -35,6 +35,7 @@
 		a.medical_expert_name AS "medicalExpertName",
 		a.legal_expert_name AS"legalExpertName",
 		a.del_flag AS "delFlag",
+		a.scale AS "scale",
 		b.case_number AS "complaintMain.caseNumber",
 		b.patient_name AS "complaintMain.patientName",
 		b.patient_sex AS "complaintMain.patientSex",
@@ -206,6 +207,7 @@
 		update_date,
 		medical_expert_name,
 		legal_expert_name,
+		scale,
 		del_flag
 		) VALUES (
 		#{assessAppraisalId},
@@ -239,6 +241,7 @@
 		#{updateDate},
 		#{medicalExpertName},
 		#{legalExpertName},
+		#{scale}
 		#{delFlag}
 		)
 	</insert>
@@ -273,7 +276,8 @@
 			update_by = #{updateBy.id},
 			medical_expert_name = #{medicalExpertName},
 			legal_expert_name = #{legalExpertName},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			scale = #{scale}
 		WHERE assess_appraisal_id = #{assessAppraisalId}
 	</update>
 

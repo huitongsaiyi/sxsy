@@ -229,6 +229,25 @@
 		$(function (){
 			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
 		});
+
+        //比例
+		function next(value) {
+			if(value=="无责"){
+				$("#scale").val(0)
+			}else if(value=="轻微责任"){
+				$("#scale").val(15)
+			}else if(value=="次要责任"){
+				$("#scale").val(25)
+			}else if(value=="对等责任"){
+				$("#scale").val(50)
+			}else if(value=="主要责任"){
+				$("#scale").val(75)
+			}else if(value=="全部责任"){
+				$("#scale").val(100)
+			}else if(value=="无法判定"){
+				$("#scale").val(0)
+			}
+		}
 	</script>
 </head>
 <body>
@@ -302,7 +321,6 @@
 						</form:select>
 					</span>
 					<span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;">工作程序</span>
-
 				</p>
 				</p>
 				<p style="margin:0pt">
@@ -988,10 +1006,10 @@
 				</tr>
 				<tr>
 					<td class="tit">
-						责任比例：
+						责任度：
 					</td>
-						<td>
-					<form:select path="responsibilityRatio" class="input-medium" style="text-align:center">
+					<td width="100px">
+					<form:select path="responsibilityRatio" class="input-medium" style="text-align:center" onchange="next(this.value);">
 						<%--<form:options items="${fns:getDictList('assessmentAppraisal')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
 						<form:option value="无责"/>
 						<form:option value="轻微责任"/>
@@ -999,8 +1017,14 @@
 						<form:option value="对等责任"/>
 						<form:option value="主要责任"/>
 						<form:option value="全部责任"/>
+						<form:option value="无法判定"/>
 					</form:select>
-				</td>
+				    </td>
+					<td class="tit">比例(%):</td>
+					<td>
+						<form:input path="scale" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 80px;text-align: center;"/>
+					</td>
+
 				</tr>
 				<tr>
 					<td class="tit">

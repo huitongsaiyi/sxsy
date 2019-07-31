@@ -482,15 +482,17 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		mediateProgram.setDoctorContent(yif.getRecordContent());
         mediateProgramDao.insert(mediateProgram);
         //保存一条 调解会的 调解志
-        MediateRecord mediateRecord=new MediateRecord();
-        mediateRecord.setTime(mediateEvidence.getMeetingTime());
-        mediateRecord.setContent("调解会");
-        mediateRecord.setResult("");
-        mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
-        mediateRecord.setMediateRecord(IdGen.uuid());
-        mediateRecord.preInsert();
-        mediateRecord.setDelFlag("0");
-        mediateRecordDao.insert(mediateRecord);
+		if(StringUtils.isNotBlank(mediateProgram.getMeetingTime())) {
+			MediateRecord mediateRecord = new MediateRecord();
+			mediateRecord.setTime(mediateEvidence.getMeetingTime());
+			mediateRecord.setContent("调解会");
+			mediateRecord.setResult("");
+			mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
+			mediateRecord.setMediateRecord(IdGen.uuid());
+			mediateRecord.preInsert();
+			mediateRecord.setDelFlag("0");
+			mediateRecordDao.insert(mediateRecord);
+		}
     }
 
 }

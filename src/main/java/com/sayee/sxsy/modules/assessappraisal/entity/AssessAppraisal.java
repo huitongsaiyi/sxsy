@@ -73,7 +73,15 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private String patientClear;	//患方是否听清楚
 	private String patientAvoid;	//患方是否回避
 	private String doctorAvoid;	//医方是否回避
+	private String scale;//比例
 
+	public String getScale() {
+		return scale;
+	}
+
+	public void setScale(String scale) {
+		this.scale = scale;
+	}
 
 	public String getDoctorAvoid() {
 		return doctorAvoid;
