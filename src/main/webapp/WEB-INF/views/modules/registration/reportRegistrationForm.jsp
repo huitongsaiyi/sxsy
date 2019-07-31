@@ -385,7 +385,7 @@
                         style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:92.6pt">
                         <p style="margin:0pt; orphans:0; text-align:justify; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">
-                                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 90%;height: 30px; text-align: center;"/>
+                                <form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge " cssStyle="width: 90%;height: 30px; text-align: center;"/>
                             </span>
                         </p></td>
                     <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:62.3pt">
@@ -395,7 +395,7 @@
                         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
                             <span style="font-family:'Times New Roman'; font-size:12pt">
                                 <input name="patientRelation" type="text" readonly="readonly" maxlength="20"
-                                    class="input-medium Wdate required"
+                                    class="input-medium Wdate "
                                     value="${reportRegistration.patientRelation}"
                                     onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:90%;height:30px;text-align: center;"/>
                             </span>
