@@ -10,10 +10,10 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.sayee.sxsy.common.config.Global;
@@ -430,10 +430,22 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 	public String exportWord(AuditAcceptance auditAcceptance,String export,String print, HttpServletRequest request, HttpServletResponse response) {
 		WordExportUtil wordExportUtil=new WordExportUtil();
 		auditAcceptance=this.get(auditAcceptance.getAuditAcceptanceId());
+		DateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.US);
+		DateFormat sdfm = new SimpleDateFormat("yyyy年MM月dd日",Locale.US);
+		Date date = null;
+		String handTime = null;
+		try {
+			if(auditAcceptance.getHandleTime()!=null){
+				date = sdf.parse(auditAcceptance.getHandleTime());
+				handTime = sdfm.format(date) ;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		if (auditAcceptance.getMediateApplyInfo()==null){
 			auditAcceptance.setMediateApplyInfo(new MediateApplyInfo());
 		}
-		String path=request.getServletContext().getRealPath("/");
+		String path=request.getSession().getServletContext().getRealPath("/");
 		String modelPath=path;
 		String returnPath="";
 		String newFileName="无标题文件.docx";
@@ -495,10 +507,11 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			returnPath="/userfiles/audit/"+num+"disputeApplyDoctor.pdf";
 			newFileName="医疗纠纷调解申请书（医方）.docx";
 		}else if("DisAcc".equals(export)){
+
 			params.put("jfgy", StringUtils.isBlank(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()) ? "" : auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
 			params.put("source", "1".equals(auditAcceptance.getCaseSource()) ? "当事人申请" :"人民调解委员会主动调解");
 			params.put("resource", "1".equals(auditAcceptance.getCaseSource()) ? "人民调解委员会依当事人申请" :"人民调解委员会主动调解");
-			params.put("nowTime", DateUtils.getYear()+"年"+DateUtils.getMonth()+"月"+DateUtils.getDay()+"日");
+			params.put("nowTime", handTime==null?DateUtils.getYear()+"年"+DateUtils.getMonth()+"月"+DateUtils.getDay()+"日":handTime);
 			params.put("patient", auditAcceptance.getMediateApplyInfo().getPatientName());
 			params.put("hospital", auditAcceptance.getComplaintMain().getHospital().getName());
 			path += "/doc/disputeAcceptance.docx";  //模板文件位置
@@ -511,7 +524,7 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		}
 
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/audit/"+num);
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/audit/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}
