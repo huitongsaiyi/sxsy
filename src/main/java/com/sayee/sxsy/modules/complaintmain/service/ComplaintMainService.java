@@ -135,7 +135,7 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 			}else if("reach".equals(complaintMain.getTaskDefKey())){
 				 key=complaintMainDao.getKey(complaintMain.getComplaintMainId(),"reach_mediate_id","REACH_MEDIATE");
 				if (StringUtils.isBlank(key)){
-					key=complaintMainDao.getKey(complaintMain.getComplaintMainId(),"mediate_evidence_id","MEDIATE_EVIDENCE");
+					key=complaintMainDao.getKey(complaintMain.getComplaintMainId(),"report_registration_id","REPORT_REGISTRATION");
 				}
 				 path="/reachmediate/reachMediate/";
 			}else if("sign".equals(complaintMain.getTaskDefKey())){
