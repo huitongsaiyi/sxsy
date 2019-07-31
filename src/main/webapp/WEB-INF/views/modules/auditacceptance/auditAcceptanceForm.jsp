@@ -517,108 +517,179 @@
         </div>
         <div class="tab-pane fade in active" id="people">
             <table class="table-form">
-                <div><p style="margin:0pt; text-align:center"><span
-                        style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bold">人民调解受理登记表</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">时间</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">人民调解委员会依当事人申请（人民调解委员会主动调解），经当事人同意，调解</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">与</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">_</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">之前的纠纷。</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline" id="anjian"></span><span
-                            style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt">纠纷简要情况：</span>
-                        <span style="color:#d9001b; font-family:宋体; font-size:12pt; text-decoration:underline">
+                <%--<div><p style="margin:0pt; text-align:center"><span--%>
+                        <%--style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bold">人民调解受理登记表</span></p>--%>
+                    <%--<p style="margin:0pt"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span--%>
+                            <%--style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">时间</span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">人民调解委员会依当事人申请（人民调解委员会主动调解），经当事人同意，调解</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span--%>
+                            <%--style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">与</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">_</span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span--%>
+                            <%--style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline"></span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">之前的纠纷。</span></p>--%>
+                    <%--<p style="margin:0pt"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">案件来源：</span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">{</span><span--%>
+                            <%--style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline" id="anjian"></span><span--%>
+                            <%--style="color:#d9001b; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">}</span>--%>
+                    <%--</p>--%>
+                    <%--<p style="margin:0pt"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt"> </span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt">纠纷简要情况：</span>--%>
+                        <%--<span style="color:#d9001b; font-family:宋体; font-size:12pt; text-decoration:underline">--%>
+                            <%--<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>--%>
+                        <%--</span>--%>
+                    <%--</p>--%>
+                    <%--<p style="margin:0pt"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">当事人（患方）</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_________________________________</span>--%>
+                    <%--</p>--%>
+                    <%--<p style="margin:0pt"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">当事人（医方）</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_________________________________</span>--%>
+                    <%--</p>--%>
+                    <%--<p style="margin:0pt"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:bold">&#xa0;</span></p>--%>
+                    <%--<p style="margin:0pt"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">登记人（签名）</span><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_________________________________</span>--%>
+                    <%--</p>--%>
+                    <%--<p style="margin:0pt; text-align:right"><span--%>
+                            <%--style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span--%>
+                            <%--style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">山西省医疗纠纷人民调解委员会</span>--%>
+                    <%--</p>--%>
+                    <%--<p style="margin:0pt; orphans:0; text-align:justify; widows:0"><span--%>
+                            <%--style="font-family:Calibri; font-size:10.5pt">&#xa0;</span></p></div>--%>
+                <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                    <tr>
+                        <td class="tit"><font color="red">*</font>
+                            案件来源：
+                        </td>
+                        <td>
+                            <form:select path="caseSource" class="input-medium required" onchange="show_input(this.value,'anjian')">
+                                <form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false" />
+                            </form:select>
+                            <span class="help-inline"><font color="red">*</font> </span>
+                        </td>
+                        <td class="tit"><font color="red">*</font>
+                            起保日期：
+                        </td>
+                        <td>
+                            <input name="guaranteeTime" type="text" readonly="readonly" maxlength="20"
+                                   class="input-medium Wdate "
+                                   value="${auditAcceptance.guaranteeTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">
+                            保险公司：
+                        </td>
+                        <td>
+                            <form:input path="insuranceCompany" htmlEscape="false" maxlength="50"
+                                        class="input-xlarge "/>
+                        </td>
+                        <td class="tit">
+                            保单号：
+                        </td>
+                        <td>
+                            <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">
+                            诊疗方式：
+                        </td>
+                        <td>
+                            <form:input path="diagnosisMode" htmlEscape="false" class="input-xlarge required"/>
+                            <span class="help-inline"><font color="red">*</font> </span>
+                        </td>
+                        <td class="tit"><font color="red">*</font>
+                            治疗结果：
+                        </td>
+                        <td>
+                            <form:input path="treatmentOutcome" htmlEscape="false" class="input-xlarge required"/>
+                            <span class="help-inline"><font color="red">*</font> </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">
+                           时间
+                        </td>
+                        <td>
+                            <input name="handleTime" type="text" readonly="readonly" maxlength="30"
+                                   class="input-medium Wdate"
+                                   value="${empty auditAcceptance.handleTime?fns:getDate('yyyy-MM-dd HH:mm'):auditAcceptance.handleTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit">纠纷概要</td>
+                        <td colspan="3">
                             <form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
-                        </span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">当事人（患方）</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_________________________________</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">当事人（医方）</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_________________________________</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:bold">&#xa0;</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">登记人（签名）</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_________________________________</span>
-                    </p>
-                    <p style="margin:0pt; text-align:right"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">山西省医疗纠纷人民调解委员会</span>
-                    </p>
-                    <p style="margin:0pt; orphans:0; text-align:justify; widows:0"><span
-                            style="font-family:Calibri; font-size:10.5pt">&#xa0;</span></p></div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
-                <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
-
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="margin: auto;">
+                            <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                            <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
+                        </td>
+                    </tr>
 
             </table>
         </div>
@@ -910,57 +981,7 @@
         </div>
     </div>
     <table class="table-form">
-        <tr>
-            <td class="tit"><font color="red">*</font>
-                案件来源：
-            </td>
-            <td>
-                <form:select path="caseSource" class="input-medium required" onchange="show_input(this.value,'anjian')">
-                    <form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false" />
-                </form:select>
-                <span class="help-inline"><font color="red">*</font> </span>
-            </td>
-            <td class="tit"><font color="red">*</font>
-                起保日期：
-            </td>
-            <td>
-                <input name="guaranteeTime" type="text" readonly="readonly" maxlength="20"
-                       class="input-medium Wdate "
-                       value="${auditAcceptance.guaranteeTime}"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="tit">
-                保险公司：
-            </td>
-            <td>
-                <form:input path="insuranceCompany" htmlEscape="false" maxlength="50"
-                            class="input-xlarge "/>
-            </td>
-            <td class="tit">
-                保单号：
-            </td>
-            <td>
-                <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-            </td>
-        </tr>
-        <tr>
-            <td class="tit">
-                诊疗方式：
-            </td>
-            <td>
-                <form:input path="diagnosisMode" htmlEscape="false" class="input-xlarge required"/>
-                <span class="help-inline"><font color="red">*</font> </span>
-            </td>
-            <td class="tit"><font color="red">*</font>
-                治疗结果：
-            </td>
-            <td>
-                <form:input path="treatmentOutcome" htmlEscape="false" class="input-xlarge required"/>
-                <span class="help-inline"><font color="red">*</font> </span>
-            </td>
-        </tr>
+
         <tr>
                 <%--<td class="tit"><font color="red">*</font>--%>
                 <%--下一处理环节：--%>
