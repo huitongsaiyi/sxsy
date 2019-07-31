@@ -247,17 +247,17 @@
 		c.del_flag AS "delFlag",
 		aa.TASK_DEF_KEY_ AS "taskDefKey",
 		aa.NAME_ AS "nodeName"
-		FROM  (select PROC_INST_ID_,ASSIGNEE_ FROM act_hi_taskinst
+		FROM  (select PROC_INST_ID_,ASSIGNEE_ FROM ACT_HI_TASKINST
 		where TASK_DEF_KEY_ in ('assess','feedback','end')
 		GROUP BY PROC_INST_ID_) a
 		<choose>
 			<when test="loginName != null and loginName != ''">
-				LEFT  JOIN (select * from act_hi_taskinst where ASSIGNEE_= #{loginName} and (END_TIME_ IS NULL or END_TIME_ ='')) aa on a.PROC_INST_ID_=aa.PROC_INST_ID_
-				LEFT JOIN complaint_main c on c.PROC_INS_ID=aa.PROC_INST_ID_
+				LEFT  JOIN (select * from ACT_HI_TASKINST where ASSIGNEE_= #{loginName} and (END_TIME_ IS NULL or END_TIME_ ='')) aa on a.PROC_INST_ID_=aa.PROC_INST_ID_
+				LEFT JOIN COMPLAINT_MAIN c on c.PROC_INS_ID=aa.PROC_INST_ID_
 				GROUP BY a.PROC_INST_ID_
 			</when>
 			<otherwise>
-				LEFT JOIN complaint_main c on c.PROC_INS_ID=a.PROC_INST_ID_
+				LEFT JOIN COMPLAINT_MAIN c on c.PROC_INS_ID=a.PROC_INST_ID_
 				where 1=2
 			</otherwise>
 		</choose>
