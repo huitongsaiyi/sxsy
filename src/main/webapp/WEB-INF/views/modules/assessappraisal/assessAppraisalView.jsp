@@ -7,6 +7,8 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function() {
+            var abc = ${assessAppraisal.responsibilityRatio}
+                next(abc);
             $("#inputForm").validate({
                 submitHandler: function(form){
                     var aa=$("#export").val();
@@ -212,6 +214,26 @@
             },"json");
         }
 
+        //比例
+        function next(value) {
+            <%--value = ${assessAppraisal.responsibilityRatio}--%>
+            if(value=="无责"){
+                $("#scale").val(0)
+            }else if(value=="轻微责任"){
+                $("#scale").val(15)
+            }else if(value=="次要责任"){
+                $("#scale").val(25)
+            }else if(value=="对等责任"){
+                $("#scale").val(50)
+            }else if(value=="主要责任"){
+                $("#scale").val(75)
+            }else if(value=="全部责任"){
+                $("#scale").val(100)
+            }else if(value=="无法判定"){
+                $("#scale").val(0)
+            }
+        }
+
         //导出和打印加提示
         $(function (){
             $(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
@@ -280,476 +302,377 @@
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="meetings">
             <table class="table-form">
-                <p style="margin:0pt; text-align:center">
-                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight: bolder;">山西省医疗纠纷人民调解委员会</span>
-                <p style="margin:0 auto ;width: 300px;">
-					<span style="font-family:宋体; font-size:15pt; font-weight:normal;">
-                        ${fns:getDictLabel(assessAppraisal.applyType,'assessmentAppraisal' ,"未知")}
-					</span>
-                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bolder;">工作程序</span>
-
-                </p>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
-                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
-                            ${assessAppraisal.recordInfo1.startTime}
-					</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">至</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;">
-                            ${assessAppraisal.recordInfo1.endTime}
-					</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">地点：</span>
-                    <span style="display: inline-block; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline;height:30px;width: 425px;">
-						${assessAppraisal.recordInfo1.recordAddress}
-					</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">一、主持人向评估委员会成员介绍纠纷概要、纠纷焦点</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">二、医患双方代表进入会场</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">三、介绍评估委员会成员、确认医患双方及参会人员身份</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">专家：</span>
-                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline">
+                <tr>
+                    <td class="tit" width="15%">
+                        会议类型
+                    </td>
+                    <td colspan="4">
+                        ${fns:getDictLabel(assessAppraisal.applyType, 'assessmentAppraisal', '未知')}
+                        <%--<form:select path="applyType" class="input-medium" cssStyle="text-align:center;width: 15%;" onchange="show_input(this.value,'a')">--%>
+                            <%--<form:options items="${fns:getDictList('assessmentAppraisal')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
+                        <%--</form:select>--%>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">时间</td>
+                    <td>
+                        ${assessAppraisal.recordInfo1.startTime}
+                    </td>
+                    <td class="tit" width="10%">至</td>
+                    <td colspan="2">
+                        ${assessAppraisal.recordInfo1.endTime}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">地点</td>
+                    <td colspan="4">
+                        ${assessAppraisal.recordInfo1.recordAddress}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">
+                        一、主持人向评估委员会成员介绍纠纷概要、纠纷焦点
+                    </td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit">
+                        二、医患双方代表进入会场
+                    </td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit" rowspan="6">三、介绍评估委员会成员、确认医患双方及参会人员身份</td>
+                    <td class="tit" width="5%">医学专家:</td>
+                    <td>
                             ${assessAppraisal.medicalExpertName}
-					</span>
-                    <span style="font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">,</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">
-                            ${assessAppraisal.legalExpertName}
-					</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
-                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.patientName}</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
-                    <span style="font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${assessAppraisal.complaintMain.hospital.name}</span>
-                </p>
-
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;display: inline-block;width: 70px;">主持人：</span>
-                <span style="display: inline-block; font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
-						<div style="margin-top: -20px;">
-                                ${assessAppraisal.hosts.name}
-						</div>
-                </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">书记员：</span>
-                <span style="font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
+                    </td>
+                    <td class="tit" width="18%">法学专家:</td>
+                    <td>
+                        ${assessAppraisal.legalExpertName}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">主持人:</td>
+                    <td>
+                        ${assessAppraisal.hosts.name}
+                    </td>
+                    <td class="tit">书记员:</td>
+                    <td>
                         ${assessAppraisal.clerks.name}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">患方:</td>
+                    <td colspan="3">
+                            ${assessAppraisal.complaintMain.patientName}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">医方:</td>
+                    <td colspan="3">
+                            ${assessAppraisal.complaintMain.hospital.name}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit" rowspan="2">请问医患双方确认以上参会人员身份有无要求回避</td>
+                    <td class="tit">患方:</td>
+                    <td colspan="2">
+                        ${assessAppraisal.patientAvoid}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">医方:</td>
+                    <td colspan="2">
+                        ${assessAppraisal.doctorAvoid}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit" rowspan="3">四、宣读有关纪律及注意事项</td>
+                    <td colspan="4">
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、双方当事人及工作人员酒后不的参会，会议中不得吸烟、不得中途退场、不得当众喧哗。保持会场安静，遵守会场秩序。</span>
 
-					</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、参会人应当将通讯工具关闭或调至静音状态（请大家配合一下）。会议期间不得录音、录像。</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患双方要如实陈述纠纷事实，提供的证据应当真实、合法、有效，不得伪造、毁灭证据，妨碍评估人员正确作出调解。</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、双方当事人不得因纠纷矛盾相互指责、谩骂使用人身攻击性语言，激化矛盾；不得对评估委员会成员进行威胁、恐吓，以非法手段 干扰评估会的正常工作秩序。</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、当事人或代理人陈述时，其他参加人员不得发言，需要补充时，须在当事人或代理人结束发言后，经主持人同意方可进行补充。</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、对于有不良行为的参加人，山西省医疗纠纷人民调解委员会将责令其退出会议室。</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、要求各位专家客观公正进行分析并得出结论。</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">8</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、本次会议的主要目的是要通过医学专家评估及法律顾问责任认定，完成本次医疗纠纷的定责、定损、计赔事宜，评估结论将会在会后3到5个工作日内由主管调解员负责口头告知医患双方。若医患双方对评估结论有异议，有权申请医学会鉴定或司法诉讼。</span>
 
-
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">请问医患双方确认以上参会人员身份有无要求回避</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
-                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
-                            ${assessAppraisal.patientAvoid}
-					</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
-                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
-                            ${assessAppraisal.doctorAvoid}
-					</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">四、宣读有关纪律及注意事项：</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、双方当事人及工作人员酒后不的参会，会议中不得吸烟、不得中途退场、不得当众喧哗。保持会场安静，遵守会场秩序。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、参会人应当将通讯工具关闭或调至静音状态（请大家配合一下）。会议期间不得录音、录像。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医患双方要如实陈述纠纷事实，提供的证据应当真实、合法、有效，不得伪造、毁灭证据，妨碍评估人员正确作出调解。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、双方当事人不得因纠纷矛盾相互指责、谩骂使用人身攻击性语言，激化矛盾；不得对评估委员会成员进行威胁、恐吓，以非法手段 干扰评估会的正常工作秩序。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、当事人或代理人陈述时，其他参加人员不得发言，需要补充时，须在当事人或代理人结束发言后，经主持人同意方可进行补充。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、对于有不良行为的参加人，山西省医疗纠纷人民调解委员会将责令其退出会议室。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、要求各位专家客观公正进行分析并得出结论。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">8</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、本次会议的主要目的是要通过医学专家评估及法律顾问责任认定，完成本次医疗纠纷的定责、定损、计赔事宜，评估结论将会在会后3到5个工作日内由主管调解员负责口头告知医患双方。若医患双方对评估结论有异议，有权申请医学会鉴定或司法诉讼。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal"> 以上宣读内容医患双方是否听清楚？有无异议？</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方：</span>
-                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
-                            ${assessAppraisal.patientClear}
-					</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方：</span>
-                    <span style=" font-family:宋体; font-size:12pt; font-weight:normal;text-decoration:underline;">
-                            ${assessAppraisal.doctorClear}
-					</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">五、患方陈述、提出诉求，提交证明材料。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、医方陈述，提供证明材料。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">七、医方退场。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">八、专家提问、质证</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">九、患方确认笔录，签名，按手印，退场。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">十、医方入场，专家提问，质证。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">十一、医方入场，专家提问，质证。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方署名：</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方署名：</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">十二、评估组成员进行讨论分析，并在规定时间内得出结论。</span>
-
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">主持人署名：</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">书记人署名：</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
-                </p>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit" rowspan="2">以上宣读内容医患双方是否听清楚？有无异议？</td>
+                    <td class="tit">患方:</td>
+                    <td colspan="2">
+                        ${assessAppraisal.patientClear}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">医方:</td>
+                    <td colspan="2">
+                        ${assessAppraisal.doctorClear}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">五、患方陈述、提出诉求，提交证明材料。</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit">六、医方陈述，提供证明材料。</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit">七、医方退场。</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit">八、专家提问、质证</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit">九、患方确认笔录，签名，按手印，退场。</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit">十、医方入场，专家提问，质证。</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="tit">十一、医方确认笔录，签名、按手印、注明日期，退场</td>
+                    <td colspan="4">
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">患方署名：</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">医方署名：</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">十二、评估组成员进行讨论分析，并在规定时间内得出结论。</td>
+                    <td colspan="4">
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">主持人署名：</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">书记人署名：</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal;">时间：</span>
+                        </p>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="tab-pane fade " id="recordhf">
@@ -847,7 +770,7 @@
                 </tr>
                 <tr>
                     <td class="tit">
-                        责任比例：
+                        责任度：
                     </td>
                     <td>
                         <form:select path="responsibilityRatio" class="input-medium" style="text-align:center" disabled="true">
@@ -859,6 +782,10 @@
                             <form:option value="主要责任"/>
                             <form:option value="全部责任"/>
                         </form:select>
+                    </td>
+                    <td class="tit">比例(%):</td>
+                    <td>
+                        ${assessAppraisal.scale}
                     </td>
                 </tr>
                 <tr>
