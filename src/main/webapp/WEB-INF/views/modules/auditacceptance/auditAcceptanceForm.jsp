@@ -133,13 +133,13 @@
             <a href="#hospitalS" data-toggle="tab">医方受理通知书</a>
         </li>
         <li>
+            <a href="#patientS" data-toggle="tab">患方受理通知书</a>
+        </li>
+        <li>
             <a href="#patientT" data-toggle="tab">患方调解申请信息</a>
         </li>
         <li>
             <a href="#hospitalT" data-toggle="tab">医方调解申请信息</a>
-        </li>
-        <li>
-            <a href="#patientS" data-toggle="tab">患方受理通知书</a>
         </li>
         <li>
             <a href="#annex" data-toggle="tab">附件</a>
@@ -148,235 +148,245 @@
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade " id="patientS">
             <table class="table-form">
-                <p style="margin:0pt; text-align:center">
-                    <span style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bold">医疗纠纷调解受理通知书</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">患者</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">及其家属</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">你方与</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">_</span>
-                    <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">发生的医疗纠纷</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">应你方与医院双方的调解申请</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">我单位经审查符合</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">受理条作</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">为保证案件调解工作能及时进行</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">请你方在五个工作日内提供如下</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">材</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">料</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医疗纠纷材料</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">治疗经过、诊疗疑问、诉求</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提供当事人的身份证、户口簿首页及本人页原件及复印件</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、授权委托书</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交委托人、被委托人的身份证原件及复印件</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、户籍中不能体现夫妻关系的需提交结婚证明</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交病历（门诊病历或住院病历）及相关检查资料</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医疗费用及具他相关我用票据原体</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">8</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、误工证明</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">有固定工作者</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">需提供发生医疗损害之前连</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">续三个月工资单及发生医疗损</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">害</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">之后实际损失证明</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">自由职业者</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">需提供上一年度完税证明</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">)</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">注</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">加盖财务公章。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">9</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、患者死亡</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">需提交医学死亡证明和户口注销证明</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">10</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、新生儿提供</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">出生证明。</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">二、要求</span>
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
-                </p>
-                <p style="margin:0pt">
-                    <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
-                    <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交复印件及资料均需用</span><span
-                        style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">A4</span><span
-                        style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">纸</span><span
-                        style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span></p>
-                <p style="margin:0pt"><span
-                        style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span><span
-                        style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、如实陈述纠纷事实</span><span
-                        style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
-                        style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">不得提供虚假证明材料</span><span
-                        style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span></p>
-                <p style="margin:0pt"><span
-                        style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span><span
-                        style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、所有提交的资料需签字、按手印进行确认</span><span
-                        style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
-                        style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">并注明日期</span></p>
-                <p style="margin:0pt; orphans:0; text-align:justify; widows:0">
-                    <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
-                </p>
-                <div class="cnzz" style="display: none;"></div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
-                <input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientAcc');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>" />
+                <tr>
+                    <td colspan="2">
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">患者</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
+                            <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">及其家属</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">你方与</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal; text-decoration:underline">_</span>
+                            <span style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">发生的医疗纠纷</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">应你方与医院双方的调解申请</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">我单位经审查符合</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">受理条作</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">为保证案件调解工作能及时进行</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">请你方在五个工作日内提供如下</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">材</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">料</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td rowspan="2" class="tit" width="240px">一、材料名单:</td>
+                    <td>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医疗纠纷材料</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">治疗经过、诊疗疑问、诉求</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提供当事人的身份证、户口簿首页及本人页原件及复印件</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、授权委托书</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交委托人、被委托人的身份证原件及复印件</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、户籍中不能体现夫妻关系的需提交结婚证明</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交病历（门诊病历或住院病历）及相关检查资料</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、医疗费用及具他相关我用票据原体</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">8</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、误工证明</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">有固定工作者</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">需提供发生医疗损害之前连</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">续三个月工资单及发生医疗损</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">害</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">之后实际损失证明</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">自由职业者</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">需提供上一年度完税证明</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">)</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">注</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">加盖财务公章。</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">9</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、患者死亡</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">需提交医学死亡证明和户口注销证明</span>
+                        </p>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">10</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、新生儿提供</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">出生证明。</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td rowspan="1" class="tit">二、要求:</td>
+                    <td>
+                        <p style="margin:0pt">
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span>
+                            <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交复印件及资料均需用</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">A4</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">纸</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span></p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、如实陈述纠纷事实</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">不得提供虚假证明材料</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">;</span></p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、所有提交的资料需签字、按手印进行确认</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">并注明日期</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="tit">
+                        <input id="patientExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('patientAcc');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                        <input id="patientPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('patientAcc');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>" />
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="tab-pane fade" id="hospitalS">
             <table class="table-form">
-                <div>
-                    <p style="margin:0pt; text-align:center"><span
-                            style="color:#333333; font-family:宋体; font-size:15pt; font-weight:bold">医疗纠纷调解受理通知书</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">医院</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">贵院与患者</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_____</span><span
-                            style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">发生的医疗纠纷案件</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">应悦者及</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">质院双方</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">调解申请，我单位经审查符合受理条件</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">为保证案件调解工作的及时进行</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">请贵院在三个工作日内提供如下材料</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">一、材料名单</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交法定代表人身份证明书一份</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交授权委托书</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交委托人、被委托人的身份证复印件</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交执业许可证副本复印件</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、诊疗分析意见</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、出险医务人员身份证、执业证书复印件</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、与纠纷相关的证据材料</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">8</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、病历资料复印件</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(3</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">份</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">)</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">二、要求</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交材料均需用</span><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">A4</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">纸复印</span></p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、所提交的材料均需加盖医院公章</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、出险医务人员需在身份证、执业证书复印件上签名</span>
-                    </p>
-                    <p style="margin:0pt"><span
-                            style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span><span
-                            style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、如三个工作日未提交所需资料的，视为放弃调解。</span>
-                    </p>
-                    <p style="margin:0pt; orphans:0; text-align:justify; widows:0"><span
-                            style="font-family:Calibri; font-size:10.5pt">&#xa0;</span></p>
-                </div>
-                <div class="cnzz" style="display: none;"></div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalAcc')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
-                <input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalAcc'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
-
+                <tr>
+                    <td colspan="2">
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
+                                style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.hospital.name}</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">__</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">医院</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span></p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">&#xa0;</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal"> </span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">贵院与患者</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_____</span><span
+                                style="color:#d9001b; font-family:宋体; font-size:12pt; font-weight:normal; text-decoration:underline">${auditAcceptance.complaintMain.patientName}</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">___</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">发生的医疗纠纷案件</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">应悦者及</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">质院双方</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">调解申请，我单位经审查符合受理条件</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">为保证案件调解工作的及时进行</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">,</span></p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">请贵院在三个工作日内提供如下材料</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span></p>
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td rowspan="2" class="tit" width="240px">一、材料名单</td>
+                    <td>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交法定代表人身份证明书一份</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">_</span></p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交授权委托书</span>
+                        </p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交委托人、被委托人的身份证复印件</span>
+                        </p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交执业许可证副本复印件</span>
+                        </p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">5</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、诊疗分析意见</span></p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">6</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、出险医务人员身份证、执业证书复印件</span>
+                        </p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">7</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、与纠纷相关的证据材料</span>
+                        </p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">8</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、病历资料复印件</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(3</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">份</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">)</span></p>
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td rowspan="1" class="tit">二、要求</td>
+                    <td>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">1</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、提交材料均需用</span><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">A4</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">纸复印</span></p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">2</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、所提交的材料均需加盖医院公章</span>
+                        </p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">3</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、出险医务人员需在身份证、执业证书复印件上签名</span>
+                        </p>
+                        <p style="margin:0pt"><span
+                                style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">4</span><span
+                                style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、如三个工作日未提交所需资料的，视为放弃调解。</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="tit">
+                        <input id="doctorExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('hospitalAcc')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                        <input id="doctorPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('hospitalAcc'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="tab-pane fade" id="patientT">
@@ -685,7 +695,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="margin: auto;">
+                        <td colspan="3" class="tit">
                             <input id="DisAccExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('DisAcc')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
                             <input id="DisAccPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('DisAcc'); exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/><%--promptx('打印文件','打印机名称',document.getElementById('inputForm').action)--%>
                         </td>
