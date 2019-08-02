@@ -42,11 +42,11 @@
 				$("#pg").hide();
 			}
             if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗纠纷技术评估"}){
-            $("#jd").hide();
-            $("#pg").show();
+				$("#jd").hide();
+				$("#pg").show();
             }else if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗责任保险事故鉴定"}){
-            $("#jd").show();
-            $("#pg").hide();
+				$("#jd").show();
+				$("#pg").hide();
             }
 
 
@@ -68,7 +68,12 @@
 				<%--show_input(vas,idss);--%>
 			<%--}--%>
 
-
+			var sc="${assessAppraisal.scale}"
+			if(sc==""){
+				$("#scale").val(0)
+			}else{
+				$("#scale").val(sc)
+			}
 		});
 
 

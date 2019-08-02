@@ -241,7 +241,7 @@
 		#{updateDate},
 		#{medicalExpertName},
 		#{legalExpertName},
-		#{scale}
+		#{scale},
 		#{delFlag}
 		)
 	</insert>
