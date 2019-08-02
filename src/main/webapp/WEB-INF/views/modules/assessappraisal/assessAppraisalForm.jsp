@@ -50,7 +50,6 @@
             }
 
 
-
 			var d=$("#time1").val();
 			if(d==""){
 				var ss='${assessAppraisal.recordInfo1.startTime}'
@@ -59,14 +58,12 @@
 			}else{
 				show_input(vas,idss);
 			}
-			<%--var e=$("#time2").val();--%>
-			<%--if(e==""){--%>
-				<%--var ss2='${assessAppraisal.recordInfo1.endTime}'--%>
-						<%--var ss3=ss2.substr(0,10);--%>
-				<%--$("#time2").text(ss3);--%>
-			<%--}else{--%>
-				<%--show_input(vas,idss);--%>
-			<%--}--%>
+            var sc="${assessAppraisal.scale}"
+			if(sc==""){
+				$("#scale").val(0)
+			}else{
+				$("#scale").val(sc)
+			}
 
 			var sc="${assessAppraisal.scale}"
 			if(sc==""){
