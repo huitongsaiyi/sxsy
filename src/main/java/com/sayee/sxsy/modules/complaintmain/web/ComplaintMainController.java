@@ -6,8 +6,12 @@ package com.sayee.sxsy.modules.complaintmain.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.sayee.sxsy.common.utils.BeanUtils;
+import com.sayee.sxsy.common.utils.JsonUtil;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import java.lang.reflect.Method;
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.web.BaseController;
@@ -25,6 +29,8 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -119,5 +125,47 @@ public class ComplaintMainController extends BaseController {
 	public String selfCount( Model model) {
 		User user= UserUtils.getUser();
 		return String.valueOf(complaintMainService.findCount(user));
+	}
+
+	//主任页面
+	@RequestMapping(value = "head")
+	public String head(HttpServletRequest request, HttpServletResponse response, Model model) {
+		//查询当前登录人 有几条 数据时 在 结案总结 之后
+		String loginName=UserUtils.getUser().getLoginName();
+		List<Map<String,Object>> list=complaintMainService.findTypeInfo(UserUtils.getUser());
+		model.addAttribute("list", this.convert(list.toArray(),"typeName",true) );
+		model.addAttribute("list2", this.convert(list.toArray(),"num",true) );
+		return "modules/home/headPage";
+	}
+
+	public static List convert(Object[] list, String field, boolean skipNull)
+	{
+		Map map = new HashMap();
+		List array = new ArrayList();
+		Object[] arrayOfObject = list; int j = list.length; for (int i = 0; i < j; i++) { Object t = arrayOfObject[i];
+		Object value = null;
+		if (field != null) {
+			Class c = t.getClass();
+			if ((t instanceof Map)) {
+				value = ((Map)t).get(field);
+			} else if (c.isArray()) {
+				value = ((Object[])t)[Integer.valueOf(field).intValue()];
+			} else {
+				String cls = c.getName();
+				Method getMethod = (Method)map.get(cls);
+				if (getMethod == null) getMethod = BeanUtils.getMethod(field, c);
+				if (getMethod != null) {
+					try {
+						value = getMethod.invoke(t, new Object[0]);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					map.put(cls, getMethod);
+				}
+			}
+		} else { value = t; }
+		if (((value == null) && (!skipNull)) || (value != null)) array.add(value);
+	}
+		return array;
 	}
 }

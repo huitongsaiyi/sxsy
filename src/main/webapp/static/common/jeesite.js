@@ -141,7 +141,7 @@ function promptx(title, lable, href, closed){
 	        return false;
 	    }
 		if (typeof href == 'function') {
-			href();
+			href(f.txt);
 		}else{
 			resetTip(); //loading();
 			location = href + encodeURIComponent(f.txt);

@@ -186,4 +186,12 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		this.format(list);
     	return list;
     }
+
+    public List<Map<String, Object>> findTypeInfo(User user) {
+        if ("".equals(user.getRole())){
+
+        }
+        List<Map<String, Object>> list=complaintMainDao.findTypeInfo();
+        return list;
+    }
 }

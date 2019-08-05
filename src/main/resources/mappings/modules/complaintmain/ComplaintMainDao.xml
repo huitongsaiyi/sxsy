@@ -264,4 +264,12 @@
 
 	</select>
 
+	<!--主任查看的案件分类统计-->
+	<select id="findTypeInfo" resultType="java.util.Map">
+		SELECT CONCAT('\'',t.name,'\'') typeName,COUNT(t.name) num
+		FROM COMPLAINT_MAIN_DETAIL c
+		LEFT JOIN TEST_TREE t on c.is_major=t.id
+		WHERE t.name is not null
+		GROUP BY t.name
+	</select>
 </mapper>

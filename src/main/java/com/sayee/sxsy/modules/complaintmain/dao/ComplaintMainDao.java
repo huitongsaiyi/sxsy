@@ -35,4 +35,6 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * 获取我的已办数据
      */
     public List<ComplaintMain> getMyDone(@Param("loginName") String loginName);
+
+    public List<Map<String, Object>> findTypeInfo();
 }
