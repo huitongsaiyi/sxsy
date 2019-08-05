@@ -77,7 +77,12 @@
 		function exportWord() {
 			var aa=$("#export").val();
 			var path="${ctx}/sign/signAgreement/pass";
-			$.post(path,{'signAgreementId':'${signAgreement.signAgreementId}','export':aa,"print":"true"},function(res){
+			var data = {};
+			var t = $('form').serializeArray();
+			$.each(t, function() {
+				data [this.name] = this.value;
+			});
+			$.post(path,{'signAgreementId':"${signAgreement.signAgreementId}",'data':JSON.stringify(data),'export':aa,"print":"true"},function(res){
 				if(res.data.url!=''){
 					var url='${pageContext.request.contextPath}'+res.data.url;
 					<%--window.location.href='${pageContext.request.contextPath}'+res.data.url ;--%>
@@ -86,12 +91,14 @@
 				}else{
 				}
 			},"json");
+			$("#agreementPrint").submit
 		}
 
 		//导出和打印加提示
 		$(function (){
 			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
 		});
+
 	</script>
 </head>
 <body>
@@ -348,16 +355,16 @@
 					<tbody>
 					<c:forEach items="${tjqk}" var="column" varStatus="vs">
 						<tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
-							<td nowrap style="text-align:center;vertical-align:middle;">
+							<td nowrap style="text-align:center;vertical-align:middle;width: 5%;">
 								<input type="hidden" name="mediationList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="mediationList[${vs.index}].delFlag" value="${column.delFlag}"/>
-								<input type="checkbox" name="mediationList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'tjqk')"/>
+								<input type="checkbox" name="mediationList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'tjqk');"/>
 							</td>
-							<td style="text-align:center;vertical-align:middle;">
+							<td style="text-align:center;width: 10%;">
 									${column.typeName}
 							</td>
-							<td style="text-align:center;vertical-align:middle;">
-									${column.content}
+							<td style="text-align:center;">
+										<textarea  name="mediationList[${vs.index}].mediation" style="width: 90%;">${column.content}</textarea>
 							</td>
 						</tr>
 					</c:forEach>
@@ -377,13 +384,14 @@
 					<tbody>
 					<c:forEach items="${xyydsx}" var="column" varStatus="vs">
 						<tr><%--${column.delFlag eq '1'?' class="error" title="已删除的列，保存之后消失！"':''}--%>
-							<td nowrap style="text-align:center;vertical-align:middle;">
+							<td nowrap style="text-align:center;vertical-align:middle;width: 5%;">
 								<input type="hidden" name="meatterList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="meatterList[${vs.index}].delFlag" value="${column.delFlag}"/>
 								<input type="checkbox" name="meatterList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'xyydsx')"/>
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
-									${column.content}
+								<%--<input type="text" name="agreedMatter" value="${column.content}" style="width: 90%;word-wrap:break-word;height:100px;"/>--%>
+								<textarea  name="meatterList[${vs.index}].agreedMatter" style="width: 90%;">${column.content}</textarea>
 							</td>
 						</tr>
 					</c:forEach>
@@ -436,7 +444,7 @@
 							<td nowrap style="text-align:center;vertical-align:middle;">
 								<input type="hidden" name="agreementList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="agreementList[${vs.index}].delFlag" value="${column.delFlag}"/>
-								<input type="checkbox" name="agreementList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'xysm')"/>
+								<input type="checkbox" name="agreementList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'xysm');"/>
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
 									${column.typeName}
