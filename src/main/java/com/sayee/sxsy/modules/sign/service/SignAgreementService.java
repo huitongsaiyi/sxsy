@@ -389,8 +389,15 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 
 	//导出
 	public String exportWord(SignAgreement signAgreement,String export,String print,HttpServletRequest request, HttpServletResponse response){
+		if("false".equals(print)){
+			this.getCheck(signAgreement);
+		}
+		String mediation2 = request.getParameter("mediation");
+		String agreedMatter2=request.getParameter("agreedMatter");
+		String performAgreementMode2 = request.getParameter("performAgreementMode");
+		String agreementExplain2 = request.getParameter("agreementExplain");
 		WordExportUtil wordExportUtil = new WordExportUtil();
-		signAgreement = this.get(signAgreement.getSignAgreementId());
+//		signAgreement = this.get(signAgreement.getSignAgreementId());
 		List<PatientLinkEmp> patientLinkEmpList=new ArrayList<PatientLinkEmp>();
 		List<PatientLinkEmp> patientLinkDList = new ArrayList<PatientLinkEmp>();
 		List<MedicalOfficeEmp> medicalOfficeEmpList = new ArrayList<MedicalOfficeEmp>();
@@ -427,7 +434,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			String agreementExplain1 = agreementExplain.substring(0, 32);//协议说明id
 			typeInfo4 = typeInfoService.get(agreementExplain1);
 		}
-		String path = request.getServletContext().getRealPath("/");
+		String path = request.getSession().getServletContext().getRealPath("/");
 		String modelPath = path;
 		String returnPath="";
 		String newFileName = "无标题文件.docx";
@@ -443,7 +450,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		}
 		if("agreementExport".equals(export)){
 			if(patientLinkEmpList.size()!=0){
-				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName());
+				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName()==null?"":patientLinkEmpList.get(0).getPatientLinkName());
 				if("1".equals(patientLinkEmpList.get(0).getPatientRelation())){
 					params.put("pRlation","本人");
 				}else if("2".equals(patientLinkEmpList.get(0).getPatientRelation())){
@@ -458,9 +465,11 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 					params.put("pRlation","亲属");
 				}else if("7".equals(patientLinkEmpList.get(0).getPatientRelation())){
 					params.put("pRlation","其他");
+				}else{
+					params.put("pRlation","");
 				}
-				params.put("pIdNum",patientLinkEmpList.get(0).getIdNumber());
-				params.put("pAdress",patientLinkEmpList.get(0).getPatientLinkAddress());
+				params.put("pIdNum",patientLinkEmpList.get(0).getIdNumber()==null?"":patientLinkEmpList.get(0).getIdNumber());
+				params.put("pAdress",patientLinkEmpList.get(0).getPatientLinkAddress()==null?"":patientLinkEmpList.get(0).getPatientLinkAddress());
 			}else{
 				params.put("pName","");
 				params.put("pRlation","");
@@ -468,7 +477,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				params.put("pAdress","");
 			}
 			if(patientLinkDList.size()!=0){
-				params.put("pdName",patientLinkDList.get(0).getPatientLinkName());
+				params.put("pdName",patientLinkDList.get(0).getPatientLinkName()==null?"":patientLinkDList.get(0).getPatientLinkName());
 				if("1".equals(patientLinkDList.get(0).getPatientRelation())){
 					params.put("pdRelation","本人");
 				}else if("2".equals(patientLinkDList.get(0).getPatientRelation())){
@@ -483,9 +492,11 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 					params.put("pdRelation","亲属");
 				}else if("7".equals(patientLinkDList.get(0).getPatientRelation())){
 					params.put("pdRelation","其他");
+				}else{
+					params.put("pdRelation","");
 				}
-				params.put("pdNumber",patientLinkDList.get(0).getIdNumber());
-				params.put("pdAdress",patientLinkDList.get(0).getPatientLinkAddress());
+				params.put("pdNumber",patientLinkDList.get(0).getIdNumber()==null?"":patientLinkDList.get(0).getIdNumber());
+				params.put("pdAdress",patientLinkDList.get(0).getPatientLinkAddress()==null?"":patientLinkDList.get(0).getPatientLinkAddress());
 			}else{
 				params.put("pdName","");
 				params.put("pdRelation","");
@@ -493,18 +504,20 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				params.put("pdAdress","");
 			}
 			if (medicalOfficeEmpList.size()!=0){
-				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName());
-				params.put("hAdress",medicalOfficeEmpList.get(0).getMedicalOfficeAddress());
-				params.put("legal",medicalOfficeEmpList.get(0).getLegalRepresentative());
-				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost());
-				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
+				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeName());
+				params.put("hAdress",medicalOfficeEmpList.get(0).getMedicalOfficeAddress()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeAddress());
+				params.put("legal",medicalOfficeEmpList.get(0).getLegalRepresentative()==null?"":medicalOfficeEmpList.get(0).getLegalRepresentative());
+				params.put("post",medicalOfficeEmpList.get(0).getMedicalOfficePost()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficePost());
+				params.put("agent",medicalOfficeEmpList.get(0).getMedicalOfficeAgent()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeAgent());
 				if ("1".equals(medicalOfficeEmpList.get(0).getMedicalOfficeSex())) {
 					params.put("hSex","男");
-				}else{
+				}else if("2".equals(medicalOfficeEmpList.get(0).getMedicalOfficeSex())){
 					params.put("hSex","女");
+				}else{
+					params.put("hSex","");
 				}
-				params.put("idCard",medicalOfficeEmpList.get(0).getMedicalOfficeIdcard());
-				params.put("company",medicalOfficeEmpList.get(0).getMedicalOfficeCompany());
+				params.put("idCard",medicalOfficeEmpList.get(0).getMedicalOfficeIdcard()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeIdcard());
+				params.put("company",medicalOfficeEmpList.get(0).getMedicalOfficeCompany()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeCompany());
 			}else{
 				params.put("hName","");
 				params.put("hAdress","");
@@ -520,32 +533,36 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			}else{
 				params.put("summary","");
 			}
-			if(typeInfo1 != null){
-				params.put("tjTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
-				params.put("tjContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
-			}else{
-				params.put("tjTypeName","");
-				params.put("tjContent","");
-			}
-			if(typeInfo2 != null){
-				params.put("yContent",typeInfo2.getContent()==null?"":typeInfo2.getContent());
-			}else{
-				params.put("yContent","");
-			}
-			if(typeInfo3 !=null){
-				params.put("lTypeName",typeInfo3.getTypeName()==null?"":typeInfo3.getTypeName());
-				params.put("lContent",typeInfo3.getContent()==null?"":typeInfo3.getTypeName());
-			}else{
-				params.put("lTypeName","");
-				params.put("lContent","");
-			}
-			if(typeInfo4 != null){
-				params.put("xTypeName",typeInfo4.getTypeName()==null?"":typeInfo4.getTypeName());
-				params.put("xContent",typeInfo4.getContent()==null?"":typeInfo4.getContent());
-			}else{
-				params.put("xTypeName","");
-				params.put("xContent","");
-			}
+//			if(typeInfo1 != null){
+////				params.put("tjTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
+//				params.put("tjContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
+//			}else{
+////				params.put("tjTypeName","");
+//				params.put("tjContent","");
+//			}
+//			if(typeInfo2 != null){
+//				params.put("yContent",typeInfo2.getContent()==null?"":typeInfo2.getContent());
+//			}else{
+//				params.put("yContent","");
+//			}
+			params.put("tjContent",mediation2==null?signAgreement.getMediation()==null?"":signAgreement.getMediation():mediation2);
+			params.put("yContent",agreedMatter2==null?signAgreement.getAgreedMatter()==null?"":signAgreement.getAgreedMatter():agreedMatter2);
+			params.put("lContent",performAgreementMode2==null?signAgreement.getPerformAgreementMode()==null?"":signAgreement.getPerformAgreementMode():performAgreementMode2);
+			params.put("xContent",agreementExplain2==null?signAgreement.getAgreementExplain()==null?"":signAgreement.getAgreementExplain():agreementExplain2);
+//			if(typeInfo3 !=null){
+//				params.put("lTypeName",typeInfo3.getTypeName()==null?"":typeInfo3.getTypeName());
+//				params.put("lContent",typeInfo3.getContent()==null?"":typeInfo3.getTypeName());
+//			}else{
+//				params.put("lTypeName","");
+//				params.put("lContent","");
+//			}
+//			if(typeInfo4 != null){
+//				params.put("xTypeName",typeInfo4.getTypeName()==null?"":typeInfo4.getTypeName());
+//				params.put("xContent",typeInfo4.getContent()==null?"":typeInfo4.getContent());
+//			}else{
+//				params.put("xTypeName","");
+//				params.put("xContent","");
+//			}
 			    //协议号
 				params.put("agreementNumber",signAgreement.getAgreementNumber()==null?"":signAgreement.getAgreementNumber());
 			path += "/doc/agreement.docx";  //模板文件位置
@@ -618,7 +635,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			newFileName="签署协议笔录.docx";
 		}
 		try{
-			File file =new File(request.getServletContext().getRealPath("/")+"/userfiles/signAgreement/"+num);
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/signAgreement/"+num);
 			if (!file.exists()){
 				file.mkdirs();
 			}

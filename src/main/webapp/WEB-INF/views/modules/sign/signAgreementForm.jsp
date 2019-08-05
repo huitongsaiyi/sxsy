@@ -7,6 +7,18 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			/**
+			 * 字符串替换
+			 * @param  {string} str    要被替换的字符串
+			 * @param  {string} substr 要替换的字符串
+			 * @param  {string} newstr 用于替换的字符串
+			 * @return {string}        替换后的新字符串
+			 */
+			function replace(str, substr, newstr) {
+				substr = substr.replace(/[.\\[\]{}()|^$?*+]/g, "\\$&"); // 转义字符串中的元字符
+				var re = new RegExp(substr, "g"); // 生成正则
+				return str.replace(re, newstr);
+			}
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
@@ -15,11 +27,29 @@
 						loading('正在提交，请稍等...');
 					}
 					$("input[type=checkbox]").each(function(){
+						if($(this).attr("checked")){
+							if($(this).attr("name").indexOf("meatterList") != -1){//协议约定事项的
+								var agreedMatter = $('textarea[name="'+replace($(this).attr("name"),"label","agreedMatter")+'"]').val();
+								$("#agreedMatter").val(agreedMatter);
+							}else if($(this).attr("name").indexOf("mediationList") != -1){
+								var mediation = $('textarea[name="'+replace($(this).attr("name"),"label","mediation")+'"]').val();
+								$("#mediation").val(mediation);
+							}else if($(this).attr("name").indexOf("performList") != -1){
+								 var performAgreementMode = $('textarea[name="'+replace($(this).attr("name"),"label","performAgreementMode")+'"]').val();
+								 $("#performAgreementMode").val(performAgreementMode);
+							}else if($(this).attr("name").indexOf("agreementList") != -1){
+								var agreementExplain = $('textarea[name="'+replace($(this).attr("name"),"label","agreementExplain")+'"]').val();
+								$("#agreementExplain").val(agreementExplain);
+							}
+						}
+					});
+					$("input[type=checkbox]").each(function(){
 						$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
 								+($(this).attr("checked")?"1":"0")+"\"/>");
 						$(this).attr("name", "_"+$(this).attr("name"));
 					});
 					form.submit();
+
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
@@ -73,8 +103,31 @@
 			});
 			$("input[name='"+na+"']").prop("checked",true);
 		}
-
 		function exportWord() {
+			function replace(str, substr, newstr) {
+				substr = substr.replace(/[.\\[\]{}()|^$?*+]/g, "\\$&"); // 转义字符串中的元字符
+				var re = new RegExp(substr, "g"); // 生成正则
+				return str.replace(re, newstr);
+			}
+			$("input[type=checkbox]").each(function(){
+				if($(this).attr("checked")){
+					if($(this).attr("name").indexOf("meatterList") != -1){//协议约定事项的
+						var agreedMatter1 = $('textarea[name="'+replace($(this).attr("name"),"label","agreedMatter")+'"]').val();
+						$("#agreedMatter").val(agreedMatter1);
+					}else if($(this).attr("name").indexOf("mediationList") != -1){
+						var mediation1 = $('textarea[name="'+replace($(this).attr("name"),"label","mediation")+'"]').val();
+						$("#mediation").val(mediation1);
+					}else if($(this).attr("name").indexOf("performList") != -1){
+						var performAgreementMode1 = $('textarea[name="'+replace($(this).attr("name"),"label","performAgreementMode")+'"]').val();
+						$("#performAgreementMode").val(performAgreementMode1);
+					}else if($(this).attr("name").indexOf("agreementList") != -1){
+						var agreementExplain1 = $('textarea[name="'+replace($(this).attr("name"),"label","agreementExplain")+'"]').val();
+						$("#agreementExplain").val(agreementExplain1);
+					}
+				}
+			});
+			$("#createDate").val("");
+			$("#createBy").val("");
 			var aa=$("#export").val();
 			var path="${ctx}/sign/signAgreement/pass";
 			var data = {};
@@ -82,7 +135,7 @@
 			$.each(t, function() {
 				data [this.name] = this.value;
 			});
-			$.post(path,{'signAgreementId':"${signAgreement.signAgreementId}",'data':JSON.stringify(data),'export':aa,"print":"true"},function(res){
+			$.post(path,{'signAgreementId':"${signAgreement.signAgreementId}",'data':JSON.stringify(data),'export':aa,"print":"true",'agreedMatter':$("#agreedMatter").val(),'mediation':$("#mediation").val(),'performAgreementMode':$("#performAgreementMode").val(),'agreementExplain':$("#agreementExplain").val()},function(res){
 				if(res.data.url!=''){
 					var url='${pageContext.request.contextPath}'+res.data.url;
 					<%--window.location.href='${pageContext.request.contextPath}'+res.data.url ;--%>
@@ -98,6 +151,7 @@
 		$(function (){
 			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
 		});
+
 
 	</script>
 </head>
@@ -126,6 +180,10 @@
 	<form:hidden path="agreementNumber"/>
 	<form:hidden path="mediateProgram.patient"/>
 	<form:hidden path="mediateProgram.doctor"/>
+	<form:hidden path="agreedMatter"/>
+	<form:hidden path="mediation"/>
+	<form:hidden path="performAgreementMode"/>
+	<form:hidden path="agreementExplain"/>
 	<input type="hidden"  id="export" name="export"/>
 	<sys:message content="${message}"/>
 
@@ -420,7 +478,7 @@
 									${column.typeName}
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
-									${column.content}
+										<textarea  name="performList[${vs.index}].performAgreementMode" style="width: 90%;">${column.content}</textarea>
 							</td>
 						</tr>
 					</c:forEach>
@@ -450,7 +508,7 @@
 									${column.typeName}
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
-									${column.content}
+								<textarea  name="agreementList[${vs.index}].agreementExplain" style="width: 90%;">${column.content}</textarea>
 							</td>
 						</tr>
 					</c:forEach>

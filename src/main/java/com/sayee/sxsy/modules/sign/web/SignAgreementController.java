@@ -6,15 +6,22 @@ package com.sayee.sxsy.modules.sign.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sayee.sxsy.common.utils.AjaxHelper;
-import com.sayee.sxsy.common.utils.BaseUtils;
-import com.sayee.sxsy.common.utils.IdGen;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
+import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
+import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
+import org.activiti.engine.impl.json.JsonListConverter;
+import org.activiti.explorer.util.StringUtil;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +35,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.web.BaseController;
-import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 签署协议Controller
@@ -157,8 +163,8 @@ public class SignAgreementController extends BaseController {
 	public String save(HttpServletRequest request,SignAgreement signAgreement, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
 		if (StringUtils.isNotBlank(export) && !export.equals("no")){
-		    SignAgreement signAgreement1 = signAgreementService.get(signAgreement.getSignAgreementId());
-			String path = signAgreementService.exportWord(signAgreement1,export,"false",request,response);
+//		    SignAgreement signAgreement1 = signAgreementService.get(signAgreement.getSignAgreementId());
+			String path = signAgreementService.exportWord(signAgreement,export,"false",request,response);
 			return path;
 		}else {
 			if (!beanValidator(model, signAgreement) && "yes".equals(signAgreement.getComplaintMain().getAct().getFlag())) {
@@ -192,14 +198,79 @@ public class SignAgreementController extends BaseController {
 	public void pass(HttpServletRequest request,HttpServletResponse response) {
 		String code="";//1.成功 0失败
 		String signAgreementId=request.getParameter("signAgreementId");//前台传过来的状态
+        String data = request.getParameter("data");
+        String agreedMatter=request.getParameter("agreedMatter");
+		String mediation=request.getParameter("mediation");
+		String performAgreementMode=request.getParameter("performAgreementMode");
+		String agreementExplain=request.getParameter("agreementExplain");
+		Map pa=JSONObject.parseObject(data,Map.class);
+
+
+		String idNumber = (String) pa.get("patientLinkEmpList[0].idNumber");
+		String patientLinkName = (String) pa.get("patientLinkEmpList[0].patientLinkName");
+		String patientRelation = (String) pa.get("patientLinkEmpList[0].patientRelation");
+		String patientLinkAddress = (String) pa.get("patientLinkEmpList[0].patientLinkAddress");
+		String patientLinkName1 = (String) pa.get("patientLinkDList[0].patientLinkName");
+		String patientRelation1 = (String) pa.get("patientLinkDList[0].patientRelation");
+		String idNumber1 = (String) pa.get("patientLinkDList[0].idNumber");
+		String patientLinkAddress1 = (String) pa.get("patientLinkDList[0].patientLinkAddress");
+		String medicalOfficeName = (String) pa.get("medicalOfficeEmpList[0].medicalOfficeName");
+		String medicalOfficeAddress = (String) pa.get("medicalOfficeEmpList[0].medicalOfficeAddress");
+		String legalRepresentative = (String) pa.get("medicalOfficeEmpList[0].legalRepresentative");
+		String medicalOfficePost = (String) pa.get("medicalOfficeEmpList[0].medicalOfficePost");
+		String medicalOfficeAgent = (String) pa.get("medicalOfficeEmpList[0].medicalOfficeAgent");
+		String medicalOfficeSex = (String) pa.get("medicalOfficeEmpList[0].medicalOfficeSex");
+		String medicalOfficeIdcard = (String) pa.get("medicalOfficeEmpList[0].medicalOfficeIdcard");
+		String medicalOfficeCompany = (String) pa.get("medicalOfficeEmpList[0].medicalOfficeCompany");
+//		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		String s1=(String)pa.get("createDate");
+//		String aa="";
+//		try {
+//			Date createDate = new Date((String)pa.get("createDate"));
+//			 aa=simpleDateFormat.format(createDate);
+//			 pa.put("createDate",aa);
+//
+//		}catch (Exception e){
+//
+//		}
+//
+
+//		Date createDate = (Date) pa.get("createDate");
+		PatientLinkEmp patientLinkEmp1 = new PatientLinkEmp();
+		patientLinkEmp1.setPatientLinkName(patientLinkName);
+		patientLinkEmp1.setIdNumber(idNumber);
+		patientLinkEmp1.setPatientRelation(patientRelation);
+		patientLinkEmp1.setPatientLinkAddress(patientLinkAddress);
+		PatientLinkEmp patientLinkEmp2 = new PatientLinkEmp();
+		patientLinkEmp2.setPatientLinkName(patientLinkName1);
+		patientLinkEmp2.setPatientLinkAddress(patientLinkAddress1);
+		patientLinkEmp2.setPatientRelation(patientRelation1);
+		patientLinkEmp2.setIdNumber(idNumber1);
+		MedicalOfficeEmp medicalOfficeEmp = new MedicalOfficeEmp();
+		medicalOfficeEmp.setMedicalOfficeName(medicalOfficeName);
+		medicalOfficeEmp.setLegalRepresentative(legalRepresentative);
+		medicalOfficeEmp.setMedicalOfficePost(medicalOfficePost);
+		medicalOfficeEmp.setMedicalOfficeAgent(medicalOfficeAgent);
+		medicalOfficeEmp.setMedicalOfficeAddress(medicalOfficeAddress);
+		medicalOfficeEmp.setMedicalOfficeSex(medicalOfficeSex);
+		medicalOfficeEmp.setMedicalOfficeIdcard(medicalOfficeIdcard);
+		medicalOfficeEmp.setMedicalOfficeCompany(medicalOfficeCompany);
+		SignAgreement signAgreement1 = JSON.parseObject(data, SignAgreement.class);
+		signAgreement1.getMedicalOfficeEmpList().add(medicalOfficeEmp);
+		signAgreement1.getPatientLinkEmpList().add(patientLinkEmp1);
+		signAgreement1.getPatientLinkDList().add(patientLinkEmp2);
+		signAgreement1.setAgreedMatter(agreedMatter);
+		signAgreement1.setMediation(mediation);
+		signAgreement1.setPerformAgreementMode(performAgreementMode);
+		signAgreement1.setAgreementExplain(agreementExplain);
 		String export=request.getParameter("export");//前台传过来的状态
 		String print=request.getParameter("print");//前台传过来的状态
-		SignAgreement signAgreement = signAgreementService.get(signAgreementId);
-		code=signAgreementService.exportWord(signAgreement,export,print,request,response);
+//		SignAgreement signAgreement = signAgreementService.get(signAgreementId);
+		code=signAgreementService.exportWord(signAgreement1,export,print,request,response);
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("url",code);
 		AjaxHelper.responseWrite(request,response,"1","success",map);
-
 	}
+
 
 }
