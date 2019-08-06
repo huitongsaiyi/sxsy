@@ -270,6 +270,14 @@
 		FROM COMPLAINT_MAIN_DETAIL c
 		LEFT JOIN TEST_TREE t on c.is_major=t.id
 		WHERE t.name is not null
+		<choose>
+			<when test="year !=null and year !=''">
+				AND c.visitor_date like concat('%',#{year},'%')
+			</when>
+			<otherwise>
+				AND c.visitor_date like concat('%',#{month},'%')
+			</otherwise>
+		</choose>
 		GROUP BY t.name
 	</select>
 </mapper>

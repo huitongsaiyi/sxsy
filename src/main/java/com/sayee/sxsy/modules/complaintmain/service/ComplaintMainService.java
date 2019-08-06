@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.config.Global;
+import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.apache.commons.collections.CollectionUtils;
@@ -187,11 +188,14 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
     	return list;
     }
 
-    public List<Map<String, Object>> findTypeInfo(User user) {
+    public List<Map<String, Object>> findTypeInfo(User user,String year,String month) {
         if ("".equals(user.getRole())){
 
         }
-        List<Map<String, Object>> list=complaintMainDao.findTypeInfo();
+        if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+        	year= DateUtils.getYear();
+		}
+        List<Map<String, Object>> list=complaintMainDao.findTypeInfo(year,month);
         return list;
     }
 }

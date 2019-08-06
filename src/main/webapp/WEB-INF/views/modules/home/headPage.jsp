@@ -7,32 +7,53 @@
     <script src="${ctxStatic}/echarts/dist/echarts.min.js" type="text/javascript"></script>
     <script src="${ctxStatic}/echarts/dist/echarts-gl.min.js"></script>
     <script src="${ctxStatic}/echarts/map/js/province/shanxi.js"></script>
-    <style type="text/css">
-        #bigMain {
-
-            border:2px solid green;
-            height: 450px;
-
-        }
-
-    </style>
+    <script src="${ctxStatic}/echarts/dark.js"></script>
+    <script src="${ctxStatic}/echarts/halloween.js"></script>
 </head>
+<style type="text/css">
+
+    #bigMain{
+
+        background: url("${ctxStatic}/images/aa.jpg");
+
+    }
+
+</style>
 <body >
-
+<form:form id="searchForm" action="${ctx}/complaintmain/complaintMain/head" method="post" class="breadcrumb form-search">
+    <ul class="ul-form" style="height: 50px;">
+        <li id="year" style="">
+            <label>日期(年)：</label>
+            <input id="yearDate" name="yearDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                   value="${yearDate}"
+                   onclick="WdatePicker({dateFmt:'yyyy',isShowClear:true}); $('#monthDate').val('');"/>
+        </li>
+        <li id="month" style="">
+            <label>日期(月)：</label>
+            <input id="monthDate" name="monthDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                   value="${monthDate}"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:true});$('#yearDate').val('');"/>
+        </li>
+        <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="统计"/></li>
+    </ul>
+</form:form>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-<div id="main"  style="position:absolute;width: 30%; border: 1px;border-style:solid;height:300px;" ></div>
-<div id="main1" style="width: 40%; height: 200px;border: 1px;border-style:solid;margin:0 auto;"></div>
-<div id="main2" style="position:absolute;width: 30%; border: 1px;border-style:solid;height: 300px;right:0px; top:0px;"></div>
+<div id="aa" style="width: 100%;height: 100%">
+    <div id="main"  style="position:absolute;width: 30%; border: 0px;border-style:solid;height:300px;" ></div>
+    <div id="main1" style="width: 40%; height: 200px;border: 0px;border-style:solid;margin:0 auto;"></div>
+    <div id="main2" style="position:absolute;width: 30%; border: 0px;border-style:solid;height: 300px;right:0px; top:74px;"></div>
 
-<div id="main3" style="position:absolute;width: 30%; border: 1px;border-style:solid;height:700px;top: 310px;"></div>
-<div id="main4" style="position:absolute;width: 30%; border: 1px;border-style:solid;height: 700px;top: 310px;right: 0px;"></div>
-<div id="bigMain" style="position:absolute;width: 40%;border: 1px;border-style:solid; height: 800px;top:210px;left:30%;"></div>
+    <div id="main3" style="position:absolute;width: 30%; border: 0px;border-style:solid;height:600px;top: 374px;"></div>
+    <div id="main4" style="position:absolute;width: 30%; border: 0px;border-style:solid;height: 600px;top: 374px;right: 0px;"></div>
+    <div id="bigMain" style="position:absolute;width: 40%;border: 0px;border-style:solid; height: 700px;top:274px;left:30%;"></div>
+</div>
 <script type="text/javascript">
-    var myChart = echarts.init(document.getElementById('main'));
-    var myChart1 = echarts.init(document.getElementById('main1'));
-    var myChart2 = echarts.init(document.getElementById('main2'));
-    var myChart3 = echarts.init(document.getElementById('main3'));
-    var myChart4 = echarts.init(document.getElementById('main4'));
+    var myChart = echarts.init(document.getElementById('main'), 'dark');
+    var myChart1 = echarts.init(document.getElementById('main1'), 'dark');
+    var myChart2 = echarts.init(document.getElementById('main2'), 'dark');
+    var myChart3 = echarts.init(document.getElementById('main3'), 'dark');
+    var myChart4 = echarts.init(document.getElementById('main4'), 'dark');
+    //案件类型统计option
     option = {
         title: {
             text: '案件类型统计',
@@ -68,7 +89,7 @@
         ],
         series : [
             {
-                name:'直接访问',
+                name:'数量',
                 type:'bar',
                 barWidth: '60%',
                 data:${list2}
@@ -76,10 +97,31 @@
         ]
     };
 
+    optionZX = {
+        xAxis: {
+            type: 'category',
+            data: ['01', '02', '03', '04', '05', '06', '07','08', '09', '10', '11','12']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        series: [{
+            name:'数量',
+            data: [820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901, 934, 1290],
+            type: 'line'
+        }]
+    };
+
 
     myChart.setOption(option);
     myChart1.setOption(option);
-    myChart2.setOption(option);
+    myChart2.setOption(optionZX);
     myChart3.setOption(option);
     myChart4.setOption(option);
 
@@ -102,13 +144,13 @@
         {name: '郊区',value: 50}
 
     ];
-    function Map(id,cityData){
+    function provinceMap(id,cityData){
 
         function sortRule(a,b){return a.value-b.value;}
         cityData.sort(sortRule);
-        var name=cityData.map(name=>name.name);
+        var provinceName=cityData.map(name => name.name);
 
-        var chart =  echarts.init(document.getElementById(id));
+        var provinceChart =  echarts.init(document.getElementById(id), 'dark');
 
         var geoCoordMap = {
             '太原市': [112.53,37.87]
@@ -216,7 +258,7 @@
             ,'稷山':[110.97,35.6]
         };
 
-        var option = {
+        var provinceOption = {
             legend: [],
             xAxis: [{
                 type: "value",
@@ -232,7 +274,7 @@
                 splitLine: {
                     show: false
                 }
-            },],
+            }],
             yAxis: [{
                 type: "category",
 
@@ -248,26 +290,25 @@
                         show:false
                     }
                 },
-                data:name,
-            },],
+                data:provinceName,
+            }],
             grid: [{
                 left: "70%",
                 right: "20",
                 bottom: "10",
                 top:'60%',
                 containLabel: true
-            },],
+            }],
             title:[{
-                text:'全省安全态势',
+                text:'山西省案件投诉量',
                 x:0,
                 textStyle:{
-                    color:'rgb(0,147,203)',
+                    color:'rgb(255,255,255)',
                     fontSize:14
                 }
             },{
-                text: "综合安全事件影响排名Top10",
+                text: "各市投诉量",
                 textStyle: {
-                    color: "#000",
                     fontWeight: "bold",
                     fontSize: 14
                 },
@@ -275,25 +316,9 @@
                 left: "69%"
             }],
             tooltip:[{
-                // formatter:function(params){
-                //     var content='',
-                //     content=params.name+params.value[0]+params.value[1]+params.value[2];
-                //     return content;
-                // },
                 show:true,
             }],
-            backgroundColor:'#fff',
-            // visualMap: {
-            //     show: false,
-            //     min: 0,
-            //     max: 3000,
-            //     inRange: {
-            //         color: ['#00ffff', '#006edd'],
-            //          color: ['#00467F', '#A5CC82']
-            //     },
-            //     calculable:true
-
-            // },
+            //backgroundColor:'#aaa',
 
             geo:{
 
@@ -324,7 +349,7 @@
                 }
             },
             series: [{
-                name: "安全事件数量",
+                name: "投诉数量",
                 type: "bar",
                 data: cityData,
                 barWidth:7,
@@ -338,7 +363,7 @@
                             return params.data.value;
                         },
                         textStyle: {
-                            color: "#000" //color of value
+                            color: "#fff" //color of value
                         }
                     }
                 },
@@ -354,10 +379,10 @@
                         barBorderRadius: [30, 30,30, 30],
                     }
                 }
-            },]
+            }]
 
         };//option
-        chart.setOption(option);
+        provinceChart.setOption(provinceOption);
 
         function renderEachCity() {
             var width=$('#bigMain').width();
@@ -369,22 +394,22 @@
             echarts.util.each(rawData, function(dataItem, idx) {
 
                 var geoCoord = geoCoordMap[dataItem.name];
-                var coord = chart.convertToPixel('geo', dataItem.name);
+                var coord = provinceChart.convertToPixel('geo', dataItem.name);
                 idx += '';
 
 
-                option.xAxis.push({
+                provinceOption.xAxis.push({
                     id: idx,
                     gridId: idx,
                     type: 'category',
                     show: false
                 });
-                option.yAxis.push({
+                provinceOption.yAxis.push({
                     id: idx,
                     gridId: idx,
                     show: false
                 });
-                option.grid.push({
+                provinceOption.grid.push({
                     id: idx,
                     width: 10,
                     height: (dataItem.value),
@@ -393,7 +418,7 @@
                 });
 
 
-                option.series.push({
+                provinceOption.series.push({
                     name:dataItem.name,
                     type: 'bar',
                     xAxisId: idx,
@@ -426,17 +451,17 @@
 
 
             });
-            chart.setOption(option);
+            provinceChart.setOption(provinceOption);
         }
 
         renderEachCity();
 
         var a=0;//省级 跳入 市级，返回上一级 是 初始化为0
-        chart.on('click',function(params){
+        provinceChart.off('click');//防止重复绑定 事件
+        provinceChart.on('click',function(params){
             if(params.name!=undefined && params.name!='' && a==0){
-                //$("#bigMain").empty();
                 a=1;
-                chart.clear();
+                provinceChart.clear();
                 Maps('bigMain',rawsData,params.name);
             }
         })
@@ -447,7 +472,7 @@
         var name=cityData.map(name=>name.name);
 
 
-        var chartCity =  echarts.init(document.getElementById(id));
+        var chartCity =  echarts.init(document.getElementById(id), 'dark');
         $.getJSON('${ctxStatic}/echarts/map/json/shanxi/'+cityName+'.json', function (usaJson) {
             echarts.registerMap('city', usaJson);
             var geoCoordMap = {
@@ -484,7 +509,7 @@
                     splitLine: {
                         show: false
                     }
-                },],
+                }],
                 yAxis: [{
                     type: "category",
 
@@ -501,7 +526,7 @@
                         }
                     },
                     data:name,
-                },],
+                }],
                 grid: [{
                     left: "70%",
                     right: "20",
@@ -510,21 +535,21 @@
                     containLabel: true
                 },],
                 title:[{
-                    text:cityName+'IDC安全态势',
+                    text:cityName+'投诉数量',
                     x:0,
                     textStyle:{
-                        color:'rgb(0,147,203)',
+                        color:'rgb(255,255,255)',
                         fontSize:14
                     }
                 },{
-                    text: "综合安全事件影响排名Top10",
+                    text: "各县投诉量",
                     textStyle: {
-                        color: "#000",
+                        color: "#fff",
                         fontWeight: "bold",
                         fontSize: 14
                     },
-                    top: "55%",
-                    left: "69%"
+                    top: "60%",
+                    left: "80%"
                 }],
                 tooltip:[{
                     // formatter:function(params){
@@ -535,7 +560,7 @@
                     // },
                     show:true,
                 }],
-                backgroundColor:'#fff',
+               // backgroundColor:'#fff',
                 // visualMap: {
                 //     show: false,
                 //     min: 0,
@@ -567,20 +592,25 @@
                     roam: false,
                     itemStyle: {
                         normal: {
-                            color: 'rgb(0,90,157)',
-                            borderColor: 'rgb(0,90,157)',
-                            borderWidth: 1,
+                            areaColor: ['rgb(0,90,157)'],
+                            borderColor: '#fff',
+                            borderWidth: '0.8',
                         },
                         emphasis: {
                             areaColor: '#2B91B7',
-
-
-
                         }
+                        // normal: {
+                        //     color: 'rgb(0,90,157)',
+                        //     borderColor: 'rgb(0,90,157)',
+                        //     borderWidth: 1,
+                        // },
+                        // emphasis: {
+                        //     areaColor: '#2B91B7',
+                        // }
                     }
                 },
                 series: [{
-                    name: "安全事件数量",
+                    name: "投诉量",
                     type: "bar",
                     data: cityData,
                     barWidth:7,
@@ -592,11 +622,10 @@
                             show: true,
                             position: "right",
                             formatter: function(params) {
-                                console.log(params);
                                 return params.data.value;
                             },
                             textStyle: {
-                                color: "#000" //color of value
+                                color: "#fff" //color of value
                             }
                         }
                     },
@@ -612,7 +641,7 @@
                             barBorderRadius: [30, 30,30, 30],
                         }
                     }
-                },]
+                }]
 
             };//option
             chartCity.setOption(optionCity);
@@ -628,7 +657,6 @@
 
                     var geoCoord = geoCoordMap[dataItem.name];
                     var coord = chartCity.convertToPixel('geo', dataItem.name);
-                    console.log(geoCoord+":"+coord);
                     idx += '';
                     if(coord!=undefined){
                         optionCity.xAxis.push({
@@ -711,11 +739,14 @@
             renderEachCitys();
 
 
-            chartCity.on('click',function(params){console.log(params);})
+            chartCity.on('click',function(params){
+                chartCity.clear();
+                provinceMap('bigMain',rawData);
+            })
         });
     }
 
-    Map('bigMain',rawData);
+    provinceMap('bigMain',rawData);
 </script>
 
 </body>

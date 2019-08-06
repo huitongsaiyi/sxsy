@@ -130,11 +130,15 @@ public class ComplaintMainController extends BaseController {
 	//主任页面
 	@RequestMapping(value = "head")
 	public String head(HttpServletRequest request, HttpServletResponse response, Model model) {
+		String year=request.getParameter("yearDate");
+		String month=request.getParameter("monthDate");
 		//查询当前登录人 有几条 数据时 在 结案总结 之后
 		String loginName=UserUtils.getUser().getLoginName();
-		List<Map<String,Object>> list=complaintMainService.findTypeInfo(UserUtils.getUser());
+		List<Map<String,Object>> list=complaintMainService.findTypeInfo(UserUtils.getUser(),year,month);
 		model.addAttribute("list", this.convert(list.toArray(),"typeName",true) );
 		model.addAttribute("list2", this.convert(list.toArray(),"num",true) );
+		model.addAttribute("yearDate", year );
+		model.addAttribute("monthDate", month );
 		return "modules/home/headPage";
 	}
 

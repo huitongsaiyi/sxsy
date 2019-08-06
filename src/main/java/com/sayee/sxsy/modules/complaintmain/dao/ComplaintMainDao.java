@@ -36,5 +36,5 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      */
     public List<ComplaintMain> getMyDone(@Param("loginName") String loginName);
 
-    public List<Map<String, Object>> findTypeInfo();
+    public List<Map<String, Object>> findTypeInfo(@Param("year")String year,@Param("month")String month);
 }
