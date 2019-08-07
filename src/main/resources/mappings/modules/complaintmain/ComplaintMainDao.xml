@@ -280,4 +280,20 @@
 		</choose>
 		GROUP BY t.name
 	</select>
+
+	<select id="findGrade" resultType="java.util.Map">
+	SELECT CONCAT(if(cc.hospital_grade='1','三级甲等',if(cc.hospital_grade='2','三级乙等',if(cc.hospital_grade='3','二级甲等',if(cc.hospital_grade='4','二级乙等',if(cc.hospital_grade='5','乡镇卫生院',if(cc.hospital_grade='6','社区服务站',if(cc.hospital_grade='7','民营医院',if(cc.hospital_grade='8','门诊',''))))))))) name,COUNT(cc.hospital_grade) value
+	FROM COMPLAINT_MAIN cc
+	LEFT JOIN COMPLAINT_MAIN_DETAIL c ON cc.complaint_main_id=c.complaint_main_id
+	WHERE
+		<choose>
+			<when test="year !=null and year !=''">
+				c.visitor_date like concat('%',#{year},'%')
+			</when>
+			<otherwise>
+				AND c.visitor_date like concat('%',#{month},'%')
+			</otherwise>
+		</choose>
+	GROUP BY cc.hospital_grade
+	</select>
 </mapper>

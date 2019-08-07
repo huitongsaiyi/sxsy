@@ -5,8 +5,6 @@ package com.sayee.sxsy.modules.complaintmain.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.druid.support.json.JSONUtils;
 import com.sayee.sxsy.common.utils.BeanUtils;
 import com.sayee.sxsy.common.utils.JsonUtil;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -21,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.persistence.Page;
@@ -135,10 +135,16 @@ public class ComplaintMainController extends BaseController {
 		//查询当前登录人 有几条 数据时 在 结案总结 之后
 		String loginName=UserUtils.getUser().getLoginName();
 		List<Map<String,Object>> list=complaintMainService.findTypeInfo(UserUtils.getUser(),year,month);
+		List<Map<String, Object>> gradeList = complaintMainService.findGrade(UserUtils.getUser(), year, month);
 		model.addAttribute("list", this.convert(list.toArray(),"typeName",true) );
 		model.addAttribute("list2", this.convert(list.toArray(),"num",true) );
 		model.addAttribute("yearDate", year );
 		model.addAttribute("monthDate", month );
+		//各等级医院的案件数量统计
+		String toJson = JsonUtil.toJson(gradeList);
+		model.addAttribute("asdf",toJson);
+
+
 		return "modules/home/headPage";
 	}
 
