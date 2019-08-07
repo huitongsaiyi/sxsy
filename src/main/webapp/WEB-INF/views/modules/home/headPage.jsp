@@ -11,11 +11,9 @@
 </head>
 <style type="text/css">
 
-    #bigMain{
-
-        background: url("${ctxStatic}/images/aa.jpg");
-
-    }
+   body{
+       background-color: black;
+   }
 
 </style>
 <body>
@@ -120,6 +118,7 @@
             type: 'line'
         }]
     };
+    //饼状图
     optionBZ = {
         title : {
             text: '各等级医院的案件数量统计',
@@ -152,13 +151,189 @@
             }
         ]
     };
+//仪表盘
+    optionYB = {
+        backgroundColor: '#151C2E',
+        title:{
+            text:'案件数量统计',
+            x:0,
+            textStyle:{
+                color:'rgb(255,255,255)',
+                fontSize:14
+            }
+        },
+        tooltip : {
+            formatter: "{a} <br/>{c} {b}"
+        },
 
+        series : [
+            {
+                name: '案件总数(件)',
+                type: 'gauge',
+                z: 10,
+                min: 0,
+                max: 1000,
+                // splitNumber: 11,
+                radius: '100%',
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: [[0.2, 'lime'],[0.8, '#1e90ff'],[1, '#ff4500']],
+                        width: 3,
+                        shadowColor : '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length: 15,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length: 18,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                axisLabel: {
+                    backgroundColor: 'auto',
+                    borderRadius: 2,
+                    color: '#eee',
+                    padding: 1,
+                    textShadowBlur: 1,
+                    textShadowOffsetX: 1,
+                    textShadowOffsetY: 1,
+                    textShadowColor: '#222'
+                },
+                title : {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    // fontWeight: 'bolder',
+                    fontSize: 20,
+                    fontStyle: 'italic'
+                },
+                detail : {
+                    //其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    // formatter: function (value) {
+                    //     value = (value + '').split('.');
+                    //     value.length < 2 && (value.push('00'));
+                    //     return ('00' + value[0]).slice(-2)
+                    //         + '.' + (value[1] + '00').slice(0, 2);
+                    // },
+                    fontWeight: 'bolder',
+                    fontSize: 14,
+                    // borderRadius: 3,
+                    backgroundColor: '#444',
+                    borderColor: '#aaa',
+                    shadowBlur: 5,
+                    shadowColor: '#333',
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 3,
+                    borderWidth: 2,
+                    textBorderColor: '#000',
+                    textBorderWidth: 2,
+                    textShadowBlur: 2,
+                    textShadowColor: '#fff',
+                    textShadowOffsetX: 0,
+                    textShadowOffsetY: 0,
+                    fontFamily: 'Arial',
+                    width: 30,
+                    color: '#eee',
+                    rich: {}
+                },
+                data:[{value: ${listZ}}]
+            },
+            {
+                name: '已办案件数量(件)',
+                type: 'gauge',
+                center: ['28%', '55%'],    // 默认全局居中
+                radius: '90%',
+                z:200,
+                min:0,
+                max:1000,
+                endAngle:45,
+                // splitNumber:7,
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: [[0.2, 'lime'],[0.8, '#1e90ff'],[1, '#ff4500']],
+                        width: 3,
+                        shadowColor : '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length:12,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length:20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                pointer: {
+                    width:5
+                },
+                title: {
+                    offsetCenter: [0, '-30%'],       // x, y，单位px
+                },
+                detail: {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                },
+                data:[{value: ${ywc}}]
+            },
+            {
+                name: '待办案件数量(件)',
+                type: 'gauge',
+                center: ['72%', '55%'],    // 默认全局居中
+                radius: '90%',
+                z:200,
+                min:0,
+                max:1000,
+                startAngle:135,
+                // splitNumber:7,
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: [[0.2, 'lime'],[0.8, '#1e90ff'],[1, '#ff4500']],
+                        width: 3,
+                        shadowColor : '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length:12,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length:20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                pointer: {
+                    width:5
+                },
+                title: {
+                    offsetCenter: [0, '-30%'],       // x, y，单位px
+                },
+                detail: {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                },
+                data:[{value: ${wwc}}]
+            }
+
+        ]
+    };
     myChart.setOption(option);
-    myChart1.setOption(option);
+    myChart1.setOption(optionYB);
     myChart2.setOption(optionZX);
     myChart3.setOption(optionBZ);
     myChart4.setOption(option);
-
 
     var rawData = ${areaList};
 
