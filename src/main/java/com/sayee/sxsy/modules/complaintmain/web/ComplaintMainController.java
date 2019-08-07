@@ -143,6 +143,12 @@ public class ComplaintMainController extends BaseController {
         List<Map<String, Object>> gradeList = complaintMainService.findGrade(user, year, month);
 		String toJson = JsonUtil.toJson(gradeList);
 		model.addAttribute("asdf",toJson);
+		//案件数量统计
+		String loginName=UserUtils.getUser().getLoginName();
+		List<ComplaintMain> listNum=complaintMainService.getMyDone(loginName);
+		model.addAttribute("ywc", listNum.size());
+		model.addAttribute("wwc", complaintMainService.findCount(UserUtils.getUser()));
+		model.addAttribute("listZ", listNum.size()+complaintMainService.findCount(UserUtils.getUser()));
         //每月数据统计
         List<Map<String,Object>> MonthDataList=complaintMainService.getEveryMonthData(user,year,month);
         model.addAttribute("monthData", this.convert(MonthDataList.toArray(),"monthDate",true) );
