@@ -198,4 +198,15 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
         List<Map<String, Object>> list=complaintMainDao.findTypeInfo(year,month);
         return list;
     }
+
+	public List<Map<String, Object>> findGrade(User user,String year,String month) {
+		if ("".equals(user.getRole())){
+
+		}
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+			year= DateUtils.getYear();
+		}
+		List<Map<String, Object>> list=complaintMainDao.findGrade(year,month);
+		return list;
+	}
 }

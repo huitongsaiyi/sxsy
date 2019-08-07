@@ -19,7 +19,7 @@
     }
 
 </style>
-<body >
+<body>
 <form:form id="searchForm" action="${ctx}/complaintmain/complaintMain/head" method="post" class="breadcrumb form-search">
     <ul class="ul-form" style="height: 50px;">
         <li id="year" style="">
@@ -117,12 +117,42 @@
             type: 'line'
         }]
     };
-
+    optionBZ = {
+        title : {
+            text: '各等级医院的案件数量统计',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['三级甲等','三级乙等','二级甲等','二级乙等','乡镇卫生院','社区服务站','民营医院','门诊']
+        },
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data: ${asdf},
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
 
     myChart.setOption(option);
     myChart1.setOption(option);
     myChart2.setOption(optionZX);
-    myChart3.setOption(option);
+    myChart3.setOption(optionBZ);
     myChart4.setOption(option);
 
 

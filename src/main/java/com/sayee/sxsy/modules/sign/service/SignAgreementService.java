@@ -545,13 +545,13 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 //			}else{
 //				params.put("yContent","");
 //			}
-			params.put("tjContent",mediation2==null?signAgreement.getMediation()==null?"":signAgreement.getMediation():mediation2);
-			params.put("yContent",agreedMatter2==null?signAgreement.getAgreedMatter()==null?"":signAgreement.getAgreedMatter():agreedMatter2);
-			params.put("lContent",performAgreementMode2==null?signAgreement.getPerformAgreementMode()==null?"":signAgreement.getPerformAgreementMode():performAgreementMode2);
-			params.put("xContent",agreementExplain2==null?signAgreement.getAgreementExplain()==null?"":signAgreement.getAgreementExplain():agreementExplain2);
+			params.put("tjContent",StringUtils.isBlank(mediation2)?StringUtils.isBlank(signAgreement.getMediation())?"":typeInfo1.getContent():mediation2);
+			params.put("yContent",StringUtils.isBlank(agreedMatter2)?StringUtils.isBlank(signAgreement.getAgreedMatter())?"":typeInfo2.getContent():agreedMatter2);
+			params.put("lContent",StringUtils.isBlank(performAgreementMode2)?StringUtils.isBlank(signAgreement.getPerformAgreementMode())?"":typeInfo3.getContent():performAgreementMode2);
+			params.put("xContent",StringUtils.isBlank(agreementExplain2)?StringUtils.isBlank(signAgreement.getAgreementExplain())?"":typeInfo4.getContent():agreementExplain2);
 //			if(typeInfo3 !=null){
 //				params.put("lTypeName",typeInfo3.getTypeName()==null?"":typeInfo3.getTypeName());
-//				params.put("lContent",typeInfo3.getContent()==null?"":typeInfo3.getTypeName());
+//				params.put("lContent",typeInfo3.getContent()==null?"":typeInfo3.getContent());
 //			}else{
 //				params.put("lTypeName","");
 //				params.put("lContent","");

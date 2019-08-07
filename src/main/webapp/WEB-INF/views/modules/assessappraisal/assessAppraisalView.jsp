@@ -7,8 +7,6 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function() {
-            var abc = ${assessAppraisal.responsibilityRatio}
-                next(abc);
             $("#inputForm").validate({
                 submitHandler: function(form){
                     var aa=$("#export").val();
@@ -32,6 +30,7 @@
                     }
                 }
             });
+
             var c="${assessAppraisal.applyType}"
 
             if(c==""){
@@ -43,21 +42,13 @@
                 $("#jd").show();
                 $("#pg").hide();
             }
-
-
-
-
-
-            var d=$("#time1").val();
-            if(d==""){
-                var ss='${assessAppraisal.recordInfo1.startTime}'
-                var ss1=ss.substr(0,10);
-                $("#time1").text(ss1);
-            }else{
-                show_input(vas,idss);
+            if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗纠纷技术评估"}){
+                $("#jd").hide();
+                $("#pg").show();
+            }else if(${fns:getDictLabel(assessAppraisal.applyType,"assessmentAppraisal",'未知')=="医疗责任保险事故鉴定"}){
+                $("#jd").show();
+                $("#pg").hide();
             }
-
-
         });
 
 
@@ -165,79 +156,7 @@
             }
             $("#a3").show();
         }
-        function show_input(vas,idss){
-            var a=${fns:toJson(fns:getDictList('assessmentAppraisal'))}
-            var b=getDictLabel(a,vas)
-            $("#a").text(b);
-            if(b=="医疗纠纷技术评估"){
-                var code1="${assessAppraisal.proposal.proposalCode}"
-                var co=code1.substr(5,10);
-                $("#code").text("晋医人调评"+co);
-                $("#aa").val("晋医人调评"+co);
-                $("#jd").hide();
-                $("#pg").show();
-            }else if(b=="医疗责任保险事故鉴定"){
-                var code1="${assessAppraisal.proposal.proposalCode}"
-                var co=code1.substr(5,10);
-                $("#code").text("晋医人调鉴"+co);
-                $("#aa").val("晋医人调鉴"+co);
-                $("#jd").show();
-                $("#pg").hide();
 
-            }
-            var times1=$("#time3").val();
-            var times12=times1.substr(0,10);
-            $("#time1").text(times12);
-            // var times2=$("#time4").val();
-            // var times22=times2.substr(0,10);
-            // $("#time2").text(times22);
-        }
-
-        function clearCheckBox(na,table) {
-            $("#"+table+" tr td input:checkbox").each(function() {
-                this.checked = false;
-            });
-            $("input[name='"+na+"']").prop("checked",true);
-        }
-
-        function exportWord() {
-            var aa=$("#export").val();
-            var path="${ctx}/assessappraisal/assessAppraisal/pass";
-            $.post(path,{'assessAppraisalId':'${assessAppraisal.assessAppraisalId}','export':aa,"print":"true"},function(res){
-                if(res.data.url!=''){
-                    var url='${pageContext.request.contextPath}'+res.data.url;
-                    <%--window.location.href='${pageContext.request.contextPath}'+res.data.url ;--%>
-                    windowOpen(url,"pdf",1500,700);
-                    // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
-                }else{
-                }
-            },"json");
-        }
-
-        //比例
-        function next(value) {
-            <%--value = ${assessAppraisal.responsibilityRatio}--%>
-            if(value=="无责"){
-                $("#scale").val(0)
-            }else if(value=="轻微责任"){
-                $("#scale").val(15)
-            }else if(value=="次要责任"){
-                $("#scale").val(25)
-            }else if(value=="对等责任"){
-                $("#scale").val(50)
-            }else if(value=="主要责任"){
-                $("#scale").val(75)
-            }else if(value=="全部责任"){
-                $("#scale").val(100)
-            }else if(value=="无法判定"){
-                $("#scale").val(0)
-            }
-        }
-
-        //导出和打印加提示
-        $(function (){
-            $(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
-        });
     </script>
 </head>
 <body>
@@ -307,26 +226,26 @@
                         会议类型
                     </td>
                     <td colspan="4">
-                        ${fns:getDictLabel(assessAppraisal.applyType, 'assessmentAppraisal', '未知')}
-                        <%--<form:select path="applyType" class="input-medium" cssStyle="text-align:center;width: 15%;" onchange="show_input(this.value,'a')">--%>
+                            ${fns:getDictLabel(assessAppraisal.applyType, 'assessmentAppraisal', '未知')}
+                            <%--<form:select path="applyType" class="input-medium" cssStyle="text-align:center;width: 15%;" onchange="show_input(this.value,'a')">--%>
                             <%--<form:options items="${fns:getDictList('assessmentAppraisal')}" itemLabel="label" itemValue="value" htmlEscape="false"/>--%>
-                        <%--</form:select>--%>
+                            <%--</form:select>--%>
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">时间</td>
                     <td>
-                        ${assessAppraisal.recordInfo1.startTime}
+                            ${assessAppraisal.recordInfo1.startTime}
                     </td>
                     <td class="tit" width="10%">至</td>
                     <td colspan="2">
-                        ${assessAppraisal.recordInfo1.endTime}
+                            ${assessAppraisal.recordInfo1.endTime}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">地点</td>
                     <td colspan="4">
-                        ${assessAppraisal.recordInfo1.recordAddress}
+                            ${assessAppraisal.recordInfo1.recordAddress}
                     </td>
                 </tr>
                 <tr>
@@ -349,17 +268,17 @@
                     </td>
                     <td class="tit" width="18%">法学专家:</td>
                     <td>
-                        ${assessAppraisal.legalExpertName}
+                            ${assessAppraisal.legalExpertName}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">主持人:</td>
                     <td>
-                        ${assessAppraisal.hosts.name}
+                            ${assessAppraisal.hosts.name}
                     </td>
                     <td class="tit">书记员:</td>
                     <td>
-                        ${assessAppraisal.clerks.name}
+                            ${assessAppraisal.clerks.name}
                     </td>
                 </tr>
                 <tr>
@@ -378,13 +297,13 @@
                     <td class="tit" rowspan="2">请问医患双方确认以上参会人员身份有无要求回避</td>
                     <td class="tit">患方:</td>
                     <td colspan="2">
-                        ${assessAppraisal.patientAvoid}
+                            ${assessAppraisal.patientAvoid}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">医方:</td>
                     <td colspan="2">
-                        ${assessAppraisal.doctorAvoid}
+                            ${assessAppraisal.doctorAvoid}
                     </td>
                 </tr>
                 <tr>
@@ -486,13 +405,13 @@
                     <td class="tit" rowspan="2">以上宣读内容医患双方是否听清楚？有无异议？</td>
                     <td class="tit">患方:</td>
                     <td colspan="2">
-                        ${assessAppraisal.patientClear}
+                            ${assessAppraisal.patientClear}
                     </td>
                 </tr>
                 <tr>
                     <td class="tit">医方:</td>
                     <td colspan="2">
-                        ${assessAppraisal.doctorClear}
+                            ${assessAppraisal.doctorClear}
                     </td>
                 </tr>
                 <tr>
@@ -785,7 +704,7 @@
                     </td>
                     <td class="tit">比例(%):</td>
                     <td>
-                        ${assessAppraisal.scale}
+                            ${assessAppraisal.scale}
                     </td>
                 </tr>
                 <tr>
@@ -834,34 +753,34 @@
                         <tbody id="patientLinkEmpList"></tbody>
                     </table>
                     <script type="text/template" id="patientLinkEmpTp">
-						<tr id="patientLinkEmpList{{idx}}">
-							<td class="hide">
-								<td class="hide">
-								<input id="patientLinkEmpList{{idx}}_id" name="patientLinkEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="patientLinkEmpList{{idx}}_patientLinkEmpId" name="patientLinkEmpList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
-								<input id="patientLinkEmpList{{idx}}_linkType" name="patientLinkEmpList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
-								<input id="patientLinkEmpList{{idx}}_relationId" name="patientLinkEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="patientLinkEmpList{{idx}}_delFlag" name="patientLinkEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
-							</td>
-							</td>
+                        <tr id="patientLinkEmpList{{idx}}">
+                            <td class="hide">
+                            <td class="hide">
+                                <input id="patientLinkEmpList{{idx}}_id" name="patientLinkEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+                                <input id="patientLinkEmpList{{idx}}_patientLinkEmpId" name="patientLinkEmpList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
+                                <input id="patientLinkEmpList{{idx}}_linkType" name="patientLinkEmpList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
+                                <input id="patientLinkEmpList{{idx}}_relationId" name="patientLinkEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+                                <input id="patientLinkEmpList{{idx}}_delFlag" name="patientLinkEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
+                            </td>
+                            </td>
 
-							<td>
-								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
-							</td>
-							<td>
-								<select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" data-value="{{row.patientLinkSex}}" class="input-mini" disabled="disabled">
-									<option value=""></option>
-									<option value="1">男</option>
-									<option value="2">女</option>
-								</select>
-							</td>
-							<td>
-								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" disabled="disabled"/>
-							</td>
-							<td>
-								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" disabled="disabled"/>
-							</td>
-						</tr>
+                            <td>
+                                <input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
+                            </td>
+                            <td>
+                                <select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" data-value="{{row.patientLinkSex}}" class="input-mini" disabled="disabled">
+                                    <option value=""></option>
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" disabled="disabled"/>
+                            </td>
+                            <td>
+                                <input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" disabled="disabled"/>
+                            </td>
+                        </tr>
                     </script>
                     <table id="patientDTable" class="table table-striped table-bordered table-condensed">
                         <legend>患方联系人</legend>
@@ -876,30 +795,30 @@
                         <tbody id="patientLinkDList"></tbody>
                     </table>
                     <script type="text/template" id="patientLinkDTp">
-						<tr id="patientLinkDList{{idx}}">
-							<td class="hide">
-								<input id="patientLinkDList{{idx}}_id" name="patientLinkDList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="patientLinkDList{{idx}}_patientLinkEmpId" name="patientLinkDList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
-								<input id="patientLinkDList{{idx}}_linkType" name="patientLinkDList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
-								<input id="patientLinkDList{{idx}}_relationId" name="patientLinkDList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="patientLinkDList{{idx}}_delFlag" name="patientLinkDList[{{idx}}].delFlag" type="hidden" value="0"/>
-							</td>
+                        <tr id="patientLinkDList{{idx}}">
+                            <td class="hide">
+                                <input id="patientLinkDList{{idx}}_id" name="patientLinkDList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+                                <input id="patientLinkDList{{idx}}_patientLinkEmpId" name="patientLinkDList[{{idx}}].patientLinkEmpId" type="hidden" value="{{row.patientLinkEmpId}}"/>
+                                <input id="patientLinkDList{{idx}}_linkType" name="patientLinkDList[{{idx}}].linkType" type="hidden" value="{{row.linkType}}"/>
+                                <input id="patientLinkDList{{idx}}_relationId" name="patientLinkDList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+                                <input id="patientLinkDList{{idx}}_delFlag" name="patientLinkDList[{{idx}}].delFlag" type="hidden" value="0"/>
+                            </td>
 
-							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
-							</td>
-							<td>
-                        		<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini" disabled="disabled">
-									<option value=""></option>
-									<option value="1"  >亲人</option>
-									<option value="2"  >朋友</option>
-									<option value="3"  >代理人</option>
-								</select>
-							</td>
-							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required" disabled="disabled"/>
-							</td>
-						</tr>
+                            <td>
+                                <input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
+                            </td>
+                            <td>
+                                <select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini" disabled="disabled">
+                                    <option value=""></option>
+                                    <option value="1"  >亲人</option>
+                                    <option value="2"  >朋友</option>
+                                    <option value="3"  >代理人</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required" disabled="disabled"/>
+                            </td>
+                        </tr>
                     </script>
                     <legend>医方</legend>
                     <table id="hospitalTable" class="table table-striped table-bordered table-condensed">
@@ -915,27 +834,27 @@
                         <tbody id="medicalOfficeEmpList"></tbody>
                     </table>
                     <script type="text/template" id="medicalOfficeEmpTp">
-						<tr id="medicalOfficeEmpList{{idx}}">
-							<td class="hide">
-								<input id="medicalOfficeEmpList{{idx}}_id" name="medicalOfficeEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeEmpId" name="medicalOfficeEmpList[{{idx}}].medicalOfficeEmpId" type="hidden" value="{{row.medicalOfficeEmpId}}"/>
-								<input id="medicalOfficeEmpList{{idx}}_relationId" name="medicalOfficeEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
-								<input id="medicalOfficeEmpList{{idx}}_delFlag" name="medicalOfficeEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
-							</td>
+                        <tr id="medicalOfficeEmpList{{idx}}">
+                            <td class="hide">
+                                <input id="medicalOfficeEmpList{{idx}}_id" name="medicalOfficeEmpList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+                                <input id="medicalOfficeEmpList{{idx}}_medicalOfficeEmpId" name="medicalOfficeEmpList[{{idx}}].medicalOfficeEmpId" type="hidden" value="{{row.medicalOfficeEmpId}}"/>
+                                <input id="medicalOfficeEmpList{{idx}}_relationId" name="medicalOfficeEmpList[{{idx}}].relationId" type="hidden" value="{{row.relationId}}"/>
+                                <input id="medicalOfficeEmpList{{idx}}_delFlag" name="medicalOfficeEmpList[{{idx}}].delFlag" type="hidden" value="0"/>
+                            </td>
 
-							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" disabled="disabled"/>
-							</td>
-							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" disabled="disabled"/>
-							</td>
-							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeMobile" name="medicalOfficeEmpList[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="200" class="required" disabled="disabled"/>
-							</td>
-							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" disabled="disabled"/>
-							</td>
-						</tr>
+                            <td>
+                                <input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" disabled="disabled"/>
+                            </td>
+                            <td>
+                                <input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" disabled="disabled"/>
+                            </td>
+                            <td>
+                                <input id="medicalOfficeEmpList{{idx}}_medicalOfficeMobile" name="medicalOfficeEmpList[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="200" class="required" disabled="disabled"/>
+                            </td>
+                            <td>
+                                <input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" disabled="disabled"/>
+                            </td>
+                        </tr>
                     </script>
                     <legend style="color: black;">二、评估时间</legend>
                     <span style="font-family:宋体; font-size:16pt; font-weight:normal; text-decoration:underline;color: black;" id="time1">
@@ -1125,7 +1044,7 @@
     <table class="table-form">
         <tr>
 
-            <td class="tit" width="225px">
+            <td class="tit" width="215px">
                 下一环节处理人：
             </td>
             <td>
