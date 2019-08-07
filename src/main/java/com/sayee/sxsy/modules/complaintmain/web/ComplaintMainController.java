@@ -133,18 +133,23 @@ public class ComplaintMainController extends BaseController {
 		String year=request.getParameter("yearDate");
 		String month=request.getParameter("monthDate");
 		//查询当前登录人 有几条 数据时 在 结案总结 之后
-		String loginName=UserUtils.getUser().getLoginName();
-		List<Map<String,Object>> list=complaintMainService.findTypeInfo(UserUtils.getUser(),year,month);
-		List<Map<String, Object>> gradeList = complaintMainService.findGrade(UserUtils.getUser(), year, month);
+        User user=UserUtils.getUser();
+		List<Map<String,Object>> list=complaintMainService.findTypeInfo(user,year,month);
 		model.addAttribute("list", this.convert(list.toArray(),"typeName",true) );
 		model.addAttribute("list2", this.convert(list.toArray(),"num",true) );
 		model.addAttribute("yearDate", year );
 		model.addAttribute("monthDate", month );
 		//各等级医院的案件数量统计
+        List<Map<String, Object>> gradeList = complaintMainService.findGrade(user, year, month);
 		String toJson = JsonUtil.toJson(gradeList);
 		model.addAttribute("asdf",toJson);
-
-
+        //每月数据统计
+        List<Map<String,Object>> MonthDataList=complaintMainService.getEveryMonthData(user,year,month);
+        model.addAttribute("monthData", this.convert(MonthDataList.toArray(),"monthDate",true) );
+        model.addAttribute("number", this.convert(MonthDataList.toArray(),"num",true) );
+        //各市数据
+        List<Map<String,Object>> areaList=complaintMainService.findAreaName(year,month);
+        model.addAttribute("areaList", JsonUtil.toJson(areaList));
 		return "modules/home/headPage";
 	}
 

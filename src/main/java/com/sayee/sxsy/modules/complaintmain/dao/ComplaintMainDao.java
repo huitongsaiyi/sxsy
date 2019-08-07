@@ -35,8 +35,20 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * 获取我的已办数据
      */
     public List<ComplaintMain> getMyDone(@Param("loginName") String loginName);
-
+    /**
+     * 获取案件类型条数
+     */
     public List<Map<String, Object>> findTypeInfo(@Param("year")String year,@Param("month")String month);
+    /**
+     * 不同医院级别 不同的投诉数量
+     */
     public List<Map<String, Object>> findGrade(@Param("year")String year,@Param("month")String month);
-
+    /**
+     * 获取每月数据
+     */
+    List<Map<String, Object>> getEveryMonthData(@Param("year")String year,@Param("month")String month);
+    /**
+     * 获取山西省各地案件数量
+     */
+    public List<Map<String,Object>> findAreaName (@Param("year")String year,@Param("month")String month);
 }

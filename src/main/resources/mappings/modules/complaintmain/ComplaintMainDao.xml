@@ -291,9 +291,42 @@
 				c.visitor_date like concat('%',#{year},'%')
 			</when>
 			<otherwise>
-				AND c.visitor_date like concat('%',#{month},'%')
+			    c.visitor_date like concat('%',#{month},'%')
 			</otherwise>
 		</choose>
 	GROUP BY cc.hospital_grade
 	</select>
+
+    <select id="getEveryMonthData" resultType="java.util.Map">
+        SELECT COUNT(visitor_date) num,CONCAT('\'',SUBSTRING_INDEX(visitor_date,'-',2),'\'') monthDate
+        FROM COMPLAINT_MAIN_DETAIL c
+        WHERE
+        <choose>
+            <when test="year !=null and year !=''">
+                visitor_date like  concat('%',#{year},'%')
+            </when>
+            <otherwise>
+                visitor_date like  concat('%',#{month},'%')
+            </otherwise>
+        </choose>
+        GROUP BY SUBSTRING_INDEX(visitor_date,'-',2)
+    </select>
+
+
+    <select id="findAreaName" resultType="java.util.Map">
+        SELECT  sa.`name` as name, count(*) as value
+        FROM COMPLAINT_MAIN a
+        LEFT JOIN SYS_OFFICE o ON o.id = a.involve_hospital
+        LEFT JOIN SYS_AREA sa ON sa.id = o.area_id
+        WHERE a.del_flag ='0' and sa.`name` is not null
+        <choose>
+            <when test="year !=null and year !=''">
+                AND a.create_date like concat('%',#{year},'%')
+            </when>
+            <otherwise>
+                AND a.create_date like concat('%',#{month},'%')
+            </otherwise>
+        </choose>
+        GROUP BY sa.`name`
+    </select>
 </mapper>

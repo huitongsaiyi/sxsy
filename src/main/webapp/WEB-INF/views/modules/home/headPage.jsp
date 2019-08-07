@@ -8,7 +8,6 @@
     <script src="${ctxStatic}/echarts/dist/echarts-gl.min.js"></script>
     <script src="${ctxStatic}/echarts/map/js/province/shanxi.js"></script>
     <script src="${ctxStatic}/echarts/dark.js"></script>
-    <script src="${ctxStatic}/echarts/halloween.js"></script>
 </head>
 <style type="text/css">
 
@@ -98,9 +97,13 @@
     };
 
     optionZX = {
+        title : {
+            text: '各月份投诉数量',
+            x:'center'
+        },
         xAxis: {
             type: 'category',
-            data: ['01', '02', '03', '04', '05', '06', '07','08', '09', '10', '11','12']
+            data: ${monthData}
         },
         yAxis: {
             type: 'value'
@@ -113,7 +116,7 @@
         },
         series: [{
             name:'数量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901, 934, 1290],
+            data: ${number},
             type: 'line'
         }]
     };
@@ -129,11 +132,12 @@
         legend: {
             orient: 'vertical',
             left: 'left',
+            top : '50px',
             data: ['三级甲等','三级乙等','二级甲等','二级乙等','乡镇卫生院','社区服务站','民营医院','门诊']
         },
         series : [
             {
-                name: '访问来源',
+                name: '投诉数量',
                 type: 'pie',
                 radius : '55%',
                 center: ['50%', '60%'],
@@ -142,7 +146,7 @@
                     emphasis: {
                         shadowBlur: 10,
                         shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        shadowColor: 'rgba(255, 255, 0, 0.5)'
                     }
                 }
             }
@@ -156,24 +160,9 @@
     myChart4.setOption(option);
 
 
-    var rawData = [
-        {name: '太原市',value:130},
-        {name: '晋中市',value: 50},
-        {name: '阳泉市',value:30},
-        {name: '大同市',value: 50},
-        {name: '运城市',value:30},
-        {name: '吕梁市',value: 50},
-        {name: '长治市',value:30},
-        {name: '晋城市',value: 50},
-        {name: '忻州市',value:30},
-        {name: '朔州市',value: 50}
-    ];
+    var rawData = ${areaList};
 
-    var rawsData = [
-        {name: '盂县',value:130},
-        {name: '郊区',value: 50}
-
-    ];
+    var rawsData = [];
     function provinceMap(id,cityData){
 
         function sortRule(a,b){return a.value-b.value;}

@@ -209,4 +209,30 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		List<Map<String, Object>> list=complaintMainDao.findGrade(year,month);
 		return list;
 	}
+
+    public List<Map<String, Object>> getEveryMonthData(User user,String year,String month) {
+        if ("".equals(user.getRole())){
+
+        }
+        if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+            year= DateUtils.getYear();
+        }
+        List<Map<String, Object>> list=complaintMainDao.getEveryMonthData(year,month);
+        return list;
+    }
+
+    /***
+     * 获取山西省各市的案件数量
+     * @param year
+     * @param month
+     * @return
+     */
+    @Transactional(readOnly = false)
+    public List<Map<String,Object>> findAreaName (String year,String month){
+        if(StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+            year =  DateUtils.getYear();
+        }
+        List<Map<String,Object>> list = complaintMainDao.findAreaName(year,month);
+        return list;
+    }
 }
