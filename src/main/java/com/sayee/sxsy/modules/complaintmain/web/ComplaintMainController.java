@@ -157,6 +157,10 @@ public class ComplaintMainController extends BaseController {
         //各市数据
         List<Map<String,Object>> areaList=complaintMainService.findAreaName(year,month);
         model.addAttribute("areaList", JsonUtil.toJson(areaList));
+        //各专业数据
+        List<Map<String,Object>> dList=complaintMainService.findDepartment(year,month);
+        model.addAttribute("nameList", this.convert(dList.toArray(),"name",true) );
+        model.addAttribute("departmentList", this.convert(dList.toArray(),"department",true) );
 		return "modules/home/headPage";
 	}
 

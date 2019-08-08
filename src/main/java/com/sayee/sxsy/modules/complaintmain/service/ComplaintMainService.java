@@ -260,4 +260,18 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		Long allEvent = complaintMainDao.findAllEvent(year, month);
 		return allEvent;
 	}
+
+    /***
+     * 获取各个专业数据
+     * @param year
+     * @param month
+     * @return
+     */
+    public List<Map<String,Object>> findDepartment(String year,String month){
+        if(StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+            year =  DateUtils.getYear();
+        }
+        List<Map<String,Object>> list=complaintMainDao.findDepartment(year,month);
+        return list;
+    }
 }

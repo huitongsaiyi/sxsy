@@ -67,4 +67,8 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * @return
      */
     public Long findAllEvent(@Param("year")String year,@Param("month")String month);
+    /**
+     * 获取各个专业的案件数量
+     */
+    public List<Map<String,Object>> findDepartment(@Param("year")String year,@Param("month")String month);
 }

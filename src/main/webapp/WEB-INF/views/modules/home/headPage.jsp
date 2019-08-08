@@ -153,7 +153,6 @@
     };
 //仪表盘
     optionYB = {
-        backgroundColor: '#151C2E',
         title:{
             text:'案件数量统计',
             x:0,
@@ -243,7 +242,7 @@
                 data:[{value: ${listZ}}]
             },
             {
-                name: '已办案件数量(件)',
+                name: '已完成案件数量(件)',
                 type: 'gauge',
                 center: ['28%', '55%'],    // 默认全局居中
                 radius: '90%',
@@ -285,7 +284,7 @@
                 data:[{value: ${ywc}}]
             },
             {
-                name: '待办案件数量(件)',
+                name: '未完成案件数量(件)',
                 type: 'gauge',
                 center: ['72%', '55%'],    // 默认全局居中
                 radius: '90%',
@@ -329,11 +328,62 @@
 
         ]
     };
+
+    optionZY = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            data:['各专业案件数量']
+        },
+        grid: {
+            top:'12%',
+            left: '6%',
+            right: '6%',
+            bottom: '6%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ${nameList}
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+
+            {
+                name:'各专业案件数量',
+                type:'line',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                areaStyle: {normal: {}},
+                data:${departmentList}
+            }
+        ]
+    };
+
     myChart.setOption(option);
     myChart1.setOption(optionYB);
     myChart2.setOption(optionZX);
     myChart3.setOption(optionBZ);
-    myChart4.setOption(option);
+    myChart4.setOption(optionZY);
 
     var rawData = ${areaList};
 

@@ -318,16 +318,33 @@
         FROM COMPLAINT_MAIN a
         LEFT JOIN SYS_OFFICE o ON o.id = a.involve_hospital
         LEFT JOIN SYS_AREA sa ON sa.id = o.area_id
-        WHERE a.del_flag ='0' and sa.`name` is not null
+        WHERE a.del_flag ='0' AND sa.`name` IS NOT NULL
         <choose>
             <when test="year !=null and year !=''">
-                AND a.create_date like concat('%',#{year},'%')
+                AND a.create_date LIKE concat('%',#{year},'%')
             </when>
             <otherwise>
-                AND a.create_date like concat('%',#{month},'%')
+                AND a.create_date LIKE concat('%',#{month},'%')
             </otherwise>
         </choose>
         GROUP BY sa.`name`
+    </select>
+
+    <select id="findDepartment" resultType="java.util.Map">
+        SELECT  concat('\'',t.`name`,'\'')  name, count(a.involve_department) as department
+        FROM COMPLAINT_MAIN a
+        LEFT JOIN TEST_TREE t ON t.id = a.involve_department
+        WHERE a.del_flag = '0' AND t.id is not null
+        <choose>
+            <when test="year !=null and year !=''">
+                AND a.create_date LIKE concat('%',#{year},'%')
+            </when>
+            <otherwise>
+                AND a.create_date LIKE concat('%',#{month},'%')
+            </otherwise>
+        </choose>
+        GROUP BY a.involve_department
+        ORDER BY count(a.involve_department) ASC
     </select>
 	<select id="findCompleted" resultType="ComplaintMain">
 		SELECT
