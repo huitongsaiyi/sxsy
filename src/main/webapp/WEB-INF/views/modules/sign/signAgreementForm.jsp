@@ -126,14 +126,19 @@
 					}
 				}
 			});
-			$("#createDate").val("");
-			$("#createBy").val("");
 			var aa=$("#export").val();
 			var path="${ctx}/sign/signAgreement/pass";
 			var data = {};
 			var t = $('form').serializeArray();
 			$.each(t, function() {
-				data [this.name] = this.value;
+				if(this.name=='createDate'){
+					var aa=new Date(this.value).format("yyyy-MM-dd hh:mm:ss");
+					data [this.name] ='';
+				}else if(this.name=='createBy'){
+					data [this.name] = '';
+				}else{
+					data [this.name] = this.value;
+				}
 			});
 			$.post(path,{'signAgreementId':"${signAgreement.signAgreementId}",'data':JSON.stringify(data),'export':aa,"print":"true",'agreedMatter':$("#agreedMatter").val(),'mediation':$("#mediation").val(),'performAgreementMode':$("#performAgreementMode").val(),'agreementExplain':$("#agreementExplain").val()},function(res){
 				if(res.data.url!=''){
@@ -144,7 +149,6 @@
 				}else{
 				}
 			},"json");
-			$("#agreementPrint").submit
 		}
 
 		//导出和打印加提示
@@ -152,10 +156,26 @@
 			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
 		});
 
+		Date.prototype.format = function (fmt) { //author: meizz
+			var o = {
+				"M+": this.getMonth() + 1, //月份
+				"d+": this.getDate(), //日
+				"h+": this.getHours(), //小时
+				"m+": this.getMinutes(), //分
+				"s+": this.getSeconds(), //秒
+				"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+				"S": this.getMilliseconds() //毫秒
+			};
+			if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
+
 
 	</script>
 </head>
-<body>
+<body>${signAgreement.createDate}666
 <ul class="nav nav-tabs">
 	<li><a href="${ctx}/sign/signAgreement/">签署协议列表</a></li>
 	<li class="active"><a href="${ctx}/sign/signAgreement/form?id=${signAgreement.id}">签署协议<shiro:hasPermission name="sign:signAgreement:edit">${not empty signAgreement.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sign:signAgreement:edit">查看</shiro:lacksPermission></a></li>
