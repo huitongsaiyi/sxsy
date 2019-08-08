@@ -235,4 +235,29 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
         List<Map<String,Object>> list = complaintMainDao.findAreaName(year,month);
         return list;
     }
+
+	public List<ComplaintMain > findCompleted(User user,String year,String month) {
+		if ("".equals(user.getRole())){
+
+		}
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+			year= DateUtils.getYear();
+		}
+		//根据登录人 取得登陆人已经办理完成的数据
+		List<ComplaintMain> list=complaintMainDao.findCompleted(year,month);
+		//清除查到的  null  值
+		list.removeAll(Collections.singleton(null));
+		this.format(list);
+		return list;
+	}
+	public Long findAllEvent(User user,String year,String month) {
+		if ("".equals(user.getRole())){
+
+		}
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+			year= DateUtils.getYear();
+		}
+		Long allEvent = complaintMainDao.findAllEvent(year, month);
+		return allEvent;
+	}
 }

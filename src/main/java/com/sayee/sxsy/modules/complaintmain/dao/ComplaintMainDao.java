@@ -51,4 +51,20 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * 获取山西省各地案件数量
      */
     public List<Map<String,Object>> findAreaName (@Param("year")String year,@Param("month")String month);
+
+    /**
+     * 获取所有已完成案件
+     * @param year
+     * @param month
+     * @return
+     */
+    public List<ComplaintMain> findCompleted(@Param("year")String year,@Param("month")String month);
+
+    /**
+     * 获取所有未完成案件
+     * @param year
+     * @param month
+     * @return
+     */
+    public Long findAllEvent(@Param("year")String year,@Param("month")String month);
 }

@@ -329,4 +329,48 @@
         </choose>
         GROUP BY sa.`name`
     </select>
+	<select id="findCompleted" resultType="ComplaintMain">
+		SELECT
+		c.complaint_main_id AS "complaintMainId",
+		c.case_number AS "caseNumber", c.patient_name AS "patientName",
+		c.patient_sex AS "patientSex", c.patient_age AS "patientAge",
+		c.patient_card AS "patientCard", c.patient_mobile AS "patientMobile",
+		c.involve_hospital AS "involveHospital", c.hospital_level AS "hospitalLevel",
+		c.hospital_grade AS "hospitalGrade", c.involve_department AS "involveDepartment",
+		c.involve_employee AS "involveEmployee", c.proc_ins_id AS "procInsId",
+		c.create_by AS "createById", c.create_date AS "createDate", c.update_by AS "updateById",
+		c.update_date AS "updateDate", c.del_flag AS "delFlag", aa.TASK_DEF_KEY_ AS "taskDefKey",
+		aa.NAME_ AS "nodeName" FROM (select PROC_INST_ID_,ASSIGNEE_
+		FROM ACT_HI_TASKINST where TASK_DEF_KEY_ in ('assess','feedback','end')
+		GROUP BY PROC_INST_ID_) a
+		LEFT JOIN (select * from ACT_HI_TASKINST where END_TIME_ IS NULL or END_TIME_ ='')
+		aa on a.PROC_INST_ID_=aa.PROC_INST_ID_
+		LEFT JOIN COMPLAINT_MAIN c on c.PROC_INS_ID=aa.PROC_INST_ID_
+		LEFT JOIN complaint_main_detail co on co.complaint_main_id=c.complaint_main_id
+		WHERE
+		<choose>
+			<when test="year !=null and year !=''">
+				co.visitor_date like  concat('%',#{year},'%')
+			</when>
+			<otherwise>
+				co.visitor_date like  concat('%',#{month},'%')
+			</otherwise>
+		</choose>
+		GROUP BY a.PROC_INST_ID_
+	</select>
+	<select id="findAllEvent" resultType="Long">
+		SELECT count(DISTINCT(PROC_INST_ID_))
+		FROM ACT_HI_TASKINST a
+		RIGHT JOIN COMPLAINT_MAIN c on c.PROC_INS_ID=a.PROC_INST_ID_
+		LEFT JOIN complaint_main_detail com ON com.complaint_main_id=c.complaint_main_id
+		WHERE
+		<choose>
+			<when test="year !=null and year !=''">
+				com.visitor_date like  concat('%',#{year},'%')
+			</when>
+			<otherwise>
+				com.visitor_date like  concat('%',#{month},'%')
+			</otherwise>
+		</choose>
+	</select>
 </mapper>
