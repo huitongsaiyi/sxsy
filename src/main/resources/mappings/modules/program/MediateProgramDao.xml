@@ -155,9 +155,7 @@
 			doctor_avoid=#{doctorAvoid},
 			patient_avoid = #{patientAvoid},
 			patient_clear = #{patientClear},
-			doctor_clear = #{doctorClear},
-			patient_clear = #{patientContent},
-			doctor_clear = #{doctorContent}
+			doctor_clear = #{doctorClear}
 		WHERE mediate_program_id = #{mediateProgramId}
 	</update>
 	
