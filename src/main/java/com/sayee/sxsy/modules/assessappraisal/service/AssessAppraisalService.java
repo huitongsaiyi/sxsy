@@ -120,7 +120,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			huanf.setRelationId(assessAppraisal.getAssessAppraisalId());
 			huanf.setType("1");
 			huanf.setModuleType("2");
-			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+//			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
 			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
  			huanf.setHost(assessAppraisal.getHost());
 			huanf.setNoteTaker(assessAppraisal.getClerk());
@@ -132,7 +132,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			yif.setRelationId(assessAppraisal.getAssessAppraisalId());
 			yif.setType("2");
 			yif.setModuleType("2");
-			yif.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+			yif.setPatient(assessAppraisal.getRecordInfo1().getPatient());
 			yif.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
 			yif.setRecordAddress(assessAppraisal.getRecordInfo1().getRecordAddress());
 			yif.setHost(assessAppraisal.getHost());
@@ -145,7 +145,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			//修改患方笔录
 			RecordInfo huanf = assessAppraisal.getRecordInfo1();
 			huanf.preUpdate();
-			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+//			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
 			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
 			huanf.setHost(assessAppraisal.getHost());
 			huanf.setNoteTaker(assessAppraisal.getClerk());
@@ -153,7 +153,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			//修改医方笔录
 			RecordInfo yif = assessAppraisal.getRecordInfo1().getYrecordInfo();
 			yif.preUpdate();
-			yif.setPatient(assessAppraisal.getComplaintMain().getPatientName());
+			yif.setPatient(assessAppraisal.getRecordInfo1().getPatient());
 			yif.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
 			yif.setRecordAddress(assessAppraisal.getRecordInfo1().getRecordAddress());
 			yif.setHost(assessAppraisal.getHost());
@@ -514,8 +514,8 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
                 params.put("legal","");
             }
 			//患方
-			if(assessAppraisal.getComplaintMain().getPatientName()!=null){
-				params.put("patient",assessAppraisal.getComplaintMain().getPatientName()==null?"":assessAppraisal.getComplaintMain().getPatientName());
+			if(assessAppraisal.getRecordInfo1().getPatient()!=null){
+				params.put("patient",assessAppraisal.getRecordInfo1().getPatient()==null?"":assessAppraisal.getRecordInfo1().getPatient());
 			}else{
                 params.put("patient","");
             }
@@ -601,8 +601,8 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
                 params.put("note","");
             }
 			//患方
-			if(assessAppraisal.getComplaintMain().getPatientName()!=null){
-				params.put("patient",assessAppraisal.getComplaintMain().getPatientName()==null?"":assessAppraisal.getComplaintMain().getPatientName());
+			if(assessAppraisal.getRecordInfo1().getPatient()!=null){
+				params.put("patient",assessAppraisal.getRecordInfo1().getPatient()==null?"":assessAppraisal.getRecordInfo1().getPatient());
 			}else{
                 params.put("patient","");
             }
@@ -664,8 +664,8 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
                 params.put("note","");
             }
 			//患方
-			if(assessAppraisal.getComplaintMain().getPatientName()!=null){
-				params.put("patient",assessAppraisal.getComplaintMain().getPatientName()==null?"":assessAppraisal.getComplaintMain().getPatientName());
+			if(assessAppraisal.getRecordInfo1().getPatient()!=null){
+				params.put("patient",assessAppraisal.getRecordInfo1().getPatient()==null?"":assessAppraisal.getRecordInfo1().getPatient());
 			}else{
                 params.put("patient","");
             }

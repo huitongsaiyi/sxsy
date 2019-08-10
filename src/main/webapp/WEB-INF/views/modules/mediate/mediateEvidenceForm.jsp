@@ -278,7 +278,9 @@
                         <td class="tit">患方：</td>
                         <td colspan="3">
                             <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-                                    ${mediateEvidence.complaintMain.patientName}
+                                <form:input id="patient" path="patient" htmlEscape="false" maxlength="20"
+                                            class="input-xlarge" value="${empty mediateEvidence.patient?mediateEvidence.complaintMain.patientName:mediateEvidence.complaintMain.patientName}"/>
+                                    <%--${mediateEvidence.complaintMain.patientName}--%>
                             </span>
                         </td>
                     </tr>
@@ -286,7 +288,9 @@
                         <td class="tit">医方：</td>
                         <td colspan="3">
                             <span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-                                    ${empty mediateEvidence.doctorOffice.name?mediateEvidence.complaintMain.hospital.name:mediateEvidence.doctorOffice.name}
+                                <form:input id="doctorOffice.name" path="doctorOffice.name" htmlEscape="false" maxlength="20"
+                                            class="input-xlarge" />
+                                    <%--${empty mediateEvidence.doctorOffice.name?mediateEvidence.complaintMain.hospital.name:mediateEvidence.doctorOffice.name}--%>
                             </span>
                         </td>
                     </tr>
