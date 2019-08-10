@@ -16,9 +16,11 @@
    }
 
 </style>
+
+
 <body>
 <form:form id="searchForm" action="${ctx}/complaintmain/complaintMain/head" method="post" class="breadcrumb form-search">
-    <ul class="ul-form" style="height: 50px;">
+    <ul class="ul-form" style="height: 35px;">
         <li id="year" style="">
             <label>日期(年)：</label>
             <input id="yearDate" name="yearDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -35,14 +37,16 @@
     </ul>
 </form:form>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-<div id="aa" style="width: 100%;height: 100%">
-    <div id="main"  style="position:absolute;width: 30%; border: 0px;border-style:solid;height:300px;" ></div>
-    <div id="main1" style="width: 40%; height: 200px;border: 0px;border-style:solid;margin:0 auto;"></div>
-    <div id="main2" style="position:absolute;width: 30%; border: 0px;border-style:solid;height: 300px;right:0px; top:74px;"></div>
+<div id="aa" style="width: 100%;margin: 0 auto;background-image: url('${ctxStatic}/images/background.jpg'); background-size:cover;">
+    <div id="main"  style="width: 30%; border: 0px;border-style:solid;height:370px;float: left;" ></div>
+    <div id="main1" style="width: 39%; height: 200px;border: 0px;border-style:solid;float: left;margin-left: 0.5%;"></div>
+    <div id="main2" style="width: 30%; border: 0px;border-style:solid;height: 370px;float: left;margin-left: 0.5%;"></div>
+    <div style="clear: both;"></div>
+    <div id="main3" style="width: 30%; border: 0px;border-style:solid;height:370px;float: left;margin-top: 6px;"></div>
+    <div id="bigMain" style="width: 39%;border: 0px;border-style:solid;height: 534px;float: left;margin-left: 0.5%;margin-top: -160px;"></div>
+    <div id="main4" style="width: 30%; border: 0px;border-style:solid;height: 370px;float: left;margin-top: 6px;margin-left: 0.5%;"></div>
 
-    <div id="main3" style="position:absolute;width: 30%; border: 0px;border-style:solid;height:600px;top: 374px;"></div>
-    <div id="main4" style="position:absolute;width: 30%; border: 0px;border-style:solid;height: 600px;top: 374px;right: 0px;"></div>
-    <div id="bigMain" style="position:absolute;width: 40%;border: 0px;border-style:solid; height: 700px;top:274px;left:30%;"></div>
+    <div style="clear: both;"></div>
 </div>
 <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('main'), 'dark');
@@ -52,12 +56,17 @@
     var myChart4 = echarts.init(document.getElementById('main4'), 'dark');
     //案件类型统计option
     option = {
+        backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
         title: {
             text: '案件类型统计',
-            left: 'center',
-            subtext: ''
+            left: 0,
+            textStyle:{
+                color:'rgb(255,255,255)',
+                fontSize:14
+            }
         },
-        color: ['#3398DB'],
+
+        // color: ['#3398DB'],
         tooltip : {
             trigger: 'axis',
             axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -89,15 +98,25 @@
                 name:'数量',
                 type:'bar',
                 barWidth: '60%',
-                data:${list2}
+                data:${list2},
+                itemStyle:{
+                    normal:{
+                        color:'#4ad2ff'
+                    }
+                }
             }
         ]
     };
 
     optionZX = {
+        backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
         title : {
             text: '各月份投诉数量',
-            x:'center'
+            x:0,
+            textStyle:{
+                color:'rgb(255,255,255)',
+                fontSize:14
+            }
         },
         xAxis: {
             type: 'category',
@@ -120,9 +139,14 @@
     };
     //饼状图
     optionBZ = {
+        backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
         title : {
             text: '各等级医院的案件数量统计',
-            x:'center'
+            x:0,
+            textStyle:{
+                color:'rgb(255,255,255)',
+                fontSize:14
+            }
         },
         tooltip : {
             trigger: 'item',
@@ -134,6 +158,7 @@
             top : '50px',
             data: ['三级甲等','三级乙等','二级甲等','二级乙等','乡镇卫生院','社区服务站','民营医院','门诊']
         },
+        color:['#B24971','#E9D082','#1CDEAA','#1CB7DE','#711CDE','#DE1C67','#D8DE1C','#1CDE29'],
         series : [
             {
                 name: '投诉数量',
@@ -151,8 +176,9 @@
             }
         ]
     };
-//仪表盘
+    //仪表盘
     optionYB = {
+        backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
         title:{
             text:'案件数量统计',
             x:0,
@@ -173,7 +199,7 @@
                 min: 0,
                 max: 1000,
                 // splitNumber: 11,
-                radius: '100%',
+                radius: '85%',
                 axisLine: {            // 坐标轴线
                     lineStyle: {       // 属性lineStyle控制线条样式
                         color: [[0.2, 'lime'],[0.8, '#1e90ff'],[1, '#ff4500']],
@@ -202,7 +228,8 @@
                     textShadowBlur: 1,
                     textShadowOffsetX: 1,
                     textShadowOffsetY: 1,
-                    textShadowColor: '#222'
+                    textShadowColor: '#222',
+                    fontSize:10
                 },
                 title : {
                     // 其余属性默认使用全局文本样式，详见TEXTSTYLE
@@ -235,7 +262,7 @@
                     textShadowOffsetX: 0,
                     textShadowOffsetY: 0,
                     fontFamily: 'Arial',
-                    width: 30,
+                    width: 25,
                     color: '#eee',
                     rich: {}
                 },
@@ -244,8 +271,8 @@
             {
                 name: '已完成案件数量(件)',
                 type: 'gauge',
-                center: ['28%', '55%'],    // 默认全局居中
-                radius: '90%',
+                center: ['31%', '55%'],    // 默认全局居中
+                radius: '75%',
                 z:200,
                 min:0,
                 max:1000,
@@ -286,8 +313,8 @@
             {
                 name: '未完成案件数量(件)',
                 type: 'gauge',
-                center: ['72%', '55%'],    // 默认全局居中
-                radius: '90%',
+                center: ['69%', '55%'],    // 默认全局居中
+                radius: '75%',
                 z:200,
                 min:0,
                 max:1000,
@@ -330,6 +357,15 @@
     };
 
     optionZY = {
+        backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
+        title:{
+            text:'各专业案件统计',
+            x:0,
+            textStyle:{
+                color:'rgb(255,255,255)',
+                fontSize:14
+            }
+        },
         tooltip : {
             trigger: 'axis',
             axisPointer: {
@@ -338,9 +374,6 @@
                     backgroundColor: '#6a7985'
                 }
             }
-        },
-        legend: {
-            data:['各专业案件数量']
         },
         grid: {
             top:'12%',
@@ -501,8 +534,8 @@
             ,'万荣':[110.83,110.8]
             ,'稷山':[110.97,35.6]
         };
-
         var provinceOption = {
+            backgroundColor:'rgba(128, 128, 128, 0)', //rgba设置透明度0.1
             legend: [],
             xAxis: [{
                 type: "value",
@@ -517,7 +550,7 @@
                 },
                 splitLine: {
                     show: false
-                }
+                },
             }],
             yAxis: [{
                 type: "category",
@@ -565,7 +598,6 @@
             //backgroundColor:'#aaa',
 
             geo:{
-
                 show:true,
                 map:'山西',
                 type:'map',
@@ -583,13 +615,13 @@
                 roam: false,
                 itemStyle: {
                     normal: {
-                        areaColor: ['rgb(0,90,157)'],
+                        color:'rgba(128, 128, 128, 0.4)',
                         borderColor: '#fff',
                         borderWidth: '0.8',
                     },
                     emphasis: {
-                        areaColor: '#2B91B7',
-                    }
+                        areaColor: '#E9E842',
+                    },
                 }
             },
             series: [{
@@ -621,9 +653,10 @@
                             color: "rgb(80,50,180)" // 100% 处的颜色
                         }], false),
                         barBorderRadius: [30, 30,30, 30],
-                    }
+                    },
                 }
-            }]
+            }],
+
 
         };//option
         provinceChart.setOption(provinceOption);
@@ -738,6 +771,7 @@
                 var coord = chartCity.convertToPixel('geo', dataItem.name);
             });
             var optionCity = {
+                backgroundColor:'rgba(128, 128, 128, 0)', //rgba设置透明度0.1
                 legend: [],
                 xAxis: [{
                     type: "value",
@@ -804,7 +838,7 @@
                     // },
                     show:true,
                 }],
-               // backgroundColor:'#fff',
+                // backgroundColor:'#fff',
                 // visualMap: {
                 //     show: false,
                 //     min: 0,
@@ -836,7 +870,7 @@
                     roam: false,
                     itemStyle: {
                         normal: {
-                            areaColor: ['rgb(0,90,157)'],
+                            color:'rgba(128, 128, 128, 0.4)',
                             borderColor: '#fff',
                             borderWidth: '0.8',
                         },

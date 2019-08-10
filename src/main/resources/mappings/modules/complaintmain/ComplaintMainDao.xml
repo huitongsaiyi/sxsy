@@ -363,7 +363,7 @@
 		LEFT JOIN (select * from ACT_HI_TASKINST where END_TIME_ IS NULL or END_TIME_ ='')
 		aa on a.PROC_INST_ID_=aa.PROC_INST_ID_
 		LEFT JOIN COMPLAINT_MAIN c on c.PROC_INS_ID=aa.PROC_INST_ID_
-		LEFT JOIN complaint_main_detail co on co.complaint_main_id=c.complaint_main_id
+		LEFT JOIN COMPLAINT_MAIN_DETAIL co on co.complaint_main_id=c.complaint_main_id
 		WHERE
 		<choose>
 			<when test="year !=null and year !=''">
@@ -379,7 +379,7 @@
 		SELECT count(DISTINCT(PROC_INST_ID_))
 		FROM ACT_HI_TASKINST a
 		RIGHT JOIN COMPLAINT_MAIN c on c.PROC_INS_ID=a.PROC_INST_ID_
-		LEFT JOIN complaint_main_detail com ON com.complaint_main_id=c.complaint_main_id
+		LEFT JOIN COMPLAINT_MAIN_DETAIL com ON com.complaint_main_id=c.complaint_main_id
 		WHERE
 		<choose>
 			<when test="year !=null and year !=''">

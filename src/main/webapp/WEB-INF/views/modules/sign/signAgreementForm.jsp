@@ -175,7 +175,7 @@
 
 	</script>
 </head>
-<body>${signAgreement.createDate}666
+<body>
 <ul class="nav nav-tabs">
 	<li><a href="${ctx}/sign/signAgreement/">签署协议列表</a></li>
 	<li class="active"><a href="${ctx}/sign/signAgreement/form?id=${signAgreement.id}">签署协议<shiro:hasPermission name="sign:signAgreement:edit">${not empty signAgreement.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sign:signAgreement:edit">查看</shiro:lacksPermission></a></li>
