@@ -355,13 +355,13 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		if(StringUtils.isBlank(mediateProgram.getMediateProgramId())){
 			mediateProgram.setMediateProgramId(IdGen.uuid());
 			mediateProgram.setRelationId(signAgreement.getSignAgreementId());
-			mediateProgram.setPatient(complaintMain.getPatientName());
+//			mediateProgram.setPatient(complaintMain.getPatientName());
 			mediateProgram.setDoctor(complaintMain.getInvolveHospital());
 			mediateProgram.preInsert();
 			mediateProgramDao.insert(mediateProgram);
 		}else {
 			mediateProgram.preUpdate();
-			mediateProgram.setPatient(complaintMain.getPatientName());
+//			mediateProgram.setPatient(complaintMain.getPatientName());
 			mediateProgram.setDoctor(complaintMain.getInvolveHospital());
 			mediateProgram.setRelationId(signAgreement.getSignAgreementId());
 			mediateProgramDao.update(mediateProgram);
@@ -375,14 +375,14 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			recordInfo.setRecordId(IdGen.uuid());
 			recordInfo.setRelationId(signAgreement.getSignAgreementId());
 			recordInfo.setModuleType("4");
-			recordInfo.setCause(complaintMain.getPatientName()+"与"+complaintMain.getHospital().getName()+"医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。");
+			recordInfo.setCause(signAgreement.getMediateProgram().getPatient()+"与"+complaintMain.getHospital().getName()+"医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。");
 			recordInfo.preInsert();
 			recordInfoDao.insert(recordInfo);
 		}else{
 			recordInfo.preUpdate();
 			recordInfo.setModuleType("4");
 			recordInfo.setRelationId(signAgreement.getSignAgreementId());
-			recordInfo.setCause(complaintMain.getPatientName()+"与"+complaintMain.getHospital().getName()+"医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。");
+			recordInfo.setCause(signAgreement.getMediateProgram().getPatient()+"与"+complaintMain.getHospital().getName()+"医疗纠纷，经山西省医疗纠纷人民调解委员会调解员调查、调解后，医患双方自愿达成一致意见，今天，在山西省医疗纠纷人民调解委员会调解员主持下，签署人民调解协议书。");
 			recordInfoDao.update(recordInfo);
 		}
 	}
@@ -578,7 +578,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				params.put("case", signAgreement.getComplaintMain().getPatientName() == null || signAgreement.getComplaintMain().getHospital().getName() == null ? "" : signAgreement.getComplaintMain().getPatientName() + "与" + signAgreement.getComplaintMain().getHospital().getName() + "的医疗纠纷。");
 				params.put("tiao", signAgreement.getMediateProgram().getMediatorUser().getName() == null ? "" : signAgreement.getMediateProgram().getMediatorUser().getName());
 				params.put("pen", signAgreement.getMediateProgram().getClerkuser().getName() == null ? "" : signAgreement.getMediateProgram().getClerkuser().getName());
-				params.put("patient", signAgreement.getComplaintMain().getPatientName() == null ? "" : signAgreement.getComplaintMain().getPatientName());
+				params.put("patient", signAgreement.getMediateProgram().getPatient() == null ? "" : signAgreement.getMediateProgram().getPatient());
 				params.put("doctor", signAgreement.getComplaintMain().getHospital().getName() == null ? "" : signAgreement.getComplaintMain().getHospital().getName());
 				params.put("hAvoid", signAgreement.getMediateProgram().getPatientAvoid() == null ? "" : signAgreement.getMediateProgram().getPatientAvoid());
 				params.put("yAvoid", signAgreement.getMediateProgram().getDoctorAvoid() == null ? "" : signAgreement.getMediateProgram().getDoctorAvoid());

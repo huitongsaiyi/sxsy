@@ -198,7 +198,7 @@
 	<form:hidden path="recordInfo.moduleType"/>
 	<form:hidden path="recordInfo.cause"/>
 	<form:hidden path="agreementNumber"/>
-	<form:hidden path="mediateProgram.patient"/>
+	<%--<form:hidden path="mediateProgram.patient"/>--%>
 	<form:hidden path="mediateProgram.doctor"/>
 	<form:hidden path="agreedMatter"/>
 	<form:hidden path="mediation"/>
@@ -585,13 +585,15 @@
 				<tr>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-							${empty signAgreement.mediateProgram.patient?signAgreement.complaintMain.patientName:signAgreement.mediateProgram.patient}
+						<form:input path="mediateProgram.patient" htmlEscape="false" class="input-xlarge" maxlength="20"/>
+							<%--${empty signAgreement.mediateProgram.patient?signAgreement.complaintMain.patientName:signAgreement.mediateProgram.patient}--%>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-							${signAgreement.complaintMain.hospital.name}
+						<form:input path="complaintMain.hospital.name" htmlEscape="false" class="input-xlarge" maxlength="20"/>
+							<%--${signAgreement.complaintMain.hospital.name}--%>
 					</td>
 				</tr>
 				</tr>

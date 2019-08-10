@@ -258,7 +258,8 @@
 					<td class="tit">患方：</td>
 					<td colspan="3">
 						<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-								${reachMediate.complaintMain.patientName}
+							<form:input id="reaPatient" path="reaPatient" htmlEscape="false" maxlength="20" class="input-xlarge"  value="${empty reachMediate.reaPatient?reachMediate.complaintMain.patientName:reachMediate.reaPatient}"/>
+								<%--${reachMediate.complaintMain.patientName}--%>
 						</span>
 					</td>
 				</tr>
@@ -266,7 +267,8 @@
 					<td class="tit">医方：</td>
 					<td colspan="3">
 						<span style=" font-family:宋体; font-size:12pt; font-weight:normal;">
-								${empty reachMediate.doctorOffice.name?reachMediate.complaintMain.hospital.name:reachMediate.doctorOffice.name}
+							<form:input id="doctorOffice.name" path="doctorOffice.name" htmlEscape="false" maxlength="20" class="input-xlarge"/>
+								<%--${empty reachMediate.doctorOffice.name?reachMediate.complaintMain.hospital.name:reachMediate.doctorOffice.name}--%>
 						</span>
 					</td>
 				</tr>

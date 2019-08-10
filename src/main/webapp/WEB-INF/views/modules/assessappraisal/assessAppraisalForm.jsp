@@ -272,7 +272,7 @@
 	<form:hidden path="complaintMain.hospital.name"/>
 	<form:hidden path="clerks.name"/>
 	<form:hidden path="hosts.name"/>
-	<form:hidden path="recordInfo1.patient"/>
+	<%--<form:hidden path="recordInfo1.patient"/>--%>
 	<form:hidden path="recordInfo1.doctor"/>
 	<form:hidden path="recordInfo1.host"/>
 	<form:hidden path="recordInfo1.noteTaker"/>
@@ -377,13 +377,15 @@
 				<tr>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-							${assessAppraisal.complaintMain.patientName}
+						<form:input path="recordInfo1.patient" htmlEscape="false" maxlength="20" class="input-xlarge" cssStyle="width:280px;" value="${empty assessAppraisal.recordInfo1.patient?assessAppraisal.complaintMain.patientName:assessAppraisal.recordInfo1.patient}"/>
+							<%--${assessAppraisal.complaintMain.patientName}--%>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-							${assessAppraisal.complaintMain.hospital.name}
+						<form:input path="complaintMain.hospital.name" htmlEscape="false" maxlength="20" class="input-xlarge" cssStyle="width:280px;"/>
+							<%--${assessAppraisal.complaintMain.hospital.name}--%>
 					</td>
 				</tr>
 				<tr>

@@ -141,7 +141,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			mediateEvidence.preUpdate();
 			mediateEvidence.setMeetingAddress(mediateEvidence.getMeetingAddress());
 			mediateEvidence.setMeetingTime(mediateEvidence.getMeetingTime());
-			mediateEvidence.setPatient(complaintMain.getPatientName());
+//			mediateEvidence.setPatient(complaintMain.getPatientName());
 			mediateEvidence.setDoctor(mediateEvidence.getDoctorOffice().getId());
 
 			dao.update(mediateEvidence);
@@ -346,7 +346,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 				params.put("case",mediateEvidence.getComplaintMain().getPatientName()==null||mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getPatientName()+"与"+mediateEvidence.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
 				params.put("tiao",mediateEvidence.getMediateProgramList().get(c).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(c).getMediatorUser().getName());
 				params.put("pen",mediateEvidence.getMediateProgramList().get(c).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(c).getClerkuser().getName());
-				params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());
+				params.put("patient",mediateEvidence.getPatient()==null?"":mediateEvidence.getPatient());
 				params.put("doctor", mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getHospital().getName());
 				params.put("hAvoid",mediateEvidence.getMediateProgramList().get(c).getPatientAvoid()==null?"":mediateEvidence.getMediateProgramList().get(c).getPatientAvoid());
 				params.put("yAvoid",mediateEvidence.getMediateProgramList().get(c).getDoctorAvoid()==null?"":mediateEvidence.getMediateProgramList().get(c).getDoctorAvoid());
