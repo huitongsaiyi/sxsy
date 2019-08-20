@@ -66,6 +66,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String fileNumber;		// 卷宗编号
 	private String remark;		// 备注
 	private String delFlag;		//删除标识
+	private String nodeName;		//案件节点
 	private Office hospital;	//涉及医院
 
 	public MachineAccount() {
@@ -98,6 +99,14 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 
 	public void setHospital(Office hospital) {
 		this.hospital = hospital;
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
 	}
 
 	@Override

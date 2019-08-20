@@ -48,7 +48,8 @@
 		u4.name AS "user.name",
 		u5.name AS "createBy.name",
 		u6.name AS "updateBy.name",
-		o4.name AS "hospital.name"
+		o4.name AS "hospital.name",
+		t.NAME_ AS "nodeName"
 	</sql>
 
 	<sql id="machineAccountJoins">
@@ -57,6 +58,8 @@
 		LEFT JOIN SYS_USER u5 ON u5.id = a.create_by
 		LEFT JOIN SYS_USER u6 ON u6.id = a.update_by
 		LEFT JOIN SYS_OFFICE o4 ON o4.id = a.hospital_id
+		LEFT JOIN COMPLAINT_MAIN c on c.complaint_main_id=a.complaint_main_id
+		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=c.PROC_INS_ID
 	</sql>
 
 	<select id="get" resultType="MachineAccount">

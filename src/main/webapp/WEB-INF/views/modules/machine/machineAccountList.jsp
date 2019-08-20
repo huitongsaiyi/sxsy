@@ -148,6 +148,7 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
+        <th >案件节点</th>
         <th class="sort-column reporting_time">报案时间</th>
         <th class="sort-column dept_id">部门名称</th>
         <th class="sort-column mediator_id">调解员</th>
@@ -195,8 +196,11 @@
     <c:forEach items="${page.list}" var="machineAccount">
         <tr>
             <td><a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}&type=view">
-                    ${machineAccount.reportingTime}
+                    ${machineAccount.nodeName}
             </a></td>
+            <td>
+                    ${machineAccount.reportingTime}
+            </td>
             <td>
                 <c:choose>
                     <c:when test="${ empty machineAccount.office.name }">
