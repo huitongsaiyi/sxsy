@@ -64,13 +64,23 @@ public class TestTreeController extends BaseController {
 	@RequiresPermissions("test:testTree:view")
 	@RequestMapping(value = "form")
 	public String form(TestTree testTree, Model model,HttpServletRequest request) {
+		//如果 是父级进行修改 查看有没有子类，如果有 不让修改
+		if(testTree.getParent()!=null && "0".equals(testTree.getParent().getId())){
+			TestTree testTreeCs = new TestTree();
+			testTreeCs.setParent(testTree);
+			List<TestTree> list = testTreeService.findList(testTreeCs);
+			if (list.size() > 0){
+				model.addAttribute("isChild", "true");
+			}
+		}
+
 		if (testTree.getParent()!=null && StringUtils.isNotBlank(testTree.getParent().getId())){
 			testTree.setParent(testTreeService.get(testTree.getParent().getId()));
 			// 获取排序号，最末节点排序号+30
 			if (StringUtils.isBlank(testTree.getId())){
 				TestTree testTreeChild = new TestTree();
 				testTreeChild.setParent(new TestTree(testTree.getParent().getId()));
-				List<TestTree> list = testTreeService.findList(testTree); 
+				List<TestTree> list = testTreeService.findList(testTree);
 				if (list.size() > 0){
 					testTree.setSort(list.get(list.size()-1).getSort());
 					if (testTree.getSort() != null){
@@ -128,29 +138,34 @@ public class TestTreeController extends BaseController {
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
-	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response,@RequestParam(required=false) String mold) {
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response,@RequestParam(required=false) String mold,@RequestParam(required=false) String parent) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<TestTree> list = testTreeService.findList(new TestTree());
 		for (int i=0; i<list.size(); i++){
 			TestTree e = list.get(i);
 			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)){
 				if(mold==null){
-					Map<String, Object> map = Maps.newHashMap();
-					map.put("id", e.getId());
-					map.put("pId", e.getParentId());
-					map.put("name", e.getName());
-					mapList.add(map);
+					mapList.add(this.treeMap(e));
 				}else if(mold != null && mold.equals(e.getMold())){
-					Map<String, Object> map = Maps.newHashMap();
-					map.put("id", e.getId());
-					map.put("pId", e.getParentId());
-					map.put("name", e.getName());
-					mapList.add(map);
+					if (StringUtils.isNotBlank(parent) ){
+						if (parent.equals(e.getParent().getId())){
+							mapList.add(this.treeMap(e));
+						}
+					}else {
+						mapList.add(this.treeMap(e));
+					}
 				}
-
 			}
 		}
 		return mapList;
 	}
-	
+
+	public Map<String, Object> treeMap(TestTree e ){
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("id", e.getId());
+		map.put("pId", e.getParentId());
+		map.put("name", e.getName());
+		return map;
+	}
+
 }

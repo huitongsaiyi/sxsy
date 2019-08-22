@@ -33,14 +33,16 @@
 	<form:form id="inputForm" modelAttribute="testTree" action="${ctx}/test/testTree/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="mold" value="${mold}"/>
-		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">上级父级编号:</label>
-			<div class="controls">
-				<sys:treeselect id="parent" name="parent.id" value="${testTree.parent.id}" labelName="parent.name" labelValue="${testTree.parent.name}"
-					title="父级编号" url="/test/testTree/treeData?mold=${empty mold ? molds:mold}" extId="${testTree.id}" cssClass="" allowClear="true" />
+		<sys:message content="${message}"/>
+		<c:if test="${empty isChild}">
+			<div class="control-group">
+				<label class="control-label">上级父级编号:</label>
+				<div class="controls">
+					<sys:treeselect id="parent" name="parent.id" value="${testTree.parent.id}" labelName="parent.name" labelValue="${testTree.parent.name}"
+						title="父级编号" url="/test/testTree/treeData?parent=0&mold=${empty mold ? molds:mold}" extId="${testTree.id}" cssClass="" allowClear="true" />
+				</div>
 			</div>
-		</div>
+		</c:if>
 		<div class="control-group">
 			<label class="control-label">名称：</label>
 			<div class="controls">
