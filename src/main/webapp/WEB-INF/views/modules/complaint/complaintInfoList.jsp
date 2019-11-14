@@ -6,7 +6,10 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#btnImport").click(function(){
+				$.jBox($("#importBox").html(), {title:"导出模版", buttons:{"关闭":true},
+					bottomText:""});
+			});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -15,8 +18,35 @@
         	return false;
         }
 	</script>
+    <style type="text/css">
+        #contentTable {
+            table-layout: fixed;
+        }
+
+        #contentTable th {
+            text-align: center; /** 设置水平方向居中 */
+            vertical-align: middle; /** 设置垂直方向居中 */
+        }
+
+        #contentTable td {
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+            text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+        }
+
+        #contentTable th:nth-of-type(23) {
+            width: 10em;
+        }
+    </style>
 </head>
 <body>
+<div id="importBox" class="hide">
+	<form id="importForm" action="${ctx}/surgicalconsentbook/preOperativeConsent/export?type=dj" method="post" enctype="multipart/form-data"
+		  class="form-search" style="padding-left:20px;text-align:center;" ><br/>
+		<input id="butSum" class="btn btn-primary" type="submit" value="'投诉处理登记表'模版">
+	</form>
+</div>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/complaint/complaintInfo/">投诉接待列表</a></li>
 		<shiro:hasPermission name="complaint:complaintInfo:edit"><li><a href="${ctx}/complaint/complaintInfo/form">投诉接待添加</a></li></shiro:hasPermission>
@@ -59,7 +89,10 @@
 					   value="${complaintInfo.receptionEndDate}"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd 23:59'});"/>
 			</li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns">
+				<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+				<input id="btnImport" class="btn btn-primary" type="button" value="导出模版"/>
+			</li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -79,7 +112,12 @@
 				<th class="sort-column a.involve_department">涉及科室</th>
 				<th class="sort-column a.involve_employee">涉及人员</th>
 				<th class="sort-column a.summary_of_disputes">投诉纠纷概要</th>
-				<th class="sort-column a.is_mediate">是否进入医调委调解</th>
+				<th class="sort-column t.name">投诉原因</th>
+				<th class="sort-column a.is_mediate">处理情况</th>
+                <th class="sort-column a.expected_closure">结案预期</th>
+                <th class="sort-column a.closing_method">结案方式</th>
+                <th class="sort-column a.amount_involved">涉及金额 </th>
+				<th>创建人</th>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -87,51 +125,82 @@
 		<c:forEach items="${page.list}" var="complaintInfo">
 			<tr>
 				<td>
-					${complaintInfo.caseNumber}
+					    ${complaintInfo.caseNumber}
 				</td>
 				<td>
-					${complaintInfo.visitorName}
+					    ${complaintInfo.visitorName}
 				</td>
 				<td>
-					${complaintInfo.visitorMobile}
+					    ${complaintInfo.visitorMobile}
 				</td>
 				<td>
-					${complaintInfo.relationName}
+					    ${complaintInfo.relationName}
 				</td>
 				<td>
-					${complaintInfo.patientName}
+					    ${complaintInfo.patientName}
 				</td>
 				<td>
-					${complaintInfo.sexName}
+					    ${complaintInfo.sexName}
 				</td>
 				<td>
-					${complaintInfo.patientAge}
+					    ${complaintInfo.patientAge}
 				</td>
 				<td>
-					${complaintInfo.visitorNumber}
+					    ${complaintInfo.visitorNumber}
 				</td>
 				<td>
-					${complaintInfo.hospitalName}
+					    ${complaintInfo.hospitalName}
 				</td>
 				<td>
-						${fns:getDictLabel(complaintInfo.involveDepartment, 'department', '未知')}
+						${complaintInfo.testTree}
 				</td>
 				<td>
 						${empty complaintInfo.employeeName?complaintInfo.involveEmployee:complaintInfo.employeeName}
 				</td>
 				<td>
-					${complaintInfo.summaryOfDisputes}
+					    ${complaintInfo.summaryOfDisputes}
 				</td>
+                <td>
+                        ${complaintInfo.typeName}
+                </td>
 				<td>
+                    <c:if test="${complaintInfo.handleWay eq 0}">
+                        <c:if test="${complaintInfo.status eq 0}">
+                            处理中
+                        </c:if>
+                        <c:if test="${complaintInfo.status eq 1}">
+                            协调中
+                        </c:if>
+                        <c:if test="${complaintInfo.status eq 2}">
+                            结案
+                        </c:if>
+                    </c:if>
+                    <c:if test="${complaintInfo.handleWay eq 1}">
+                        转办处理
+                    </c:if>
 					<c:if test="${complaintInfo.handleWay eq 2}">
-						是
+                        转调解处理
 					</c:if>
-					<c:if test="${complaintInfo.handleWay ne 2}">
-						否
-					</c:if>
+                    <c:if test="${complaintInfo.handleWay eq 3}">
+                        诉讼
+                    </c:if>
+
 				</td>
+
+                <td>
+                        ${complaintInfo.expectedClosure}
+                </td>
+                <td>
+                        ${complaintInfo.closingMethod}
+                </td>
+                <td>
+                        ${complaintInfo.amountInvolved}
+                </td>
+                <td>
+                        ${complaintInfo.createBy.name}
+                </td>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><td>
-					<c:if test="${complaintInfo.handleWay ne 2}">
+					<c:if test="${complaintInfo.handleWay ne 2 and complaintInfo.createBy.id eq fns:getUser().id}">
 						<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">处理</a>
 						<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.complaintId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
 					</c:if>

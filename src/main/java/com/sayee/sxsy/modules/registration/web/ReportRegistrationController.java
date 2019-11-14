@@ -10,6 +10,7 @@ import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
@@ -46,7 +47,8 @@ public class ReportRegistrationController extends BaseController {
 
 	@Autowired
 	private ReportRegistrationService reportRegistrationService;
-
+	@Autowired
+	private MachineAccountService machineAccountService;
 	@Autowired
 	private SummaryInfoService summaryInfoService;
 	@Autowired
@@ -83,7 +85,9 @@ public class ReportRegistrationController extends BaseController {
 			}
 		}
 		ComplaintMain complaintMain = complaintMainService.get(reportRegistration.getComplaintMainId());
-		reportRegistration.getComplaintMain().setTestTree(complaintMain.getTestTree());
+		if(reportRegistration.getComplaintMain()!=null){
+			reportRegistration.getComplaintMain().setTestTree(complaintMain.getTestTree());
+		}
 		if("view".equals(type)) {		//判断数据内容是否一致，一致将数据发送到详情页面；不一致，页面跳转到添加页面
 			Map<String, Object> map = summaryInfoService.getViewDetail(reportRegistration.getComplaintMainId());
 			model.addAttribute("map",map);
@@ -111,16 +115,20 @@ public class ReportRegistrationController extends BaseController {
 				return form(request,reportRegistration, model);
 			}
 			reportRegistrationService.save(reportRegistration,request);
+			machineAccountService.savetz(reportRegistration.getMachineAccount(), "a", reportRegistration);
 			if ("yes".equals(reportRegistration.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + reportRegistration.getComplaintMain().getProcInsId());
+				return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
 			}else {
-				addMessage(redirectAttributes, "保存报案登记成功");
+				model.addAttribute("message","保存报案登记成功");
+				return form(request,this.get(reportRegistration.getReportRegistrationId()), model);
 			}
 		} catch (Exception e) {
 			logger.error("启动纠纷调解流程失败：", e);
 			addMessage(redirectAttributes, "系统内部错误！");
+			return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
 		}
-		return "redirect:"+Global.getAdminPath()+"/registration/reportRegistration/?repage";
+
 	}
 
 	@RequiresPermissions("registration:reportRegistration:edit")

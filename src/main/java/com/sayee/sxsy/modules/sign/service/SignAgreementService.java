@@ -7,9 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.*;
 
-import com.sayee.sxsy.common.utils.IdGen;
-import com.sayee.sxsy.common.utils.StringUtils;
-import com.sayee.sxsy.common.utils.WordExportUtil;
+import com.alibaba.fastjson.JSON;
+import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
@@ -28,10 +27,12 @@ import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
 import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,8 +110,26 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	}
 
 	public Page<SignAgreement> findPage(Page<SignAgreement> page, SignAgreement signAgreement) {
-		//获取当前登陆用户
-		signAgreement.setUser(UserUtils.getUser());
+		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		User user=UserUtils.getUser();
+		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+			//!aa.contains("dept") &&
+		}else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+			//工作站 主任 副主任 看自己 的员工
+			List<String> list=new ArrayList<String>();
+			List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+			for (User people:listUser) {
+				list.add(people.getLoginName());
+			}
+			if (list.size()>0){
+				signAgreement.setList(list);
+			}else {
+				list.add(user.getLoginName());
+				signAgreement.setList(list);
+			}
+		}else {//不是管理员查看自己创建的
+			signAgreement.setUser(UserUtils.getUser());
+		}
 		return super.findPage(page, signAgreement);
 	}
 
@@ -393,7 +412,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			this.getCheck(signAgreement);
 		}
 		String mediation2 = request.getParameter("mediation");
-		String agreedMatter2=request.getParameter("agreedMatter");
+		String agreed=request.getParameter("agreedMatter");
+		List<Map> list=JsonUtil.toList(agreed,Map.class);
+		String agreedMatter2=this.formatAgreed(list);
 		String performAgreementMode2 = request.getParameter("performAgreementMode");
 		String agreementExplain2 = request.getParameter("agreementExplain");
 		WordExportUtil wordExportUtil = new WordExportUtil();
@@ -652,5 +673,25 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			e.printStackTrace();
 		}
 		return returnPath;
+	}
+
+	private String formatAgreed(List<Map> list) {
+		String str="";
+		if (list.size()>0){
+			for (int i = 0; i < list.size(); i++) {
+				Map<String,Object> map=(Map<String, Object>) list.get(i);
+				if (i!=0){
+					str+="     ";
+				}
+				str+= MapUtils.getString(map,"name").replaceAll("\t","").replaceAll("\n","");
+				str+= "：";
+				str+= MapUtils.getString(map,"value");
+				if (list.size()-1 != i){
+					str+="\r\n";
+				}
+
+			}
+		}
+		return str;
 	}
 }

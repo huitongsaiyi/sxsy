@@ -29,14 +29,10 @@
     </script>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li><a href="${ctx}/registration/reportRegistration/">报案信息列表</a></li>
-    <li class="active"><a
-            href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">报案信息<shiro:hasPermission
-            name="registration:reportRegistration:edit">${not empty reportRegistration.reportRegistrationId?'修改':'修改'}</shiro:hasPermission><shiro:lacksPermission
-            name="registration:reportRegistration:edit">查看</shiro:lacksPermission></a></li>
-</ul>
-<br/>
+<c:if test="${reportRegistration.complaintMain.act.assigneeName}">
+
+</c:if>
+<legend>报案登记详情</legend>
 <form:form id="inputForm" modelAttribute="reportRegistration" action="${ctx}/registration/reportRegistration/save"
            method="post" class="form-horizontal">
     <form:hidden path="reportRegistrationId"/>

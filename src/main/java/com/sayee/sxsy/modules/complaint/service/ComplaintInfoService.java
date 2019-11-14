@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.sayee.sxsy.common.utils.DateUtils;
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.UserAgentUtils;
 import com.sayee.sxsy.modules.complaintdetail.dao.ComplaintMainDetailDao;
@@ -19,12 +20,13 @@ import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +69,41 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     }
 
     public Page<ComplaintInfo> findPage(Page<ComplaintInfo> page, ComplaintInfo complaintInfo) {
-        complaintInfo.setUser(UserUtils.getUser());
+        //如果当前人员角色 是 医调委主任 则看全部数据
+        List<String> aa=ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+        if (aa.contains("commission")){//韩主任 医调委主任 看全部数据
+
+        }else if(aa.contains("zwjw")){
+            //曹华磊 与韩主任 有全部数据的权限，为了看 看卫健委工作站人员 信息
+            List<String> list=new ArrayList<String>();
+            List<User> listUser=UserUtils.getUser("wjwgzzry");
+
+            for (User user:listUser) {
+                list.add(user.getId());
+            }
+            if (list.size()>0){
+                complaintInfo.setList(list);
+            }else {
+                list.add(UserUtils.getUser().getId());
+                complaintInfo.setList(list);
+            }
+        }else if(aa.contains("DepartmentDeputyDirector")){
+            //风险管控部 部门副主任 看自己部门所有数据
+            List<String> list=new ArrayList<String>();
+
+            List<User> listUser=UserUtils.getUserByOffice(UserUtils.getUser().getOffice().getId());
+            for (User user:listUser) {
+                list.add(user.getId());
+            }
+            if (list.size()>0){
+                complaintInfo.setList(list);
+            }else {
+                list.add(UserUtils.getUser().getId());
+                complaintInfo.setList(list);
+            }
+        }else{
+            complaintInfo.setUser(UserUtils.getUser());
+        }
         return super.findPage(page, complaintInfo);
     }
 
@@ -108,7 +144,9 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             complaintMainDetail.setReceptionDate(complaintInfo.getReceptionDate());            //接待日期
             complaintMainDetail.setPatientRelation(complaintInfo.getPatientRelation());        //患者关系
             complaintMainDetail.setIsMajor(complaintInfo.getIsMajor());        //是否重大
-            complaintMainDetail.getCreateBy().setId(complaintInfo.getNextLinkMan());           //将创建人更改为从医院投诉接待拿到的下一步处理人
+            User user=UserUtils.get(complaintInfo.getNextLinkMan());
+            complaintMainDetail.setCreateBy(user);           //将创建人更改为从医院投诉接待拿到的下一步处理人
+            complaintMainDetail.setUpdateBy(user);
             //保存子表
             complaintMainDetailDao.insert(complaintMainDetail);
         }
@@ -185,7 +223,9 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     public Page<List> statementPage(Page<List> page,HttpServletRequest request, HttpServletResponse response) {
         String type=request.getParameter("export");
         String visitorDate=request.getParameter("visitorDate");
+        String visitorDateEnd=request.getParameter("visitorDateEnd");
         String visitorMonthDate=request.getParameter("visitorMonthDate");
+        String visitorMonthDateEnd=request.getParameter("visitorMonthDateEnd");
         String involveDepartment=request.getParameter("involveDepartment");
         String involveEmployee=request.getParameter("involveEmployee");
         if (StringUtils.isBlank(visitorDate) && StringUtils.isBlank(visitorMonthDate)){
@@ -193,15 +233,16 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         }
         List list=new ArrayList();
 
-        List<Map<String,Object>> every =complaintInfoDao.selectEveryOne(visitorDate,visitorMonthDate,involveDepartment,involveEmployee);
-        List<Map<String,Object>> book=preOperativeConsentDao.selectCreatby(visitorDate,visitorMonthDate,involveDepartment,involveEmployee);
+        List<Map<String,Object>> every =complaintInfoDao.selectEveryOne(visitorDate,visitorDateEnd,visitorMonthDate,visitorMonthDateEnd,involveDepartment,involveEmployee);
+        List<Map<String,Object>> book=preOperativeConsentDao.selectCreatby(visitorDate,visitorDateEnd,visitorMonthDate,visitorMonthDateEnd,involveDepartment,involveEmployee);
         if(CollectionUtils.isEmpty(every)){
             every=new ArrayList<Map<String,Object>>();
         }
         //根据拿到的所有人员数据 在进行 单个人员统计
-        person(every,book,visitorDate,visitorMonthDate);
+        person(every,book,visitorDate,visitorDateEnd,visitorMonthDate,visitorMonthDateEnd);
         List<Map> maps = new ArrayList<Map>();
         if("'yes'".equals(type)){
+            every.addAll(book);
             for (int i =0;i < every.size();i++){
                 every.get(i).remove("create_by");
                 every.get(i).remove("office_id");
@@ -210,15 +251,15 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
                 map.put("接待日期",every.get(i).get("visitor_date"));
                 map.put("投诉接待数量(总)",every.get(i).get("amount"));
                 map.put("人员",every.get(i).get("name"));
-                map.put("医院转办数量",every.get(i).get("zb"));
-                map.put("转调解数量",every.get(i).get("ytw"));
-                map.put("当面处理数量",every.get(i).get("dm"));
-                if(every.get(i).size()==7){
-                    map.put("同意书见证","0");
-                }
+                map.put("医院转办数量",MapUtils.getString(every.get(i),"zb","0"));
+                map.put("转调解数量",MapUtils.getString(every.get(i),"ytw","0"));
+                map.put("当面处理数量",MapUtils.getString(every.get(i),"dm","0"));
+                //if(every.get(i).size()==7){
+                map.put("同意书见证",every.get(i).get("sq"));
+               // }
                 maps.add(map);
             }
-            maps.addAll(book);
+            //maps.addAll(book);
             list.add(maps);
             page.setList(list);
             return page;
@@ -231,11 +272,11 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         }
     }
 
-    public void person(List<Map<String,Object>> every,List<Map<String,Object>> book,String visitorDate,String visitorMonthDate){
+    public void person(List<Map<String,Object>> every,List<Map<String,Object>> book,String visitorDate,String visitorDateEnd,String visitorMonthDate,String visitorMonthDateEnd){
         List<Map<String,Object>> newlist=new ArrayList<Map<String,Object>>();
         if (every.size()>0){
                 for (Map<String,Object> map: every) {
-                    Map<String,Object> person=complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by",""),visitorDate,visitorMonthDate);
+                    Map<String,Object> person=complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by",""),visitorDate,visitorDateEnd,visitorMonthDate,visitorMonthDateEnd);
                         if (MapUtils.isNotEmpty(person)){
                             map.putAll(person);
                         }

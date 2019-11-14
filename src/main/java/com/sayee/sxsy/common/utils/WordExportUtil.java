@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 /*******************************************
  *
  * @Package com.cccuu.project.myUtils
- * @Author duan
+ * @Author fan
  * @Date 2018/3/29 17:55
  * @Version V1.0
  *******************************************/
@@ -382,7 +382,7 @@ public class WordExportUtil  {
                         }
                     }
                 } else {
-                    insertTable(table, tableList);  //插入数据
+                    //insertTable(table, tableList);  //插入数据
                 }
             }
         }

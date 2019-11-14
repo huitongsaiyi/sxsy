@@ -78,7 +78,7 @@ public class StopMediateService extends CrudService<StopMediateDao, StopMediate>
 			User assigness= UserUtils.get(stopMediate.getNextLinkMan());
 			var.put("summary_user",assigness.getLoginName());
 			// 执行流程
-			actTaskService.complete(stopMediate.getComplaintMain().getAct().getTaskId(), stopMediate.getComplaintMain().getAct().getProcInsId(), stopMediate.getComplaintMain().getAct().getComment(), stopMediate.getComplaintMain().getCaseNumber(), var);
+			actTaskService.complete(stopMediate.getComplaintMain().getAct().getTaskId(), stopMediate.getComplaintMain().getProcInsId(), stopMediate.getComplaintMain().getAct().getComment(), stopMediate.getComplaintMain().getCaseNumber(), var);
 		}
 	}
 	

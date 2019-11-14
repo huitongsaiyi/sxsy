@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sayee.sxsy.common.utils.Encodes;
 import com.sayee.sxsy.common.utils.Reflections;
 import com.sayee.sxsy.modules.sys.utils.DictUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.util.CellReference;
@@ -431,26 +432,21 @@ public class ExportExcel {
                     Row row1 = this.addRow();
                     for (int i =0;i<map.size();i++) {
                         if(i==0) {
-                            val=map.get(zero).toString();
+                            val=MapUtils.getString(map,zero,"");
                         }else if(i==1) {
-                            val=map.get(one).toString();
+                            val=MapUtils.getString(map,one,"");
                         }else if(i==2) {
-                            val=Integer.parseInt(map.get(two).toString());
-//                            val=map.get(two);
+                            val=Integer.parseInt(StringUtils.isNotBlank(MapUtils.getString(map,two,"0")) ? MapUtils.getString(map,two,"0") : "0");
                         }else if(i==3) {
-                            val=Integer.parseInt(map.get(three).toString());
-//                            val=(Integer)map.get(three);
+                            val=Integer.parseInt(StringUtils.isNotBlank(MapUtils.getString(map,three,"0")) ? MapUtils.getString(map,three,"0") : "0" );
                         }else if(i==4) {
-                            val=Integer.parseInt(map.get(four).toString());
-//                            val=(Integer)map.get(four);
+                            val=Integer.parseInt(StringUtils.isNotBlank(MapUtils.getString(map,four,"0")) ? MapUtils.getString(map,four,"0") : "0");
                         }else if(i==5) {
-                            val=Integer.parseInt(map.get(five).toString());
-//                            val=(Integer)map.get(five);
+                            val=Integer.parseInt(StringUtils.isNotBlank(MapUtils.getString(map,five,"0")) ? MapUtils.getString(map,five,"0") : "0"   );
                         }else if(i==6) {
-                            val=Integer.parseInt(map.get(six).toString());
-//                            val=(Integer)map.get(six);
+                            val=Integer.parseInt(StringUtils.isNotBlank(MapUtils.getString(map,six,"0")) ? MapUtils.getString(map,six,"0") : "0"   );
                         }else if(i==7) {
-                            val=map.get(seven).toString();
+                            val=MapUtils.getString(map,seven,"");
                         }
                         if(val!=null) {
                             addCell(row1, colunm++, val, 2,Class.class);

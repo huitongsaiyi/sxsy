@@ -95,23 +95,26 @@ public class PerformAgreementController extends BaseController {
 	public String save(HttpServletRequest request,PerformAgreement performAgreement, Model model, RedirectAttributes redirectAttributes) {
 		try {
 			performAgreementService.save(performAgreement);
-			machineAccountService.savetz(performAgreement.getMachineAccount(),"per",performAgreement.getPerformAgreementId());
+			machineAccountService.savetz(performAgreement.getMachineAccount(),"per",performAgreement);
 			performAgreementService.savefj(request,performAgreement);
 			if("yes".equals(performAgreement.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes,"流程已启动，流程ID："+performAgreement.getComplaintMain().getProcInsId());
+				return "redirect:"+Global.getAdminPath()+"/perform/performAgreement/?repage";
 			}else {
-				addMessage(redirectAttributes,"保存履行协议成功");
+				model.addAttribute("message","保存履行协议成功");
+				return form(request,this.get(performAgreement.getPerformAgreementId()), model);
 			}
 		}catch (Exception e){
 			logger.error("启动纠纷调解失败：", e);
 			addMessage(redirectAttributes,"系统内部错误！");
+			return "redirect:"+Global.getAdminPath()+"/perform/performAgreement/?repage";
 		}
 //		if (!beanValidator(model, performAgreement)){
 //			return form(performAgreement, model);
 //		}
 //		performAgreementService.save(performAgreement);
 //		addMessage(redirectAttributes, "保存履行协议成功");
-		return "redirect:"+Global.getAdminPath()+"/perform/performAgreement/?repage";
+
 	}
 	
 	@RequiresPermissions("perform:performAgreement:edit")

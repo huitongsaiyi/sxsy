@@ -176,19 +176,21 @@ public class SummaryInfoController extends BaseController {
 		}
 		try{
 			summaryInfoService.save(summaryInfo,request);
-			machineAccountService.savetz(summaryInfo.getMachineAccount(), "f", summaryInfo.getSummaryId());
+			machineAccountService.savetz(summaryInfo.getMachineAccount(), "f", summaryInfo);
 			if("yes".equals(summaryInfo.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + summaryInfo.getComplaintMain().getProcInsId());
+				return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
 			}else {
-				addMessage(redirectAttributes, "保存结案总结成功");
+				model.addAttribute("message","保存结案总结成功");
+				return form(request,this.get(summaryInfo.getSummaryId()), model);
 			}
 
 		}catch(Exception e){
 			logger.error("启动鉴定评估流程失败：",e);
 			addMessage(redirectAttributes,"系统内部错误");
-
+			return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
 		}
-		return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
+
 	}
 	
 	@RequiresPermissions("summaryinfo:summaryInfo:edit")

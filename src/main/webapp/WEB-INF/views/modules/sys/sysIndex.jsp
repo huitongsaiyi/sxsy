@@ -147,11 +147,30 @@
 				if (num > 0){
 					$("#notifyNum2").show().html("("+parseFloat(data)+")");
 					$("#notifyNum").show().html("("+num+")");
+					if(data>0){//如果通知公告有数据 则显示确认框来 强制进入看通知
+						top.$.jBox.confirm("请先查看您的通知!",'系统提示',function(v,h,f){
+
+						},{buttonsFocus:1, closed:function(){
+								$(".jericho_tab").hide();
+								$("#mainFrame").show();
+								$("#tongzhi span").click();
+						}});
+					}else{
+						<%--<c:if test="${tabmode ne '1'}">
+							$(".jericho_tab").show();
+							$("#mainFrame").hide();
+						</c:if>--%>
+					}
 				}else{
-					$("#notifyNum,#notifyNum2").hide()
+					$("#notifyNum,#notifyNum2").hide();
 				}
 			});
 			return num;
+		}
+
+		function  jump() {
+			alert(1)
+
 		}
 
 		//总数目
@@ -199,7 +218,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="${ctx}/sys/user/info" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
 							<li><a href="${ctx}/sys/user/modifyPwd" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
-							<li><a href="${ctx}/oa/oaNotify/self" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
+							<li><a id="tongzhi" href="${ctx}/oa/oaNotify/self" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
 							<li><a href="${ctx}/complaintmain/complaintMain/self" target="mainFrame"><i class="icon-bullhorn"></i>&nbsp;  我的待办 <span id="myNum" class="label label-info hide"></span></a></li>
 						</ul>
 					</li>
@@ -260,7 +279,7 @@
 <%--
 	            Copyright &copy; 2012-${fns:getConfig('copyrightYear')} ${fns:getConfig('productName')} - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')}
 --%>
-	Copyright &copy; 2012-${fns:getConfig('copyrightYear')} ${fns:getConfig('productName')} - Powered By Sayee ${fns:getConfig('version')}
+	Copyright &copy; 2018-${fns:getConfig('copyrightYear')} ${fns:getConfig('productName')} - Powered By Sayee ${fns:getConfig('version')}
 			</div>
 		</div>
 	</div>

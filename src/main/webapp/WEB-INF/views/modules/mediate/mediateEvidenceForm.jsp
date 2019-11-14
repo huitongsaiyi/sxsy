@@ -28,6 +28,7 @@
 
             });
             removeCssClass();
+            changeNext();
         });
 
         function page(n, s) {
@@ -114,6 +115,46 @@
         $(function (){
             $(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
         });
+
+        var intN=0;
+        function changeNext() {
+            var next=$("#nextLink").val();
+            if(next==0){
+                //省直人员
+                $("#aaName").hide();
+                $("#aaButton").hide();
+
+                $("#nextLinkManName").show();
+                $("#nextLinkManButton").show();
+                //签署协议 状态下  为空
+                if(intN>0){
+                    $("#aaId").val("");
+                    $("#aaName").val("");
+                    $("#nextLinkManId").val("");
+                    $("#nextLinkManName").val("");
+                }
+
+
+                $("#aaId").attr("name","cc");
+                $("#nextLinkManId").attr("name","nextLinkMan");
+            }else{
+                //全部人员
+                $("#nextLinkManName").hide();
+                $("#aaName").show();
+                $("#aaButton").show();
+                $("#nextLinkManButton").hide();
+                //默认自己
+                if(intN>0){
+                    $("#aaId").val("");
+                    $("#aaName").val("");
+                    $("#nextLinkManId").val("");
+                    $("#nextLinkManName").val("");
+                }
+                $("#nextLinkManId").attr("name","cc");
+                $("#aaId").attr("name","nextLinkMan");
+            }
+            intN++;
+        }
     </script>
 </head>
 <body>
@@ -299,14 +340,14 @@
                         <td class="tit">患方：</td>
                         <td colspan="3">
                             <form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge required" value="${mediateEvidence.patientAvoid}"/>
+                                        class="input-xlarge " value="${mediateEvidence.patientAvoid}"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="tit">医方：</td>
                         <td colspan="3">
                             <form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge required" value="${mediateEvidence.doctorAvoid}"/>
+                                        class="input-xlarge " value="${mediateEvidence.doctorAvoid}"/>
                         </td>
                     </tr>
                     <tr>
@@ -475,14 +516,14 @@
                         <td class="tit">患者：</td>
                         <td colspan="3">
                             <form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge required" value="${mediateEvidence.patientClear}"/>
+                                        class="input-xlarge " value="${mediateEvidence.patientClear}"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="tit">医方：</td>
                         <td colspan="3">
                             <form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge required" value="${mediateEvidence.doctorClear}"/>
+                                        class="input-xlarge " value="${mediateEvidence.doctorClear}"/>
                         </td>
                     </tr>
                     <tr>
@@ -899,7 +940,7 @@
         <tr>
             <td class="tit"><font color="red">*</font>下一处理环节：</td>
             <td>
-                <form:select path="nextLink" cssStyle="width: 180px">
+                <form:select path="nextLink" cssStyle="width: 180px" onchange="changeNext();">
                     <form:option value="0">评估鉴定</form:option>
                     <form:option value="2">签署协议</form:option>
                 </form:select>
@@ -908,12 +949,20 @@
             <td>
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan"
+                                value="${empty mediateEvidence.nextLinkMan? (fn:contains(fns:getUser().office.name,'工作站') ? '' : fns:getUser().id ):mediateEvidence.nextLinkMan}"
+                                labelName=""
+                                labelValue="${empty mediateEvidence.linkEmployee.name ? (fn:contains(fns:getUser().office.name,'工作站') ? '' : fns:getUser().name) : mediateEvidence.linkEmployee.name}"
+                                title="用户" url="/sys/office/treeData?type=3&officeType=1${fn:contains(fns:getUser().office.name,'工作站') ? '&next=sz' :''}" allowClear="true"
+                                notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" isAll="true"/>
+                <sys:treeselect id="aa" name="nextLinkMan"
                                 value="${empty mediateEvidence.nextLinkMan?fns:getUser().id:mediateEvidence.nextLinkMan}"
                                 labelName=""
                                 labelValue="${empty mediateEvidence.linkEmployee.name?fns:getUser().name:mediateEvidence.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" allowClear="true"
                                 notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required"/>
+
             </td>
+
         </tr>
     </table>
     <%--<div class="control-group">--%>

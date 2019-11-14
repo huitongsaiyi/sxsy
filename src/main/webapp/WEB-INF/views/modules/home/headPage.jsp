@@ -25,32 +25,37 @@
             <label>日期(年)：</label>
             <input id="yearDate" name="yearDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
                    value="${yearDate}"
-                   onclick="WdatePicker({dateFmt:'yyyy',isShowClear:true}); $('#monthDate').val('');"/>
+                   onclick="WdatePicker({dateFmt:'yyyy',isShowClear:true}); $('#beginMonthDate').val('');$('#endMonthDate').val('');"/>
         </li>
         <li id="month" style="">
             <label>日期(月)：</label>
-            <input id="monthDate" name="monthDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-                   value="${monthDate}"
+            <input id="beginMonthDate" name="beginMonthDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                   value="${beginMonthDate}"
                    onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:true});$('#yearDate').val('');"/>
+            -
+            <input id="endMonthDate" name="endMonthDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                   value="${endMonthDate}"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:true});$('#yearDate').val('');"/>
+
         </li>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="统计"/></li>
     </ul>
 </form:form>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-<div id="aa" style="width: 100%;margin: 0 auto;background-image: url('${ctxStatic}/images/background.jpg'); background-size:cover;">
+<div id="aa" style="width: 100%;margin: 0 auto;background : #ffffff ;background-size:cover;"><%--background-image: url('${ctxStatic}/images/background.jpg');--%>
     <div id="main"  style="width: 30%; border: 0px;border-style:solid;height:370px;float: left;" ></div>
     <div id="main1" style="width: 39%; height: 200px;border: 0px;border-style:solid;float: left;margin-left: 0.5%;"></div>
     <div id="main2" style="width: 30%; border: 0px;border-style:solid;height: 370px;float: left;margin-left: 0.5%;"></div>
     <div style="clear: both;"></div>
     <div id="main3" style="width: 30%; border: 0px;border-style:solid;height:370px;float: left;margin-top: 6px;"></div>
-    <div id="bigMain" style="width: 39%;border: 0px;border-style:solid;height: 534px;float: left;margin-left: 0.5%;margin-top: -160px;"></div>
+    <div id="bigMain" style="width: 39%;border: 0px;border-style:solid;height: 534px;float: left;margin-left: 0.5%;margin-top: -360px;"></div>
     <div id="main4" style="width: 30%; border: 0px;border-style:solid;height: 370px;float: left;margin-top: 6px;margin-left: 0.5%;"></div>
 
     <div style="clear: both;"></div>
 </div>
 <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('main'), 'dark');
-    var myChart1 = echarts.init(document.getElementById('main1'), 'dark');
+    //var myChart1 = echarts.init(document.getElementById('main1'), 'dark');
     var myChart2 = echarts.init(document.getElementById('main2'), 'dark');
     var myChart3 = echarts.init(document.getElementById('main3'), 'dark');
     var myChart4 = echarts.init(document.getElementById('main4'), 'dark');
@@ -58,7 +63,7 @@
     option = {
         backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
         title: {
-            text: '案件类型统计',
+            text: '投诉类型统计',
             left: 0,
             textStyle:{
                 color:'rgb(255,255,255)',
@@ -99,6 +104,7 @@
                 type:'bar',
                 barWidth: '60%',
                 data:${list2},
+                rawdate:${ids},
                 itemStyle:{
                     normal:{
                         color:'#4ad2ff'
@@ -141,7 +147,7 @@
     optionBZ = {
         backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
         title : {
-            text: '各等级医院的案件数量统计',
+            text: '各等级医院投诉数量统计',
             x:0,
             textStyle:{
                 color:'rgb(255,255,255)',
@@ -154,7 +160,7 @@
         },
         legend: {
             orient: 'vertical',
-            left: 'left',
+            left: 'right',
             top : '50px',
             data: ['三级甲等','三级乙等','二级甲等','二级乙等','乡镇卫生院','社区服务站','民营医院','门诊']
         },
@@ -177,7 +183,7 @@
         ]
     };
     //仪表盘
-    optionYB = {
+   /* optionYB = {
         backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
         title:{
             text:'案件数量统计',
@@ -354,7 +360,7 @@
             }
 
         ]
-    };
+    };*/
 
     optionZY = {
         backgroundColor:'rgba(128, 128, 128, 0.5)', //rgba设置透明度0.1
@@ -413,10 +419,19 @@
     };
 
     myChart.setOption(option);
-    myChart1.setOption(optionYB);
+    myChart.off('click');//防止重复绑定 事件
+    myChart.on('click',function(params){
+        // console.log(params);
+        // console.log(params.data);
+        // alert(option.series[params.seriesIndex].rawdate[params.dataIndex]);
+    });
+    //myChart1.setOption(optionYB);
     myChart2.setOption(optionZX);
     myChart3.setOption(optionBZ);
     myChart4.setOption(optionZY);
+
+
+
 
     var rawData = ${areaList};
 
@@ -427,7 +442,7 @@
         cityData.sort(sortRule);
         var provinceName=cityData.map(name => name.name);
 
-        var provinceChart =  echarts.init(document.getElementById(id), 'dark');
+        var provinceChart =  echarts.init(document.getElementById(id));
 
         var geoCoordMap = {
             '太原市': [112.53,37.87]
@@ -580,8 +595,8 @@
                 text:'山西省案件投诉量',
                 x:0,
                 textStyle:{
-                    color:'rgb(255,255,255)',
-                    fontSize:14
+                    color:'rgb(0,0,0)',
+                    fontSize:12
                 }
             },{
                 text: "各市投诉量",
@@ -749,7 +764,7 @@
         var name=cityData.map(name=>name.name);
 
 
-        var chartCity =  echarts.init(document.getElementById(id), 'dark');
+        var chartCity =  echarts.init(document.getElementById(id));
         $.getJSON('${ctxStatic}/echarts/map/json/shanxi/'+cityName+'.json', function (usaJson) {
             echarts.registerMap('city', usaJson);
             var geoCoordMap = {

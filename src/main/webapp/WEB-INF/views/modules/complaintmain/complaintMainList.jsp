@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/complaintmain/complaintMain/self">我的待办</a></li>
+<%--
 		<li ><a href="${ctx}/complaintmain/complaintMain/home?type=myDone">我的已办</a></li>
+--%>
 <%--
 		<shiro:hasPermission name="complaintmain:complaintMain:edit"><li><a href="${ctx}/complaintmain/complaintMain/form">纠纷调解添加</a></li></shiro:hasPermission>
 --%>
@@ -82,11 +84,15 @@
 				</td>
 				<td>
 					<c:if test="${not empty complaintMain.url}">
-						<a href="${ctx}${complaintMain.url}form?id=${complaintMain.key}">处理</a>
+						<c:if test="${complaintMain.nodeName ne '案件评价' and complaintMain.nodeName ne '案件反馈' }">
+							<a href="${ctx}${complaintMain.url}form?id=${complaintMain.key}">处理</a>
+						</c:if>
 						<a href="${ctx}${complaintMain.url}form?id=${complaintMain.key}&type=view">详情</a>
 					</c:if>
 				</td>
 			</tr>
+
+
 		</c:forEach>
 		</tbody>
 	</table>

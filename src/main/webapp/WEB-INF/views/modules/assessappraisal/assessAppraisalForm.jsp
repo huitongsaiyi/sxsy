@@ -898,6 +898,14 @@
 					</td>
 				</tr>
 				<tr>
+					<td class="tit">违反18项核心制度：</td>
+					<td colspan="2">
+						<form:select path="eighteenItems" cssStyle="width: 60%; text-align: center;">
+							<form:options items="${fns:getDictList('eighteen_items')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
+					</td>
+				</tr>
+				<tr>
 					<td class="tit">
 						责任度：
 					</td>

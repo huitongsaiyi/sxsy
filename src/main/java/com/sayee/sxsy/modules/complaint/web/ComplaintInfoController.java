@@ -115,7 +115,9 @@ public class ComplaintInfoController extends BaseController {
 		model.addAttribute("page", page);
 		model.addAttribute("type", request.getParameter("type"));
 		model.addAttribute("visitorDate", request.getParameter("visitorDate"));
+		model.addAttribute("visitorDateEnd", request.getParameter("visitorDateEnd"));
 		model.addAttribute("visitorMonthDate", request.getParameter("visitorMonthDate"));
+		model.addAttribute("visitorMonthDateEnd", request.getParameter("visitorMonthDateEnd"));
 		model.addAttribute("involveDepartment", request.getParameter("involveDepartment"));
 		model.addAttribute("involveEmployee", request.getParameter("involveEmployee"));
 		return "modules/complaint/numericalStatement";

@@ -1,4 +1,6 @@
 package com.sayee.sxsy.common.utils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.sayee.sxsy.common.mapper.JsonMapper;
 
 import java.io.PrintStream;
@@ -52,7 +54,9 @@ public class JsonUtil {
 
     public static <T> List<T> toList(String json, Class<T> clz)
     {
-        return null;
+        @SuppressWarnings("unchecked")
+        List<T> ts = (List<T>) JSONArray.parseArray(json, clz);
+        return ts;
     }
 
     @Deprecated

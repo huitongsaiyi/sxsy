@@ -126,18 +126,21 @@ public class ReachMediateController extends BaseController {
 				reachMediateService.save(reachMediate, request);
 				if ("yes".equals(reachMediate.getComplaintMain().getAct().getFlag())) {
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + reachMediate.getComplaintMain().getProcInsId());
+					return "redirect:"+Global.getAdminPath()+"/reachmediate/reachMediate/?repage";
 				} else {
-					addMessage(redirectAttributes, "保存达成调解成功");
+					model.addAttribute("message","保存达成调解成功");
+					return form(this.get(reachMediate.getReachMediateId()), model,request);
 				}
 			} catch (Exception e) {
 				logger.error("启动纠纷调解流程失败:", e);
 				addMessage(redirectAttributes, "系统内部错误");
+				return "redirect:"+Global.getAdminPath()+"/reachmediate/reachMediate/?repage";
 			}
 		}
 
 //		reachMediateService.save(reachMediate);
 //		addMessage(redirectAttributes, "保存达成调解成功");
-		return "redirect:"+Global.getAdminPath()+"/reachmediate/reachMediate/?repage";
+
 	}
 	
 	@RequiresPermissions("reachmediate:reachMediate:edit")

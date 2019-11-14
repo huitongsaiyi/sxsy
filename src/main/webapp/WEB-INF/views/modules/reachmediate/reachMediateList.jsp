@@ -61,7 +61,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="reachMediate">
 			<tr>
-				<td style="text-align: center;"><a href="${ctx}/perform/performAgreement/form?id=${reachMediate.reachMediateId}&type=view">
+				<td style="text-align: center;"><a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}&type=view">
 						${reachMediate.complaintMain.caseNumber}
 				</a></td>
 				<td style="text-align: center;">
@@ -105,9 +105,11 @@
 						${reachMediate.reportRegistration.patientMobile}
 				</td>
 				<shiro:hasPermission name="reachmediate:reachMediate:edit"><td style="text-align: center;">
-    				<a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}">处理</a>
+					<c:if test="${fns:getUser().loginName eq reachMediate.complaintMain.act.assigneeName}">
+						<a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}">处理</a>
+						<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${reachMediate.complaintMainId}&taskId=${reachMediate.complaintMain.act.taskId}&module=badj&url8=/reachmediate/reachMediate/?repage">终止调解</a>
+					</c:if>
 					<a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}&type=view">详情</a>
-					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${reachMediate.complaintMainId}&module=badj&url8=/reachmediate/reachMediate/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

@@ -3,6 +3,7 @@
  */
 package com.sayee.sxsy.modules.sys.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sayee.sxsy.common.utils.StringUtils;
@@ -74,6 +75,24 @@ public class UserUtils {
 	}
 
 	/**
+	 * 根据角色编码获取用户
+	 * @param ename
+	 * @return 取不到返回null
+	 */
+	public static List<User> getUser(String ename){
+		return userDao.findUserByOfficeRoleId("",ename);
+	}
+
+	/**
+	 * 根据角色编码获取用户
+	 * @param officeId
+	 * @return 取不到返回null
+	 */
+	public static List<User> getUserByOffice(String officeId){
+		return userDao.findUserByOfficeRoleId(officeId,"");
+	}
+
+	/**
 	 * 根据姓名获取用户
 	 * @param name
 	 * @return 取不到返回null
@@ -93,9 +112,12 @@ public class UserUtils {
 	 * @return 取不到返回null
 	 */
 	public static Office officeId(String name){
-		Office office = officeDao.officeId(StringUtils.trim(name));
+		Office office = officeDao.getOfficeName(StringUtils.trim(name));
 		if (office == null){
-			return null;
+			office=officeDao.getOfficeNameLike(StringUtils.trim(name));
+			if (office == null){
+				return null;
+			}
 		}
 		return office;
 	}
@@ -250,6 +272,8 @@ public class UserUtils {
 		}
 		return officeList;
 	}
+
+
 
 	/**
 	 * 获取当前用户有权限访问的部门

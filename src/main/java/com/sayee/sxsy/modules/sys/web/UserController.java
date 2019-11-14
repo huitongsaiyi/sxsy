@@ -85,8 +85,8 @@ public class UserController extends BaseController {
 				Office office = officeService.get(user.getOffice().getId());
 				officeType=office.getOfficeType();
 			}
-			user.getOffice().setId("");
-			user.getCompany().setId("");
+			//user.getOffice().setId("");
+			//user.getCompany().setId("");
 		}
 		String officeId = request.getParameter("office.id");
 		String companyId= request.getParameter("company.id");
@@ -314,11 +314,13 @@ public class UserController extends BaseController {
     public String importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
             String fileName = "用户数据导入模板.xlsx";
-    		List<User> list = Lists.newArrayList(); list.add(UserUtils.getUser());
+    		List<User> list = Lists.newArrayList();
+    		//list.add(UserUtils.getUser());
     		new ExportExcel("用户数据", User.class, 2).setDataList(list).write(response, fileName).dispose();
     		return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		return "redirect:" + adminPath + "/sys/user/list?repage";
     }

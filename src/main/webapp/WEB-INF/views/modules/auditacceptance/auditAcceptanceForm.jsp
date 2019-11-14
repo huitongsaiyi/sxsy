@@ -224,7 +224,7 @@
                         <p style="margin:0pt">
                             <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">8</span>
                             <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">、误工证明</span>
-                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(</span>
+                            <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">(</span>申请人
                             <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">有固定工作者</span>
                             <span style="color:#333333; font-family:Arial; font-size:12pt; font-weight:normal">:</span>
                             <span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">需提供发生医疗损害之前连</span>
@@ -392,9 +392,9 @@
         <div class="tab-pane fade" id="patientT">
             <table class="table-form">
                 <tr>
-                    <td class="tit"><font color="red">*</font>申请人</td>
+                    <td class="tit">申请人</td>
                     <td>
-                        <form:input path="mediateApplyInfo.applyer" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
+                        <form:input path="mediateApplyInfo.applyer" htmlEscape="false" maxlength="32" class="input-xlarge "/>
                     </td>
                     <td class="tit"><font color="red">*</font>与患者关系</td>
                     <td>
@@ -423,9 +423,9 @@
                         <%--<form:input path="mediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" cssClass="input-xlarge required digits" cssStyle="border:0px;" readonly="true"/>--%>
                         ${auditAcceptance.mediateApplyInfo.patientAge}
                     </td>
-                    <td class="tit"><font color="red">*</font>患方联系电话</td>
+                    <td class="tit">患方联系电话</td>
                     <td>
-                        <form:input path="mediateApplyInfo.patientMobile" htmlEscape="false" maxlength="32" class="input-xlarge required phone"/>
+                        <form:input path="mediateApplyInfo.patientMobile" htmlEscape="false" maxlength="32" class="input-xlarge phone"/>
                     </td>
                 </tr>
                 <tr>
@@ -437,15 +437,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit"><font color="red">*</font>投诉纠纷概要</td>
+                    <td class="tit">投诉纠纷概要</td>
                     <td colspan="3">
-                        <form:textarea path="mediateApplyInfo.summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+                        <form:textarea path="mediateApplyInfo.summaryOfDisputes" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit"><font color="red">*</font>当事人申请事项</td>
+                    <td class="tit">当事人申请事项</td>
                     <td colspan="3">
-                        <form:textarea path="mediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+                        <form:textarea path="mediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
                 <tr >
@@ -469,9 +469,9 @@
                                         <%--title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false" cssStyle="border:0px;" disabled="disabled"/>--%>
                                 ${empty auditAcceptance.mediateApplyInfo.docMediateApplyInfo.applyHospital ? auditAcceptance.complaintMain.hospital.name:auditAcceptance.mediateApplyInfo.docMediateApplyInfo.sqOffice.name}
                     </td>
-                    <td class="tit"><font color="red">*</font>代理人</td>
+                    <td class="tit">代理人</td>
                     <td>
-                        <form:input path="mediateApplyInfo.docMediateApplyInfo.agent" htmlEscape="false" maxlength="32" class="input-xlarge required "/>
+                        <form:input path="mediateApplyInfo.docMediateApplyInfo.agent" htmlEscape="false" maxlength="32" class="input-xlarge "/>
                     </td>
                 </tr>
                 <tr>
@@ -494,22 +494,22 @@
                         <%--<form:input path="mediateApplyInfo.docMediateApplyInfo.patientAge" htmlEscape="false" maxlength="32" class="input-xlarge required digits" cssStyle="border:0px;" readonly="true"/>--%>
                             ${auditAcceptance.mediateApplyInfo.docMediateApplyInfo.patientAge}
                     </td>
-                    <td class="tit"><font color="red">*</font>医方联系电话</td>
+                    <td class="tit">医方联系电话</td>
                     <td>
-                        <form:input path="mediateApplyInfo.docMediateApplyInfo.hospitalMobile" htmlEscape="false" maxlength="32" class="input-xlarge required phone"/>
+                        <form:input path="mediateApplyInfo.docMediateApplyInfo.hospitalMobile" htmlEscape="false" maxlength="32" class="input-xlarge phone"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit"><font color="red">*</font>投诉纠纷概要</td>
+                    <td class="tit">投诉纠纷概要</td>
                     <td colspan="3">
-                        <form:textarea path="mediateApplyInfo.docMediateApplyInfo.summaryOfDisputes"   htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;" />
+                        <form:textarea path="mediateApplyInfo.docMediateApplyInfo.summaryOfDisputes"   htmlEscape="false" class="input-xlarge" style="margin: 0px; width: 938px; height: 125px;" />
 
                     </td>
                 </tr>
                 <tr>
-                    <td class="tit"><font color="red">*</font>当事人申请事项</td>
+                    <td class="tit">当事人申请事项</td>
                     <td colspan="3">
-                        <form:textarea path="mediateApplyInfo.docMediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+                        <form:textarea path="mediateApplyInfo.docMediateApplyInfo.applyMatter" htmlEscape="false" class="input-xlarge" style="margin: 0px; width: 938px; height: 125px;"/>
                     </td>
                 </tr>
                 <tr >

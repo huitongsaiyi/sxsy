@@ -21,6 +21,18 @@ public interface OfficeDao extends TreeDao<Office> {
      */
     public  Office officeId(String name);
     /**
+     * 根据部门名称获得部门ID 简易 sql
+     * @param name
+     * @return 取不到返回null
+     */
+    public  Office getOfficeName(String name);
+    /**
+     * 根据部门名称获得部门ID like sql
+     * @param name
+     * @return 取不到返回null
+     */
+    public  Office getOfficeNameLike(String name);
+    /**
      * 根据部门主键获得OFFICE实体类
      *  @param id
      * @return 取不到返回null

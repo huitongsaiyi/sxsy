@@ -60,7 +60,15 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 	private String patientAvoid;//患方回避
 	private String patientClear;//患方是否清楚
 	private String doctorClear;//医方是否清楚
+	private List<String> list;//工作站人员list
 
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public ReachMediate() {
 		super();

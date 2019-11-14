@@ -162,23 +162,26 @@ public class AuditAcceptanceController extends BaseController {
 			String path=auditAcceptanceService.exportWord(audit,export,"false",request,response);
 			return path;
 		}else {
-			if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&(!beanValidator(model, auditAcceptance)||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo()))  ){
+			if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag()) &&!beanValidator(model, auditAcceptance)  ){//取消医患双方调解申请信息的必填验证 所有注掉||!beanValidator(model,auditAcceptance.getMediateApplyInfo())||!beanValidator(model,auditAcceptance.getMediateApplyInfo().getDocMediateApplyInfo())
 				auditAcceptance=auditAcceptanceService.get(auditAcceptance.getAuditAcceptanceId());
 				return form(request,auditAcceptance, model);
 			}
 			try {
 				auditAcceptanceService.save(request, auditAcceptance);
-				machineAccountService.savetz(auditAcceptance.getMachineAccount(), "a", auditAcceptance.getAuditAcceptanceId());
+				machineAccountService.savetz(auditAcceptance.getMachineAccount(), "audit", auditAcceptance);
 				if ("yes".equals(auditAcceptance.getComplaintMain().getAct().getFlag())){
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + auditAcceptance.getComplaintMain().getProcInsId());
+					return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
 				}else {
-					addMessage(redirectAttributes, "保存审核受理成功");
+					model.addAttribute("message","保存审核受理成功");
+					return form(request,this.get(auditAcceptance.getAuditAcceptanceId()), model);
 				}
 			} catch (Exception e) {
 				logger.error("启动纠纷调解流程失败：", e);
 				addMessage(redirectAttributes, "系统内部错误,请联系管理员！");
+				return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
+
 			}
-			return "redirect:"+Global.getAdminPath()+"/auditacceptance/auditAcceptance/?repage";
 		}
 	}
 

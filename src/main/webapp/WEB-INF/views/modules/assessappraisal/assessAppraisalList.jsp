@@ -4,9 +4,12 @@
 <head>
 	<title>评估鉴定管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
+	<script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 
+			$("#contentTable").colResizable();
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -94,9 +97,11 @@
 			<td style="text-align:center;">${assessAppraisal.reportRegistration.patientMobile}</td>
 
 			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td style="text-align:center;">
-				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}">处理</a>
+				<c:if test="${fns:getUser().loginName eq assessAppraisal.complaintMain.act.assigneeName}">
+					<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}">处理</a>
+					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${assessAppraisal.complaintMainId}&taskId=${assessAppraisal.complaintMain.act.taskId}&module=badj&url4=/assessappraisal/assessAppraisal/?repage">终止调解</a>
+				</c:if>
 				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}&type=view">详情</a>
-				<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${assessAppraisal.complaintMainId}&module=badj&url4=/assessappraisal/assessAppraisal/?repage">终止调解</a>
 			</td></shiro:hasPermission>
 		</tr>
 	</c:forEach>

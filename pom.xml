@@ -185,6 +185,12 @@
 			<version>${druid.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.41</version>
+		</dependency>
+
 		<!-- jdbc driver -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -509,6 +515,22 @@
 			<artifactId>poi-ooxml-schemas</artifactId>
 			<version>${poi.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jacob</groupId>
+			<artifactId>jacob</artifactId>
+		</dependency>
+
+		<!-- aspose -->
+		<dependency>
+			<groupId>com.aspose.words</groupId>
+			<artifactId>aspose-words-jdk16</artifactId>
+			<version>14.6.0.0</version>
+		</dependency>
 
 		<!-- image util -->
 		<dependency>
@@ -677,8 +699,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
+					<source>8</source>
+					<target>8</target>
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>

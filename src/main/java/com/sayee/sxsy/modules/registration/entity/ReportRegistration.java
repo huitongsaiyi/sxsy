@@ -4,6 +4,7 @@
 package com.sayee.sxsy.modules.registration.entity;
 
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.Dict;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -12,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.validation.constraints.NotNull;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
+
+import java.util.List;
 
 /**
  * 报案登记Entity
@@ -44,7 +47,24 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
     private Dict dict;  //
 	private String doctorMobile;//医方联系方式
 	private String policyNumber;//保单号
+	private List<String> list;//工作站人员list
+	private MachineAccount machineAccount;    //台账信息
 
+	public MachineAccount getMachineAccount() {
+		return machineAccount;
+	}
+
+	public void setMachineAccount(MachineAccount machineAccount) {
+		this.machineAccount = machineAccount;
+	}
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public String getPolicyNumber() {
 		return policyNumber;

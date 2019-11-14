@@ -87,9 +87,9 @@
         </li>
         </c:if>
     </ul>
+    <legend>质证调解详情</legend>
     <div id="myTabContent1" class="tab-content">
     <div id="zztj" class="tab-pane fade in active">
-    <legend>质证调解详情</legend>
     <ul id="myTab1" class="nav nav-tabs">
         <li class="active">
             <a href="#mediation" data-toggle="tab">调解志</a>

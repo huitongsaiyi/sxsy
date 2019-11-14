@@ -225,14 +225,14 @@
 					<td class="tit" width="15%">时间:</td>
 					<td colspan="2" width="35%">
 						<input id="reaMeetingTime" name="reaMeetingTime" type="text" readonly="readonly" maxlength="20"
-							   class="input-medium Wdate required"
+							   class="input-medium Wdate "
 							   value="${reachMediate.reaMeetingTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
 							   onchange="changeClass()"/>
 					</td>
 					<td class="tit" width="15%">地点:</td>
 					<td >
-						<form:input id="reaAddress" path="reaAddress" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+						<form:input id="reaAddress" path="reaAddress" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 					</td>
 				</tr>
 				<tr>
@@ -242,7 +242,7 @@
 						<sys:treeselect id="reaUserId" name="reaUserId"
 										value="${reachMediate.reaUserId}" labelName="tjy"
 										labelValue="${reachMediate.ytwUser.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
+										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" dataMsgRequired="必填信息"
 										allowClear="true" notAllowSelectParent="true" />
 					</td>
 					<td class="tit">书记员：</td>
@@ -250,7 +250,7 @@
 						<sys:treeselect id="reaClerk" name="reaClerk"
 										value="${reachMediate.reaClerk}" labelName="sjy"
 										labelValue=""
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" dataMsgRequired="必填信息"
+										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" dataMsgRequired="必填信息"
 										allowClear="true" notAllowSelectParent="true" disabled="true"  />
 					</td>
 				</tr>
@@ -277,13 +277,13 @@
 					<td class="tit" rowspan="2">二、医患双方确认以上参会人员身份有无要求回避</td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-							<form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.patientAvoid}"/>
+							<form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.patientAvoid}"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.doctorAvoid}"/>
+						<form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.doctorAvoid}"/>
 					</td>
 				</tr>
 
@@ -452,13 +452,13 @@
 					<td class="tit" rowspan="2"><span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、以上宣读内容听清楚了吗？</span></td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-							<form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.patientClear}"/>
+							<form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.patientClear}"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20" class="input-xlarge required" value="${reachMediate.doctorClear}"/>
+						<form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.doctorClear}"/>
 					</td>
 				</tr>
 				<tr>

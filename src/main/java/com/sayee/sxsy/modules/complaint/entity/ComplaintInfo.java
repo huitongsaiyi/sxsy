@@ -11,6 +11,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
 
+import java.util.List;
+
 /**
  * 投诉接待Entity
  * @author zhangfan
@@ -62,6 +64,11 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 	private String shiftHandle;			//转办科室
 	private String shiftHandleName;		//转办科室名称
 	private String testTree;//涉及科室（树）
+	private String status;//状态
+	private String expectedClosure;//结案预期
+	private String closingMethod;//结案方式
+	private String amountInvolved;//涉及金额
+	private List<String> list;//驻卫健委工作站人员list
 
 	public ComplaintInfo() {
 		super();
@@ -69,6 +76,14 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 
 	public ComplaintInfo(String id){
 		super(id);
+	}
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
 	}
 
 	public String getTestTree() {
@@ -91,6 +106,37 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		return handleWay;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getExpectedClosure() {
+		return expectedClosure;
+	}
+
+	public void setExpectedClosure(String expectedClosure) {
+		this.expectedClosure = expectedClosure;
+	}
+
+	public String getClosingMethod() {
+		return closingMethod;
+	}
+
+	public void setClosingMethod(String closingMethod) {
+		this.closingMethod = closingMethod;
+	}
+
+	public String getAmountInvolved() {
+		return amountInvolved;
+	}
+
+	public void setAmountInvolved(String amountInvolved) {
+		this.amountInvolved = amountInvolved;
+	}
 
 	public void setHandleWay(String handleWay) {
 		this.handleWay = handleWay;
@@ -152,7 +198,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.user = user;
 	}
 
-	@Length(min=1, max=20, message="处理经过不能为空,且长度必须介于 1 和 20 之间")
+	@Length(min=1, message="处理经过不能为空。")
     public String getHandlePass() {
         return handlePass;
     }
@@ -162,7 +208,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
     }
 
 
-    @Length(min=1, max=20, message="处理结果不能为空,且长度必须介于 1 和 20 之间")
+    @Length(min=1, message="处理结果不能为空。")
     public String getHandleResult() {
         return handleResult;
     }

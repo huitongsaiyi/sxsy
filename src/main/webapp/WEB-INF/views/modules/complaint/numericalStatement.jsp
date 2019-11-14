@@ -13,8 +13,11 @@
                         $("#searchForm").attr("action","${ctx}/complaint/complaintInfo/export?export='yes'&dateType=${type}");
                         $("#searchForm").submit();
                     }
-                },{buttonsFocus:1});
+                },{buttonsFocus:1, closed:function(){
+						$("#searchForm").attr("action","${ctx}/complaint/complaintInfo/statement");
+					}});
                 top.$('.jbox-body .jbox-icon').css('top','55px');
+
             });
 		});
 		function page(n,s){
@@ -54,15 +57,24 @@
 				</select>
 			</li>
 			<li id="day" style="">
-				<label>日期：</label>
+				<label>日期(开始)：</label>
 				<input id="visitorDate" name="visitorDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					   value="${visitorDate}"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
+
+				<label>日期(开始：</label>
+				<input id="visitorDateEnd" name="visitorDateEnd" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="${visitorDateEnd}"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 			</li>
 
 			<li id="month" style="">
-				<label>日期：</label>
+				<label>日期(开始)：</label>
 				<input id="visitorMonthDate" name="visitorMonthDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="${visitorMonthDate}"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:true});"/>
+				<label>日期(结束)：</label>
+				<input id="visitorMonthDateEnd" name="visitorMonthDateEnd" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					   value="${visitorMonthDate}"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:true});"/>
 			</li>

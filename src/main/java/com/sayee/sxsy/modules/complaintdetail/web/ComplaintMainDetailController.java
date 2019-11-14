@@ -101,12 +101,15 @@ public class ComplaintMainDetailController extends BaseController {
 				complaintMainDetailService.save(complaintMainDetail);
 				if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
 					addMessage(redirectAttributes, "流程已启动");
+					return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
 				}else {
-					addMessage(redirectAttributes, "保存投诉接待成功");
+					model.addAttribute("message","保存投诉接待成功");
+					return form(this.get(complaintMainDetail.getComplaintMainDetailId()), model, request);
 				}
 		} catch (Exception e) {
 			logger.error("启动纠纷调解流程失败：", e);
 			addMessage(redirectAttributes, "系统内部错误！");
+			return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
 		}
 
 //		return "redirect:" + adminPath + "/oa/leave/form";
@@ -115,7 +118,6 @@ public class ComplaintMainDetailController extends BaseController {
 //			return form(complaintMainDetail, model);
 //		}
 
-		return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
 
 	}
 	

@@ -66,6 +66,7 @@ public class StopMediateController extends BaseController {
 	public String form(HttpServletRequest request, StopMediate stopMediate, Model model) {
 		String type = request.getParameter("type");
 		String module = request.getParameter("module");
+		String taskId = request.getParameter("taskId");
 		//获取路径
 		String url1=request.getParameter("url1");
 		model.addAttribute("url1",url1);
@@ -89,6 +90,9 @@ public class StopMediateController extends BaseController {
 		model.addAttribute("url10",url10);
 		//对 某个模块 进来的数据进行分析处理后返回
         stopMediate=stopMediateService.handle(stopMediate,module,request);
+		if (StringUtils.isNotBlank(taskId)){
+			stopMediate.getComplaintMain().getAct().setTaskId(taskId);
+		}
 		if("view".equals(type)){
             model.addAttribute("stopMediate", stopMediate);
             return "modules/stopmediate/stopMediateView";
@@ -102,6 +106,10 @@ public class StopMediateController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request, StopMediate stopMediate, Model model, RedirectAttributes redirectAttributes,HttpServletResponse response) {
 		String export=request.getParameter("export");
+		String flag=request.getParameter("flag");
+		if ("yes".equals(flag)){
+			stopMediate.getComplaintMain().getAct().setFlag(flag);
+		}
 		String urlRegistration = request.getParameter("urlRegistration");
 		String urlAuditacceptance = request.getParameter("urlAuditacceptance");
 		String urlInvestigateEvidence = request.getParameter("urlInvestigateEvidence");

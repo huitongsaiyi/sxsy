@@ -56,7 +56,7 @@ public class AssessInfoController extends BaseController {
 		return "modules/assessinfo/assessInfoList";
 	}
 
-	@RequiresPermissions("assessinfo:assessInfo:view")
+
 	@RequestMapping(value = "form")
 	public String form(HttpServletRequest request,AssessInfo assessInfo, Model model) {
 		String type = request.getParameter("type");
@@ -83,14 +83,17 @@ public class AssessInfoController extends BaseController {
 			assessInfoService.save(assessInfo);
 			if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){
 				addMessage(redirectAttributes, "流程已启动，流程ID：" + assessInfo.getComplaintMain().getProcInsId());
+				return "redirect:"+Global.getAdminPath()+"/assessinfo/assessInfo/?repage";
 			}else {
-				addMessage(redirectAttributes, "保存案件评价成功");
+				model.addAttribute("message","保存案件评价成功");
+				return form(request,this.get(assessInfo.getAssessId()), model);
 			}
 		} catch (Exception e) {
 			logger.error("启动纠纷调解流程失败：", e);
 			addMessage(redirectAttributes, "系统内部错误！");
+			return "redirect:"+Global.getAdminPath()+"/assessinfo/assessInfo/?repage";
 		}
-		return "redirect:"+Global.getAdminPath()+"/assessinfo/assessInfo/?repage";
+
 	}
 	
 	@RequiresPermissions("assessinfo:assessInfo:edit")

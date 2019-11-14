@@ -91,4 +91,5 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public List<User> findUserByOfficeRoleId(@Param("officeId")String officeId,@Param("role") String role);
+
 }

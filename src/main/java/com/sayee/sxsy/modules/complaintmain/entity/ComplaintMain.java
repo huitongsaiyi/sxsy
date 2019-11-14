@@ -44,6 +44,15 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
     private String nodeName; //节点名称
 	private String source;		//案子的来源  1医调委录入 2 医院录入 默认是1
 	private String testTree;//涉及科室
+	private String isMajor;//是否重大 主表为主
+
+	public String getIsMajor() {
+		return isMajor;
+	}
+
+	public void setIsMajor(String isMajor) {
+		this.isMajor = isMajor;
+	}
 
 	public String getTestTree() {
 		return testTree;

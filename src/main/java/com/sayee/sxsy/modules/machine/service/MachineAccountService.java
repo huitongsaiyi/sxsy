@@ -21,6 +21,8 @@ import com.sayee.sxsy.modules.nestigateeividence.entity.InvestigateEvidence;
 import com.sayee.sxsy.modules.nestigateeividence.service.InvestigateEvidenceService;
 import com.sayee.sxsy.modules.perform.entity.PerformAgreement;
 import com.sayee.sxsy.modules.perform.service.PerformAgreementService;
+import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
+import com.sayee.sxsy.modules.registration.service.ReportRegistrationService;
 import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 import com.sayee.sxsy.modules.summaryinfo.entity.SummaryInfo;
@@ -30,6 +32,7 @@ import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -52,6 +55,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Lazy(value = true)
 @Transactional(readOnly = true)
 public class MachineAccountService extends CrudService<MachineAccountDao, MachineAccount> {
+    @Autowired
+    private ReportRegistrationService reportRegistrationService;
     @Autowired
     private AuditAcceptanceService auditAcceptanceService;
     @Autowired
@@ -95,6 +100,13 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
 //		Office office=UserUtils.officeId(machineAccount.getDeptId());
 //		machineAccount.setDeptId(office!=null ?  office.getId() :machineAccount.getDeptId());
         machineAccount.setDeptId(user != null ? user.getOffice().getId() : machineAccount.getDeptId());
+        //专为医院 id
+        Office hospital=UserUtils.officeId(machineAccount.getHospitalId());
+        machineAccount.setHospitalId(hospital !=null ? hospital.getId() : machineAccount.getHospitalId());
+        //投诉类型
+
+
+
         //是否重大
         if ("是".equals(machineAccount.getIsMajor()) || "1".equals(machineAccount.getIsMajor())) {
             machineAccount.setIsMajor("1");
@@ -149,26 +161,28 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
     }
 
     @Transactional(readOnly = false)
-    public void savetz(MachineAccount machineAccount, String node, String id) {
+    public void savetz(MachineAccount machineAccount, String node, Object id) {
+        //2019年10月11日 14:26:26  审核受理 生成台账 现在改为  报案登记 的时候 就生成
         if ("a".equals(node)) {
-            AuditAcceptance auditAcceptance = auditAcceptanceService.get(id);
-            machineAccount = this.getM(auditAcceptance.getComplaintMainId());
+            ReportRegistration reportRegistration = (ReportRegistration)id;
+            machineAccount = this.getM(reportRegistration.getComplaintMainId());
             MachineAccount machineAccount1=new MachineAccount();
                 if (machineAccount==null) {
-
                     machineAccount1.setMachineAccountId(IdGen.uuid());
-                    machineAccount1.setComplaintMainId(auditAcceptance.getComplaintMainId());
-                    machineAccount1.setPatientName(auditAcceptance.getMediateApplyInfo().getPatientName()==null?"":auditAcceptance.getMediateApplyInfo().getPatientName());
-                    machineAccount1.setPolicyNumber(auditAcceptance.getPolicyNumber()==null?"":auditAcceptance.getPolicyNumber());
-                    machineAccount1.setInsuranceCompany(auditAcceptance.getInsuranceCompany()==null?"":auditAcceptance.getInsuranceCompany());
-                    machineAccount1.setIsMajor(auditAcceptance.getReportRegistration().getIsMajor()==null?"":auditAcceptance.getReportRegistration().getIsMajor());
-                    machineAccount1.setReportingTime(auditAcceptance.getReportRegistration().getReportTime()==null?"":auditAcceptance.getReportRegistration().getReportTime());
-                    machineAccount1.setDisputesTime(auditAcceptance.getReportRegistration().getDisputeTime()==null?"":auditAcceptance.getReportRegistration().getDisputeTime());
-                    machineAccount1.setSummaryOfDisputes(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()==null?"":auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
-                    machineAccount1.setTreatmentMode(auditAcceptance.getDiagnosisMode()==null?"":auditAcceptance.getDiagnosisMode());
-                    machineAccount1.setTreatmentResult(auditAcceptance.getTreatmentOutcome()==null?"":auditAcceptance.getTreatmentOutcome());
-                    machineAccount1.setHospitalId(auditAcceptance.getMediateApplyInfo().getInvolveHospital()==null?"":auditAcceptance.getMediateApplyInfo().getInvolveHospital());
-                    machineAccount1.setStartInsuranceTime(auditAcceptance.getGuaranteeTime()==null?"":auditAcceptance.getGuaranteeTime());
+                    machineAccount1.setComplaintMainId(reportRegistration.getComplaintMainId());
+                    machineAccount1.setPatientName(reportRegistration.getComplaintMain().getPatientName()==null?"":reportRegistration.getComplaintMain().getPatientName());
+                    //保单号
+                    machineAccount1.setPolicyNumber(reportRegistration.getPolicyNumber()==null?"":reportRegistration.getPolicyNumber());
+                    //报案时间
+                    machineAccount1.setReportingTime(reportRegistration.getRegistrationTime()==null?"":reportRegistration.getRegistrationTime());
+                    machineAccount1.setIsMajor(reportRegistration.getIsMajor()==null?"": reportRegistration.getIsMajor());
+                    machineAccount1.setReportingTime(reportRegistration.getReportTime()==null?"":reportRegistration.getReportTime());
+                    machineAccount1.setDisputesTime(reportRegistration.getDisputeTime()==null?"": reportRegistration.getDisputeTime());
+                    machineAccount1.setSummaryOfDisputes(reportRegistration.getSummaryOfDisputes()==null?"": reportRegistration.getSummaryOfDisputes());
+                    //machineAccount1.setTreatmentMode(reportRegistration.getDiagnosisMode()==null?"":auditAcceptance.getDiagnosisMode());
+                    //machineAccount1.setTreatmentResult(reportRegistration.getTreatmentOutcome()==null?"":auditAcceptance.getTreatmentOutcome());
+                    machineAccount1.setHospitalId(reportRegistration.getComplaintMain().getInvolveHospital()==null?"":reportRegistration.getComplaintMain().getInvolveHospital());
+                    //machineAccount1.setStartInsuranceTime(reportRegistration.getGuaranteeTime()==null?"":reportRegistration.getGuaranteeTime());
                     machineAccount1.setDelFlag("0");
                     machineAccount1.preInsert();
                     dao.insert(machineAccount1);
@@ -176,21 +190,46 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
             else{
                 machineAccount.preUpdate();
                 machineAccount.setMachineAccountId(machineAccount.getMachineAccountId());
-                machineAccount.setComplaintMainId(auditAcceptance.getComplaintMainId());
-                machineAccount.setPatientName(auditAcceptance.getMediateApplyInfo().getPatientName()==null?"":auditAcceptance.getMediateApplyInfo().getPatientName());
-                machineAccount.setPolicyNumber(auditAcceptance.getPolicyNumber()==null?"":auditAcceptance.getPolicyNumber());
-                machineAccount.setInsuranceCompany(auditAcceptance.getInsuranceCompany()==null?"":auditAcceptance.getInsuranceCompany());
-                machineAccount.setIsMajor(auditAcceptance.getReportRegistration().getIsMajor()==null?"":auditAcceptance.getReportRegistration().getIsMajor());
-                machineAccount.setReportingTime(auditAcceptance.getReportRegistration().getReportTime()==null?"":auditAcceptance.getReportRegistration().getReportTime());
-                machineAccount.setSummaryOfDisputes(auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes()==null?"":auditAcceptance.getMediateApplyInfo().getSummaryOfDisputes());
-                machineAccount.setTreatmentMode(auditAcceptance.getDiagnosisMode()==null?"":auditAcceptance.getDiagnosisMode());
-                machineAccount.setTreatmentResult(auditAcceptance.getTreatmentOutcome()==null?"":auditAcceptance.getTreatmentOutcome());
-                machineAccount.setHospitalId(auditAcceptance.getMediateApplyInfo().getInvolveHospital()==null?"":auditAcceptance.getMediateApplyInfo().getInvolveHospital());
-                machineAccount.setStartInsuranceTime(auditAcceptance.getGuaranteeTime()==null?"":auditAcceptance.getGuaranteeTime());
+                machineAccount.setComplaintMainId(reportRegistration.getComplaintMainId());
+                machineAccount1.setPatientName(reportRegistration.getComplaintMain().getPatientName()==null?"":reportRegistration.getComplaintMain().getPatientName());
+                //保单号
+                machineAccount1.setPolicyNumber(reportRegistration.getPolicyNumber()==null?"":reportRegistration.getPolicyNumber());
+                //报案时间
+                machineAccount1.setReportingTime(reportRegistration.getRegistrationTime()==null?"":reportRegistration.getRegistrationTime());
+                machineAccount1.setIsMajor(reportRegistration.getIsMajor()==null?"": reportRegistration.getIsMajor());
+                machineAccount1.setReportingTime(reportRegistration.getReportTime()==null?"":reportRegistration.getReportTime());
+                machineAccount1.setDisputesTime(reportRegistration.getDisputeTime()==null?"": reportRegistration.getDisputeTime());
+                machineAccount1.setSummaryOfDisputes(reportRegistration.getSummaryOfDisputes()==null?"": reportRegistration.getSummaryOfDisputes());
+                machineAccount1.setHospitalId(reportRegistration.getComplaintMain().getInvolveHospital()==null?"":reportRegistration.getComplaintMain().getInvolveHospital());
                 dao.update(machineAccount);
             }
-        } else if ("b".equals(node)) {
-            InvestigateEvidence investigateEvidence = investigateEvidenceService.get(id);
+        } else if ("audit".equals(node)) {
+            AuditAcceptance auditAcceptance = (AuditAcceptance)id;
+            if (StringUtils.isNotBlank(auditAcceptance.getComplaintMainId())) {
+                MachineAccount machineAccount1 = this.getM(auditAcceptance.getComplaintMainId());
+                if(machineAccount1!=null){
+                    machineAccount1.preUpdate();
+                    //保险公司
+                    machineAccount1.setInsuranceCompany(auditAcceptance.getInsuranceCompany()==null?"" : auditAcceptance.getInsuranceCompany());
+                    //保单号  报案登记时  就有 这在重新保存下  有变更 则进行修改
+                    machineAccount1.setPolicyNumber(auditAcceptance.getPolicyNumber()==null?"" : auditAcceptance.getPolicyNumber());
+                    //起保 日期
+                    machineAccount1.setStartInsuranceTime(auditAcceptance.getGuaranteeTime()==null?"" : auditAcceptance.getGuaranteeTime());
+                    //诊疗方式
+                    machineAccount1.setTreatmentMode(auditAcceptance.getDiagnosisMode()==null?"" : auditAcceptance.getDiagnosisMode());
+                    //治疗结果
+                    machineAccount1.setTreatmentResult(auditAcceptance.getTreatmentOutcome()==null?"" : auditAcceptance.getTreatmentOutcome());
+                    //纠纷概要
+                    machineAccount1.setSummaryOfDisputes(auditAcceptance.getSummaryOfDisputes()==null?"" : auditAcceptance.getSummaryOfDisputes());
+                    //
+                    machineAccount1.setMediatorId(UserUtils.getUser().getId());
+                    //
+                    machineAccount1.setDeptId(UserUtils.getUser().getOffice().getId());
+                    dao.update(machineAccount1);
+                }
+            }
+        }else if ("b".equals(node)) {
+            InvestigateEvidence investigateEvidence = (InvestigateEvidence)id;
             if (StringUtils.isNotBlank(investigateEvidence.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.getM(investigateEvidence.getComplaintMainId());
                 if(machineAccount1!=null){
@@ -200,19 +239,18 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 }
             }
         } else if ("c".equals(node)) {
-            MediateEvidence mediateEvidence = mediateEvidenceService.get(id);
+            MediateEvidence mediateEvidence = (MediateEvidence)id;
             if (StringUtils.isNotBlank(mediateEvidence.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.getM(mediateEvidence.getComplaintMainId());
                 if(machineAccount1!=null){
                     machineAccount1.preUpdate();
-
-                    machineAccount1.setMediatorId(mediateEvidence.getRecordInfo().getHost()==null?"":mediateEvidence.getRecordInfo().getHost());
-                    machineAccount1.setDeptId(UserUtils.get(mediateEvidence.getRecordInfo().getHost())==null?"":UserUtils.get(mediateEvidence.getRecordInfo().getHost()).getOffice().getId());
+//                    machineAccount1.setMediatorId(mediateEvidence.getRecordInfo().getHost()==null?"":mediateEvidence.getRecordInfo().getHost());
+//                    machineAccount1.setDeptId(UserUtils.get(mediateEvidence.getRecordInfo().getHost())==null?"":UserUtils.get(mediateEvidence.getRecordInfo().getHost()).getOffice().getId());
                     dao.update(machineAccount1);
                 }
             }
         } else if ("d".equals(node)) {
-            AssessAppraisal assessAppraisal = assessAppraisalService.get(id);
+            AssessAppraisal assessAppraisal = (AssessAppraisal)id;
             if (StringUtils.isNotBlank(assessAppraisal.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.getM(assessAppraisal.getComplaintMainId());
                 if(machineAccount1!=null){
@@ -224,7 +262,7 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 }
             }
         } else if ("si".equals(node)) {
-            SignAgreement signAgreement = signAgreementService.get(id);
+            SignAgreement signAgreement = (SignAgreement)id;
             if (StringUtils.isNotBlank(signAgreement.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.getM(signAgreement.getComplaintMainId());
                 if(machineAccount1!=null){
@@ -235,7 +273,7 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 }
             }
         }else if("per".equals(node)){
-            PerformAgreement performAgreement = performAgreementService.get(id);
+            PerformAgreement performAgreement = (PerformAgreement)id;
             if(StringUtils.isNotBlank(performAgreement.getComplaintMainId())){
                 MachineAccount m = this.getM(performAgreement.getComplaintMainId());
                 if(m!=null){
@@ -258,7 +296,7 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 }
             }
         }else if ("f".equals(node)) {
-            SummaryInfo summaryInfo = summaryInfoService.get(id);
+            SummaryInfo summaryInfo = (SummaryInfo)id;
             if (StringUtils.isNotBlank(summaryInfo.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.getM(summaryInfo.getComplaintMainId());
                 if(machineAccount1!=null){

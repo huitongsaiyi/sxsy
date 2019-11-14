@@ -5,10 +5,20 @@ package com.sayee.sxsy.modules.surgicalconsentbook.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 
+import com.google.common.collect.Lists;
+import com.sayee.sxsy.common.beanvalidator.BeanValidators;
+import com.sayee.sxsy.common.utils.AjaxHelper;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.common.utils.excel.ExportExcel;
+import com.sayee.sxsy.common.utils.excel.ImportExcel;
+import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +26,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sayee.sxsy.common.config.Global;
@@ -26,6 +38,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.surgicalconsentbook.entity.PreOperativeConsent;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -126,5 +139,14 @@ public class PreOperativeConsentController extends BaseController  {
 		return "redirect:"+Global.getAdminPath()+"/surgicalconsentbook/preOperativeConsent/?repage";
 	}
 
+	@RequestMapping(value = "export")
+	public void export(HttpServletRequest request,HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String type=request.getParameter("type");//前台传过来的状态
+			preOperativeConsentService.exportWord(type,request,response);
+		} catch (Exception e) {
+			//addMessage(redirectAttributes, "导出模板下载失败！失败信息："+e.getMessage());
+		}
+	}
 
 }

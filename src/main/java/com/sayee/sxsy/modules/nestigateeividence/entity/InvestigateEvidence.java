@@ -14,6 +14,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
 
+import java.util.List;
+
 /**
  * 调查取证Entity
  * @author gbq
@@ -50,6 +52,15 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
 	private RespondentInfo respondentInfo;//被调查人信息
     private InvestigateEvidence investigateEvidence;//医方信息
     private MachineAccount machineAccount;//台账信息
+	private List<String> list;//工作站人员list
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public RespondentInfo getRespondentInfo4() {
 		return respondentInfo4;

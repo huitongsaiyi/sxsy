@@ -55,6 +55,7 @@
 				<th class="sort-column r.dispute_time" style="text-align: center;">纠纷发生时间</th>
 				<th class="sort-column b.patient_name" style="text-align: center;">患者姓名</th>
 				<th class="sort-column r.patient_mobile" style="text-align: center;">患者联系电话</th>
+				<th  style="text-align: center;">是否终止调解</th>
 				<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -91,9 +92,12 @@
 				<td style="text-align: center;">${summaryInfo.reportRegistration.disputeTime}</td>
 				<td style="text-align: center;">${summaryInfo.complaintMain.patientName}</td>
 				<td style="text-align: center;">${summaryInfo.reportRegistration.patientMobile}</td>
+				<td style="text-align: center;">${empty summaryInfo.isStop ? "否" : "是"}</td>
 				<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><td style="text-align: center;">
-    				<a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.summaryId}">处理</a>
-					<a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.summaryId}&type=view">详情</a>
+					<c:if test="${fns:getUser().loginName eq summaryInfo.complaintMain.act.assigneeName}">
+						<a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.summaryId}">处理</a>
+					</c:if>
+    				<a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.summaryId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

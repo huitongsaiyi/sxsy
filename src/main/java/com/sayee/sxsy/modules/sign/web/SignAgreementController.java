@@ -172,17 +172,20 @@ public class SignAgreementController extends BaseController {
 			}
 			try {
 				signAgreementService.save(request, signAgreement);
-				machineAccountService.savetz(signAgreement.getMachineAccount(), "si", signAgreement.getSignAgreementId());
+				machineAccountService.savetz(signAgreement.getMachineAccount(), "si", signAgreement);
 				if ("yes".equals(signAgreement.getComplaintMain().getAct().getFlag())) {
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + signAgreement.getComplaintMain().getProcInsId());
+					return "redirect:" + Global.getAdminPath() + "/sign/signAgreement/?repage";
 				} else {
-					addMessage(redirectAttributes, "保存签署协议成功");
+					model.addAttribute("message","保存签署协议成功");
+					return form(signAgreement, model, request);
 				}
 			} catch (Exception e) {
 				logger.error("启动纠纷调解流程失败：", e);
 				addMessage(redirectAttributes, "系统内部错误！");
+				return "redirect:" + Global.getAdminPath() + "/sign/signAgreement/?repage";
 			}
-			return "redirect:" + Global.getAdminPath() + "/sign/signAgreement/?repage";
+
 		}
 	}
 	

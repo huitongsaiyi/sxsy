@@ -21,7 +21,6 @@
 		a.complaint_mode AS "complaintMode",
 		a.handle_way AS "handleWay",
 		a.shift_handle AS "shiftHandle",
-
 		a.is_major AS "isMajor",
 		a.appeal AS "appeal",
 		a.reception_employee AS "receptionEmployee",
@@ -32,6 +31,12 @@
 		a.is_mediate AS "isMediate",
 		a.handle_result AS "handleResult",
 		a.handle_pass AS "handlePass",
+		a.status AS "status",
+		a.expected_closure AS "expectedClosure",
+		a.closing_method AS "closingMethod",
+		a.amount_involved AS "amountInvolved",
+		a.create_by AS "createBy.id",
+		u3.name AS "createBy.name",
 		o1.name AS "hospitalName",
 -- 		o2.name AS "departmentName",
 		o3.label AS "relationName",
@@ -60,7 +65,7 @@
 		b.source AS  "complaintMain.source",
 		t.name AS "typeName",
 		o6.name AS "shiftHandleName",
-		group_concat(DISTINCT(te.name))AS "testTree"
+	    group_concat(DISTINCT(te.name))AS "testTree"
 	</sql>
 	
 	<sql id="complaintInfoJoins">
@@ -71,7 +76,9 @@
 		LEFT JOIN SYS_USER o5 ON o5.id = a.involve_employee
 		LEFT JOIN SYS_USER u1 ON u1.id = a.reception_employee
 		LEFT JOIN SYS_USER u2 ON u2.id = a.next_link_man
-		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id AND source = '2'
+		LEFT JOIN SYS_USER u3 ON u3.id = a.create_by
+		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id = a.complaint_main_id
+		/*AND source = '2'*/
 		LEFT JOIN TEST_TREE t ON t.id = a.complaint_type
 		LEFT JOIN SYS_OFFICE o6 ON  o6.id = a.shift_handle
 		LEFT JOIN TEST_TREE te ON INSTR(a.involve_department,te.id)>0 and length(te.id)=32
@@ -91,7 +98,7 @@
 		FROM COMPLAINT_INFO a
 		<include refid="complaintInfoJoins"/>
 		<where>
-			
+            a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="caseNumber != null and caseNumber != ''">
 				AND a.case_number LIKE 
 					<if test="dbName == 'oracle'">'%'||#{caseNumber}||'%'</if>
@@ -134,7 +141,14 @@
 			<if test="user != null and user.id != null and user.id != ''">
 				AND a.create_by = #{user.id}
 			</if>
+			<if test="list != null and list != ''">
+				AND a.create_by in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
 		</where>
+		GROUP BY a.complaint_id
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -191,6 +205,10 @@
 			is_mediate,
 			handle_result,
 			handle_pass,
+			status,
+			expected_closure,
+			closing_method,
+			amount_involved,
 			complaint_type,
 			create_by,
 			create_date,
@@ -225,6 +243,10 @@
 			#{isMediate},
 			#{handleResult},
 			#{handlePass},
+			#{status},
+			#{expectedClosure},
+			#{closingMethod},
+			#{amountInvolved},
 			#{complaintType},
 			#{createBy.id},
 			#{createDate},
@@ -263,6 +285,10 @@
 			is_mediate = #{isMediate},
 			handle_result = #{handleResult},
 			handle_pass =#{handlePass},
+			status = #{status},
+			expected_closure = #{expectedClosure},
+			closing_method = #{closingMethod},
+			amount_involved = #{amountInvolved},
 			complaint_type=#{complaintType},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
@@ -300,12 +326,35 @@
 		LEFT JOIN SYS_USER u on u.id=a.create_by
 		LEFT JOIN SYS_OFFICE o ON o.id=u.office_id
 		WHERE a.del_flag ='0'
-		<if test="visitorDate !=null and visitorDate !=''">
-			AND a.visitor_date like concat('%',#{visitorDate},'%')
-		</if>
-		<if test="visitorMonthDate !=null and visitorMonthDate !=''">
-			AND a.visitor_date like concat('%',#{visitorMonthDate},'%')
-		</if>
+		<choose>
+			<when test="visitorDate !=null and visitorDate !='' and visitorDateEnd !=null and visitorDateEnd !='' and visitorDate!=visitorDateEnd">
+				AND a.visitor_date &gt;= #{visitorDate,jdbcType=VARCHAR}  AND a.visitor_date &lt;= #{visitorDateEnd,jdbcType=VARCHAR}
+			</when>
+			<when test="visitorDate !=null and visitorDate !='' and visitorDateEnd !=null and visitorDateEnd !='' and visitorDate==visitorDateEnd">
+				AND a.visitor_date like concat('%',#{visitorDate},'%')
+			</when>
+			<when test="visitorDate !=null and visitorDate !='' and (visitorDateEnd ==null or visitorDateEnd =='')">
+				AND a.visitor_date like concat('%',#{visitorDate},'%')
+			</when>
+			<when test="visitorDateEnd !=null and visitorDateEnd !='' and (visitorDate ==null or visitorDate =='')">
+				AND a.visitor_date like concat('%',#{visitorDateEnd},'%')
+			</when>
+		</choose>
+		<choose>
+			<when test="visitorMonthDate !=null and visitorMonthDate !='' and visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and visitorMonthDate!=visitorMonthDateEnd">
+				AND a.visitor_date &gt;= #{visitorMonthDate,jdbcType=VARCHAR}  AND a.visitor_date &lt;= #{visitorMonthDateEnd,jdbcType=VARCHAR}
+			</when>
+			<when test="visitorMonthDate !=null and visitorMonthDate !='' and visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and visitorMonthDate==visitorMonthDateEnd">
+				AND a.visitor_date like concat('%',#{visitorMonthDate},'%')
+			</when>
+			<when test="visitorMonthDate !=null and visitorMonthDate !='' and (visitorMonthDateEnd ==null or visitorMonthDateEnd =='')">
+				AND a.visitor_date like concat('%',#{visitorMonthDate},'%')
+			</when>
+			<when test="visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and (visitorMonthDate ==null or visitorMonthDate =='')">
+				AND a.visitor_date like concat('%',#{visitorMonthDateEnd},'%')
+			</when>
+		</choose>
+
 		<if test="involveDepartment !=null and involveDepartment !=''">
 			AND u.office_id like concat('%',#{involveDepartment},'%')
 		</if>
@@ -325,12 +374,34 @@
 			SELECT count(1)AS amount,cc.handle_way
 			FROM COMPLAINT_INFO cc
 			WHERE cc.del_flag ='0'
-			<if test="visitorDate !=null and visitorDate !=''">
-				AND cc.visitor_date like concat('%',#{visitorDate},'%')
-			</if>
-			<if test="visitorMonthDate !=null and visitorMonthDate !=''">
-				AND cc.visitor_date like concat('%',#{visitorMonthDate},'%')
-			</if>
+			<choose>
+				<when test="visitorDate !=null and visitorDate !='' and visitorDateEnd !=null and visitorDateEnd !='' and visitorDate!=visitorDateEnd">
+					AND cc.visitor_date &gt;= #{visitorDate,jdbcType=VARCHAR}  AND cc.visitor_date &lt;= #{visitorDateEnd,jdbcType=VARCHAR}
+				</when>
+				<when test="visitorDate !=null and visitorDate !='' and visitorDateEnd !=null and visitorDateEnd !='' and visitorDate==visitorDateEnd">
+					AND cc.visitor_date like concat('%',#{visitorDate},'%')
+				</when>
+				<when test="visitorDate !=null and visitorDate !='' and (visitorDateEnd ==null or visitorDateEnd =='')">
+					AND cc.visitor_date like concat('%',#{visitorDate},'%')
+				</when>
+				<when test="visitorDateEnd !=null and visitorDateEnd !='' and (visitorDate ==null or visitorDate =='')">
+					AND cc.visitor_date like concat('%',#{visitorDateEnd},'%')
+				</when>
+			</choose>
+			<choose>
+				<when test="visitorMonthDate !=null and visitorMonthDate !='' and visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and visitorMonthDate!=visitorMonthDateEnd">
+					AND cc.visitor_date &gt;= #{visitorMonthDate,jdbcType=VARCHAR}  AND cc.visitor_date &lt;= #{visitorMonthDateEnd,jdbcType=VARCHAR}
+				</when>
+				<when test="visitorMonthDate !=null and visitorMonthDate !='' and visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and visitorMonthDate==visitorMonthDateEnd">
+					AND cc.visitor_date like concat('%',#{visitorMonthDate},'%')
+				</when>
+				<when test="visitorMonthDate !=null and visitorMonthDate !='' and (visitorMonthDateEnd ==null or visitorMonthDateEnd =='')">
+					AND cc.visitor_date like concat('%',#{visitorMonthDate},'%')
+				</when>
+				<when test="visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and (visitorMonthDate ==null or visitorMonthDate =='')">
+					AND cc.visitor_date like concat('%',#{visitorMonthDateEnd},'%')
+				</when>
+			</choose>
 			<if test="createBy !=null and createBy !=''">
 				AND cc.create_by like concat('%',#{createBy},'%')
 			</if>

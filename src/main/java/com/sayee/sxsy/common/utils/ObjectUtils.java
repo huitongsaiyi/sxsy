@@ -8,6 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -85,4 +89,36 @@ public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
 		}
 		return null;
 	}
+
+	public static List convert(Object[] list, String field, boolean skipNull)
+	{
+		Map map = new HashMap();
+		List array = new ArrayList();
+		Object[] arrayOfObject = list; int j = list.length; for (int i = 0; i < j; i++) { Object t = arrayOfObject[i];
+		Object value = null;
+		if (field != null) {
+			Class c = t.getClass();
+			if ((t instanceof Map)) {
+				value = ((Map)t).get(field);
+			} else if (c.isArray()) {
+				value = ((Object[])t)[Integer.valueOf(field).intValue()];
+			} else {
+				String cls = c.getName();
+				Method getMethod = (Method)map.get(cls);
+				if (getMethod == null) getMethod = BeanUtils.getMethod(field, c);
+				if (getMethod != null) {
+					try {
+						value = getMethod.invoke(t, new Object[0]);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					map.put(cls, getMethod);
+				}
+			}
+		} else { value = t; }
+		if (((value == null) && (!skipNull)) || (value != null)) array.add(value);
+	}
+		return array;
+	}
+
 }

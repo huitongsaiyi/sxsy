@@ -39,8 +39,6 @@
         }
 
         #contentTable td {
-            width: 100%;
-            text-align: center;
             word-break: keep-all; /* 不换行 */
             white-space: nowrap; /* 不换行 */
             overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
@@ -160,6 +158,7 @@
         <th class="sort-column disputes_time">纠纷发生日期</th>
         <th class="sort-column risk_time">出险日期</th>
         <th class="sort-column summary_of_disputes">纠纷概要</th>
+        <th class="sort-column complaint_type">投诉类型</th>
         <th class="sort-column is_major">是否重大</th>
         <th class="sort-column treatment_mode">诊疗方式</th>
         <th class="sort-column treatment_result">治疗结果</th>
@@ -171,11 +170,11 @@
         <th class="sort-column duty_ratio">责任比例</th>
         <th class="sort-column feedback_time">反馈时间</th>
         <th class="sort-column agreement_number">协议号</th>
-        <th class="sort-column ratify_accord">签署协议/判决时间</th>
+        <th width="100" class="sort-column ratify_accord">签署协议/判决时间</th>
         <%--<th class="sort-column agreement_stamp_time">协议盖章时间</th>--%>
         <th class="sort-column agreement_amount">协议金额</th>
-        <th class="sort-column insurance_amount">保险赔付金额</th>
-        <th class="sort-column hospital_amount">医院赔付金额</th>
+        <th width="100" class="sort-column insurance_amount">保险赔付金额</th>
+        <th width="100" class="sort-column hospital_amount">医院赔付金额</th>
         <th class="sort-column claim_settlement_time">交理赔时间</th>
         <th class="sort-column compensate_time">赔付时间</th>
         <th class="sort-column flow_days">流转天数</th>
@@ -251,6 +250,9 @@
             </td>
             <td>
                     ${machineAccount.summaryOfDisputes}
+            </td>
+            <td>
+                    ${machineAccount.complaintType}
             </td>
             <td>
                 <c:choose>

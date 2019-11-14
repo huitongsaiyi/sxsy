@@ -34,6 +34,7 @@
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
+		t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
 		au.policy_number AS "auditAcceptance.policyNumber",
@@ -95,6 +96,12 @@
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL AND t.TASK_DEF_KEY_='sign'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+			<if test="list != null and list != ''">
+				AND t.ASSIGNEE_ in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
 			</if>
 			<if test="agreementNumber != null and agreementNumber != ''">
 				AND a.agreement_number LIKE 

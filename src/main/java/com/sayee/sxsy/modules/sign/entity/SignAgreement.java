@@ -69,7 +69,15 @@ public class SignAgreement extends DataEntity<SignAgreement> {
     private MachineAccount machineAccount;//台账信息
     private RecordInfo recordInfo;//签署协议会议记录
 	private MediateProgram mediateProgram;//调解程序表
+	private List<String> list;//工作站人员list
 
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 	public MediateProgram getMediateProgram() {
 		return mediateProgram;
 	}
@@ -284,7 +292,7 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 		this.mediation = mediation;
 	}
 	
-	@Length(min=0, max=200, message="协议约定事项  多个逗号隔开长度必须介于 0 和 200 之间")
+	@Length(min=0, message="协议约定事项  不能为空！")
 	public String getAgreedMatter() {
 		return agreedMatter;
 	}

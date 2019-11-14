@@ -76,13 +76,16 @@
 <form:form class="form-horizontal">
     <sys:message content="${message}"/>
     <fieldset>
+        <legend>案件评价详情</legend>
         <ul id="myTab" class="nav nav-tabs">
             <li class="active">
                 <a href="#Summary" data-toggle="tab">案件评价</a>
             </li>
-            <li>
-                <a href="#details" data-toggle="tab">详情</a>
-            </li>
+            <c:if test="${empty show2}">
+                <li>
+                    <a href="#details" data-toggle="tab">详情</a>
+                </li>
+            </c:if>
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade in active" id="Summary">

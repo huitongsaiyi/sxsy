@@ -29,6 +29,7 @@
 <%--<li><a href="${ctx}/nestigateeividence/investigateEvidence/">列表</a></li>--%>
 <%--<li class="active"><a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.id}" id="c">调查取证<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit">${not empty investigateEvidence.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="nestigateeividence:investigateEvidence:edit">查看</shiro:lacksPermission></a></li>--%>
 <%--</ul><br/>--%>
+<br/>
 <form:form id="inputForm" modelAttribute="investigateEvidence" action="${ctx}/nestigateeividence/investigateEvidence/save" method="post" class="form-horizontal">
     <form:hidden path="investigateEvidenceId"/>
     <form:hidden path="createDate"/>
@@ -60,9 +61,9 @@
         </li>
         </c:if>
     </ul>
+    <legend>调查取证详情</legend>
     <div id="myTabContent" class="tab-content">
     <div id="dcqz" class="tab-pane fade in active">
-    <legend>调查取证详情</legend>
     <ul id="myTab1" class="nav nav-tabs">
         <li class="active">
             <a href="#visitor" data-toggle="tab">患方调查笔录</a>

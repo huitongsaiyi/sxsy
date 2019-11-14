@@ -17,10 +17,7 @@ import java.util.*;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.sayee.sxsy.common.config.Global;
-import com.sayee.sxsy.common.utils.DateUtils;
-import com.sayee.sxsy.common.utils.IdGen;
-import com.sayee.sxsy.common.utils.StringUtils;
-import com.sayee.sxsy.common.utils.WordExportUtil;
+import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.act.entity.Act;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
@@ -79,8 +76,26 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 	}
 
 	public Page<AuditAcceptance> findPage(Page<AuditAcceptance> page, AuditAcceptance auditAcceptance) {
-		//获取当前登陆用户
-		auditAcceptance.setUser(UserUtils.getUser());
+		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		User user=UserUtils.getUser();
+		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+			//!aa.contains("dept") &&
+		}else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+			//工作站 主任 副主任 看自己 的员工
+			List<String> list=new ArrayList<String>();
+			List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+			for (User people:listUser) {
+				list.add(people.getLoginName());
+			}
+			if (list.size()>0){
+				auditAcceptance.setList(list);
+			}else {
+				list.add(user.getLoginName());
+				auditAcceptance.setList(list);
+			}
+		}else {//不是管理员查看自己创建的
+			auditAcceptance.setUser(user);
+		}
 		return super.findPage(page, auditAcceptance);
 	}
 

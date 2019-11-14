@@ -59,13 +59,14 @@
 		<form:hidden path="createBy"/>
         <form:hidden path="complaintMainId"/>
         <form:hidden path="complaintMain.complaintMainId"/>
-		<form:hidden path="complaintMain.act.taskId"/>
+		<form:hidden path="complaintMain.act.taskId" />
 		<form:hidden path="complaintMain.act.taskName"/>
 		<form:hidden path="complaintMain.act.taskDefKey"/>
 		<form:hidden path="complaintMain.act.procInsId"/>
 		<form:hidden path="complaintMain.act.procDefId"/>
 		<form:hidden path="complaintMain.procInsId"/>
 		<input type="hidden"  id="export" name="export"/>
+		<input type="hidden"  id="flag" name="flag"/>
 		<input type="hidden" id="urlRegistration" name="urlRegistration" value="${url1}">
 		<input type="hidden" id="urlAuditacceptance" name="urlAuditacceptance" value="${url2}">
 		<input type="hidden" id="urlInvestigateEvidence" name="urlInvestigateEvidence" value="${url3}">

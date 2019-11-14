@@ -97,6 +97,7 @@
 		m1.update_date AS "machineAccount.updateDate",
 		m1.del_flag AS "machineAccount.delFlag",
 		oo.name AS"mediateApplyInfo.sjOffice.name",
+		t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
 		oo1.name AS "mediateApplyInfo.docMediateApplyInfo.sqOffice.name"
 	</sql>
 
@@ -134,7 +135,12 @@
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
 			</if>
-
+			<if test="list != null and list != ''">
+				AND t.ASSIGNEE_ in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
 			<if test="beginGuaranteeTime != null and endGuaranteeTime != null and beginGuaranteeTime != '' and endGuaranteeTime != ''">
 				AND a.guarantee_time BETWEEN #{beginGuaranteeTime} AND #{endGuaranteeTime}
 			</if>

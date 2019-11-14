@@ -13,6 +13,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
 
+import java.util.List;
+
 /**
  * 案件总结Entity
  * @author gbq
@@ -32,6 +34,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	private String handleTime;		// 处理日期
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
+	private String isStop;		// 是否来自终止调解
 	private AuditAcceptance auditAcceptance;//保单号
 	private ComplaintMain complaintMain;		// 关联主表主键
 	private User user;  //当前登录人员
@@ -40,6 +43,23 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	private User dcEmployee;		// 登记人员
 	private ReportRegistration reportRegistration;//报案人姓名
     private MachineAccount machineAccount;//台账信息
+	private List<String> list;//工作站人员list
+
+	public String getIsStop() {
+		return isStop;
+	}
+
+	public void setIsStop(String isStop) {
+		this.isStop = isStop;
+	}
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public SummaryInfo() {
 		super();

@@ -13,6 +13,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
 
+import java.util.List;
+
 /**
  * 审核受理Entity
  * @author zhangfan
@@ -44,6 +46,15 @@ public class AuditAcceptance extends DataEntity<AuditAcceptance> {
 	private MediateApplyInfo mediateApplyInfo;
     private MachineAccount machineAccount;    //台账信息
     private ReportRegistration reportRegistration;
+	private List<String> list;//工作站人员list
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public AuditAcceptance() {
 		super();

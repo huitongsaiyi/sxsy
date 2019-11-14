@@ -36,6 +36,46 @@
 		b.involve_department AS "complaintMain.involveDepartment",
 		b.involve_employee AS "complaintMain.involveEmployee",
 		b.proc_ins_id AS "complaintMain.procInsId",
+		m1.machine_account_id AS "machineAccount.machineAccountId",
+		m1.complaint_main_id AS "machineAccount.complaintMainId",
+		m1.reporting_time AS "machineAccount.reportingTime",
+		m1.dept_id AS "machineAccount.deptId",
+		m1.mediator_id AS "machineAccount.mediatorId",
+		m1.patient_name AS "machineAccount.patientName",
+		m1.hospital_id AS "machineAccount.hospitalId",
+		m1.major AS "machineAccount.major",
+		m1.insurance_company AS "machineAccount.insuranceCompany",
+		m1.policy_number AS "machineAccount.policyNumber",
+		m1.start_insurance_time AS "machineAccount.startInsuranceTime",
+		m1.disputes_time AS "machineAccount.disputesTime",
+		m1.risk_time AS "machineAccount.riskTime",
+		m1.summary_of_disputes AS "machineAccount.summaryOfDisputes",
+		m1.is_major AS "machineAccount.isMajor",
+		m1.treatment_mode AS "machineAccount.treatmentMode",
+		m1.treatment_result AS "machineAccount.treatmentResult",
+		m1.patients_reflect_focus AS "machineAccount.patientsReflectFocus",
+		m1.related_major AS "machineAccount.relatedMajor",
+		m1.assess_time AS "machineAccount.assessTime",
+		m1.assess_number AS "machineAccount.assessNumber",
+		m1.duty_ratio AS "machineAccount.dutyRatio",
+		m1.feedback_time AS "machineAccount.feedbackTime",
+		m1.agreement_number AS "machineAccount.agreementNumber",
+		m1.ratify_accord AS "machineAccount.ratifyAccord",
+		m1.agreement_stamp_time AS "machineAccount.agreementStampTime",
+		m1.agreement_amount AS "machineAccount.agreementAmount",
+		m1.insurance_amount AS "machineAccount.insuranceAmount",
+		m1.claim_settlement_time AS "machineAccount.claimSettlementTime",
+		m1.compensate_time AS "machineAccount.compensateTime",
+		m1.flow_days AS "machineAccount.flowDays",
+		m1.hand_over AS "machineAccount.handOver",
+		m1.archive_time AS "machineAccount.archiveTime",
+		m1.file_number AS "machineAccount.fileNumber",
+		m1.remark AS "machineAccount.remark",
+		m1.create_by AS "machineAccount.createBy.id",
+		m1.create_date AS "machineAccount.createDate",
+		m1.update_by AS "machineAccount.updateBy.id",
+		m1.update_date AS "machineAccount.updateDate",
+		m1.del_flag AS "machineAccount.delFlag",
 		sa.name AS "complaintMain.hospital.area.name",
 		u.name AS "djEmployee.name",
 		o.name AS "complaintMain.hospital.name",
@@ -43,19 +83,21 @@
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
+		t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
 		sd.label AS "dict.name"
 	</sql>
 
 	<sql id="reportRegistrationJoins">
 		LEFT JOIN REPORT_REGISTRATION a ON a.complaint_main_id = b.complaint_main_id
 		LEFT JOIN COMPLAINT_MAIN_DETAIL d on d.complaint_main_id=b.complaint_main_id
+		LEFT JOIN MACHINE_ACCOUNT m1 ON m1.complaint_main_id = a.complaint_main_id AND m1.del_flag=0
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
  		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
  		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
 		LEFT JOIN SYS_USER u ON u.id=a.registration_emp
-		LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+		LEFT JOIN SYS_USER u2 ON u2.id = if(a.next_link_man IS NULL OR a.next_link_man = '',d.next_link_man,a.next_link_man)
 		LEFT JOIN SYS_DICT sd ON sd.value =b.hospital_level AND sd.type='sys_office_grade'
 	</sql>
 
@@ -76,7 +118,12 @@
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},d.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='enrollment'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
-
+			</if>
+			<if test="list != null and list != ''">
+				AND t.ASSIGNEE_ in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
 			</if>
 			<if test="reportEmp != null and reportEmp != ''">
 				AND a.report_emp = #{reportEmp}

@@ -80,9 +80,11 @@
         a.update_by AS "updateBy.id",
         a.update_date AS "updateDate",
         a.del_flag AS "delFlag",
+        u2.name AS "linkEmployee.name",
         o2.name AS "hospital.name"
         FROM STOP_MEDIATE a
         LEFT JOIN SYS_OFFICE o2 on o2.id=a.involve_hospital
+        LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
         WHERE a.complaint_main_id = #{complaintMainId}
     </select>
 

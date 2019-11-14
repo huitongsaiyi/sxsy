@@ -208,7 +208,7 @@
 		ORDER BY a.name
 	</select>
 
-	<!-- 根据OfficeId和角色编码获取用户（树查询用户时用） -->
+	<!-- 根据OfficeId或者角色编码获取用户（树查询用户时用） -->
 	<select id="findUserByOfficeRoleId" resultType="User" useCache="true">
 		SELECT
 			a.id, a.name, a.login_name
@@ -216,8 +216,12 @@
 		LEFT JOIN SYS_USER_ROLE sur ON a.id=sur.user_id
 		LEFT JOIN SYS_ROLE sr ON sr.id=sur.role_id
 		WHERE a.del_flag = '0'
+		<if test="officeId != null and officeId != ''">
 			AND a.office_id = #{officeId}
+		</if>
+		<if test="role != null and role != ''">
 			AND sr.enname = #{role}
+		</if>
 		ORDER BY a.name
 	</select>
 

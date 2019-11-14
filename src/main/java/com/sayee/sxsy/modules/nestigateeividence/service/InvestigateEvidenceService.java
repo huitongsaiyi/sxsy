@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.entity.Act;
@@ -66,9 +67,27 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
     }
 
     public Page<InvestigateEvidence> findPage(Page<InvestigateEvidence> page, InvestigateEvidence investigateEvidence) {
-        //获取当前登陆用户
-        investigateEvidence.setUser(UserUtils.getUser());
-        Page<InvestigateEvidence> a = super.findPage(page, investigateEvidence);
+        List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+        User user=UserUtils.getUser();
+        if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+            //!aa.contains("dept") &&
+        }else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+            //工作站 主任 副主任 看自己 的员工
+            List<String> list=new ArrayList<String>();
+            List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+            for (User people:listUser) {
+                list.add(people.getLoginName());
+            }
+            if (list.size()>0){
+                investigateEvidence.setList(list);
+            }else {
+                list.add(user.getLoginName());
+                investigateEvidence.setList(list);
+            }
+        }else {//不是管理员查看自己创建的
+            investigateEvidence.setUser(UserUtils.getUser());
+        }
+        //Page<InvestigateEvidence> a = super.findPage(page, investigateEvidence);
         return super.findPage(page, investigateEvidence);
     }
 

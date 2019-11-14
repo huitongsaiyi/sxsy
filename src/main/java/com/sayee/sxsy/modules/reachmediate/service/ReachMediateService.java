@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
@@ -89,7 +90,26 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 	}
 	
 	public Page<ReachMediate> findPage(Page<ReachMediate> page, ReachMediate reachMediate) {
-		reachMediate.setUser(UserUtils.getUser());
+		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		User user=UserUtils.getUser();
+		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+			//!aa.contains("dept") &&
+		}else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+			//工作站 主任 副主任 看自己 的员工
+			List<String> list=new ArrayList<String>();
+			List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+			for (User people:listUser) {
+				list.add(people.getLoginName());
+			}
+			if (list.size()>0){
+				reachMediate.setList(list);
+			}else {
+				list.add(user.getLoginName());
+				reachMediate.setList(list);
+			}
+		}else {//不是管理员查看自己创建的
+			reachMediate.setUser(UserUtils.getUser());
+		}
 		return super.findPage(page, reachMediate);
 	}
 	

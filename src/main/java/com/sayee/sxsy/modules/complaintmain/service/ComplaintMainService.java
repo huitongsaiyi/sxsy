@@ -11,6 +11,7 @@ import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,7 +176,6 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 				complaintMain.setUrl(path);
 			}
 		}
-
 	}
 
 
@@ -188,90 +188,172 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
     	return list;
     }
 
-    public List<Map<String, Object>> findTypeInfo(User user,String year,String month) {
-        if ("".equals(user.getRole())){
-
-        }
-        if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+    public List<Map<String, Object>> findTypeInfo(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+		String officeId="";
+		if (user.getRoleList().contains("yydept")){
+			officeId=user.getOffice().getId();
+		}
+        if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
         	year= DateUtils.getYear();
 		}
-        List<Map<String, Object>> list=complaintMainDao.findTypeInfo(year,month);
+		List<Map<String, Object>> list=null;
+        if ("tj".equals(type)){
+			 list=complaintMainDao.findTypeInfoTj(year,beginMonthDate,endMonthDate,officeId);
+		}else{
+			 list=complaintMainDao.findTypeInfo(year,beginMonthDate,endMonthDate,officeId);
+		}
         return list;
     }
 
-	public List<Map<String, Object>> findGrade(User user,String year,String month) {
-		if ("".equals(user.getRole())){
-
+	public List<Map<String, Object>> findGrade(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+		String officeId="";
+		if (user.getRoleList().contains("yydept")){
+			officeId=user.getOffice().getId();
 		}
-		if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
 			year= DateUtils.getYear();
 		}
-		List<Map<String, Object>> list=complaintMainDao.findGrade(year,month);
+		List<Map<String, Object>> list=null;
+		if ("tj".equals(type)){
+			list=complaintMainDao.findGradeTj(year,beginMonthDate,endMonthDate,officeId);
+		}else{
+			list=complaintMainDao.findGrade(year,beginMonthDate,endMonthDate,officeId);
+		}
 		return list;
 	}
 
-    public List<Map<String, Object>> getEveryMonthData(User user,String year,String month) {
-        if ("".equals(user.getRole())){
-
-        }
-        if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+    public List<Map<String, Object>> getEveryMonthData(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+		String officeId="";
+		if (user.getRoleList().contains("yydept")){
+			officeId=user.getOffice().getId();
+		}
+        if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
             year= DateUtils.getYear();
         }
-        List<Map<String, Object>> list=complaintMainDao.getEveryMonthData(year,month);
+		List<Map<String, Object>> list=null;
+		if ("tj".equals(type)){
+			list=complaintMainDao.getEveryMonthDataTj(year,beginMonthDate,endMonthDate,officeId);
+		}else{
+			list=complaintMainDao.getEveryMonthData(year,beginMonthDate,endMonthDate,officeId);
+		}
         return list;
     }
 
     /***
      * 获取山西省各市的案件数量
      * @param year
-     * @param month
+     * @param beginMonthDate,endMonthDate
      * @return
      */
     @Transactional(readOnly = false)
-    public List<Map<String,Object>> findAreaName (String year,String month){
-        if(StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+    public List<Map<String,Object>> findAreaName (String year,String beginMonthDate,String endMonthDate,String type){
+		String officeId="";
+		if (UserUtils.getUser().getRoleList().contains("yydept")){
+			officeId=UserUtils.getUser().getOffice().getId();
+		}
+    	if(StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
             year =  DateUtils.getYear();
         }
-        List<Map<String,Object>> list = complaintMainDao.findAreaName(year,month);
+		List<Map<String, Object>> list=null;
+		if ("tj".equals(type)){
+			list=complaintMainDao.findAreaNameTj(year,beginMonthDate,endMonthDate,officeId);
+		}else{
+			list=complaintMainDao.findAreaName(year,beginMonthDate,endMonthDate,officeId);
+		}
         return list;
     }
 
-	public List<ComplaintMain > findCompleted(User user,String year,String month) {
-		if ("".equals(user.getRole())){
-
+	public List<ComplaintMain > findCompleted(User user,String year,String beginMonthDate,String endMonthDate) {
+		String officeId="";
+		if (user.getRoleList().contains("yydept")){
+			officeId=user.getOffice().getId();
 		}
-		if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
 			year= DateUtils.getYear();
 		}
 		//根据登录人 取得登陆人已经办理完成的数据
-		List<ComplaintMain> list=complaintMainDao.findCompleted(year,month);
+		List<ComplaintMain> list=complaintMainDao.findCompleted(year,beginMonthDate,endMonthDate,officeId);
 		//清除查到的  null  值
 		list.removeAll(Collections.singleton(null));
 		this.format(list);
 		return list;
 	}
-	public Long findAllEvent(User user,String year,String month) {
-		if ("".equals(user.getRole())){
-
+	public Long findAllEvent(User user,String year,String beginMonthDate,String endMonthDate) {
+		String officeId="";
+		if (user.getRoleList().contains("yydept")){
+			officeId=user.getOffice().getId();
 		}
-		if (StringUtils.isBlank(year) && StringUtils.isBlank(month)){
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
 			year= DateUtils.getYear();
 		}
-		Long allEvent = complaintMainDao.findAllEvent(year, month);
+		Long allEvent = complaintMainDao.findAllEvent(year, beginMonthDate,endMonthDate,officeId);
 		return allEvent;
 	}
 
     /***
      * 获取各个专业数据
      * @param year
-     * @param month
+     * @param beginMonthDate,endMonthDate
      * @return
      */
-    public List<Map<String,Object>> findDepartment(String year,String month){
-        if(StringUtils.isBlank(year) && StringUtils.isBlank(month)){
-            year =  DateUtils.getYear();
-        }
-        List<Map<String,Object>> list=complaintMainDao.findDepartment(year,month);
+    public List<Map<String,Object>> findDepartment(String year,String beginMonthDate,String endMonthDate,String type){
+		String officeId="";
+		if (UserUtils.getUser().getRoleList().contains("yydept")){
+			officeId=UserUtils.getUser().getOffice().getId();
+		}
+		List<Map<String, Object>> list=null;
+		if ("tj".equals(type)){
+			list=complaintMainDao.findDepartmentTj(year,beginMonthDate,endMonthDate,officeId);
+		}else{
+			list=complaintMainDao.findDepartment(year,beginMonthDate,endMonthDate,officeId);
+		}
         return list;
     }
+
+    /***
+     * 获取责任度 比例统计图
+     * @param year
+     * @param beginMonthDate,endMonthDate
+     * @return
+     */
+    public List<Map<String, Object>> findDuty(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+        String officeId="";
+    	if (user.getRoleList().contains("yydept")){
+			officeId=user.getOffice().getId();
+        }
+        if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
+            year= DateUtils.getYear();
+        }
+        List<Map<String, Object>> list=null;
+        if ("tj".equals(type)){
+            list=complaintMainDao.findDutyTj(year,beginMonthDate,endMonthDate,officeId);
+        }else{
+            //list=complaintMainDao.findTypeInfo(year,beginMonthDate,endMonthDate);
+        }
+        return list;
+    }
+
+    /***
+     * 获取 赔偿金额 比例
+     * @param year
+     * @param beginMonthDate,endMonthDate
+     * @return
+     */
+    public Map<String, Object> findAmountRatio(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+		String officeId="";
+		if (user.getRoleList().contains("yydept")){
+			officeId=user.getOffice().getId();
+		}
+        if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
+            year= DateUtils.getYear();
+        }
+        Map<String, Object> map=null;
+        if ("tj".equals(type)){
+            map=complaintMainDao.findAmountRatioTj(year,beginMonthDate,endMonthDate,officeId);
+        }else{
+            //list=complaintMainDao.findTypeInfo(year,beginMonthDate,endMonthDate);
+        }
+        return map;
+    }
+
 }

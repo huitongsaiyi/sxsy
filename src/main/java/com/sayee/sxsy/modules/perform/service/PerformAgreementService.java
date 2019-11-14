@@ -3,11 +3,13 @@
  */
 package com.sayee.sxsy.modules.perform.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
@@ -47,7 +49,26 @@ public class PerformAgreementService extends CrudService<PerformAgreementDao, Pe
 	}
 	
 	public Page<PerformAgreement> findPage(Page<PerformAgreement> page, PerformAgreement performAgreement) {
-		performAgreement.setUser(UserUtils.getUser());
+		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		User user=UserUtils.getUser();
+		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+			//!aa.contains("dept") &&
+		}else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+			//工作站 主任 副主任 看自己 的员工
+			List<String> list=new ArrayList<String>();
+			List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+			for (User people:listUser) {
+				list.add(people.getLoginName());
+			}
+			if (list.size()>0){
+				performAgreement.setList(list);
+			}else {
+				list.add(user.getLoginName());
+				performAgreement.setList(list);
+			}
+		}else {//不是管理员查看自己创建的
+			performAgreement.setUser(UserUtils.getUser());
+		}
 		return super.findPage(page, performAgreement);
 	}
 	

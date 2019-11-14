@@ -64,6 +64,7 @@
 </head>
 
     <body>
+    <br/>
     <form:form class="form-horizontal">
         <sys:message content="${message}"/>
         <fieldset>
@@ -77,9 +78,9 @@
                 </li>
                 </c:if>
             </ul>
+            <legend>履行协议详情</legend>
             <div id="myTabContent1" class="tab-content">
                 <div id="lxxy" class="tab-pane fade in active">
-            <legend>履行协议详情</legend>
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active">
                     <a href="#patient" data-toggle="tab">履行协议情况</a>

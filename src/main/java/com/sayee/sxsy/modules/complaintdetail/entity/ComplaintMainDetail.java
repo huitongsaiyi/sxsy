@@ -11,6 +11,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
 
+import java.util.List;
+
 /**
  * 医调委投诉接待Entity
  * @author zhangfan
@@ -43,6 +45,7 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	private String patientRelationlabel;    //患者关系 字典中的label值
 	private String typeName;//案件分类
 	private String otherType;	//其他案件分类
+	private List<String> list;//工作站人员list
 
 	public String getTypeName() {
 		return typeName;
@@ -53,6 +56,14 @@ public class ComplaintMainDetail extends DataEntity<ComplaintMainDetail> {
 	}
 	//	private String isMajorlabel;        //是否重大 字典中的label值
 
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public String getOtherType() {
 		return otherType;

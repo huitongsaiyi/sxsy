@@ -91,7 +91,7 @@ public class AssessAppraisalController extends BaseController {
 	@RequiresPermissions("assessappraisal:assessAppraisal:view")
 	@RequestMapping(value = "form")
 	public String form(AssessAppraisal assessAppraisal, Model model,HttpServletRequest request) {
-		if(null==assessAppraisal.getProposal().getProposalCode()){
+		if(assessAppraisal.getProposal()!=null && null==assessAppraisal.getProposal().getProposalCode() ){
 			Proposal proposal =new Proposal();
 			List<Proposal> list = proposalService.findList(proposal);
 			if(list.size()==0){
@@ -122,7 +122,7 @@ public class AssessAppraisalController extends BaseController {
 			}
 		}
 		ComplaintMain complaintMain = complaintMainService.get(assessAppraisal.getComplaintMainId());
-		if(assessAppraisal.getPatientLinkEmpList().size()==0){
+		if(assessAppraisal.getPatientLinkEmpList().size()==0 && complaintMain!=null){
 			List<PatientLinkEmp> patientLinkEmpList = assessAppraisal.getPatientLinkEmpList();
 			PatientLinkEmp patientLinkEmp = new PatientLinkEmp();
 			patientLinkEmp.setPatientLinkName(complaintMain.getPatientName());
@@ -130,7 +130,7 @@ public class AssessAppraisalController extends BaseController {
 			patientLinkEmp.setIdNumber(complaintMain.getCaseNumber());
 			patientLinkEmpList.add(patientLinkEmp);
 		}
-		if(assessAppraisal.getMedicalOfficeEmpList().size()==0){
+		if(assessAppraisal.getMedicalOfficeEmpList().size()==0 && complaintMain!=null){
 			MedicalOfficeEmp medicalOfficeEmp = new MedicalOfficeEmp();
 			List<MedicalOfficeEmp> medicalOfficeEmpList = assessAppraisal.getMedicalOfficeEmpList();
 			medicalOfficeEmp.setMedicalOfficeName(complaintMain.getHospital().getName());
@@ -208,19 +208,21 @@ public class AssessAppraisalController extends BaseController {
 		}else {
 			try {
 				assessAppraisalService.save(assessAppraisal, request);
-				machineAccountService.savetz(assessAppraisal.getMachineAccount(), "d", assessAppraisal.getAssessAppraisalId());
+				machineAccountService.savetz(assessAppraisal.getMachineAccount(), "d", assessAppraisal);
 				if ("yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())) {
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + assessAppraisal.getComplaintMain().getProcInsId());
+					return "redirect:" + Global.getAdminPath() + "/assessappraisal/assessAppraisal/?repage";
 				} else {
-					addMessage(redirectAttributes, "保存评估鉴定成功");
+					model.addAttribute("message","保存评估鉴定成功");
+					return form(this.get(assessAppraisal.getAssessAppraisalId()), model,request);
 				}
 
 			} catch (Exception e) {
 				logger.error("启动鉴定评估流程失败：", e);
 				addMessage(redirectAttributes, "系统内部错误");
-
+				return "redirect:" + Global.getAdminPath() + "/assessappraisal/assessAppraisal/?repage";
 			}
-			return "redirect:" + Global.getAdminPath() + "/assessappraisal/assessAppraisal/?repage";
+
 		}
 	}
 

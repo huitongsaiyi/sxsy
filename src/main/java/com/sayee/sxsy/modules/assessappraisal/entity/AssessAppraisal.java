@@ -45,6 +45,7 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private String diagnosticAnalysis;		// 诊断分析
 	private String treatmentAnalysis;		// 治疗分析
 	private String otherMedicalAnalysis;		// 其他医疗分析
+	private String eighteenItems;		// 违反18项
 	private String medicalExpert;		// 医学专家
 	private String legalExpert;		// 法律顾问
 	private String other;		// 其他
@@ -74,6 +75,23 @@ public class AssessAppraisal extends DataEntity<AssessAppraisal> {
 	private String patientAvoid;	//患方是否回避
 	private String doctorAvoid;	//医方是否回避
 	private String scale;//比例
+	private List<String> list;//工作站人员list
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
+
+	public String getEighteenItems() {
+		return eighteenItems;
+	}
+
+	public void setEighteenItems(String eighteenItems) {
+		this.eighteenItems = eighteenItems;
+	}
 
 	public String getScale() {
 		return scale;

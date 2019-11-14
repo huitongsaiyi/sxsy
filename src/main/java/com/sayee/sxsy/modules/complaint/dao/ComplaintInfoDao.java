@@ -29,12 +29,12 @@ public interface ComplaintInfoDao extends CrudDao<ComplaintInfo> {
      * @param
      * @return
      */
-    List<Map<String, Object>> selectEveryOne(@Param("visitorDate")String visitorDate,@Param("visitorMonthDate") String visitorMonthDate, @Param("involveDepartment")String involveDepartment, @Param("involveEmployee")String involveEmployee);
+    List<Map<String, Object>> selectEveryOne(@Param("visitorDate")String visitorDate,@Param("visitorDateEnd")String visitorDateEnd,@Param("visitorMonthDate") String visitorMonthDate,@Param("visitorMonthDateEnd") String visitorMonthDateEnd,@Param("involveDepartment")String involveDepartment, @Param("involveEmployee")String involveEmployee);
     /**
      * 单人工作统计
      * @param
      * @return
      */
-    Map<String, Object> selectPerson(@Param("createBy")String createBy,@Param("visitorDate")String visitorDate,@Param("visitorMonthDate") String visitorMonthDate);
+    Map<String, Object> selectPerson(@Param("createBy")String createBy,@Param("visitorDate")String visitorDate,@Param("visitorDateEnd")String visitorDateEnd,@Param("visitorMonthDate") String visitorMonthDate,@Param("visitorMonthDateEnd") String visitorMonthDateEnd);
 
 }

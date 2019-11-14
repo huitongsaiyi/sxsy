@@ -26,11 +26,17 @@
 					if(aa=='no'){
 						loading('正在提交，请稍等...');
 					}
+					//协议约定事项 是个 listmap  格式 ；
+					var list=[];
 					$("input[type=checkbox]").each(function(){
 						if($(this).attr("checked")){
 							if($(this).attr("name").indexOf("meatterList") != -1){//协议约定事项的
-								var agreedMatter = $('textarea[name="'+replace($(this).attr("name"),"label","agreedMatter")+'"]').val();
-								$("#agreedMatter").val(agreedMatter);
+								var map={};
+								var agreedMatter1 = $('textarea[name="'+replace($(this).attr("name"),"label","agreedMatter")+'"]').val();
+								var agreedMatterTd = $('td[name="'+replace($(this).attr("name"),"label","td")+'"]').text();
+								map['name'] =agreedMatterTd;
+								map['value'] =agreedMatter1;
+								list.push(map);
 							}else if($(this).attr("name").indexOf("mediationList") != -1){
 								var mediation = $('textarea[name="'+replace($(this).attr("name"),"label","mediation")+'"]').val();
 								$("#mediation").val(mediation);
@@ -43,6 +49,7 @@
 							}
 						}
 					});
+					$("#agreedMatter").val(JSON.stringify(list));
 					$("input[type=checkbox]").each(function(){
 						$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
 								+($(this).attr("checked")?"1":"0")+"\"/>");
@@ -109,11 +116,17 @@
 				var re = new RegExp(substr, "g"); // 生成正则
 				return str.replace(re, newstr);
 			}
+			//协议约定事项 是个 listmap  格式 ；
+			var list=[];
 			$("input[type=checkbox]").each(function(){
 				if($(this).attr("checked")){
 					if($(this).attr("name").indexOf("meatterList") != -1){//协议约定事项的
+						var map={};
 						var agreedMatter1 = $('textarea[name="'+replace($(this).attr("name"),"label","agreedMatter")+'"]').val();
-						$("#agreedMatter").val(agreedMatter1);
+						var agreedMatterTd = $('td[name="'+replace($(this).attr("name"),"label","td")+'"]').text();
+						map['name'] =agreedMatterTd;
+						map['value'] =agreedMatter1;
+						list.push(map);
 					}else if($(this).attr("name").indexOf("mediationList") != -1){
 						var mediation1 = $('textarea[name="'+replace($(this).attr("name"),"label","mediation")+'"]').val();
 						$("#mediation").val(mediation1);
@@ -126,6 +139,7 @@
 					}
 				}
 			});
+			$("#agreedMatter").val(JSON.stringify(list));
 			var aa=$("#export").val();
 			var path="${ctx}/sign/signAgreement/pass";
 			var data = {};
@@ -456,6 +470,7 @@
 					<thead>
 					<tr>
 						<th></th>
+						<th style="text-align:center;">类型</th>
 						<th style="text-align:center;">内容</th>
 					</tr>
 					</thead>
@@ -465,7 +480,10 @@
 							<td nowrap style="text-align:center;vertical-align:middle;width: 5%;">
 								<input type="hidden" name="meatterList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="meatterList[${vs.index}].delFlag" value="${column.delFlag}"/>
-								<input type="checkbox" name="meatterList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'xyydsx')"/>
+								<input type="checkbox" name="meatterList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} /><%--onclick="clearCheckBox(this.name,'xyydsx')"--%>
+							</td>
+							<td name="meatterList[${vs.index}].td" style="text-align:center;vertical-align:middle;">
+									${column.typeName}
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
 								<%--<input type="text" name="agreedMatter" value="${column.content}" style="width: 90%;word-wrap:break-word;height:100px;"/>--%>
@@ -483,7 +501,7 @@
 					<tr>
 						<th></th>
 						<th style="text-align:center;">类型</th>
-						<th style="text-align:center;">内容</th>
+						<th style="text-align:center;width: 80%;">内容</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -548,14 +566,14 @@
 				<tr>
 					<td class="tit" width="15%">时间:</td>
 					<td colspan="2" width="35%">
-						<input name="mediateProgram.meetingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+						<input name="mediateProgram.meetingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 							   value="${signAgreement.mediateProgram.meetingTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:250px;"/>
 					</td>
 					<td class="tit" width="15%">地点:</td>
 					<td >
 						<form:input id="meetingAddress" path="mediateProgram.address" htmlEscape="false" maxlength="20"
-									class="input-xlarge required" value="${signAgreement.mediateProgram.address}" cssStyle="width: 250px;"/>
+									class="input-xlarge " value="${signAgreement.mediateProgram.address}" cssStyle="width: 250px;"/>
 					</td>
 				</tr>
 				<tr>
@@ -566,7 +584,7 @@
 						<sys:treeselect id="mediator" name="mediateProgram.mediator"
 										value="${signAgreement.mediateProgram.mediator}" labelName="tjy"
 										labelValue="${signAgreement.mediateProgram.mediatorUser.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
+										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
 										dataMsgRequired="必填信息"
 										allowClear="true" notAllowSelectParent="true" disabled="true"/>
 					</td>
@@ -576,7 +594,7 @@
 										value="${signAgreement.mediateProgram.clerk}" labelName="sjy"
 										labelValue="${signAgreement.mediateProgram.clerkuser.name}"
 										title="用户" url="/sys/office/treeData?type=3&officeType=1"
-										cssClass="required" dataMsgRequired="必填信息"
+										cssClass="" dataMsgRequired="必填信息"
 										allowClear="true" notAllowSelectParent="true" disabled="true"/>
 					</td>
 
@@ -601,13 +619,13 @@
 					<td class="tit" rowspan="2">二、医患双方确认以上参会人员身份有无要求回避</td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.patientAvoid" htmlEscape="false" maxlength="255" class="input-xlarge required" cssStyle="width: 50%;"/>
+						<form:input path="mediateProgram.patientAvoid" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width: 50%;"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.doctorAvoid" htmlEscape="false" maxlength="255" class="input-xlarge required" cssStyle="width: 50%;"/>
+						<form:input path="mediateProgram.doctorAvoid" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width: 50%;"/>
 					</td>
 				</tr>
 				<tr>
@@ -775,14 +793,14 @@
 					<td class="tit" rowspan="2">六、以上宣读内容听清楚了吗？</td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.patientClear" htmlEscape="false" maxlength="255" class="input-xlarge required" cssStyle="width:50%;"/>
+						<form:input path="mediateProgram.patientClear" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width:50%;"/>
 					</td>
 
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.doctorClear" htmlEscape="false" maxlength="255" class="input-xlarge required" cssStyle="width:50%;"/>
+						<form:input path="mediateProgram.doctorClear" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width:50%;"/>
 					</td>
 				</tr>
 				<tr>
@@ -920,14 +938,14 @@
 					<td class="tit"width="200px;">时间</td>
 					<td width="10px;" style="border-right: hidden;">
 						<input name="recordInfo.startTime" type="text" readonly="readonly" maxlength="20"
-							   class="input-medium Wdate required"
+							   class="input-medium Wdate "
 							   value="${signAgreement.recordInfo.startTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 200px;"/>
 					</td>
 					<td style="text-align: center" colspan="2">至</td>
 					<td style="border-bottom: hidden;border-left: hidden;">
 						<input name="recordInfo.endTime" type="text" readonly="readonly" maxlength="20"
-							   class="input-medium Wdate required"
+							   class="input-medium Wdate "
 							   value="${signAgreement.recordInfo.endTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" />
 					</td>
@@ -937,7 +955,7 @@
 					<td class="tit">地点</td>
 					<td colspan="4">
 						<form:input path="recordInfo.recordAddress" htmlEscape="false" maxlength="20"
-									class="input-xlarge required" cssStyle="width: 450px;"/>
+									class="input-xlarge " cssStyle="width: 450px;"/>
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>
@@ -945,10 +963,10 @@
 					<td class="tit">主持人</td>
 					<td colspan="4">
 							<sys:treeselect id="host" name="recordInfo.host"
-											value="${signAgreement.recordInfo.host}" labelName=""
+											value="${signAgreement.recordInfo.host}" labelName="zcr"
 											labelValue="${signAgreement.recordInfo.ytwHost.name}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=1"
-											allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required" />
+											allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="" />
 					<td style="border-left: hidden;"></td>
 				</tr>
 				<tr>
@@ -957,24 +975,24 @@
 					<td class="tit" width="10px;">记录人</td>
 					<td colspan="4">
 						<sys:treeselect id="noteTaker" name="recordInfo.noteTaker"
-										value="${signAgreement.recordInfo.noteTaker}" labelName=""
+										value="${signAgreement.recordInfo.noteTaker}" labelName="jlr"
 										labelValue="${signAgreement.recordInfo.ytwNoteTaker.name}"
 										title="用户" url="/sys/office/treeData?type=3&officeType=1"
-										allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required"/>
+										allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>
 				<tr>
 					<td class="tit">患方参加人员</td>
 					<td colspan="4">
-						<form:input path="recordInfo.patient" htmlEscape="false" maxlength="100" class="input-xlarge required" cssStyle="width: 450px;"/>
+						<form:input path="recordInfo.patient" htmlEscape="false" maxlength="100" class="input-xlarge " cssStyle="width: 450px;"/>
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>
 				<tr>
 					<td class="tit">医方参加人员</td>
 					<td colspan="4">
-						<form:input path="recordInfo.doctor" htmlEscape="false" maxlength="100" class="input-xlarge required" cssStyle="width: 450px;"/>
+						<form:input path="recordInfo.doctor" htmlEscape="false" maxlength="100" class="input-xlarge " cssStyle="width: 450px;"/>
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>

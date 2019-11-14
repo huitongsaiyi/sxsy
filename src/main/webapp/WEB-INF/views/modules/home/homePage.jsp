@@ -8,7 +8,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-	<li ><a href="${ctx}/complaintmain/complaintMain/self">我的待办</a></li>
+	<%--<li ><a href="${ctx}/complaintmain/complaintMain/self">我的待办</a></li>--%>
 	<li class="active"><a href="${ctx}/complaintmain/complaintMain/home?type=myDone">我的已办</a></li>
 </ul>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->

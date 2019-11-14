@@ -159,17 +159,20 @@ public class InvestigateEvidenceController extends BaseController {
 			}
 			try {
 				investigateEvidenceService.save(investigateEvidence,request);
-				machineAccountService.savetz(investigateEvidence.getMachineAccount(), "b", investigateEvidence.getInvestigateEvidenceId());
+				machineAccountService.savetz(investigateEvidence.getMachineAccount(), "b", investigateEvidence);
 				if ("yes".equals(investigateEvidence.getComplaintMain().getAct().getFlag())) {
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + investigateEvidence.getComplaintMain().getProcInsId());
+					return "redirect:"+Global.getAdminPath()+"/nestigateeividence/investigateEvidence/?repage";
 				} else {
-					addMessage(redirectAttributes, "保存调查取证成功");
+					model.addAttribute("message","保存调查取证成功");
+					return form(this.get(investigateEvidence.getInvestigateEvidenceId()), model,request);
 				}
 			}catch(Exception e){
 				logger.error("启动纠纷调解流程失败：", e);
 				addMessage(redirectAttributes, "系统内部错误！");
+				return "redirect:"+Global.getAdminPath()+"/nestigateeividence/investigateEvidence/?repage";
 			}
-			return "redirect:"+Global.getAdminPath()+"/nestigateeividence/investigateEvidence/?repage";
+
 		}
 	}
 	

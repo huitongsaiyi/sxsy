@@ -79,6 +79,12 @@
 			<if test="user != null and user.id != null and user.id != ''">
 				AND a.create_by = #{user.id}
 			</if>
+			<if test="list != null and list != ''">
+				AND a.create_by in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
 			<if test="visitorName != null and visitorName != ''">
 				AND a.visitor_name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{visitorName}||'%'</if>

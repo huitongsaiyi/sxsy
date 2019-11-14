@@ -17,6 +17,7 @@
 		a.diagnostic_analysis AS "diagnosticAnalysis",
 		a.treatment_analysis AS "treatmentAnalysis",
 		a.other_medical_analysis AS "otherMedicalAnalysis",
+		a.eighteen_items AS "eighteenItems",
 		a.medical_expert AS "medicalExpert",
 		a.legal_expert AS "legalExpert",
 		a.other AS "other",
@@ -57,6 +58,7 @@
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile",
 		t.ID_ AS "complaintMain.act.taskId",
+		t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
 		hr.record_id AS "recordInfo1.recordId",
         hr.start_time AS "recordInfo1.startTime",
         hr.end_time AS "recordInfo1.endTime",
@@ -136,6 +138,12 @@
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
 			</if>
+			<if test="list != null and list != ''">
+				AND t.ASSIGNEE_ in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
 			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
 				AND r.report_emp = #{reportRegistration.reportEmp}
 			</if>
@@ -190,6 +198,7 @@
 		diagnostic_analysis,
 		treatment_analysis,
 		other_medical_analysis,
+		eighteen_items,
 		medical_expert,
 		legal_expert,
 		other,
@@ -224,6 +233,7 @@
 		#{diagnosticAnalysis},
 		#{treatmentAnalysis},
 		#{otherMedicalAnalysis},
+		#{eighteenItems},
 		#{medicalExpert},
 		#{legalExpert},
 		#{other},
@@ -262,6 +272,7 @@
 			diagnostic_analysis = #{diagnosticAnalysis},
 			treatment_analysis = #{treatmentAnalysis},
 			other_medical_analysis = #{otherMedicalAnalysis},
+			eighteen_items = #{eighteenItems},
 			medical_expert = #{medicalExpert},
 			legal_expert = #{legalExpert},
 			other = #{other},

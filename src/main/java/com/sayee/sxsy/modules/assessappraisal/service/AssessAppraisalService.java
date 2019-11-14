@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
@@ -96,8 +97,26 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 	}
 
 	public Page<AssessAppraisal> findPage(Page<AssessAppraisal> page, AssessAppraisal assessAppraisal) {
-		//获取当前登陆用户
-		assessAppraisal.setUser(UserUtils.getUser());
+		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		User user=UserUtils.getUser();
+		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+			//!aa.contains("dept") &&
+		}else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+			//工作站 主任 副主任 看自己 的员工
+			List<String> list=new ArrayList<String>();
+			List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+			for (User people:listUser) {
+				list.add(people.getLoginName());
+			}
+			if (list.size()>0){
+				assessAppraisal.setList(list);
+			}else {
+				list.add(user.getLoginName());
+				assessAppraisal.setList(list);
+			}
+		}else {//不是管理员查看自己创建的
+			assessAppraisal.setUser(UserUtils.getUser());
+		}
 		return super.findPage(page, assessAppraisal);
 	}
 
@@ -322,11 +341,11 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
         TypeInfo typeInfo1 = new TypeInfo();
         if(assessAppraisal.getProposal()!=null){
             String analysisOpinion = assessAppraisal.getProposal().getAnalysisOpinion();//分析意见id
-            String analysisOpinion1=analysisOpinion.substring(0,32);
+            String analysisOpinion1=(analysisOpinion !=null && !"".equals(analysisOpinion)&& !"null".equals(analysisOpinion))? analysisOpinion.substring(0,32) : "";
             typeInfo = typeInfoService.get(analysisOpinion1);
 
 			String conclusion = assessAppraisal.getProposal().getConclusion();//结论id
-			String conclusion1=conclusion.substring(0,32);
+			String conclusion1= (conclusion !=null && !"".equals(conclusion)&& !"null".equals(conclusion))?  conclusion.substring(0,32) : "" ;
 			typeInfo1 = typeInfoService.get(conclusion1);
         }
 

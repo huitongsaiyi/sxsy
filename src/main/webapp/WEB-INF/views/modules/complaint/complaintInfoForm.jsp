@@ -32,23 +32,50 @@
             if(value==2){
                 document.getElementById("btnSubmit1").style.display="inline";
                 document.getElementById("btnSubmit").style.display="none";
+
+                $("#treeTr").show();
             }else{
                 document.getElementById("btnSubmit1").style.display="none";
                 document.getElementById("btnSubmit").style.display="inline";
+				$("#treeTr").hide();
             }
 
             if(value==1){
-                $("<td id='shiftBody' class='tit'>转办科室:</td>").insertAfter("#handleWay");
+                $("<td id='shiftBody' class='tit'>转办科室：</td>").insertAfter("#handleWay");
 				$("#shiftHandle").show();
+				$("#statusBody").remove();
+				$("#statusHandle").hide();
                 // document.getElementById("shiftHead").style.display="inline";
                 // document.getElementById("shiftHandle").style.display="inline";
+			}else  if(value==0){
+				$("#shiftBody").remove();
+				$("#shiftHandle").hide();
+				$("<td id='statusBody' class='tit'>状态：</td>").insertAfter("#handleWay");
+				$("#statusHandle").show();
 			}else{
                 $("#shiftBody").remove();
                 $("#shiftHandle").hide();
                 // document.getElementById("shiftHead").style.display="none";
                 // document.getElementById("shiftHandle").style.display="none";
+				$("#statusBody").remove();
+				$("#statusHandle").hide();
 			}
         }
+
+        function num(value){
+        	if(value>=128){
+        		alertx("患者年龄输入有误，请重新输入！");
+        		$("#patientAge").val("");
+			}
+		}
+
+		function money(val){
+			if(val<0){
+				alertx("金额不能为负数，请重新输入！");
+				$("#amountInvolved").val("");
+				return;
+			}
+		}
 	</script>
 </head>
 <body>
@@ -60,6 +87,8 @@
 		<form:hidden path="complaintId"/>
 		<form:hidden path="complaintMainId"/>
 		<form:hidden path="complaintMain.complaintMainId"/>
+		<form:hidden path="createDate"/>
+		<form:hidden path="createBy"/>
 		<input type="hidden" id="flag" name="flag"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">
@@ -119,7 +148,7 @@
 					<tr >
 						<td class="tit"><font color="red">*</font>患者年龄：</td>
 						<td >
-							<form:input path="patientAge" htmlEscape="false" maxlength="3" class="input-xlarge required digits"/>
+							<form:input path="patientAge" htmlEscape="false" class="input-xlarge required digits " maxlength="3" onchange="num(this.value)"/>
 						</td>
 					</tr>
 				</table>
@@ -143,14 +172,14 @@
 								<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="typeName"
 												labelValue="${complaintInfo.testTree}" title="涉及科室"
 												url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
-												notAllowSelectParent="true" checked="true"/>
+												notAllowSelectParent="true" checked="true" cssClass="required" dataMsgRequired="请选择科室"/>
                         </td>
 					</tr>
 					<tr >
-						<td class="tit"><font color="red">*</font>涉及人员：</td>
+						<td class="tit">涉及人员：</td>
 						<td>
                                     <form:input path="involveEmployee" htmlEscape="false"
-                                                class="input-xlarge required" value="${empty complaintInfo.employeeName?complaintInfo.involveEmployee:complaintInfo.employeeName}"/>
+                                                class="input-xlarge " value="${empty complaintInfo.employeeName?complaintInfo.involveEmployee:complaintInfo.employeeName}"/>
 							<%--<sys:treeselect id="involveEmployee" name="involveEmployee" value="${complaintInfo.involveEmployee}" labelName="employeeName" labelValue="${complaintInfo.employeeName}"--%>
 											<%--title="用户" url="/sys/office/treeData?type=3&officeType=2" pid="involveDepartment" isAll="true" cssClass="required" dataMsgRequired="请选择人员" allowClear="true" notAllowSelectParent="true"/>--%>
 						</td>
@@ -193,7 +222,7 @@
 
 		</tr>
 		<tr>
-			<td class="tit">投诉类别：</td>
+			<td class="tit">投诉原因：</td>
 			<td>
 				<sys:treeselect id="complaintType" name="complaintType" value="${complaintInfo.complaintType}" labelName="typeName" labelValue="${complaintInfo.typeName}" title="调解类别"
 								url="/test/testTree/treeData?mold=1" isAll="true" allowClear="true" notAllowSelectParent="true"/>
@@ -218,6 +247,7 @@
 					<form:option value="0">当面处理</form:option>
 					<form:option value="1">转办处理</form:option>
 					<form:option value="2">转调解处理</form:option>
+					<form:option value="3">诉讼</form:option>
 				</form:select>
 			</td>
 			<td id="shiftHandle">
@@ -229,19 +259,46 @@
 				</form:select>
 			</td>
 
+			<td id="statusHandle">
+				<form:select path="status" style='width:110px;text-align: center;'>
+					<form:option value="0">处理中</form:option>
+					<form:option value="1">协调中</form:option>
+					<form:option value="2">结案</form:option>
+				</form:select>
+			</td>
+
 		</tr>
 		<tr>
-			<td class="tit"><font color="red">*</font>处理经过</td>
+			<td class="tit"><font color="red">*</font>处理经过：</td>
 			<td colspan="3">
 				<form:textarea path="handlePass" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="tit"><font color="red">*</font>处理结果</td>
+			<td class="tit"><font color="red">*</font>处理结果：</td>
 			<td colspan="3">
 				<form:textarea path="handleResult" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
+		<tr>
+			<td class="tit"><font color="red">*</font>结案方式：</td>
+			<td colspan="3">
+				<form:textarea path="closingMethod" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit"><font color="red">*</font>结案预期：</td>
+			<td >
+				<input name="expectedClosure" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+					   value="${complaintInfo.expectedClosure}"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+			</td>
+			<td class="tit"><font color="red">*</font>涉及金额：</td>
+			<td >
+				<form:input path="amountInvolved" htmlEscape="false" maxlength="50" class="input-xlarge required number" onchange="money(this.value);"/>
+			</td>
+		</tr>
+
 		<tr>
 			<td class="tit"><font color="red">*</font>接待人员：</td>
 			<td >
@@ -259,7 +316,7 @@
 			</td>
 		</tr>
 
-		<tr>
+		<tr id="treeTr">
 			<%--<td class="tit"><font color="red">*</font>是否进入医调委调解：</td>--%>
 			<%--<td>--%>
 				<%--<form:select id="isMediate" path="isMediate" style='width:110px;text-align: center;' >--%>
@@ -275,7 +332,7 @@
 			<td >
 				<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintInfo.nextLinkMan}" labelName="link.name" labelValue="${complaintInfo.link.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" role="distribution" isAll="true" cssClass="required" dataMsgRequired="请选择下一环节处理人" allowClear="true" notAllowSelectParent="true"/>
+								title="用户" url="/sys/office/treeData?type=3&officeType=1${fn:contains(fns:getUser().office.name, '工作站') ? '': '&isAll=true'   }" role="distribution"  cssClass="required" dataMsgRequired="请选择下一环节处理人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 		</tr>
 	</table>

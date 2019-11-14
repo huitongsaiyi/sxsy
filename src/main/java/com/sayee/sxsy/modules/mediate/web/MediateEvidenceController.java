@@ -134,17 +134,20 @@ public class MediateEvidenceController extends BaseController {
 			}
 			try {
 				mediateEvidenceService.save(mediateEvidence,request);
-                machineAccountService.savetz(mediateEvidence.getMachineAccount(), "c", mediateEvidence.getMediateEvidenceId());
+                machineAccountService.savetz(mediateEvidence.getMachineAccount(), "c", mediateEvidence);
 				if ("yes".equals(mediateEvidence.getComplaintMain().getAct().getFlag())){
 					addMessage(redirectAttributes, "流程已启动，流程ID：" + mediateEvidence.getComplaintMain().getProcInsId());
+					return "redirect:"+Global.getAdminPath()+"/mediate/mediateEvidence/?repage";
 				}else {
-					addMessage(redirectAttributes, "保存质证调解成功");
+					model.addAttribute("message","保存质证调解成功");
+					return form(this.get(mediateEvidence.getMediateEvidenceId()), model,request);
 				}
 			} catch (Exception e) {
 				logger.error("启动纠纷调解流程失败：", e);
 				addMessage(redirectAttributes, "系统内部错误！");
+				return "redirect:"+Global.getAdminPath()+"/mediate/mediateEvidence/?repage";
 			}
-			return "redirect:"+Global.getAdminPath()+"/mediate/mediateEvidence/?repage";
+
 		}
 
 

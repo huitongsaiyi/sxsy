@@ -22,6 +22,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +87,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 				throw new AuthenticationException("msg:该已帐号禁止登录.");
 			}
 			byte[] salt = Encodes.decodeHex(user.getPassword().substring(0,16));
-			return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()), 
+			return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()),
 					user.getPassword().substring(16), ByteSource.Util.bytes(salt), getName());
 		} else {
 			return null;
@@ -190,7 +192,68 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用
+	 */
+	public AuthorizationInfo doClearCache(PrincipalCollection principals,String aa) {
+		Principal principal = (Principal) getAvailablePrincipal(principals);
+		// 获取当前已登录的用户
+		if (!Global.TRUE.equals(Global.getConfig("user.multiAccountLogin"))) {
+			Collection<Session> sessions = getSystemService().getSessionDao().getActiveSessions(true, principal,
+					UserUtils.getSession());
+			if (sessions.size() > 0) {
+				if (UserUtils.getSubject().isAuthenticated()) {
+
+					//限制用户只能在一处登录start
+					for (Session session : sessions) {
+						Object obj = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+						SimplePrincipalCollection coll = (SimplePrincipalCollection) obj;
+						if (coll == null) {
+							continue;
+						}
+						Principal user = (Principal) coll.getPrimaryPrincipal();
+						String username = user.getLoginName();
+						// 当第二次登录时，给出提示，禁止重复登录
+						if (principal.loginName.equals(username)) {
+							UserUtils.getSubject().logout();
+							throw new AuthenticationException("msg:该用户已在其他设备登录，禁止重复登录!!!!");
+						}
+			 		}
+					//限制用户只能在一处登录end
+
+				}
+			}
+		}
+		User user = getSystemService().getUserByLoginName(principal.getLoginName());
+		if (user != null) {
+			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+			List<Menu> list = UserUtils.getMenuList();
+			for (Menu menu : list) {
+				if (StringUtils.isNotBlank(menu.getPermission())) {
+					// 添加基于Permission的权限信息
+					for (String permission : StringUtils.split(menu.getPermission(), ",")) {
+						info.addStringPermission(permission);
+					}
+				}
+			}
+			// 添加用户权限
+			info.addStringPermission("user");
+			// 添加用户角色信息
+			for (Role role : user.getRoleList()) {
+				info.addRole(role.getEnname());
+			}
+			// 更新登录IP和时间
+			getSystemService().updateUserLoginInfo(user);
+			// 记录登录日志
+			LogUtils.saveLog(Servlets.getRequest(), "系统登录");
+			return info;
+		} else {
+			return null;
+		}
+	}
+
+
 	@Override
 	protected void checkPermission(Permission permission, AuthorizationInfo info) {
 		authorizationValidate(permission);

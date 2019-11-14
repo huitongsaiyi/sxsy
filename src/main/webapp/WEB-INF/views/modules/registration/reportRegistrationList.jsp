@@ -48,7 +48,7 @@
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table  table-bordered table-condensed">
 		<thead>
 			<tr><th class="sort-column case_number" style="text-align: center;">案件编号</th>
 				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
@@ -63,7 +63,7 @@
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="reportRegistration">
-			<tr>
+			<tr ${reportRegistration.isMajor=='1' ? "style='background-color: red;'" : ""} >
 				<td style="text-align: center;"><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">
 						${reportRegistration.complaintMain.caseNumber}
 				</a></td>
@@ -90,9 +90,11 @@
 						${reportRegistration.patientMobile}
 				</td>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td style="text-align: center;">
-    				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">处理</a>
+					<c:if test="${fns:getUser().loginName eq reportRegistration.complaintMain.act.assigneeName}">
+						<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}">处理</a>
+						<%--<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${reportRegistration.complaintMainId}&taskId=${reportRegistration.complaintMain.act.taskId}&module=badj&url1=/registration/reportRegistration/?repage">终止调解</a>--%>
+					</c:if>
     				<a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">详情</a>
-					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${reportRegistration.complaintMainId}&module=badj&url1=/registration/reportRegistration/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
@@ -101,3 +103,4 @@
 	<div class="pagination">${page}</div>
 </body>
 </html>
+

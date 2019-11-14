@@ -57,6 +57,7 @@
          o.name AS "complaintMain.hospital.name", o1.name AS "complaintMain.department.name",
          u1.name AS "complaintMain.employee.name", u2.name AS "linkEmployee.name",
          t.ID_ AS "complaintMain.act.taskId",
+         t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
          r1.report_emp AS "reportRegistration.reportEmp",
          r1.dispute_time AS "reportRegistration.disputeTime",
          r1.patient_mobile AS "reportRegistration.patientMobile",
@@ -114,6 +115,12 @@
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r1.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='reach'
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
+			</if>
+			<if test="list != null and list != ''">
+				AND t.ASSIGNEE_ in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
 			</if>
 			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
 				AND r1.report_emp = #{reportRegistration.reportEmp}

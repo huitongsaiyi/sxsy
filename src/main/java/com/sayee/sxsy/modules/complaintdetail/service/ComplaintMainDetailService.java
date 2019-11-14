@@ -3,17 +3,20 @@
  */
 package com.sayee.sxsy.modules.complaintdetail.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.act.utils.ActUtils;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.MapUtils;
@@ -49,10 +52,25 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 	}
 	
 	public Page<ComplaintMainDetail> findPage(Page<ComplaintMainDetail> page, ComplaintMainDetail complaintMainDetail) {
-		if (UserUtils.getUser().isAdmin()){//是管理员查看全部
-
+		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		User user=UserUtils.getUser();
+		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+				//!aa.contains("dept") &&
+		}else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+			//工作站 主任 副主任 看自己 的员工
+				List<String> list=new ArrayList<String>();
+				List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+				for (User people:listUser) {
+					list.add(people.getId());
+				}
+				if (list.size()>0){
+					complaintMainDetail.setList(list);
+				}else {
+					list.add(user.getId());
+					complaintMainDetail.setList(list);
+				}
 		}else {//不是管理员查看自己创建的
-			complaintMainDetail.setUser(UserUtils.getUser());
+			complaintMainDetail.setUser(user);
 		}
 		return super.findPage(page, complaintMainDetail);
 	}

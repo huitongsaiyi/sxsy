@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.WordExportUtil;
 import com.sayee.sxsy.modules.act.entity.Act;
@@ -62,8 +63,26 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 	}
 
 	public Page<ReportRegistration> findPage(Page<ReportRegistration> page, ReportRegistration reportRegistration) {
-		//获取当前登录用户
-		reportRegistration.setUser(UserUtils.getUser());
+		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		User user=UserUtils.getUser();
+		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
+			//!aa.contains("dept") &&
+		}else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
+			//工作站 主任 副主任 看自己 的员工
+			List<String> list=new ArrayList<String>();
+			List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+			for (User people:listUser) {
+				list.add(people.getLoginName());
+			}
+			if (list.size()>0){
+				reportRegistration.setList(list);
+			}else {
+				list.add(user.getLoginName());
+				reportRegistration.setList(list);
+			}
+		}else {//不是管理员查看自己创建的
+			reportRegistration.setUser(user);
+		}
 		//在报案登记的数据 都会管理 实例ID  ，但是存在投诉接待来，没进行保存；  保存了 没进行下一步的
 		Page<ReportRegistration> a=super.findPage(page, reportRegistration);
 		return super.findPage(page, reportRegistration);

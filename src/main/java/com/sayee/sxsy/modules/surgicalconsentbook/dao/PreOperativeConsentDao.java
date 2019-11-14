@@ -22,5 +22,5 @@ public interface PreOperativeConsentDao extends CrudDao<PreOperativeConsent> {
 	public void updateFile(@Param("files1") String files1,@Param("itemId1") String itemId1,@Param("fjtype") String fjtype);
 	public void deletfj(@Param("itemId1") String itemId1,@Param("fjtype") String fjtype);
 
-	List<Map<String, Object>> selectCreatby(@Param("visitorDate")String visitorDate, @Param("visitorMonthDate") String visitorMonthDate, @Param("involveDepartment")String involveDepartment, @Param("involveEmployee")String involveEmployee);
+	List<Map<String, Object>> selectCreatby(@Param("visitorDate")String visitorDate,@Param("visitorDateEnd")String visitorDateEnd, @Param("visitorMonthDate") String visitorMonthDate, @Param("visitorMonthDateEnd") String visitorMonthDateEnd, @Param("involveDepartment")String involveDepartment, @Param("involveEmployee")String involveEmployee);
 }

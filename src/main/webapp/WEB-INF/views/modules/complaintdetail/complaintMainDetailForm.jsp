@@ -32,6 +32,13 @@
             }
 
         }
+
+        function num(value){
+            if(value>=128){
+                alertx("患者年龄输入有误，请重新输入！");
+                $("#complaintMain\\.patientAge").val("");
+            }
+        }
     </script>
 </head>
 <body>
@@ -117,8 +124,8 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>患者年龄：</td>
                     <td>
-                        <form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="4"
-                                    class="input-xlarge required digits"/>
+                        <form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="3"
+                                    class="input-xlarge required digits" onchange="num(this.value)"/>
                     </td>
                 </tr>
             </table>
@@ -166,10 +173,10 @@
                                             url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
                                             notAllowSelectParent="true" checked="true"/>
                     </td>
-                    <td class="tit"><font color="red">*</font>涉及人员：</td>
+                    <td class="tit">涉及人员：</td>
                     <td>
                                 <form:input path="complaintMain.involveEmployee" htmlEscape="false"
-                                            class="required" value="${empty complaintMainDetail.complaintMain.employee.name?complaintMainDetail.complaintMain.involveEmployee:complaintMainDetail.complaintMain.employee.name}"/>
+                                             value="${empty complaintMainDetail.complaintMain.employee.name?complaintMainDetail.complaintMain.involveEmployee:complaintMainDetail.complaintMain.employee.name}"/>
                         <%--<sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee"--%>
                                         <%--value="${complaintMainDetail.complaintMain.involveEmployee}"--%>
                                         <%--labelName="${complaintMainDetail.complaintMain.employee.name}"--%>

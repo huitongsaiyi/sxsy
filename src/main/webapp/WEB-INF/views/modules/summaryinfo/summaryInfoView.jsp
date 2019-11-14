@@ -34,15 +34,15 @@
             zztj.height=document.documentElement.clientHeight-130;
             zztj.width=document.documentElement.clientWidth;
             //评估坚定申请
-            $("#pgjdsqDetail").attr("src","${ctx}/assessapply/assessApply/form?id=${map.pgjdsq}&type=view&show2=y");
-            var pgjdsq= document.getElementById("pgjdsqDetail");
-            pgjdsq.height=document.documentElement.clientHeight-130;
-            pgjdsq.width=document.documentElement.clientWidth;
+            <%--$("#pgjdsqDetail").attr("src","${ctx}/assessapply/assessApply/form?id=${map.pgjdsq}&type=view&show2=y");--%>
+            <%--var pgjdsq= document.getElementById("pgjdsqDetail");--%>
+            <%--pgjdsq.height=document.documentElement.clientHeight-130;--%>
+            <%--pgjdsq.width=document.documentElement.clientWidth;--%>
             //评估鉴定审批
-            $("#pgjdspDetail").attr("src","${ctx}/assessaudit/assessAudit/form?id=${map.pgjdsq}&type=view&show2=y");
-            var pgjdsp= document.getElementById("pgjdspDetail");
-            pgjdsp.height=document.documentElement.clientHeight-130;
-            pgjdsp.width=document.documentElement.clientWidth;
+            <%--$("#pgjdspDetail").attr("src","${ctx}/assessaudit/assessAudit/form?id=${map.pgjdsq}&type=view&show2=y");--%>
+            <%--var pgjdsp= document.getElementById("pgjdspDetail");--%>
+            <%--pgjdsp.height=document.documentElement.clientHeight-130;--%>
+            <%--pgjdsp.width=document.documentElement.clientWidth;--%>
             //评估鉴定
             $("#pgjdDetail").attr("src","${ctx}/assessappraisal/assessAppraisal/form?id=${map.pgjd}&type=view&show2=y");
             var pgjd= document.getElementById("pgjdDetail");
@@ -68,6 +68,7 @@
     </script>
 </head>
 <body>
+<br/>
 <form:form class="form-horizontal">
     <sys:message content="${message}"/>
     <fieldset>
@@ -441,12 +442,12 @@
                     <li>
                         <a href="#zztj" data-toggle="tab">质证调解</a>
                     </li>
-                    <li>
-                        <a href="#pgjdsq" data-toggle="tab">评估鉴定申请</a>
-                    </li>
-                    <li>
-                        <a href="#pgjdsp" data-toggle="tab">评估鉴定审批</a>
-                    </li>
+                    <%--<li>--%>
+                        <%--<a href="#pgjdsq" data-toggle="tab">评估鉴定申请</a>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<a href="#pgjdsp" data-toggle="tab">评估鉴定审批</a>--%>
+                    <%--</li>--%>
                     <li>
                         <a href="#pgjd" data-toggle="tab">评估鉴定</a>
                     </li>

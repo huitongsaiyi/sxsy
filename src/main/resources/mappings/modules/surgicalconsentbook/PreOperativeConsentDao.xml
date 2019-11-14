@@ -6,6 +6,16 @@
 		a.surgical_consent_id AS "surgicalConsentId",
 		a.id AS "id",
 		a.operation_type AS "operationType",
+		a.hospital AS "hospital",
+		a.department AS "department",
+		a.operation_client AS "operationClient",
+		a.other_doctors AS "otherDoctors",
+		a.operation_name AS "operationName",
+		a.operation_date AS "operationDate",
+		a.postoperative_visit AS "postoperativeVisit",
+		a.is_dangerous AS "isDangerous",
+		a.compensation_amount AS "compensationAmount",
+		a.patient AS "patient",
 		a.witness_time AS "witnessTime",
 		a.witness_locations AS "witnessLocations",
 		a.affected_party AS "affectedParty",
@@ -20,12 +30,20 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
-
+		a.del_flag AS "delFlag",
+		u3.name AS "createBy.name",
+		u1.name AS "witnessName",
+		u2.name AS "recordManName",
+		o.name AS "officeName",
+		t.name AS "departmentName"
 	</sql>
 	
 	<sql id="preOperativeConsentJoins">
-
+		LEFT JOIN SYS_USER u3 ON u3.id = a.create_by
+		LEFT JOIN SYS_USER u1 ON u1.id = a.witness
+		LEFT JOIN SYS_USER u2 ON u2.id = a.record_man
+		LEFT JOIN SYS_OFFICE o ON o.id = a.hospital
+		LEFT JOIN TEST_TREE t ON t.id = a.department
 	</sql>
     
 	<select id="get" resultType="PreOperativeConsent">
@@ -46,6 +64,12 @@
 			<if test="user !=null and user.id !=null and user.id !=''">
 				AND a.create_by like concat('%',#{user.id},'%')
 			</if>
+			<if test="list != null and list != ''">
+				AND a.create_by in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
 			<if test="surgicalConsentId != null and surgicalConsentId != ''">
 				AND a.surgical_consent_id LIKE 
 					<if test="dbName == 'oracle'">'%'||#{surgicalConsentId}||'%'</if>
@@ -59,10 +83,16 @@
 					<if test="dbName == 'mysql'">concat('%',#{operationType},'%')</if>
 			</if>
 			<if test="witnessLocations != null and witnessLocations != ''">
-				AND a.witness_locations LIKE 
+				AND a.witness_locations LIKE
 					<if test="dbName == 'oracle'">'%'||#{witnessLocations}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{witnessLocations}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{witnessLocations},'%')</if>
+			</if>
+			<if test="hospital != null and hospital != ''">
+				AND a.hospital LIKE
+				<if test="dbName == 'oracle'">'%'||#{hospital}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{hospital}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{hospital},'%')</if>
 			</if>
 			<if test="witness != null and witness != ''">
 				AND a.witness LIKE 
@@ -124,7 +154,17 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			hospital,
+			department,
+			patient,
+			operation_client,
+			other_doctors,
+			operation_name,
+			operation_date,
+			postoperative_visit,
+			is_dangerous,
+			compensation_amount
 		) VALUES (
 			#{id},
 		    #{surgicalConsentId},
@@ -143,7 +183,17 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{hospital},
+			#{department},
+			#{patient},
+			#{operationClient},
+			#{otherDoctors},
+			#{operationName},
+			#{operationDate},
+			#{postoperativeVisit},
+			#{isDangerous},
+			#{compensationAmount}
 		)
 	</insert>
 	<insert id="insertzf">
@@ -186,8 +236,17 @@
 			create_date = #{createDate},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
-
+			remarks = #{remarks},
+			hospital = #{hospital},
+			department = #{department},
+			patient = #{patient},
+			operation_client = #{operationClient},
+			other_doctors = #{otherDoctors},
+			operation_name = #{operationName},
+			operation_date = #{operationDate},
+			postoperative_visit = #{postoperativeVisit},
+			is_dangerous = #{isDangerous},
+			compensation_amount = #{compensationAmount}
 		WHERE id = #{id}
 	</update>
 
@@ -202,12 +261,34 @@
 		LEFT JOIN SYS_USER u on u.id=a.create_by
 		LEFT JOIN SYS_OFFICE o ON o.id=u.office_id
 		WHERE a.del_flag ='0'
-		<if test="visitorDate !=null and visitorDate !=''">
-			AND a.witness_time like concat('%',#{visitorDate},'%')
-		</if>
-		<if test="visitorMonthDate !=null and visitorMonthDate !=''">
-			AND a.witness_time like concat('%',#{visitorMonthDate},'%')
-		</if>
+		<choose>
+			<when test="visitorDate !=null and visitorDate !='' and visitorDateEnd !=null and visitorDateEnd !='' and visitorDate!=visitorDateEnd">
+				AND a.witness_time &gt;= #{visitorDate,jdbcType=VARCHAR}  AND a.witness_time &lt;= #{visitorDateEnd,jdbcType=VARCHAR}
+			</when>
+			<when test="visitorDate !=null and visitorDate !='' and visitorDateEnd !=null and visitorDateEnd !='' and visitorDate==visitorDateEnd">
+				AND a.witness_time like concat('%',#{visitorDate},'%')
+			</when>
+			<when test="visitorDate !=null and visitorDate !='' and (visitorDateEnd ==null or visitorDateEnd =='')">
+				AND a.witness_time like concat('%',#{visitorDate},'%')
+			</when>
+			<when test="visitorDateEnd !=null and visitorDateEnd !='' and (visitorDate ==null or visitorDate =='')">
+				AND a.witness_time like concat('%',#{visitorDateEnd},'%')
+			</when>
+		</choose>
+		<choose>
+			<when test="visitorMonthDate !=null and visitorMonthDate !='' and visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and visitorMonthDate!=visitorMonthDateEnd">
+				AND a.witness_time &gt;= #{visitorMonthDate,jdbcType=VARCHAR}  AND a.witness_time &lt;= #{visitorMonthDateEnd,jdbcType=VARCHAR}
+			</when>
+			<when test="visitorMonthDate !=null and visitorMonthDate !='' and visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and visitorMonthDate==visitorMonthDateEnd">
+				AND a.witness_time like concat('%',#{visitorMonthDate},'%')
+			</when>
+			<when test="visitorMonthDate !=null and visitorMonthDate !='' and (visitorMonthDateEnd ==null or visitorMonthDateEnd =='')">
+				AND a.witness_time like concat('%',#{visitorMonthDate},'%')
+			</when>
+			<when test="visitorMonthDateEnd !=null and visitorMonthDateEnd !='' and (visitorMonthDate ==null or visitorMonthDate =='')">
+				AND a.witness_time like concat('%',#{visitorMonthDateEnd},'%')
+			</when>
+		</choose>
 		<if test="involveDepartment !=null and involveDepartment !=''">
 			AND u.office_id like concat('%',#{involveDepartment},'%')
 		</if>

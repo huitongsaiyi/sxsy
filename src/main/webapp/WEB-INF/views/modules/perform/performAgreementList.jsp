@@ -105,9 +105,11 @@
 						${performAgreement.reportRegistration.patientMobile}
 				</td>
 				<shiro:hasPermission name="perform:performAgreement:edit"><td style="text-align: center;">
-    				<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}">处理</a>
+					<c:if test="${fns:getUser().loginName eq performAgreement.complaintMain.act.assigneeName}">
+						<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}">处理</a>
+						<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${performAgreement.complaintMainId}&taskId=${performAgreement.complaintMain.act.taskId}&module=badj&url10=/perform/performAgreement/?repage">终止调解</a>
+					</c:if>
 					<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}&type=view">详情</a>
-					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${performAgreement.complaintMainId}&module=badj&url10=/perform/performAgreement/?repage">终止调解</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

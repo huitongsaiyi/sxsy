@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.Length;
 import com.sayee.sxsy.common.persistence.DataEntity;
 
 import javax.validation.constraints.DecimalMin;
+import java.util.List;
 
 /**
  * 履行协议Entity
@@ -41,6 +42,15 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 	private String compensateTime;//赔付时间
 	private String claimSettlementTime;//交理赔时间
 	private MachineAccount machineAccount;//台账信息
+	private List<String> list;//工作站人员list
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public MachineAccount getMachineAccount() {
 		return machineAccount;
