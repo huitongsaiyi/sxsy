@@ -6,7 +6,9 @@ package com.sayee.sxsy.modules.summaryinfo.entity;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
+import com.sayee.sxsy.modules.perform.entity.PerformAgreement;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
+import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
@@ -37,6 +39,8 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	private String isStop;		// 是否来自终止调解
 	private AuditAcceptance auditAcceptance;//保单号
 	private ComplaintMain complaintMain;		// 关联主表主键
+	private SignAgreement signAgreement;		// 关联主表主键
+	private PerformAgreement performAgreement;		// 关联主表主键
 	private User user;  //当前登录人员
 	private Area area;
 	private User linkEmployee;		// 下一环节人员
@@ -47,6 +51,22 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 
 	public String getIsStop() {
 		return isStop;
+	}
+
+	public SignAgreement getSignAgreement() {
+		return signAgreement;
+	}
+
+	public void setSignAgreement(SignAgreement signAgreement) {
+		this.signAgreement = signAgreement;
+	}
+
+	public PerformAgreement getPerformAgreement() {
+		return performAgreement;
+	}
+
+	public void setPerformAgreement(PerformAgreement performAgreement) {
+		this.performAgreement = performAgreement;
 	}
 
 	public void setIsStop(String isStop) {

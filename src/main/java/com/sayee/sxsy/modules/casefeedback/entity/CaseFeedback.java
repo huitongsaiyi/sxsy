@@ -39,6 +39,7 @@ public class CaseFeedback extends DataEntity<CaseFeedback> {
 	private Office office;
 	private User feedbackEmps;//反馈给人员
 	private Office feedbackOffices;//反馈给部门
+	private String summaryOfDisputes;//签署协议的 纠纷概要
 
 	public Office getFeedbackOffices() {
 		return feedbackOffices;
@@ -70,6 +71,14 @@ public class CaseFeedback extends DataEntity<CaseFeedback> {
 
 	public void setOffice(Office office) {
 		this.office = office;
+	}
+
+	public String getSummaryOfDisputes() {
+		return summaryOfDisputes;
+	}
+
+	public void setSummaryOfDisputes(String summaryOfDisputes) {
+		this.summaryOfDisputes = summaryOfDisputes;
 	}
 
 	public void setOaNotifyOfficeNames(String oaNotifyRecord) {

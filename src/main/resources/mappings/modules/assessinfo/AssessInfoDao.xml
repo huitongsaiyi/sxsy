@@ -32,13 +32,17 @@
         r1.dispute_time AS "reportRegistration.disputeTime",
         r1.patient_mobile AS "reportRegistration.patientMobile",
         sa.name AS "area.name",
+        u13.name AS "summaryInfo.user.name",
+        su.filing_time AS "summaryInfo.filingTime",
+        su.file_number AS "summaryInfo.fileNumber",
         au.policy_number AS "auditAcceptance.policyNumber"
 	</sql>
 	
 	<sql id="assessInfoJoins">
 		LEFT JOIN ASSESS_INFO a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN SUMMARY_INFO su ON su.complaint_main_id = b.complaint_main_id
 		LEFT JOIN SYS_USER u3 ON u3.id = a.appraiser
--- 		LEFT JOIN SYS_USER u13 ON u13.id = a.next_link_man
+ 		LEFT JOIN SYS_USER u13 ON u13.id = su.create_by
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
 		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
@@ -67,14 +71,17 @@
 			<if test="user != null and user.id != null and user.id != ''">
 				AND t.ASSIGNEE_ LIKE CONCAT('%', #{user.loginName}, '%')
 			</if>
-			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
-				AND r1.report_emp = #{reportRegistration.reportEmp}
+			<if test="complaintMain !=null and complaintMain.caseNumber != null and complaintMain.caseNumber != ''">
+				AND b.case_number LIKE CONCAT('%', #{complaintMain.caseNumber}, '%')
 			</if>
 			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
-				AND b.patient_name = #{complaintMain.patientName}
+				AND b.patient_name LIKE CONCAT('%', #{complaintMain.patientName}, '%')
 			</if>
-			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
-				AND r1.patient_mobile = #{reportRegistration.patientMobile}
+			<if test="complaintMain !=null and complaintMain.involveHospital != null and complaintMain.involveHospital != ''">
+				AND b.involve_hospital LIKE CONCAT('%', #{complaintMain.involveHospital}, '%')
+			</if>
+			<if test="createBy !=null and createBy.id != null and createBy.id != ''">
+				AND su.create_by LIKE CONCAT('%', #{createBy.id}, '%')
 			</if>
 		</where>
 		<choose>

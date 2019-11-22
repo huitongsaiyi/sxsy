@@ -80,7 +80,7 @@
     <fieldset>
         <ul id="myTab" class="nav nav-tabs">
             <li class="active">
-                <a href="#Summary" data-toggle="tab">案件评价</a>
+                <a href="#Summary" data-toggle="tab">案件反馈</a>
             </li>
             <li>
                 <a href="#details" data-toggle="tab">详情</a>

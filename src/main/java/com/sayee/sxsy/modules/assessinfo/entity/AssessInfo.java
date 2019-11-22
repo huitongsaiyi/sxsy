@@ -6,6 +6,7 @@ package com.sayee.sxsy.modules.assessinfo.entity;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
+import com.sayee.sxsy.modules.summaryinfo.entity.SummaryInfo;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
@@ -39,6 +40,7 @@ public class AssessInfo extends DataEntity<AssessInfo> {
 	private User linkEmployee;		// 下一环节人员
 	private AuditAcceptance auditAcceptance;
 	private ReportRegistration reportRegistration;
+	private SummaryInfo summaryInfo;
 
 	public AssessInfo() {
 		super();
@@ -46,6 +48,14 @@ public class AssessInfo extends DataEntity<AssessInfo> {
 
 	public AssessInfo(String id){
 		super(id);
+	}
+
+	public SummaryInfo getSummaryInfo() {
+		return summaryInfo;
+	}
+
+	public void setSummaryInfo(SummaryInfo summaryInfo) {
+		this.summaryInfo = summaryInfo;
 	}
 
 	public User getLinkEmployee() {

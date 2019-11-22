@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.modules.assessinfo.service.AssessInfoService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.casefeedback.entity.CaseFeedback;
 import com.sayee.sxsy.modules.casefeedback.service.CaseFeedbackService;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -53,7 +55,8 @@ public class CaseFeedbackController extends BaseController {
 	@RequiresPermissions("casefeedback:caseFeedback:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(CaseFeedback caseFeedback, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<CaseFeedback> page = caseFeedbackService.findPage(new Page<CaseFeedback>(request, response), caseFeedback); 
+		Page<CaseFeedback> page = caseFeedbackService.findPage(new Page<CaseFeedback>(request, response), caseFeedback);
+		page.getList().removeAll(Collections.singleton(null));
 		model.addAttribute("page", page);
 		return "modules/casefeedback/caseFeedbackList";
 	}

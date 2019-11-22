@@ -23,13 +23,17 @@
 		b.involve_department AS "complaintMain.involveDepartment",
 		b.involve_employee AS "complaintMain.involveEmployee",
 		b.proc_ins_id AS "complaintMain.procInsId",
+		b.is_major AS "complaintMain.isMajor",
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
 -- 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
+		sign.summary_of_disputes AS "summaryOfDisputes",
 		au.policy_number AS "auditAcceptance.policyNumber",
+		au.diagnosis_mode AS "auditAcceptance.diagnosisMode",
+		au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile",
@@ -41,6 +45,7 @@
 		LEFT JOIN CASE_FEEDBACK a ON a.complaint_main_id = b.complaint_main_id
 		LEFT JOIN REPORT_REGISTRATION r ON r.complaint_main_id = b.complaint_main_id
 		LEFT JOIN AUDIT_ACCEPTANCE au ON au.complaint_main_id = b.complaint_main_id
+		LEFT JOIN SIGN_AGREEMENT sign ON sign.complaint_main_id = b.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
 		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
@@ -73,10 +78,16 @@
 				AND r.report_emp = #{reportRegistration.reportEmp}
 			</if>
 			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
-				AND b.patient_name = #{complaintMain.patientName}
+				AND b.patient_name LIKE CONCAT('%', #{complaintMain.patientName}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.caseNumber != null and complaintMain.caseNumber != ''">
+				AND b.case_number LIKE CONCAT('%', #{complaintMain.caseNumber}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.involveHospital != null and complaintMain.involveHospital != ''">
+				AND b.involve_hospital LIKE CONCAT('%', #{complaintMain.involveHospital}, '%')
 			</if>
 			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
-				AND r.patient_mobile = #{reportRegistration.patientMobile}
+				AND r.patient_mobile LIKE CONCAT('%', #{reportRegistration.patientMobile}, '%')
 			</if>
 		</where>
 		<choose>
