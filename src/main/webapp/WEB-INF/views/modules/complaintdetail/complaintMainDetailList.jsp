@@ -79,8 +79,8 @@
 				<th class="sort-column appeal" style="text-align: center;">诉求</th>
 				<th class="sort-column complaint_mode" style="text-align: center;">投诉方式</th>
 				<th class="sort-column visitor_name" style="text-align: center;">访客姓名</th>
-				<th class="sort-column visitor_Number" style="text-align: center;">来访人数</th>
 				<th class="sort-column patient_relation" style="text-align: center;">与患者关系</th>
+				<th class="sort-column visitor_Number" style="text-align: center;">来访人数</th>
 
 				<%--<th class="sort-column is_major" style="text-align: center;">案件分类</th>
 				<th class="sort-column visitor_mobile" style="text-align: center;">访客电话</th>

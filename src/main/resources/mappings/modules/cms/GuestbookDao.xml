@@ -118,7 +118,7 @@
 	
 	<update id="delete">
 		UPDATE CMS_GUESTBOOK SET
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = #{delFlag}
 		WHERE id = #{id}
 	</update>
 	

@@ -28,19 +28,20 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
-			<li><label>报案人姓名：</label>
-				<form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-medium"/>
+			<li><label>案件编号：</label>
+				<form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="32" class="input-medium"/>
+			</li>
+			<li><label>报案时间：</label>
+				<input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="${reportRegistration.reportTime}"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</li>
 			<li><label>患者姓名：</label>
 				<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>
-			<li><label style="width: 100px;">患方联系方式：</label>
-				<form:input path="patientMobile" htmlEscape="false" maxlength="15" class="input-medium"/>
-			</li>
-			<li><label>报案日期：</label>
-				<input name="reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					   value="${reportRegistration.reportTime}"
-					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+			<li><label style="width: 100px;">涉及医院：</label>
+				<sys:treeselect id="involveHospital" name="complaintMain.involveHospital" value="${reportRegistration.complaintMain.involveHospital}" labelName="hospitalName" labelValue="${reportRegistration.complaintMain.hospital.name}"
+								title="部门" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="btns"><input id="button" class="btn btn-primary" type="reset" value="重置" /></li>
@@ -51,13 +52,17 @@
 	<table id="contentTable" class="table  table-bordered table-condensed">
 		<thead>
 			<tr><th class="sort-column case_number" style="text-align: center;">案件编号</th>
-				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
-				<th class="sort-column b.hospital_grade" style="text-align: center;">医院等级</th>
-				<th class="sort-column case_number" style="text-align: center;">所属地市</th>
-				<th class="sort-column report_emp" style="text-align: center;">报案人姓名</th>
-				<th class="sort-column dispute_time" style="text-align: center;">纠纷发生时间</th>
+				<th class="sort-column report_time" style="text-align: center;">报案时间</th>
 				<th class="sort-column patient_name" style="text-align: center;">患者姓名</th>
-				<th class="sort-column a.patient_mobile" style="text-align: center;">患方联系方式</th>
+				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
+				<th class="sort-column b.hospital_grade" style="text-align: center;">保险公司</th>
+				<th class="sort-column dispute_time" style="text-align: center;">纠纷发生时间</th>
+				<th class="sort-column report_emp" style="text-align: center;">报案人姓名</th>
+				<th class="sort-column a.patient_mobile" style="text-align: center;">涉及专业</th>
+				<th class="sort-column a.patient_mobile" style="text-align: center;">是否重大</th>
+				<th class="sort-column a.patient_mobile" style="text-align: center;">是否媒体介入</th>
+				<th class="sort-column r.patient_mobile" style="text-align:center;">部门名称</th>
+				<th class="sort-column r.patient_mobile" style="text-align:center;">调解员</th>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -67,27 +72,40 @@
 				<td style="text-align: center;"><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">
 						${reportRegistration.complaintMain.caseNumber}
 				</a></td>
+				<td style="text-align:center;">
+						${reportRegistration.reportTime}
+				</td>
+				<td style="text-align: center;">
+						${reportRegistration.complaintMain.patientName}
+				</td>
 				<td style="text-align: center;">
 						${reportRegistration.complaintMain.hospital.name}
 				</td>
 				<td style="text-align: center;">
-						${fns:getDictLabel(reportRegistration.complaintMain.hospitalGrade,"hospital_grade" ,"未知" )}
+
 				</td>
 				<td style="text-align: center;">
-                        ${reportRegistration.complaintMain.hospital.area.name}
+						${reportRegistration.disputeTime}
 				</td>
 
 				<td style="text-align: center;">
 						${reportRegistration.reportEmp}
 				</td>
 				<td style="text-align: center;">
-						${reportRegistration.disputeTime}
+						${reportRegistration.complaintMain.testTree}
+				</td>
+
+				<td style="text-align: center;">
+
 				</td>
 				<td style="text-align: center;">
-						${reportRegistration.complaintMain.patientName}
+
 				</td>
 				<td style="text-align: center;">
-						${reportRegistration.patientMobile}
+
+				</td>
+				<td style="text-align: center;">
+
 				</td>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq reportRegistration.complaintMain.act.assigneeName}">

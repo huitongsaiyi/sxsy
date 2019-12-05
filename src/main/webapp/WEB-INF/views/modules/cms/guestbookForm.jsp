@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>留言管理</title>
+	<title>咨询管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -27,25 +27,25 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/cms/guestbook/">留言列表</a></li>
-		<li class="active"><a href="${ctx}/cms/guestbook/form?id=${guestbook.id}">留言<shiro:hasPermission name="cms:guestbook:edit">${guestbook.delFlag eq '2'?'审核':'查看'}</shiro:hasPermission><shiro:lacksPermission name="cms:guestbook:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/cms/guestbook/">咨询列表</a></li>
+		<li class="active"><a href="${ctx}/cms/guestbook/form?id=${guestbook.id}">咨询<shiro:hasPermission name="cms:guestbook:edit">${guestbook.delFlag eq '2'?'审核':'查看'}</shiro:hasPermission><shiro:lacksPermission name="cms:guestbook:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="guestbook" action="${ctx}/cms/guestbook/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="delFlag"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">名称:</label>
+			<label class="control-label">咨询人姓名:</label>
 			<div class="controls">
 				<c:out value="${guestbook.name}"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%--<div class="control-group">
 			<label class="control-label">邮箱:</label>
 			<div class="controls">
 				<c:out value="${guestbook.email}"/>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">电话:</label>
 			<div class="controls">
@@ -58,12 +58,12 @@
 				<c:out value="${guestbook.workunit}"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%--<div class="control-group">
 			<label class="control-label">留言分类:</label>
 			<div class="controls">
 				<span style="font-weight:bold;"><c:out value="${fns:getDictLabel(guestbook.type, 'cms_guestbook', '无')}"/></span>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">IP:</label>
 			<div class="controls">
@@ -71,13 +71,13 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">留言时间:</label>
+			<label class="control-label">咨询时间:</label>
 			<div class="controls">
 				<fmt:formatDate value="${guestbook.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">留言内容:</label>
+			<label class="control-label">咨询内容:</label>
 			<div class="controls">
 				<form:textarea path="content" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge" disabled="true"/>
 			</div>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.satisfied.dao.SatisfiedDegreeDao">
+    
+	<sql id="satisfiedDegreeColumns">
+		a.satisfied_id AS "satisfiedId",
+		a.satisfied_name AS "satisfiedName",
+		a.ability AS "ability",
+		a.attitude AS "attitude",
+		a.meter AS "meter",
+		a.assess AS "assess",
+		a.proposal AS "proposal",
+		a.complaint_main_id AS "complaintMainId",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		b.CASE_NUMBER AS "complaintMain.caseNumber",
+		s.SIGN_AGREEMENT_ID AS "signAgreementId"
+	</sql>
+	
+	<sql id="satisfiedDegreeJoins">
+		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
+		LEFT JOIN SIGN_AGREEMENT s ON s.complaint_main_id=b.complaint_main_id
+	</sql>
+    
+	<select id="get" resultType="SatisfiedDegree">
+		SELECT 
+			<include refid="satisfiedDegreeColumns"/>
+		FROM satisfied_degree a
+		<include refid="satisfiedDegreeJoins"/>
+		WHERE a.satisfied_id = #{satisfiedId}
+	</select>
+	
+	<select id="findList" resultType="SatisfiedDegree">
+		SELECT 
+			<include refid="satisfiedDegreeColumns"/>
+		FROM satisfied_degree a
+		<include refid="satisfiedDegreeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="satisfiedName != null and satisfiedName != ''">
+				AND a.satisfied_name = #{satisfiedName}
+			</if>
+			<if test="assess != null and assess != ''">
+				AND a.assess LIKE 
+					<if test="dbName == 'oracle'">'%'||#{assess}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{assess}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{assess},'%')</if>
+			</if>
+			<if test="proposal != null and proposal != ''">
+				AND a.proposal LIKE 
+					<if test="dbName == 'oracle'">'%'||#{proposal}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{proposal}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{proposal},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SatisfiedDegree">
+		SELECT 
+			<include refid="satisfiedDegreeColumns"/>
+		FROM satisfied_degree a
+		<include refid="satisfiedDegreeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO satisfied_degree(
+			satisfied_id,
+			satisfied_name,
+			ability,
+			attitude,
+			meter,
+			assess,
+			proposal,
+			complaint_main_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{satisfiedId},
+			#{satisfiedName},
+			#{ability},
+			#{attitude},
+			#{meter},
+			#{assess},
+			#{proposal},
+			#{complaintMainId},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE satisfied_degree SET 	
+			satisfied_name = #{satisfiedName},
+			ability = #{ability},
+			attitude = #{attitude},
+			meter = #{meter},
+			assess = #{assess},
+			proposal = #{proposal},
+			complaint_main_id = #{complaintMainId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE satisfied_id = #{satisfiedId}
+	</update>
+	
+	<update id="delete">
+		UPDATE satisfied_degree SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE satisfied_id = #{satisfiedId}
+	</update>
+	
+</mapper>

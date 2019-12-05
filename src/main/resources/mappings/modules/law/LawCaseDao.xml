@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.law.dao.LawCaseDao">
+    
+	<sql id="lawCaseColumns">
+		a.law_case_id AS "lawCaseId",
+		a.type AS "type",
+		a.publish_time AS "publishTime",
+		a.title AS "title",
+		a.content AS "content",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="lawCaseJoins">
+	</sql>
+    
+	<select id="get" resultType="LawCase">
+		SELECT 
+			<include refid="lawCaseColumns"/>
+		FROM law_case a
+		<include refid="lawCaseJoins"/>
+		WHERE a.law_case_id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LawCase">
+		SELECT 
+			<include refid="lawCaseColumns"/>
+		FROM law_case a
+		<include refid="lawCaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="title != null and title != ''">
+				AND a.title LIKE 
+					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LawCase">
+		SELECT 
+			<include refid="lawCaseColumns"/>
+		FROM law_case a
+		<include refid="lawCaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO law_case(
+			law_case_id,
+			type,
+			publish_time,
+			title,
+			content,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{lawCaseId},
+			#{type},
+			#{publishTime},
+			#{title},
+			#{content},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE law_case SET 	
+			type = #{type},
+			publish_time = #{publishTime},
+			title = #{title},
+			content = #{content},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE law_case_id = #{lawCaseId}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM law_case
+		WHERE law_case_id = #{id}
+	</update>
+	
+</mapper>

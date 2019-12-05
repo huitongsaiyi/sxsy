@@ -32,9 +32,14 @@
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
 		au.policy_number AS "auditAcceptance.policyNumber",
+		au.create_date AS "auditAcceptance.createDate",
+		au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
 		r.report_emp AS "reportRegistration.reportEmp",
-		r.dispute_time AS "reportRegistration.disputeTime",
-		r.patient_mobile AS "reportRegistration.patientMobile"
+		r.report_time AS "reportRegistration.reportTime",
+		r.patient_mobile AS "reportRegistration.patientMobile",
+		sign.ratify_accord AS "signAgreement.ratifyAccord",
+		sign.agreement_amount AS "signAgreement.agreementAmount",
+		sign.claim_settlement_time AS "signAgreement.claimSettlementTime"
 	</sql>
 
 	<sql id="performAgreementJoins">
@@ -74,11 +79,17 @@
 					#{id}
 				</foreach>
 			</if>
-			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
-				AND r.report_emp = #{reportRegistration.reportEmp}
+			<if test="reportRegistration != null and reportRegistration.reportTime != null and reportRegistration.reportTime !=''">
+				AND r.report_time LIKE CONCAT('%', #{reportRegistration.reportTime}, '%')
 			</if>
 			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
-				AND b.patient_name = #{complaintMain.patientName}
+				AND b.patient_name LIKE CONCAT('%', #{complaintMain.patientName}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.caseNumber != null and complaintMain.caseNumber != ''">
+				AND b.case_number LIKE CONCAT('%', #{complaintMain.caseNumber}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.involveHospital != null and complaintMain.involveHospital != ''">
+				AND b.involve_hospital LIKE CONCAT('%', #{complaintMain.involveHospital}, '%')
 			</if>
 			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
 				AND r.patient_mobile = #{reportRegistration.patientMobile}

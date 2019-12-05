@@ -7,8 +7,10 @@ import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.modules.cms.dao.GuestbookDao;
 import com.sayee.sxsy.modules.cms.entity.Guestbook;
+import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.plugin2.util.SystemUtil;
 
 /**
  * 留言Service
@@ -44,6 +46,9 @@ public class GuestbookService extends CrudService<GuestbookDao, Guestbook> {
 	@Transactional(readOnly = false)
 	public void delete(Guestbook guestbook, Boolean isRe) {
 		//dao.updateDelFlag(id, isRe!=null&&isRe?Guestbook.DEL_FLAG_AUDIT:Guestbook.DEL_FLAG_DELETE);
+		if(true==isRe){
+			guestbook.setDelFlag("2");
+		}
 		dao.delete(guestbook);
 	}
 	

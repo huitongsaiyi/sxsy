@@ -59,8 +59,8 @@
          t.ID_ AS "complaintMain.act.taskId",
          t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
          r1.report_emp AS "reportRegistration.reportEmp",
-         r1.dispute_time AS "reportRegistration.disputeTime",
-         r1.patient_mobile AS "reportRegistration.patientMobile",
+         au.create_date AS "auditAcceptance.createDate",
+         au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
          o.id AS "recordInfo.ytwHost.office.id",
          uz.name AS "recordInfo.ytwHost.name",
          uj.name AS "recordInfo.ytwNoteTaker.name",
@@ -71,11 +71,15 @@
          au.policy_number AS "auditAcceptance.policyNumber",
          sa.name AS "area.name",
          o3.id AS "doctorOffice.id",
-         o3.name AS "doctorOffice.name"
+         o3.name AS "doctorOffice.name",
+         aa.responsibility_ratio AS "assessAppraisal.responsibilityRatio",
+         aa.scale AS "assessAppraisal.scale",
+         aa.eighteen_items AS "assessAppraisal.eighteenItems"
 	</sql>
 	
 	<sql id="reachMediateJoins">
 		LEFT JOIN REACH_MEDIATE a ON a.complaint_main_id = b.complaint_main_id
+		LEFT JOIN ASSESS_APPRAISAL aa ON aa.complaint_main_id = b.complaint_main_id
 		LEFT JOIN RECORD_INFO r ON r.relation_id = a.reach_mediate_id and r.type='1'
 		LEFT JOIN SYS_USER uz ON uz.id = r.host
 		LEFT JOIN SYS_USER uj ON uj.id=r.note_taker
@@ -122,14 +126,17 @@
 					#{id}
 				</foreach>
 			</if>
-			<if test="reportRegistration != null and reportRegistration.reportEmp != null and reportRegistration.reportEmp !=''">
-				AND r1.report_emp = #{reportRegistration.reportEmp}
+			<if test="reportRegistration != null and reportRegistration.reportTime != null and reportRegistration.reportTime !=''">
+				AND r1.report_time LIKE CONCAT('%', #{reportRegistration.reportTime}, '%')
 			</if>
 			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
-				AND b.patient_name = #{complaintMain.patientName}
+				AND b.patient_name LIKE CONCAT('%', #{complaintMain.patientName}, '%')
 			</if>
-			<if test="reportRegistration != null and reportRegistration.patientMobile != null and reportRegistration.patientMobile !=''">
-				AND r1.patient_mobile = #{reportRegistration.patientMobile}
+			<if test="complaintMain !=null and complaintMain.caseNumber != null and complaintMain.caseNumber != ''">
+				AND b.case_number LIKE CONCAT('%', #{complaintMain.caseNumber}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.involveHospital != null and complaintMain.involveHospital != ''">
+				AND b.involve_hospital LIKE CONCAT('%', #{complaintMain.involveHospital}, '%')
 			</if>
 		</where>
 		<choose>

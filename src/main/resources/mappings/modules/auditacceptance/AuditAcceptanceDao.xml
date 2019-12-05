@@ -150,6 +150,20 @@
 					<if test="dbName == 'mssql'">'%'+#{insuranceCompany}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{insuranceCompany},'%')</if>
 			</if>
+			<if test="reportRegistration != null and reportRegistration.reportTime != null and reportRegistration.reportTime !=''">
+				AND r.report_time LIKE CONCAT('%', #{reportRegistration.reportTime}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
+				AND b.patient_name LIKE CONCAT('%', #{complaintMain.patientName}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.caseNumber != null and complaintMain.caseNumber != ''">
+				AND b.case_number LIKE CONCAT('%', #{complaintMain.caseNumber}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.involveHospital != null and complaintMain.involveHospital != ''">
+				AND b.involve_hospital LIKE CONCAT('%', #{complaintMain.involveHospital}, '%')
+			</if>
+
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

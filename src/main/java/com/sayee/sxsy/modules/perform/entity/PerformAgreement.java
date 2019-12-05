@@ -7,6 +7,7 @@ import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
+import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sys.entity.Area;
 import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
@@ -37,12 +38,21 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 	private AuditAcceptance auditAcceptance;//保单号
 	private Area area;
 	private ReportRegistration reportRegistration;//报案人姓名
+	private SignAgreement signAgreement;//签署协议
 	private User linkEmployee;
 	private User user;  //当前登陆人
 	private String compensateTime;//赔付时间
 	private String claimSettlementTime;//交理赔时间
 	private MachineAccount machineAccount;//台账信息
 	private List<String> list;//工作站人员list
+
+	public SignAgreement getSignAgreement() {
+		return signAgreement;
+	}
+
+	public void setSignAgreement(SignAgreement signAgreement) {
+		this.signAgreement = signAgreement;
+	}
 
 	public List<String> getList() {
 		return list;

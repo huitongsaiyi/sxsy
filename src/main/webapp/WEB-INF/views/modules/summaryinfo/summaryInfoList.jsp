@@ -31,8 +31,10 @@
 			<li><label>案件编号：</label>
 				<form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>
-			<li><label>报案人时间：</label>
-				<form:input path="reportRegistration.reportTime" htmlEscape="false" maxlength="32" class="input-medium"/>
+			<li><label>报案时间：</label>
+				<input name="reportRegistration.reportTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value=""
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</li>
 			<li><label>患者姓名：</label>
 				<form:input path="complaintMain.patientName" htmlEscape="false" maxlength="32" class="input-medium"/>

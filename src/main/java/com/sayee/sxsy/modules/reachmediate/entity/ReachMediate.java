@@ -4,6 +4,7 @@
 package com.sayee.sxsy.modules.reachmediate.entity;
 
 import com.google.common.collect.Lists;
+import com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.program.entity.MediateProgram;
@@ -56,11 +57,21 @@ public class ReachMediate extends DataEntity<ReachMediate> {
 	private Area area;
 	private AuditAcceptance auditAcceptance;
 	private ReportRegistration reportRegistration;
-	private  String doctorAvoid;//医方回避
+	private AssessAppraisal assessAppraisal;
+	private String doctorAvoid;//医方回避
 	private String patientAvoid;//患方回避
 	private String patientClear;//患方是否清楚
 	private String doctorClear;//医方是否清楚
 	private List<String> list;//工作站人员list
+
+
+	public AssessAppraisal getAssessAppraisal() {
+		return assessAppraisal;
+	}
+
+	public void setAssessAppraisal(AssessAppraisal assessAppraisal) {
+		this.assessAppraisal = assessAppraisal;
+	}
 
 	public List<String> getList() {
 		return list;

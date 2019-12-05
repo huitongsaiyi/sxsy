@@ -84,7 +84,8 @@
 		u2.name AS "linkEmployee.name",
 		t.ID_ AS "complaintMain.act.taskId",
 		t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
-		sd.label AS "dict.name"
+		sd.label AS "dict.name",
+		group_concat(DISTINCT(te.name))AS "complaintMain.testTree"
 	</sql>
 
 	<sql id="reportRegistrationJoins">
@@ -93,6 +94,7 @@
 		LEFT JOIN MACHINE_ACCOUNT m1 ON m1.complaint_main_id = a.complaint_main_id AND m1.del_flag=0
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
+		LEFT JOIN TEST_TREE te ON INSTR(b.involve_department,te.id)>0 and length(te.id)=32
  		LEFT JOIN SYS_AREA sa ON sa.id=o.area_id
  		LEFT JOIN SYS_OFFICE o1 ON o1.id=b.involve_department
 		LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
@@ -128,9 +130,6 @@
 			<if test="reportEmp != null and reportEmp != ''">
 				AND a.report_emp = #{reportEmp}
 			</if>
-			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
-				AND b.patient_name = #{complaintMain.patientName}
-			</if>
 			<if test="patientMobile != null and patientMobile != ''">
 				AND a.patient_mobile = #{patientMobile}
 			</if>
@@ -140,7 +139,17 @@
 				<if test="dbName == 'mssql'">'%'+#{reportTime}+'%'</if>
 				<if test="dbName == 'mysql'">concat('%',#{reportTime},'%')</if>
 			</if>
+			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
+				AND b.patient_name LIKE CONCAT('%', #{complaintMain.patientName}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.caseNumber != null and complaintMain.caseNumber != ''">
+				AND b.case_number LIKE CONCAT('%', #{complaintMain.caseNumber}, '%')
+			</if>
+			<if test="complaintMain !=null and complaintMain.involveHospital != null and complaintMain.involveHospital != ''">
+				AND b.involve_hospital LIKE CONCAT('%', #{complaintMain.involveHospital}, '%')
+			</if>
 		</where>
+		GROUP BY b.complaint_main_id
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
