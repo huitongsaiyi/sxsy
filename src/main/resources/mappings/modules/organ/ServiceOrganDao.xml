@@ -22,14 +22,14 @@
 	</sql>
 	
 	<sql id="serviceOrganJoins">
-		LEFT JOIN sys_user u10 ON u10.id = a.user_id
-		LEFT JOIN sys_user u on find_in_set(u.id,a.user_id)
+		LEFT JOIN SYS_USER u10 ON u10.id = a.user_id
+		LEFT JOIN SYS_USER u on find_in_set(u.id,a.user_id)
 	</sql>
     
 	<select id="get" resultType="ServiceOrgan">
 		SELECT 
 			<include refid="serviceOrganColumns"/>
-		FROM service_organ a
+		FROM SERVICE_ORGAN a
 		<include refid="serviceOrganJoins"/>
 		WHERE a.service_organ_id = #{id}
         GROUP BY a.service_organ_id
@@ -38,7 +38,7 @@
 	<select id="findList" resultType="ServiceOrgan">
 		SELECT 
 			<include refid="serviceOrganColumns"/>
-		FROM service_organ a
+		FROM SERVICE_ORGAN a
 		<include refid="serviceOrganJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -75,7 +75,7 @@
 	<select id="findAllList" resultType="ServiceOrgan">
 		SELECT 
 			<include refid="serviceOrganColumns"/>
-		FROM service_organ a
+		FROM SERVICE_ORGAN a
 		<include refid="serviceOrganJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -91,7 +91,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO service_organ(
+		INSERT INTO SERVICE_ORGAN(
 			service_organ_id,
 			phone,
 			address,
@@ -127,7 +127,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE service_organ SET 	
+		UPDATE SERVICE_ORGAN SET
 			phone = #{phone},
 			address = #{address},
 			email = #{email},
@@ -143,7 +143,7 @@
 	</update>
 	
 	<update id="delete">
-		DELETE FROM service_organ
+		DELETE FROM SERVICE_ORGAN
 		WHERE service_organ_id = #{id}
 	</update>
 	

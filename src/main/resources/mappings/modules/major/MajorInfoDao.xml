@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.major.dao.MajorInfoDao">
+    
+	<sql id="majorInfoColumns">
+		a.major_id AS "majorId",
+		a.complaint_main_id AS "complaintMainId",
+		a.occurrence_time AS "occurrenceTime",
+		a.event_number AS "eventNumber",
+		a.duration AS "duration",
+		a.hospital_security_handle AS "hospitalSecurityHandle",
+		a.supervise AS "supervise",
+		a.alarm AS "alarm",
+		a.number_police AS "numberPolice",
+		a.check_event AS "checkEvent",
+		a.medical_trouble_num AS "medicalTroubleNum",
+		a.hurt AS "hurt",
+		a.hurt_number AS "hurtNumber",
+		a.limit_free AS "limitFree",
+		a.limit_number AS "limitNumber",
+		a.abuse_people AS "abusePeople",
+		a.damage_property AS "damageProperty",
+		a.behavior AS "behavior",
+		a.illegal_mortuary AS "illegalMortuary",
+		a.ammunition AS "ammunition",
+		a.provoke AS "provoke",
+		a.site_treatment AS "siteTreatment",
+		a.next_plan AS "nextPlan",
+		a.scene_pictures AS "scenePictures",
+		a.video AS "video",
+		a.audio AS "audio",
+		a.participant AS "participant",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="majorInfoJoins">
+		LEFT JOIN sys_user u27 ON u27.id = a.participant
+	</sql>
+    
+	<select id="get" resultType="MajorInfo">
+		SELECT 
+			<include refid="majorInfoColumns"/>
+		FROM major_info a
+		<include refid="majorInfoJoins"/>
+		WHERE a.major_id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MajorInfo">
+		SELECT 
+			<include refid="majorInfoColumns"/>
+		FROM major_info a
+		<include refid="majorInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="beginOccurrenceTime != null and endOccurrenceTime != null and beginOccurrenceTime != '' and endOccurrenceTime != ''">
+				AND a.occurrence_time BETWEEN #{beginOccurrenceTime} AND #{endOccurrenceTime}
+			</if>
+			<if test="hospitalSecurityHandle != null and hospitalSecurityHandle != ''">
+				AND a.hospital_security_handle = #{hospitalSecurityHandle}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MajorInfo">
+		SELECT 
+			<include refid="majorInfoColumns"/>
+		FROM major_info a
+		<include refid="majorInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO major_info(
+			major_id,
+			complaint_main_id,
+			occurrence_time,
+			event_number,
+			duration,
+			hospital_security_handle,
+			supervise,
+			alarm,
+			number_police,
+			check_event,
+			medical_trouble_num,
+			hurt,
+			hurt_number,
+			limit_free,
+			limit_number,
+			abuse_people,
+			damage_property,
+			behavior,
+			illegal_mortuary,
+			ammunition,
+			provoke,
+			site_treatment,
+			next_plan,
+			scene_pictures,
+			video,
+			audio,
+			participant,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{majorId},
+			#{complaintMainId},
+			#{occurrenceTime},
+			#{eventNumber},
+			#{duration},
+			#{hospitalSecurityHandle},
+			#{supervise},
+			#{alarm},
+			#{numberPolice},
+			#{checkEvent},
+			#{medicalTroubleNum},
+			#{hurt},
+			#{hurtNumber},
+			#{limitFree},
+			#{limitNumber},
+			#{abusePeople},
+			#{damageProperty},
+			#{behavior},
+			#{illegalMortuary},
+			#{ammunition},
+			#{provoke},
+			#{siteTreatment},
+			#{nextPlan},
+			#{scenePictures},
+			#{video},
+			#{audio},
+			#{participant},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE major_info SET 	
+			complaint_main_id = #{complaintMainId},
+			occurrence_time = #{occurrenceTime},
+			event_number = #{eventNumber},
+			duration = #{duration},
+			hospital_security_handle = #{hospitalSecurityHandle},
+			supervise = #{supervise},
+			alarm = #{alarm},
+			number_police = #{numberPolice},
+			check_event = #{checkEvent},
+			medical_trouble_num = #{medicalTroubleNum},
+			hurt = #{hurt},
+			hurt_number = #{hurtNumber},
+			limit_free = #{limitFree},
+			limit_number = #{limitNumber},
+			abuse_people = #{abusePeople},
+			damage_property = #{damageProperty},
+			behavior = #{behavior},
+			illegal_mortuary = #{illegalMortuary},
+			ammunition = #{ammunition},
+			provoke = #{provoke},
+			site_treatment = #{siteTreatment},
+			next_plan = #{nextPlan},
+			scene_pictures = #{scenePictures},
+			video = #{video},
+			audio = #{audio},
+			participant = #{participant},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE major_id = #{majorId}
+	</update>
+	
+	<update id="delete">
+		UPDATE major_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE major_id = #{id}
+	</update>
+	
+</mapper>

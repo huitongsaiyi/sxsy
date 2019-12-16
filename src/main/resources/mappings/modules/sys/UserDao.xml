@@ -379,7 +379,8 @@
 	</select>
 	<!-- 根据业务ID查询附件真实路径  返回listmap -->
 	<select id="getFilePath" parameterType="java.lang.String" resultType="java.util.Map">
-		SELECT *
+		SELECT acce_id,item_id,file_path,file_name,file_size,upload_date,show_as_image,
+			   employeeid,employeename,filetype,realpath,choosefile,thumb_path,is_pic,fjtype
 		FROM T_ACCESSORIES a
 		WHERE a.ITEM_ID = #{itemId}
 	</select>

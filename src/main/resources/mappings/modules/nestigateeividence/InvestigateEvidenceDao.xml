@@ -113,8 +113,7 @@
 			</if>
 			<if test="complaintMain !=null and complaintMain.patientName != null and complaintMain.patientName != ''">
 				AND b.patient_name LIKE CONCAT('%', #{complaintMain.patientName}, '%')
-			</if>123
-
+			</if>
 			<if test="complaintMain !=null and complaintMain.caseNumber != null and complaintMain.caseNumber != ''">
 				AND b.case_number LIKE CONCAT('%', #{complaintMain.caseNumber}, '%')
 			</if>

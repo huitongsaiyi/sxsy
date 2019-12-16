@@ -28,7 +28,7 @@
 	<select id="get" resultType="SatisfiedDegree">
 		SELECT 
 			<include refid="satisfiedDegreeColumns"/>
-		FROM satisfied_degree a
+		FROM SATISFIED_DEGREE a
 		<include refid="satisfiedDegreeJoins"/>
 		WHERE a.satisfied_id = #{satisfiedId}
 	</select>
@@ -36,7 +36,7 @@
 	<select id="findList" resultType="SatisfiedDegree">
 		SELECT 
 			<include refid="satisfiedDegreeColumns"/>
-		FROM satisfied_degree a
+		FROM SATISFIED_DEGREE a
 		<include refid="satisfiedDegreeJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -69,7 +69,7 @@
 	<select id="findAllList" resultType="SatisfiedDegree">
 		SELECT 
 			<include refid="satisfiedDegreeColumns"/>
-		FROM satisfied_degree a
+		FROM SATISFIED_DEGREE a
 		<include refid="satisfiedDegreeJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -85,7 +85,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO satisfied_degree(
+		INSERT INTO SATISFIED_DEGREE(
 			satisfied_id,
 			satisfied_name,
 			ability,
@@ -117,7 +117,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE satisfied_degree SET 	
+		UPDATE SATISFIED_DEGREE SET
 			satisfied_name = #{satisfiedName},
 			ability = #{ability},
 			attitude = #{attitude},
@@ -131,7 +131,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE satisfied_degree SET 
+		UPDATE SATISFIED_DEGREE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE satisfied_id = #{satisfiedId}
 	</update>

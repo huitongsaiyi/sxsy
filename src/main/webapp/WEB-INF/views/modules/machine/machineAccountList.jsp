@@ -29,7 +29,7 @@
     </script>
     <style type="text/css">
         #contentTable {
-            width: 260em;
+            width: 400em;
             table-layout: fixed;
         }
 
@@ -147,40 +147,57 @@
     <thead>
     <tr>
         <th >案件节点</th>
-        <th class="sort-column reporting_time">报案时间</th>
-        <th class="sort-column dept_id">部门名称</th>
+        <th class="sort-column case_number">案件编号</th>
+        <th class="sort-column case_situation">案件情况</th>
+        <th class="sort-column area_id">所属地区</th>
+        <th class="sort-column dept_id">所属部门</th>
         <th class="sort-column mediator_id">调解员</th>
         <th class="sort-column patient_name">患者名称</th>
-        <th class="sort-column hospital_id">医院名称</th>
-        <th class="sort-column insurance_company">保险公司名称</th>
-        <th class="sort-column policy_number">保单号</th>
-        <th class="sort-column start_insurance_time">起保日期</th>
-        <th class="sort-column disputes_time">纠纷发生日期</th>
-        <th class="sort-column risk_time">出险日期</th>
+        <th class="sort-column hospital_id">涉及医院</th>
+        <th class="sort-column hospital_grade">机构等级</th>
+        <th class="sort-column insurance_company">保险公司</th>
         <th class="sort-column summary_of_disputes">纠纷概要</th>
-        <th class="sort-column complaint_type">投诉类型</th>
-        <th class="sort-column is_major">是否重大</th>
+        <th class="sort-column related_major">涉及专业</th>
         <th class="sort-column treatment_mode">诊疗方式</th>
         <th class="sort-column treatment_result">治疗结果</th>
-        <th class="sort-column patients_reflect_focus">患方反映焦点</th>
-        <th class="sort-column related_major">涉及专业</th>
-        <th class="sort-column risk_people">出险医务人员</th>
+        <th class="sort-column risk_people">出险医生</th>
+        <th class="sort-column patients_reflect_focus">纠纷焦点</th>
+        <th class="sort-column is_major">是否重大</th>
+        <th class="sort-column is_media">是否媒体介入</th>
+        <th class="sort-column risk_time">出险日期</th>
+        <th class="sort-column disputes_time">纠纷发生日期</th>
+        <th class="sort-column reporting_time">报案时间</th>
+        <th class="sort-column acceptance_time">受理时间</th>
+        <th class="sort-column eighteen_items">涉及核心制度</th>
+        <th class="sort-column meeting_frequency">调解次数</th>
         <th class="sort-column assess_time">评估时间</th>
-        <th class="sort-column assess_number">评估号</th>
+        <th class="sort-column host">主持人</th>
+        <th class="sort-column clerk">书记员</th>
+        <th class="sort-column medical_expert">医学专家</th>
+        <th class="sort-column legal_expert">法学律师</th>
         <th class="sort-column duty_ratio">责任比例</th>
-        <th class="sort-column feedback_time">反馈时间</th>
+        <th class="sort-column count_amount">计算金额</th>
+        <th class="sort-column assess_number">评估号</th>
+        <th class="sort-column mediate_result">调解结果	</th>
+        <th class="sort-column is_judicial">是否司法确认</th>
         <th class="sort-column agreement_number">协议号</th>
-        <th width="100" class="sort-column ratify_accord">签署协议/判决时间</th>
-        <%--<th class="sort-column agreement_stamp_time">协议盖章时间</th>--%>
+        <th width="100" class="sort-column ratify_accord">协议签署时间</th>
+        <th class="sort-column agreement_stamp_time">协议生效时间</th>
+        <th class="sort-column flow_days">流转天数</th>
         <th class="sort-column agreement_amount">协议金额</th>
         <th width="100" class="sort-column insurance_amount">保险赔付金额</th>
         <th width="100" class="sort-column hospital_amount">医院赔付金额</th>
         <th class="sort-column claim_settlement_time">交理赔时间</th>
-        <th class="sort-column compensate_time">赔付时间</th>
-        <th class="sort-column flow_days">流转天数</th>
+        <th class="sort-column claim_settlement_day">提交理赔天数</th>
+        <th class="sort-column insurance_pay_time">保险赔付时间</th>
+        <th class="sort-column hospital_pay_time">医院赔付时间</th>
+        <th class="sort-column settlement_flow_days">理赔流转天数</th>
+        <th class="sort-column archive_time">卷宗归档时间</th>
         <th class="sort-column hand_over">移交人</th>
-        <th class="sort-column archive_time">归档时间</th>
         <th class="sort-column file_number">卷宗编号</th>
+        <th class="sort-column assess_grade">卷宗评分</th>
+        <th class="sort-column appraiser">评分人</th>
+        <th class="sort-column file_place">卷宗位置</th>
         <th class="sort-column remark">备注</th>
         <th class="sort-column a.create_by">创建者</th>
         <th width="150" class="sort-column a.create_date">创建时间</th>
@@ -198,7 +215,13 @@
                     ${machineAccount.nodeName}
             </a></td>
             <td>
-                    ${machineAccount.reportingTime}
+                    ${machineAccount.caseNumber}
+            </td>
+            <td>
+                    ${machineAccount.caseSituation}
+            </td>
+            <td>
+                    ${machineAccount.areaId}
             </td>
             <td>
                 <c:choose>
@@ -234,25 +257,28 @@
                 </c:choose>
             </td>
             <td>
+                    ${machineAccount.hospitalGrade}
+            </td>
+            <td>
                     ${machineAccount.insuranceCompany}
-            </td>
-            <td>
-                    ${machineAccount.policyNumber}
-            </td>
-            <td>
-                    ${machineAccount.startInsuranceTime}
-            </td>
-            <td>
-                    ${machineAccount.disputesTime}
-            </td>
-            <td>
-                    ${machineAccount.riskTime}
             </td>
             <td>
                     ${machineAccount.summaryOfDisputes}
             </td>
             <td>
-                    ${machineAccount.complaintType}
+                    ${machineAccount.relatedMajor}
+            </td>
+            <td>
+                    ${machineAccount.treatmentMode}
+            </td>
+            <td>
+                    ${machineAccount.treatmentResult}
+            </td>
+            <td>
+                    ${machineAccount.riskPeople}
+            </td>
+            <td>
+                    ${machineAccount.patientsReflectFocus}
             </td>
             <td>
                 <c:choose>
@@ -265,31 +291,64 @@
                 </c:choose>
             </td>
             <td>
-                    ${machineAccount.treatmentMode}
+                <c:choose>
+                    <c:when test="${machineAccount.isMedia=='1' }">
+                        是
+                    </c:when>
+                    <c:otherwise>
+                        否
+                    </c:otherwise>
+                </c:choose>
             </td>
             <td>
-                    ${machineAccount.treatmentResult}
+                    ${machineAccount.riskTime}
             </td>
             <td>
-                    ${machineAccount.patientsReflectFocus}
+                    ${machineAccount.disputesTime}
             </td>
             <td>
-                    ${machineAccount.relatedMajor}
+                    ${machineAccount.reportingTime}
+            </td>
+
+            <td>
+                    ${machineAccount.acceptanceTime}
             </td>
             <td>
-                    ${machineAccount.riskPeople}
+                    ${machineAccount.eighteenItems}
+            </td>
+
+            <td>
+                    ${machineAccount.meetingFrequency}
             </td>
             <td>
                     ${machineAccount.assessTime}
             </td>
             <td>
-                    ${machineAccount.assessNumber}
+                    ${machineAccount.host}
+            </td>
+            <td>
+                    ${machineAccount.clerk}
+            </td>
+            <td>
+                    ${machineAccount.medicalExpert}
+            </td>
+            <td>
+                    ${machineAccount.legalExpert}
             </td>
             <td>
                     ${machineAccount.dutyRatio}
             </td>
             <td>
-                    ${machineAccount.feedbackTime}
+                    ${machineAccount.countAmount}
+            </td>
+            <td>
+                    ${machineAccount.assessNumber}
+            </td>
+            <td>
+                    ${machineAccount.mediateResult}
+            </td>
+            <td>
+                    ${machineAccount.isJudicial}
             </td>
             <td>
                     ${machineAccount.agreementNumber}
@@ -297,9 +356,13 @@
             <td>
                     ${machineAccount.ratifyAccord}
             </td>
-                <%--<td>
-                        ${machineAccount.agreementStampTime}
-                </td>--%>
+            <td>
+                    ${machineAccount.agreementStampTime}
+            </td>
+            <td>
+                    ${machineAccount.flowDays}
+            </td>
+
             <td>
                     ${machineAccount.agreementAmount}
             </td>
@@ -313,19 +376,34 @@
                     ${machineAccount.claimSettlementTime}
             </td>
             <td>
-                    ${machineAccount.compensateTime}
+                    ${machineAccount.claimSettlementDay}
             </td>
             <td>
-                    ${machineAccount.flowDays}
+                    ${machineAccount.insurancePayTime}
             </td>
             <td>
-                    ${machineAccount.handOver}
+                    ${machineAccount.hospitalPayTime}
+            </td>
+            <td>
+                    ${machineAccount.settlementFlowDays}
             </td>
             <td>
                     ${machineAccount.archiveTime}
             </td>
             <td>
+                    ${machineAccount.handOver}
+            </td>
+            <td>
                     ${machineAccount.fileNumber}
+            </td>
+            <td>
+                    ${machineAccount.assessGrade}
+            </td>
+            <td>
+                    ${machineAccount.appraiser}
+            </td>
+            <td>
+                    ${machineAccount.filePlace}
             </td>
             <td>
                     ${machineAccount.remark}

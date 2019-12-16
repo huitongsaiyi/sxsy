@@ -68,9 +68,9 @@ public class SatisfiedDegreeController extends BaseController {
 
 	@RequiresPermissions("satisfied:satisfiedDegree:edit")
 	@RequestMapping(value = "save")
-	public String save(SatisfiedDegree satisfiedDegree, Model model, RedirectAttributes redirectAttributes) {
+	public String save(SatisfiedDegree satisfiedDegree, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		if (!beanValidator(model, satisfiedDegree)){
-			return form(satisfiedDegree, model,null);
+			return form(satisfiedDegree, model,request);
 		}
 		satisfiedDegreeService.save(satisfiedDegree);
 		addMessage(redirectAttributes, "保存满意度成功");

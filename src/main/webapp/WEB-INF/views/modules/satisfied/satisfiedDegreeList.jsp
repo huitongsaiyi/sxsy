@@ -19,7 +19,9 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/satisfied/satisfiedDegree/">满意度列表</a></li>
+<%--
 		<shiro:hasPermission name="satisfied:satisfiedDegree:edit"><li><a href="${ctx}/satisfied/satisfiedDegree/form">满意度添加</a></li></shiro:hasPermission>
+--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="satisfiedDegree" action="${ctx}/satisfied/satisfiedDegree/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

@@ -96,7 +96,7 @@
 				</td>
 
 				<td style="text-align: center;">
-
+					<a href="${ctx}/major/majorInfo/form?id=${reportRegistration.reportRegistrationId}">是</a>
 				</td>
 				<td style="text-align: center;">
 

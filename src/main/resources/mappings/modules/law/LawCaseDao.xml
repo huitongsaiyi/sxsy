@@ -21,7 +21,7 @@
 	<select id="get" resultType="LawCase">
 		SELECT 
 			<include refid="lawCaseColumns"/>
-		FROM law_case a
+		FROM LAW_CASE a
 		<include refid="lawCaseJoins"/>
 		WHERE a.law_case_id = #{id}
 	</select>
@@ -29,7 +29,7 @@
 	<select id="findList" resultType="LawCase">
 		SELECT 
 			<include refid="lawCaseColumns"/>
-		FROM law_case a
+		FROM LAW_CASE a
 		<include refid="lawCaseJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -53,7 +53,7 @@
 	<select id="findAllList" resultType="LawCase">
 		SELECT 
 			<include refid="lawCaseColumns"/>
-		FROM law_case a
+		FROM LAW_CASE a
 		<include refid="lawCaseJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -69,7 +69,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO law_case(
+		INSERT INTO LAW_CASE(
 			law_case_id,
 			type,
 			publish_time,
@@ -95,7 +95,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE law_case SET 	
+		UPDATE LAW_CASE SET
 			type = #{type},
 			publish_time = #{publishTime},
 			title = #{title},
@@ -106,7 +106,7 @@
 	</update>
 	
 	<update id="delete">
-		DELETE FROM law_case
+		DELETE FROM LAW_CASE
 		WHERE law_case_id = #{id}
 	</update>
 	

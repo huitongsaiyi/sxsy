@@ -104,7 +104,7 @@ public class InvestigateEvidenceController extends BaseController {
 	    //获取下调查人
         investigateEvidenceService.respondent(investigateEvidence);
         //获取附件
-		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(investigateEvidence.getId());
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(investigateEvidence.getInvestigateEvidenceId());
 		for (Map<String, Object> map :filePath){
 			if ("3".equals(MapUtils.getString(map,"fjtype"))){
 				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
