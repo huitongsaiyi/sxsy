@@ -115,8 +115,10 @@
 				</td>
 
 				<td style="text-align:center;">
+						${fns:getUserById(investigateEvidence.createBy.id).office.name}
 				</td>
 				<td style="text-align:center;">
+						${fns:getUserById(investigateEvidence.createBy.id).name}
 				</td>
 				<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq investigateEvidence.complaintMain.act.assigneeName}">

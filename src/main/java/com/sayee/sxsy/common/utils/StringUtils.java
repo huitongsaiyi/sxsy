@@ -59,7 +59,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 	
     /**
      * 转换为字节数组
-     * @param str
+     * @param bytes
      * @return
      */
     public static String toString(byte[] bytes){
@@ -111,6 +111,27 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 		String s = m.replaceAll("");
 		return s;
 	}
+
+	/**
+	 * 替换掉HTML标签方法
+	 */
+	public static String replaceHtml2(String html) {
+		if (html == null) {
+			return "";
+		}
+		try {
+			StringBuilder sb = new StringBuilder();
+			int currentLength = 0;
+			for (char c : replaceHtml(StringEscapeUtils.unescapeHtml4(html)).toCharArray()) {
+				currentLength += String.valueOf(c).getBytes("GBK").length;
+				sb.append(c);
+			}
+			return sb.toString();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 	
 	/**
 	 * 替换为手机识别的HTML，去掉样式及属性，保留回车。
@@ -151,11 +172,15 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 			int currentLength = 0;
 			for (char c : replaceHtml(StringEscapeUtils.unescapeHtml4(str)).toCharArray()) {
 				currentLength += String.valueOf(c).getBytes("GBK").length;
-				if (currentLength <= length - 3) {
+				if (length>=0){//传来 -1 的时候  是不截取 返回全部
+					if (currentLength <= length - 3) {
+						sb.append(c);
+					} else {
+						sb.append("...");
+						break;
+					}
+				}else {
 					sb.append(c);
-				} else {
-					sb.append("...");
-					break;
 				}
 			}
 			return sb.toString();

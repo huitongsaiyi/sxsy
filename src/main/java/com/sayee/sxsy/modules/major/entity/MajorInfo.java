@@ -44,7 +44,8 @@ public class MajorInfo extends DataEntity<MajorInfo> {
 	private String participant;		// 参与处理调解员
 	private String beginOccurrenceTime;		// 开始 发生时间
 	private String endOccurrenceTime;		// 结束 发生时间
-	
+	private String parName;		// 结束 发生时间
+
 	public MajorInfo() {
 		super();
 	}
@@ -53,7 +54,15 @@ public class MajorInfo extends DataEntity<MajorInfo> {
 		super(id);
 	}
 
-	@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
+	public String getParName() {
+		return parName;
+	}
+
+	public void setParName(String parName) {
+		this.parName = parName;
+	}
+
+	//@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")
 	public String getMajorId() {
 		return majorId;
 	}

@@ -20,7 +20,7 @@
 		a.handle_time AS "handleTime",
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan",
-		a.create_by AS "createBy.id",
+		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",

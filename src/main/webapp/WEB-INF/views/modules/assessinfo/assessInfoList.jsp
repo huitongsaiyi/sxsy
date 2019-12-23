@@ -99,8 +99,10 @@
 						${assessInfo.user.name}
 				</td>
 				<td style="text-align: center;">
+						${fns:getUserById(assessInfo.createBy.id).office.name}
 				</td>
 				<td style="text-align: center;">
+						${fns:getUserById(assessInfo.createBy.id).name}
 				</td>
 				<shiro:hasPermission name="assessinfo:assessInfo:edit"><td style="text-align: center;">
     				<a href="${ctx}/assessinfo/assessInfo/form?id=${assessInfo.assessId}">处理</a>

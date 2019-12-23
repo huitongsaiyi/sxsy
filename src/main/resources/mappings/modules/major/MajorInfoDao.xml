@@ -34,7 +34,8 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		u27.name AS "parName"
 	</sql>
 	
 	<sql id="majorInfoJoins">
@@ -193,7 +194,13 @@
 			update_date = #{updateDate}
 		WHERE major_id = #{majorId}
 	</update>
-	
+
+    <update id="updateMain">
+		UPDATE COMPLAINT_MAIN SET
+			is_major = #{majorId}
+		WHERE complaint_main_id = #{complaintMainId}
+	</update>
+
 	<update id="delete">
 		UPDATE major_info SET 
 			del_flag = #{DEL_FLAG_DELETE}

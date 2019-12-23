@@ -80,6 +80,7 @@
 			<label class="control-label">咨询内容:</label>
 			<div class="controls">
 				<form:textarea path="content" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge" disabled="true"/>
+				<sys:ckeditor replace="content" />
 			</div>
 		</div>
 		<c:if test="${not empty guestbook.reUser}">

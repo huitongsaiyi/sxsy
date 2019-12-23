@@ -68,7 +68,7 @@
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="reportRegistration">
-			<tr ${reportRegistration.isMajor=='1' ? "style='background-color: red;'" : ""} >
+			<tr ${not empty reportRegistration.complaintMain.isMajor ? "style='background-color: red;'" : ""} >
 				<td style="text-align: center;"><a href="${ctx}/registration/reportRegistration/form?id=${reportRegistration.reportRegistrationId}&type=view">
 						${reportRegistration.complaintMain.caseNumber}
 				</a></td>
@@ -96,16 +96,24 @@
 				</td>
 
 				<td style="text-align: center;">
-					<a href="${ctx}/major/majorInfo/form?id=${reportRegistration.reportRegistrationId}">是</a>
-				</td>
-				<td style="text-align: center;">
+                    <c:choose>
+                        <c:when test="${not empty reportRegistration.complaintMain.isMajor}">
+                            <a href="${ctx}/major/majorInfo/form?id=${reportRegistration.complaintMain.isMajor}&complaintMainId=${reportRegistration.complaintMainId}">是</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${ctx}/major/majorInfo/form?id=${reportRegistration.complaintMain.isMajor}&complaintMainId=${reportRegistration.complaintMainId}">否</a>
+                        </c:otherwise>
+                    </c:choose>
 
 				</td>
 				<td style="text-align: center;">
 
 				</td>
 				<td style="text-align: center;">
-
+						${fns:getUserById(reportRegistration.createBy.id).office.name}
+				</td>
+				<td style="text-align: center;">
+						${fns:getUserById(reportRegistration.createBy.id).name}
 				</td>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq reportRegistration.complaintMain.act.assigneeName}">

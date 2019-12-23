@@ -96,8 +96,12 @@
 
 			<td style="text-align:center;"></td>
 			<td style="text-align:center;"></td>
-			<td style="text-align:center;"></td>
-			<td style="text-align:center;"></td>
+			<td style="text-align:center;">
+					${fns:getUserById(assessAppraisal.createBy.id).office.name}
+			</td>
+			<td style="text-align:center;">
+					${fns:getUserById(assessAppraisal.createBy.id).name}
+			</td>
 
 			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td style="text-align:center;">
 				<c:if test="${fns:getUser().loginName eq assessAppraisal.complaintMain.act.assigneeName}">

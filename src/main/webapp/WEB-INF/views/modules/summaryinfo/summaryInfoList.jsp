@@ -129,10 +129,10 @@
 
 				</td>
 				<td style="text-align: center;">
-
+						${fns:getUserById(summaryInfo.createBy.id).office.name}
 				</td>
 				<td style="text-align: center;">
-
+						${fns:getUserById(summaryInfo.createBy.id).name}
 				</td>
 				<td style="text-align: center;">${empty summaryInfo.isStop ? "否" : "是"}</td>
 				<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><td style="text-align: center;">

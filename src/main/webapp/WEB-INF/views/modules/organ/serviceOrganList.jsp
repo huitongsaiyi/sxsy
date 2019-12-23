@@ -95,11 +95,11 @@
 					<a href="${ctx}/organ/serviceOrgan/delete?id=${serviceOrgan.serviceOrganId}" onclick="return confirmx('确认要删除该服务机构信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
-			<tr id="a_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml(serviceOrgan.introduce)}</td></tr>
-			<tr id="b_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml(serviceOrgan.duty)}</td></tr>
-			<tr id="c_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml(serviceOrgan.serviceTenet)}</td></tr>
-			<tr id="d_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml(serviceOrgan.threeAid)}</td></tr>
-			<tr id="e_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml(serviceOrgan.userName)}</td></tr>
+			<tr id="a_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml2(serviceOrgan.introduce)}</td></tr>
+			<tr id="b_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml2(serviceOrgan.duty)}</td></tr>
+			<tr id="c_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml2(serviceOrgan.serviceTenet)}</td></tr>
+			<tr id="d_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml2(serviceOrgan.threeAid)}</td></tr>
+			<tr id="e_${serviceOrgan.serviceOrganId}" style="background:#fdfdfd;display:none;"><td colspan="11">${fns:replaceHtml2(serviceOrgan.userName)}</td></tr>
 		</c:forEach>
 		</tbody>
 	</table>

@@ -111,8 +111,10 @@
 				<td style="text-align: center">
 				</td>
 				<td style="text-align: center">
+						${fns:getUserById(auditAcceptance.createBy.id).office.name}
 				</td>
 				<td style="text-align: center">
+						${fns:getUserById(auditAcceptance.createBy.id).name}
 				</td>
 				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><td style="text-align: center">
 					<c:if test="${fns:getUser().loginName eq auditAcceptance.complaintMain.act.assigneeName}">

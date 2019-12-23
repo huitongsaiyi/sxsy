@@ -61,6 +61,7 @@
 			<label class="control-label">内容：</label>
 			<div class="controls">
 				<form:textarea path="content" htmlEscape="false" rows="4" class="input-xxlarge "/>
+				<sys:ckeditor replace="content" />
 			</div>
 		</div>
 		<div class="form-actions">

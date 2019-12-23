@@ -133,8 +133,10 @@
 				<td style="text-align:center;">
 				</td>
 				<td style="text-align:center;">
+						${fns:getUserById(signAgreement.createBy.id).office.name}
 				</td>
 				<td style="text-align:center;">
+						${fns:getUserById(signAgreement.createBy.id).name}
 				</td>
 				<%--<td style="text-align:center;">
 					<fmt:formatDate value="${signAgreement.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

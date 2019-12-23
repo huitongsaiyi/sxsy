@@ -7,7 +7,7 @@
 		if(a.complaint_main_id IS NULL,r.complaint_main_id,a.complaint_main_id) AS "complaintMainId",
 		a.feedback_emp AS "feedbackEmp",
 		a.feedback_office AS "feedbackOffice",
-		a.create_by AS "createBy.id",
+		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",

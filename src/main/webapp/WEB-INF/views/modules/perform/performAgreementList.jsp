@@ -138,10 +138,10 @@
 
 				</td>
 				<td style="text-align: center;">
-
+						${fns:getUserById(performAgreement.createBy.id).office.name}
 				</td>
 				<td style="text-align: center;">
-
+						${fns:getUserById(performAgreement.createBy.id).name}
 				</td>
 				<shiro:hasPermission name="perform:performAgreement:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq performAgreement.complaintMain.act.assigneeName}">

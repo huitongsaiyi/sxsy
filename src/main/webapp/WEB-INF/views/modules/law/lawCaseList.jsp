@@ -60,7 +60,7 @@
 					${lawCase.title}
 				</td>
 				<td style="text-align: center">
-					<a href="javascript:" onclick="$('#e_${lawCase.lawCaseId}').toggle()">${fns:abbr(fns:replaceHtml(lawCase.content),30)}</a>
+					<a href="javascript:" onclick="$('#e_${lawCase.lawCaseId}').toggle()">${fns:abbr(lawCase.content,30)}</a>
 				</td>
 				<td style="text-align: center">
 					<fmt:formatDate value="${lawCase.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -70,7 +70,7 @@
 					<a href="${ctx}/law/lawCase/delete?id=${lawCase.lawCaseId}" onclick="return confirmx('确认要删除该信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
-			<tr id="e_${lawCase.lawCaseId}" style="background:#fdfdfd;display:none;"><td colspan="6">${fns:replaceHtml(lawCase.content)}</td></tr>
+			<tr id="e_${lawCase.lawCaseId}" style="background:#fdfdfd;display:none;"><td colspan="6">${fns:replaceHtml2(lawCase.content)}</td></tr>
 		</c:forEach>
 		</tbody>
 	</table>

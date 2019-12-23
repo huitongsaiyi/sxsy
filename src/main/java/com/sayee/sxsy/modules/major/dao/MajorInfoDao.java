@@ -6,6 +6,9 @@ package com.sayee.sxsy.modules.major.dao;
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import com.sayee.sxsy.modules.major.entity.MajorInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 重大事件DAO接口
@@ -14,5 +17,6 @@ import com.sayee.sxsy.modules.major.entity.MajorInfo;
  */
 @MyBatisDao
 public interface MajorInfoDao extends CrudDao<MajorInfo> {
-	
+
+    public void updateMain(@Param("majorId") String majorId);
 }

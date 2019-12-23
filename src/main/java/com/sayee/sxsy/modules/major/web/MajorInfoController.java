@@ -6,6 +6,8 @@ package com.sayee.sxsy.modules.major.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sayee.sxsy.common.utils.IdGen;
+import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,20 +58,25 @@ public class MajorInfoController extends BaseController {
 
 	@RequiresPermissions("major:majorInfo:view")
 	@RequestMapping(value = "form")
-	public String form(MajorInfo majorInfo, Model model) {
+	public String form(MajorInfo majorInfo, Model model, HttpServletRequest request) {
+	    String com=request.getParameter("complaintMainId");
+	    if (StringUtils.isNotBlank(com)){
+	        majorInfo.setComplaintMainId(com);
+        }
 		model.addAttribute("majorInfo", majorInfo);
 		return "modules/major/majorInfoForm";
 	}
 
 	@RequiresPermissions("major:majorInfo:edit")
 	@RequestMapping(value = "save")
-	public String save(MajorInfo majorInfo, Model model, RedirectAttributes redirectAttributes) {
+	public String save(MajorInfo majorInfo, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		if (!beanValidator(model, majorInfo)){
-			return form(majorInfo, model);
+			return form(majorInfo, model,request);
 		}
-		majorInfoService.save(majorInfo);
+		majorInfoService.save(majorInfo,request);
 		addMessage(redirectAttributes, "保存重大事件成功");
-		return "redirect:"+Global.getAdminPath()+"/major/majorInfo/?repage";
+        return form(this.get(majorInfo.getMajorId()), model,request);
+		//return "redirect:"+Global.getAdminPath()+"/major/majorInfo/?repage";
 	}
 	
 	@RequiresPermissions("major:majorInfo:edit")

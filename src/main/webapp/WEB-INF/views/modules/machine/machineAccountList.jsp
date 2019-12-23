@@ -224,24 +224,26 @@
                     ${machineAccount.areaId}
             </td>
             <td>
-                <c:choose>
+                <%--<c:choose>
                     <c:when test="${ empty machineAccount.office.name }">
                         ${machineAccount.deptId}
                     </c:when>
                     <c:otherwise>
                         ${machineAccount.office.name}
                     </c:otherwise>
-                </c:choose>
+                </c:choose>--%>
+                   ${fns:getUserById(machineAccount.createBy.id).office.name}
             </td>
             <td>
-                <c:choose>
+                <%--<c:choose>
                     <c:when test="${ empty machineAccount.user.name }">
                         ${machineAccount.mediatorId}
                     </c:when>
                     <c:otherwise>
                         ${machineAccount.user.name}
                     </c:otherwise>
-                </c:choose>
+                </c:choose>--%>
+                        ${fns:getUserById(machineAccount.createBy.id).name}
             </td>
             <td>
                     ${machineAccount.patientName}

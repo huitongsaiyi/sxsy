@@ -94,8 +94,10 @@
 				<td style="text-align: center;">
 				</td>
                 <td style="text-align: center;">
+						${fns:getUserById(caseFeedback.createBy.id).office.name}
                 </td>
                 <td style="text-align: center;">
+						${fns:getUserById(caseFeedback.createBy.id).name}
                 </td>
 				<shiro:hasPermission name="casefeedback:caseFeedback:edit"><td style="text-align: center;">
     				<a href="${ctx}/casefeedback/caseFeedback/form?id=${caseFeedback.feedbackId}">反馈</a>

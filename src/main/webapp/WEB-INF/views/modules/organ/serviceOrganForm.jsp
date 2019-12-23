@@ -61,24 +61,28 @@
 			<label class="control-label">服务机构简介：</label>
 			<div class="controls">
 				<form:textarea path="introduce" htmlEscape="false" rows="4" class="input-xxlarge "/>
+				<sys:ckeditor replace="introduce" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">主要责任：</label>
 			<div class="controls">
 				<form:textarea path="duty" htmlEscape="false" rows="4" class="input-xxlarge "/>
+				<sys:ckeditor replace="duty" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">服务宗旨：</label>
 			<div class="controls">
 				<form:textarea path="serviceTenet" htmlEscape="false" rows="4" class="input-xxlarge "/>
+				<sys:ckeditor replace="serviceTenet" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">三个援助：</label>
 			<div class="controls">
 				<form:textarea path="threeAid" htmlEscape="false" rows="4" class="input-xxlarge "/>
+				<sys:ckeditor replace="threeAid" />
 			</div>
 		</div>
 		<div class="control-group">

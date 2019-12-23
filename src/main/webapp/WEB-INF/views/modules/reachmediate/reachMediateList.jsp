@@ -118,8 +118,10 @@
 				<td style="text-align: center;">
 				</td>
 				<td style="text-align: center;">
+						${fns:getUserById(reachMediate.createBy.id).office.name}
 				</td>
 				<td style="text-align: center;">
+						${fns:getUserById(reachMediate.createBy.id).name}
 				</td>
 				<shiro:hasPermission name="reachmediate:reachMediate:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq reachMediate.complaintMain.act.assigneeName}">

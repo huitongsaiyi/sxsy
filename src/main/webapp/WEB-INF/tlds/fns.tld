@@ -212,6 +212,13 @@
     <example>${fns:replaceHtml(html)}</example>  
   </function>
   <function>
+    <description>替换掉HTML标签2</description>
+    <name>replaceHtml2</name>
+    <function-class>com.sayee.sxsy.common.utils.StringUtils</function-class>
+    <function-signature>java.lang.String replaceHtml2(java.lang.String)</function-signature>
+    <example>${fns:replaceHtml2(html)}</example>
+  </function>
+  <function>
     <description>转换为JS获取对象值，生成三目运算返回结果。</description>
     <name>jsGetVal</name>
     <function-class>com.sayee.sxsy.common.utils.StringUtils</function-class>
