@@ -59,7 +59,7 @@ public class MajorInfoService extends CrudService<MajorInfoDao, MajorInfo> {
 			majorInfo.setMajorId(majorInfo.getId());
 			dao.insert(majorInfo);
 			//在增加重大表 后，修改主表 重大字段
-			majorInfoDao.updateMain(majorInfo.getMajorId());
+			majorInfoDao.updateMain(majorInfo.getMajorId(),majorInfo.getComplaintMainId());
 		}else {
 			majorInfo.preUpdate();
 			dao.update(majorInfo);

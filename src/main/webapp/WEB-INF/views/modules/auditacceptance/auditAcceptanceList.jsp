@@ -60,7 +60,7 @@
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-bordered table-condensed">
 		<thead>
 			<tr>
 				<th class="sort-column case_number" style="text-align: center">案件编号</th>
@@ -81,7 +81,7 @@
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="auditAcceptance">
-			<tr>
+			<tr ${not empty auditAcceptance.complaintMain.isMajor ? "style='background-color: red;'" : ""} >
 				<td style="text-align: center"><a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}&type=view">
 					${auditAcceptance.complaintMain.caseNumber}
 				</a></td>
@@ -107,6 +107,14 @@
 				<td style="text-align: center">
 				</td>
 				<td style="text-align: center">
+					<c:choose>
+						<c:when test="${not empty auditAcceptance.complaintMain.isMajor}">
+							<a href="${ctx}/major/majorInfo/form?id=${auditAcceptance.complaintMain.isMajor}&complaintMainId=${auditAcceptance.complaintMainId}">是</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${ctx}/major/majorInfo/form?id=${auditAcceptance.complaintMain.isMajor}&complaintMainId=${auditAcceptance.complaintMainId}">否</a>
+						</c:otherwise>
+					</c:choose>
 				</td>
 				<td style="text-align: center">
 				</td>

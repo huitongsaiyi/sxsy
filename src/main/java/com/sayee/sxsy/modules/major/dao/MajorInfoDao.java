@@ -18,5 +18,5 @@ import java.util.List;
 @MyBatisDao
 public interface MajorInfoDao extends CrudDao<MajorInfo> {
 
-    public void updateMain(@Param("majorId") String majorId);
+    public void updateMain(@Param("majorId") String majorId,@Param("complaintMainId") String complaintMainId);
 }

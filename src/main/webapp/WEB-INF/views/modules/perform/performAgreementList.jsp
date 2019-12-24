@@ -49,7 +49,7 @@
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-bordered table-condensed">
 		<thead>
 			<tr>
 				<th class="sort-column case_number" style="text-align: center;">案件编号</th>
@@ -78,7 +78,7 @@
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="performAgreement">
-			<tr>
+			<tr ${not empty performAgreement.complaintMain.isMajor ? "style='background-color: red;'" : ""}>
 				<td style="text-align: center;"><a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}&type=view">
 						${performAgreement.complaintMain.caseNumber}
 				</a></td>
@@ -132,7 +132,14 @@
 						${performAgreement.hospitalPayTime}
 				</td>
 				<td style="text-align: center;">
-
+					<c:choose>
+						<c:when test="${not empty performAgreement.complaintMain.isMajor}">
+							<a href="${ctx}/major/majorInfo/form?id=${performAgreement.complaintMain.isMajor}&complaintMainId=${performAgreement.complaintMainId}">是</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${ctx}/major/majorInfo/form?id=${performAgreement.complaintMain.isMajor}&complaintMainId=${performAgreement.complaintMainId}">否</a>
+						</c:otherwise>
+					</c:choose>
 				</td>
 				<td style="text-align: center;">
 

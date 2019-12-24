@@ -31,6 +31,7 @@
 		b.involve_department AS "complaintMain.involveDepartment",
 		b.involve_employee AS "complaintMain.involveEmployee",
 		b.proc_ins_id AS "complaintMain.procInsId",
+		b.is_major AS "complaintMain.isMajor",
 		t.ID_ AS "complaintMain.act.taskId",
 		t.ASSIGNEE_ AS "complaintMain.act.assigneeName",
 		sa.name AS "area.name",

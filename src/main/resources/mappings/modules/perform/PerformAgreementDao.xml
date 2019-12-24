@@ -23,6 +23,7 @@
 		b.patient_name AS "complaintMain.patientName",
 		b.involve_hospital AS "complaintMain.involveHospital",
 		b.proc_ins_id AS "complaintMain.procInsId",
+		b.is_major AS "complaintMain.isMajor",
 		b.hospital_grade AS "complaintMain.hospitalGrade",
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",

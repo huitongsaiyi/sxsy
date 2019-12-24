@@ -49,7 +49,7 @@
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-bordered table-condensed">
 		<thead>
 			<tr>
 				<th class="sort-column case_number" style="text-align: center;">案件编号</th>
@@ -74,7 +74,7 @@
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="reachMediate">
-			<tr>
+			<tr ${not empty reachMediate.complaintMain.isMajor ? "style='background-color: red;'" : ""}>
 				<td style="text-align: center;"><a href="${ctx}/reachmediate/reachMediate/form?id=${reachMediate.reachMediateId}&type=view">
 						${reachMediate.complaintMain.caseNumber}
 				</a></td>
@@ -114,6 +114,14 @@
 				<td style="text-align: center;">
 				</td>
 				<td style="text-align: center;">
+					<c:choose>
+						<c:when test="${not empty reachMediate.complaintMain.isMajor}">
+							<a href="${ctx}/major/majorInfo/form?id=${reachMediate.complaintMain.isMajor}&complaintMainId=${reachMediate.complaintMainId}">是</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${ctx}/major/majorInfo/form?id=${reachMediate.complaintMain.isMajor}&complaintMainId=${reachMediate.complaintMainId}">否</a>
+						</c:otherwise>
+					</c:choose>
 				</td>
 				<td style="text-align: center;">
 				</td>
