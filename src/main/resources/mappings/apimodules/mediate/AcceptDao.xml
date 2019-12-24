@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.mediate.dao.AcceptDao">
+    <insert id="insert">
+		INSERT INTO audit_acceptance(
+			audit_acceptance_id,
+			complaint_main_id,
+			summary_of_disputes,
+			case_source,
+			guarantee_time,
+			insurance_company,
+			policy_number,
+			diagnosis_mode,
+			treatment_outcome,
+			handle_people,
+			handle_time,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_date,
+			del_flag
+		) VALUES (
+			#{auditAcceptanceId},
+			#{complaintMainId},
+			#{summaryOfDisputes},
+			#{caseSource},
+			#{guaranteeTime},
+			#{insuranceCompany},
+			#{policyNumber},
+			#{diagnosisMode},
+			#{treatmentOutcome},
+			#{handlePeople},
+			#{handleTime},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createUser},
+			#{createDate},
+			#{updateDate},
+			0
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.mediate.dao.MediateApiDao">
+	<insert id="insert">
+		INSERT INTO COMPLAINT_MAIN(
+			complaint_main_id,
+			case_number,
+			patient_name,
+			patient_sex,
+			patient_age,
+			patient_card,
+			patient_mobile,
+			involve_hospital,
+			hospital_level,
+			hospital_grade,
+			involve_department,
+			involve_employee,
+			proc_ins_id,
+			create_date,
+			update_date,
+			del_flag,
+			source
+		) VALUES (
+			#{complaintMainId},
+			#{caseNumber},
+			#{patientName},
+			#{patientSex},
+			#{patientAge},
+			#{patientCard},
+			#{patientMobile},
+		    #{involveHospital},
+		    #{hospitalLevel},
+		    #{hospitalGrade},
+		    #{involveDepartment},
+		    #{involveEmployee},
+		    #{procInsid},
+		    #{createDate},
+			#{updateDate},
+		    0,
+		    #{source}
+		)
+	</insert>
+	<select id="mediateList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
+	SELECT (SELECT act_hi_actinst.act_name_ FROM complaint_main LEFT JOIN act_hi_actinst on act_hi_actinst.proc_inst_id_=complaint_main.proc_ins_id WHERE complaint_main_id=complaint_main.complaint_main_id AND act_hi_actinst.act_type_='userTask' ORDER BY act_hi_actinst.start_time_ DESC LIMIT 1
+) AS actName,complaint_main.complaint_main_id,complaint_main.case_number,complaint_main.create_date,sys_user.name,sys_user.photo FROM complaint_main_detail LEFT JOIN complaint_main ON complaint_main.complaint_main_id=complaint_main_detail.complaint_main_id LEFT JOIN sys_user ON sys_user.id=complaint_main_detail.next_link_man
+	</select>
+	<select id="findMediateById" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.MediateCommon">
+		SELECT complaint_main.patient_sex AS patientSex,complaint_main.patient_age AS patientAge,complaint_main.involve_hospital AS involveHospital,complaint_main.case_number AS caseNumber,complaint_info.visitor_date AS visitorDate,complaint_info.complaint_mode AS complaintMode,complaint_info.visitor_name AS visitorName,complaint_info.visitor_mobile AS visitorMobile,complaint_info.visitor_number AS visitorNumber,complaint_info.patient_relation AS patientRelation,complaint_info.summary_of_disputes AS summaryOfDisputes,complaint_info.appeal,complaint_info.reception_employee AS receptionEmployee,complaint_info.reception_date AS receptionDate,complaint_info.next_link_man AS nextLinkMan,complaint_info.patient_name AS patientName,complaint_info.status FROM complaint_main LEFT JOIN complaint_info ON complaint_info.complaint_main_id=complaint_main.complaint_main_id WHERE complaint_main.complaint_main_id=#{complaintMainId}
+	</select>
+	<select id="getCaseNumber" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT MAX(case_number) FROM complaint_main WHERE del_flag=0 AND case_number LIKE CONCAT('%',#{nowDate},'%')
+	</select>
+	<update id="setProInstId" parameterType="java.util.Map">
+		UPDATE complaint_main set proc_ins_id=#{procInsId} WHERE complaint_main_id=#{complaintMainId}
+	</update>
+	<select id="getStatus" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT act_hi_actinst.act_name_ FROM complaint_main LEFT JOIN act_hi_actinst on act_hi_actinst.proc_inst_id_=complaint_main.proc_ins_id WHERE complaint_main_id='594f5754e4754133aa94caf67980c2a9' AND act_hi_actinst.act_type_='userTask' ORDER BY act_hi_actinst.start_time_ DESC LIMIT 1
+	</select>
+	<select id="getMediateInfo" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.MediateCommon">
+		SELECT complaint_main.case_number AS caseNumber,complaint_main_detail.visitor_name,complaint_main_detail.patient_relation,complaint_main_detail.visitor_mobile,complaint_main_detail.summary_of_disputes,complaint_main_detail.appeal FROM complaint_main left join complaint_main_detail on complaint_main.complaint_main_id=complaint_main_detail.complaint_main_id WHERE complaint_main.complaint_main_id=#{complaintMainId}
+	</select>
+	<select id="getActInfo" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.ActInst">
+		SELECT act_hi_actinst.act_name_ AS actName,act_hi_actinst.start_time_ AS startTime FROM act_hi_actinst LEFT JOIN complaint_main ON complaint_main.proc_ins_id=act_hi_actinst.proc_inst_id_ WHERE complaint_main.complaint_main_id=#{complaintMainId} AND act_hi_actinst.act_type_='userTask'
+	</select>
+</mapper>

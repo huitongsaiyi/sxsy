@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.mediate.dao.MediateReportDao">
+    <insert id="insert">
+        INSERT INTO REPORT_REGISTRATION(
+        report_registration_id,
+        complaint_main_id,
+        report_emp,
+        patient_mobile,
+        patient_relation,
+        report_time,
+        registration_emp,
+        registration_time,
+        dispute_time,
+        is_major,
+        summary_of_disputes,
+        focus,
+        patient_ask,
+        next_link,
+        next_link_man,
+        create_by,
+        create_date,
+        update_date,
+        del_flag,
+        doctor_mobile,
+        policy_number
+        ) VALUES (
+        #{reportRegistrationId},
+        #{complaintMainId},
+        #{reportEmp},
+        #{patientMobile},
+        #{patientRelation},
+        #{reportTime},
+        #{registrationEmp},
+        #{registrationTime},
+        #{disputeTime},
+        #{isMajor},
+        #{summaryOfDisputes},
+        #{focus},
+        #{patientAsk},
+        #{nextLink},
+        #{nextLinkMan},
+        #{createUser},
+        #{createDate},
+        #{updateDate},
+        0,
+        #{doctorMobile},
+        #{policyNumber}
+        )
+</insert>
+    <select id="getTaskId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.TaskEntity">
+        SELECT act_hi_actinst.task_id_ AS taskId,act_hi_actinst.proc_inst_id_ AS procInsId FROM complaint_main LEFT JOIN act_hi_actinst ON act_hi_actinst.proc_inst_id_ = complaint_main.proc_ins_id  WHERE complaint_main.complaint_main_id=#{complaintMainId} AND act_hi_actinst.ACT_TYPE_='userTask' ORDER BY act_hi_actinst.start_time_ DESC LIMIT 1
+    </select>
+</mapper>

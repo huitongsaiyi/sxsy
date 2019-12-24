@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.organ.dao.OrganDao">
+
+    <select id="getOrgan" resultType="com.sayee.sxsy.api.organ.entity.Organ">
+        SELECT * FROM SERVICE_ORGAN
+    </select>
+    <select id="getUserList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.organ.entity.OrganUser">
+        SELECT id,name,photo FROM sys_user WHERE id IN
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+        </foreach>
+    </select>
+</mapper>

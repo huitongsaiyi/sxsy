@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.mediate.dao.AssessDao">
+    <insert id="insert">
+		INSERT INTO ASSESS_INFO(
+			assess_id,
+			complaint_main_id,
+			appraiser,
+			assess_time,
+			assess_grade,
+			assess_content,
+			handle_people,
+			create_by,
+			create_date,
+			handle_time,
+			next_link,
+			update_by,
+			next_link_man,
+			update_date,
+			del_flag
+		) VALUES (
+			#{assessId},
+			#{complaintMainId},
+			#{appraiser},
+			#{assessTime},
+			#{assessGrade},
+			#{assessContent},
+			#{handlePeople},
+			#{createBy.id},
+			#{createDate},
+			#{handleTime},
+			#{nextLink},
+			#{updateBy.id},
+			#{nextLinkMan},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+
+</mapper>

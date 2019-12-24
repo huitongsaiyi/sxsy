@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.consult.dao.ConsultDao">
+    <insert id="insert">
+		INSERT INTO cms_consult(
+			consult_id,
+			name,
+			content,
+			uid,
+			create_date,
+			update_date
+		) VALUES (
+			#{consultId},
+			#{name},
+			#{content},
+			#{uid},
+			#{createDate},
+			#{updateDate}
+		)
+	</insert>
+	<select id="getConsultList" resultType="com.sayee.sxsy.api.consult.entity.ConsultEntity">
+		SELECT cms_consult.consult_id as consultId,cms_consult.name,cms_consult.content,cms_consult.reply,cms_consult.replydate,cms_consult.create_date as createDate,cms_wechatuser.workunit FROM cms_consult LEFT JOIN cms_wechatuser ON cms_consult.uid=cms_wechatuser.wechat_user_id
+	</select>
+	<select id="getConsultListByUid" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.consult.entity.ConsultEntity">
+		SELECT cms_consult.consult_id as consultId,cms_consult.name,cms_consult.content,cms_consult.reply,cms_consult.replydate,cms_consult.create_date as createDate,cms_wechatuser.workunit FROM cms_consult LEFT JOIN cms_wechatuser ON cms_consult.uid=cms_wechatuser.wechat_user_id WHERE cms_consult.uid=#{uid}
+	</select>
+	<update id="reply" parameterType="java.util.Map">
+		UPDATE cms_consult SET reply=#{reply},reply_uid = #{replyUid},replydate = #{replyDate} WHERE consult_id=#{consultId}
+	</update>
+</mapper>

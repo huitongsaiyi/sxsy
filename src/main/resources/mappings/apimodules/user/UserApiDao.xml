@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.user.dao.UserApiDao">
+<insert id="insert">
+    INSERT INTO CMS_WECHATUSER(
+        wechat_user_id,
+        nickname,
+        realname,
+        avatar_url,
+        openid,
+        tel,
+        usertype,
+        age,
+        workunit,
+        userstatu,
+        sys_user_id,
+        create_date,
+        update_date
+    )VALUES(
+        #{wechatUserId},
+        #{nickName},
+        #{realName},
+        #{avatarUrl},
+        #{openId},
+        #{tel},
+        #{userType},
+        #{age},
+        #{workUnit},
+        #{userStatu},
+        #{sysUserId},
+        #{createDate},
+        #{updateDate}
+    )
+</insert>
+    <select id="getUserInfoByOpenId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.user.entity.UserInfo">
+        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId FROM CMS_WECHATUSER WHERE openid=#{#openId}
+    </select>
+    <update id="regist" parameterType="com.sayee.sxsy.api.user.dao.UserApiDao">
+        UPDATE CMS_WECHATUSER SET nickname=#{nickName},realName=#{realName},avatarUrl=#{avatarUrl},tel=#{tel},usertype=#{userType},age=#{age},workunit=#{workUnit},sys_user_id=#{sysUserId} WHERE id =#{wechatUserId}
+    </update>
+    <update id="changeStatu" parameterType="java.util.Map">
+        UPDATE CMS_WECHATUSER SET userstatu=#{statu} WHERE id =#{uid}
+    </update>
+</mapper>

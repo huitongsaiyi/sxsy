@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.mediate.dao.InvestitageDao">
+
+    <insert id="insert">
+		INSERT INTO investigate_evidence(
+			investigate_evidence_id,
+			complaint_main_id,
+			start_time,
+			end_time,
+			address,
+			cause,
+			investigator,
+			note_taker,
+			content,
+			focus,
+			investigate_type,
+			handle_people,
+			handle_time,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_date,
+			del_flag
+		) VALUES (
+			#{investigateEvidenceId},
+			#{complaintMainId},
+			#{startTime},
+			#{endTime},
+			#{address},
+			#{cause},
+			#{investigator},
+			#{noteTaker},
+			#{content},
+			#{focus},
+			#{investigateType},
+			#{handlePeople},
+			#{handleTime},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createUser},
+			#{createDate},
+			#{updateDate},
+			0
+		)
+	</insert>
+</mapper>

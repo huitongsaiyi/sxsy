@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.mediate.dao.MediateDetailDao">
+    <insert id="insert">
+		INSERT INTO COMPLAINT_MAIN_DETAIL(
+			complaint_main_detail_id,
+			complaint_main_id,
+			complaint_mode,
+			visitor_name,
+			visitor_mobile,
+			visitor_date,
+			visitor_number,
+			patient_relation,
+			is_major,
+			other_type,
+			summary_of_disputes,
+			appeal,
+			reception_employee,
+			reception_date,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{complaintMainDetailId},
+			#{complaintMainId},
+			#{complaintMode},
+			#{visitorName},
+			#{visitorMobile},
+			#{visitorDate},
+			#{visitorNumber},
+			#{patientRelation},
+			#{isMajor},
+			#{otherType},
+			#{summaryOfDisputes},
+			#{appeal},
+			#{receptionEmployee},
+			#{receptionDate},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createUser},
+			#{createDate},
+			#{updateUser},
+			#{updateDate},
+			0
+		)
+	</insert>
+
+</mapper>

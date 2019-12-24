@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.officeapi.dao.OrganizationApiDao">
+
+    <select id="getAreaList" resultType="com.sayee.sxsy.api.officeapi.entity.OrganizationArea">
+        SELECT sys_area.id,sys_area.name FROM sys_office LEFT JOIN sys_area ON sys_office.area_id=sys_area.id WHERE sys_office.del_flag=0 GROUP BY sys_office.area_id
+    </select>
+    <select id="getListByAreaId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.officeapi.entity.Organization">
+        SELECT sys_office.id,sys_office.name FROM SYS_OFFICE LEFT JOIN sys_area ON sys_office.area_id=sys_area.id WHERE sys_office.area_id=#{areaid} AND sys_office.del_flag=0
+    </select>
+    <select id="getOrganizationById" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.officeapi.entity.OrganizationApiEntity">
+        SELECT id as organizationid,name,hospital_grade,grade FROM sys_office WHERE id=#{id}
+    </select>
+</mapper>

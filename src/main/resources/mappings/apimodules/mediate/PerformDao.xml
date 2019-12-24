@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.mediate.dao.PerformDao">
+    <insert id="insert">
+		INSERT INTO perform_agreement(
+			perform_agreement_id,
+			complaint_main_id,
+			agreement_pay_amount,
+			hospital_pay_amount,
+			hospital_pay_time,
+			insurance_pay_amount,
+			insurance_pay_time,
+			next_link,
+			next_link_man,
+			create_by,
+			create_date,
+			update_date,
+			del_flag,
+			compensate_time,
+			claim_settlement_time
+		) VALUES (
+			#{performAgreementId},
+			#{complaintMainId},
+			#{agreementPayAmount},
+			#{hospitalPayAmount},
+			#{hospitalPayTime},
+			#{insurancePayAmount},
+			#{insurancePayTime},
+			#{nextLink},
+			#{nextLinkMan},
+			#{createUser},
+			#{createDate},
+			#{updateDate},
+			0,
+			#{compensateTime},
+		    #{claimSettlementTime}
+		)
+	</insert>
+</mapper>
