@@ -5,12 +5,15 @@ import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 @MyBatisDao
 public interface PublicNoticeDao extends CrudDao<PublicNotice> {
-    List<PublicNotice> getNoticeByType(String type);
+    List<PublicNotice> getNoticeByType(Map map);
+    List<PublicNotice> getMainPublicNotice();
+    PublicNotice getPublicInfo(String id);
+    int getTotal(String type);
 }

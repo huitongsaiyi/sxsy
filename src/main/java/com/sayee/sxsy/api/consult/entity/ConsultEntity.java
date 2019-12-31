@@ -5,8 +5,7 @@ import com.sayee.sxsy.common.persistence.DataEntity;
 import java.util.Date;
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description 咨询
  */
 public class ConsultEntity extends DataEntity<ConsultEntity> {
     private static final long serialVersionUID = 1L;

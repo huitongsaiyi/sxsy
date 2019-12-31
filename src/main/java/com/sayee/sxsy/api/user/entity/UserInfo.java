@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.user.entity;
 import java.io.Serializable;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class UserInfo implements Serializable {
@@ -13,10 +12,10 @@ public class UserInfo implements Serializable {
     private String realName;
     private String avatarUrl;
     private String tel;
-    private String userType;
+    private Integer userType;
     private String age;
     private String workUnit;
-    private String userStatu;
+    private Integer userStatu;
     private String sysUserId;
 
     public String getWechatUserId() {
@@ -59,11 +58,11 @@ public class UserInfo implements Serializable {
         this.tel = tel;
     }
 
-    public String getUserType() {
+    public Integer getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(Integer userType) {
         this.userType = userType;
     }
 
@@ -83,11 +82,11 @@ public class UserInfo implements Serializable {
         this.workUnit = workUnit;
     }
 
-    public String getUserStatu() {
+    public Integer getUserStatu() {
         return userStatu;
     }
 
-    public void setUserStatu(String userStatu) {
+    public void setUserStatu(Integer userStatu) {
         this.userStatu = userStatu;
     }
 

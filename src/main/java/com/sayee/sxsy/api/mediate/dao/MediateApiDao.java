@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 @MyBatisDao
 public interface MediateApiDao extends CrudDao<MediateApiEntity> {
-    List<Mediate> mediateList();
+    List<Mediate> mediateList(String wechatUserId);
+    List<Mediate> mediateListForHos(String wechatUserId);
     String getCaseNumber(String nowDate);
     MediateCommon findMediateById(String complaintMainId);
     void setProInstId(Map map);

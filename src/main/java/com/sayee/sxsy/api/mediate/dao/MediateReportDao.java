@@ -8,7 +8,6 @@ import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import java.util.Map;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 @MyBatisDao

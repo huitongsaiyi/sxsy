@@ -3,7 +3,7 @@
 <mapper namespace="com.sayee.sxsy.api.mediate.dao.InvestitageDao">
 
     <insert id="insert">
-		INSERT INTO investigate_evidence(
+		INSERT INTO INVESTIGATE_EVIDENCE(
 			investigate_evidence_id,
 			complaint_main_id,
 			start_time,

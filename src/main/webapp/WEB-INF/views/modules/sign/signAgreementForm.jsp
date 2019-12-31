@@ -211,7 +211,7 @@
 	<form:hidden path="mediateProgram.mediateProgramId"/>
 	<form:hidden path="recordInfo.moduleType"/>
 	<form:hidden path="recordInfo.cause"/>
-	<form:hidden path="agreementNumber"/>
+	<%--<form:hidden path="agreementNumber"/>--%>
 	<%--<form:hidden path="mediateProgram.patient"/>--%>
 	<form:hidden path="mediateProgram.doctor"/>
 	<form:hidden path="agreedMatter"/>
@@ -239,7 +239,8 @@
 		<div class="tab-pane fade in active" id="sign">
 			<div id="myTab1Content" class="tab-content">
 				<legend style="color: black;">协议号</legend>
-				<p style="font-size: 20px;color: black;">${signAgreement.agreementNumber}</p>
+				<form:input path="agreementNumber" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+				<%--<p style="font-size: 20px;color: black;">${signAgreement.agreementNumber}</p>--%>
 				<table id="patientTable" class="table table-striped table-bordered table-condensed">
 					<legend style="color: black;">甲方（患方）</legend>
 					<thead>

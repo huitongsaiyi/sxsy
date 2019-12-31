@@ -3,12 +3,15 @@
 <mapper namespace="com.sayee.sxsy.api.organ.dao.OrganDao">
 
     <select id="getOrgan" resultType="com.sayee.sxsy.api.organ.entity.Organ">
-        SELECT * FROM SERVICE_ORGAN
+        SELECT * FROM SERVICE_ORGAN ORDER BY create_date limit 1
     </select>
     <select id="getUserList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.organ.entity.OrganUser">
-        SELECT id,name,photo FROM sys_user WHERE id IN
+        SELECT id,name,photo FROM SYS_USER WHERE id IN
         <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
                 #{item}
         </foreach>
+    </select>
+    <select id="connectUs" resultType="com.sayee.sxsy.api.organ.entity.Organ">
+        SELECT introduce,work_time AS workTime,phone,email,address FROM SERVICE_ORGAN ORDER BY create_date desc limit 1
     </select>
 </mapper>

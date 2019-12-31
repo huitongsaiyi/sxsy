@@ -3,8 +3,7 @@ package com.sayee.sxsy.api.complain.entity;
 import com.sayee.sxsy.common.persistence.DataEntity;
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description 投诉
  */
 public class ComplainEntity extends DataEntity<ComplainEntity> {
     private static final long serialVersionUID = 1L;

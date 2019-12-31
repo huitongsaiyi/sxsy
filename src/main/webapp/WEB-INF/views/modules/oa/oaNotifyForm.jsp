@@ -51,9 +51,17 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">副标题：</label>
+			<div class="controls">
+				<form:input path="remarks" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">内容：</label>
 			<div class="controls">
 				<form:textarea path="content" htmlEscape="false" rows="6" maxlength="2000" class="input-xxlarge required"/>
+				<sys:ckeditor replace="content" />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

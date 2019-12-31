@@ -5,7 +5,6 @@ import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 @MyBatisDao

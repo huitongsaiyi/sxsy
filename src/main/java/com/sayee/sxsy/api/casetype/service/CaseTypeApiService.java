@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description 案件分类
  */
 @Service
 public class CaseTypeApiService extends CrudService<CaseTypeDao, CaseTypeEntity> {

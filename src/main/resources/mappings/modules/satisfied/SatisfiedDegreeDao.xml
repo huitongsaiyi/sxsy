@@ -23,6 +23,7 @@
 	<sql id="satisfiedDegreeJoins">
 		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
 		LEFT JOIN SIGN_AGREEMENT s ON s.complaint_main_id=b.complaint_main_id
+		LEFT JOIN REACH_MEDIATE r ON r.complaint_main_id=b.complaint_main_id
 	</sql>
     
 	<select id="get" resultType="SatisfiedDegree">
@@ -54,6 +55,9 @@
 					<if test="dbName == 'oracle'">'%'||#{proposal}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{proposal}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{proposal},'%')</if>
+			</if>
+			<if test="uid != null and uid != ''">
+				AND r.create_by =#{uid}
 			</if>
 		</where>
 		<choose>

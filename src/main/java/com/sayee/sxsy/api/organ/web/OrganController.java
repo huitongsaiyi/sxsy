@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * @author www.donxon.com
  * @Description 机构信息
  */
 @Controller
@@ -28,6 +27,17 @@ public class OrganController {
         String[] idList= users.split(",");
         List<OrganUser> list=organApiService.getUserList(idList);
         organ.setUserList(list);
+        R r=new R();
+        r.put("RtnCode",0);
+        r.put("RtnMsg","success");
+        r.put("RtnData",organ);
+        return r;
+    }
+    /*联系我们*/
+    @RequestMapping("connectus")
+    @ResponseBody
+    public R connectUs(){
+        Organ organ=organApiService.connectUs();
         R r=new R();
         r.put("RtnCode",0);
         r.put("RtnMsg","success");

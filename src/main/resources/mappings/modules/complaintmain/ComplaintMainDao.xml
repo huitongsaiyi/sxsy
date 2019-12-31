@@ -267,6 +267,7 @@
 		SELECT CONCAT('\'',t.name,'\'') typeName,COUNT(t.name) num,CONCAT('\'',t.id,'\'') typeId
 		FROM COMPLAINT_MAIN_DETAIL c
 		LEFT JOIN TEST_TREE t on c.is_major=t.id
+		LEFT JOIN COMPLAINT_MAIN cc on c.complaint_main_id=cc.complaint_main_id
 		WHERE t.name is not null
 		<choose>
 			<when test="year !=null and year !=''">
@@ -286,7 +287,7 @@
 			</otherwise>
 		</choose>
         <if test="officeId !=null and officeId !=''">
-
+			AND cc.involve_hospital = #{officeId}
         </if>
 		GROUP BY t.name
 	</select>
@@ -296,6 +297,7 @@
 		SELECT CONCAT('\'',t.name,'\'') typeName,COUNT(t.name) num,CONCAT('\'',t.id,'\'') typeId
 		FROM AUDIT_ACCEPTANCE aa
 		LEFT JOIN COMPLAINT_MAIN_DETAIL c on aa.complaint_main_id=c.complaint_main_id
+		LEFT JOIN COMPLAINT_MAIN cc on aa.complaint_main_id=cc.complaint_main_id
 		LEFT JOIN TEST_TREE t on c.is_major=t.id
 		WHERE t.name is not null
         <choose>

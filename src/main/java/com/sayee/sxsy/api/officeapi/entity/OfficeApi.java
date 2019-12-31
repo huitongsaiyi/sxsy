@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.officeapi.entity;
 import java.io.Serializable;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class OfficeApi implements Serializable {

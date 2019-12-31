@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author www.donxon.com
  * @Description 咨询
  */
 @Controller
@@ -24,6 +23,7 @@ import java.util.Map;
 public class ConsultController {
     @Autowired
     private ConsultService consultService;
+    /*添加咨询*/
     @RequestMapping("consultadd")
     @ResponseBody
     public R addConsult(@RequestBody JSONObject jsonObject){
@@ -41,18 +41,19 @@ public class ConsultController {
         try {
             consultService.addConsult(consultEntity);
             R r=new R();
-            r.put("RtnCode","0");
+            r.put("RtnCode",0);
             r.put("RtnMsg","添加成功");
             r.put("RtnData","daf");
             return r;
         }catch (Exception e){
             R r=new R();
-            r.put("RtnCode","1");
+            r.put("RtnCode",1);
             r.put("RtnMsg","添加失败");
             r.put("RtnData",e);
             return r;
         }
     }
+    /*咨询回复*/
     @RequestMapping("consultreply")
     @ResponseBody
     public R consultReply(@RequestBody JSONObject jsonObject){
@@ -66,18 +67,19 @@ public class ConsultController {
         try{
             consultService.reply(map);
             R r=new R();
-            r.put("RtnCode","0");
+            r.put("RtnCode",0);
             r.put("RtnMsg","回复成功");
             r.put("RtnData","");
             return r;
         }catch (Exception e){
             R r=new R();
-            r.put("RtnCode","1");
+            r.put("RtnCode",1);
             r.put("RtnMsg","error");
             r.put("RtnData",e.getStackTrace());
             return r;
         }
     }
+    /*咨询列表*/
     @RequestMapping("consultlist")
     @ResponseBody
     public R consultList(@RequestBody JSONObject jsonObject){
@@ -88,6 +90,7 @@ public class ConsultController {
             r.put("RtnData",dataList);
             return r;
     }
+    /*用户咨询列表*/
     @RequestMapping("getconsultlistbyuid")
     @ResponseBody
     public R getConsultListByUid(@RequestBody JSONObject jsonObject){

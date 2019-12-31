@@ -8,11 +8,11 @@ import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import java.util.List;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 @MyBatisDao
 public interface OrganDao extends CrudDao<Organ> {
-    Organ getOrgan(String serviceOrganId);
+    Organ getOrgan();
     List<OrganUser> getUserList(String[] idList);
+    Organ connectUs();
 }

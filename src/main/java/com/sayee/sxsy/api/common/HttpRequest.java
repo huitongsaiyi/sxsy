@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description http请求
  */
 public class HttpRequest {
     private static Logger logger = Logger.getLogger(HttpRequest.class);

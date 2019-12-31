@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.mediate.entity;
 import com.sayee.sxsy.common.persistence.DataEntity;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class Summary extends DataEntity<Summary> {

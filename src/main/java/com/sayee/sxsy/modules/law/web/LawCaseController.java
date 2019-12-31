@@ -49,27 +49,32 @@ public class LawCaseController extends BaseController {
 	@RequiresPermissions("law:lawCase:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(LawCase lawCase, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<LawCase> page = lawCaseService.findPage(new Page<LawCase>(request, response), lawCase); 
+		String law=request.getParameter("law");
+		lawCase.setType(law);
+		Page<LawCase> page = lawCaseService.findPage(new Page<LawCase>(request, response), lawCase);
 		model.addAttribute("page", page);
+		model.addAttribute("law", law);
 		return "modules/law/lawCaseList";
 	}
 
 	@RequiresPermissions("law:lawCase:view")
 	@RequestMapping(value = "form")
-	public String form(LawCase lawCase, Model model) {
+	public String form(LawCase lawCase, Model model, HttpServletRequest request) {
+		String law=request.getParameter("law");
 		model.addAttribute("lawCase", lawCase);
+		model.addAttribute("law", law);
 		return "modules/law/lawCaseForm";
 	}
 
 	@RequiresPermissions("law:lawCase:edit")
 	@RequestMapping(value = "save")
-	public String save(LawCase lawCase, Model model, RedirectAttributes redirectAttributes) {
+	public String save(LawCase lawCase, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		if (!beanValidator(model, lawCase)){
-			return form(lawCase, model);
+			return form(lawCase, model,request);
 		}
 		lawCaseService.save(lawCase);
 		addMessage(redirectAttributes, "保存信息成功");
-		return "redirect:"+Global.getAdminPath()+"/law/lawCase/?repage";
+		return "redirect:"+Global.getAdminPath()+"/law/lawCase/?repage&law="+lawCase.getType()+"";
 	}
 	
 	@RequiresPermissions("law:lawCase:edit")

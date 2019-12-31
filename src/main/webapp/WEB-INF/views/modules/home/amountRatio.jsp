@@ -94,11 +94,11 @@
             </tr>
             <tr>
                 <td style="text-align:center;">
-                    50万以上
+                    50万及以上
                 </td>
                 <td style="text-align:center;">
                     <c:forEach items="${amountTableInfo}" var="info" >
-                        ${info['50万以上']}
+                        ${info['50万及以上']}
                     </c:forEach>
                 </td>
             </tr>

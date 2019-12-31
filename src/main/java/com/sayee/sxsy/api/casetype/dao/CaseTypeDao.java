@@ -8,8 +8,7 @@ import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 import java.util.List;
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description 案件分类
  */
 @MyBatisDao
 public interface CaseTypeDao extends CrudDao<CaseTypeEntity> {

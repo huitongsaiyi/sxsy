@@ -5,8 +5,6 @@ import java.util.Map;
 
 /**
  * @Description 返回数据
- *
- * @author www.donxon.com
  */
 public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;

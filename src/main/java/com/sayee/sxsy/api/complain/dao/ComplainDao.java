@@ -6,8 +6,7 @@ import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
 
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description 投诉
  */
 @MyBatisDao
 public interface ComplainDao extends CrudDao<ComplainEntity> {

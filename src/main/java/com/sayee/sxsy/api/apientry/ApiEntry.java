@@ -15,8 +15,6 @@ import java.util.UUID;
 
 /**
  * @Description api入口
- *
- * @author www.donxon.com
  */
 @Controller
 @RequestMapping("${adminPath}/api")
@@ -46,8 +44,10 @@ public class ApiEntry {
     public R prohibit(HttpServletRequest request){
         System.out.println(request);
         String msg=request.getAttribute("msg").toString();
+        String code=request.getAttribute("code").toString();
+        int rtnCode=Integer.valueOf(code);
         R r=new R();
-        r.put("RtnCode",1);
+        r.put("RtnCode",-1);
         r.put("RtnMsg","验证失败");
         r.put("RtnData",msg);
         return r;

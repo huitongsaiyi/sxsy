@@ -47,7 +47,6 @@ public class Comment extends DataEntity<Comment> {
 	
 
 
-	@NotNull
 	public Category getCategory() {
 		return category;
 	}
@@ -56,7 +55,6 @@ public class Comment extends DataEntity<Comment> {
 		this.category = category;
 	}
 
-	@NotNull
 	public String getContentId() {
 		return contentId;
 	}
@@ -74,7 +72,6 @@ public class Comment extends DataEntity<Comment> {
 		this.content = content;
 	}
 	
-	@Length(min=1, max=255)
 	public String getTitle() {
 		return title;
 	}

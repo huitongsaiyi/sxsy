@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.proposal.dao.SatisfiedProposalDao">
+    <sql id="satisfiedDegreeColumns">
+		a.satisfied_id AS "satisfiedId",
+		a.satisfied_name AS "satisfiedName",
+		a.ability AS "ability",
+		a.attitude AS "attitude",
+		a.meter AS "meter",
+		a.assess AS "assess",
+		a.proposal AS "proposal",
+		a.complaint_main_id AS "complaintMainId",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		b.CASE_NUMBER AS "caseNumber",
+		s.SIGN_AGREEMENT_ID AS "signAgreementId"
+	</sql>
+
+    <sql id="satisfiedDegreeJoins">
+		LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
+		LEFT JOIN SIGN_AGREEMENT s ON s.complaint_main_id=b.complaint_main_id
+		LEFT JOIN REACH_MEDIATE r ON r.complaint_main_id=b.complaint_main_id
+	</sql>
+
+    <select id="findList" resultType="com.sayee.sxsy.api.proposal.entity.Satisfied">
+        SELECT
+        <include refid="satisfiedDegreeColumns"/>
+        FROM SATISFIED_DEGREE a
+        <include refid="satisfiedDegreeJoins"/>
+        <where>
+            a.del_flag = 0
+            <if test="uid != null and uid != ''">
+                AND r.create_by =#{uid}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="save">
+		INSERT INTO SATISFIED_DEGREE(
+			satisfied_id,
+			satisfied_name,
+			ability,
+			attitude,
+			meter,
+			assess,
+			proposal,
+			complaint_main_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{satisfiedId},
+			#{satisfiedName},
+			#{ability},
+			#{attitude},
+			#{meter},
+			#{assess},
+			#{proposal},
+			#{complaintMainId},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+
+    <insert id="saveComment">
+		INSERT INTO CMS_COMMENT(
+			id,
+			category_id,
+			content_id,
+			title,
+			content,
+			name,
+			ip,
+			create_date,
+			audit_user_id,
+			audit_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{category.id},
+			#{contentId},
+			#{title},
+			#{content},
+			#{name},
+			#{ip},
+			#{createDate},
+			#{auditUser.id},
+			#{auditDate},
+			#{delFlag}
+		)
+	</insert>
+
+
+</mapper>

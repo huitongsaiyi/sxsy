@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * @Description
- *
- * @author www.donxon.com
+ * @Description 案件分类
  */
 @Controller
 @RequestMapping("${adminPath}/api")
 public class CaseTypeController{
+    /*案件分类父列表*/
     @Autowired
     private CaseTypeApiService caseTypeApiService;
     @RequestMapping("getparentcasetype")
@@ -32,6 +31,7 @@ public class CaseTypeController{
         r.put("RtnData",dataList);
         return r;
     }
+    /*案件分类二级列表*/
     @RequestMapping("getcasetype")
     @ResponseBody
     public R getCaseType(@RequestBody JSONObject jsonObject){

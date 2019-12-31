@@ -27,43 +27,57 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/law/lawCase/">信息列表</a></li>
-		<li class="active"><a href="${ctx}/law/lawCase/form?id=${lawCase.id}">信息<shiro:hasPermission name="law:lawCase:edit">${not empty lawCase.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="law:lawCase:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/law/lawCase/list?law=${law}">信息列表</a></li>
+		<li class="active"><a href="${ctx}/law/lawCase/form?id=${lawCase.lawCaseId}">信息<shiro:hasPermission name="law:lawCase:edit">${not empty lawCase.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="law:lawCase:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="lawCase" action="${ctx}/law/lawCase/save" method="post" class="form-horizontal">
 		<form:hidden path="lawCaseId"/>
-		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">类型：</label>
-			<div class="controls">
-				<form:select path="type" htmlEscape="false" maxlength="1" class="input-xlarge ">
-					<form:option value="1">法律法规</form:option>
-					<form:option value="2">经典案例</form:option>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">公布时间：</label>
-			<div class="controls">
-				<input name="publishTime" type="text" readonly="readonly" maxlength="20"
-					   class="input-medium Wdate required"
-					   value="${lawCase.publishTime}"
-					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">标题：</label>
-			<div class="controls">
-				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xlarge "/>
-			</div>
-		</div>
+		<sys:message content="${message}"/>
+		<c:choose>
+			<c:when test="${not empty law and law eq '1'}">
+				<div class="control-group">
+					<label class="control-label">类型：</label>
+					<div class="controls">
+						<form:select path="type" htmlEscape="false" maxlength="1" class="input-xlarge ">
+							<form:option value="1">法律法规</form:option>
+							<form:option value="2">经典案例</form:option>
+						</form:select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">公布时间：</label>
+					<div class="controls">
+						<input name="publishTime" type="text" readonly="readonly" maxlength="20"
+							   class="input-medium Wdate required"
+							   value="${lawCase.publishTime}"
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">标题：</label>
+					<div class="controls">
+						<form:input path="title" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">副标题：</label>
+					<div class="controls">
+						<form:input path="remarks" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<input type="hidden" name="type" value="${law}">
+			</c:otherwise>
+		</c:choose>
+
 		<div class="control-group">
 			<label class="control-label">内容：</label>
 			<div class="controls">
 				<form:textarea path="content" htmlEscape="false" rows="4" class="input-xxlarge "/>
-				<sys:ckeditor replace="content" />
+				<sys:ckeditor replace="content" uploadPath="/law/content"/>
 			</div>
-		</div>
+		</div>`
 		<div class="form-actions">
 			<shiro:hasPermission name="law:lawCase:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

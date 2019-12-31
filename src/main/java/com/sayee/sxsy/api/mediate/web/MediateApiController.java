@@ -31,8 +31,6 @@ import java.util.*;
 
 /**
  * @Description 调解
- *
- * @author www.donxon.com
  */
 @Controller
 @RequestMapping("${adminPath}/api")
@@ -516,42 +514,127 @@ public class MediateApiController {
         // 执行流程
         actTaskService.complete(taskId, procInsId, title, caseNumber, var);
     }
-    /**/
+    /*医调委获取调解列表*/
     @RequestMapping("medialist")
     @ResponseBody
-    public R mediateList(){
-        List<Mediate> dataList= mediateApiService.getMediateList();
+    public R mediateList(@RequestBody JSONObject jsonObject){
+        String wechatUserId=jsonObject.getString("wechatUserId");
+        List<Mediate> dataList= mediateApiService.getMediateList(wechatUserId);
         R r=new R();
         r.put("RtnCode",0);
         r.put("RtnMsg","success");
         r.put("RtnData",dataList);
         return r;
    }
-
+    /*医院获取调解列表*/
+    @RequestMapping("medialistforhos")
+    @ResponseBody
+    public R mediateListForHos(@RequestBody JSONObject jsonObject){
+        String wechatUserId=jsonObject.getString("wechatUserId");
+        List<Mediate> dataList= mediateApiService.getMediateListForHos(wechatUserId);
+        R r=new R();
+        r.put("RtnCode",0);
+        r.put("RtnMsg","success");
+        r.put("RtnData",dataList);
+        return r;
+    }
+    /*调解详情*/
    @RequestMapping("getmediateinfo")
    @ResponseBody
    public R getMediateInfo(@RequestBody JSONObject jsonObject){
         String complaintMainId=jsonObject.getString("complaintMainId");
-        String status=mediateApiService.getStatus(complaintMainId);
+        //String status=mediateApiService.getStatus(complaintMainId);
         MediateCommon mediateCommon =mediateApiService.getMediateInfo(complaintMainId);
         List<ActInst> actInstList=mediateApiService.getActInfo(complaintMainId);
-        mediateApiService.findMediateById(complaintMainId);
+        Map map1 =new HashMap();
+        List list=new ArrayList();
+        map1.put("id",complaintMainId);
+        map1.put("applicant",mediateCommon.getVisitorName());
+        map1.put("hospital",mediateCommon.getInvolveHospital());
+        Map map2=new HashMap();
+        map2.put("key","案件编号");
+        map2.put("value",mediateCommon.getCaseNumber());
+
+        Map map3=new HashMap();
+        map3.put("key","申请人姓名");
+        map3.put("value",mediateCommon.getVisitorName());
+
+        Map map4=new HashMap();
+        map4.put("key","患者姓名");
+        map4.put("value",mediateCommon.getPatientName());
+
+        Map map5=new HashMap();
+        map5.put("key","与患者关系");
+        switch(mediateCommon.getPatientRelation()){
+            case "1":
+                map5.put("value","本人");
+                break;
+            case "2":
+                map5.put("value","夫妻");
+                break;
+            case "3":
+                map5.put("value","子女");
+                break;
+            case "4":
+                map5.put("value","父母");
+                break;
+            case "5":
+                map5.put("value","兄妹");
+                break;
+            case "6":
+                map5.put("value","亲属");
+                break;
+            case "7":
+                map5.put("value","其他");
+                break;
+        }
+       Map map6=new HashMap();
+       map6.put("key","联系电话");
+       map6.put("value",mediateCommon.getVisitorMobile());
+
+       Map map7=new HashMap();
+       map7.put("key","纠纷经过");
+       map7.put("value",mediateCommon.getSummaryOfDisputes());
+
+       Map map8=new HashMap();
+       map8.put("key","诉求");
+       map8.put("value",mediateCommon.getAppeal());
+       list.add(map2);
+       list.add(map3);
+       list.add(map4);
+       list.add(map5);
+       list.add(map6);
+       list.add(map7);
+       list.add(map8);
+        //map.put("patientRelation",mediateCommon.getPatientRelation());//1本人 2夫妻 3子女 4父母 5兄妹 6亲属 7其他
+       SimpleDateFormat sdf =new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
+       for(ActInst actInst:actInstList){
+            Map map9=new HashMap();
+            map9.put("key",actInst.getActName()+"时间");
+            map9.put("value",sdf.format(actInst.getStartTime()));
+            list.add(map9);
+       }
+       map1.put("detail",list);
+      // mediateApiService.findMediateById(complaintMainId);
         R r=new R();
         r.put("RtnCode",0);
         r.put("RtnMsg","success");
-        r.put("RtnData",status);
+        r.put("RtnData",map1);
         return r;
    }
    private String getDict(String involveHospitalName){
         return officeApiService.getDict(involveHospitalName);
    }
+   /*获取流程进度*/
    private TaskEntity getTaskId(String complaintMainId){
         return mediateReportApiService.getTaskId(complaintMainId);
    }
+   /*案件编号*/
    private String getCaseMumber(){
         String caseNumber= mediateApiService.getCaseNumber();
         return caseNumber;
    }
+   /*签署协议编号*/
    private String getAgreementNumber(){
        return signApiService.getMax();
    }

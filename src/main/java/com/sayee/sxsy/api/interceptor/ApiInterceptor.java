@@ -7,20 +7,20 @@ import javax.servlet.http.HttpSession;
 
 /**
  * @Description
- *
- * @author www.donxon.com
  */
 public class ApiInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String APPTOKEN = request.getHeader("APPTOKEN");
         if(null==APPTOKEN || APPTOKEN.isEmpty()){
+            request.setAttribute("code","-1");
             request.setAttribute("msg","请求token为空");
             request.getRequestDispatcher(request.getContextPath()+"/api/prohibit").forward(request,response);
             return false;
         }else{
             HttpSession session=request.getSession();
             if(null==session.getAttribute("APPTOKEN")||session.getAttribute("APPTOKEN").toString().isEmpty()){
+                request.setAttribute("code","-2");
                 request.setAttribute("msg","session过期请重新获取验证");
                 request.getRequestDispatcher(request.getContextPath()+"/api/prohibit").forward(request,response);
                 return false;
@@ -28,6 +28,7 @@ public class ApiInterceptor implements HandlerInterceptor {
                 if(APPTOKEN.equals(session.getAttribute("APPTOKEN").toString())) {
                     return true;
                 }else{
+                    request.setAttribute("code","-3");
                     request.setAttribute("msg","token值无效");
                     request.getRequestDispatcher(request.getContextPath()+"/api/prohibit").forward(request,response);
                     return false;

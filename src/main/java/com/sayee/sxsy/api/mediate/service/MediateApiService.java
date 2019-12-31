@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author www.donxon.com
  * @Description 调解
  */
 @Service
@@ -25,8 +24,12 @@ public class MediateApiService extends CrudService<MediateApiDao, MediateApiEnti
     public Integer saveMediate(MediateApiEntity mediateApiEntity){
        return mediateApiDao.insert(mediateApiEntity);
     }
-    public List<Mediate> getMediateList(){
-        return mediateApiDao.mediateList();
+    public List<Mediate> getMediateList(String wechatUserId){
+        return mediateApiDao.mediateList(wechatUserId);
+    }
+    public List<Mediate> getMediateListForHos(String wechatUserId){
+        return mediateApiDao.mediateListForHos(wechatUserId);
+
     }
     public String getCaseNumber(){
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");

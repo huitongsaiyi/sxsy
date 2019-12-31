@@ -38,8 +38,8 @@ public class UploadUtils {
 	 */
 	public static final String FILE_FIELDS = "file_fields";
 
-	// 最大文件大小
-	private long maxSize = 1000000;
+	// 最大文件大小104857600
+	private long maxSize = 104857600;
 	// 定义允许上传的文件扩展名
 	private Map<String, String> extMap = new HashMap<String, String>();
 	// 文件保存目录相对路径
@@ -168,7 +168,7 @@ public class UploadUtils {
 	 * 处理上传内容
 	 * 
 	 * @param request
-	 * @param maxSize
+	 * @param
 	 * @return
 	 */
 //	@SuppressWarnings("unchecked")
@@ -234,9 +234,8 @@ public class UploadUtils {
 	/**
 	 * 保存文件
 	 * 
-	 * @param obj
-	 *            要上传的文件域
-	 * @param file
+	 * @param
+	 * @param item
 	 * @return
 	 */
 	private String saveFile(FileItem item) {

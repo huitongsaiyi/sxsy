@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.api.mediate.dao.MediateInfoApiDao">
 	<insert id="insert">
-		INSERT INTO complaint_info(
+		INSERT INTO COMPLAINT_INFO(
 			case_number,
 			complaint_main_id,
 			visitor_name,

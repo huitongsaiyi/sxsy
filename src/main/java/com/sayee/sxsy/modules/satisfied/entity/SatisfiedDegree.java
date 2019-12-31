@@ -26,6 +26,7 @@ public class SatisfiedDegree extends DataEntity<SatisfiedDegree> {
 	private String complaintMainId;		// 主表主键
 	private String signAgreementId;		// 签署协议主键
 	private ComplaintMain complaintMain;		// 主表
+	private String uid;		// 当前人员id
 
 	public SatisfiedDegree() {
 		super();
@@ -49,6 +50,14 @@ public class SatisfiedDegree extends DataEntity<SatisfiedDegree> {
 
 	public void setSignAgreementId(String signAgreementId) {
 		this.signAgreementId = signAgreementId;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")

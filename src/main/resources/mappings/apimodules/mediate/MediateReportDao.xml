@@ -49,6 +49,6 @@
         )
 </insert>
     <select id="getTaskId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.TaskEntity">
-        SELECT act_hi_actinst.task_id_ AS taskId,act_hi_actinst.proc_inst_id_ AS procInsId FROM complaint_main LEFT JOIN act_hi_actinst ON act_hi_actinst.proc_inst_id_ = complaint_main.proc_ins_id  WHERE complaint_main.complaint_main_id=#{complaintMainId} AND act_hi_actinst.ACT_TYPE_='userTask' ORDER BY act_hi_actinst.start_time_ DESC LIMIT 1
+        SELECT ACT_HI_ACTINST.task_id_ AS taskId,ACT_HI_ACTINST.proc_inst_id_ AS procInsId FROM COMPLAINT_MAIN LEFT JOIN ACT_HI_ACTINST ON ACT_HI_ACTINST.proc_inst_id_ = COMPLAINT_MAIN.proc_ins_id  WHERE COMPLAINT_MAIN.complaint_main_id=#{complaintMainId} AND ACT_HI_ACTINST.ACT_TYPE_='userTask' ORDER BY ACT_HI_ACTINST.start_time_ DESC LIMIT 1
     </select>
 </mapper>

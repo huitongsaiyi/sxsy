@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.main.dao.MainApiDao">
+    <select id="getMainInfo" resultType="com.sayee.sxsy.api.main.entity.MainApi">
+        SELECT use_tips AS useTips,focus_picture AS focusPicture,consult_tips AS consultTips,case_tips AS caseTips,app_id AS appId,app_secret AS appSecret,is_open_pop AS isOpenPop FROM APPLET_SETTING ORDER BY create_date desc limit 1
+    </select>
+</mapper>

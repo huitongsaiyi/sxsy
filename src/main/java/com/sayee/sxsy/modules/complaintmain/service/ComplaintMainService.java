@@ -246,9 +246,9 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
      * @return
      */
     @Transactional(readOnly = false)
-    public List<Map<String,Object>> findAreaName (String year,String beginMonthDate,String endMonthDate,String type){
+    public List<Map<String,Object>> findAreaName (User user,String year,String beginMonthDate,String endMonthDate,String type){
 		String officeId="";
-		if (UserUtils.getUser().getRoleList().contains("yydept")){
+		if (user.getRoleList().contains("yydept")){
 			officeId=UserUtils.getUser().getOffice().getId();
 		}
     	if(StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
@@ -296,9 +296,9 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
      * @param beginMonthDate,endMonthDate
      * @return
      */
-    public List<Map<String,Object>> findDepartment(String year,String beginMonthDate,String endMonthDate,String type){
+    public List<Map<String,Object>> findDepartment(User user,String year,String beginMonthDate,String endMonthDate,String type){
 		String officeId="";
-		if (UserUtils.getUser().getRoleList().contains("yydept")){
+		if (user.getRoleList().contains("yydept")){
 			officeId=UserUtils.getUser().getOffice().getId();
 		}
 		List<Map<String, Object>> list=null;

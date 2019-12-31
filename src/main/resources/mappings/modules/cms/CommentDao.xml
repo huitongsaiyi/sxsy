@@ -102,7 +102,7 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
 		UPDATE CMS_COMMENT SET
 			

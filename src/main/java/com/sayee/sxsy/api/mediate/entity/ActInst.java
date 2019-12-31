@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class ActInst implements Serializable {

@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description 投诉
  */
 @Service
 public class ComplainService extends CrudService<ComplainDao, ComplainEntity> {

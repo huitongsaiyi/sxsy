@@ -5,6 +5,7 @@
 	<sql id="serviceOrganColumns">
 		a.service_organ_id AS "serviceOrganId",
 		a.phone AS "phone",
+		a.icon AS "icon",
 		a.address AS "address",
 		a.email AS "email",
 		a.work_time AS "workTime",
@@ -93,6 +94,7 @@
 	<insert id="insert">
 		INSERT INTO SERVICE_ORGAN(
 			service_organ_id,
+			icon,
 			phone,
 			address,
 			email,
@@ -109,6 +111,7 @@
 			del_flag
 		) VALUES (
 			#{serviceOrganId},
+			#{icon},
 			#{phone},
 			#{address},
 			#{email},
@@ -128,6 +131,7 @@
 	
 	<update id="update">
 		UPDATE SERVICE_ORGAN SET
+			icon = #{icon},
 			phone = #{phone},
 			address = #{address},
 			email = #{email},

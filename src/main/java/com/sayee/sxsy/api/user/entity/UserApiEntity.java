@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.user.entity;
 import com.sayee.sxsy.common.persistence.DataEntity;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class UserApiEntity extends DataEntity<UserApiEntity> {

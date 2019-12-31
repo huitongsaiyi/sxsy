@@ -199,7 +199,7 @@ public class ComplaintMainController extends BaseController {
 				return "modules/home/focus";
 			}else if("sjzy".equals(commonType)){//涉及专业
 				//各专业数据
-				List<Map<String,Object>> dList=complaintMainService.findDepartment(year,beginMonthDate,endMonthDate,type);
+				List<Map<String,Object>> dList=complaintMainService.findDepartment(user,year,beginMonthDate,endMonthDate,type);
 //                Map<String,Object> map=new HashMap<>();
 //                map.put("name","'呼吸内科专业'"); map.put("department","5");
 //                Map<String,Object> map1=new HashMap<>();
@@ -284,7 +284,7 @@ public class ComplaintMainController extends BaseController {
 				model.addAttribute("number", this.convert(MonthDataList.toArray(),"num",true) );
 				model.addAttribute("monthTableInfo", MonthDataList );
 				//各市数据
-				List<Map<String,Object>> areaList=complaintMainService.findAreaName(year,beginMonthDate,endMonthDate,type);
+				List<Map<String,Object>> areaList=complaintMainService.findAreaName(user,year,beginMonthDate,endMonthDate,type);
 //                Map<String,Object> m=new HashMap<>();
 //                m.put("name","临汾市"); m.put("value","5");
 //                Map<String,Object> m1=new HashMap<>();

@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author www.donxon.com
- * @Description
+ * @Description 咨询
  */
 @MyBatisDao
 public interface ConsultDao extends CrudDao<ConsultEntity> {

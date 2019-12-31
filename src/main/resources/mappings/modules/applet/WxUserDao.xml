@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.applet.dao.WxUserDao">
+
+    <sql id="wxUserColumns">
+        a.wechat_user_id AS "wechatUserId",
+        a.nickname AS "nickName",
+        a.realname AS "realName",
+        a.avatar_url AS "avatarUrl",
+        a.openid AS "openId",
+        a.tel AS "tel",
+        a.usertype AS "userType",
+        a.age AS "age",
+        a.workunit AS "wordUnit",
+        a.sys_user_id AS "sysUserId",
+        a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+    </sql>
+
+    <select id="findList" resultType="WxUser">
+        SELECT
+        <include refid="wxUserColumns"/>
+        FROM CMS_WECHATUSER a
+        <where>
+            a.del_flag = #{delFlag}
+            <if test="tel != null and tel != ''">
+                AND a.tel LIKE
+                <if test="dbName == 'oracle'">'%'||#{tel}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{tel}+'%'</if>
+                <if test="dbName == 'mysql'">CONCAT('%', #{tel}, '%')</if>
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

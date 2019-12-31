@@ -2,10 +2,10 @@ package com.sayee.sxsy.api.organ.entity;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class Organ extends DataEntity<Organ> {
@@ -17,10 +17,11 @@ public class Organ extends DataEntity<Organ> {
     private String workTime;
     private String introduce;
     private String duty;
+    private String icon;
     private String serviceTenet;
     private String threeAid;
     private String userId;
-    private List<OrganUser> userList;
+    private List<OrganUser> userList=new ArrayList<>();
 
     public String getServiceOrganId() {
         return serviceOrganId;
@@ -108,5 +109,13 @@ public class Organ extends DataEntity<Organ> {
 
     public void setUserList(List<OrganUser> userList) {
         this.userList = userList;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

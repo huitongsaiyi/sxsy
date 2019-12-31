@@ -5,7 +5,6 @@ import com.sayee.sxsy.common.persistence.DataEntity;
 import java.util.Date;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class MediateInfoApiEntity extends DataEntity<MediateInfoApiEntity> {

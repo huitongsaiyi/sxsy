@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.applet.dao.AppletDao">
+
+    <sql id="appletColumns">
+        a.id AS "id",
+        a.app_id AS "appId",
+        a.app_secret AS "appSecret",
+        a.merchant_id AS "merchantId",
+        a.api_key AS "apiKey",
+        a.api_client_cert AS "apiClientCert",
+        a.api_client_key AS "apiClientKey",
+        a.action_notice AS "actionNotice",
+        a.payment_notice AS "paymentNotice",
+        a.new_action_notice AS "newActionNotice",
+        a.focus_picture AS "focusPicture",
+        a.is_open_pop AS "isOpenPop",
+        a.use_tips AS "useTips",
+        a.consult_tips AS "consultTips",
+        a.case_tips AS "caseTips",
+        a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+    </sql>
+
+    <select id="getApplet" resultType="Applet">
+        SELECT
+        <include refid="appletColumns"/>
+        FROM APPLET_SETTING a LIMIT 1
+	</select>
+
+    <update id="update">
+		UPDATE APPLET_SETTING SET
+			app_id = #{appId},
+			app_secret = #{appSecret},
+			merchant_id = #{merchantId},
+			api_key = #{apiKey},
+			api_client_cert = #{apiClientCert},
+			api_client_key = #{apiClientKey},
+			action_notice = #{actionNotice},
+			payment_notice = #{paymentNotice},
+			new_action_notice = #{newActionNotice},
+			focus_picture = #{focusPicture},
+			is_open_pop = #{isOpenPop},
+			use_tips = #{useTips},
+			consult_tips = #{consultTips},
+			case_tips = #{caseTips},
+			create_by = #{createBy.id},
+			create_date = #{createDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+    <insert id="insert">
+		INSERT INTO APPLET_SETTING(
+			id,
+			app_id,
+			app_secret,
+			merchant_id,
+			api_key,
+			api_client_cert,
+			api_client_key,
+			action_notice,
+			payment_notice,
+			new_action_notice,
+			focus_picture,
+			is_open_pop,
+			use_tips,
+			consult_tips,
+			case_tips,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{appId},
+			#{appSecret},
+			#{merchantId},
+			#{apiKey},
+			#{apiClientCert},
+			#{apiClientKey},
+			#{actionNotice},
+			#{paymentNotice},
+			#{newActionNotice},
+			#{focusPicture},
+			#{isOpenPop},
+			#{useTips},
+			#{consultTips},
+			#{caseTips},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+
+</mapper>

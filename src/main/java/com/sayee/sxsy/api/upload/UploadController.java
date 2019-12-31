@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 @Controller
@@ -26,7 +25,7 @@ public class UploadController {
         String path = "/headimage";
         String fileName=UploadUtil.upload(request,file,path);
             R r=new R();
-            r.put("RtnCode","0");
+            r.put("RtnCode",0);
             r.put("RtnMsg","success");
             r.put("RtnData",fileName);
             return r;
@@ -38,7 +37,7 @@ public class UploadController {
         String path = "/organizationimage";
         String fileName=UploadUtil.upload(request,file,path);
         R r=new R();
-        r.put("RtnCode","0");
+        r.put("RtnCode",0);
         r.put("RtnMsg","success");
         r.put("RtnData",fileName);
         return r;
@@ -50,7 +49,7 @@ public class UploadController {
         String path = "/mediateimage";
         String fileName=UploadUtil.upload(request,file,path);
         R r=new R();
-        r.put("RtnCode","0");
+        r.put("RtnCode",0);
         r.put("RtnMsg","success");
         r.put("RtnData",fileName);
         return r;
@@ -62,7 +61,7 @@ public class UploadController {
         String path = "/evidenceimage";
         String fileName=UploadUtil.upload(request,file,path);
         R r=new R();
-        r.put("RtnCode","0");
+        r.put("RtnCode",0);
         r.put("RtnMsg","success");
         r.put("RtnData",fileName);
         return r;
@@ -74,7 +73,7 @@ public class UploadController {
         String path = "/evidencedocument";
         String fileName=UploadUtil.upload(request,file,path);
         R r=new R();
-        r.put("RtnCode","0");
+        r.put("RtnCode",0);
         r.put("RtnMsg","success");
         r.put("RtnData",fileName);
         return r;

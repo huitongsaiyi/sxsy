@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.publicnotice.entity;
 import com.sayee.sxsy.common.persistence.DataEntity;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class PublicNotice extends DataEntity<PublicNotice> {
@@ -12,6 +11,7 @@ public class PublicNotice extends DataEntity<PublicNotice> {
     private String type;
     private String title;
     private String content;
+    private String departmentName;
 
     @Override
     public String getId() {
@@ -45,5 +45,13 @@ public class PublicNotice extends DataEntity<PublicNotice> {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 }

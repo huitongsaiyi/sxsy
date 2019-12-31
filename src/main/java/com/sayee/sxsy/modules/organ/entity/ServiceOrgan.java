@@ -17,6 +17,7 @@ public class ServiceOrgan extends DataEntity<ServiceOrgan> {
 	
 	private static final long serialVersionUID = 1L;
 	private String serviceOrganId;		// 主键
+	private String icon;		// 电话
 	private String phone;		// 电话
 	private String address;		// 地址
 	private String email;		// 邮箱
@@ -42,6 +43,14 @@ public class ServiceOrgan extends DataEntity<ServiceOrgan> {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 	//@Length(min=1, max=32, message="主键长度必须介于 1 和 32 之间")

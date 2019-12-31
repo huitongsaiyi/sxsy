@@ -3,12 +3,12 @@
 <mapper namespace="com.sayee.sxsy.api.officeapi.dao.OfficeApiDao">
 
     <select id="getParentList" resultType="com.sayee.sxsy.api.officeapi.entity.OfficeApi">
-        SELECT id,name FROM test_tree WHERE parent_id=0 AND del_flag=0 AND MOLD=2
+        SELECT id,name FROM TEST_TREE WHERE parent_id=0 AND del_flag=0 AND MOLD=2
     </select>
     <select id="getListByParentId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.officeapi.entity.OfficeApi">
-        SELECT id,name FROM test_tree WHERE parent_id=#{ID} AND del_flag=0
+        SELECT id,name FROM TEST_TREE WHERE parent_id=#{ID} AND del_flag=0
     </select>
     <select id="getDict" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT VALUE FROM sys_dict WHERE label=#{label} AND type="department"
+        SELECT value FROM SYS_DICT WHERE label=#{label} AND type="department"
     </select>
 </mapper>

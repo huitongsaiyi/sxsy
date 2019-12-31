@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.mediate.entity;
 import java.io.Serializable;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 public class TaskEntity implements Serializable {

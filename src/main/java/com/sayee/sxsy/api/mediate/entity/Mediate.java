@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.mediate.entity;
 import java.io.Serializable;
 
 /**
- * @author www.donxon.com
  * @Description 调解列表
  */
 public class Mediate implements Serializable {

@@ -3,7 +3,6 @@ package com.sayee.sxsy.api.mediate.entity;
 import com.sayee.sxsy.common.persistence.DataEntity;
 
 /**
- * @author www.donxon.com
  * @Description 调查取证
  */
 public class Investitage extends DataEntity<Investitage> {

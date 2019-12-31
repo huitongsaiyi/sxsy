@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.api.publicnotice.dao.PublicNoticeDao">
-    <select id="getNoticeByType" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.publicnotice.entity.PublicNotice">
-        SELECT * FROM oa_notify WHERE TYPE =#{type}
+    <select id="getNoticeByType" parameterType="java.util.Map" resultType="com.sayee.sxsy.api.publicnotice.entity.PublicNotice">
+        SELECT id,title,type,create_date,remarks FROM OA_NOTIFY WHERE TYPE =#{type} ORDER BY create_date desc limit #{pageLimit},#{pageSize}
     </select>
-
+    <select id="getMainPublicNotice" resultType="com.sayee.sxsy.api.publicnotice.entity.PublicNotice">
+        SELECT id,title,type,create_date,remarks FROM OA_NOTIFY order by create_date desc limit 2
+    </select>
+    <select id="getPublicInfo" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.publicnotice.entity.PublicNotice">
+        SELECT OA_NOTIFY.*,SYS_OFFICE.name AS departmentName FROM OA_NOTIFY LEFT JOIN SYS_USER ON OA_NOTIFY.create_by=SYS_USER.id LEFT JOIN SYS_OFFICE ON SYS_USER.office_id=SYS_OFFICE.id WHERE OA_NOTIFY.id=#{id}
+    </select>
+    <select id="getTotal" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM OA_NOTIFY WHERE type=#{type}
+    </select>
 </mapper>

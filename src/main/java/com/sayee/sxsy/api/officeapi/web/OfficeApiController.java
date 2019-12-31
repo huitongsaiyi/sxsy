@@ -17,8 +17,6 @@ import java.util.List;
 
 /**
  * @Description 机构、科室
- *
- * @author www.donxon.com
  */
 @Controller
 @RequestMapping("${adminPath}/api")

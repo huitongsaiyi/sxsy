@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author www.donxon.com
  * @Description 文件上传
  */
 public class UploadUtil {

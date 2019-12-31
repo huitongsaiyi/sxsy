@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.api.complain.dao.ComplainDao">
     <insert id="insert">
-		INSERT INTO cms_consult(
+		INSERT INTO CMS_CONSULT(
 			complaint_id,
 			patient_name,
 			visitor_name,

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.publicnotice.dao.LawCaseApiDao">
+    <select id="getPageLawCase" parameterType="java.util.Map" resultType="com.sayee.sxsy.api.publicnotice.entity.LawCaseApi">
+        SELECT law_case_id AS lawCaseId,title,type,publish_time AS publishTime,remarks,create_date AS createDate FROM LAW_CASE WHERE type=#{type} ORDER BY create_date desc limit #{pageLimit},#{pageSize}
+    </select>
+    <select id="getTotal" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM LAW_CASE WHERE type=#{type}
+    </select>
+    <select id="getLawCaseInfo" resultType="com.sayee.sxsy.api.publicnotice.entity.LawCaseApi" parameterType="java.lang.String">
+        SELECT * FROM LAW_CASE WHERE law_case_id=#{id}
+    </select>
+    <select id="getServiceByType" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.publicnotice.entity.LawCaseApi">
+        SELECT * FROM LAW_CASE WHERE type=#{type} limit 1
+    </select>
+</mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.api.mediate.dao.SignDao">
     <insert id="insert">
-		INSERT INTO sign_agreement(
+		INSERT INTO SIGN_AGREEMENT(
 			sign_agreement_id,
 			complaint_main_id,
 			agreement_number,

@@ -33,12 +33,54 @@
     )
 </insert>
     <select id="getUserInfoByOpenId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.user.entity.UserInfo">
-        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId FROM CMS_WECHATUSER WHERE openid=#{#openId}
+        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId FROM CMS_WECHATUSER WHERE openid=#{openId}
     </select>
-    <update id="regist" parameterType="com.sayee.sxsy.api.user.dao.UserApiDao">
-        UPDATE CMS_WECHATUSER SET nickname=#{nickName},realName=#{realName},avatarUrl=#{avatarUrl},tel=#{tel},usertype=#{userType},age=#{age},workunit=#{workUnit},sys_user_id=#{sysUserId} WHERE id =#{wechatUserId}
+    <update id="regist" parameterType="com.sayee.sxsy.api.user.entity.UserApiEntity">
+        UPDATE CMS_WECHATUSER SET nickname=#{nickName},realname=#{realName},avatar_url=#{avatarUrl},tel=#{tel},usertype=#{userType},age=#{age},workunit=#{workUnit},sys_user_id=#{sysUserId} WHERE wechat_user_id =#{wechatUserId}
     </update>
     <update id="changeStatu" parameterType="java.util.Map">
-        UPDATE CMS_WECHATUSER SET userstatu=#{statu} WHERE id =#{uid}
+        UPDATE CMS_WECHATUSER SET userstatu=#{statu} WHERE wechat_user_id =#{wechatUserId}
     </update>
+    <select id="getUser" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT id,password FROM SYS_USER WHERE login_name=#{loginName}
+    </select>
+    <select id="getUserById" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT password FROM SYS_USER WHERE id=#{sysUserId}
+    </select>
+    <select id="getUserInfoByUserId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.user.entity.UserInfo">
+        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId FROM CMS_WECHATUSER WHERE wechat_user_id=#{wechatUserId}
+    </select>
+    <update id="savePassword" parameterType="java.util.Map">
+        UPDATE SYS_USER SET password=#{newPassword} WHERE id=#{sysUserId}
+    </update>
+    <!--用户投诉数量-->
+    <select id="getMediateInfoCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT handle_way AS handleWay FROM COMPLAINT_INFO WHERE create_by=#{wechatUserId}
+    </select>
+    <!--涉及医院用户投诉数量-->
+    <select id="getMediateInfoCountForHospital" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT handle_way FROM COMPLAINT_INFO WHERE involve_hospital=(SELECT SYS_USER.office_id FROM SYS_USER LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId})
+    </select>
+    <!--医调委用户-->
+    <select id="getMediateCountForYtw" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT count(*) FROM COMPLAINT_MAIN_DETAIL LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_INFO.next_link_man WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
+    </select>
+    <!--评估数量-->
+    <select id="getAssessCount">
+        SELECT count(*) FROM ASSESS_APPRAISAL LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_APPRAISAL.next_link_man WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
+    </select>
+    <!--结案数量-->
+    <select id="getAssessInfoCount">
+        SELECT count(*) FROM ASSESS_INFO LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_INFO.next_link_man WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
+    </select>
+    <!--咨询数量-->
+    <select id="getConsultCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT count(*) FROM CMS_CONSULT WHERE create_by=#{wechatUserId}
+    </select>
+    <select id="getCommunicateList" resultType="com.sayee.sxsy.api.user.entity.Communicate">
+        SELECT SYS_USER.name,SYS_USER.mobile AS phoneNumber,SYS_OFFICE.name AS department,CMS_WECHATUSER.userStatu AS status,ifnull(CMS_WECHATUSER.avatar_url,'https://b-ssl.duitang.com/uploads/item/201608/21/20160821194924_UCvFZ.jpeg') AS headImg FROM SYS_USER LEFT JOIN SYS_OFFICE ON SYS_USER.office_id=SYS_OFFICE.id LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE SYS_OFFICE.office_type=1
+    </select>
+    <select id="getWechatUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT sys_user_id FROM CMS_WECHATUSER WHERE wechat_user_id=#{wechatUserId}
+    </select>
 </mapper>

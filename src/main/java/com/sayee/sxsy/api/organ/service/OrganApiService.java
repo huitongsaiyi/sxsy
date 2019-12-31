@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author www.donxon.com
  * @Description
  */
 @Service
@@ -17,7 +16,10 @@ public class OrganApiService {
     @Autowired
     private OrganDao organDao;
     public Organ getOrgan(){
-       return organDao.getOrgan("1");
+       return organDao.getOrgan();
+    }
+    public Organ connectUs(){
+        return organDao.connectUs();
     }
     public List<OrganUser> getUserList(String[] idList){
         return organDao.getUserList(idList);

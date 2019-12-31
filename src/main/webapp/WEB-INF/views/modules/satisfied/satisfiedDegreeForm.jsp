@@ -61,14 +61,14 @@
 			<label class="control-label">评价：</label>
 			<div class="controls">
 				<form:textarea path="assess" htmlEscape="false" rows="4" class="input-xxlarge "/>
-				<sys:ckeditor replace="assess" />
+				<sys:ckeditor replace="assess" uploadPath="/satisfied/assess"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">建议：</label>
 			<div class="controls">
 				<form:textarea path="proposal" htmlEscape="false" rows="4" class="input-xxlarge "/>
-				<sys:ckeditor replace="proposal" />
+				<sys:ckeditor replace="proposal" uploadPath="/satisfied/proposal"/>
 			</div>
 		</div>
 		<div class="form-actions">
