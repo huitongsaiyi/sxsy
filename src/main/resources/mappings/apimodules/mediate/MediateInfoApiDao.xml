@@ -35,6 +35,7 @@
 			closing_method,
 			amount_involved,
 			complaint_type,
+			create_by,
 			create_date,
 			update_date,
 			del_flag
@@ -71,6 +72,7 @@
 			#{closingMethod},
 			#{amountInvolved},
 			#{complaintType},
+			#{createUser},
 			#{createDate},
 			#{updateDate},
 			0

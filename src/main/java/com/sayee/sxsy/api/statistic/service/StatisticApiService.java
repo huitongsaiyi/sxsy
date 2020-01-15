@@ -125,8 +125,8 @@ public class StatisticApiService extends CrudService<StatisticDao, StatisticEnti
             xMap.put("field","'区域名称'");
             yMap.put("field","'数量'");
             firstMap.put("name","各月份投诉数量");
-            firstMap.put("keys", ObjectUtils.convert(list.toArray(),"monthDate",true) );
-            valuelist=ObjectUtils.convert(list.toArray(),"num",true);
+            firstMap.put("keys", ObjectUtils.convert(list.toArray(),"name",true) );
+            valuelist=ObjectUtils.convert(list.toArray(),"value",true);
         }else if("complaintQuantityAnalysis".equals(type) || "analysisOfMediationQuantity".equals(type)){//投诉统计 投诉类型分析
             xMap.put("field","'时间'");
             yMap.put("field","'数量'");
@@ -137,14 +137,14 @@ public class StatisticApiService extends CrudService<StatisticDao, StatisticEnti
             xMap.put("field","'焦点名称'");
             yMap.put("field","'数量'");
             firstMap.put("name","纠纷焦点统计");
-            firstMap.put("keys",ObjectUtils.convert(list.toArray(),"typeName",true) );
-            valuelist=ObjectUtils.convert(list.toArray(),"num",true);
+            firstMap.put("keys",ObjectUtils.convert(list.toArray(),"name",true) );
+            valuelist=ObjectUtils.convert(list.toArray(),"value",true);
         }else if("professionalAnalysisOfComplaints".equals(type) || "professionalAnalysisInvolved".equals(type)){//投诉统计  专业
             xMap.put("field","'专业名称'");
             yMap.put("field","'数量'");
             firstMap.put("name","各专业案件统计");
             firstMap.put("keys",ObjectUtils.convert(list.toArray(),"name",true) );
-            valuelist=ObjectUtils.convert(list.toArray(),"department",true);
+            valuelist=ObjectUtils.convert(list.toArray(),"value",true);
         }else if("analysisOfResponsibilityProportion".equals(type)){//调解统计  责任比例分析
             xMap.put("field","'责任名称'");
             yMap.put("field","'数量'");

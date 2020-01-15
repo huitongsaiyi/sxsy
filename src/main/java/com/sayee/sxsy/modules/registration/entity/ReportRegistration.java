@@ -50,6 +50,16 @@ public class ReportRegistration extends DataEntity<ReportRegistration> {
 	private List<String> list;//工作站人员list
 	private MachineAccount machineAccount;    //台账信息
 
+	private String createUser;  //创建人员id
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
 	public MachineAccount getMachineAccount() {
 		return machineAccount;
 	}

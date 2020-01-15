@@ -11,7 +11,7 @@
 		a.patient_link_post AS "patientLinkPost",
 		a.patient_link_mobile AS "patientLinkMobile",
 		a.patient_relation AS "patientRelation",
-		a.id_number AS "idNumber",
+		if(a.id_number IS NULL,cm.patient_card,a.id_number) AS "idNumber",
 		a.patient_link_address AS "patientLinkAddress",
 		a.respondent_identity AS "respondentIdentity",
 		a.relation_id AS "relationId",
@@ -26,6 +26,7 @@
 	
 	<sql id="patientLinkEmpJoins">
 		LEFT JOIN ASSESS_APPRAISAL ass ON ass.assess_appraisal_id = a.relation_id
+		LEFT JOIN COMPLAINT_MAIN cm ON cm.complaint_main_id=ass.complaint_main_id
 	</sql>
     
 	<select id="get" resultType="PatientLinkEmp">

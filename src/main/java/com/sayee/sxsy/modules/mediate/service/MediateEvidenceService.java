@@ -5,11 +5,9 @@ package com.sayee.sxsy.modules.mediate.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.google.common.collect.Lists;
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.act.entity.Act;
@@ -27,6 +25,8 @@ import com.sayee.sxsy.modules.recordinfo.dao.RecordInfoDao;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.entity.Office;
+import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.MapUtils;
@@ -85,7 +85,8 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 	}
 	
 	public Page<MediateEvidence> findPage(Page<MediateEvidence> page, MediateEvidence mediateEvidence) {
-		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		List<Role> roleList=UserUtils.getRoleList();//获取当前登陆人角色
+		List<String> aa= ObjectUtils.convert(roleList.toArray(),"enname",true);
 		User user=UserUtils.getUser();
 		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
 			//!aa.contains("dept") &&
@@ -101,6 +102,29 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 			}else {
 				list.add(user.getLoginName());
 				mediateEvidence.setList(list);
+			}
+		}else if(aa.contains("szcz") || aa.contains("szjc") || aa.contains("szjz") || aa.contains("szgj") ||aa.contains("szyq") ||aa.contains("szsz") ||aa.contains("szxc") || aa.contains("szdt") || aa.contains("szll") ||aa.contains("szxy") || aa.contains("szyc") ||aa.contains("szlf") ||aa.contains("szybzg") ||aa.contains("szebzg")){
+			List<Office> officeList = Lists.newArrayList();// 按明细设置数据范围s
+			for (Role role:roleList) {
+				for (Office office:role.getOfficeList()) {
+					officeList.add(UserUtils.getOfficeId(office.getId()));//将获得的 明细 添加到list;
+				}
+			}
+			//工作站 主任 副主任 看自己 的员工
+			Set<String> list=new HashSet<String>();
+			for (Office office:officeList) {
+				List<User> listUser=UserUtils.getUserByOffice(office.getId());
+				for (User people:listUser) {
+					list.add(people.getLoginName());
+				}
+			}
+			//添加 自己的loginName
+			list.add(UserUtils.getUser().getLoginName());
+			if (list.size()>0){
+				mediateEvidence.setList(new ArrayList(list));
+			}else {
+				list.add(user.getLoginName());
+				mediateEvidence.setList(new ArrayList(list));
 			}
 		}else {//不是管理员查看自己创建的
 			mediateEvidence.setUser(UserUtils.getUser());
@@ -495,12 +519,17 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		RecordInfo yif = mediateEvidence.getRecordInfo().getYrecordInfo();
 		mediateProgram.setPatientContent(huanf.getRecordContent());
 		mediateProgram.setDoctorContent(yif.getRecordContent());
-        mediateProgramDao.insert(mediateProgram);
+		if(StringUtils.isNotBlank(mediateProgram.getMeetingTime())) {
+			//有时间 保存，不然保存 调解程序表  不保存 调解志
+			mediateProgramDao.insert(mediateProgram);
+		}
         //保存一条 调解会的 调解志
 		if(StringUtils.isNotBlank(mediateProgram.getMeetingTime())) {
 			MediateRecord mediateRecord = new MediateRecord();
 			mediateRecord.setTime(mediateEvidence.getMeetingTime());
 			mediateRecord.setContent("调解会");
+			mediateRecord.setRoleType("3");
+			mediateRecord.setWay("3");
 			mediateRecord.setResult("");
 			mediateRecord.setRelationId(mediateEvidence.getMediateEvidenceId());
 			mediateRecord.setMediateRecord(IdGen.uuid());

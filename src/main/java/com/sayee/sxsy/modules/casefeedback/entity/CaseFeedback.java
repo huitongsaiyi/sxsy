@@ -40,6 +40,15 @@ public class CaseFeedback extends DataEntity<CaseFeedback> {
 	private User feedbackEmps;//反馈给人员
 	private Office feedbackOffices;//反馈给部门
 	private String summaryOfDisputes;//签署协议的 纠纷概要
+	private String createUser;  //创建人员id
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
 
 	public Office getFeedbackOffices() {
 		return feedbackOffices;

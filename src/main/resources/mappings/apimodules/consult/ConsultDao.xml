@@ -2,29 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.api.consult.dao.ConsultDao">
     <insert id="insert">
-		INSERT INTO CMS_CONSULT(
-			consult_id,
-			name,
+		INSERT INTO CMS_GUESTBOOK(
+			id,
+			create_user,
+			type,
+			phone,
 			content,
-			uid,
+			name,
 			create_date,
-			update_date
+			update_date,
+			del_flag
 		) VALUES (
-			#{consultId},
-			#{name},
+			#{id},
+			#{createUser},
+			#{type},
+			#{phone},
 			#{content},
-			#{uid},
+			#{name},
 			#{createDate},
-			#{updateDate}
+			#{updateDate},
+			'2'
 		)
 	</insert>
-	<select id="getConsultList" resultType="com.sayee.sxsy.api.consult.entity.ConsultEntity">
-		SELECT CMS_CONSULT.consult_id as consultId,CMS_CONSULT.name,CMS_CONSULT.content,CMS_CONSULT.reply,CMS_CONSULT.replydate,CMS_CONSULT.create_date as createDate,CMS_WECHATUSER.workunit FROM CMS_CONSULT LEFT JOIN CMS_WECHATUSER ON CMS_CONSULT.uid=CMS_WECHATUSER.wechat_user_id
+	<select id="getConsultList" resultType="com.sayee.sxsy.api.consult.entity.ConsultApi">
+		SELECT CMS_GUESTBOOK.id,CMS_GUESTBOOK.name,CMS_GUESTBOOK.content,CMS_GUESTBOOK.CREATE_DATE AS createDate,CMS_GUESTBOOK.re_date AS reDate,CMS_GUESTBOOK.re_content AS reContent,SYS_OFFICE.name AS officeName FROM CMS_GUESTBOOK LEFT JOIN SYS_USER ON CMS_GUESTBOOK.re_user_id=SYS_USER.id LEFT JOIN SYS_OFFICE ON SYS_USER.office_id=SYS_OFFICE.id
 	</select>
-	<select id="getConsultListByUid" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.consult.entity.ConsultEntity">
-		SELECT CMS_CONSULT.consult_id as consultId,CMS_CONSULT.name,CMS_CONSULT.content,CMS_CONSULT.reply,CMS_CONSULT.replydate,CMS_CONSULT.create_date as createDate,CMS_WECHATUSER.workunit FROM CMS_CONSULT LEFT JOIN CMS_WECHATUSER ON CMS_CONSULT.uid=CMS_WECHATUSER.wechat_user_id WHERE CMS_CONSULT.uid=#{uid}
+	<select id="getConsultListByUid" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.consult.entity.ConsultApi">
+		SELECT CMS_GUESTBOOK.id,CMS_GUESTBOOK.name,CMS_GUESTBOOK.content,CMS_GUESTBOOK.CREATE_DATE AS createDate,CMS_GUESTBOOK.re_date AS reDate,CMS_GUESTBOOK.re_content AS reContent,SYS_OFFICE.name AS officeName FROM CMS_GUESTBOOK LEFT JOIN SYS_USER ON CMS_GUESTBOOK.re_user_id=SYS_USER.id LEFT JOIN SYS_OFFICE ON SYS_USER.office_id=SYS_OFFICE.id WHERE CMS_GUESTBOOK.create_user=#{wechatUserId}
 	</select>
-	<update id="reply" parameterType="java.util.Map">
-		UPDATE CMS_CONSULT SET reply=#{reply},reply_uid = #{replyUid},replydate = #{replyDate} WHERE consult_id=#{consultId}
-	</update>
 </mapper>

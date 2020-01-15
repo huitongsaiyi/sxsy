@@ -573,8 +573,12 @@
 					</td>
 					<td class="tit" width="15%">地点:</td>
 					<td >
-						<form:input id="meetingAddress" path="mediateProgram.address" htmlEscape="false" maxlength="20"
+						<form:select path="mediateProgram.address" class="input-xlarge" cssStyle="text-align:center;">
+							<form:options items="${fns:getDictList('meeting')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
+						<%--<form:input id="meetingAddress" path="mediateProgram.address" htmlEscape="false" maxlength="20"
 									class="input-xlarge " value="${signAgreement.mediateProgram.address}" cssStyle="width: 250px;"/>
+					--%>
 					</td>
 				</tr>
 				<tr>
@@ -583,20 +587,20 @@
 					<td class="tit" width="10%">调解员:</td>
 					<td style="width: 150px;">
 						<sys:treeselect id="mediator" name="mediateProgram.mediator"
-										value="${signAgreement.mediateProgram.mediator}" labelName="tjy"
-										labelValue="${signAgreement.mediateProgram.mediatorUser.name}"
+										value="${empty signAgreement.mediateProgram.mediator ? fns:getUser().id : signAgreement.mediateProgram.mediator}" labelName="tjy"
+										labelValue="${empty signAgreement.mediateProgram.mediatorUser.name ? fns:getUser().name : signAgreement.mediateProgram.mediatorUser.name}"
 										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass=""
 										dataMsgRequired="必填信息"
-										allowClear="true" notAllowSelectParent="true" disabled="true"/>
+										allowClear="true" isAll="true" notAllowSelectParent="true" disabled="true"/>
 					</td>
 					<td class="tit">书记员:</td>
 					<td>
 						<sys:treeselect id="clerk" name="mediateProgram.clerk"
-										value="${signAgreement.mediateProgram.clerk}" labelName="sjy"
-										labelValue="${signAgreement.mediateProgram.clerkuser.name}"
+										value="${empty signAgreement.mediateProgram.clerk ? fns:getUser().id : signAgreement.mediateProgram.clerk}" labelName="sjy"
+										labelValue="${empty signAgreement.mediateProgram.clerkuser.name ? fns:getUser().name : signAgreement.mediateProgram.clerkuser.name}"
 										title="用户" url="/sys/office/treeData?type=3&officeType=1"
 										cssClass="" dataMsgRequired="必填信息"
-										allowClear="true" notAllowSelectParent="true" disabled="true"/>
+										allowClear="true" isAll="true" notAllowSelectParent="true" disabled="true"/>
 					</td>
 
 				<tr>
@@ -604,7 +608,7 @@
 				<tr>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.patient" htmlEscape="false" class="input-xlarge" maxlength="20"/>
+						<form:input path="mediateProgram.patient" value="${empty mediateProgram.patient ? signAgreement.complaintMain.patientName :mediateProgram.patient}" htmlEscape="false" class="input-xlarge" maxlength="20"/>
 							<%--${empty signAgreement.mediateProgram.patient?signAgreement.complaintMain.patientName:signAgreement.mediateProgram.patient}--%>
 					</td>
 				</tr>
@@ -620,13 +624,13 @@
 					<td class="tit" rowspan="2">二、医患双方确认以上参会人员身份有无要求回避</td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.patientAvoid" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width: 50%;"/>
+						<form:input path="mediateProgram.patientAvoid" value="${empty signAgreement.mediateProgram.patientAvoid ? '无' : signAgreement.mediateProgram.patientAvoid}" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width: 50%;"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.doctorAvoid" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width: 50%;"/>
+						<form:input path="mediateProgram.doctorAvoid" value="${empty signAgreement.mediateProgram.doctorAvoid ? '无' : signAgreement.mediateProgram.doctorAvoid}" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width: 50%;"/>
 					</td>
 				</tr>
 				<tr>
@@ -791,17 +795,17 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tit" rowspan="2">六、以上宣读内容听清楚了吗？</td>
+					<td class="tit" rowspan="2">六、以上宣读内容听清楚了吗？有无异议？</td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.patientClear" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width:50%;"/>
+						<form:input path="mediateProgram.patientClear" value="${empty signAgreement.mediateProgram.patientClear ? '清除,无异议' : signAgreement.mediateProgram.patientClear}" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width:50%;"/>
 					</td>
 
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input path="mediateProgram.doctorClear" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width:50%;"/>
+						<form:input path="mediateProgram.doctorClear" value="${empty signAgreement.mediateProgram.doctorClear ? '清除,无异议' : signAgreement.mediateProgram.doctorClear}" htmlEscape="false" maxlength="255" class="input-xlarge " cssStyle="width:50%;"/>
 					</td>
 				</tr>
 				<tr>
@@ -967,7 +971,7 @@
 											value="${signAgreement.recordInfo.host}" labelName="zcr"
 											labelValue="${signAgreement.recordInfo.ytwHost.name}"
 											title="用户" url="/sys/office/treeData?type=3&officeType=1"
-											allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="" />
+											allowClear="true" isAll="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="" />
 					<td style="border-left: hidden;"></td>
 				</tr>
 				<tr>
@@ -979,7 +983,7 @@
 										value="${signAgreement.recordInfo.noteTaker}" labelName="jlr"
 										labelValue="${signAgreement.recordInfo.ytwNoteTaker.name}"
 										title="用户" url="/sys/office/treeData?type=3&officeType=1"
-										allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
+										allowClear="true" notAllowSelectParent="true" isAll="true" dataMsgRequired="必填信息" cssClass=""/>
 					</td>
 					<td style="border-left: hidden;"></td>
 				</tr>
@@ -1101,13 +1105,13 @@
 		<tr>
 			<td class="tit" >协议金额：</td>
 			<td >
-				<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
+				<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10"/>
 			</td>
 		</tr>
 		<tr>
 			<td class="tit">保险金额：</td>
 			<td >
-				<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge required" maxlength="10"/>
+				<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10"/>
 			</td>
 		</tr>
 			<%--<tr>--%>
@@ -1124,7 +1128,7 @@
 			<td class="tit">下一环节处理人：</td>
 			<td >
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty signAgreement.nextLinkMan?fns:getUser().id:signAgreement.nextLinkMan}" labelName="" labelValue="${empty signAgreement.linkEmployee.name?fns:getUser().name:signAgreement.linkEmployee.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" />
+								title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" isAll="true" notAllowSelectParent="true" />
 			</td>
 		</tr>
 	</table>

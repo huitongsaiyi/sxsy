@@ -5,15 +5,10 @@ package com.sayee.sxsy.modules.nestigateeividence.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import com.sayee.sxsy.common.utils.IdGen;
-import com.sayee.sxsy.common.utils.ObjectUtils;
-import com.sayee.sxsy.common.utils.StringUtils;
-import com.sayee.sxsy.common.utils.WordExportUtil;
+import com.google.common.collect.Lists;
+import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.act.entity.Act;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
@@ -23,7 +18,10 @@ import com.sayee.sxsy.modules.respondentinfo.dao.RespondentInfoDao;
 import com.sayee.sxsy.modules.respondentinfo.entity.RespondentInfo;
 import com.sayee.sxsy.modules.respondentinfo.service.RespondentInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.entity.Office;
+import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.DictUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,10 +65,34 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
     }
 
     public Page<InvestigateEvidence> findPage(Page<InvestigateEvidence> page, InvestigateEvidence investigateEvidence) {
-        List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+        List<Role> roleList=UserUtils.getRoleList();//获取当前登陆人角色
+        List<String> aa= ObjectUtils.convert(roleList.toArray(),"enname",true);
         User user=UserUtils.getUser();
         if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
             //!aa.contains("dept") &&
+        }else if(aa.contains("szcz") || aa.contains("szjc") || aa.contains("szjz") || aa.contains("szgj") ||aa.contains("szyq") ||aa.contains("szsz") ||aa.contains("szxc") || aa.contains("szdt") || aa.contains("szll") ||aa.contains("szxy") || aa.contains("szyc") ||aa.contains("szlf") ||aa.contains("szybzg") ||aa.contains("szebzg")){
+            List<Office> officeList = Lists.newArrayList();// 按明细设置数据范围s
+            for (Role role:roleList) {
+                for (Office office:role.getOfficeList()) {
+                    officeList.add(UserUtils.getOfficeId(office.getId()));//将获得的 明细 添加到list;
+                }
+            }
+            //工作站 主任 副主任 看自己 的员工
+            Set<String> list=new HashSet<String>();
+            for (Office office:officeList) {
+                List<User> listUser=UserUtils.getUserByOffice(office.getId());
+                for (User people:listUser) {
+                    list.add(people.getLoginName());
+                }
+            }
+            //添加 自己的loginName
+            list.add(UserUtils.getUser().getLoginName());
+            if (list.size()>0){
+                investigateEvidence.setList(new ArrayList(list));
+            }else {
+                list.add(user.getLoginName());
+                investigateEvidence.setList(new ArrayList(list));
+            }
         }else if((  aa.contains("deputyDirector") ||aa.contains("director")) ){
             //工作站 主任 副主任 看自己 的员工
             List<String> list=new ArrayList<String>();
@@ -249,7 +271,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             if(respondentInfoOne.size()==1){
                 params.put("date", investigateEvidence.getStartTime()==null?"":investigateEvidence.getStartTime());//开始时间
                 params.put("time", investigateEvidence.getEndTime()==null?"":investigateEvidence.getEndTime());//结束时间
-                params.put("address", investigateEvidence.getAddress()==null?"":investigateEvidence.getAddress());//地点
+                params.put("address", investigateEvidence.getAddress() ==null?"":DictUtils.getDictLabel(investigateEvidence.getAddress(),"meeting",""));//地点
                 params.put("cause", investigateEvidence.getCause()==null?"":investigateEvidence.getCause());//事由
                 params.put("investigators", investigateEvidence.getInvestigator()==null?"":investigateEvidence.getInvestigator());//调查人
                 params.put("noteTaker", investigateEvidence.getNoteTaker()==null?"":investigateEvidence.getNoteTaker());//调查记录人
@@ -338,7 +360,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             }else {
                 params.put("date", investigateEvidence.getStartTime() == null ? "" : investigateEvidence.getStartTime());//开始时间
                 params.put("time", investigateEvidence.getEndTime() == null ? "" : investigateEvidence.getEndTime());//结束时间
-                params.put("address", investigateEvidence.getAddress() == null ? "" : investigateEvidence.getAddress());//地点
+                params.put("address", investigateEvidence.getAddress() == null ? "" : DictUtils.getDictLabel(investigateEvidence.getAddress(),"meeting",""));//地点
                 params.put("cause", investigateEvidence.getCause() == null ? "" : investigateEvidence.getCause());//事由
                 params.put("investigators", investigateEvidence.getInvestigator() == null ? "" : investigateEvidence.getInvestigator());//调查人
                 params.put("noteTaker", investigateEvidence.getNoteTaker() == null ? "" : investigateEvidence.getNoteTaker());//调查记录人
@@ -502,7 +524,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             if (respondentInfoOne.size() == 1) {
                 params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime() == null ? "" : investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
                 params.put("time", investigateEvidence.getInvestigateEvidence().getEndTime() == null ? "" : investigateEvidence.getInvestigateEvidence().getEndTime());//结束时间
-                params.put("address", investigateEvidence.getInvestigateEvidence().getAddress() == null ? "" : investigateEvidence.getInvestigateEvidence().getAddress());//地点
+                params.put("address", investigateEvidence.getInvestigateEvidence().getAddress() == null ? "" : DictUtils.getDictLabel(investigateEvidence.getInvestigateEvidence().getAddress(),"meeting",""));//地点
                 params.put("cause", investigateEvidence.getInvestigateEvidence().getCause() == null ? "" : investigateEvidence.getInvestigateEvidence().getCause());//事由
                 params.put("investigators", investigateEvidence.getInvestigateEvidence().getInvestigator() == null ? "" : investigateEvidence.getInvestigateEvidence().getInvestigator());//调查人
                 params.put("noteTaker", investigateEvidence.getInvestigateEvidence().getNoteTaker() == null ? "" : investigateEvidence.getInvestigateEvidence().getNoteTaker());//调查记录人
@@ -588,7 +610,7 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
             } else {
                 params.put("date", investigateEvidence.getInvestigateEvidence().getStartTime() == null ? "" : investigateEvidence.getInvestigateEvidence().getStartTime());//开始时间
                 params.put("time", investigateEvidence.getInvestigateEvidence().getEndTime() == null ? "" : investigateEvidence.getInvestigateEvidence().getEndTime());//结束时间
-                params.put("address", investigateEvidence.getInvestigateEvidence().getAddress() == null ? "" : investigateEvidence.getInvestigateEvidence().getAddress());//地点
+                params.put("address", investigateEvidence.getInvestigateEvidence().getAddress() == null ? "" : DictUtils.getDictLabel(investigateEvidence.getInvestigateEvidence().getAddress(),"meeting",""));//地点
                 params.put("cause", investigateEvidence.getInvestigateEvidence().getCause() == null ? "" : investigateEvidence.getInvestigateEvidence().getCause());//事由
                 params.put("investigators", investigateEvidence.getInvestigateEvidence().getInvestigator() == null ? "" : investigateEvidence.getInvestigateEvidence().getInvestigator());//调查人
                 params.put("noteTaker", investigateEvidence.getInvestigateEvidence().getNoteTaker() == null ? "" : investigateEvidence.getInvestigateEvidence().getNoteTaker());//调查记录人

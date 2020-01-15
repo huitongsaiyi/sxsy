@@ -88,7 +88,7 @@
 						${reachMediate.complaintMain.hospital.name}
 				</td>
 				<td style="text-align: center;">
-
+						${reachMediate.auditAcceptance.insuranceCompany}
 				</td>
 				<td style="text-align: center;">
 						${reachMediate.auditAcceptance.treatmentOutcome}
@@ -106,12 +106,13 @@
 						${reachMediate.assessAppraisal.scale}
 				</td>
 				<td style="text-align: center;">
-						${reachMediate.assessAppraisal.scale}
+						${reachMediate.assessAppraisal.calculatedAmount}
 				</td>
 				<td style="text-align: center;">
-						${reachMediate.assessAppraisal.eighteenItems}
+					${fns:getDictLabel(reachMediate.assessAppraisal.eighteenItems, 'eighteen_items', '')}
 				</td>
 				<td style="text-align: center;">
+						${reachMediate.assessAppraisal.proposal.proposalCode}
 				</td>
 				<td style="text-align: center;">
 					<c:choose>
@@ -126,10 +127,10 @@
 				<td style="text-align: center;">
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(reachMediate.createBy.id).office.name}
+						${fns:getUserById(reachMediate.createUser).office.name}
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(reachMediate.createBy.id).name}
+						${fns:getUserById(reachMediate.createUser).name}
 				</td>
 				<shiro:hasPermission name="reachmediate:reachMediate:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq reachMediate.complaintMain.act.assigneeName}">

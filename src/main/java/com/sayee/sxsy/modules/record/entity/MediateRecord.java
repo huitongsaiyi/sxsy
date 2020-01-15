@@ -18,6 +18,8 @@ public class MediateRecord extends DataEntity<MediateRecord> {
 	private String mediateRecord;		// 调解志主键
 	private String relationId;		// 关联表主键
 	private String time;		// 时间
+	private String roleType;		// 类型
+	private String way;		// 方式
 	private String content;		// 内容
 	private String result;		// 结果
 
@@ -55,7 +57,23 @@ public class MediateRecord extends DataEntity<MediateRecord> {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	
+
+	public String getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(String roleType) {
+		this.roleType = roleType;
+	}
+
+	public String getWay() {
+		return way;
+	}
+
+	public void setWay(String way) {
+		this.way = way;
+	}
+
 	@Length(min=0, max=500, message="内容长度必须介于 0 和 500 之间")
 	public String getContent() {
 		return content;

@@ -302,7 +302,7 @@
                 <tr>
                     <td class="tit">地点</td>
                     <td colspan="4">
-                            ${assessAppraisal.recordInfo1.recordAddress}
+                            ${fns:getDictLabel(assessAppraisal.recordInfo1.recordAddress,'meeting','')}
                     </td>
                 </tr>
                 <tr>
@@ -680,16 +680,16 @@
         <div class="tab-pane fade " id="zjopinion">
             <table class="table-form">
                 <tr>
-                    <td class="tit">
+                    <td class="tit" width="15%">
                         患者姓名：
                     </td>
-                    <td>
+                    <td width="35%">
                         <form:input path="complaintMain.patientName" htmlEscape="false" maxlength="10" class="input-xlarge required" readonly="true"/>
                     </td>
-                    <td class="tit">
+                    <td class="tit" width="15%">
                         患者性别：
                     </td>
-                    <td>
+                    <td width="35%">
                         <c:choose>
                             <c:when test="${assessAppraisal.complaintMain.patientSex=='1'}">
                                 男
@@ -776,8 +776,14 @@
                     <td class="tit">
                         法律顾问分析：
                     </td>
-                    <td colspan="3">
+                    <td>
                         <form:input path="legalExpert" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;" disabled="true"/>
+                    </td>
+                    <td class="tit">
+                        计算金额：
+                    </td>
+                    <td>
+                        <form:input path="calculatedAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10"  disabled="true"/>
                     </td>
                 </tr>
                 <tr>

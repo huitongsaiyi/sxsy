@@ -191,6 +191,7 @@ public class OfficeController extends BaseController {
 		List<Office> list = officeService.findList(isAll);
 		for (int i=0; i<list.size(); i++){
 			Office e = list.get(i);
+			System.out.println(e.getParent().getName());
 			if ((StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
 					&& (type == null || (type != null && (type.equals("1") ? type.equals(e.getType()) : true)))
 					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))
@@ -217,16 +218,19 @@ public class OfficeController extends BaseController {
 						map.put("isParent", true);
 					}
 					mapList.add(map);
-				}else if(officeType !=null && officeType.equals(e.getOfficeType()) && next != null && StringUtils.isNotBlank(next) && "sz".equals(next) && e.getName().indexOf("省直")!=-1){
-					Map<String, Object> map = Maps.newHashMap();
-					map.put("id", e.getId());
-					map.put("pId", e.getParentId());
-					map.put("pIds", e.getParentIds());
-					map.put("name", e.getName());
-					if (type != null && "3".equals(type)) {
-						map.put("isParent", true);
+				}else if(officeType !=null && officeType.equals(e.getOfficeType()) && next != null && StringUtils.isNotBlank(next) && "sz".equals(next) && e.getParent()!=null  && StringUtils.isNotBlank(e.getParent().getName()) ){
+					if ( e.getParent().getName().indexOf("省直")!=-1){//在 质证调解 节点 选择 评估鉴定后 选择 省直调解一部 与 二部 的人员
+						Map<String, Object> map = Maps.newHashMap();
+						map.put("id", e.getId());
+						map.put("pId", e.getParentId());
+						map.put("pIds", e.getParentIds());
+						map.put("name", e.getName());
+						if (type != null && "3".equals(type)) {
+							map.put("isParent", true);
+						}
+						mapList.add(map);
 					}
-					mapList.add(map);
+
 				}
 			}
 		}

@@ -31,6 +31,7 @@ public class MediateProgram extends DataEntity<MediateProgram> {
 	private String other;		// 其他
 	private String caseInfo;		// 案件
 	private String address;		// 地点
+	private String addressLabel;		// 地点
 	private String meetingTime;		// 会议时间
 	private String meetingFrequency;		// 会议次数
     private String doctorAvoid;//医方回避
@@ -200,7 +201,15 @@ public class MediateProgram extends DataEntity<MediateProgram> {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
+	public String getAddressLabel() {
+		return addressLabel;
+	}
+
+	public void setAddressLabel(String addressLabel) {
+		this.addressLabel = addressLabel;
+	}
+
 	@Length(min=0, max=20, message="会议时间长度必须介于 0 和 20 之间")
 	public String getMeetingTime() {
 		return meetingTime;

@@ -5,11 +5,9 @@ package com.sayee.sxsy.modules.reachmediate.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.google.common.collect.Lists;
 import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
@@ -25,6 +23,8 @@ import com.sayee.sxsy.modules.recordinfo.dao.RecordInfoDao;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.entity.Office;
+import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
@@ -90,7 +90,8 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 	}
 	
 	public Page<ReachMediate> findPage(Page<ReachMediate> page, ReachMediate reachMediate) {
-		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		List<Role> roleList=UserUtils.getRoleList();//获取当前登陆人角色
+		List<String> aa= ObjectUtils.convert(roleList.toArray(),"enname",true);
 		User user=UserUtils.getUser();
 		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
 			//!aa.contains("dept") &&
@@ -106,6 +107,29 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			}else {
 				list.add(user.getLoginName());
 				reachMediate.setList(list);
+			}
+		}else if(aa.contains("szcz") || aa.contains("szjc") || aa.contains("szjz") || aa.contains("szgj") ||aa.contains("szyq") ||aa.contains("szsz") ||aa.contains("szxc") || aa.contains("szdt") || aa.contains("szll") ||aa.contains("szxy") || aa.contains("szyc") ||aa.contains("szlf") ||aa.contains("szybzg") ||aa.contains("szebzg")){
+			List<Office> officeList = Lists.newArrayList();// 按明细设置数据范围s
+			for (Role role:roleList) {
+				for (Office office:role.getOfficeList()) {
+					officeList.add(UserUtils.getOfficeId(office.getId()));//将获得的 明细 添加到list;
+				}
+			}
+			//工作站 主任 副主任 看自己 的员工
+			Set<String> list=new HashSet<String>();
+			for (Office office:officeList) {
+				List<User> listUser=UserUtils.getUserByOffice(office.getId());
+				for (User people:listUser) {
+					list.add(people.getLoginName());
+				}
+			}
+			//添加 自己的loginName
+			list.add(UserUtils.getUser().getLoginName());
+			if (list.size()>0){
+				reachMediate.setList(new ArrayList(list));
+			}else {
+				list.add(user.getLoginName());
+				reachMediate.setList(new ArrayList(list));
 			}
 		}else {//不是管理员查看自己创建的
 			reachMediate.setUser(UserUtils.getUser());
@@ -347,6 +371,9 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			}
 		}
 		String nums = request.getParameter("nums");
+		if (StringUtils.isBlank(nums)){
+			nums="0";
+		}
 		int c = Integer.valueOf(nums);
 		if(c<=0 || c>=mediateProgramList.size()){
 			c=b;
@@ -412,10 +439,10 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			if(mediateProgramList.size()!=0){
 				params.put("date", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
 				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":reachMediate.getMediateProgramList().get(b).getAddress());
-				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
-				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
+				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser()==null ? "" : reachMediate.getMediateProgramList().get(b).getMediatorUser().getName() == null ? "" :reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
+				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName() ==null ? "" :reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
 				params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());
-				params.put("doctor", reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getHospital().getName());
+				params.put("doctor", reachMediate.getComplaintMain().getHospital()==null?"":reachMediate.getComplaintMain().getHospital().getName()==null ? "" :reachMediate.getComplaintMain().getHospital().getName());
 				params.put("other","");
 				params.put("content",reachMediate.getMediateProgramList().get(b).getPatientContent()==null?"":reachMediate.getMediateProgramList().get(b).getPatientContent());
 			}else{
@@ -439,10 +466,14 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 			if(mediateProgramList.size()!=0){
 				params.put("date", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
 				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":reachMediate.getMediateProgramList().get(b).getAddress());
-				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
-				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
+				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser()==null ? "" : reachMediate.getMediateProgramList().get(b).getMediatorUser().getName() == null ? "" :reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
+				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName() ==null ? "" :reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
 				params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());
-				params.put("doctor", reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getHospital().getName());
+				params.put("doctor", reachMediate.getComplaintMain().getHospital()==null?"":reachMediate.getComplaintMain().getHospital().getName()==null ? "" :reachMediate.getComplaintMain().getHospital().getName());
+//				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
+//				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
+//				params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());
+//				params.put("doctor", reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getHospital().getName());
 				params.put("other","");
 				params.put("content",reachMediate.getMediateProgramList().get(b).getDoctorContent()==null?"":reachMediate.getMediateProgramList().get(b).getDoctorContent());
 			}else{
@@ -518,12 +549,17 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		RecordInfo yif = reachMediate.getRecordInfo().getYrecordInfo();
 		mediateProgram.setPatientContent(huanf.getRecordContent());
 		mediateProgram.setDoctorContent(yif.getRecordContent());
-		mediateProgramDao.insert(mediateProgram);
+		if(StringUtils.isNotBlank(reachMediate.getReaMeetingTime())) {
+			//有时间 保存，不然保存 调解程序表  不保存 调解志
+			mediateProgramDao.insert(mediateProgram);
+		}
 		//保存一条 调解会的 调解志
 		if(StringUtils.isNotBlank(reachMediate.getReaMeetingTime())) {
 			MediateRecord mediateRecord = new MediateRecord();
 			mediateRecord.setTime(reachMediate.getReaMeetingTime());
 			mediateRecord.setContent("调解会");
+			mediateRecord.setRoleType("3");
+			mediateRecord.setWay("3");
 			mediateRecord.setResult("");
 			mediateRecord.setRelationId(reachMediate.getReachMediateId());
 			mediateRecord.setMediateRecord(IdGen.uuid());

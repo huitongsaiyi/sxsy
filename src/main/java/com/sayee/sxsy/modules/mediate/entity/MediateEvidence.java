@@ -31,13 +31,13 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private static final long serialVersionUID = 1L;
     private String mediateEvidenceId;        // 质证调解主键
     private String complaintMainId;        // 主表主键
-    private String mediator;		// 调解员
+    private String mediator;		//
     private String clerk;		// 书记员
     private String other;		// 其他
     private String mediateResult;        // 调解结果  1成功 2 失败
     private String summary;        // 会议总结
     private String patient;        // 患方
-    private String userId;        // 患方
+    private String userId;        // 医调委人员  多人用逗号隔开
     private String doctor;        // 医方
     private String caseInfoName;        // 案件
     private String meetingAddress;        // 地点
@@ -64,6 +64,16 @@ public class MediateEvidence extends DataEntity<MediateEvidence> {
     private String patientClear;//患方是否清楚
     private String doctorClear;//医方是否清楚
     private List<String> list;//工作站人员list
+
+    private String createUser;  //创建人员id
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
 
     public List<String> getList() {
         return list;

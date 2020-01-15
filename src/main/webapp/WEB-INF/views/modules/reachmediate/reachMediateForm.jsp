@@ -179,6 +179,8 @@
 				<tr>
 					<th class="hide"></th>
 					<th width="10">时间</th>
+					<th width="10">角色</th>
+					<th width="10">方式</th>
 					<th width="100">内容</th>
 					<th width="100">结果</th>
 					<shiro:hasPermission name="reachmediate:reachMediate:edit">
@@ -208,6 +210,23 @@
 
 							</td>
 							<td>
+							    <select id="mediateEvidenceList{{idx}}_roleType" name="mediateEvidenceList[{{idx}}].roleType" value="{{row.roleType}}" data-value="{{row.roleType}}" class="input-mini">
+									<option value=""></option>
+									<option value="1"  >医方</option>
+									<option value="2"  >患方</option>
+									<option value="3"  >医患双方</option>
+								</select>
+							</td>
+							<td>
+							    <select id="mediateEvidenceList{{idx}}_way" name="mediateEvidenceList[{{idx}}].way" value="{{row.way}}" data-value="{{row.way}}" class="input-mini">
+									<option value=""></option>
+									<option value="1"  >电话沟通</option>
+									<option value="2"  >单方调解</option>
+									<option value="3"  >调解会</option>
+									<option value="4"  >其他</option>
+								</select>
+							</td>
+							<td>
 								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="required" />
 							</td>
 							<td>
@@ -229,10 +248,14 @@
 							   value="${reachMediate.reaMeetingTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
 							   onchange="changeClass()"/>
+						<font color="red">*如果不选择时间，保存无效!</font>
 					</td>
 					<td class="tit" width="15%">地点:</td>
 					<td >
-						<form:input id="reaAddress" path="reaAddress" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+						<form:select path="reaAddress" class="input-xlarge" cssStyle="text-align:center;">
+							<form:options items="${fns:getDictList('meeting')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
+						<%--<form:input id="reaAddress" path="reaAddress" htmlEscape="false" maxlength="20" class="input-xlarge "/>--%>
 					</td>
 				</tr>
 				<tr>
@@ -240,18 +263,18 @@
 					<td class="tit" width="10%">调解员:</td>
 					<td style="width: 150px;">
 						<sys:treeselect id="reaUserId" name="reaUserId"
-										value="${reachMediate.reaUserId}" labelName="tjy"
-										labelValue="${reachMediate.ytwUser.name}"
+										value="${empty reachMediate.reaUserId ? fns:getUser().id : reachMediate.reaUserId}" labelName="tjy"
+										labelValue="${empty reachMediate.ytwUser.name ? fns:getUser().name : reachMediate.ytwUser.name}"
 										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" dataMsgRequired="必填信息"
-										allowClear="true" notAllowSelectParent="true" />
+										allowClear="true" isAll="true" notAllowSelectParent="true" />
 					</td>
 					<td class="tit">书记员：</td>
 					<td>
 						<sys:treeselect id="reaClerk" name="reaClerk"
-										value="${reachMediate.reaClerk}" labelName="sjy"
-										labelValue=""
+										value="${empty reachMediate.reaClerk ? fns:getUser().id : reachMediate.reaClerk}" labelName="sjy"
+										labelValue="${empty reachMediate.ytwUser.name ? fns:getUser().name : reachMediate.ytwUser.name}"
 										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="" dataMsgRequired="必填信息"
-										allowClear="true" notAllowSelectParent="true" disabled="true"  />
+										allowClear="true" isAll="true" notAllowSelectParent="true" disabled="true"  />
 					</td>
 				</tr>
 				<tr>
@@ -277,13 +300,13 @@
 					<td class="tit" rowspan="2">二、医患双方确认以上参会人员身份有无要求回避</td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-							<form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.patientAvoid}"/>
+							<form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20" class="input-xlarge " value="${empty reachMediate.patientAvoid ? '无' : reachMediate.patientAvoid}"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.doctorAvoid}"/>
+						<form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20" class="input-xlarge " value="${empty reachMediate.doctorAvoid ? '无' : reachMediate.doctorAvoid}"/>
 					</td>
 				</tr>
 
@@ -449,16 +472,16 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tit" rowspan="2"><span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、以上宣读内容听清楚了吗？</span></td>
+					<td class="tit" rowspan="2"><span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、以上宣读内容听清楚了吗?有无异议?</span></td>
 					<td class="tit">患方:</td>
 					<td colspan="3">
-							<form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.patientClear}"/>
+							<form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20" class="input-xlarge " value="${empty reachMediate.patientClear ? '清楚,无异议' :reachMediate.patientClear}"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20" class="input-xlarge " value="${reachMediate.doctorClear}"/>
+						<form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20" class="input-xlarge " value="${empty reachMediate.doctorClear ? '清楚,无异议' : reachMediate.doctorClear}"/>
 					</td>
 				</tr>
 				<tr>
@@ -857,7 +880,7 @@
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty reachMediate.nextLinkMan?fns:getUser().id:reachMediate.nextLinkMan}" labelName=""
 								labelValue="${empty reachMediate.linkEmployee.name?fns:getUser().name:reachMediate.linkEmployee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true"
-								notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
+								notAllowSelectParent="true" isAll="true"  dataMsgRequired="必填信息"/>
 			</td>
 		</tr>
 	</table>

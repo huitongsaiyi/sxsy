@@ -472,8 +472,12 @@
                     </td>
                     <td class="tit" width="15%">地点:</td>
                     <td >
-                        <form:input id="meetingAddress" path="mediateProgram.address" htmlEscape="false" maxlength="20"
+                        <form:select path="mediateProgram.address" class="input-xlarge" cssStyle="text-align:center;">
+                            <form:options items="${fns:getDictList('meeting')}" itemLabel="label" itemValue="value" htmlEscape="false" readonly="true"/>
+                        </form:select>
+                        <%--<form:input id="meetingAddress" path="mediateProgram.address" htmlEscape="false" maxlength="20"
                                     class="input-xlarge required" value="${signAgreement.mediateProgram.address}" cssStyle="width: 250px;" readonly="true"/>
+                    --%>
                     </td>
                 </tr>
                 <tr>

@@ -114,6 +114,8 @@
                 <tr>
                     <th class="hide"></th>
                     <th width="10"  style="text-align: center">时间</th>
+                    <th width="10"  style="text-align: center">角色</th>
+                    <th width="10"  style="text-align: center">方式</th>
                     <th width="100" style="text-align: center">内容</th>
                     <th width="100" style="text-align: center">结果</th>
 
@@ -129,6 +131,23 @@
 						<tr id="mediateEvidenceList{{idx}}">
 							<td style="text-align: center">
 							    {{row.time}}
+							</td>
+							<td style="text-align: center">
+							    <select id="mediateEvidenceList{{idx}}_roleType" name="mediateEvidenceList[{{idx}}].roleType" value="{{row.roleType}}" data-value="{{row.roleType}}" class="input-mini" disabled="disabled">
+									<option value=""></option>
+									<option value="1"  >医方</option>
+									<option value="2"  >患方</option>
+									<option value="3"  >医患双方</option>
+								</select>
+							</td>
+							<td style="text-align: center">
+							    <select id="mediateEvidenceList{{idx}}_way" name="mediateEvidenceList[{{idx}}].way" value="{{row.way}}" data-value="{{row.way}}" class="input-mini" disabled="disabled">
+									<option value=""></option>
+									<option value="1"  >电话沟通</option>
+									<option value="2"  >单方调解</option>
+									<option value="3"  >调解会</option>
+									<option value="4"  >其他</option>
+								</select>
 							</td>
 							<td style="text-align: center">
 								{{row.content}}
@@ -163,7 +182,7 @@
                                    {{row.meetingTime}}
 							</td>
 							<td style="text-align: center;width : 5% ;">
-							        {{row.address}}
+							        {{row.addressLabel}}
 							</td>
 							<td style="text-align: center;width : 5% ;">
 							        {{row.mediatorUser.name}}

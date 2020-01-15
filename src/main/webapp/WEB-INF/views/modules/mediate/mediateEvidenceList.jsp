@@ -84,7 +84,7 @@
 						${mediateEvidence.complaintMain.hospital.name}
 				</td>
 				<td style="text-align:center;">
-
+						${mediateEvidence.auditAcceptance.insuranceCompany}
 				</td>
 				<td style="text-align:center;">
 						${mediateEvidence.auditAcceptance.treatmentOutcome}
@@ -106,10 +106,10 @@
 				</td>
 
 				<td style="text-align:center;">
-						${fns:getUserById(mediateEvidence.createBy.id).office.name}
+						${fns:getUserById(mediateEvidence.createUser).office.name}
 				</td>
 				<td style="text-align:center;">
-						${fns:getUserById(mediateEvidence.createBy.id).office.name}
+						${fns:getUserById(mediateEvidence.createUser).name}
 				</td>
 				<shiro:hasPermission name="mediate:mediateEvidence:edit"><td style="text-align:center;">
 					<c:if test="${fns:getUser().loginName eq mediateEvidence.complaintMain.act.assigneeName}">

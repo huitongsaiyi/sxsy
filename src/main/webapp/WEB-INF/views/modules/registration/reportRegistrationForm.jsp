@@ -151,7 +151,7 @@
                     <td colspan="3" style="font-size: 16px; text-align: center">${reportRegistration.complaintMain.hospital.name}</td>
                     <td class="tit" width="10%">保单号:</td>
                     <td colspan="5">
-                        <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="required" cssStyle="width: 97%;height: 30px; text-align: center;"/>
+                        <form:input path="policyNumber" htmlEscape="false" maxlength="255" class="required" value="${empty reportRegistration.policyNumber ?  reportRegistration.complaintMain.hospital.policyNumber : reportRegistration.policyNumber}" cssStyle="width: 97%;height: 30px; text-align: center;"/>
                     </td>
                 </tr>
                 <tr>
@@ -271,10 +271,10 @@
                     <td class="tit">填表人签名:</td>
                     <td colspan="3">
                         <sys:treeselect id="registrationEmp" name="registrationEmp"
-                                        value="${reportRegistration.registrationEmp}" labelName=""
-                                        labelValue="${reportRegistration.djEmployee.name}"
+                                        value="${empty reportRegistration.registrationEmp ? fns:getUser().id : reportRegistration.registrationEmp}" labelName=""
+                                        labelValue="${empty reportRegistration.djEmployee.name ?  fns:getUser().name : reportRegistration.djEmployee.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息"
-                                        cssClass="required" allowClear="true" notAllowSelectParent="true" />
+                                        cssClass="" allowClear="true" isAll="true" notAllowSelectParent="true" />
                     </td>
                     <td class="tit">填表日期:</td>
                     <td colspan="3">
@@ -550,7 +550,7 @@
                                 labelName=""
                                 labelValue="${empty reportRegistration.linkEmployee.name?fns:getUser().name:reportRegistration.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息"
-                                cssClass="required" allowClear="true" notAllowSelectParent="true"/>
+                                cssClass="required" isAll="true" allowClear="true" notAllowSelectParent="true"/>
             </td>
         </tr>
     </table>

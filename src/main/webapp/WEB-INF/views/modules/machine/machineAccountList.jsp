@@ -146,7 +146,6 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-        <th >案件节点</th>
         <th class="sort-column case_number">案件编号</th>
         <th class="sort-column case_situation">案件情况</th>
         <th class="sort-column area_id">所属地区</th>
@@ -211,39 +210,56 @@
     <tbody>
     <c:forEach items="${page.list}" var="machineAccount">
         <tr>
-            <td><a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}&type=view">
-                    ${machineAccount.nodeName}
-            </a></td>
+
             <td>
                     ${machineAccount.caseNumber}
             </td>
-            <td>
+            <%--<td>
                     ${machineAccount.caseSituation}
-            </td>
+            </td>--%>
+            <td>
+
+                <c:choose>
+                    <c:when test="${not empty machineAccount.nodeName }">
+                    <a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}&type=view">
+                            ${machineAccount.nodeName}
+                    </a></td>
+                    </c:when>
+                    <c:otherwise>
+                        ${machineAccount.caseSituation}
+                    </c:otherwise>
+                </c:choose>
+
             <td>
                     ${machineAccount.areaId}
             </td>
             <td>
-                <%--<c:choose>
+                <c:choose>
+                    <c:when test="${ empty machineAccount.deptId }">
+                        ${fns:getUserById(machineAccount.createBy.id).office.name}
+                    </c:when>
                     <c:when test="${ empty machineAccount.office.name }">
                         ${machineAccount.deptId}
                     </c:when>
                     <c:otherwise>
                         ${machineAccount.office.name}
                     </c:otherwise>
-                </c:choose>--%>
-                   ${fns:getUserById(machineAccount.createBy.id).office.name}
+                </c:choose>
+                   <%--${fns:getUserById(machineAccount.createBy.id).office.name}--%>
             </td>
             <td>
-                <%--<c:choose>
+                <c:choose>
+                    <c:when test="${ empty machineAccount.mediatorId }">
+                        ${fns:getUserById(machineAccount.createBy.id).name}
+                    </c:when>
                     <c:when test="${ empty machineAccount.user.name }">
                         ${machineAccount.mediatorId}
                     </c:when>
                     <c:otherwise>
                         ${machineAccount.user.name}
                     </c:otherwise>
-                </c:choose>--%>
-                        ${fns:getUserById(machineAccount.createBy.id).name}
+                </c:choose>
+                        <%--${fns:getUserById(machineAccount.createBy.id).name}--%>
             </td>
             <td>
                     ${machineAccount.patientName}
@@ -268,7 +284,7 @@
                     ${machineAccount.summaryOfDisputes}
             </td>
             <td>
-                    ${machineAccount.relatedMajor}
+                    ${empty machineAccount.relatedName ? machineAccount.relatedMajor : machineAccount.relatedName}
             </td>
             <td>
                     ${machineAccount.treatmentMode}

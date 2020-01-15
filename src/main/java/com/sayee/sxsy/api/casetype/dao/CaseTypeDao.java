@@ -12,6 +12,8 @@ import java.util.List;
  */
 @MyBatisDao
 public interface CaseTypeDao extends CrudDao<CaseTypeEntity> {
+    /*父级列表*/
     List<OfficeApi> getParentList();
+    /*二级列表*/
     List<OfficeApi> getListByParentId(String ID);
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sayee.sxsy.api.mediate.dao.MediateApiDao">
-	<insert id="insert">
+    <insert id="insert">
 		INSERT INTO COMPLAINT_MAIN(
 			complaint_main_id,
 			case_number,
@@ -40,29 +40,182 @@
 		    #{source}
 		)
 	</insert>
-	<select id="mediateList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
-	SELECT (SELECT ACT_HI_ACTINST.act_name_ FROM COMPLAINT_MAIN LEFT JOIN ACT_HI_ACTINST on ACT_HI_ACTINST.proc_inst_id_=COMPLAINT_MAIN.proc_ins_id WHERE complaint_main_id=COMPLAINT_MAIN.complaint_main_id AND ACT_HI_ACTINST.act_type_='userTask' ORDER BY ACT_HI_ACTINST.start_time_ DESC LIMIT 1
-) AS actName,COMPLAINT_MAIN.complaint_main_id,COMPLAINT_MAIN.case_number,COMPLAINT_MAIN.create_date,SYS_USER.name,SYS_USER.photo FROM COMPLAINT_MAIN_DETAIL LEFT JOIN COMPLAINT_MAIN ON COMPLAINT_MAIN.complaint_main_id=COMPLAINT_MAIN_DETAIL.complaint_main_id LEFT JOIN SYS_USER ON SYS_USER.id=COMPLAINT_MAIN_DETAIL.next_link_man LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
+	<!--创建人调解列表-->
+    <select id="mediateList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
+        SELECT c.ACT_NAME_ AS actName,
+         	   b.complaint_main_id AS complaintMainId,
+         	   b.case_number AS caseNumber,
+         	   b.create_date AS reportingTime,
+         	   d.name,
+         	   d.photo,a.visitor_name AS visitorName,
+         	   f.name AS hospitalName
+         	   FROM COMPLAINT_MAIN_DETAIL a
+         	   LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
+         	   LEFT JOIN (SELECT y.proc_inst_id_,y.act_name_ FROM (select z.* from ACT_HI_ACTINST z order by z.start_time_ desc) y WHERE y.act_type_='userTask' group by y.proc_inst_id_ order by y.start_time_ desc) c ON c.PROC_INST_ID_=b.PROC_INS_ID
+         	   LEFT JOIN SYS_USER d ON d.id=a.next_link_man
+         	   LEFT JOIN CMS_WECHATUSER e ON e.sys_user_id=d.id
+         	   LEFT JOIN SYS_OFFICE f ON f.id=b.involve_hospital
+         	   WHERE e.wechat_user_id=#{wechatUserId} AND c.act_name_='报案登记'
 	</select>
-	<select id="mediateListForHos" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">SELECT (SELECT ACT_HI_ACTINST.act_name_ FROM COMPLAINT_MAIN LEFT JOIN ACT_HI_ACTINST on ACT_HI_ACTINST.proc_inst_id_=COMPLAINT_MAIN.proc_ins_id WHERE complaint_main_id=COMPLAINT_MAIN.complaint_main_id AND ACT_HI_ACTINST.act_type_='userTask' ORDER BY ACT_HI_ACTINST.start_time_ DESC LIMIT 1
-) AS actName,COMPLAINT_MAIN.complaint_main_id,COMPLAINT_MAIN.case_number,COMPLAINT_MAIN.create_date,SYS_USER.name,SYS_USER.photo FROM COMPLAINT_MAIN_DETAIL LEFT JOIN COMPLAINT_MAIN ON COMPLAINT_MAIN.complaint_main_id=COMPLAINT_MAIN_DETAIL.complaint_main_id LEFT JOIN SYS_USER ON SYS_USER.id=COMPLAINT_MAIN_DETAIL.next_link_man LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE COMPLAINT_MAIN.involve_hospital= (select sys_user.office_id from sys_user left join cms_wechatuser on cms_wechatuser.sys_user_id=sys_user.id where cms_wechatuser.wechat_user_id=#{wechatUserId})
+	<!--医院调解列表-->
+    <select id="mediateListForHos" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
+	 	SELECT c.ACT_NAME_ AS actName,
+	 		   b.complaint_main_id AS complaintMainId,
+	 		   b.case_number AS caseNumber,
+	 		   b.create_date AS reportingTime,
+	 		   d.name,
+	 		   d.photo,
+	 		   a.visitor_name AS visitorName,
+	 		   f.name AS hospitalName
+	 		   FROM COMPLAINT_MAIN_DETAIL a
+	 		   LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
+	 		   LEFT JOIN (SELECT y.proc_inst_id_,y.act_name_ FROM (select z.* from ACT_HI_ACTINST z order by z.start_time_ desc) y WHERE y.act_type_='userTask' group by y.proc_inst_id_ order by y.start_time_ desc) c ON c.PROC_INST_ID_=b.PROC_INS_ID
+	 		   LEFT JOIN SYS_USER d ON d.id=a.next_link_man
+	 		   LEFT JOIN CMS_WECHATUSER e ON e.sys_user_id=d.id
+	 		   LEFT JOIN SYS_OFFICE f ON f.id=b.involve_hospital
+	 		   WHERE b.involve_hospital = (SELECT SYS_USER.office_id FROM SYS_USER LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}) AND c.act_name_='报案登记'
 	</select>
-	<select id="findMediateById" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.MediateCommon">
+	<!---->
+    <select id="findMediateById" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.MediateCommon">
 		SELECT COMPLAINT_MAIN.patient_sex AS patientSex,COMPLAINT_MAIN.patient_age AS patientAge,COMPLAINT_MAIN.involve_hospital AS involveHospital,COMPLAINT_MAIN.case_number AS caseNumber,COMPLAINT_INFO.visitor_date AS visitorDate,COMPLAINT_INFO.complaint_mode AS complaintMode,COMPLAINT_INFO.visitor_name AS visitorName,COMPLAINT_INFO.visitor_mobile AS visitorMobile,COMPLAINT_INFO.visitor_number AS visitorNumber,COMPLAINT_INFO.patient_relation AS patientRelation,COMPLAINT_INFO.summary_of_disputes AS summaryOfDisputes,COMPLAINT_INFO.appeal,COMPLAINT_INFO.reception_employee AS receptionEmployee,COMPLAINT_INFO.reception_date AS receptionDate,COMPLAINT_INFO.next_link_man AS nextLinkMan,COMPLAINT_INFO.patient_name AS patientName,COMPLAINT_INFO.status FROM COMPLAINT_MAIN LEFT JOIN COMPLAINT_INFO ON COMPLAINT_INFO.complaint_main_id=COMPLAINT_MAIN.complaint_main_id WHERE COMPLAINT_MAIN.complaint_main_id=#{complaintMainId}
 	</select>
-	<select id="getCaseNumber" parameterType="java.lang.String" resultType="java.lang.String">
+	<!--获取案件编号-->
+    <select id="getCaseNumber" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT MAX(case_number) FROM COMPLAINT_MAIN WHERE del_flag=0 AND case_number LIKE CONCAT('%',#{nowDate},'%')
 	</select>
-	<update id="setProInstId" parameterType="java.util.Map">
-		UPDATE COMPLAINT_MAIN set proc_ins_id=#{procInsId} WHERE COMPLAINT_MAIN_ID=#{complaintMainId}
+    <update id="setProInstId" parameterType="java.util.Map">
+		UPDATE COMPLAINT_MAIN SET proc_ins_id=#{procInsId} WHERE COMPLAINT_MAIN_ID=#{complaintMainId}
 	</update>
-	<select id="getStatus" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT ACT_HI_ACTINST.act_name_ FROM COMPLAINT_MAIN LEFT JOIN act_hi_actinst on ACT_HI_ACTINST.proc_inst_id_=COMPLAINT_MAIN.proc_ins_id WHERE COMPLAINT_MAIN_ID='594f5754e4754133aa94caf67980c2a9' AND ACT_HI_ACTINST.act_type_='userTask' ORDER BY ACT_HI_ACTINST.start_time_ DESC LIMIT 1
+    <select id="getStatus" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT ACT_HI_ACTINST.act_name_ FROM COMPLAINT_MAIN LEFT JOIN act_hi_actinst ON ACT_HI_ACTINST.proc_inst_id_=COMPLAINT_MAIN.proc_ins_id WHERE COMPLAINT_MAIN_ID=#{complaintMainId} AND ACT_HI_ACTINST.act_type_='userTask' ORDER BY ACT_HI_ACTINST.start_time_ DESC LIMIT 1
 	</select>
-	<select id="getMediateInfo" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.MediateCommon">
-	SELECT COMPLAINT_MAIN.patient_name AS patientName,COMPLAINT_MAIN.case_number AS caseNumber,COMPLAINT_MAIN_DETAIL.visitor_name AS visitorName,COMPLAINT_MAIN_DETAIL.patient_relation AS patientRelation,COMPLAINT_MAIN_DETAIL.visitor_mobile AS visitorMobile,COMPLAINT_MAIN_DETAIL.summary_of_disputes AS summaryOfDisputes,COMPLAINT_MAIN_DETAIL.appeal,SYS_OFFICE.name as involveHospital FROM COMPLAINT_MAIN left join COMPLAINT_MAIN_DETAIL on COMPLAINT_MAIN.complaint_main_id=COMPLAINT_MAIN_DETAIL.complaint_main_id left join SYS_OFFICE on COMPLAINT_MAIN.involve_hospital=SYS_OFFICE.id WHERE COMPLAINT_MAIN.complaint_main_id=#{complaintMainId}
+	<!--调解信息-->
+    <select id="getMediateInfo" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.MediateCommon">
+	SELECT COMPLAINT_MAIN.patient_name AS patientName,COMPLAINT_MAIN.case_number AS caseNumber,COMPLAINT_MAIN_DETAIL.visitor_name AS visitorName,COMPLAINT_MAIN_DETAIL.patient_relation AS patientRelation,COMPLAINT_MAIN_DETAIL.visitor_mobile AS visitorMobile,COMPLAINT_MAIN_DETAIL.summary_of_disputes AS summaryOfDisputes,COMPLAINT_MAIN_DETAIL.appeal,SYS_OFFICE.name AS involveHospital FROM COMPLAINT_MAIN LEFT JOIN COMPLAINT_MAIN_DETAIL ON COMPLAINT_MAIN.complaint_main_id=COMPLAINT_MAIN_DETAIL.complaint_main_id LEFT JOIN SYS_OFFICE ON COMPLAINT_MAIN.involve_hospital=SYS_OFFICE.id WHERE COMPLAINT_MAIN.complaint_main_id=#{complaintMainId}
 	</select>
-	<select id="getActInfo" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.ActInst">
+	<!--流程信息-->
+    <select id="getActInfo" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.ActInst">
 		SELECT ACT_HI_ACTINST.act_name_ AS actName,ACT_HI_ACTINST.start_time_ AS startTime FROM ACT_HI_ACTINST LEFT JOIN COMPLAINT_MAIN ON COMPLAINT_MAIN.proc_ins_id=ACT_HI_ACTINST.proc_inst_id_ WHERE COMPLAINT_MAIN.complaint_main_id=#{complaintMainId} AND ACT_HI_ACTINST.act_type_='userTask'
+	</select>
+	<!--投诉处理人-->
+    <select id="getDistributionUser" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT SYS_USER.id FROM SYS_USER LEFT JOIN SYS_USER_ROLE ON SYS_USER.id=SYS_USER_ROLE.user_id LEFT JOIN SYS_OFFICE ON SYS_USER.office_id =SYS_OFFICE.id WHERE SYS_USER_ROLE.role_id=(SELECT id FROM SYS_ROLE WHERE enname='distribution') AND SYS_OFFICE.area_id=#{areaId} LIMIT 1
+	</select>
+	<!--患者用户投诉列表-->
+	<select id="getComplaintList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.complain.entity.ComplaintApi">
+		SELECT COMPLAINT_INFO.complaint_id AS complaintId,
+			   COMPLAINT_INFO.visitor_name AS visitorName,
+			   COMPLAINT_INFO.create_date AS createDate,
+			   COMPLAINT_INFO.summary_of_disputes AS summaryOfDisputes,
+			   COMPLAINT_INFO.handle_way AS handleWay,
+			   ifnull(COMPLAINT_INFO.handle_result,"") AS handleResult,
+			   COMPLAINT_INFO.RECEPTION_DATE AS receptionDate,
+			   ifnull(SYS_USER.name,'') AS name
+			   FROM COMPLAINT_INFO
+			   LEFT JOIN CMS_WECHAT_COMPLAINT ON COMPLAINT_INFO.complaint_main_id=CMS_WECHAT_COMPLAINT.complaint_main_id
+			   LEFT JOIN SYS_USER ON SYS_USER.id = COMPLAINT_INFO.UPDATE_BY
+			   WHERE CMS_WECHAT_COMPLAINT.wechat_user_id=#{wechatUserId}
+	</select>
+	<!--患者转医调委调解列表-->
+	<select id="getComplaintToytwList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
+		SELECT ifnull(c.ACT_NAME_,'') AS actName,
+        	   b.complaint_main_id AS complaintMainId,
+         	   b.case_number AS caseNumber,
+         	   b.create_date AS reportingTime,
+         	   a.visitor_date AS visitorDate,
+         	   e.name,
+         	   e.photo,
+         	   a.visitor_name AS visitorName,
+         	   f.name AS hospitalName,
+			   ifnull(h.userstatu,'') AS userStatu
+         	   FROM COMPLAINT_MAIN_DETAIL a
+         	   LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
+			   LEFT JOIN (SELECT proc_inst_id_,act_name_ FROM ACT_HI_ACTINST WHERE act_type_='userTask' group by proc_inst_id_,act_name_ order by start_time_ desc) c ON c.PROC_INST_ID_=b.PROC_INS_ID
+         	   LEFT JOIN CMS_WECHAT_COMPLAINT d ON d.complaint_main_id=a.complaint_main_id
+			   LEFT JOIN COMPLAINT_INFO g ON g.COMPLAINT_MAIN_ID=a.COMPLAINT_MAIN_ID
+         	   LEFT JOIN SYS_USER e ON e.id=g.next_link_man
+			   LEFT JOIN CMS_WECHATUSER h on h.SYS_USER_ID=e.id
+			   LEFT JOIN SYS_OFFICE f ON f.id=b.involve_hospital
+         	   WHERE d.wechat_user_id=#{wechatUserId} group by b.complaint_main_id
+	</select>
+	<select id="complaintListForHos" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.complain.entity.ComplaintApi">
+		SELECT COMPLAINT_INFO.complaint_id AS complaintId,
+			   COMPLAINT_INFO.visitor_name AS visitorName,
+			   COMPLAINT_INFO.create_date AS createDate,
+			   COMPLAINT_INFO.summary_of_disputes AS summaryOfDisputes,
+			   COMPLAINT_INFO.handle_way AS handleWay,
+			   ifnull(COMPLAINT_INFO.handle_result,"") AS handleResult,
+			   COMPLAINT_INFO.RECEPTION_DATE AS receptionDate,
+			   ifnull(SYS_USER.`NAME`,'') AS name
+			   FROM COMPLAINT_INFO
+			   LEFT JOIN CMS_WECHAT_COMPLAINT ON COMPLAINT_INFO.complaint_main_id=CMS_WECHAT_COMPLAINT.complaint_main_id
+			   LEFT JOIN SYS_USER ON SYS_USER.id = COMPLAINT_INFO.UPDATE_BY
+	 		   WHERE COMPLAINT_INFO.involve_hospital = (SELECT SYS_USER.office_id FROM SYS_USER LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId})
+	</select>
+	<!--获取下一环节处理人-->
+	<select id="getMediateUser" parameterType="java.util.Map" resultType="java.util.Map" statementType="STATEMENT">
+		SELECT a.name,a.photo FROM SYS_USER a LEFT JOIN ${tableName} b ON b.next_link_man=a.id WHERE b.complaint_main_id=${complaintMainId}
+	</select>
+	<!--查询台账表-->
+	<select id="getMediateList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
+		SELECT a.complaint_main_id AS complaintMainId,
+			   f.visitor_name AS visitorName,
+			   c.case_number AS caseNumber,
+			   a.reporting_time AS reportingTime,
+			   b.name,
+			   b.photo,
+			   d.ACT_NAME_ AS actName,
+			   g.name AS hospitalName
+			   FROM MACHINE_ACCOUNT a
+			   LEFT JOIN SYS_USER b ON a.mediator_id=b.id
+			   LEFT JOIN COMPLAINT_MAIN c ON c.complaint_main_id=a.complaint_main_id
+			   LEFT JOIN (SELECT y.proc_inst_id_,y.act_name_ FROM (select z.* from ACT_HI_ACTINST z order by z.start_time_ desc ) y WHERE y.act_type_='userTask' group by y.proc_inst_id_ order by y.start_time_ desc) d ON d.PROC_INST_ID_=c.PROC_INS_ID
+			   LEFT JOIN CMS_WECHATUSER e ON e.sys_user_id=a.MEDIATOR_ID LEFT JOIN COMPLAINT_MAIN_DETAIL f ON f.complaint_main_id=a.complaint_main_id
+			   LEFT JOIN SYS_OFFICE g ON g.id=a.hospital_id
+			   WHERE e.wechat_user_id=#{wechatUserId}
+	</select>
+
+	<select id="getMediateActId" parameterType="java.util.Map" resultType="java.lang.String" statementType="STATEMENT">
+		SELECT ${tableId} FROM ${tableName} WHERE complaint_main_id=${complaintMainId}
+	</select>
+
+	<!--获取调解列表-->
+	<select id="mediateCommenFindList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
+        SELECT c.ACT_NAME_ AS actName,
+        	   b.complaint_main_id AS complaintMainId,
+         	   b.case_number AS caseNumber,
+         	   b.create_date AS reportingTime,
+         	   a.visitor_date AS visitorDate,
+         	   d.name,
+         	   d.photo,a.visitor_name AS visitorName,
+         	   f.name AS hospitalName
+         	   FROM COMPLAINT_MAIN_DETAIL a
+         	   LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
+			   LEFT JOIN (SELECT proc_inst_id_,act_name_ FROM ACT_HI_ACTINST WHERE act_type_='userTask' group by proc_inst_id_,act_name_ order by start_time_ desc) c ON c.PROC_INST_ID_=b.PROC_INS_ID
+         	   LEFT JOIN SYS_USER d ON d.id=a.next_link_man
+         	   LEFT JOIN CMS_WECHATUSER e ON e.sys_user_id=d.id
+         	   LEFT JOIN SYS_OFFICE f ON f.id=b.involve_hospital
+         	   WHERE e.wechat_user_id=#{wechatUserId} group by b.complaint_main_id
+	</select>
+	<select id="mediateCommenFindListForHos" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.mediate.entity.Mediate">
+	 	SELECT c.ACT_NAME_ AS actName,
+	 		   b.complaint_main_id AS complaintMainId,
+	 		   b.case_number AS caseNumber,
+	 		   b.create_date AS reportingTime,
+	 		   a.visitor_date AS visitorDate,
+	 		   d.name,
+	 		   d.photo,
+	 		   a.visitor_name AS visitorName,
+	 		   f.name AS hospitalName
+	 		   FROM COMPLAINT_MAIN_DETAIL a
+	 		   LEFT JOIN COMPLAINT_MAIN b ON b.complaint_main_id=a.complaint_main_id
+	 		   LEFT JOIN (SELECT y.proc_inst_id_,y.act_name_ FROM (select z.* from ACT_HI_ACTINST z order by z.start_time_ desc) y WHERE y.act_type_='userTask' group by y.proc_inst_id_ order by y.start_time_ desc) c ON c.PROC_INST_ID_=b.PROC_INS_ID
+	 		   LEFT JOIN SYS_USER d ON d.id=a.next_link_man
+	 		   LEFT JOIN CMS_WECHATUSER e ON e.sys_user_id=d.id
+	 		   LEFT JOIN SYS_OFFICE f ON f.id=b.involve_hospital
+	 		   WHERE b.involve_hospital = (SELECT SYS_USER.office_id FROM SYS_USER LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}) group by b.complaint_main_id
+	</select>
+	<select id="getIsAssess" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT count(*) FROM SATISFIED_DEGREE WHERE complaint_main_id =#{complaintMainId}
 	</select>
 </mapper>

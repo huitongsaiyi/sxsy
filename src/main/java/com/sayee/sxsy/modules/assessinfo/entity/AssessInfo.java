@@ -41,6 +41,16 @@ public class AssessInfo extends DataEntity<AssessInfo> {
 	private AuditAcceptance auditAcceptance;
 	private ReportRegistration reportRegistration;
 	private SummaryInfo summaryInfo;
+	private String createUser;  //创建人员id
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
 
 	public AssessInfo() {
 		super();

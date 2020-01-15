@@ -13,7 +13,8 @@
          a.address AS "meetingAddress", a.meeting_time AS "meetingTime",
          a.handle_people AS "handlePeople", a.handle_time AS "handleTime",
          a.next_link AS "nextLink", a.next_link_man AS "nextLinkMan",
-         if(a.create_by IS NULL,au.create_by,a.create_by) AS "createBy.id",
+         a.create_by  AS "createBy.id",
+         if(a.create_by IS NULL,au.create_by,a.create_by) AS "createUser",
          a.create_date AS "createDate", a.update_by AS "updateBy.id",
          a.update_date AS "updateDate", a.del_flag AS "delFlag",
          u5.name AS "ytwUser.name",
@@ -67,6 +68,7 @@
          au.policy_number AS "auditAcceptance.policyNumber",
          au.create_date AS "auditAcceptance.createDate",
          au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
+         au.insurance_company AS "auditAcceptance.insuranceCompany",
          sa.name AS "area.name",
          o3.id AS "doctorOffice.id",
          o3.name AS "doctorOffice.name"

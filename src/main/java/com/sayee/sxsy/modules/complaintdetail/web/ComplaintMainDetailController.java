@@ -71,7 +71,7 @@ public class ComplaintMainDetailController extends BaseController {
 	public String form(ComplaintMainDetail complaintMainDetail, Model model,HttpServletRequest request) {
 		if (null==complaintMainDetail.getComplaintMain()){
 			ComplaintMain complaintMain=new ComplaintMain();
-			complaintMain.setCaseNumber(BaseUtils.getCode("time","3","COMPLAINT_MAIN","case_number"));
+			complaintMain.setCaseNumber(BaseUtils.getCode("year","3","COMPLAINT_MAIN","case_number"));
 			complaintMainDetail.setComplaintMain(complaintMain);
 		}
 		String type=request.getParameter("type");

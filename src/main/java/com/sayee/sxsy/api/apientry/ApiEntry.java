@@ -21,35 +21,37 @@ import java.util.UUID;
 public class ApiEntry {
     @RequestMapping("laissezpasser")
     @ResponseBody
-    public R laissezPasser(HttpServletRequest request){
+    public R laissezPasser(HttpServletRequest request) {
         Date date = new Date();
-        date.setTime(date.getTime()+1000*3600*30);
-        String salt="asdfQWer1234$#@!";
-        String token = UUID.randomUUID().toString().replace("-", "")+date+salt;
-        String laissezPasser=DigestUtils.md5DigestAsHex(token.getBytes());
-        HttpSession session=request.getSession();
-        session.setAttribute("APPTOKEN",laissezPasser);
-        String sessionId=session.getId();
-        Map dataMap=new HashMap<>();
-        dataMap.put("laissezPasser",laissezPasser);
-        dataMap.put("sessionId",sessionId);
-        R r=new R();
-        r.put("RtnCode",0);
-        r.put("RtnMsg","success");
-        r.put("RtnData",dataMap);
+        date.setTime(date.getTime() + 1000 * 3600 * 30);
+        String salt = "asdfQWer1234$#@!";
+        String token = UUID.randomUUID().toString().replace("-", "") + date + salt;
+        String laissezPasser = DigestUtils.md5DigestAsHex(token.getBytes());
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(60*60);
+        session.setAttribute("APPTOKEN", laissezPasser);
+        String sessionId = session.getId();
+        Map dataMap = new HashMap<>();
+        dataMap.put("laissezPasser", laissezPasser);
+        dataMap.put("sessionId", sessionId);
+        R r = new R();
+        r.put("RtnCode", 0);
+        r.put("RtnMsg", "success");
+        r.put("RtnData", dataMap);
         return r;
     }
+
     @RequestMapping("prohibit")
     @ResponseBody
-    public R prohibit(HttpServletRequest request){
+    public R prohibit(HttpServletRequest request) {
         System.out.println(request);
-        String msg=request.getAttribute("msg").toString();
-        String code=request.getAttribute("code").toString();
-        int rtnCode=Integer.valueOf(code);
-        R r=new R();
-        r.put("RtnCode",-1);
-        r.put("RtnMsg","验证失败");
-        r.put("RtnData",msg);
+        String msg = request.getAttribute("msg").toString();
+        String code = request.getAttribute("code").toString();
+        int rtnCode = Integer.valueOf(code);
+        R r = new R();
+        r.put("RtnCode", -1);
+        r.put("RtnMsg", "验证失败");
+        r.put("RtnData", msg);
         return r;
     }
 }

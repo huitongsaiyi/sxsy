@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.config.Global;
+import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -49,9 +50,11 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(ComplaintMain complaintMain) {
+	public synchronized void save(ComplaintMain complaintMain) {
 		if(StringUtils.isBlank(complaintMain.getComplaintMainId())){
 			complaintMain.preInsert();
+			//防止案件编码 重复，在 查找 库一遍
+			complaintMain.setCaseNumber(BaseUtils.getCode("year","3","COMPLAINT_MAIN","case_number"));
 			complaintMain.setComplaintMainId(complaintMain.getId());
 			dao.insert(complaintMain);
 		}else{

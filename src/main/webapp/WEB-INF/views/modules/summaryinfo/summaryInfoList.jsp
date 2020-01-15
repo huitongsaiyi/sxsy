@@ -95,10 +95,10 @@
 				<td style="text-align: center;">${summaryInfo.complaintMain.patientName}</td>
 				<td style="text-align: center;">${summaryInfo.complaintMain.hospital.name}</td>
 				<td style="text-align: center;">
-
+						${summaryInfo.auditAcceptance.insuranceCompany}
 				</td>
 				<%--<td style="text-align: center;">${summaryInfo.auditAcceptance.summaryOfDisputes}</td>--%>
-				<td style="text-align: center;">${summaryInfo.reportRegistration.focus}</td>
+				<td style="text-align: center;">${summaryInfo.complaintMainDetail.typeName}</td>
 				<%--<td style="text-align: center;">
 						&lt;%&ndash;${summaryInfo.complaintMainDetail.appeal}&ndash;%&gt;
 				</td>
@@ -136,10 +136,10 @@
 
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(summaryInfo.createBy.id).office.name}
+						${fns:getUserById(summaryInfo.createUser).office.name}
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(summaryInfo.createBy.id).name}
+						${fns:getUserById(summaryInfo.createUser).name}
 				</td>
 				<td style="text-align: center;">${empty summaryInfo.isStop ? "否" : "是"}</td>
 				<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><td style="text-align: center;">

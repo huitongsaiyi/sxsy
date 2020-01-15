@@ -5,6 +5,7 @@ import com.sayee.sxsy.api.common.R;
 import com.sayee.sxsy.api.proposal.entity.CommentEntity;
 import com.sayee.sxsy.api.proposal.entity.Satisfied;
 import com.sayee.sxsy.api.proposal.service.SatisfiedProposalService;
+import com.sayee.sxsy.api.user.service.UserApiService;
 import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
@@ -29,7 +30,8 @@ import java.util.List;
 public class SatisfiedProposalController {
     @Autowired
     private SatisfiedProposalService satisfiedProposalService;
-
+    @Autowired
+    private UserApiService userApiService;
     //满意度 微信小程序添加
     @RequestMapping("satisfiedAdd")
     @ResponseBody
@@ -63,7 +65,9 @@ public class SatisfiedProposalController {
         if(null!=jsonObject.getInteger("pageSize")){
             pageSize=jsonObject.getInteger("pageSize");
         }
-        String uid=jsonObject.getString("uid");
+        String wechatUserId = jsonObject.getString("wechatUserId");
+        String uid = userApiService.getSysUserId(wechatUserId);
+        //String uid=jsonObject.getString("uid");
         User user=UserUtils.get(uid);
         if(StringUtils.isNotBlank(uid) && user!=null){
             Satisfied satisfied=new Satisfied();

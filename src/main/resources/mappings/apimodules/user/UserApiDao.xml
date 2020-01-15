@@ -36,7 +36,10 @@
         SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId FROM CMS_WECHATUSER WHERE openid=#{openId}
     </select>
     <update id="regist" parameterType="com.sayee.sxsy.api.user.entity.UserApiEntity">
-        UPDATE CMS_WECHATUSER SET nickname=#{nickName},realname=#{realName},avatar_url=#{avatarUrl},tel=#{tel},usertype=#{userType},age=#{age},workunit=#{workUnit},sys_user_id=#{sysUserId} WHERE wechat_user_id =#{wechatUserId}
+        UPDATE CMS_WECHATUSER SET nickname=#{nickName},realname=#{realName},avatar_url=#{avatarUrl},tel=#{tel},age=#{age},workunit=#{workUnit} WHERE wechat_user_id =#{wechatUserId}
+    </update>
+    <update id="organizationBind" parameterType="com.sayee.sxsy.api.user.entity.UserApiEntity">
+        UPDATE CMS_WECHATUSER SET sys_user_id=#{sysUserId},usertype=#{userType} WHERE wechat_user_id =#{wechatUserId}
     </update>
     <update id="changeStatu" parameterType="java.util.Map">
         UPDATE CMS_WECHATUSER SET userstatu=#{statu} WHERE wechat_user_id =#{wechatUserId}
@@ -55,32 +58,34 @@
     </update>
     <!--用户投诉数量-->
     <select id="getMediateInfoCount" resultType="java.lang.Integer" parameterType="java.lang.String">
-        SELECT handle_way AS handleWay FROM COMPLAINT_INFO WHERE create_by=#{wechatUserId}
-    </select>
+SELECT handle_way AS handleWay FROM COMPLAINT_INFO LEFT JOIN CMS_WECHAT_COMPLAINT ON CMS_WECHAT_COMPLAINT.COMPLAINT_MAIN_ID=COMPLAINT_INFO.COMPLAINT_MAIN_ID WHERE CMS_WECHAT_COMPLAINT.WECHAT_USER_ID=#{wechatUserId}
+</select>
     <!--涉及医院用户投诉数量-->
     <select id="getMediateInfoCountForHospital" resultType="java.lang.Integer" parameterType="java.lang.String">
         SELECT handle_way FROM COMPLAINT_INFO WHERE involve_hospital=(SELECT SYS_USER.office_id FROM SYS_USER LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId})
     </select>
     <!--医调委用户-->
     <select id="getMediateCountForYtw" resultType="java.lang.Integer" parameterType="java.lang.String">
-        SELECT count(*) FROM COMPLAINT_MAIN_DETAIL LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_INFO.next_link_man WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
+        SELECT count(*) FROM COMPLAINT_MAIN_DETAIL LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=COMPLAINT_MAIN_DETAIL.create_by WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
     </select>
     <!--评估数量-->
-    <select id="getAssessCount">
-        SELECT count(*) FROM ASSESS_APPRAISAL LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_APPRAISAL.next_link_man WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
+    <select id="getAssessCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        <!--SELECT count(*) FROM ASSESS_APPRAISAL LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_APPRAISAL.create_by WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}-->
+        SELECT count(*) FROM MACHINE_ACCOUNT a LEFT JOIN SYS_USER b ON a.mediator_id=b.id LEFT JOIN COMPLAINT_MAIN c ON c.complaint_main_id=a.complaint_main_id LEFT JOIN (SELECT proc_inst_id_,act_name_ FROM ACT_HI_ACTINST WHERE act_type_='userTask' GROUP BY proc_inst_id_ ORDER BY start_time_ DESC) d ON c.PROC_INS_ID=d.PROC_INST_ID_ LEFT JOIN CMS_WECHATUSER e ON e.sys_user_id=a.MEDIATOR_ID LEFT JOIN COMPLAINT_MAIN_DETAIL f ON f.complaint_main_id=a.complaint_main_id LEFT JOIN SYS_OFFICE g ON g.id=a.hospital_id WHERE e.wechat_user_id=#{wechatUserId} AND (d.act_name_='评估鉴定' OR d.act_name_='达成调解' OR d.act_name_='签署协议' OR d.act_name_='履行协议' )
     </select>
     <!--结案数量-->
-    <select id="getAssessInfoCount">
-        SELECT count(*) FROM ASSESS_INFO LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_INFO.next_link_man WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}
+    <select id="getAssessInfoCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        <!--SELECT count(*) FROM ASSESS_INFO LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=ASSESS_INFO.next_link_man WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId}-->
+        SELECT count(*) FROM MACHINE_ACCOUNT a LEFT JOIN SYS_USER b ON a.mediator_id=b.id LEFT JOIN COMPLAINT_MAIN c ON c.complaint_main_id=a.complaint_main_id LEFT JOIN (SELECT proc_inst_id_,act_name_ FROM ACT_HI_ACTINST WHERE act_type_='userTask' GROUP BY proc_inst_id_ ORDER BY start_time_ DESC) d ON c.PROC_INS_ID=d.PROC_INST_ID_ LEFT JOIN CMS_WECHATUSER e ON e.sys_user_id=a.MEDIATOR_ID LEFT JOIN COMPLAINT_MAIN_DETAIL f ON f.complaint_main_id=a.complaint_main_id LEFT JOIN SYS_OFFICE g ON g.id=a.hospital_id WHERE e.wechat_user_id=#{wechatUserId} AND (d.act_name_='案件总结' OR d.act_name_='案件评价' OR d.act_name_='案件反馈')
     </select>
     <!--咨询数量-->
     <select id="getConsultCount" resultType="java.lang.Integer" parameterType="java.lang.String">
-        SELECT count(*) FROM CMS_CONSULT WHERE create_by=#{wechatUserId}
+        SELECT count(*) FROM CMS_GUESTBOOK WHERE create_user=#{wechatUserId}
     </select>
     <select id="getCommunicateList" resultType="com.sayee.sxsy.api.user.entity.Communicate">
-        SELECT SYS_USER.name,SYS_USER.mobile AS phoneNumber,SYS_OFFICE.name AS department,CMS_WECHATUSER.userStatu AS status,ifnull(CMS_WECHATUSER.avatar_url,'https://b-ssl.duitang.com/uploads/item/201608/21/20160821194924_UCvFZ.jpeg') AS headImg FROM SYS_USER LEFT JOIN SYS_OFFICE ON SYS_USER.office_id=SYS_OFFICE.id LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE SYS_OFFICE.office_type=1
+        SELECT SYS_USER.name,SYS_USER.mobile AS phoneNumber,SYS_OFFICE.name AS department,ifnull(CMS_WECHATUSER.userStatu,'') AS status,ifnull(CMS_WECHATUSER.avatar_url,'') AS headImg FROM SYS_USER LEFT JOIN SYS_OFFICE ON SYS_USER.office_id=SYS_OFFICE.id LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE SYS_OFFICE.office_type=1
     </select>
-    <select id="getWechatUserId" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="getSysUserId" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT sys_user_id FROM CMS_WECHATUSER WHERE wechat_user_id=#{wechatUserId}
     </select>
 </mapper>

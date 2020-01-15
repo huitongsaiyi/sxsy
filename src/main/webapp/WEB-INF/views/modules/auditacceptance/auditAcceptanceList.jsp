@@ -95,8 +95,7 @@
 					${auditAcceptance.complaintMain.hospital.name}
 				</td>
 				<td style="text-align: center">
-
-
+						${auditAcceptance.insuranceCompany}
 				</td>
 				<td style="text-align: center">
 					${auditAcceptance.diagnosisMode}
@@ -119,10 +118,10 @@
 				<td style="text-align: center">
 				</td>
 				<td style="text-align: center">
-						${fns:getUserById(auditAcceptance.createBy.id).office.name}
+						${fns:getUserById(auditAcceptance.createUser).office.name}
 				</td>
 				<td style="text-align: center">
-						${fns:getUserById(auditAcceptance.createBy.id).name}
+						${fns:getUserById(auditAcceptance.createUser).name}
 				</td>
 				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><td style="text-align: center">
 					<c:if test="${fns:getUser().loginName eq auditAcceptance.complaintMain.act.assigneeName}">

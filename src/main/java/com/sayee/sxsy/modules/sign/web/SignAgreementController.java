@@ -13,6 +13,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
+import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
@@ -57,6 +59,9 @@ public class SignAgreementController extends BaseController {
 	SummaryInfoService summaryInfoService;
     @Autowired
     private MachineAccountService machineAccountService;
+	@Autowired
+	ComplaintMainService complaintMainService;
+
 	@ModelAttribute
 	public SignAgreement get(@RequestParam(required=false) String id) {
 		SignAgreement entity = null;
@@ -106,6 +111,25 @@ public class SignAgreementController extends BaseController {
 
 			}
 		}
+		ComplaintMain complaintMain = complaintMainService.get(signAgreement.getComplaintMainId());
+		if(signAgreement.getPatientLinkEmpList().size()==0 && complaintMain!=null){
+			List<PatientLinkEmp> patientLinkEmpList = signAgreement.getPatientLinkEmpList();
+			PatientLinkEmp patientLinkEmp = new PatientLinkEmp();
+			patientLinkEmp.setPatientLinkName(complaintMain.getPatientName());
+			patientLinkEmp.setPatientLinkSex(complaintMain.getPatientSex());
+			patientLinkEmp.setPatientRelation("1");
+			patientLinkEmp.setIdNumber(complaintMain.getPatientCard());
+			patientLinkEmpList.add(patientLinkEmp);
+		}
+		if(signAgreement.getMedicalOfficeEmpList().size()==0 && complaintMain!=null){
+			MedicalOfficeEmp medicalOfficeEmp = new MedicalOfficeEmp();
+			List<MedicalOfficeEmp> medicalOfficeEmpList = signAgreement.getMedicalOfficeEmpList();
+			medicalOfficeEmp.setMedicalOfficeName(complaintMain.getHospital().getName());
+			medicalOfficeEmp.setMedicalOfficeAgent(signAgreement.getAuditAcceptance().getMediateApplyInfo().getAgent());
+			medicalOfficeEmp.setMedicalOfficeMobile(signAgreement.getAuditAcceptance().getMediateApplyInfo().getHospitalMobile());
+			medicalOfficeEmpList.add(medicalOfficeEmp);
+		}
+
 		//在修改时 拿到 用逗号分割的数据  进行处理
 		List<TypeInfo> tjqk=BaseUtils.getType("3");
 		signAgreementService.label(tjqk,signAgreement.getMediation());

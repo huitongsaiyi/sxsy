@@ -8,7 +8,7 @@
 		a.medical_office_address AS "medicalOfficeAddress",
 		a.legal_representative AS "legalRepresentative",
 		a.medical_office_post AS "medicalOfficePost",
-		a.medical_office_agent AS "medicalOfficeAgent",
+		if(a.medical_office_agent IS NULL,ma.agent,a.medical_office_agent) AS "medicalOfficeAgent",
 		a.medical_office_sex AS "medicalOfficeSex",
 		a.medical_office_idcard AS "medicalOfficeIdcard",
 		a.medical_office_company AS "medicalOfficeCompany",
@@ -19,11 +19,13 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		a.medical_office_mobile AS "medicalOfficeMobile"
+		if(a.medical_office_mobile IS NULL,ma.hospital_mobile,a.medical_office_mobile) AS "medicalOfficeMobile"
 	</sql>
 	
 	<sql id="medicalOfficeEmpJoins">
 		LEFT JOIN ASSESS_APPRAISAL ass ON ass.assess_appraisal_id = a.relation_id
+		LEFT JOIN AUDIT_ACCEPTANCE au ON au.complaint_main_id=ass.complaint_main_id
+		LEFT JOIN MEDIATE_APPLY_INFO ma ON ma.audit_acceptance_id=au.audit_acceptance_id AND ma.APPLY_TYPE='2'
 	</sql>
     
 	<select id="get" resultType="MedicalOfficeEmp">

@@ -6,8 +6,11 @@ package com.sayee.sxsy.modules.satisfied.service;
 import java.util.Date;
 import java.util.List;
 import com.alibaba.fastjson.JSONObject;
+import com.sayee.sxsy.api.user.entity.UserInfo;
+import com.sayee.sxsy.api.user.service.UserApiService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +27,8 @@ import com.sayee.sxsy.modules.satisfied.dao.SatisfiedDegreeDao;
 @Service
 @Transactional(readOnly = true)
 public class SatisfiedDegreeService extends CrudService<SatisfiedDegreeDao, SatisfiedDegree> {
-
+	@Autowired
+	private UserApiService userApiService;
 	public SatisfiedDegree get(String id) {
 		return super.get(id);
 	}
@@ -51,7 +55,9 @@ public class SatisfiedDegreeService extends CrudService<SatisfiedDegreeDao, Sati
 		String satisfiedId=jsonObject.getString("satisfiedId");//如果以后修改就需要传 主键，根据主键判断是添加 还是修改
 		satisfiedDegree.preInsert();
 		satisfiedDegree.setSatisfiedId(satisfiedDegree.getId());
-		String uid=jsonObject.getString("uid");
+		String wechatUserId = jsonObject.getString("wechatUserId");
+		String uid = userApiService.getSysUserId(wechatUserId);
+		//String uid=jsonObject.getString("uid");
 		String complaintMainId=jsonObject.getString("complaintMainId");//主表 主键
 		String ability=jsonObject.getString("ability");//调解能力
 		String attitude=jsonObject.getString("attitude");//服务态度
@@ -65,9 +71,18 @@ public class SatisfiedDegreeService extends CrudService<SatisfiedDegreeDao, Sati
 		satisfiedDegree.setAssess(assess);
 		satisfiedDegree.setProposal(proposal);
 		User user=UserUtils.get(uid);
-		satisfiedDegree.setSatisfiedName(user.getName());
-		satisfiedDegree.setCreateBy(user);
-		satisfiedDegree.setUpdateBy(user);
+		if(user!=null){
+			satisfiedDegree.setSatisfiedName(user.getName());
+			satisfiedDegree.setCreateBy(user);
+			satisfiedDegree.setUpdateBy(user);
+		}else{
+			UserInfo userInfo=userApiService.getUserInfoByUserId(wechatUserId);
+			if(userInfo!=null){
+				satisfiedDegree.setSatisfiedName(userInfo.getNickName());
+				satisfiedDegree.setCreateBy(new User(wechatUserId));
+				satisfiedDegree.setUpdateBy(new User(wechatUserId));
+			}
+		}
 		dao.insert(satisfiedDegree);
 	}
 	

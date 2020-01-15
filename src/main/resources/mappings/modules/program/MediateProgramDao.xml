@@ -13,6 +13,7 @@
 		a.other AS "other",
 		a.case_info AS "caseInfo",
 		a.address AS "address",
+		d.label AS "addressLabel",
 		a.meeting_time AS "meetingTime",
 		a.meeting_frequency AS "meetingFrequency",
 		a.create_by AS "createBy.id",
@@ -35,6 +36,7 @@
 		LEFT JOIN SYS_USER u3 ON u3.id = a.mediator
 		LEFT JOIN SYS_USER u4 ON u4.id = a.clerk
 		LEFT JOIN SYS_OFFICE u7 ON u7.id = a.doctor
+		LEFT JOIN SYS_DICT d ON d.value = a.address AND d.TYPE='meeting'
 	</sql>
     
 	<select id="get" resultType="MediateProgram">

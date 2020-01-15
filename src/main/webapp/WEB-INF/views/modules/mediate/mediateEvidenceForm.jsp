@@ -10,10 +10,25 @@
             $("#inputForm").validate({
                 submitHandler: function (form) {
                     var aa=$("#export").val();
-                    if(aa=='no'){
-                        loading('正在提交，请稍等...');
+                    var flag=$("#flag").val();
+                    var tip=$("#nextLink").val()=='0' ? '评估鉴定' :'签署协议';
+                    if(flag=='yes'){//点击 下一步的 时候
+                        top.$.jBox.confirm("您下一处理环节是    “"+tip+"”    ，您确认要提交吗？","系统提示",function(v,h,f){
+                            if(v=="ok"){
+                                if(aa=='no'){
+                                    loading('正在提交，请稍等...');
+                                }
+                                form.submit();
+                            }
+                        },{buttonsFocus:1, closed:function(){
+
+                        }});
+                    }else{//点击保存的时候
+                        if(aa=='no'){
+                            loading('正在提交，请稍等...');
+                        }
+                        form.submit();
                     }
-                    form.submit();
                 },
                 errorContainer: "#messageBox",
                 errorPlacement: function (error, element) {
@@ -225,8 +240,10 @@
                 <tr>
                     <th class="hide"></th>
                     <th width="10">时间</th>
+                    <th width="10">角色</th>
+                    <th width="10">方式</th>
                     <th width="100">内容</th>
-                    <th width="100">结果</th>
+                    <th width="80">结果</th>
                     <shiro:hasPermission name="mediate:mediateEvidence:edit">
                         <th width="100">&nbsp;</th>
                     </shiro:hasPermission>
@@ -256,7 +273,23 @@
 								<input id="mediateEvidenceList{{idx}}_time" name="mediateEvidenceList[{{idx}}].time" type="text"  maxlength="20" class="input-medium Wdate required" "
                                     value="{{row.time}}"
                                     onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
-
+							</td>
+							<td>
+							    <select id="mediateEvidenceList{{idx}}_roleType" name="mediateEvidenceList[{{idx}}].roleType" value="{{row.roleType}}" data-value="{{row.roleType}}" class="input-mini">
+									<option value=""></option>
+									<option value="1"  >医方</option>
+									<option value="2"  >患方</option>
+									<option value="3"  >医患双方</option>
+								</select>
+							</td>
+							<td>
+							    <select id="mediateEvidenceList{{idx}}_way" name="mediateEvidenceList[{{idx}}].way" value="{{row.way}}" data-value="{{row.way}}" class="input-mini">
+									<option value=""></option>
+									<option value="1"  >电话沟通</option>
+									<option value="2"  >单方调解</option>
+									<option value="3"  >调解会</option>
+									<option value="4"  >其他</option>
+								</select>
 							</td>
 							<td>
 								<input id="mediateEvidenceList{{idx}}_content" name="mediateEvidenceList[{{idx}}].content" type="text" value="{{row.content}}" maxlength="100" class="required" />
@@ -286,11 +319,15 @@
                                    value="${mediateEvidence.meetingTime}"
                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
                                    onchange="changeClass()"/>
+                            <font color="red">*如果不选择时间，保存无效!</font>
                         </td>
                         <td class="tit">地点：</td>
                         <td>
-                            <form:input id="meetingAddress" path="meetingAddress" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge required" value="${mediateEvidence.meetingAddress}"/>
+                            <form:select path="meetingAddress" class="input-xlarge" cssStyle="text-align:center;">
+                                <form:options items="${fns:getDictList('meeting')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+                            </form:select>
+                            <%--<form:input id="meetingAddress" path="meetingAddress" htmlEscape="false" maxlength="20"
+                                        class="input-xlarge required" value="${mediateEvidence.meetingAddress}"/>--%>
                         </td>
                     </tr>
                     <tr>
@@ -298,20 +335,20 @@
                         <td class="tit" width="10%">调解员:</td>
                         <td style="width: 150px;">
                             <sys:treeselect id="userId" name="userId"
-                                            value="${mediateEvidence.userId}" labelName="tjy"
-                                            labelValue="${mediateEvidence.ytwUser.name}"
+                                            value="${empty mediateEvidence.userId ? fns:getUser().id :mediateEvidence.userId}" labelName="tjy"
+                                            labelValue="${empty mediateEvidence.ytwUser.name ? fns:getUser().name :mediateEvidence.ytwUser.name}"
                                             title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
                                             dataMsgRequired="必填信息"
-                                            allowClear="true" notAllowSelectParent="true" disabled="true"/>
+                                            allowClear="true" isAll="true" notAllowSelectParent="true" disabled="true"/>
                         </td>
                         <td class="tit">书记员：</td>
                         <td>
                             <sys:treeselect id="clerk" name="clerk"
-                                            value="${mediateEvidence.clerk}" labelName="sjy"
-                                            labelValue=""
+                                            value="${empty mediateEvidence.clerk ? fns:getUser().id : mediateEvidence.clerk}" labelName="sjy"
+                                            labelValue="${empty mediateEvidence.clerk ? fns:getUser().name : mediateEvidence.clerk}"
                                             title="用户" url="/sys/office/treeData?type=3&officeType=1"
                                             cssClass="required" dataMsgRequired="必填信息"
-                                            allowClear="true" notAllowSelectParent="true" disabled="true"/>
+                                            allowClear="true" isAll="true" notAllowSelectParent="true" disabled="true"/>
                         </td>
                     </tr>
                     <tr></tr>
@@ -340,14 +377,14 @@
                         <td class="tit">患方：</td>
                         <td colspan="3">
                             <form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge " value="${mediateEvidence.patientAvoid}"/>
+                                        class="input-xlarge " value="${empty mediateEvidence.patientAvoid ? '无' : mediateEvidence.patientAvoid}"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="tit">医方：</td>
                         <td colspan="3">
                             <form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge " value="${mediateEvidence.doctorAvoid}"/>
+                                        class="input-xlarge " value="${empty mediateEvidence.doctorAvoid ? '无' : mediateEvidence.doctorAvoid }"/>
                         </td>
                     </tr>
                     <tr>
@@ -512,18 +549,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="tit" rowspan="2"><span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、以上宣读内容听清楚了吗？</span></td>
+                        <td class="tit" rowspan="2"><span style="color:#333333; font-family:宋体; font-size:12pt; font-weight:normal">六、以上宣读内容听清楚了吗?有异议吗?</span></td>
                         <td class="tit">患者：</td>
                         <td colspan="3">
                             <form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge " value="${mediateEvidence.patientClear}"/>
+                                        class="input-xlarge " value="${empty mediateEvidence.patientClear ? '清楚，无异议' : mediateEvidence.patientClear}"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="tit">医方：</td>
                         <td colspan="3">
                             <form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20"
-                                        class="input-xlarge " value="${mediateEvidence.doctorClear}"/>
+                                        class="input-xlarge " value="${empty mediateEvidence.doctorClear ? '清楚，无异议' :mediateEvidence.doctorClear}"/>
                         </td>
                     </tr>
                     <tr>
@@ -959,7 +996,7 @@
                                 labelName=""
                                 labelValue="${empty mediateEvidence.linkEmployee.name?fns:getUser().name:mediateEvidence.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" allowClear="true"
-                                notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass="required"/>
+                                notAllowSelectParent="true" dataMsgRequired="必填信息" isAll="true" cssClass="required"/>
 
             </td>
 

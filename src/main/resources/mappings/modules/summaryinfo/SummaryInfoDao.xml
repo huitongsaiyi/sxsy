@@ -14,7 +14,8 @@
 		a.handle_time AS "handleTime",
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan",
-		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createBy.id",
+		a.create_by AS "createBy.id",
+		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createUser",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
@@ -41,6 +42,7 @@
 		u2.name AS "linkEmployee.name",
 		au.policy_number AS "auditAcceptance.policyNumber",
 		au.create_date AS "auditAcceptance.createDate",
+		au.insurance_company AS "auditAcceptance.insuranceCompany",
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile",
@@ -51,7 +53,8 @@
 		ra.insurance_pay_amount AS "performAgreement.insurancePayAmount",
 		ra.insurance_pay_time AS "performAgreement.insurancePayTime",
 		ra.claim_settlement_time AS "performAgreement.claimSettlementTime",
-		sm.stop_mediate_id AS "isStop"
+		sm.stop_mediate_id AS "isStop",
+		te.name AS "complaintMainDetail.typeName"
 	</sql>
 	
 	<sql id="summaryInfoJoins">
@@ -60,6 +63,8 @@
         LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
         LEFT JOIN SIGN_AGREEMENT s ON b.complaint_main_id=s.complaint_main_id
         LEFT JOIN PERFORM_AGREEMENT ra ON b.complaint_main_id=ra.complaint_main_id
+        LEFT JOIN COMPLAINT_MAIN_DETAIL cm ON b.complaint_main_id=cm.complaint_main_id
+        LEFT JOIN TEST_TREE te ON te.id = cm.is_major
         LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
         LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
         LEFT JOIN SYS_AREA sa ON sa.id=o.area_id

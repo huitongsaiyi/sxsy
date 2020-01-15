@@ -6,6 +6,8 @@
 		a.mediate_record AS "mediateRecord",
 		a.relation_id AS "relationId",
 		a.time AS "time",
+		a.role_type AS "roleType",
+		a.way AS "way",
 		a.content AS "content",
 		a.result AS "result",
 		a.create_by AS "createBy.id",
@@ -96,6 +98,8 @@
 			mediate_record,
 			relation_id,
 			time,
+			role_type,
+			way,
 			content,
 			result,
 			create_by,
@@ -107,6 +111,8 @@
 			#{mediateRecord},
 			#{relationId},
 			#{time},
+			#{roleType},
+			#{way},
 			#{content},
 			#{result},
 			#{createBy.id},
@@ -120,6 +126,8 @@
 	<update id="update">
 		UPDATE MEDIATE_RECORD SET
 			time = #{time},
+			role_type = #{roleType},
+			way = #{way},
 			content = #{content},
 			result = #{result}
 		WHERE mediate_record = #{mediateRecord}

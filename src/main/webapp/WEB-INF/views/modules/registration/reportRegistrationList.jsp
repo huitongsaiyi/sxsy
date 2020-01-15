@@ -110,10 +110,10 @@
 
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(reportRegistration.createBy.id).office.name}
+						${fns:getUserById(reportRegistration.createUser).office.name}
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(reportRegistration.createBy.id).name}
+						${fns:getUserById(reportRegistration.createUser).name}
 				</td>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq reportRegistration.complaintMain.act.assigneeName}">

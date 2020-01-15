@@ -92,12 +92,12 @@ public class PublicNoticeController {
         Map map=new HashMap();
         map.put("pageNo",page);
         map.put("pageSize",pageSize);
-        map.put("totalPage",totalPage);
+        map.put("totalPage",getTotalPage(totalPage,pageSize));
         map.put("pageData",list);
         R r=new R();
         r.put("RtnCode",0);
         r.put("RtnMsg","success");
-        r.put("RtnData",list);
+        r.put("RtnData",map);
         return r;
     }
     @RequestMapping("getpublicnoticeinfo")
@@ -179,7 +179,7 @@ public class PublicNoticeController {
         //Page<LawCase> pageData= lawCaseApiService.findPage(new Page(pageNo,pageSize),new LawCase());
         List<LawCaseApi> pageData=lawCaseApiService.getPageLawCase(page,pageSize,"1");
         int totalCount=lawCaseApiService.getTotal("1");
-        Double totalPage =getTotalPage(totalCount,pageSize);
+        int totalPage =getTotalPage(totalCount,pageSize);
         Map map=new HashMap();
         map.put("pageNo",page);
         map.put("pageSize",pageSize);
@@ -206,7 +206,7 @@ public class PublicNoticeController {
         //Page<LawCase> pageData= lawCaseApiService.findPage(new Page(pageNo,pageSize),new LawCase());
         List<LawCaseApi> pageData=lawCaseApiService.getPageLawCase(page,pageSize,"2");
         int totalCount=lawCaseApiService.getTotal("2");
-        Double totalPage =getTotalPage(totalCount,pageSize);
+        int totalPage =getTotalPage(totalCount,pageSize);
         Map map=new HashMap();
         map.put("pageNo",page);
         map.put("pageSize",pageSize);
@@ -242,10 +242,10 @@ public class PublicNoticeController {
         r.put("RtnData",lawCase);
         return r;
     }
-    private Double getTotalPage(Integer totalCount,Integer pageSize){
+    private Integer getTotalPage(Integer totalCount,Integer pageSize){
         DecimalFormat df=new DecimalFormat("0.0");//设置保留位数
         String totalPageStr =df.format((float)totalCount/pageSize);
         float totalPage=Float.parseFloat(totalPageStr);
-        return Math.ceil(totalPage);
+        return (int)Math.ceil(totalPage);
     }
 }

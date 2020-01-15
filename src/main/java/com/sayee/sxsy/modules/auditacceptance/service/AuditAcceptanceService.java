@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.google.common.collect.Lists;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.sayee.sxsy.common.config.Global;
@@ -26,6 +27,8 @@ import com.sayee.sxsy.modules.mediateapplyinfo.dao.MediateApplyInfoDao;
 import com.sayee.sxsy.modules.mediateapplyinfo.entity.MediateApplyInfo;
 import com.sayee.sxsy.modules.mediateapplyinfo.service.MediateApplyInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
+import com.sayee.sxsy.modules.sys.entity.Office;
+import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import net.sf.ehcache.constructs.web.filter.FilterServletOutputStream;
@@ -76,7 +79,8 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 	}
 
 	public Page<AuditAcceptance> findPage(Page<AuditAcceptance> page, AuditAcceptance auditAcceptance) {
-		List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+		List<Role> roleList=UserUtils.getRoleList();//获取当前登陆人角色
+		List<String> aa= ObjectUtils.convert(roleList.toArray(),"enname",true);
 		User user=UserUtils.getUser();
 		if (user.isAdmin() || aa.contains("commission") || aa.contains("DirectorOfMediation")){//是管理员  医调委主任 调解部副主任  查看全部
 			//!aa.contains("dept") &&
@@ -92,6 +96,29 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 			}else {
 				list.add(user.getLoginName());
 				auditAcceptance.setList(list);
+			}
+		}else if(aa.contains("szcz") || aa.contains("szjc") || aa.contains("szjz") || aa.contains("szgj") ||aa.contains("szyq") ||aa.contains("szsz") ||aa.contains("szxc") || aa.contains("szdt") || aa.contains("szll") ||aa.contains("szxy") || aa.contains("szyc") ||aa.contains("szlf") ||aa.contains("szybzg") ||aa.contains("szebzg")){
+			List<Office> officeList = Lists.newArrayList();// 按明细设置数据范围s
+			for (Role role:roleList) {
+				for (Office office:role.getOfficeList()) {
+					officeList.add(UserUtils.getOfficeId(office.getId()));//将获得的 明细 添加到list;
+				}
+			}
+			//工作站 主任 副主任 看自己 的员工
+			Set<String> list=new HashSet<String>();
+			for (Office office:officeList) {
+				List<User> listUser=UserUtils.getUserByOffice(office.getId());
+				for (User people:listUser) {
+					list.add(people.getLoginName());
+				}
+			}
+			//添加 自己的loginName
+			list.add(UserUtils.getUser().getLoginName());
+			if (list.size()>0){
+				auditAcceptance.setList(new ArrayList(list));
+			}else {
+				list.add(user.getLoginName());
+				auditAcceptance.setList(new ArrayList(list));
 			}
 		}else {//不是管理员查看自己创建的
 			auditAcceptance.setUser(user);

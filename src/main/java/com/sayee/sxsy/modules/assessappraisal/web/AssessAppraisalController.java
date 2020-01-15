@@ -127,13 +127,15 @@ public class AssessAppraisalController extends BaseController {
 			PatientLinkEmp patientLinkEmp = new PatientLinkEmp();
 			patientLinkEmp.setPatientLinkName(complaintMain.getPatientName());
 			patientLinkEmp.setPatientLinkSex(complaintMain.getPatientSex());
-			patientLinkEmp.setIdNumber(complaintMain.getCaseNumber());
+			patientLinkEmp.setIdNumber(complaintMain.getPatientCard());
 			patientLinkEmpList.add(patientLinkEmp);
 		}
 		if(assessAppraisal.getMedicalOfficeEmpList().size()==0 && complaintMain!=null){
 			MedicalOfficeEmp medicalOfficeEmp = new MedicalOfficeEmp();
 			List<MedicalOfficeEmp> medicalOfficeEmpList = assessAppraisal.getMedicalOfficeEmpList();
 			medicalOfficeEmp.setMedicalOfficeName(complaintMain.getHospital().getName());
+			medicalOfficeEmp.setMedicalOfficeAgent(assessAppraisal.getAuditAcceptance().getMediateApplyInfo().getAgent());
+			medicalOfficeEmp.setMedicalOfficeMobile(assessAppraisal.getAuditAcceptance().getMediateApplyInfo().getHospitalMobile());
 			medicalOfficeEmpList.add(medicalOfficeEmp);
 		}
 
@@ -180,7 +182,16 @@ public class AssessAppraisalController extends BaseController {
 			model.addAttribute("assessAppraisal", assessAppraisal);
 			return "modules/assessappraisal/assessAppraisalView";
 		}else{
+			//如果医院 没有参保 ，则默认是 评估会
 			if(assessAppraisal!=null){
+				if ( StringUtils.isBlank(assessAppraisal.getApplyType())){
+					if ("0".equals(assessAppraisal.getComplaintMain().getHospital().getIsInsured()) ){
+						assessAppraisal.setApplyType("2");
+					}else {
+						assessAppraisal.setApplyType("1");
+					}
+				}
+
 				if(assessAppraisal.getRecordInfo1()==null){
 					RecordInfo recordInfo = new RecordInfo();
 					recordInfo.setRecordContent("(注:以下调解员简称调,患方简称患,医方简称医,医学专家简称医专,法律专家简称法专)\n调:医患双方介绍身份，确认有无要求回避?\n患:\n医:\n调:介绍鉴定委员会成员 ，确认有无要求回避?\n患:\n医:\n调:宣读会议程序及注意事项，问询医患双方是否听清楚?\n患:\n医:\n调:宣布会议开始,请患方代表陈述。\n患:\n调:其他人员有无补充\n患:\n调:请医学专家提问\n医专:\n患:\n医专:\n患:\n调:请法律专家提问\n法专:\n患:\n调:请患方退场,确认笔录,若无异议请签名\n调:请医院代表入场、陈述\n医:\n调:请医学专家提问\n医专:\n医:\n医专:\n医:\n调:请法律专家提问\n法专:\n医:");
@@ -200,6 +211,10 @@ public class AssessAppraisalController extends BaseController {
 //		if (!beanValidator(model, assessAppraisal)&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getComplaintMain())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getRecordInfo1().getYrecordInfo())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())||!beanValidator(model,assessAppraisal.getProposal())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
 //			return form(assessAppraisal, model,request);
 //		}
+		if (!beanValidator(model, assessAppraisal)&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())
+				||!beanValidator(model,assessAppraisal.getProposal())&&"yes".equals(assessAppraisal.getComplaintMain().getAct().getFlag())){
+			return form(assessAppraisal, model,request);
+		}
 		String export=request.getParameter("export");
 		if (StringUtils.isNotBlank(export) && !export.equals("no")){
 			AssessAppraisal assessAppraisal1 = assessAppraisalService.get(assessAppraisal.getAssessAppraisalId());

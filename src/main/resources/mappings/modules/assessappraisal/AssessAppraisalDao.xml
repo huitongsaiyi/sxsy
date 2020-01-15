@@ -21,6 +21,7 @@
 		a.medical_expert AS "medicalExpert",
 		a.legal_expert AS "legalExpert",
 		a.other AS "other",
+		a.calculated_amount AS "calculatedAmount",
 		a.handle_people AS "handlePeople",
 		a.handle_time AS "handleTime",
 		a.doctor_clear AS "doctorClear",
@@ -29,7 +30,8 @@
 		a.doctor_avoid AS "doctorAvoid",
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan",
-		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createBy.id",
+		a.create_by  AS "createBy.id",
+		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createUser",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
@@ -51,12 +53,16 @@
 		b.is_major AS "complaintMain.isMajor",
 		sa.name AS "area.name",
 		o.name AS "complaintMain.hospital.name",
+		o.is_insured AS "complaintMain.hospital.isInsured",
 		o1.name AS "complaintMain.department.name",
 		u1.name AS "complaintMain.employee.name",
 		u2.name AS "linkEmployee.name",
 		au.policy_number AS "auditAcceptance.policyNumber",
 		au.create_date AS "auditAcceptance.createDate",
         au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
+        au.insurance_company AS "auditAcceptance.insuranceCompany",
+        ma.agent AS "auditAcceptance.mediateApplyInfo.agent",
+        ma.hospital_mobile AS "auditAcceptance.mediateApplyInfo.hospitalMobile",
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile",
@@ -103,6 +109,7 @@
 	<sql id="assessAppraisalJoins">
 		LEFT JOIN ASSESS_APPRAISAL a on a.complaint_main_id = b.complaint_main_id
 		LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
+		LEFT JOIN MEDIATE_APPLY_INFO ma on ma.audit_acceptance_id = au.audit_acceptance_id AND ma.apply_type='2'
 		LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
 		LEFT JOIN PROPOSAL p ON p.assess_appraisal_id=a.assess_appraisal_id
@@ -209,6 +216,7 @@
 		medical_expert,
 		legal_expert,
 		other,
+		calculated_amount,
 		handle_people,
 		handle_time,
 		doctor_clear ,
@@ -244,6 +252,7 @@
 		#{medicalExpert},
 		#{legalExpert},
 		#{other},
+		#{calculatedAmount},
 		#{handlePeople},
 		#{handleTime},
 		#{doctorClear} ,
@@ -283,6 +292,7 @@
 			medical_expert = #{medicalExpert},
 			legal_expert = #{legalExpert},
 			other = #{other},
+			calculated_amount = #{calculatedAmount},
 			handle_people = #{handlePeople},
 			handle_time = #{handleTime},
 			doctor_clear = #{doctorClear},

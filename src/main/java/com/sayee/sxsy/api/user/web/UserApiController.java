@@ -4,16 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sayee.sxsy.api.common.HttpRequest;
 import com.sayee.sxsy.api.common.R;
+import com.sayee.sxsy.api.complain.entity.ComplaintApi;
 import com.sayee.sxsy.api.main.entity.MainApi;
 import com.sayee.sxsy.api.main.service.MainApiService;
+import com.sayee.sxsy.api.mediate.entity.Mediate;
+import com.sayee.sxsy.api.mediate.service.MediateApiService;
 import com.sayee.sxsy.api.user.entity.Communicate;
 import com.sayee.sxsy.api.user.entity.UserApiEntity;
 import com.sayee.sxsy.api.user.entity.UserInfo;
 import com.sayee.sxsy.api.user.service.UserApiService;
 import com.sayee.sxsy.common.security.Digests;
 import com.sayee.sxsy.common.utils.Encodes;
-import com.sayee.sxsy.modules.sys.service.SystemService;
-import org.activiti.engine.impl.json.JsonObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,8 @@ public class UserApiController{
     private UserApiService userApiService;
     @Autowired
     private MainApiService mainApiService;
+    @Autowired
+    private MediateApiService mediateApiService;
     /*登录*/
     @RequestMapping("wxlogin")
     @ResponseBody
@@ -70,67 +73,27 @@ public class UserApiController{
                     String openId=json.getString("openid");
                     UserInfo userInfo=userApiService.getUserInfoByOpenId(openId);
                     if(null!=userInfo){
-                        int userType=userInfo.getUserType();//1医院用户 2 医调委用户 3 普通用户
-                        String wechatUserId =userInfo.getWechatUserId();
                         Map map=new HashMap();
-                        map.put("userInfo",userInfo);
-                        int complaintCount=0;
-                        int complaintToYtwCount=0;
-                        int complaintToOthersCount=0;
-                        Integer[] mediateInfoCount;
-                        if(userType==1){
-                            //医院用户
-                            mediateInfoCount=userApiService.getMediateInfoCount(wechatUserId,userType);
-                            for(int count:mediateInfoCount){
-                                if(count==2){
-                                    complaintToYtwCount++;
-                                }else if(count==0){
-                                    complaintCount++;
-                                }else{
-                                    complaintToOthersCount++;
-                                }
-                            }
-                            map.put("complaintCount",complaintCount);
-                            map.put("complaintToYtwCount",complaintToYtwCount);
-                            map.put("complaintToOthersCount",complaintToOthersCount);
-                        }else if(userType ==2){
-                            //医调委用户
-                            int mediateCountForYtw=userApiService.getMediateCountForYtw(wechatUserId);
-                            int assessCount= userApiService.getAssessCount(wechatUserId);
-                            int assessInfoCount=userApiService.getAssessInfoCount(wechatUserId);
-                            map.put("mediateCountForYtw",mediateCountForYtw);
-                            map.put("assessCount",assessCount);
-                            map.put("assessInfoCount",assessInfoCount);
-                        }else{
-                            mediateInfoCount=userApiService.getMediateInfoCount(wechatUserId,userType);
-                            for(int count:mediateInfoCount){
-                                if(count==2){
-                                    complaintToYtwCount++;
-                                }else{
-                                    complaintCount++;
-                                }
-                            }
-                            int consultCount=userApiService.getConsultCount(wechatUserId);
-                            map.put("consultCount",consultCount);
-                            map.put("complaintCount",complaintCount);
-                            map.put("complaintToYtwCount",complaintToYtwCount);
-                        }
+                        map.put("wechatUserId",userInfo.getWechatUserId());
                         R r=new R();
                         r.put("RtnCode",0);
                         r.put("RtnMsg","success");
-                        r.put("RtnData",userInfo);
+                        r.put("RtnData",map);
                         return r;
                     }else {
+                        Map map=new HashMap();
                         UserApiEntity userApiEntity = new UserApiEntity();
                         userApiEntity.setOpenId(openId);
                         userApiEntity.preInsert();
                         String wechatUserId = userApiEntity.getId();
                         userApiEntity.setWechatUserId(wechatUserId);
+                        userApiEntity.setUserType(0);
                         userApiEntity.setCreateDate(new Date());
                         userApiEntity.setUpdateDate(new Date());
                         userApiService.save(userApiEntity);
                         UserInfo userInfo1=new UserInfo();
                         userInfo1.setWechatUserId(wechatUserId);
+                        map.put("userInfo",userInfo1);
                         R r = new R();
                         r.put("RtnCode", 0);
                         r.put("RtnMsg", "success");
@@ -157,17 +120,17 @@ public class UserApiController{
             int userType=userInfo.getUserType();//1医院用户 2 医调委用户 3 普通用户
             Map map=new HashMap();
             map.put("userInfo",userInfo);
-            int complaintCount=0;
-            int complaintToYtwCount=0;
-            int complaintToOthersCount=0;
-            Integer[] mediateInfoCount;
             if(userType==1){
                 //医院用户
-                mediateInfoCount=userApiService.getMediateInfoCount(wechatUserId,userType);
-                for(int count:mediateInfoCount){
-                    if(count==2){
+                int complaintToYtwCount=0;
+                int complaintCount=0;
+                int complaintToOthersCount=0;
+                List<ComplaintApi> dataList3=mediateApiService.getComplaintList(wechatUserId);
+                for(int i=0;i<dataList3.size();i++){
+                    String handleWay=dataList3.get(i).getHandleWay();
+                    if(handleWay.equals("2")){
                         complaintToYtwCount++;
-                    }else if(count==0){
+                    }else if(handleWay.equals("0")){
                         complaintCount++;
                     }else{
                         complaintToOthersCount++;
@@ -178,22 +141,36 @@ public class UserApiController{
                 map.put("complaintToOthersCount",complaintToOthersCount);
             }else if(userType ==2){
                 //医调委用户
-                int mediateCountForYtw=userApiService.getMediateCountForYtw(wechatUserId);
-                int assessCount= userApiService.getAssessCount(wechatUserId);
-                int assessInfoCount=userApiService.getAssessInfoCount(wechatUserId);
+                List<Mediate> dataList1=mediateApiService.mediateCommenFindList(wechatUserId);
+                int mediateCountForYtw=0;
+                int assessCount= 0;
+                int assessInfoCount=0;
+                for(int i=0;i<dataList1.size();i++){
+                    String actName=dataList1.get(i).getActName();
+                    if(actName.equals("报案登记")||actName.equals("审核受理")||actName.equals("调查取证")||actName.equals("质证调解")){
+                        mediateCountForYtw++;
+                    }else if(actName.equals("评估鉴定")||actName.equals("达成调解")||actName.equals("签署协议")||actName.equals("履行协议")){
+                        assessCount++;
+                    }else{
+                        assessInfoCount++;
+                    }
+                }
                 map.put("mediateCountForYtw",mediateCountForYtw);
                 map.put("assessCount",assessCount);
                 map.put("assessInfoCount",assessInfoCount);
             }else{
-                mediateInfoCount=userApiService.getMediateInfoCount(wechatUserId,userType);
-                for(int count:mediateInfoCount){
-                    if(count==2){
+                int consultCount=userApiService.getConsultCount(wechatUserId);
+                int complaintCount=0;
+                int complaintToYtwCount=0;
+                List<ComplaintApi> dataList2=mediateApiService.getComplaintList(wechatUserId);
+                for(int i=0;i<dataList2.size();i++){
+                    String handleWay=dataList2.get(i).getHandleWay();
+                    if(handleWay.equals("2")){
                         complaintToYtwCount++;
                     }else{
                         complaintCount++;
                     }
                 }
-                int consultCount=userApiService.getConsultCount(wechatUserId);
                 map.put("consultCount",consultCount);
                 map.put("complaintCount",complaintCount);
                 map.put("complaintToYtwCount",complaintToYtwCount);
@@ -212,26 +189,32 @@ public class UserApiController{
         }
     }
     /*用户信息修改账号绑定*/
+
     @RequestMapping("changeuserinfo")
     @ResponseBody
     public R changeUserInfo(@RequestBody JSONObject jsonObject){
         UserApiEntity userApiEntity=JSON.toJavaObject(jsonObject,UserApiEntity.class);
-        int userType=null==userApiEntity.getUserType()?0:userApiEntity.getUserType();
-        String wechatUserId=userApiEntity.getWechatUserId();
-        userApiEntity.setUserType(userType);
+        String wechatUserId=jsonObject.getString("wechatUserId");
+        //获取用户信息
+        UserInfo userInfo=userApiService.getUserInfoByUserId(wechatUserId);
+        userInfo.setAvatarUrl(jsonObject.getString("avatarUrl"));
+        userInfo.setNickName(jsonObject.getString("nickName"));
+        int userType=userInfo.getUserType();
+        //String wechatUserId=userApiEntity.getWechatUserId();
+        //userApiEntity.setUserType(userType);
         Map map=new HashMap();
-        map.put("userInfo",userApiEntity);
-        int complaintCount=0;
-        int complaintToYtwCount=0;
-        int complaintToOthersCount=0;
-        Integer[] mediateInfoCount;
+        map.put("userInfo",userInfo);
         if(userType==1){
             //医院用户
-            mediateInfoCount=userApiService.getMediateInfoCount(wechatUserId,userType);
-            for(int count:mediateInfoCount){
-                if(count==2){
+            int complaintToYtwCount=0;
+            int complaintCount=0;
+            int complaintToOthersCount=0;
+            List<ComplaintApi> dataList3=mediateApiService.getComplaintList(wechatUserId);
+            for(int i=0;i<dataList3.size();i++){
+                String handleWay=dataList3.get(i).getHandleWay();
+                if(handleWay.equals("2")){
                     complaintToYtwCount++;
-                }else if(count==0){
+                }else if(handleWay.equals("0")){
                     complaintCount++;
                 }else{
                     complaintToOthersCount++;
@@ -242,22 +225,36 @@ public class UserApiController{
             map.put("complaintToOthersCount",complaintToOthersCount);
         }else if(userType ==2){
             //医调委用户
-            int mediateCountForYtw=userApiService.getMediateCountForYtw(wechatUserId);
-            int assessCount= userApiService.getAssessCount(wechatUserId);
-            int assessInfoCount=userApiService.getAssessInfoCount(wechatUserId);
+            List<Mediate> dataList1=mediateApiService.mediateCommenFindList(wechatUserId);
+            int mediateCountForYtw=0;
+            int assessCount= 0;
+            int assessInfoCount=0;
+            for(int i=0;i<dataList1.size();i++){
+                String actName=dataList1.get(i).getActName();
+                if(actName.equals("报案登记")||actName.equals("审核受理")||actName.equals("调查取证")||actName.equals("质证调解")){
+                    mediateCountForYtw++;
+                }else if(actName.equals("评估鉴定")||actName.equals("达成调解")||actName.equals("签署协议")||actName.equals("履行协议")){
+                    assessCount++;
+                }else{
+                    assessInfoCount++;
+                }
+            }
             map.put("mediateCountForYtw",mediateCountForYtw);
             map.put("assessCount",assessCount);
             map.put("assessInfoCount",assessInfoCount);
         }else{
-            mediateInfoCount=userApiService.getMediateInfoCount(wechatUserId,userType);
-            for(int count:mediateInfoCount){
-                if(count==2){
+            int consultCount=userApiService.getConsultCount(wechatUserId);
+            int complaintCount=0;
+            int complaintToYtwCount=0;
+            List<ComplaintApi> dataList2=mediateApiService.getComplaintList(wechatUserId);
+            for(int i=0;i<dataList2.size();i++){
+                String handleWay=dataList2.get(i).getHandleWay();
+                if(handleWay.equals("2")){
                     complaintToYtwCount++;
                 }else{
                     complaintCount++;
                 }
             }
-            int consultCount=userApiService.getConsultCount(wechatUserId);
             map.put("consultCount",consultCount);
             map.put("complaintCount",complaintCount);
             map.put("complaintToYtwCount",complaintToYtwCount);
@@ -284,18 +281,30 @@ public class UserApiController{
     public R organizationBind(@RequestBody JSONObject jsonObject){
         String accountNumber=jsonObject.getString("accountNumber");
         String password=jsonObject.getString("password");
+        int userType=Integer.valueOf(jsonObject.getString("userType"));
         Map userMap=userApiService.getUser(accountNumber);
+        String wechatUserId=jsonObject.getString("wechatUserId");
         if(null!=userMap){
             boolean checkPassword=validatePassword(password,userMap.get("password").toString());
             if(checkPassword){
-                UserApiEntity userApiEntity=JSON.toJavaObject(jsonObject,UserApiEntity.class);
-                userApiEntity.setSysUserId(userMap.get("id").toString());
-                userApiService.update(userApiEntity);
-                R r=new R();
-                r.put("RtnCode",0);
-                r.put("RtnMsg","success");
-                r.put("RtnData","");
-                return r;
+                try {
+                    UserApiEntity userApiEntity = JSON.toJavaObject(jsonObject, UserApiEntity.class);
+                    userApiEntity.setSysUserId(userMap.get("id").toString());
+                    userApiEntity.setUserType(userType);
+                    userApiEntity.setWechatUserId(wechatUserId);
+                    userApiService.organizationBind(userApiEntity);
+                    R r=new R();
+                    r.put("RtnCode",0);
+                    r.put("RtnMsg","success");
+                    r.put("RtnData","");
+                    return r;
+                }catch(Exception e){
+                    R r=new R();
+                    r.put("RtnCode",3);
+                    r.put("RtnMsg","绑定失败");
+                    r.put("RtnData","");
+                    return r;
+                }
             }else{
                 R r=new R();
                 r.put("RtnCode",2);
@@ -315,10 +324,10 @@ public class UserApiController{
     @RequestMapping("changestatu")
     @ResponseBody
     public R changeStatu(@RequestBody JSONObject jsonObject){
-        String uid=jsonObject.getString("wechatUserid");
+        String wechatUserid=jsonObject.getString("wechatUserid");
         String statu=jsonObject.getString("statu");
         Map map=new HashMap<>();
-        map.put("uid",uid);
+        map.put("uid",wechatUserid);
         map.put("statu",statu);
         userApiService.changeStatu(map);
         R r=new R();

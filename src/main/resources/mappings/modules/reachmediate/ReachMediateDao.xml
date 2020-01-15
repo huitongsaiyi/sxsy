@@ -17,7 +17,8 @@
 		a.handle_time AS "handleTime",
 		a.next_link AS "nextLink",
 		a.next_link_man AS "nextLinkMan",
-		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createBy.id",
+		a.create_by AS "createBy.id",
+		if(a.create_by IS NULL,au.create_by,a.create_by) AS "createUser",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
@@ -63,6 +64,7 @@
          r1.report_emp AS "reportRegistration.reportEmp",
          au.create_date AS "auditAcceptance.createDate",
          au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
+         au.insurance_company AS "auditAcceptance.insuranceCompany",
          o.id AS "recordInfo.ytwHost.office.id",
          uz.name AS "recordInfo.ytwHost.name",
          uj.name AS "recordInfo.ytwNoteTaker.name",
@@ -76,12 +78,15 @@
          o3.name AS "doctorOffice.name",
          aa.responsibility_ratio AS "assessAppraisal.responsibilityRatio",
          aa.scale AS "assessAppraisal.scale",
-         aa.eighteen_items AS "assessAppraisal.eighteenItems"
+         aa.eighteen_items AS "assessAppraisal.eighteenItems",
+         aa.calculated_amount AS "assessAppraisal.calculatedAmount",
+         p.proposal_code AS "assessAppraisal.proposal.proposalCode"
 	</sql>
 	
 	<sql id="reachMediateJoins">
 		LEFT JOIN REACH_MEDIATE a ON a.complaint_main_id = b.complaint_main_id
 		LEFT JOIN ASSESS_APPRAISAL aa ON aa.complaint_main_id = b.complaint_main_id
+		LEFT JOIN PROPOSAL p ON p.assess_appraisal_id=aa.assess_appraisal_id
 		LEFT JOIN RECORD_INFO r ON r.relation_id = a.reach_mediate_id and r.type='1'
 		LEFT JOIN SYS_USER uz ON uz.id = r.host
 		LEFT JOIN SYS_USER uj ON uj.id=r.note_taker

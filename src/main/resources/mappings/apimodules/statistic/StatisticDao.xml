@@ -39,7 +39,7 @@
 
     <!--主任查看的(投诉数量统计)案件分类统计-->
     <select id="findTypeInfo" resultType="java.util.Map">
-        SELECT CONCAT('\'',t.name,'\'') typeName,COUNT(t.name) num,CONCAT('\'',t.id,'\'') typeId
+        SELECT CONCAT('\'',t.name,'\'') name,COUNT(t.name) value,CONCAT('\'',t.id,'\'') typeId
         FROM COMPLAINT_MAIN_DETAIL c
         LEFT JOIN TEST_TREE t on c.is_major=t.id
         LEFT JOIN COMPLAINT_MAIN cc on c.complaint_main_id=cc.complaint_main_id
@@ -69,7 +69,7 @@
 
     <!--主任查看的(调解数量统计)案件分类统计-->
     <select id="findTypeInfoTj" resultType="java.util.Map">
-        SELECT CONCAT('\'',t.name,'\'') typeName,COUNT(t.name) num,CONCAT('\'',t.id,'\'') typeId
+        SELECT CONCAT('\'',t.name,'\'') name,COUNT(t.name) value,CONCAT('\'',t.id,'\'') typeId
         FROM AUDIT_ACCEPTANCE aa
         LEFT JOIN COMPLAINT_MAIN_DETAIL c on aa.complaint_main_id=c.complaint_main_id
         LEFT JOIN COMPLAINT_MAIN cc on aa.complaint_main_id=cc.complaint_main_id
@@ -156,7 +156,7 @@
     </select>
 
     <select id="getEveryMonthData" resultType="java.util.Map">
-        SELECT COUNT(visitor_date) num,CONCAT('\'',SUBSTRING_INDEX(visitor_date,'-',2),'\'') monthDate
+        SELECT COUNT(visitor_date) value,CONCAT('\'',SUBSTRING_INDEX(visitor_date,'-',2),'\'') name
         FROM COMPLAINT_MAIN_DETAIL c
         LEFT JOIN COMPLAINT_MAIN a on c.complaint_main_id=a.complaint_main_id
         WHERE
@@ -184,7 +184,7 @@
     </select>
 
     <select id="getEveryMonthDataTj" resultType="java.util.Map">
-        SELECT COUNT(reporting_time) num,CONCAT('\'',SUBSTRING_INDEX(reporting_time,'-',2),'\'') monthDate
+        SELECT COUNT(reporting_time) value,CONCAT('\'',SUBSTRING_INDEX(reporting_time,'-',2),'\'') name
         FROM MACHINE_ACCOUNT c
         WHERE
         <choose>
@@ -270,7 +270,7 @@
     </select>
 
     <select id="findDepartment" resultType="java.util.Map">
-        SELECT  concat('\'',t.`name`,'\'')  name, count(a.involve_department) as department
+        SELECT  concat('\'',t.`name`,'\'')  name, count(a.involve_department) as value
         FROM COMPLAINT_MAIN_DETAIL c
         LEFT JOIN COMPLAINT_MAIN a on c.complaint_main_id=a.complaint_main_id
         LEFT JOIN TEST_TREE t ON t.id = a.involve_department
@@ -300,7 +300,7 @@
     </select>
 
     <select id="findDepartmentTj" resultType="java.util.Map">
-        SELECT concat('\'',IF(c.name is null or c.name='','无涉及专业',c.name),'\'') AS name,COUNT(1) AS department from(
+        SELECT concat('\'',IF(c.name is null or c.name='','无涉及专业',c.name),'\'') AS name,COUNT(1) AS value from(
         SELECT
         substring_index( substring_index( trim(REPLACE(REPLACE(a.related_major, CHAR(10), ''), CHAR(13), '')), '+', b.help_topic_id + 1 ), '+',- 1 ) NAME ,a.reporting_time,a.hospital_id
         FROM

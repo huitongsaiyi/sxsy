@@ -113,7 +113,7 @@
 						</td>
 						<td class="tit" width="180px">访客电话：</td>
 						<td >
-							<form:input path="visitorMobile" htmlEscape="false" maxlength="15" class="input-xlarge mobile"/>
+							<form:input path="visitorMobile" htmlEscape="false" maxlength="15" class="input-xlarge phone"/>
 						</td>
 					</tr>
 					<tr >
@@ -191,7 +191,7 @@
 		<tr >
 			<td class="tit" width="160px"><font color="red">*</font>案件编号：</td>
 			<td width="476px">
-				<form:input path="caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+				<form:input path="caseNumber" htmlEscape="false" maxlength="20" readonly="true" class="input-xlarge required"/>
 			</td>
 			<td class="tit" width="180px"><font color="red">*</font>来访日期：</td>
 			<td >
@@ -275,27 +275,27 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="tit"><font color="red">*</font>处理结果：</td>
+			<td class="tit">处理结果：</td>
 			<td colspan="3">
-				<form:textarea path="handleResult" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+				<form:textarea path="handleResult" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="tit"><font color="red">*</font>结案方式：</td>
+			<td class="tit">结案方式：</td>
 			<td colspan="3">
-				<form:textarea path="closingMethod" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+				<form:textarea path="closingMethod" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="tit"><font color="red">*</font>结案预期：</td>
+			<td class="tit">结案预期：</td>
 			<td >
-				<input name="expectedClosure" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+				<input name="expectedClosure" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 					   value="${complaintInfo.expectedClosure}"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 			</td>
-			<td class="tit"><font color="red">*</font>涉及金额：</td>
+			<td class="tit">涉及金额：</td>
 			<td >
-				<form:input path="amountInvolved" htmlEscape="false" maxlength="50" class="input-xlarge required number" onchange="money(this.value);"/>
+				<form:input path="amountInvolved" htmlEscape="false" maxlength="50" class="input-xlarge  number" onchange="money(this.value);"/>
 			</td>
 		</tr>
 
@@ -303,7 +303,7 @@
 			<td class="tit"><font color="red">*</font>接待人员：</td>
 			<td >
 				<%--<form:input path="receptionEmployee" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
-				<sys:treeselect id="receptionEmployee" name="receptionEmployee" value="${complaintInfo.receptionEmployee}" labelName="employee.name" labelValue="${complaintInfo.employee.name}"
+				<sys:treeselect id="receptionEmployee" name="receptionEmployee" value="${empty complaintInfo.receptionEmployee ? fns:getUser().id : complaintInfo.receptionEmployee}" labelName="employee.name" labelValue="${empty complaintInfo.employee.name ?fns:getUser().name : complaintInfo.employee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" isAll="true" cssClass="input-big required" dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 

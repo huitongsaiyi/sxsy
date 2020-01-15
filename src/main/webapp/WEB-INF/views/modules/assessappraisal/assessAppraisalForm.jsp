@@ -10,15 +10,22 @@
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					var aa=$("#export").val();
-					if(aa=='no') {
-						loading('正在提交，请稍等...');
+					var bb=$("#flag").val();
+					var cc=$("#startTime").val();
+					if(bb=='yes' && (cc=='' || cc== undefined) ) {
+						alertx("请选择评估鉴定会议时间！");
+					}else{
+						if(aa=='no') {
+							loading('正在提交，请稍等...');
+						}
+						$("input[type=checkbox]").each(function(){
+							$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
+									+($(this).attr("checked")?"1":"0")+"\"/>");
+							$(this).attr("name", "_"+$(this).attr("name"));
+						});
+						form.submit();
 					}
-					$("input[type=checkbox]").each(function(){
-						$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
-								+($(this).attr("checked")?"1":"0")+"\"/>");
-						$(this).attr("name", "_"+$(this).attr("name"));
-					});
-					form.submit();
+
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
@@ -129,50 +136,58 @@
 		function delRow(obj, prefix,key){
 			var id = $(prefix+key);
 			var delFlag = $(prefix+"_delFlag");
-			if (id.val() == ""){
+            if (id.val() == ""){
 				$(obj).parent().parent().remove();
-			}else if(delFlag.val() == "0"){
+			}
+			if(delFlag.val() == "0"){
 				delFlag.val("1");
 				$(obj).html("&divide;").attr("title", "撤销删除");
 				$(obj).parent().parent().addClass("error");
+                $("#a1").show();
 			}else if(delFlag.val() == "1"){
 				delFlag.val("0");
 				$(obj).html("&times;").attr("title", "删除");
 				$(obj).parent().parent().removeClass("error");
-			}
-			$("#a1").show();
+                $("#a1").hide();
+            }
 		}
 		function delRow2(obj, prefix,key){
 			var id = $(prefix+key);
 			var delFlag = $(prefix+"_delFlag");
 			if (id.val() == ""){
 				$(obj).parent().parent().remove();
-			}else if(delFlag.val() == "0"){
+			}
+			if(delFlag.val() == "0"){
 				delFlag.val("1");
 				$(obj).html("&divide;").attr("title", "撤销删除");
 				$(obj).parent().parent().addClass("error");
+                $("#a2").show();
 			}else if(delFlag.val() == "1"){
 				delFlag.val("0");
 				$(obj).html("&times;").attr("title", "删除");
 				$(obj).parent().parent().removeClass("error");
+                $("#a2").hide();
 			}
-			$("#a2").show();
+
 		}
 		function delRow3(obj, prefix,key){
 			var id = $(prefix+key);
 			var delFlag = $(prefix+"_delFlag");
 			if (id.val() == ""){
 				$(obj).parent().parent().remove();
-			}else if(delFlag.val() == "0"){
+			}
+			if(delFlag.val() == "0"){
 				delFlag.val("1");
 				$(obj).html("&divide;").attr("title", "撤销删除");
 				$(obj).parent().parent().addClass("error");
+                $("#a3").show();
 			}else if(delFlag.val() == "1"){
 				delFlag.val("0");
 				$(obj).html("&times;").attr("title", "删除");
 				$(obj).parent().parent().removeClass("error");
+                $("#a3").hide();
 			}
-			$("#a3").show();
+
 		}
 		function show_input(vas,idss){
 			var a=${fns:toJson(fns:getDictList('assessmentAppraisal'))}
@@ -322,7 +337,7 @@
 				<tr>
 					<td class="tit">时间</td>
 					<td>
-						<input name="recordInfo1.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+						<input id="startTime" name="recordInfo1.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${assessAppraisal.recordInfo1.startTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" id="time3" onchange="show_input(this.value,'time1')" style="width:280px;text-align: center;"/>
 					</td>
@@ -336,7 +351,10 @@
 				<tr>
 					<td class="tit">地点</td>
 					<td colspan="4">
-						<form:input path="recordInfo1.recordAddress" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width:280px;"/>
+						<form:select path="recordInfo1.recordAddress" class="input-medium" cssStyle="text-align:center;width: 15%;" onchange="show_input(this.value,'a')">
+							<form:options items="${fns:getDictList('meeting')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
+						<%--<form:input path="" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width:280px;"/>--%>
 					</td>
 				</tr>
 				<tr>
@@ -365,13 +383,13 @@
 				<tr>
 					<td class="tit">主持人:</td>
 					<td>
-						<sys:treeselect id="host" name="host" value="${assessAppraisal.host}" labelName="${assessAppraisal.host}" labelValue="${assessAppraisal.hosts.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required" dataMsgRequired="请选择主持人" allowClear="true" notAllowSelectParent="true" cssStyle="width:225px;text-align: center "/>
+						<sys:treeselect id="host" name="host" value="${empty assessAppraisal.host ? fns:getUser().id : assessAppraisal.host}" labelName="${assessAppraisal.host}" labelValue="${empty  assessAppraisal.hosts.name ? fns:getUser().name : assessAppraisal.hosts.name}"
+										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required" dataMsgRequired="请选择主持人" allowClear="true" isAll="true" notAllowSelectParent="true" cssStyle="width:225px;text-align: center "/>
 					</td>
 					<td class="tit">书记员:</td>
 					<td>
 						<sys:treeselect id="clerk" name="clerk" value="${assessAppraisal.clerk}" labelName="clerk2" labelValue="${assessAppraisal.clerks.name}"
-										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required" dataMsgRequired="请选择书记员" allowClear="true" notAllowSelectParent="true" cssStyle="width:225px;text-align: center"/>
+										title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required" dataMsgRequired="请选择书记员" allowClear="true" isAll="true" notAllowSelectParent="true" cssStyle="width:225px;text-align: center"/>
 					</td>
 				</tr>
 				<tr>
@@ -393,14 +411,14 @@
 					<td class="tit">患方:</td>
 					<td colspan="2">
 						<form:input id="patientAvoid" path="patientAvoid" htmlEscape="false" maxlength="20"
-									class="input-xlarge required" value="${assessAppraisal.patientAvoid}"/>
+									class="input-xlarge required" value="${empty assessAppraisal.patientAvoid ? '无' : assessAppraisal.patientAvoid}"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="2">
 						<form:input id="doctorAvoid" path="doctorAvoid" htmlEscape="false" maxlength="20"
-									class="input-xlarge required" value="${assessAppraisal.doctorAvoid}"/>
+									class="input-xlarge required" value="${empty assessAppraisal.doctorAvoid ? '无' : assessAppraisal.doctorAvoid}"/>
 					</td>
 				</tr>
 				<tr>
@@ -503,14 +521,14 @@
 					<td class="tit">患方:</td>
 					<td colspan="2">
 						<form:input id="patientClear" path="patientClear" htmlEscape="false" maxlength="20"
-									class="input-xlarge required" value="${assessAppraisal.patientClear}"/>
+									class="input-xlarge required" value="${empty assessAppraisal.patientClear ? '清楚了,无异议' : assessAppraisal.patientClear}"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="2">
 						<form:input id="doctorClear" path="doctorClear" htmlEscape="false" maxlength="20"
-									class="input-xlarge required" value="${assessAppraisal.doctorClear}"/>
+									class="input-xlarge required" value="${empty assessAppraisal.doctorClear ? '清楚了,无异议' : assessAppraisal.doctorClear}"/>
 					</td>
 				</tr>
 				<tr>
@@ -931,8 +949,14 @@
 					<td class="tit">
 						法律顾问分析：
 					</td>
-					<td colspan="3">
-						<form:input path="legalExpert" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;"/>
+					<td >
+						<form:input path="legalExpert" htmlEscape="false" maxlength="500" class="input-xlarge required" cssStyle="width: 560px;"/>
+					</td>
+					<td class="tit">
+						计算金额：
+					</td>
+					<td>
+						<form:input path="calculatedAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10" />
 					</td>
 				</tr>
 				<tr>
@@ -940,7 +964,7 @@
 						其他：
 					</td>
 					<td colspan="3">
-						<form:input path="other" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 560px;"/>
+						<form:input path="other" htmlEscape="false" maxlength="200" class="input-xlarge required" cssStyle="width: 560px;"/>
 					</td>
 				</tr>
 
@@ -1050,9 +1074,13 @@
 							<td>
                         		<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini">
 									<option value=""></option>
-									<option value="1"  >亲人</option>
-									<option value="2"  >朋友</option>
-									<option value="3"  >代理人</option>
+									<option value="1">本人</option>
+									<option value="2">夫妻</option>
+									<option value="3">子女</option>
+									<option value="4">父母</option>
+									<option value="5">兄妹</option>
+									<option value="6">亲属</option>
+									<option value="7">其他</option>
 								</select>
 							</td>
 							<td>
@@ -1311,7 +1339,7 @@
 			</td>
 			<td>
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty assessAppraisal.nextLinkMan?fns:getUser().id:assessAppraisal.nextLinkMan}" labelName="" labelValue="${empty assessAppraisal.linkEmployee.name?fns:getUser().name:assessAppraisal.linkEmployee.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" />
+								title="用户" url="/sys/office/treeData?type=3&officeType=1" isAll="true" dataMsgRequired="必填信息" cssClass="required" allowClear="true" notAllowSelectParent="true" />
 			</td>
 		</tr>
 	</table>

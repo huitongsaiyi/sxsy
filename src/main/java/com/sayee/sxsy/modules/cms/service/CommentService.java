@@ -4,8 +4,10 @@
 package com.sayee.sxsy.modules.cms.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sayee.sxsy.api.user.service.UserApiService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,8 @@ import java.util.Date;
 @Service
 @Transactional(readOnly = true)
 public class CommentService extends CrudService<CommentDao, Comment> {
+	@Autowired
+	private UserApiService userApiService;
 
 	public Page<Comment> findPage(Page<Comment> page, Comment comment) {
 //		DetachedCriteria dc = commentDao.createDetachedCriteria();
@@ -50,7 +54,9 @@ public class CommentService extends CrudService<CommentDao, Comment> {
 	public void save(Comment comment, JSONObject jsonObject) {
 		String satisfiedId=jsonObject.getString("id");//如果以后修改就需要传 主键，根据主键判断是添加 还是修改
 		comment.preInsert();
-		String uid=jsonObject.getString("uid");
+		String wechatUserId = jsonObject.getString("wechatUserId");
+		String uid = userApiService.getSysUserId(wechatUserId);
+		//String uid=jsonObject.getString("uid");
 		String content=jsonObject.getString("content");//投诉建议内容
 		comment.setContent(content);
 

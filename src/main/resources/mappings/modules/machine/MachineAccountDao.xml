@@ -49,11 +49,13 @@
 		u5.name AS "createBy.name",
 		u6.name AS "updateBy.name",
 		o4.name AS "hospital.name",
+		tt.name AS "relatedName",
 		t.NAME_ AS "nodeName"
 	</sql>
 
 	<sql id="machineAccountJoins">
 		LEFT JOIN SYS_OFFICE o3 ON o3.id = a.dept_id
+		LEFT JOIN TEST_TREE tt ON tt.id = a.related_major
 		LEFT JOIN SYS_USER u4 ON u4.id = a.mediator_id
 		LEFT JOIN SYS_USER u5 ON u5.id = a.create_by
 		LEFT JOIN SYS_USER u6 ON u6.id = a.update_by

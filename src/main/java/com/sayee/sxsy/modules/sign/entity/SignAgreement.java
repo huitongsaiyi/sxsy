@@ -4,6 +4,7 @@
 package com.sayee.sxsy.modules.sign.entity;
 
 import com.google.common.collect.Lists;
+import com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
@@ -69,7 +70,18 @@ public class SignAgreement extends DataEntity<SignAgreement> {
     private MachineAccount machineAccount;//台账信息
     private RecordInfo recordInfo;//签署协议会议记录
 	private MediateProgram mediateProgram;//调解程序表
+	private AssessAppraisal assessAppraisal;//调解程序表
 	private List<String> list;//工作站人员list
+
+	private String createUser;  //创建人员id
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
 
 	public List<String> getList() {
 		return list;
@@ -78,12 +90,21 @@ public class SignAgreement extends DataEntity<SignAgreement> {
 	public void setList(List<String> list) {
 		this.list = list;
 	}
+
 	public MediateProgram getMediateProgram() {
 		return mediateProgram;
 	}
 
 	public void setMediateProgram(MediateProgram mediateProgram) {
 		this.mediateProgram = mediateProgram;
+	}
+
+	public AssessAppraisal getAssessAppraisal() {
+		return assessAppraisal;
+	}
+
+	public void setAssessAppraisal(AssessAppraisal assessAppraisal) {
+		this.assessAppraisal = assessAppraisal;
 	}
 
 	public RecordInfo getRecordInfo() {

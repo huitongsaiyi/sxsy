@@ -77,14 +77,43 @@
 			</form:select>
 		</div>
 	</div>
-	<div class="control-group">
-		<label class="control-label">机构级别:</label>
-		<div class="controls">
-			<form:select path="hospitalGrade" class="input-medium">
-				<form:options items="${fns:getDictList('hospital_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</form:select>
-		</div>
-	</div>
+	<c:choose>
+		<c:when test="${office.officeType == '2'}">
+
+			<div class="control-group">
+				<label class="control-label">医院等级:</label>
+				<div class="controls">
+					<form:select path="hospitalGrade" class="input-medium">
+						<form:options items="${fns:getDictList('hospital_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					</form:select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">是否参保:</label>
+				<div class="controls">
+					<form:select path="isInsured">
+						<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					</form:select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">保单号:</label>
+				<div class="controls">
+					<form:input path="policyNumber" htmlEscape="false" maxlength="50" cssClass=""/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">参保日期:</label>
+				<div class="controls">
+					<input name="insuredTime" type="text" readonly="readonly" maxlength="20"
+						   class="input-medium Wdate "
+						   value="${office.insuredTime}"
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});" />
+				</div>
+			</div>
+
+		</c:when>
+	</c:choose>
 	<div class="control-group">
 		<label class="control-label">是否可用:</label>
 		<div class="controls">

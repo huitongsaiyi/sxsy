@@ -25,6 +25,9 @@ public class UserApiService extends CrudService<UserApiDao, UserApiEntity> {
     public void update(UserApiEntity userApiEntity){
         userApiDao.regist(userApiEntity);
     }
+    public void organizationBind(UserApiEntity userApiEntity){
+        userApiDao.organizationBind(userApiEntity);
+    }
     public UserInfo getUserInfoByOpenId(String openId){
         return userApiDao.getUserInfoByOpenId(openId);
     }

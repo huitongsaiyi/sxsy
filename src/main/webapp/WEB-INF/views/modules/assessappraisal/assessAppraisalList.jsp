@@ -85,11 +85,11 @@
 
 			<td style="text-align:center;">${assessAppraisal.complaintMain.hospital.name}</td>
 			<td style="text-align:center;">
-
+                    ${assessAppraisal.auditAcceptance.insuranceCompany}
 			</td>
 
 			<td style="text-align:center;">${assessAppraisal.auditAcceptance.treatmentOutcome}</td>
-			<td style="text-align:center;">${assessAppraisal.eighteenItems}</td>
+			<td style="text-align:center;">${fns:getDictLabel(assessAppraisal.eighteenItems, 'eighteen_items', '')}</td>
 			<td style="text-align:center;">
 
 			</td>
@@ -104,12 +104,14 @@
 					</c:otherwise>
 				</c:choose>
 			</td>
-			<td style="text-align:center;"></td>
 			<td style="text-align:center;">
-					${fns:getUserById(assessAppraisal.createBy.id).office.name}
+
 			</td>
 			<td style="text-align:center;">
-					${fns:getUserById(assessAppraisal.createBy.id).name}
+					${fns:getUserById(assessAppraisal.createUser).office.name}
+			</td>
+			<td style="text-align:center;">
+					${fns:getUserById(assessAppraisal.createUser).name}
 			</td>
 
 			<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><td style="text-align:center;">

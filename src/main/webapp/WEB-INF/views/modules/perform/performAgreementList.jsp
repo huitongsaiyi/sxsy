@@ -92,29 +92,29 @@
 						${performAgreement.complaintMain.hospital.name}
 				</td>
 				<td style="text-align: center;">
-
+						${performAgreement.auditAcceptance.insuranceCompany}
 				</td>
 				<td style="text-align: center;">
 						${performAgreement.auditAcceptance.treatmentOutcome}
 				</td>
 
 				<td style="text-align: center;">
-
+						${performAgreement.signAgreement.agreementNumber}
 				</td>
 				<td style="text-align: center;">
 						${performAgreement.signAgreement.ratifyAccord}
 				</td>
 				<td style="text-align: center;">
-
+						${performAgreement.takeEffectTime}
 				</td>
 				<td style="text-align: center;">
-						${performAgreement.signAgreement.agreementAmount}
+						${empty performAgreement.agreementPayAmount ? performAgreement.signAgreement.agreementAmount : performAgreement.agreementPayAmount}
 				</td>
 				<td style="text-align: center;">
-
+						${performAgreement.patientServiceTime}
 				</td>
 				<td style="text-align: center;">
-
+						${performAgreement.hospitalServiceTime}
 				</td>
 				<td style="text-align: center;">
 						${performAgreement.claimSettlementTime}
@@ -145,10 +145,10 @@
 
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(performAgreement.createBy.id).office.name}
+						${fns:getUserById(performAgreement.createUser).office.name}
 				</td>
 				<td style="text-align: center;">
-						${fns:getUserById(performAgreement.createBy.id).name}
+						${fns:getUserById(performAgreement.createUser).name}
 				</td>
 				<shiro:hasPermission name="perform:performAgreement:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq performAgreement.complaintMain.act.assigneeName}">

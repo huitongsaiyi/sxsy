@@ -13,12 +13,14 @@ import java.util.Map;
  */
 public class MessageTemplete {
     private String grant_type = "client_credential";
-    public  String APPID;
-    public  String APPSECRET;
-    public MessageTemplete(String appId,String appSecret){
-        this.APPID=appId;
-        this.APPSECRET=appSecret;
+    public String APPID;
+    public String APPSECRET;
+
+    public MessageTemplete(String appId, String appSecret) {
+        this.APPID = appId;
+        this.APPSECRET = appSecret;
     }
+
     private String getAccessToken() {
         String params = "grant_type=" + grant_type + "&secret=" + APPSECRET + "&appid=" + APPID;
         String sendGet = HttpRequest.sendGet("https://api.weixin.qq.com/cgi-bin/token", params);

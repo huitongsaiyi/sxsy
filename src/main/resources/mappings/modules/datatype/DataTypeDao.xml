@@ -22,7 +22,7 @@
 	<select id="get" resultType="DataType">
 		SELECT 
 			<include refid="dataTypeColumns"/>
-		FROM data_type a
+		FROM DATA_TYPE a
 		<include refid="dataTypeJoins"/>
 		WHERE a.data_type_id = #{id}
 	</select>
@@ -30,7 +30,7 @@
 	<select id="findList" resultType="DataType">
 		SELECT 
 			<include refid="dataTypeColumns"/>
-		FROM data_type a
+		FROM DATA_TYPE a
 		<include refid="dataTypeJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -60,7 +60,7 @@
 	<select id="findAllList" resultType="DataType">
 		SELECT 
 			<include refid="dataTypeColumns"/>
-		FROM data_type a
+		FROM DATA_TYPE a
 		<include refid="dataTypeJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -76,7 +76,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO data_type(
+		INSERT INTO DATA_TYPE(
 			data_type_id,
 			maintype,
 			title,
@@ -104,7 +104,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE data_type SET 	
+		UPDATE DATA_TYPE SET
 			maintype = #{maintype},
 			title = #{title},
 			icon = #{icon},
@@ -116,7 +116,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE data_type SET 
+		UPDATE DATA_TYPE SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE data_type_id = #{id}
 	</update>

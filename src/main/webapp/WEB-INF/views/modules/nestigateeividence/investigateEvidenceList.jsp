@@ -73,7 +73,7 @@
 				<th class="sort-column r.dispute_time" style="text-align: center;">受理时间</th>
 				<th class="sort-column patient_name" style="text-align: center;">患者姓名</th>
 				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
-				<th class="sort-column b.hospital_grade" style="text-align: center;">保险公司</th>
+				<th class="sort-column au.insurance_company" style="text-align: center;">保险公司</th>
 				<th class="sort-column sa.name" style="text-align:center;">诊疗结果</th>
 				<th class="sort-column report_emp" style="text-align: center;">涉及核心制度</th>
 				<th class="sort-column a.patient_mobile" style="text-align: center;">是否重大</th>
@@ -101,7 +101,7 @@
 					${investigateEvidence.complaintMain.hospital.name}
 				</td>
 				<td style="text-align: center;">
-
+                        ${investigateEvidence.auditAcceptance.insuranceCompany}
 				</td>
 				<td style="text-align:center;">
 						${investigateEvidence.auditAcceptance.treatmentOutcome}
@@ -123,10 +123,10 @@
 				</td>
 
 				<td style="text-align:center;">
-						${fns:getUserById(investigateEvidence.createBy.id).office.name}
+						${fns:getUserById(investigateEvidence.createUser).office.name}
 				</td>
 				<td style="text-align:center;">
-						${fns:getUserById(investigateEvidence.createBy.id).name}
+						${fns:getUserById(investigateEvidence.createUser).name}
 				</td>
 				<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().loginName eq investigateEvidence.complaintMain.act.assigneeName}">

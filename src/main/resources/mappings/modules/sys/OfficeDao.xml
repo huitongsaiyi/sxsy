@@ -26,6 +26,9 @@
 		a.update_by AS "updateBy.id",
 		a.update_date,
 		a.del_flag,
+		a.policy_number AS "policyNumber",
+		a.is_insured AS "isInsured",
+		a.insured_time AS "insuredTime",
 		a.useable AS useable,
 		a.primary_person AS "primaryPerson.id",
 		a.deputy_person AS "deputyPerson.id",
@@ -128,7 +131,10 @@
 			del_flag,
 			useable,
 			primary_person,
-			deputy_person
+			deputy_person,
+			policy_number,
+			is_insured,
+			insured_time
 		) VALUES (
 			#{id}, 
 			#{parent.id}, 
@@ -155,7 +161,10 @@
 			#{delFlag},
 			#{useable},
 			#{primaryPerson.id},
-			#{deputyPerson.id}
+			#{deputyPerson.id},
+			#{policyNumber},
+			#{isInsured},
+			#{insuredTime}
 		)
 	</insert>
 
@@ -181,7 +190,10 @@
 			remarks = #{remarks},
 			useable=#{useable},
 			primary_person=#{primaryPerson.id},
-			deputy_person=#{deputyPerson.id}
+			deputy_person=#{deputyPerson.id},
+			policy_number=#{policyNumber},
+			is_insured=#{isInsured},
+			insured_time=#{insuredTime}
 		WHERE id = #{id}
 	</update>
 

@@ -68,6 +68,7 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String remark;		// 备注
 	private String delFlag;		//删除标识
 	private String nodeName;		//案件节点
+	private String relatedName;		//相关专业 名称
 	private Office hospital;	//涉及医院
 
 
@@ -93,6 +94,14 @@ public class MachineAccount extends DataEntity<MachineAccount> {
 	private String assessGrade;	//卷宗评分
 	private String appraiser;	//评分人
 	private String filePlace;	//卷宗位置
+
+	public String getRelatedName() {
+		return relatedName;
+	}
+
+	public void setRelatedName(String relatedName) {
+		this.relatedName = relatedName;
+	}
 
 	public MachineAccount() {
 		super();

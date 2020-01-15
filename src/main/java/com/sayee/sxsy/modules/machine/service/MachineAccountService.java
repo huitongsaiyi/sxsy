@@ -7,12 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.sayee.sxsy.common.utils.DateUtils;
-import com.sayee.sxsy.common.utils.IdGen;
-import com.sayee.sxsy.common.utils.StringUtils;
-import com.sayee.sxsy.common.utils.UserAgentUtils;
+import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.assessappraisal.entity.AssessAppraisal;
 import com.sayee.sxsy.modules.assessappraisal.service.AssessAppraisalService;
+import com.sayee.sxsy.modules.assessinfo.entity.AssessInfo;
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.auditacceptance.service.AuditAcceptanceService;
 import com.sayee.sxsy.modules.mediate.entity.MediateEvidence;
@@ -27,10 +25,7 @@ import com.sayee.sxsy.modules.sign.entity.SignAgreement;
 import com.sayee.sxsy.modules.sign.service.SignAgreementService;
 import com.sayee.sxsy.modules.summaryinfo.entity.SummaryInfo;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
-import com.sayee.sxsy.modules.sys.entity.Menu;
-import com.sayee.sxsy.modules.sys.entity.Office;
-import com.sayee.sxsy.modules.sys.entity.Role;
-import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.entity.*;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,9 +163,11 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
             machineAccount = this.getM(reportRegistration.getComplaintMainId());
             MachineAccount machineAccount1=new MachineAccount();
                 if (machineAccount==null) {
+                    //案件编号
                     machineAccount1.setMachineAccountId(IdGen.uuid());
                     machineAccount1.setComplaintMainId(reportRegistration.getComplaintMainId());
                     machineAccount1.setPatientName(reportRegistration.getComplaintMain().getPatientName()==null?"":reportRegistration.getComplaintMain().getPatientName());
+                    machineAccount1.setCaseNumber(reportRegistration.getComplaintMain().getCaseNumber()==null?"":reportRegistration.getComplaintMain().getCaseNumber());
                     //保单号
                     machineAccount1.setPolicyNumber(reportRegistration.getPolicyNumber()==null?"":reportRegistration.getPolicyNumber());
                     //报案时间
@@ -182,7 +179,12 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                     //machineAccount1.setTreatmentMode(reportRegistration.getDiagnosisMode()==null?"":auditAcceptance.getDiagnosisMode());
                     //machineAccount1.setTreatmentResult(reportRegistration.getTreatmentOutcome()==null?"":auditAcceptance.getTreatmentOutcome());
                     machineAccount1.setHospitalId(reportRegistration.getComplaintMain().getInvolveHospital()==null?"":reportRegistration.getComplaintMain().getInvolveHospital());
-                    //machineAccount1.setStartInsuranceTime(reportRegistration.getGuaranteeTime()==null?"":reportRegistration.getGuaranteeTime());
+                    machineAccount1.setHospitalGrade(reportRegistration.getComplaintMain().getHospitalGrade()==null?"":reportRegistration.getComplaintMain().getHospitalGrade());
+                    Office office=UserUtils.getOfficeId(reportRegistration.getComplaintMain().getInvolveHospital());
+                    machineAccount1.setAreaId(office.getArea().getId()==null?"":office.getArea().getId());
+                    machineAccount1.setRelatedMajor(reportRegistration.getComplaintMain().getInvolveDepartment()==null?"":reportRegistration.getComplaintMain().getInvolveDepartment());
+                    machineAccount1.setRiskPeople(reportRegistration.getComplaintMain().getInvolveEmployee()==null?"":reportRegistration.getComplaintMain().getInvolveEmployee());
+                    machineAccount1.setRiskTime(reportRegistration.getReportTime()==null ? "":reportRegistration.getReportTime());
                     machineAccount1.setDelFlag("0");
                     machineAccount1.preInsert();
                     dao.insert(machineAccount1);
@@ -191,16 +193,23 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 machineAccount.preUpdate();
                 machineAccount.setMachineAccountId(machineAccount.getMachineAccountId());
                 machineAccount.setComplaintMainId(reportRegistration.getComplaintMainId());
-                machineAccount1.setPatientName(reportRegistration.getComplaintMain().getPatientName()==null?"":reportRegistration.getComplaintMain().getPatientName());
+                machineAccount.setPatientName(reportRegistration.getComplaintMain().getPatientName()==null?"":reportRegistration.getComplaintMain().getPatientName());
+                machineAccount.setCaseNumber(reportRegistration.getComplaintMain().getCaseNumber()==null?"":reportRegistration.getComplaintMain().getCaseNumber());
                 //保单号
-                machineAccount1.setPolicyNumber(reportRegistration.getPolicyNumber()==null?"":reportRegistration.getPolicyNumber());
+                machineAccount.setPolicyNumber(reportRegistration.getPolicyNumber()==null?"":reportRegistration.getPolicyNumber());
                 //报案时间
-                machineAccount1.setReportingTime(reportRegistration.getRegistrationTime()==null?"":reportRegistration.getRegistrationTime());
-                machineAccount1.setIsMajor(reportRegistration.getIsMajor()==null?"": reportRegistration.getIsMajor());
-                machineAccount1.setReportingTime(reportRegistration.getReportTime()==null?"":reportRegistration.getReportTime());
-                machineAccount1.setDisputesTime(reportRegistration.getDisputeTime()==null?"": reportRegistration.getDisputeTime());
-                machineAccount1.setSummaryOfDisputes(reportRegistration.getSummaryOfDisputes()==null?"": reportRegistration.getSummaryOfDisputes());
-                machineAccount1.setHospitalId(reportRegistration.getComplaintMain().getInvolveHospital()==null?"":reportRegistration.getComplaintMain().getInvolveHospital());
+                machineAccount.setReportingTime(reportRegistration.getRegistrationTime()==null?"":reportRegistration.getRegistrationTime());
+                machineAccount.setIsMajor(reportRegistration.getIsMajor()==null?"": reportRegistration.getIsMajor());
+                machineAccount.setReportingTime(reportRegistration.getReportTime()==null?"":reportRegistration.getReportTime());
+                machineAccount.setDisputesTime(reportRegistration.getDisputeTime()==null?"": reportRegistration.getDisputeTime());
+                machineAccount.setSummaryOfDisputes(reportRegistration.getSummaryOfDisputes()==null?"": reportRegistration.getSummaryOfDisputes());
+                machineAccount.setHospitalId(reportRegistration.getComplaintMain().getInvolveHospital()==null?"":reportRegistration.getComplaintMain().getInvolveHospital());
+                machineAccount.setRelatedMajor(reportRegistration.getComplaintMain().getInvolveDepartment()==null?"":reportRegistration.getComplaintMain().getInvolveDepartment());
+                Office office=UserUtils.getOfficeId(reportRegistration.getComplaintMain().getInvolveHospital());
+                machineAccount.setAreaId(office.getArea().getId()==null?"":office.getArea().getId());
+                machineAccount.setRelatedMajor(reportRegistration.getComplaintMain().getInvolveDepartment()==null?"":reportRegistration.getComplaintMain().getInvolveDepartment());
+                machineAccount.setRiskPeople(reportRegistration.getComplaintMain().getInvolveEmployee()==null?"":reportRegistration.getComplaintMain().getInvolveEmployee());
+                machineAccount.setRiskTime(reportRegistration.getReportTime()==null ? "":reportRegistration.getReportTime());
                 dao.update(machineAccount);
             }
         } else if ("audit".equals(node)) {
@@ -209,6 +218,8 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 MachineAccount machineAccount1 = this.getM(auditAcceptance.getComplaintMainId());
                 if(machineAccount1!=null){
                     machineAccount1.preUpdate();
+                    //受理时间
+                    machineAccount1.setAcceptanceTime(auditAcceptance.getGuaranteeTime());
                     //保险公司
                     machineAccount1.setInsuranceCompany(auditAcceptance.getInsuranceCompany()==null?"" : auditAcceptance.getInsuranceCompany());
                     //保单号  报案登记时  就有 这在重新保存下  有变更 则进行修改
@@ -258,6 +269,12 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                     machineAccount1.setDutyRatio(assessAppraisal.getResponsibilityRatio()==null?"":assessAppraisal.getResponsibilityRatio());
                     machineAccount1.setAssessTime(assessAppraisal.getRecordInfo1().getStartTime()==null?"":assessAppraisal.getRecordInfo1().getStartTime());
                     machineAccount1.setAssessNumber(assessAppraisal.getProposal().getProposalCode()==null?"":assessAppraisal.getProposal().getProposalCode());
+                    machineAccount1.setEighteenItems(assessAppraisal.getEighteenItems()==null?"":assessAppraisal.getEighteenItems());//十八项
+                    machineAccount1.setHost(assessAppraisal.getHost()==null?"":assessAppraisal.getHost());
+                    machineAccount1.setClerk(assessAppraisal.getClerk()==null?"":assessAppraisal.getClerk());
+                    machineAccount1.setMedicalExpert(assessAppraisal.getMedicalExpert()==null?"":assessAppraisal.getMedicalExpert());
+                    machineAccount1.setLegalExpert(assessAppraisal.getLegalExpert()==null?"":assessAppraisal.getLegalExpert());
+                    machineAccount1.setCountAmount(assessAppraisal.getCalculatedAmount()==null?"":assessAppraisal.getCalculatedAmount());
                     dao.update(machineAccount1);
                 }
             }
@@ -280,7 +297,8 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                     m.preUpdate();
                     m.setClaimSettlementTime(performAgreement.getClaimSettlementTime()==null?"":performAgreement.getClaimSettlementTime());
                     m.setCompensateTime(performAgreement.getInsurancePayTime()==null?"":performAgreement.getInsurancePayTime());
-                    this.TianShu(m);
+                    int assessTime=m.getAssessTime()==null ? 0 : Integer.valueOf(m.getAssessTime()) ;
+                    m.setFlowDays(this.TianShu(m.getRatifyAccord(),m.getAcceptanceTime(),StringUtils.toInteger(m.getAssessTime())));//流转天数  公式=签署协议时间-受理时间 剔除评估天数
                     if (StringUtils.isNotBlank(performAgreement.getAgreementPayAmount()) || "0".equals(performAgreement.getAgreementPayAmount()) || "".equals(performAgreement.getAgreementPayAmount())) {
                         m.setAgreementAmount(performAgreement.getAgreementPayAmount());
                     } else {
@@ -292,10 +310,18 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                         m.setInsuranceAmount("0");
                     }
                     m.setHospitalAmount(performAgreement.getHospitalPayAmount()==null?"0":performAgreement.getHospitalPayAmount());
+                    //保险赔付时间
+                    m.setInsurancePayTime(performAgreement.getInsurancePayTime()==null ? "" :performAgreement.getInsurancePayTime());
+                    //医院赔付时间
+                    m.setHospitalPayTime(performAgreement.getHospitalPayTime()==null ? "" :performAgreement.getHospitalPayTime());
+                    //理赔流转天数（公式=保险赔付时间-提交理赔时间）
+                    m.setSettlementFlowDays(this.TianShu(m.getInsurancePayTime(),m.getClaimSettlementTime(),0));
+                    //提交理赔天数(公式=提交理赔时间-协议生效时间）
+                    m.setClaimSettlementDay(this.TianShu(m.getClaimSettlementTime(),performAgreement.getTakeEffectTime(),0));
                     dao.update(m);
                 }
             }
-        }else if ("f".equals(node)) {
+        }else if ("f".equals(node)) {//案件总结
             SummaryInfo summaryInfo = (SummaryInfo)id;
             if (StringUtils.isNotBlank(summaryInfo.getComplaintMainId())) {
                 MachineAccount machineAccount1 = this.getM(summaryInfo.getComplaintMainId());
@@ -307,15 +333,26 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 }
 
             }
+        }else if("g".equals(node)){//案件评价
+            AssessInfo assessInfo = (AssessInfo)id;
+            if (StringUtils.isNotBlank(assessInfo.getComplaintMainId())) {
+                MachineAccount machineAccount1 = this.getM(assessInfo.getComplaintMainId());
+                if(machineAccount1!=null){
+                    machineAccount1.preUpdate();
+                    machineAccount1.setAssessGrade(assessInfo.getAssessGrade()==null?"":assessInfo.getAssessGrade());
+                    machineAccount1.setAppraiser(assessInfo.getAppraiser()==null?"":assessInfo.getAppraiser());
+                    dao.update(machineAccount1);
+                }
+
+            }
         }
     }
 
-    public MachineAccount TianShu(MachineAccount machineAccount){
-        String strat = machineAccount.getClaimSettlementTime();
-        String end = machineAccount.getCompensateTime();
+    public String TianShu(String strat,String end,int difference){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date d1 = null;
         Date d2 = null;
+        Integer day=0;
         try {
             d1 = format.parse(strat);
             d2 = format.parse(end);
@@ -323,13 +360,13 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
             long diff = d1.getTime() - d2.getTime();
 
             Integer total = (int)(diff/1000);
-            Integer day = total/(3600*24);
-            machineAccount.setFlowDays(String.valueOf(day));
+            day = total/(3600*24) - difference;
+            //machineAccount.setFlowDays(String.valueOf(day));
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return machineAccount;
+        return String.valueOf(day);
     }
 
     public Page<MachineAccount> getMachine(Page<MachineAccount> page,MachineAccount machineAccount){

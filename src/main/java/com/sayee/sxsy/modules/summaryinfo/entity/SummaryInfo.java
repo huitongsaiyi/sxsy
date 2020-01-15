@@ -4,6 +4,7 @@
 package com.sayee.sxsy.modules.summaryinfo.entity;
 
 import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
+import com.sayee.sxsy.modules.complaintdetail.entity.ComplaintMainDetail;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
 import com.sayee.sxsy.modules.perform.entity.PerformAgreement;
@@ -39,6 +40,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	private String isStop;		// 是否来自终止调解
 	private AuditAcceptance auditAcceptance;//保单号
 	private ComplaintMain complaintMain;		// 关联主表主键
+	private ComplaintMainDetail complaintMainDetail;		// 关联主表主键
 	private SignAgreement signAgreement;		// 关联主表主键
 	private PerformAgreement performAgreement;		// 关联主表主键
 	private User user;  //当前登录人员
@@ -48,6 +50,15 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	private ReportRegistration reportRegistration;//报案人姓名
     private MachineAccount machineAccount;//台账信息
 	private List<String> list;//工作站人员list
+	private String createUser;  //创建人员id
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
 
 	public String getIsStop() {
 		return isStop;
@@ -176,6 +187,14 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 
 	public void setComplaintMain(ComplaintMain complaintMain) {
 		this.complaintMain = complaintMain;
+	}
+
+	public ComplaintMainDetail getComplaintMainDetail() {
+		return complaintMainDetail;
+	}
+
+	public void setComplaintMainDetail(ComplaintMainDetail complaintMainDetail) {
+		this.complaintMainDetail = complaintMainDetail;
 	}
 
 	public AuditAcceptance getAuditAcceptance() {

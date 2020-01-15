@@ -54,6 +54,16 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
     private MachineAccount machineAccount;//台账信息
 	private List<String> list;//工作站人员list
 
+	private String createUser;  //创建人员id
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
 	public List<String> getList() {
 		return list;
 	}

@@ -16,10 +16,12 @@ import java.util.List;
 public class CaseTypeApiService extends CrudService<CaseTypeDao, CaseTypeEntity> {
     @Autowired
     private CaseTypeDao caseTypeDao;
-    public List<OfficeApi> getParentList(){
+
+    public List<OfficeApi> getParentList() {
         return caseTypeDao.getParentList();
     }
-    public List<OfficeApi> getListByParentId(String Id){
+
+    public List<OfficeApi> getListByParentId(String Id) {
         return caseTypeDao.getListByParentId(Id);
     }
 }

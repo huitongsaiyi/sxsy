@@ -30,4 +30,5 @@ public interface UserApiDao extends CrudDao<UserApiEntity> {
     Integer getAssessInfoCount(String wechatUserId);
     String getSysUserId(String wechatUserId);
     void regist(UserApiEntity userApiEntity);
+    void organizationBind(UserApiEntity userApiEntity);
 }

@@ -4,6 +4,7 @@ import com.sayee.sxsy.api.common.R;
 import com.sayee.sxsy.api.officeapi.entity.OfficeApi;
 import com.sayee.sxsy.api.officeapi.service.OfficeApiService;
 import com.sayee.sxsy.api.statistic.service.StatisticApiService;
+import com.sayee.sxsy.api.user.service.UserApiService;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.datatype.service.DataTypeService;
 import com.alibaba.fastjson.JSONObject;
@@ -24,7 +25,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("${adminPath}/api")
 public class StatisticController {
-
+    @Autowired
+    private UserApiService userApiService;
     @Autowired
     private StatisticApiService statisticApiService;
 
@@ -45,7 +47,9 @@ public class StatisticController {
     @ResponseBody
     public R statisticalDetail(@RequestBody JSONObject jsonObject){
         String type=jsonObject.getString("type");
-        String uid=jsonObject.getString("uid");
+        String wechatUserId = jsonObject.getString("wechatUserId");
+        String uid = userApiService.getSysUserId(wechatUserId);
+        //String uid=jsonObject.getString("uid");
         if(StringUtils.isNotBlank(type)){
             List<Map<String,Object>> list=statisticApiService.getStatisticalDatail(type,uid);
             R r=new R();

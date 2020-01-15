@@ -32,6 +32,9 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 	private String hospitalPayTime;		// 医院赔付时间
 	private String insurancePayAmount;		// 保险公司赔付金额
 	private String insurancePayTime;		// 保险公司赔付时间
+	private String patientServiceTime;		// 患者协议送达时间
+	private String hospitalServiceTime;		// 医院协议送达时间
+	private String takeEffectTime;		// 协议生效时间
 	private String nextLink;		// 下一处理环节
 	private String nextLinkMan;		// 下一环节处理人
 	private ComplaintMain complaintMain;		//主表
@@ -45,6 +48,16 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 	private String claimSettlementTime;//交理赔时间
 	private MachineAccount machineAccount;//台账信息
 	private List<String> list;//工作站人员list
+
+	private String createUser;  //创建人员id
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
 
 	public SignAgreement getSignAgreement() {
 		return signAgreement;
@@ -124,6 +137,30 @@ public class PerformAgreement extends DataEntity<PerformAgreement> {
 
 	public void setReportRegistration(ReportRegistration reportRegistration) {
 		this.reportRegistration = reportRegistration;
+	}
+
+	public String getPatientServiceTime() {
+		return patientServiceTime;
+	}
+
+	public void setPatientServiceTime(String patientServiceTime) {
+		this.patientServiceTime = patientServiceTime;
+	}
+
+	public String getHospitalServiceTime() {
+		return hospitalServiceTime;
+	}
+
+	public void setHospitalServiceTime(String hospitalServiceTime) {
+		this.hospitalServiceTime = hospitalServiceTime;
+	}
+
+	public String getTakeEffectTime() {
+		return takeEffectTime;
+	}
+
+	public void setTakeEffectTime(String takeEffectTime) {
+		this.takeEffectTime = takeEffectTime;
 	}
 
 	public AuditAcceptance getAuditAcceptance() {

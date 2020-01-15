@@ -98,7 +98,7 @@
 						${signAgreement.complaintMain.hospital.name}
 				</td>
 				<td style="text-align:center;">
-
+						${signAgreement.auditAcceptance.insuranceCompany}
 				</td>
 				<td style="text-align:center;">
 						${signAgreement.auditAcceptance.treatmentOutcome}
@@ -107,10 +107,10 @@
 
 				</td>
 				<td style="text-align:center;">
-
+						${fns:getDictLabel(signAgreement.assessAppraisal.eighteenItems, 'eighteen_items', '')}
 				</td>
 				<td style="text-align:center;">
-
+						${signAgreement.assessAppraisal.proposal.proposalCode}
 				</td>
 				<td style="text-align:center;">
 						${signAgreement.ratifyAccord}
@@ -141,10 +141,10 @@
 				<td style="text-align:center;">
 				</td>
 				<td style="text-align:center;">
-						${fns:getUserById(signAgreement.createBy.id).office.name}
+						${fns:getUserById(signAgreement.createUser).office.name}
 				</td>
 				<td style="text-align:center;">
-						${fns:getUserById(signAgreement.createBy.id).name}
+						${fns:getUserById(signAgreement.createUser).name}
 				</td>
 				<%--<td style="text-align:center;">
 					<fmt:formatDate value="${signAgreement.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

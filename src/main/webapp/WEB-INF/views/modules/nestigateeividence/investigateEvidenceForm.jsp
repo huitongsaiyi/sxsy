@@ -112,12 +112,15 @@
 					<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
 						<td style="width: 105px;">
-							<form:input path="address" htmlEscape="false" maxlength="200" class="input-xlarge required" cssStyle="width:480px;"/>
+							<form:select path="address" class="input-xlarge" cssStyle="text-align:center;">
+								<form:options items="${fns:getDictList('meeting')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+							</form:select>
+							<%--<form:input path="" htmlEscape="false" maxlength="200" class="input-xlarge required" cssStyle="width:480px;"/>--%>
 						</td>
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
 
 						<td width="195px;">
-							<form:input path="cause" htmlEscape="false" maxlength="500" class="input-xlarge required" cssStyle="width:480px;" />
+							<form:input path="cause" htmlEscape="false" maxlength="500" class="input-xlarge required" readonly="true" cssStyle="width:480px;" />
 						</td>
 					</tr>
 					<tr >
@@ -131,12 +134,12 @@
 							<form:input path="noteTaker" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width:480px;"/>
 						</td>
 					</tr>
-					<tr >
+					<%--<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>反应焦点：</td>
 						<td style="width: 105px;">
 							<form:input path="focus" htmlEscape="false" maxlength="500" class="input-xlarge required" cssStyle="width:480px;"/>
 						</td>
-					</tr>
+					</tr>--%>
 					<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; " ><font color="red">*</font>笔录内容：</td>
 						<td style="width: 105px;" colspan="3">
@@ -274,8 +277,11 @@
 					<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查地点：</td>
 						<td style="width: 105px;">
-							<form:input path="investigateEvidence.address" htmlEscape="false" maxlength="200" class="input-xlarge required" cssStyle="width:480px;"/>
-							<input type="hidden" value="${investigateEvidence.investigateEvidence.address}"/>
+							<form:select path="investigateEvidence.address" class="input-xlarge" cssStyle="text-align:center;">
+								<form:options items="${fns:getDictList('meeting')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+							</form:select>
+							<%--<form:input path="investigateEvidence.address" htmlEscape="false" maxlength="200" class="input-xlarge required" cssStyle="width:480px;"/>
+							<input type="hidden" value="${investigateEvidence.investigateEvidence.address}"/>--%>
 						</td>
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
 
@@ -497,7 +503,7 @@
 
 				<td width="540px;" style="display:inline-block;margin-top: -15px;margin-left: 1px;">
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty investigateEvidence.nextLinkMan?fns:getUser().id:investigateEvidence.nextLinkMan}" labelName="" labelValue="${empty investigateEvidence.linkEmployee.name?fns:getUser().name:investigateEvidence.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true"  cssStyle="width: 230px;" dataMsgRequired="必填信息"/>
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" isAll="true" notAllowSelectParent="true"  cssStyle="width: 230px;" dataMsgRequired="必填信息"/>
 
 				</td>
 

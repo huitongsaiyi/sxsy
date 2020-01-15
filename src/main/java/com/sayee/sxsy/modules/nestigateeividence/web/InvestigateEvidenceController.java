@@ -139,6 +139,14 @@ public class InvestigateEvidenceController extends BaseController {
 			if(StringUtils.isBlank(investigateEvidence.getContent())){
 				investigateEvidence.setContent("调解员(以下简称'调')、医方(以下简称'医')、患方(以下简称:患)\n调：请您陈述诊疗的经过？\n患：\n调：您对诊疗方面有什么疑问吗？\n患 ：\n调：为了明确患者的具体死亡原因，建议做尸体解剖，以便更合理的处理纠纷，是否同意做尸检？\n患：\n调：医疗费有多少？请提供票据。\n患：\n调：您有什么诉求？\n患：\n调：请您核对以上内容是否属实，如无疑议，请签字确认。\n患：");
 			}
+
+			if (StringUtils.isBlank(investigateEvidence.getCause())){
+				investigateEvidence.setCause(investigateEvidence.getComplaintMain().getPatientName()+"与"+investigateEvidence.getComplaintMain().getHospital().getName());
+			}
+			if (investigateEvidence.getInvestigateEvidence()!=null && StringUtils.isBlank(investigateEvidence.getInvestigateEvidence().getCause())){
+				investigateEvidence.getInvestigateEvidence().setCause(investigateEvidence.getComplaintMain().getHospital().getName()+"与"+investigateEvidence.getComplaintMain().getPatientName());
+			}
+
 			model.addAttribute("investigateEvidence", investigateEvidence);
 			return "modules/nestigateeividence/investigateEvidenceForm";
 		}

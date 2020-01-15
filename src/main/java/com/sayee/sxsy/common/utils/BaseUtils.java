@@ -68,8 +68,11 @@ public class BaseUtils {
             if (StringUtils.isBlank(figure)) {
                 figure = "3";
             }
-            StringBuffer code = new StringBuffer();
             String time = DateUtils.getYear() + DateUtils.getMonth() + DateUtils.getDay();
+            StringBuffer code = new StringBuffer();
+            if ("year".equals(type)){
+                time = DateUtils.getYear();
+            }
             //先根据 表名和字段 查询到数据库 是否有数据
             String data = typeInfoDao.findCode(table, field, time);
             if (StringUtils.isNotBlank(data) && org.apache.commons.lang3.StringUtils.isNumeric(data)) {

@@ -43,6 +43,9 @@ public class Office extends TreeEntity<Office> {
 	private String hospitalGrade;	//医院等级
 	private String labelName;		//医院等级名称
 	private String areaName;		//地区名
+	private String policyNumber;		//保单号
+	private String isInsured;		//是否参保
+	private String insuredTime;		//参保时间
 
 
 	public String getName1() { return name1; }
@@ -71,6 +74,30 @@ public class Office extends TreeEntity<Office> {
 
 	public void setHospitalGrade(String hospitalGrade) {
 		this.hospitalGrade = hospitalGrade;
+	}
+
+	public String getPolicyNumber() {
+		return policyNumber;
+	}
+
+	public void setPolicyNumber(String policyNumber) {
+		this.policyNumber = policyNumber;
+	}
+
+	public String getIsInsured() {
+		return isInsured;
+	}
+
+	public void setIsInsured(String isInsured) {
+		this.isInsured = isInsured;
+	}
+
+	public String getInsuredTime() {
+		return insuredTime;
+	}
+
+	public void setInsuredTime(String insuredTime) {
+		this.insuredTime = insuredTime;
 	}
 
 	public Office(){

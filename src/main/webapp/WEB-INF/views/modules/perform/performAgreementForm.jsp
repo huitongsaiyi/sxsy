@@ -4,6 +4,7 @@
 <head>
 	<title>履行协议管理</title>
 	<meta name="decorator" content="default"/>
+    <script src="${ctxStatic}/echarts/benchmark/dep/lodash/lodash.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var a=$("#ag").val();
@@ -34,17 +35,52 @@
 			});
 
 		});
-
-		function aa(va){
-			var a=$("#ag").val();
-			var b=parseInt(a);
-			var a1=$("#in").val();
-			var b1=parseInt(a1);
-			var c=b-b1;
-			if(c<=0){
-				$("#hos").val(0)
-			}else{
-				$("#hos").val(c)
+        function isNumber(val) {
+            var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+            var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+            if(regPos.test(val) || regNeg.test(val)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+		function aa(va,type){
+			var ag=$("#ag").val();//协议总金额
+			var com=$("#in").val();//保险赔付
+			var hos=$("#hos").val();//医院赔付
+            if(!isNumber(ag)){
+                $("#ag").val(0);
+                $("#in").val(0);
+                $("#hos").val(0);
+                ag=0;
+                return;
+            }
+            if(!isNumber(com)){
+                $("#in").val(0);
+                com=0;
+            }
+            if(!isNumber(hos)){
+                $("#hos").val(0);
+                hos=0;
+            }
+            var one=parseInt(ag)-parseInt(com);//总 - 保险
+            var two=parseInt(ag)-parseInt(hos);//总 - 医院
+			if("hos"==type){
+                if(two <0){
+                    alertx("保险赔付金额不能为负数,请重现填写金额!");
+                    $("#hos").val(0);
+                    $("#in").val(0);
+                }else{
+                    $("#in").val(two);
+                }
+            }else{
+                if(one <0){
+                    alertx("医院赔付金额不能为负数,请重现填写金额!");
+                    $("#hos").val(0);
+                    $("#in").val(0);
+                }else{
+                    $("#hos").val(one);
+                }
 			}
 		}
 	</script>
@@ -80,35 +116,57 @@
 			<div class="tab-pane fade in active" id="patient">
 				<table class="table-form">
 					<tr>
-						<td class="tit">协议总金额</td>
+						<td class="tit">协议总金额：</td>
 						<td>
-							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" id="ag" onchange="aa(this.value)"/>
+							<form:input path="agreementPayAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10" onchange="aa(this.value,'ag')" id="ag" />
 								<%--<input id="agreementPayAmount" name="agreementPayAmount" value="${performAgreement.agreementPayAmount}">--%>
 						</td>
-						<td class="tit">保险公司赔付金额</td>
+						<td class="tit">保险公司赔付金额：</td>
 						<td>
-							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" onchange="aa(this.value)" id="in"/>
+							<form:input path="insurancePayAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10" onchange="aa(this.value,'in')" id="in"/>
 						</td>
-						<td class="tit">医院赔付金额</td>
+						<td class="tit">医院赔付金额：</td>
 						<td>
-							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge required" maxlength="10" onchange="aa(this.value)" id="hos"/>
+							<form:input path="hospitalPayAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10" onchange="aa(this.value,'hos')" id="hos"/>
 						</td>
 					</tr>
+                    <tr>
+                        <td  class="tit">患方协议送达时间：</td>
+                        <td>
+                            <input name="patientServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+                                   value="${performAgreement.patientServiceTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
+                                   />
+                        </td>
+                        <td class="tit">医方协议送达时间：</td>
+                        <td>
+                            <input name="hospitalServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+                                   value="${performAgreement.hospitalServiceTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+                        <td class="tit">协议生效时间：</td>
+                        <td>
+                            <input name="takeEffectTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+                                   value="${performAgreement.takeEffectTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+
+                    </tr>
 					<tr>
-						<td  class="tit">交理赔时间</td>
+						<td  class="tit">交理赔时间：</td>
 						<td>
 							<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.claimSettlementTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
 							onchange="DateDiff()"/>
 						</td>
-						<td class="tit">保险公司赔付时间</td>
+						<td class="tit">保险公司赔付时间：</td>
 						<td>
 							<input name="insurancePayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.insurancePayTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 						</td>
-						<td class="tit">医院赔付时间</td>
+						<td class="tit">医院赔付时间：</td>
 						<td>
 							<input name="hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${performAgreement.hospitalPayTime}"
@@ -163,7 +221,7 @@
 				<td class="tit">下一环节处理人</td>
 				<td >
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty performAgreement.nextLinkMan?fns:getUser().id:performAgreement.nextLinkMan}" labelName="linkEmployee.name" labelValue="${empty performAgreement.linkEmployee.name?fns:getUser().name:performAgreement.linkEmployee.name}"
-									title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
+									title="用户" url="/sys/office/treeData?type=3&officeType=1" isAll="true" cssClass="required" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息"/>
 				</td>
 			</tr>
 		</table>

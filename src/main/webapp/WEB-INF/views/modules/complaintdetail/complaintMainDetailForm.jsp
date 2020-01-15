@@ -125,7 +125,7 @@
                     <td class="tit"><font color="red">*</font>患者年龄：</td>
                     <td>
                         <form:input path="complaintMain.patientAge" htmlEscape="false" maxlength="3"
-                                    class="input-xlarge required digits" onchange="num(this.value)"/>
+                                    class="input-small required digits" onchange="num(this.value)"/>岁
                     </td>
                 </tr>
             </table>
@@ -195,7 +195,7 @@
             <td class="tit" width="180px"><font color="red">*</font>案件编号：</td>
             <td width="">
                 <form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20"
-                            class="input-xlarge required"/>
+                            readonly="true" class="input-xlarge required"/>
             </td>
             <td class="tit" width="180px"><font color="red">*</font>来访日期：</td>
             <td>
@@ -253,9 +253,9 @@
             <td>
                     <%--<form:input path="receptionEmployee" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="receptionEmployee" name="receptionEmployee"
-                                value="${complaintMainDetail.receptionEmployee}"
+                                value="${empty complaintMainDetail.receptionEmployee ? fns:getUser().id : complaintMainDetail.receptionEmployee}"
                                 labelName="${complaintMainDetail.receptionEmployee}"
-                                labelValue="${complaintMainDetail.jdEmployee.name}"
+                                labelValue="${empty complaintMainDetail.jdEmployee.name ? fns:getUser().name : complaintMainDetail.jdEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required"
                                 dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true" isAll="true"/>
             </td>

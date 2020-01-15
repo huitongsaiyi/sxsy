@@ -126,9 +126,9 @@
 			#{involveDepartment},
 			#{involveEmployee},
 			#{procInsId},
-			#{createById},
+			#{createBy.id},
 			#{createDate},
-			#{updateById},
+			#{updateBy.id},
 			#{updateDate},
 			#{delFlag},
 			#{source}
