@@ -77,4 +77,13 @@ public class UserApiService extends CrudService<UserApiDao, UserApiEntity> {
     public List<Communicate> getCommunicateList(){
         return userApiDao.getCommunicateList();
     }
+    public void certificate(String wechatUserId,String idNumber,String realName,String tel,int certificateMark){
+        Map map=new HashMap();
+        map.put("wechatUserId",wechatUserId);
+        map.put("idNumber",idNumber);
+        map.put("realName",realName);
+        map.put("tel",tel);
+        map.put("certificateMark",certificateMark);
+        userApiDao.certificate(map);
+    }
 }

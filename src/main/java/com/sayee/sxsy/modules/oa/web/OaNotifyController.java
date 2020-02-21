@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.persistence.Page;
+import com.sayee.sxsy.common.utils.JsonUtil;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.web.BaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,6 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sayee.sxsy.modules.oa.entity.OaNotify;
 import com.sayee.sxsy.modules.oa.service.OaNotifyService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 通知通告Controller
@@ -160,8 +164,12 @@ public class OaNotifyController extends BaseController {
 	@RequestMapping(value = "self/count")
 	@ResponseBody
 	public String selfCount(OaNotify oaNotify, Model model) {
+		Map map=new HashMap();
 		oaNotify.setSelf(true);
 		oaNotify.setReadFlag("0");
-		return String.valueOf(oaNotifyService.findCount(oaNotify));
+		map.put("size",String.valueOf(oaNotifyService.findCount(oaNotify)));
+		oaNotify.setType("2");
+		map.put("jingtong",String.valueOf(oaNotifyService.findCount(oaNotify)));
+		return JsonUtil.map2Json(map);
 	}
 }

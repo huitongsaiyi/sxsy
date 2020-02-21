@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.dailyreport.dao.EpidemicDailyApiDao">
+    <insert id="insert">
+        INSERT INTO EPIDEMIC_DAILY(
+		epidemic_id,
+		wechat_user_id,
+		work_unit,
+		filling_date,
+		user_name,
+		user_sex,
+		user_age,
+		user_address,
+		temperature,
+		is_egress,
+		health_condition,
+		family_health_condition,
+		remark,
+		work_situation,
+		work_remark,
+		create_date,
+		create_by,
+		update_date,
+		update_by,
+		del_flag
+		) VALUES (
+		#{epidemicId},
+		#{wechatUserId},
+		#{workUnit},
+		#{fillingDate},
+		#{userName},
+		#{userSex},
+		#{userAge},
+		#{userAddress},
+		#{temperature},
+		#{isEgress},
+		#{healthCondition},
+		#{familyHealthCondition},
+		#{remark},
+		#{workSituation},
+		#{workRemark},
+		#{createDate},
+		#{createUser},
+		#{updateDate},
+		#{createUser},
+		'0'
+		)
+    </insert>
+    <select id="getDailyReportInfo" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT filling_date AS fillingDate FROM EPIDEMIC_DAILY WHERE wechat_user_id=#{wechatUserId} ORDER BY fillingDate DESC
+	</select>
+	<select id="getIsReport" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(*) FROM EPIDEMIC_DAILY WHERE wechat_user_id=#{wechatUserId} AND create_date LIKE CONCAT('%',#{nowDate},'%')
+	</select>
+</mapper>

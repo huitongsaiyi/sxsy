@@ -10,8 +10,10 @@ import com.sayee.sxsy.api.main.service.MainApiService;
 import com.sayee.sxsy.api.mediate.entity.Mediate;
 import com.sayee.sxsy.api.mediate.service.MediateApiService;
 import com.sayee.sxsy.api.user.entity.Communicate;
+import com.sayee.sxsy.api.user.entity.IdCardApiEntity;
 import com.sayee.sxsy.api.user.entity.UserApiEntity;
 import com.sayee.sxsy.api.user.entity.UserInfo;
+import com.sayee.sxsy.api.user.service.IdCardApiService;
 import com.sayee.sxsy.api.user.service.UserApiService;
 import com.sayee.sxsy.common.security.Digests;
 import com.sayee.sxsy.common.utils.Encodes;
@@ -321,6 +323,24 @@ public class UserApiController{
         }
 
     }
+    /*机构解绑*/
+    @RequestMapping("organizationclear")
+    @ResponseBody
+    public R organizationClear(@RequestBody JSONObject jsonObject){
+        String wechatUserId=jsonObject.getString("wechatUserId");
+        String sysUserid=null;
+        int userType=0;
+        UserApiEntity userApiEntity = new UserApiEntity();
+        userApiEntity.setWechatUserId(wechatUserId);
+        userApiEntity.setSysUserId(sysUserid);
+        userApiEntity.setUserType(userType);
+        userApiService.organizationBind(userApiEntity);
+        R r=new R();
+        r.put("RtnCode",0);
+        r.put("RtnMsg","success");
+        r.put("RtnData","");
+        return r;
+    }
     @RequestMapping("changestatu")
     @ResponseBody
     public R changeStatu(@RequestBody JSONObject jsonObject){
@@ -405,6 +425,70 @@ public class UserApiController{
         r.put("RtnMsg","success");
         r.put("RtnData",communicateList);
         return r;
+    }
+    @Autowired
+    private IdCardApiService idCardApiService;
+    /*实名认证*/
+    @ResponseBody
+    @RequestMapping("certificate")
+    public R certificate(@RequestBody JSONObject jsonObject){
+        String idNumber=jsonObject.getString("idNumber");
+        String realName=jsonObject.getString("realName");
+        String wechatUserId=jsonObject.getString("wechatUserId");
+        String tel=jsonObject.getString("tel");
+        String cardA=jsonObject.getString("cardA");
+        String cardB=jsonObject.getString("cardB");
+        String cardHand=jsonObject.getString("cardHand");
+        int certificateMark=1;
+        if(null==wechatUserId||wechatUserId.isEmpty()){
+            R r=new R();
+            r.put("RtnCode",1);
+            r.put("RtnMsg","用户id不能为空");
+            r.put("RtnData","");
+            return r;
+        }else if(null==realName||realName.isEmpty()){
+            R r=new R();
+            r.put("RtnCode",1);
+            r.put("RtnMsg","真实姓名不能为空");
+            r.put("RtnData","");
+            return r;
+        }else if(null==idNumber||idNumber.isEmpty()){
+            R r=new R();
+            r.put("RtnCode",1);
+            r.put("RtnMsg","身份证号码不能为空");
+            r.put("RtnData","");
+            return r;
+        }else{
+            String regex = "\\d{15}(\\d{2}[0-9xX])?";
+            if(idNumber.matches(regex)){
+                userApiService.certificate(wechatUserId,idNumber,realName,tel,certificateMark);
+                IdCardApiEntity idCardApiEntity=new IdCardApiEntity();
+                idCardApiEntity.preInsert();
+                idCardApiEntity.setCardId(idCardApiEntity.getId());
+                idCardApiEntity.setCardA(cardA);
+                idCardApiEntity.setCardB(cardB);
+                idCardApiEntity.setCardHand(cardHand);
+                idCardApiEntity.setWechatUserId(wechatUserId);
+                idCardApiEntity.setCreateDate(new Date());
+                idCardApiEntity.setUpdateDate(new Date());
+                try {
+                    idCardApiService.save(idCardApiEntity);
+                }catch(Exception e){
+                }
+                R r=new R();
+                r.put("RtnCode",0);
+                r.put("RtnMsg","success");
+                r.put("RtnData","");
+                return r;
+            }else{
+                R r=new R();
+                r.put("RtnCode",1);
+                r.put("RtnMsg","身份证号码无效");
+                r.put("RtnData","");
+                return r;
+            }
+        }
+
     }
     public static String entryptPassword(String plainPassword) {
         String plain = Encodes.unescapeHtml(plainPassword);

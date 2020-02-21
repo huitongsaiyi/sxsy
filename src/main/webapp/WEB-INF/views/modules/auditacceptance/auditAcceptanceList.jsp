@@ -4,9 +4,17 @@
 <head>
 	<title>审核受理管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
+	<script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#contentTable").colResizable({
+				liveDrag:true,//拖动列时更新表布局
+				gripInnerHtml:"<div class='grip'></div>",
+				draggingClass:"dragging",
+				resizeMode:'overflow',//允许溢出父容器
+				defaults : true,
+			});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -15,6 +23,27 @@
         	return false;
         }
 	</script>
+	<style type="text/css">
+		#contentTable {
+			table-layout: fixed;
+		}
+
+		#contentTable th {
+			text-align: center; /** 设置水平方向居中 */
+			vertical-align: middle; /** 设置垂直方向居中 */
+		}
+
+		#contentTable td {
+			word-break: keep-all; /* 不换行 */
+			white-space: nowrap; /* 不换行 */
+			overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+			text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+		}
+
+		#contentTable th:nth-of-type(23) {
+			width: 10em;
+		}
+	</style>
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -63,18 +92,18 @@
 	<table id="contentTable" class="table table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column case_number" style="text-align: center">案件编号</th>
+				<th class="sort-column b.case_number" style="text-align: center">案件编号</th>
 				<th class="sort-column a.create_date" style="text-align: center">受理时间</th>
 				<th class="sort-column b.patient_name" style="text-align: center">患者姓名</th>
 				<th class="sort-column b.involve_hospital" style="text-align: center">涉及医院</th>
 				<th class="sort-column a.insurance_company" style="text-align: center">保险公司</th>
 				<th class="sort-column a.diagnosis_mode" style="text-align: center">诊疗方式</th>
 				<th class="sort-column a.treatment_outcome" style="text-align: center">治疗结果</th>
-				<th class="sort-column a.diagnosis_mode" style="text-align: center">涉及核心制度</th>
-				<th class="sort-column a.diagnosis_mode" style="text-align: center">是否重大</th>
-				<th class="sort-column a.diagnosis_mode" style="text-align: center">是否媒体介入</th>
-				<th class="sort-column a.diagnosis_mode" style="text-align: center">部门名称</th>
-				<th class="sort-column a.diagnosis_mode" style="text-align: center">调解员</th>
+				<th  style="text-align: center">涉及核心制度</th>
+				<th class="sort-column b.is_major" style="text-align: center">是否重大</th>
+				<th  style="text-align: center">是否媒体介入</th>
+				<th  style="text-align: center">部门名称</th>
+				<th  style="text-align: center">调解员</th>
 
 				<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><th style="text-align: center">操作</th></shiro:hasPermission>
 			</tr>

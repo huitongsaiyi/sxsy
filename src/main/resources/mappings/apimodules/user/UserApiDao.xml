@@ -33,7 +33,7 @@
     )
 </insert>
     <select id="getUserInfoByOpenId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.user.entity.UserInfo">
-        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId FROM CMS_WECHATUSER WHERE openid=#{openId}
+        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId,certificate_mark AS certificateMark FROM CMS_WECHATUSER WHERE openid=#{openId}
     </select>
     <update id="regist" parameterType="com.sayee.sxsy.api.user.entity.UserApiEntity">
         UPDATE CMS_WECHATUSER SET nickname=#{nickName},realname=#{realName},avatar_url=#{avatarUrl},tel=#{tel},age=#{age},workunit=#{workUnit} WHERE wechat_user_id =#{wechatUserId}
@@ -51,7 +51,7 @@
         SELECT password FROM SYS_USER WHERE id=#{sysUserId}
     </select>
     <select id="getUserInfoByUserId" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.user.entity.UserInfo">
-        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId FROM CMS_WECHATUSER WHERE wechat_user_id=#{wechatUserId}
+        SELECT wechat_user_id AS wechatUserId,nickname AS nickName,realname AS realName,avatar_url AS avatarUrl,tel,usertype AS userType,age,workunit AS workUnit,userstatu AS userStatu,sys_user_id AS sysUserId,certificate_mark AS certificateMark FROM CMS_WECHATUSER WHERE wechat_user_id=#{wechatUserId}
     </select>
     <update id="savePassword" parameterType="java.util.Map">
         UPDATE SYS_USER SET password=#{newPassword} WHERE id=#{sysUserId}
@@ -88,4 +88,21 @@ SELECT handle_way AS handleWay FROM COMPLAINT_INFO LEFT JOIN CMS_WECHAT_COMPLAIN
     <select id="getSysUserId" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT sys_user_id FROM CMS_WECHATUSER WHERE wechat_user_id=#{wechatUserId}
     </select>
+    <update id="certificate" parameterType="java.util.Map">
+        UPDATE CMS_WECHATUSER
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idNumber!=null and '' != idNumber">
+                idnumber=  #{idNumber},
+            </if>
+            <if test="realName!=null and '' != realName">
+                realname=  #{realName},
+            </if>
+            <if test="tel!=null and '' != tel">
+                tel=  #{tel},
+            </if>
+                certificate_mark=1
+        </trim>
+        where wechat_user_id= #{wechatUserId}
+    </update>
+
 </mapper>

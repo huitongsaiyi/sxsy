@@ -26,14 +26,19 @@ import com.sayee.sxsy.modules.record.entity.MediateRecord;
 import com.sayee.sxsy.modules.recordinfo.dao.RecordInfoDao;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
 import com.sayee.sxsy.modules.recordinfo.service.RecordInfoService;
+import com.sayee.sxsy.modules.signtype.dao.SignTypeInfoDao;
+import com.sayee.sxsy.modules.signtype.entity.SignTypeInfo;
+import com.sayee.sxsy.modules.signtype.service.SignTypeInfoService;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.service.SystemService;
+import com.sayee.sxsy.modules.sys.utils.DictUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import com.sayee.sxsy.modules.typeinfo.service.TypeInfoService;
+import com.sun.xml.internal.rngom.parse.host.Base;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +65,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 	@Autowired
 	private ActTaskService actTaskService;
 	@Autowired
+	private SignTypeInfoService signTypeInfoService;
+	@Autowired
 	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
 	private PatientLinkEmpDao patientLinkEmpDao;
@@ -85,16 +92,16 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		PatientLinkEmp patientLinkEmp=new PatientLinkEmp();
 		patientLinkEmp.setRelationId(signAgreement.getSignAgreementId());
 		patientLinkEmp.setLinkType("1");
-		signAgreement.setPatientLinkEmpList(patientLinkEmpDao.findList(patientLinkEmp));
+		signAgreement.setPatientLinkEmpList(patientLinkEmpDao.findSignList(patientLinkEmp));//之前用的评估鉴定的表 关联的表不对
 		//患方代理人
 		PatientLinkEmp patientLinkD=new PatientLinkEmp();
 		patientLinkD.setRelationId(signAgreement.getSignAgreementId());
 		patientLinkD.setLinkType("2");
-		signAgreement.setPatientLinkDList(patientLinkEmpDao.findList(patientLinkD));
+		signAgreement.setPatientLinkDList(patientLinkEmpDao.findSignList(patientLinkD));
 		//医方人
 		MedicalOfficeEmp medicalOfficeEmp=new MedicalOfficeEmp();
 		medicalOfficeEmp.setRelationId(signAgreement.getSignAgreementId());
-		signAgreement.setMedicalOfficeEmpList(medicalOfficeEmpDao.findList(medicalOfficeEmp));
+		signAgreement.setMedicalOfficeEmpList(medicalOfficeEmpDao.findSignList(medicalOfficeEmp));
 		if(signAgreement.getMediateProgram()!=null){
 			signAgreement.setMediateProgram(mediateProgramService.get(signAgreement.getMediateProgram().getMediateProgramId()));
 		}
@@ -162,16 +169,20 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 
 	@Transactional(readOnly = false)
 	public void save(HttpServletRequest request, SignAgreement signAgreement) {
-		//super.save(signAgreement);
+		String id="";//第一次 保存 主键为报案登记的主键，所有先生成uuid
+		if(StringUtils.isBlank(signAgreement.getCreateBy().getId())){
+			id=IdGen.uuid();
+			signAgreement.setSignAgreementId(id);
+		}
 		// 保存 多选框，逗号隔开
 		this.getCheck(signAgreement);
 		//数据保存
-		signAgreement.setAgreementAmount(StringUtils.isNumeric(signAgreement.getAgreementAmount())==true ? signAgreement.getAgreementAmount():"0");
-		signAgreement.setInsuranceAmount(StringUtils.isNumeric(signAgreement.getInsuranceAmount()) == true ? signAgreement.getInsuranceAmount() : "0");
+		signAgreement.setAgreementAmount(StringUtils.isNumber(signAgreement.getAgreementAmount())==true ? signAgreement.getAgreementAmount():"0");
+		signAgreement.setInsuranceAmount(StringUtils.isNumber(signAgreement.getInsuranceAmount()) == true ? signAgreement.getInsuranceAmount() : "0");
 		if(StringUtils.isBlank(signAgreement.getCreateBy().getId())){
 			//判断主键ID是否为空
 			signAgreement.preInsert();
-			signAgreement.setSignAgreementId(signAgreement.getId());
+//			signAgreement.setSignAgreementId(signAgreement.getId());
 			//将主键ID设为UUID
 			dao.insert(signAgreement);
 			//保存调解程序表
@@ -215,9 +226,26 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		StringBuffer string=new StringBuffer();
 		if (signAgreement.getMediationList()!=null && !signAgreement.getMediationList().isEmpty()){
 			for (TypeInfo typeInfo : signAgreement.getMediationList()){
+//				SignTypeInfo signTypeInfo=new SignTypeInfo();
+//				signTypeInfo.setSignId(signAgreement.getSignAgreementId());
+//				if (StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
+//					signTypeInfo.setContent(signAgreement.getMediation());
+//				}else {
+//					signTypeInfo.setContent(typeInfo.getContent());
+//				}
+//				signTypeInfo.setTypeName(typeInfo.getTypeName());
+//				signTypeInfo.setSource(typeInfo.getSource());
+//				signTypeInfo.setRelationModel("3");
+//				if (StringUtils.isNotBlank(typeInfo.getSource())){
+//					signTypeInfo.setTypeId(typeInfo.getTypeId());
+//				}
+//				signTypeInfoService.save(signTypeInfo);
+				SignTypeInfo signTypeInfo=this.method(typeInfo,signAgreement,"mediation");
+				//主表 保存 id
 				if (StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
-					string.append(typeInfo.getTypeId()).append(",");
+					string.append(signTypeInfo.getTypeId()).append(",");
 				}
+
 			}
 		}
 		signAgreement.setMediation(String.valueOf(string));
@@ -225,8 +253,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		//协议约定事项
 		if ( signAgreement.getMeatterList()!=null && !signAgreement.getMeatterList().isEmpty()){
 			for (TypeInfo typeInfo : signAgreement.getMeatterList()){
+				SignTypeInfo signTypeInfo=this.method(typeInfo,signAgreement,"xy");
 				if (StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
-					string.append(typeInfo.getTypeId()).append(",");
+					string.append(signTypeInfo.getTypeId()).append(",");
 				}
 			}
 		}
@@ -235,8 +264,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		//履行协议方式
 		if (signAgreement.getPerformList()!=null && !signAgreement.getPerformList().isEmpty() ){
 			for (TypeInfo typeInfo : signAgreement.getPerformList()){
+				SignTypeInfo signTypeInfo=this.method(typeInfo,signAgreement,"performAgreementMode");
 				if (StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
-					string.append(typeInfo.getTypeId()).append(",");
+					string.append(signTypeInfo.getTypeId()).append(",");
 				}
 			}
 		}
@@ -245,13 +275,56 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		//协议说明
 		if (signAgreement.getAgreementList()!=null && !signAgreement.getAgreementList().isEmpty()){
 			for (TypeInfo typeInfo : signAgreement.getAgreementList()){
+				SignTypeInfo signTypeInfo=this.method(typeInfo,signAgreement,"agreementExplain");
 				if (StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
-					string.append(typeInfo.getTypeId()).append(",");
+					string.append(signTypeInfo.getTypeId()).append(",");
 				}
 			}
 		}
 		signAgreement.setAgreementExplain(String.valueOf(string));
 	}
+
+	private SignTypeInfo method(TypeInfo typeInfo,SignAgreement signAgreement,String type) {
+		SignTypeInfo signTypeInfo=new SignTypeInfo();
+		signTypeInfo.setSignId(signAgreement.getSignAgreementId());
+		if (StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
+			if("mediation".equals(type)){
+				signTypeInfo.setContent(signAgreement.getMediation());
+			}else if("performAgreementMode".equals(type)){
+				signTypeInfo.setContent(signAgreement.getPerformAgreementMode());
+			}else if("agreementExplain".equals(type)){
+				signTypeInfo.setContent(signAgreement.getAgreementExplain());
+			}else{//协议约定事项
+				signTypeInfo.setContent(typeInfo.getContent());
+			}
+		}else {
+			signTypeInfo.setContent(typeInfo.getContent());
+		}
+		if("mediation".equals(type)){
+			signTypeInfo.setRelationModel("3");
+		}else if("performAgreementMode".equals(type)){
+			signTypeInfo.setRelationModel("5");
+		}else if("agreementExplain".equals(type)){
+			signTypeInfo.setRelationModel("6");
+		}else{//协议约定事项
+			signTypeInfo.setRelationModel("4");
+		}
+		signTypeInfo.setTypeName(typeInfo.getTypeName());
+		signTypeInfo.setSource(typeInfo.getSource());
+
+		if (StringUtils.isNotBlank(typeInfo.getSource())){
+			signTypeInfo.setTypeId(typeInfo.getTypeId());
+		}
+		Date d=new Date(typeInfo.getRelationModel());
+		signTypeInfo.setCreateDate(d);
+		signTypeInfoService.save(signTypeInfo);
+//		//主表 保存 id
+//		if (StringUtils.isNotBlank(typeInfo.getLabel()) && "1".equals(typeInfo.getLabel())){
+//			string.append(signTypeInfo.getTypeId()).append(",");
+//		}
+		return signTypeInfo;
+	}
+
 
 	//保存患方联系人
 	@Transactional(readOnly = false)
@@ -274,7 +347,9 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 					patientLinkEmp.setPatientLinkEmpId(patientLinkEmp.getId());
 					patientLinkEmp.setLinkType(linkType);
 					patientLinkEmp.setDelFlag("0");
-					patientLinkEmpDao.insert(patientLinkEmp);
+					if(StringUtils.isNotBlank(patientLinkEmp.getPatientLinkName())){
+						patientLinkEmpDao.insert(patientLinkEmp);
+					}
 				}else {
 					patientLinkEmp.preUpdate();
 					patientLinkEmpDao.update(patientLinkEmp);
@@ -330,6 +405,25 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			}
 		}
 	}
+
+	/*
+	 *对 逗号分割的数据进行  处理  然后放入list中
+	 * @param
+	 */
+	public void signLabel(List<SignTypeInfo> signTypeInfos,String data){
+		if (StringUtils.isNotBlank(data)){//有数据进行 处理
+			String[] asplit=data.split(",");
+			for (SignTypeInfo typeInfo:signTypeInfos) {// 根据类型 拿到 数据
+				for (String typeId : asplit) {//数据库中存着 用 逗号 隔开的数据
+					if (typeId.equals(typeInfo.getTypeId())){
+						typeInfo.setLabel("1");
+						break;
+					}
+				}
+			}
+		}
+	}
+
 
 	//保存附件
 	public void savefj(SignAgreement signAgreement,HttpServletRequest request){
@@ -437,6 +531,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 
 	//导出
 	public String exportWord(SignAgreement signAgreement,String export,String print,HttpServletRequest request, HttpServletResponse response){
+		signAgreement =get(signAgreement.getSignAgreementId());
 		if("false".equals(print)){
 			this.getCheck(signAgreement);
 		}
@@ -455,6 +550,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		TypeInfo typeInfo2 = new TypeInfo();
 		TypeInfo typeInfo3 = new TypeInfo();
 		TypeInfo typeInfo4 = new TypeInfo();
+		SignTypeInfo signTypeInfo = new SignTypeInfo();
 		if(signAgreement.getPatientLinkEmpList().size()!=0){
 			patientLinkEmpList = signAgreement.getPatientLinkEmpList();//患方（甲方）
 		}
@@ -468,21 +564,49 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			String mediation = signAgreement.getMediation();
 			String mediation1 = mediation.substring(0, 32);//调节情况id
 			typeInfo1 = typeInfoService.get(mediation1);
+			if (typeInfo1==null){
+				signTypeInfo=signTypeInfoService.get(mediation1);
+				if (signTypeInfo!=null){
+					typeInfo1=new TypeInfo();
+					typeInfo1.setContent(signTypeInfo.getContent());
+				}
+			}
 		}
-		if(StringUtils.isNotBlank(signAgreement.getAgreedMatter())){
+		if(StringUtils.isNotBlank(signAgreement.getAgreedMatter()) && signAgreement.getAgreedMatter().length()>=32){
 			String agreedMatter = signAgreement.getAgreedMatter();
 			String agreedMatter1 = agreedMatter.substring(0, 32);//协议约定事项id
 			typeInfo2 = typeInfoService.get(agreedMatter1);
+			if (typeInfo2==null){
+				signTypeInfo=signTypeInfoService.get(agreedMatter1);
+				if (signTypeInfo!=null){
+					typeInfo2=new TypeInfo();
+					typeInfo2.setContent(signTypeInfo.getContent());
+				}
+			}
 		}
 		if(StringUtils.isNotBlank(signAgreement.getPerformAgreementMode())){
 			String performAgreementMode = signAgreement.getPerformAgreementMode();
 			String performAgreementMode1 = performAgreementMode.substring(0, 32);//履行协议方式id
 			typeInfo3 = typeInfoService.get(performAgreementMode1);
+			if (typeInfo3==null){
+				signTypeInfo=signTypeInfoService.get(performAgreementMode1);
+				if (signTypeInfo!=null){
+					typeInfo3=new TypeInfo();
+					typeInfo3.setContent(signTypeInfo.getContent());
+				}
+			}
 		}
 		if(StringUtils.isNotBlank(signAgreement.getAgreementExplain())){
 			String agreementExplain = signAgreement.getAgreementExplain();
 			String agreementExplain1 = agreementExplain.substring(0, 32);//协议说明id
 			typeInfo4 = typeInfoService.get(agreementExplain1);
+			if (typeInfo4==null){
+				signTypeInfo=signTypeInfoService.get(agreementExplain1);
+				if (signTypeInfo!=null){
+					typeInfo4=new TypeInfo();
+					typeInfo4.setContent(signTypeInfo.getContent());
+				}
+			}
 		}
 		String path = request.getSession().getServletContext().getRealPath("/");
 		String modelPath = path;
@@ -499,61 +623,39 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			num="";
 		}
 		if("agreementExport".equals(export)){
-			if(patientLinkEmpList.size()!=0){
+			if(patientLinkEmpList.size()!=0){//患方的
 				params.put("pName",patientLinkEmpList.get(0).getPatientLinkName()==null?"":patientLinkEmpList.get(0).getPatientLinkName());
-				if("1".equals(patientLinkEmpList.get(0).getPatientRelation())){
-					params.put("pRlation","本人");
-				}else if("2".equals(patientLinkEmpList.get(0).getPatientRelation())){
-					params.put("pRlation","夫妻");
-				}else if("3".equals(patientLinkEmpList.get(0).getPatientRelation())){
-					params.put("pRlation","子女");
-				}else if("4".equals(patientLinkEmpList.get(0).getPatientRelation())){
-					params.put("pRlation","父母");
-				}else if("5".equals(patientLinkEmpList.get(0).getPatientRelation())){
-					params.put("pRlation","兄妹");
-				}else if("6".equals(patientLinkEmpList.get(0).getPatientRelation())){
-					params.put("pRlation","亲属");
-				}else if("7".equals(patientLinkEmpList.get(0).getPatientRelation())){
-					params.put("pRlation","其他");
-				}else{
-					params.put("pRlation","");
-				}
+				params.put("pRlation", DictUtils.getDictLabel(patientLinkEmpList.get(0).getPatientRelation(),"patient_relation",""));
 				params.put("pIdNum",patientLinkEmpList.get(0).getIdNumber()==null?"":patientLinkEmpList.get(0).getIdNumber());
 				params.put("pAdress",patientLinkEmpList.get(0).getPatientLinkAddress()==null?"":patientLinkEmpList.get(0).getPatientLinkAddress());
+				params.put("pSex",DictUtils.getDictLabel(patientLinkEmpList.get(0).getPatientLinkSex(),"sex",""));
+				params.put("pDate",patientLinkEmpList.get(0).getIdNumber()==null?"": MapUtils.getString(ObjectUtils.getBirAgeSex(patientLinkEmpList.get(0).getIdNumber()),"birthday",""));
 			}else{
 				params.put("pName","");
 				params.put("pRlation","");
 				params.put("pIdNum","");
-				params.put("pAdress","");
+				params.put("pAdress","");//${pNation}，${pPost}，
+                params.put("pSex","");
+                params.put("pDate","");
 			}
-			if(patientLinkDList.size()!=0){
+			if(patientLinkDList.size()!=0){//代理人
 				params.put("pdName",patientLinkDList.get(0).getPatientLinkName()==null?"":patientLinkDList.get(0).getPatientLinkName());
-				if("1".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("pdRelation","本人");
-				}else if("2".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("pdRelation","夫妻");
-				}else if("3".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("pdRelation","子女");
-				}else if("4".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("pdRelation","父母");
-				}else if("5".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("pdRelation","兄妹");
-				}else if("6".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("pdRelation","亲属");
-				}else if("7".equals(patientLinkDList.get(0).getPatientRelation())){
-					params.put("pdRelation","其他");
-				}else{
-					params.put("pdRelation","");
-				}
+				params.put("pdRelation", DictUtils.getDictLabel(patientLinkDList.get(0).getPatientRelation(),"patient_relation",""));
 				params.put("pdNumber",patientLinkDList.get(0).getIdNumber()==null?"":patientLinkDList.get(0).getIdNumber());
 				params.put("pdAdress",patientLinkDList.get(0).getPatientLinkAddress()==null?"":patientLinkDList.get(0).getPatientLinkAddress());
+				params.put("pdSex",DictUtils.getDictLabel(patientLinkDList.get(0).getPatientLinkSex(),"sex",""));
+				params.put("pdDate",patientLinkDList.get(0).getIdNumber()==null?"": MapUtils.getString(ObjectUtils.getBirAgeSex( patientLinkDList.get(0).getIdNumber()),"birthday",""));
+				params.put("wt","委托代理人"+MapUtils.getString(params,"pdName","")+"(系患者"+MapUtils.getString(params,"pdRelation","")+")，"+MapUtils.getString(params,"pdSex","")+"，"+MapUtils.getString(params,"pdDate","")+"出生，住"+MapUtils.getString(params,"pdAdress","")+"，公民身份证号："+MapUtils.getString(params,"pdNumber","")+"。");
 			}else{
 				params.put("pdName","");
 				params.put("pdRelation","");
 				params.put("pdNumber","");
-				params.put("pdAdress","");
+				params.put("pdAdress","");//${pdNation}，
+                params.put("pdSex","");
+                params.put("pdDate","");
+                params.put("wt","");
 			}
-			if (medicalOfficeEmpList.size()!=0){
+			if (medicalOfficeEmpList.size()!=0){//医院代理人的
 				params.put("hName",medicalOfficeEmpList.get(0).getMedicalOfficeName()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeName());
 				params.put("hAdress",medicalOfficeEmpList.get(0).getMedicalOfficeAddress()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeAddress());
 				params.put("legal",medicalOfficeEmpList.get(0).getLegalRepresentative()==null?"":medicalOfficeEmpList.get(0).getLegalRepresentative());
@@ -567,6 +669,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 					params.put("hSex","");
 				}
 				params.put("idCard",medicalOfficeEmpList.get(0).getMedicalOfficeIdcard()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeIdcard());
+				params.put("hDate",medicalOfficeEmpList.get(0).getMedicalOfficeIdcard()==null?"":MapUtils.getString(ObjectUtils.getBirAgeSex(medicalOfficeEmpList.get(0).getMedicalOfficeIdcard()),"birthday",""));
 				params.put("company",medicalOfficeEmpList.get(0).getMedicalOfficeCompany()==null?"":medicalOfficeEmpList.get(0).getMedicalOfficeCompany());
 			}else{
 				params.put("hName","");
@@ -576,13 +679,13 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				params.put("agent","");
 				params.put("hSex","");
 				params.put("idCard","");
-				params.put("company","");
+				params.put("hDate","");
+				params.put("company","");//${hNation},
 			}
-			if(StringUtils.isNotBlank(signAgreement.getSummaryOfDisputes())){
-				params.put("summary",signAgreement.getSummaryOfDisputes());
-			}else{
-				params.put("summary","");
-			}
+//			if(StringUtils.isNotBlank(signAgreement.getSummaryOfDisputes())){
+//				params.put("summary",signAgreement.getSummaryOfDisputes());
+//			}else{
+//			}
 //			if(typeInfo1 != null){
 ////				params.put("tjTypeName",typeInfo1.getTypeName()==null?"":typeInfo1.getTypeName());
 //				params.put("tjContent",typeInfo1.getContent()==null?"":typeInfo1.getContent());
@@ -595,10 +698,19 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 //			}else{
 //				params.put("yContent","");
 //			}
+			int a=list.size();
+
+            params.put("summary",StringUtils.isNotBlank(signAgreement.getSummaryOfDisputes()) ? signAgreement.getSummaryOfDisputes() : "");
 			params.put("tjContent",StringUtils.isBlank(mediation2)?StringUtils.isBlank(signAgreement.getMediation())?"":typeInfo1.getContent():mediation2);
-			params.put("yContent",StringUtils.isBlank(agreedMatter2)?StringUtils.isBlank(signAgreement.getAgreedMatter())?"":typeInfo2.getContent():agreedMatter2);
-			params.put("lContent",StringUtils.isBlank(performAgreementMode2)?StringUtils.isBlank(signAgreement.getPerformAgreementMode())?"":typeInfo3.getContent():performAgreementMode2);
-			params.put("xContent",StringUtils.isBlank(agreementExplain2)?StringUtils.isBlank(signAgreement.getAgreementExplain())?"":typeInfo4.getContent():agreementExplain2);
+			a++;
+			String lContent=StringUtils.isBlank(performAgreementMode2) ? StringUtils.isBlank(signAgreement.getPerformAgreementMode())?"":BaseUtils.cvt(String.valueOf(a),true)+"、"+typeInfo3.getContent() : BaseUtils.cvt(String.valueOf(a),true)+"、"+performAgreementMode2;
+			a++;
+			String xContent=StringUtils.isBlank(agreementExplain2) ? StringUtils.isBlank(signAgreement.getAgreementExplain())?"":BaseUtils.cvt(String.valueOf(a),true)+"、"+typeInfo4.getContent() : BaseUtils.cvt(String.valueOf(a),true)+"、"+ agreementExplain2;
+			//
+			params.put("yContent",StringUtils.isBlank(agreedMatter2) ? StringUtils.isBlank(signAgreement.getAgreedMatter())?"":typeInfo2.getContent() : agreedMatter2 +"\r\n" + "    "+lContent+"\r\n" +  "    "+xContent+"\r\n");
+
+//			params.put("lContent",StringUtils.isBlank(performAgreementMode2) ? StringUtils.isBlank(signAgreement.getPerformAgreementMode())?"":BaseUtils.cvt(String.valueOf(a),true)+"、"+typeInfo3.getContent() : BaseUtils.cvt(String.valueOf(a),true)+"、"+performAgreementMode2);
+//			params.put("xContent",StringUtils.isBlank(agreementExplain2) ? StringUtils.isBlank(signAgreement.getAgreementExplain())?"":BaseUtils.cvt(String.valueOf(a),true)+"、"+typeInfo4.getContent() : BaseUtils.cvt(String.valueOf(a),true)+"、"+ agreementExplain2);
 //			if(typeInfo3 !=null){
 //				params.put("lTypeName",typeInfo3.getTypeName()==null?"":typeInfo3.getTypeName());
 //				params.put("lContent",typeInfo3.getContent()==null?"":typeInfo3.getContent());
@@ -613,8 +725,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 //				params.put("xTypeName","");
 //				params.put("xContent","");
 //			}
-			    //协议号
-				params.put("agreementNumber",signAgreement.getAgreementNumber()==null?"":signAgreement.getAgreementNumber());
+			//协议号
+			params.put("agreementNumber",signAgreement.getAgreementNumber()==null?"":signAgreement.getAgreementNumber());
 			path += "/doc/agreement.docx";  //模板文件位置
 			modelPath += "/doc/agreement.docx";
 			savaPath +="/userfiles/signAgreement/"+num+"agreement.docx";
@@ -624,7 +736,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		}else if ("meeting".equals(export)){
 			if(signAgreement.getMediateProgram()!=null) {
 				params.put("time", signAgreement.getMediateProgram().getMeetingTime() == null ? "" : signAgreement.getMediateProgram().getMeetingTime());
-				params.put("address", signAgreement.getMediateProgram().getAddress() == null ? "" : signAgreement.getMediateProgram().getAddress());
+				params.put("address", signAgreement.getMediateProgram().getAddress() == null ? "" : DictUtils.getDictLabel(signAgreement.getMediateProgram().getAddress(),"meeting",""));
 				params.put("case", signAgreement.getComplaintMain().getPatientName() == null || signAgreement.getComplaintMain().getHospital().getName() == null ? "" : signAgreement.getComplaintMain().getPatientName() + "与" + signAgreement.getComplaintMain().getHospital().getName() + "的医疗纠纷。");
 				params.put("tiao", signAgreement.getMediateProgram().getMediatorUser().getName() == null ? "" : signAgreement.getMediateProgram().getMediatorUser().getName());
 				params.put("pen", signAgreement.getMediateProgram().getClerkuser().getName() == null ? "" : signAgreement.getMediateProgram().getClerkuser().getName());
@@ -658,8 +770,8 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 				params.put("startTime", signAgreement.getRecordInfo().getStartTime() == null ? "" : signAgreement.getRecordInfo().getStartTime());
 				params.put("endTime", signAgreement.getRecordInfo().getEndTime() == null ? "" : signAgreement.getRecordInfo().getEndTime());
 				params.put("address", signAgreement.getRecordInfo().getRecordAddress() == null ? "" : signAgreement.getRecordInfo().getRecordAddress());
-				params.put("host", signAgreement.getRecordInfo().getYtwHost().getName() == null ? "" : signAgreement.getRecordInfo().getYtwHost().getName());
-				params.put("noteTaker", signAgreement.getRecordInfo().getYtwNoteTaker().getName() == null ? "" : signAgreement.getRecordInfo().getYtwNoteTaker().getName());
+				params.put("host", signAgreement.getRecordInfo().getYtwHost()==null ? "" :(signAgreement.getRecordInfo().getYtwHost().getName() == null ? "" : signAgreement.getRecordInfo().getYtwHost().getName()));
+				params.put("noteTaker", signAgreement.getRecordInfo().getYtwNoteTaker()==null ? "" :(signAgreement.getRecordInfo().getYtwNoteTaker().getName() == null ? "" : signAgreement.getRecordInfo().getYtwNoteTaker().getName()));
 				params.put("patient", signAgreement.getRecordInfo().getPatient() == null ? "" : signAgreement.getRecordInfo().getPatient());
 				params.put("doctor", signAgreement.getRecordInfo().getDoctor() == null ? "" : signAgreement.getRecordInfo().getDoctor());
 				params.put("patName", signAgreement.getComplaintMain().getPatientName() == null ? "" : signAgreement.getComplaintMain().getPatientName());
@@ -710,10 +822,12 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 			for (int i = 0; i < list.size(); i++) {
 				Map<String,Object> map=(Map<String, Object>) list.get(i);
 				if (i!=0){
-					str+="     ";
+					str+="    ";
 				}
-				str+= MapUtils.getString(map,"name").replaceAll("\t","").replaceAll("\n","");
-				str+= "：";
+				String title=BaseUtils.clearZhBracket(MapUtils.getString(map,"name",""));
+				str+= BaseUtils.cvt(String.valueOf(i+1),true);
+				//BaseUtils.clearEhBracket(title).replaceAll("\t","").replaceAll("\n","");
+				str+= "、";
 				str+= MapUtils.getString(map,"value");
 				if (list.size()-1 != i){
 					str+="\r\n";
@@ -723,4 +837,7 @@ public class SignAgreementService extends CrudService<SignAgreementDao, SignAgre
 		}
 		return str;
 	}
+
+
+
 }

@@ -4,9 +4,17 @@
 <head>
 	<title>达成调解管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
+	<script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#contentTable").colResizable({
+				liveDrag:true,//拖动列时更新表布局
+				gripInnerHtml:"<div class='grip'></div>",
+				draggingClass:"dragging",
+				resizeMode:'overflow',//允许溢出父容器
+				defaults : true,
+			});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -15,6 +23,27 @@
         	return false;
         }
 	</script>
+	<style type="text/css">
+		#contentTable {
+			table-layout: fixed;
+		}
+
+		#contentTable th {
+			text-align: center; /** 设置水平方向居中 */
+			vertical-align: middle; /** 设置垂直方向居中 */
+		}
+
+		#contentTable td {
+			word-break: keep-all; /* 不换行 */
+			white-space: nowrap; /* 不换行 */
+			overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+			text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+		}
+
+		#contentTable th:nth-of-type(23) {
+			width: 10em;
+		}
+	</style>
 </head>
 <body>
 	<ul class="nav nav-tabs">

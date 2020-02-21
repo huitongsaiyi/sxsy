@@ -244,9 +244,15 @@ public class UserUtils {
 	 */
 	public static List<Area> getAreaList(){
 		@SuppressWarnings("unchecked")
-		List<Area> areaList = (List<Area>)getCache(CACHE_AREA_LIST);
+		List<Area> areaList = null;//(List<Area>)getCache(CACHE_AREA_LIST)
+		String areaId=UserUtils.getUser().getCompany().getArea().getId();
 		if (areaList == null){
-			areaList = areaDao.findAllList(new Area());
+			Area area=new Area();
+			if (!UserUtils.getUser().isAdmin()){
+				area.setAreaId(areaId);
+				area.setCity("1");
+			}
+			areaList = areaDao.findAllList(area);
 			putCache(CACHE_AREA_LIST, areaList);
 		}
 		return areaList;

@@ -297,8 +297,8 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                     m.preUpdate();
                     m.setClaimSettlementTime(performAgreement.getClaimSettlementTime()==null?"":performAgreement.getClaimSettlementTime());
                     m.setCompensateTime(performAgreement.getInsurancePayTime()==null?"":performAgreement.getInsurancePayTime());
-                    int assessTime=m.getAssessTime()==null ? 0 : Integer.valueOf(m.getAssessTime()) ;
-                    m.setFlowDays(this.TianShu(m.getRatifyAccord(),m.getAcceptanceTime(),StringUtils.toInteger(m.getAssessTime())));//流转天数  公式=签署协议时间-受理时间 剔除评估天数
+                    //int assessTime=m.getAssessTime()==null ? 0 : Integer.valueOf(m.getAssessTime()) ;
+                    //m.setFlowDays(this.TianShu(m.getRatifyAccord(),m.getAcceptanceTime(),StringUtils.toInteger(m.getAssessTime())));//流转天数  公式=签署协议时间-受理时间 剔除评估天数
                     if (StringUtils.isNotBlank(performAgreement.getAgreementPayAmount()) || "0".equals(performAgreement.getAgreementPayAmount()) || "".equals(performAgreement.getAgreementPayAmount())) {
                         m.setAgreementAmount(performAgreement.getAgreementPayAmount());
                     } else {
@@ -327,11 +327,15 @@ public class MachineAccountService extends CrudService<MachineAccountDao, Machin
                 MachineAccount machineAccount1 = this.getM(summaryInfo.getComplaintMainId());
                 if(machineAccount1!=null){
                     machineAccount1.preUpdate();
+                    //machineAccount1.setAcceptanceTime(summaryInfo.getAcceptanceTime());
+                    machineAccount1.setRatifyAccord(summaryInfo.getRatifyAccord());
+                    machineAccount1.setFlowDays(summaryInfo.getFlowDays());
+                    machineAccount1.setMeetingFrequency(summaryInfo.getMeetingFrequency());
+                    machineAccount1.setMediateResult(summaryInfo.getMediateResult());
                     machineAccount1.setArchiveTime(summaryInfo.getFilingTime()==null?"":summaryInfo.getFilingTime());
                     machineAccount1.setFileNumber(summaryInfo.getFileNumber()==null?"":summaryInfo.getFileNumber());
                     dao.update(machineAccount1);
                 }
-
             }
         }else if("g".equals(node)){//案件评价
             AssessInfo assessInfo = (AssessInfo)id;

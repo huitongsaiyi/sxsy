@@ -38,6 +38,28 @@
 		a.hand_over AS "handOver",
 		a.archive_time AS "archiveTime",
 		a.file_number AS "fileNumber",
+		if(a.case_number IS NULL,c.case_number,a.case_number) as "caseNumber",
+		a.case_situation AS "caseSituation",
+		a.area_id as "areaId",
+		a.hospital_grade as "hospitalGrade",
+		a.is_media as "isMedia",
+		a.acceptance_time as "acceptanceTime",
+		a.eighteen_items as "eighteenItems",
+		a.meeting_frequency as "meetingFrequency",
+		a.host as "host",
+		a.clerk as "clerk",
+		a.medical_expert as "medicalExpert",
+		a.legal_expert as "legalExpert",
+		a.count_amount as "countAmount",
+		a.mediate_result as "mediateResult",
+		a.is_judicial as "isJudicial",
+		a.claim_settlement_day as "claimSettlementDay",
+		a.insurance_pay_time as "insurancePayTime",
+		a.hospital_pay_time as "hospitalPayTime",
+		a.settlement_flow_days as "settlementFlowDays",
+		a.assess_grade as "assessGrade",
+		a.appraiser as "appraiser",
+		a.file_place as "filePlace",
 		a.remark AS "remark",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -187,6 +209,28 @@
 			hand_over,
 			archive_time,
 			file_number,
+			case_number,
+			case_situation,
+			area_id,
+			hospital_grade,
+			is_media,
+			acceptance_time,
+			eighteen_items,
+			meeting_frequency,
+			host,
+			clerk,
+			medical_expert,
+			legal_expert,
+			count_amount,
+			mediate_result,
+			is_judicial,
+			claim_settlement_day,
+			insurance_pay_time,
+			hospital_pay_time,
+			settlement_flow_days,
+			assess_grade,
+			appraiser,
+			file_place,
 			remark,
 			create_by,
 			create_date,
@@ -229,6 +273,28 @@
 			#{handOver},
 			#{archiveTime},
 			#{fileNumber},
+			#{caseNumber},
+			#{caseSituation},
+			#{areaId},
+			#{hospitalGrade},
+			#{isMedia},
+			#{acceptanceTime},
+			#{eighteenItems},
+			#{meetingFrequency},
+			#{host},
+			#{clerk},
+			#{medicalExpert},
+			#{legalExpert},
+			#{countAmount},
+			#{mediateResult},
+			#{isJudicial},
+			#{claimSettlementDay},
+			#{insurancePayTime},
+			#{hospitalPayTime},
+			#{settlementFlowDays},
+			#{assessGrade},
+			#{appraiser},
+			#{filePlace},
 			#{remark},
 			#{createBy.id},
 			#{createDate},
@@ -345,6 +411,72 @@
 		<if test="fileNumber != null and fileNumber !=''">
 			file_number = #{fileNumber},
 		</if>
+		<if test="caseNumber != null and caseNumber !=''">
+			case_number = #{caseNumber},
+		</if>
+		<if test="caseSituation != null and caseSituation !=''">
+			case_situation = #{caseSituation},
+		</if>
+		<if test="areaId != null and areaId !=''">
+			area_id = #{areaId},
+		</if>
+		<if test="hospitalGrade != null and hospitalGrade !=''">
+			hospital_grade = #{hospitalGrade},
+		</if>
+		<if test="isMedia != null and isMedia !=''">
+			is_media = #{isMedia},
+		</if>
+		<if test="acceptanceTime != null and acceptanceTime !=''">
+			acceptance_time = #{acceptanceTime},
+		</if>
+		<if test="eighteenItems != null and eighteenItems !=''">
+			eighteen_items = #{eighteenItems},
+		</if>
+		<if test="meetingFrequency != null and meetingFrequency !=''">
+			meeting_frequency = #{meetingFrequency},
+		</if>
+		<if test="host != null and host !=''">
+			host = #{host},
+		</if>
+		<if test="clerk != null and clerk !=''">
+			clerk = #{clerk},
+		</if>
+		<if test="medicalExpert != null and medicalExpert !=''">
+			medical_expert = #{medicalExpert},
+		</if>
+		<if test="legalExpert != null and legalExpert !=''">
+			legal_expert = #{legalExpert},
+		</if>
+		<if test="countAmount != null and countAmount !=''">
+			count_amount = #{countAmount},
+		</if>
+		<if test="mediateResult != null and mediateResult !=''">
+			mediate_result = #{mediateResult},
+		</if>
+		<if test="isJudicial != null and isJudicial !=''">
+			is_judicial = #{isJudicial},
+		</if>
+		<if test="claimSettlementDay != null and claimSettlementDay !=''">
+			claim_settlement_day = #{claimSettlementDay},
+		</if>
+		<if test="insurancePayTime != null and insurancePayTime !=''">
+			insurance_pay_time = #{insurancePayTime},
+		</if>
+		<if test="hospitalPayTime != null and hospitalPayTime !=''">
+			hospital_pay_time = #{hospitalPayTime},
+		</if>
+		<if test="settlementFlowDays != null and settlementFlowDays !=''">
+			settlement_flow_days = #{settlementFlowDays},
+		</if>
+		<if test="assessGrade != null and assessGrade !=''">
+			assess_grade = #{assessGrade},
+		</if>
+		<if test="appraiser != null and appraiser !=''">
+			appraiser = #{appraiser},
+		</if>
+		<if test="filePlace != null and filePlace !=''">
+			file_place = #{filePlace},
+		</if>
 		<if test="remark != null and remark !=''">
 			remark = #{remark},
 		</if>
@@ -412,6 +544,28 @@
 		a.hand_over AS "handOver",
 		a.archive_time AS "archiveTime",
 		a.file_number AS "fileNumber",
+		if(a.case_number IS NULL,c.case_number,a.case_number) as "caseNumber",
+		a.case_situation AS "caseSituation",
+		a.area_id as "areaId",
+		a.hospital_grade as "hospitalGrade",
+		a.is_media as "isMedia",
+		a.acceptance_time as "acceptanceTime",
+		a.eighteen_items as "eighteenItems",
+		a.meeting_frequency as "meetingFrequency",
+		a.host as "host",
+		a.clerk as "clerk",
+		a.medical_expert as "medicalExpert",
+		a.legal_expert as "legalExpert",
+		a.count_amount as "countAmount",
+		a.mediate_result as "mediateResult",
+		a.is_judicial as "isJudicial",
+		a.claim_settlement_day as "claimSettlementDay",
+		a.insurance_pay_time as "insurancePayTime",
+		a.hospital_pay_time as "hospitalPayTime",
+		a.settlement_flow_days as "settlementFlowDays",
+		a.assess_grade as "assessGrade",
+		a.appraiser as "appraiser",
+		a.file_place as "filePlace",
 		a.remark AS "remark",
 		u5.name AS "createBy.id",
 		a.create_date AS "createDate",

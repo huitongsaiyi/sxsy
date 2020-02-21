@@ -146,15 +146,21 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	/**
 	 * 转换为时间（天,时:分:秒.毫秒）
 	 * @param timeMillis
+	 * @param type Chinese 显示 汉字 时分秒
+	 * @param millis 是否显示 毫秒
 	 * @return
 	 */
-    public static String formatDateTime(long timeMillis){
+    public static String formatDateTime(long timeMillis,String type,boolean millis,boolean m,boolean second){
 		long day = timeMillis/(24*60*60*1000);
 		long hour = (timeMillis/(60*60*1000)-day*24);
 		long min = ((timeMillis/(60*1000))-day*24*60-hour*60);
 		long s = (timeMillis/1000-day*24*60*60-hour*60*60-min*60);
 		long sss = (timeMillis-day*24*60*60*1000-hour*60*60*1000-min*60*1000-s*1000);
-		return (day>0?day+",":"")+hour+":"+min+":"+s+"."+sss;
+		if ("chinese".equals(type)){
+			return (day>0?day+"天":"")+(hour>0?hour+"时":"")+(true==m ?  (min>0?min+"分":"") :"")+ (true==second ?  (s>0?s+"秒":"") :"")  + (true==millis ? sss+"毫秒" :"");
+		}else{
+			return (day>0?day+",":"")+hour+":"+min+":"+s + (true==millis ? "."+sss :"");
+		}
     }
 	
 	/**

@@ -85,6 +85,18 @@
             $(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
         });
 
+        function removeCssClass() {
+            $('#diagnosisMode').removeClass('required');
+            $('#treatmentOutcome').removeClass('required');
+            $('#nextLinkManName').removeClass('required');
+            $('#summaryOfDisputes').removeClass('required');
+        }
+        function addCssClass() {
+            $('#diagnosisMode').addClass('required');
+            $('#treatmentOutcome').addClass('required');
+            $('#nextLinkManName').addClass('required');
+            $('#summaryOfDisputes').addClass('required');
+        }
     </script>
 
 
@@ -631,12 +643,12 @@
                             案件来源：
                         </td>
                         <td>
-                            <form:select path="caseSource" class="input-medium required" onchange="show_input(this.value,'anjian')">
+                            <form:select path="caseSource" class="input-xlarge required" onchange="show_input(this.value,'anjian')">
                                 <form:options items="${fns:getDictList('case_source')}" itemLabel="label" itemValue="value" htmlEscape="false" />
                             </form:select>
                             <span class="help-inline"><font color="red">*</font> </span>
                         </td>
-                        <td class="tit"><font color="red">*</font>
+                        <td class="tit">
                             起保日期：
                         </td>
                         <td>
@@ -662,7 +674,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="tit">
+                        <td class="tit"><font color="red">*</font>
                             诊疗方式：
                         </td>
                         <td>
@@ -689,7 +701,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="tit">纠纷概要</td>
+                        <td class="tit"><font color="red">*</font>纠纷概要</td>
                         <td colspan="3">
                             <form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
                         </td>
@@ -1013,10 +1025,10 @@
     <div class="form-actions">
         <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="保 存"
-                                                                                onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('no'),$('#export').val('no'),removeCssClass()"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                                 type="submit" value="下一步"
-                                                                                onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                                onclick="$('#flag').val('yes'),$('#export').val('no'),addCssClass()"/>&nbsp;</shiro:hasPermission>
         <%--<shiro:hasPermission name="auditacceptance:auditAcceptance:edit"><input id="btnSubmit" class="btn btn-primary"--%>
                                                                                 <%--type="submit" value="导出全部"--%>
                                                                                 <%--onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>--%>

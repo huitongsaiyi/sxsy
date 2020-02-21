@@ -110,12 +110,14 @@
 			});
 			$("input[name='"+na+"']").prop("checked",true);
 		}
+
+		function replace(str, substr, newstr) {
+			substr = substr.replace(/[.\\[\]{}()|^$?*+]/g, "\\$&"); // 转义字符串中的元字符
+			var re = new RegExp(substr, "g"); // 生成正则
+			return str.replace(re, newstr);
+		}
+
 		function exportWord() {
-			function replace(str, substr, newstr) {
-				substr = substr.replace(/[.\\[\]{}()|^$?*+]/g, "\\$&"); // 转义字符串中的元字符
-				var re = new RegExp(substr, "g"); // 生成正则
-				return str.replace(re, newstr);
-			}
 			//协议约定事项 是个 listmap  格式 ；
 			var list=[];
 			$("input[type=checkbox]").each(function(){
@@ -185,11 +187,30 @@
 				if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 			return fmt;
 		}
+		function removeCssClass() {
+			$('#summaryOfDisputes').removeClass('required');
+			$('#ratifyAccord').removeClass('required');
+			$('#agreementAmount').removeClass('required');
+			$('#insuranceAmount').removeClass('required');
+			$('#nextLinkManName').removeClass('required');
+		}
+		function addCssClass() {
+			$('#summaryOfDisputes').addClass('required');
+			$('#ratifyAccord').addClass('required');
+			$('#agreementAmount').addClass('required');
+			$('#insuranceAmount').addClass('required');
+			$('#nextLinkManName').addClass('required');
+		}
 
 
+		function assignment(t) {
+			var id=$(t).attr('name').split('.')[0]+'.content';
+			$('input[name="'+replace(id,"","")+'"]').val($(t).val());
+		}
 	</script>
 </head>
 <body>
+
 <ul class="nav nav-tabs">
 	<li><a href="${ctx}/sign/signAgreement/">签署协议列表</a></li>
 	<li class="active"><a href="${ctx}/sign/signAgreement/form?id=${signAgreement.id}">签署协议<shiro:hasPermission name="sign:signAgreement:edit">${not empty signAgreement.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sign:signAgreement:edit">查看</shiro:lacksPermission></a></li>
@@ -220,6 +241,7 @@
 	<form:hidden path="agreementExplain"/>
 	<input type="hidden"  id="export" name="export"/>
 	<sys:message content="${message}"/>
+<fieldset>
 
 	<ul id="myTab" class="nav nav-tabs">
 		<li class="active">
@@ -235,18 +257,19 @@
 			<a href="#annex" data-toggle="tab">附件</a>
 		</li>
 	</ul>
-	<div id="myTabContent" class="tab-content">
+	<div id="myTabContent" class="tab-content" >
 		<div class="tab-pane fade in active" id="sign">
-			<div id="myTab1Content" class="tab-content">
+			<div id="myTab1Content" class=""  >
 				<legend style="color: black;">协议号</legend>
 				<form:input path="agreementNumber" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 				<%--<p style="font-size: 20px;color: black;">${signAgreement.agreementNumber}</p>--%>
-				<table id="patientTable" class="table table-striped table-bordered table-condensed">
+				<table id="patientTable" class="table  table-bordered table-condensed">
 					<legend style="color: black;">甲方（患方）</legend>
 					<thead>
 					<tr>
 						<th class="hide"></th>
 						<th >姓名</th>
+						<th >性别</th>
 						<th >与患者关系</th>
 						<th >身份证号</th>
 						<th >住址</th>
@@ -262,6 +285,7 @@
 						<tr><td colspan="7"><a href="javascript:" onclick="addRow('#patientLinkEmpList', patientLinkEmpRowIdx, patientLinkEmpTp);patientLinkEmpRowIdx = patientLinkEmpRowIdx + 1;" class="btn" id="huan">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 				</table>
+
 				<script type="text/template" id="patientLinkEmpTp">//<!--
 						<tr id="patientLinkEmpList{{idx}}">
 							<td class="hide">
@@ -274,6 +298,12 @@
 
 							<td>
 								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
+							</td>
+							<td>
+								<select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" value="{{row.patientLinkSex}}" data-value="{{row.patientLinkSex}}" class="input-mini">
+									<option value="1"  >男</option>
+									<option value="2"  >女</option>
+								</select>
 							</td>
 							<td>
 								<%--<input id="patientLinkEmpList{{idx}}_patientRelation" name="patientLinkEmpList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />--%>
@@ -302,12 +332,13 @@
 				</script>
 
 
-				<table id="patientDTable" class="table table-striped table-bordered table-condensed">
+				<table id="patientDTable" class="table table-bordered table-condensed">
 					<legend style="color: black;">委托（法定）代理人</legend>
 					<thead>
 					<tr>
 						<th class="hide"></th>
 						<th >姓名</th>
+						<th >性别</th>
 						<th >与患者关系</th>
 						<th >身份证号</th>
 						<th >住址</th>
@@ -337,6 +368,12 @@
 								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" />
 							</td>
 							<td>
+								<select id="patientLinkDList{{idx}}_patientLinkSex" name="patientLinkDList[{{idx}}].patientLinkSex" value="{{row.patientLinkSex}}" data-value="{{row.patientLinkSex}}" class="input-mini">
+									<option value="1"  >男</option>
+									<option value="2"  >女</option>
+								</select>
+							</td>
+							<td>
 								<%--<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />--%>
 								<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini">
 
@@ -362,12 +399,12 @@
 						</tr>//-->
 				</script>
 
-				<table id="hospitalTable" class="table table-striped table-bordered table-condensed">
+				<table id="hospitalTable" class="table table-bordered table-condensed">
 					<legend style="color: black;">乙方（医方）</legend>
 					<thead>
 					<tr>
 						<th class="hide"></th>
-						<th >医疗机构名称</th>
+						<th style="width: 12%">医疗机构名称</th>
 						<th >地址</th>
 						<th >法定代表人</th>
 						<th >职务</th>
@@ -397,19 +434,19 @@
 							</td>
 
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeName" name="medicalOfficeEmpList[{{idx}}].medicalOfficeName" type="text" value="{{row.medicalOfficeName}}" maxlength="100" class="required " />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAddress" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAddress" type="text" value="{{row.medicalOfficeAddress}}" maxlength="100" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAddress" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAddress" type="text" value="{{row.medicalOfficeAddress}}" maxlength="100" class="required " />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_legalRepresentative" name="medicalOfficeEmpList[{{idx}}].legalRepresentative" type="text" value="{{row.legalRepresentative}}" maxlength="20" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_legalRepresentative" name="medicalOfficeEmpList[{{idx}}].legalRepresentative" type="text" value="{{row.legalRepresentative}}" maxlength="20" class="required input-mini" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required input-mini" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required input-mini" />
 							</td>
 							<td>
 								<select id="medicalOfficeEmpList{{idx}}_medicalOfficeSex" name="medicalOfficeEmpList[{{idx}}].medicalOfficeSex" value="{{row.medicalOfficeSex}}" data-value="{{row.medicalOfficeSex}}" class="input-mini">
@@ -418,10 +455,10 @@
 								</select>
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeIdcard" name="medicalOfficeEmpList[{{idx}}].medicalOfficeIdcard" type="text" value="{{row.medicalOfficeIdcard}}" maxlength="20" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeIdcard" name="medicalOfficeEmpList[{{idx}}].medicalOfficeIdcard" type="text" value="{{row.medicalOfficeIdcard}}" maxlength="20" class="required " />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeCompany" name="medicalOfficeEmpList[{{idx}}].medicalOfficeCompany" type="text" value="{{row.medicalOfficeCompany}}" maxlength="200" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeCompany" name="medicalOfficeEmpList[{{idx}}].medicalOfficeCompany" type="text" value="{{row.medicalOfficeCompany}}" maxlength="200" class="required " />
 							</td>
 							<shiro:hasPermission name="sign:signAgreement:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#medicalOfficeEmpList{{idx}}','_medicalOfficeEmpId')" title="删除">&times;</span>{{/delBtn}}
@@ -432,7 +469,7 @@
 					<legend style="color: black;">纠纷概要</legend>
 					<tr>
 						<td >
-							<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" cssStyle="width: 1620px;" rows="15"/>
+							<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" cssStyle="width: 1500px;" rows="15"/>
 						</td>
 					</tr>
 				</table>
@@ -451,13 +488,18 @@
 							<td nowrap style="text-align:center;vertical-align:middle;width: 5%;">
 								<input type="hidden" name="mediationList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="mediationList[${vs.index}].delFlag" value="${column.delFlag}"/>
+								<input type="hidden" name="mediationList[${vs.index}].content" value="${column.content}"/>
+								<input type="hidden" name="mediationList[${vs.index}].source" value="${empty column.source ? '' : column.source}"/>
+								<input type="hidden" name="mediationList[${vs.index}].relationModel" value="${empty column.createDate ? '' : column.createDate}"/>
 								<input type="checkbox" name="mediationList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'tjqk');"/>
 							</td>
 							<td style="text-align:center;width: 10%;">
+								<input type="hidden" name="mediationList[${vs.index}].typeName" value="${column.typeName}"/>
 									${column.typeName}
 							</td>
 							<td style="text-align:center;">
-										<textarea  name="mediationList[${vs.index}].mediation" style="width: 90%;">${column.content}</textarea>
+										<textarea  name="mediationList[${vs.index}].mediation" style="width: 90%;" onchange='assignment(this)'  rows="5">${column.content}</textarea>
+
 							</td>
 						</tr>
 					</c:forEach>
@@ -472,7 +514,7 @@
 					<tr>
 						<th></th>
 						<th style="text-align:center;">类型</th>
-						<th style="text-align:center;">内容</th>
+						<th style="text-align:center;width: 80%;">内容</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -481,14 +523,18 @@
 							<td nowrap style="text-align:center;vertical-align:middle;width: 5%;">
 								<input type="hidden" name="meatterList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="meatterList[${vs.index}].delFlag" value="${column.delFlag}"/>
+								<input type="hidden" name="meatterList[${vs.index}].content" value="${column.content}"/>
+								<input type="hidden" name="meatterList[${vs.index}].source" value="${empty column.source ? '' : column.source}"/>
+								<input type="hidden" name="meatterList[${vs.index}].relationModel" value="${empty column.createDate ? '' : column.createDate}"/>
 								<input type="checkbox" name="meatterList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} /><%--onclick="clearCheckBox(this.name,'xyydsx')"--%>
 							</td>
 							<td name="meatterList[${vs.index}].td" style="text-align:center;vertical-align:middle;">
+								<input type="hidden" name="meatterList[${vs.index}].typeName" value="${column.typeName}"/>
 									${column.typeName}
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
 								<%--<input type="text" name="agreedMatter" value="${column.content}" style="width: 90%;word-wrap:break-word;height:100px;"/>--%>
-								<textarea  name="meatterList[${vs.index}].agreedMatter" style="width: 90%;">${column.content}</textarea>
+								<textarea  name="meatterList[${vs.index}].agreedMatter" style="width: 90%;" onchange='assignment(this)' rows="5">${column.content}</textarea>
 							</td>
 						</tr>
 					</c:forEach>
@@ -511,13 +557,17 @@
 							<td nowrap style="text-align:center;vertical-align:middle;">
 								<input type="hidden" name="performList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="performList[${vs.index}].delFlag" value="${column.delFlag}"/>
+								<input type="hidden" name="performList[${vs.index}].content" value="${column.content}"/>
+								<input type="hidden" name="performList[${vs.index}].source" value="${empty column.source ? '' : column.source}"/>
+								<input type="hidden" name="performList[${vs.index}].relationModel" value="${empty column.createDate ? '' : column.createDate}"/>
 								<input type="checkbox" name="performList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'lxxyfs')"/>
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
+								<input type="hidden" name="performList[${vs.index}].typeName" value="${column.typeName}"/>
 									${column.typeName}
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
-										<textarea  name="performList[${vs.index}].performAgreementMode" style="width: 90%;">${column.content}</textarea>
+									<textarea  name="performList[${vs.index}].performAgreementMode" style="width: 90%;" onchange='assignment(this)' rows="5">${column.content}</textarea>
 							</td>
 						</tr>
 					</c:forEach>
@@ -541,13 +591,17 @@
 							<td nowrap style="text-align:center;vertical-align:middle;">
 								<input type="hidden" name="agreementList[${vs.index}].typeId" value="${column.typeId}"/>
 								<input type="hidden" name="agreementList[${vs.index}].delFlag" value="${column.delFlag}"/>
+								<input type="hidden" name="agreementList[${vs.index}].content" value="${column.content}"/>
+								<input type="hidden" name="agreementList[${vs.index}].source" value="${empty column.source ? '' : column.source}"/>
+								<input type="hidden" name="agreementList[${vs.index}].relationModel" value="${empty column.createDate ? '' : column.createDate}"/>
 								<input type="checkbox" name="agreementList[${vs.index}].label" value="1" ${column.label eq '1' ? 'checked' : ''} onclick="clearCheckBox(this.name,'xysm');"/>
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
+								<input type="hidden" name="agreementList[${vs.index}].typeName" value="${column.typeName}"/>
 									${column.typeName}
 							</td>
 							<td style="text-align:center;vertical-align:middle;">
-								<textarea  name="agreementList[${vs.index}].agreementExplain" style="width: 90%;">${column.content}</textarea>
+								<textarea  name="agreementList[${vs.index}].agreementExplain" onchange='assignment(this)' style="width: 90%;" >${column.content}</textarea>
 							</td>
 						</tr>
 					</c:forEach>
@@ -992,7 +1046,7 @@
 					<td colspan="4">
 						<form:input path="recordInfo.patient" htmlEscape="false" maxlength="100" class="input-xlarge " cssStyle="width: 450px;"/>
 					</td>
-					<td style="border-left: hidden;"></td>
+					<td style="border-left: hidden;"></td>调解情况
 				</tr>
 				<tr>
 					<td class="tit">医方参加人员</td>
@@ -1087,12 +1141,12 @@
 
 	<table class="table-form">
 		<tr>
-			<td class="tit">签署协议/判决时间：</td>
+			<td class="tit"><font color="red" style="width: 10px;">*</font>签署协议/判决时间：</td>
 			<td >
-				<input name="ratifyAccord" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+				<input id="ratifyAccord" name="ratifyAccord" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 					   value="${signAgreement.ratifyAccord}"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>
-				<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
+				<span class="help-inline"> </span>
 			</td>
 				<%--<td class="tit" >交理赔时间：</td>--%>
 				<%--<td >--%>
@@ -1103,13 +1157,13 @@
 				<%--</td>--%>
 		</tr>
 		<tr>
-			<td class="tit" >协议金额：</td>
+			<td class="tit" ><font color="red" style="width: 10px;">*</font>协议金额：</td>
 			<td >
 				<form:input path="agreementAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="tit">保险金额：</td>
+			<td class="tit"><font color="red" style="width: 10px;">*</font>保险金额：</td>
 			<td >
 				<form:input path="insuranceAmount" htmlEscape="false" class="input-xlarge required number" maxlength="10"/>
 			</td>
@@ -1125,16 +1179,17 @@
 			<%--</td>--%>
 			<%--</tr>--%>
 		<tr>
-			<td class="tit">下一环节处理人：</td>
+			<td class="tit"><font color="red" style="width: 10px;">*</font>下一环节处理人：</td>
 			<td >
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${empty signAgreement.nextLinkMan?fns:getUser().id:signAgreement.nextLinkMan}" labelName="" labelValue="${empty signAgreement.linkEmployee.name?fns:getUser().name:signAgreement.linkEmployee.name}"
 								title="用户" url="/sys/office/treeData?type=3&officeType=1" dataMsgRequired="必填信息" cssClass="required" allowClear="true" isAll="true" notAllowSelectParent="true" />
 			</td>
 		</tr>
 	</table>
+</fieldset>
 	<div class="form-actions" style="text-align: center;">
-		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no'),removeCssClass()"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="sign:signAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no'),addCssClass()"/>&nbsp;</shiro:hasPermission>
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 	</div>
 	<act:histoicFlow procInsId="${signAgreement.complaintMain.procInsId}" />

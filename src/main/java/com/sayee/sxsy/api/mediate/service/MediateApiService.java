@@ -46,13 +46,14 @@ public class MediateApiService extends CrudService<MediateApiDao, MediateApiEnti
     }
     /*获取案件编号*/
     public String getCaseNumber(){
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+        //SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
         String nowDate=sdf.format(new Date());
         //System.out.println(nowDate);
         String caseNumber=mediateApiDao.getCaseNumber(nowDate);
         String number="";
         if(null==caseNumber||caseNumber.isEmpty()){
-            number=nowDate+"001";
+            number=nowDate+"0001";
         }else{
             try {
                 long value = Long.valueOf(caseNumber) + 1;
@@ -83,6 +84,10 @@ public class MediateApiService extends CrudService<MediateApiDao, MediateApiEnti
     /*投诉处理人*/
     public String getDistributionUser(String areaId){
         return mediateApiDao.getDistributionUser(areaId);
+    }
+    /*投诉医院处理人*/
+    public String getDistribution(String involveHospitalId){
+        return mediateApiDao.getDistribution(involveHospitalId);
     }
     /*用户投诉列表*/
     public List<ComplaintApi> getComplaintList(String wechatUserId){

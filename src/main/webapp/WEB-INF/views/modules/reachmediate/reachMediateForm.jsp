@@ -682,12 +682,17 @@
 					<td colspan="3">
 						<form:textarea path="recordInfo.recordContent" htmlEscape="false" class="input-xlarge "
 									   style="margin: 0px; width: 938px; height: 125px;"/>
+						</br>
+						<span><font color="red" size="5">温馨提示：保存之前请先选择“调解程序表中的'时间'”,否则笔录内容不进行保存！</font></span>
 					</td>
 				</tr>
 			</table>
 			<div style="width: 200px;margin: auto">
-				<input id="pContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('pContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+				<%--<input id="pContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('pContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
 				<input id="pContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('pContent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+--%>
+					<input id="pContentExport" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="return promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',document.getElementById('inputForm').action+'?reachMediateId=${reachMediate.reachMediateId}&export=pContent&nums=');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成会议表之前请先将调解程序表填写完整。</h4>"/>
+					<input id="pContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('pContent');promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',exportWord);" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
 			</div>
 		</div>
@@ -767,12 +772,18 @@
 						<form:textarea path="recordInfo.yrecordInfo.recordContent" htmlEscape="false"
 									   class="input-xlarge "
 									   style="margin: 0px; width: 938px; height: 125px;"/>
+						</br>
+						<span><font color="red" size="5">温馨提示：保存之前请先选择“调解程序表中的'时间'”,否则笔录内容不进行保存！</font></span>
 					</td>
 				</tr>
 			</table>
 			<div style="width: 200px;margin: auto">
-				<input id="dContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('dContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+				<%--<input id="dContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('dContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
 				<input id="dContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('dContent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+--%>
+				<input id="dContentExport" class="btn btn-primary" type="submit" value="生成会议表" value="导 出" onclick="return promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',document.getElementById('inputForm').action+'?reachMediateId=${reachMediate.reachMediateId}&export=dContent&nums=');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成会议表之前请先将调解程序表填写完整。</h4>"/>
+				<input id="dContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('dContent');promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',exportWord);" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
 
 			</div>
 		</div>

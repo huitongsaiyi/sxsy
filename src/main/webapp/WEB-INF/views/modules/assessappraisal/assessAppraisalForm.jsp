@@ -12,18 +12,37 @@
 					var aa=$("#export").val();
 					var bb=$("#flag").val();
 					var cc=$("#startTime").val();
+					var tip=$("#nextLinkManName").val();
 					if(bb=='yes' && (cc=='' || cc== undefined) ) {
 						alertx("请选择评估鉴定会议时间！");
 					}else{
-						if(aa=='no') {
-							loading('正在提交，请稍等...');
+						if(bb=='yes'){//点击 下一步的 时候
+							top.$.jBox.confirm("您下一环节处理人是    “"+tip+"”    ，您确认要提交吗？","系统提示",function(v,h,f){
+								if(v=="ok"){
+									if(aa=='no') {
+										loading('正在提交，请稍等...');
+									}
+									$("input[type=checkbox]").each(function(){
+										$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
+												+($(this).attr("checked")?"1":"0")+"\"/>");
+										$(this).attr("name", "_"+$(this).attr("name"));
+									});
+									form.submit();
+								}
+							},{buttonsFocus:1, closed:function(){
+
+							}});
+						}else{//点击保存的时候
+							if(aa=='no') {
+								loading('正在提交，请稍等...');
+							}
+							$("input[type=checkbox]").each(function(){
+								$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
+										+($(this).attr("checked")?"1":"0")+"\"/>");
+								$(this).attr("name", "_"+$(this).attr("name"));
+							});
+							form.submit();
 						}
-						$("input[type=checkbox]").each(function(){
-							$(this).after("<input type=\"hidden\" name=\""+$(this).attr("name")+"\" value=\""
-									+($(this).attr("checked")?"1":"0")+"\"/>");
-							$(this).attr("name", "_"+$(this).attr("name"));
-						});
-						form.submit();
 					}
 
 				},
@@ -208,7 +227,7 @@
 				$('tr[name="jd"]').show();
 				$('tr[name="pg"]').hide();
 			}
-			var times1=$("#time3").val();
+			var times1=$("#startTime").val();
 			var times12=times1.substr(0,10);
 			$("#time1").text(times12);
 			// var times2=$("#time4").val();
@@ -260,6 +279,67 @@
 				$("#scale").val(0)
 			}
 		}
+
+		function removeCssClass() {
+			$('#startTime').removeClass('required');
+			$('#endTime').removeClass('required');
+			$('#medicalExpertName').removeClass('required');
+			$('#legalExpertName').removeClass('required');
+			$('#hostName').removeClass('required');
+			$('#clerkName').removeClass('required');
+			$('#patientClear').removeClass('required');
+			$('#doctorClear').removeClass('required');
+			$('#patientAvoid').removeClass('required');
+			$('#doctorAvoid').removeClass('required');
+
+			$('#hospitalNumber').removeClass('required');
+			$('#diagnosticAnalysis').removeClass('required');
+			$('#treatmentAnalysis').removeClass('required');
+			$('#otherMedicalAnalysis').removeClass('required');
+			$('#scale').removeClass('required');
+			$('#legalExpert').removeClass('required');
+			$('#calculatedAmount').removeClass('required');
+			$('#other').removeClass('required');
+
+			$('#proposal\\.treatmentSummary').removeClass('required');
+			$('#proposal\\.patientThink').removeClass('required');
+			$('#proposal\\.doctorThink').removeClass('required');
+			$('#proposal\\.diagnosis').removeClass('required');
+			$('#proposal\\.treatment').removeClass('required');
+			$('#proposal\\.other').removeClass('required');
+			$('#nextLinkManName').removeClass('required');
+
+		}
+		function addCssClass() {
+			$('#startTime').addClass('required');
+			$('#endTime').addClass('required');
+			$('#medicalExpertName').addClass('required');
+			$('#legalExpertName').addClass('required');
+			$('#hostName').addClass('required');
+			$('#clerkName').addClass('required');
+			$('#patientClear').addClass('required');
+			$('#doctorClear').addClass('required');
+			$('#patientAvoid').addClass('required');
+			$('#doctorAvoid').addClass('required');
+
+			$('#hospitalNumber').addClass('required');
+			$('#diagnosticAnalysis').addClass('required');
+			$('#treatmentAnalysis').addClass('required');
+			$('#otherMedicalAnalysis').addClass('required');
+			$('#scale').addClass('required');
+			$('#legalExpert').addClass('required');
+			$('#calculatedAmount').addClass('required');
+			$('#other').addClass('required');
+
+			$('#proposal\\.treatmentSummary').addClass('required');
+			$('#proposal\\.patientThink').addClass('required');
+			$('#proposal\\.doctorThink').addClass('required');
+			$('#proposal\\.diagnosis').addClass('required');
+			$('#proposal\\.treatment').addClass('required');
+			$('#proposal\\.other').addClass('required');
+			$('#nextLinkManName').addClass('required');
+		}
+
 	</script>
 </head>
 <body>
@@ -288,7 +368,7 @@
 	<form:hidden path="clerks.name"/>
 	<form:hidden path="hosts.name"/>
 	<%--<form:hidden path="recordInfo1.patient"/>--%>
-	<form:hidden path="recordInfo1.doctor"/>
+	<%--<form:hidden path="recordInfo1.doctor"/>--%>
 	<form:hidden path="recordInfo1.host"/>
 	<form:hidden path="recordInfo1.noteTaker"/>
 	<form:hidden path="recordInfo1.yrecordInfo.patient"/>
@@ -339,13 +419,13 @@
 					<td>
 						<input id="startTime" name="recordInfo1.startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${assessAppraisal.recordInfo1.startTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" id="time3" onchange="show_input(this.value,'time1')" style="width:280px;text-align: center;"/>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" onchange="show_input(this.value,'time1')" style="width:280px;text-align: center;"/>
 					</td>
 					<td class="tit" width="10%">至</td>
 					<td colspan="2">
-						<input name="recordInfo1.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+						<input id="endTime" name="recordInfo1.endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${assessAppraisal.recordInfo1.endTime}"
-							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" id="time4" onchange="show_input(this.value,'time2')" style="width:280px;text-align: center;"/>
+							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" onchange="show_input(this.value,'time2')" style="width:280px;text-align: center;"/>
 					</td>
 				</tr>
 				<tr>
@@ -402,8 +482,9 @@
 				<tr>
 					<td class="tit">医方:</td>
 					<td colspan="3">
-						<form:input path="complaintMain.hospital.name" htmlEscape="false" maxlength="20" class="input-xlarge" cssStyle="width:280px;"/>
-							<%--${assessAppraisal.complaintMain.hospital.name}--%>
+						<form:input path="recordInfo1.doctor" htmlEscape="false" maxlength="20" value="${empty assessAppraisal.recordInfo1.doctor ? assessAppraisal.complaintMain.hospital.name : assessAppraisal.recordInfo1.doctor}" class="input-xlarge" cssStyle="width:280px;"/>
+							<%--<form:input path="complaintMain.hospital.name" htmlEscape="false" maxlength="20" class="input-xlarge" cssStyle="width:280px;"/>
+                                ${assessAppraisal.complaintMain.hospital.name}--%>
 					</td>
 				</tr>
 				<tr>
@@ -1027,7 +1108,7 @@
 								</select>
 							</td>
 							<td>
-								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required" />
+								<input id="patientLinkEmpList{{idx}}_idNumber" name="patientLinkEmpList[{{idx}}].idNumber" type="text" value="{{row.idNumber}}" maxlength="20" class="required card" />
 							</td>
 							<td>
 								<input id="patientLinkEmpList{{idx}}_patientLinkAddress" name="patientLinkEmpList[{{idx}}].patientLinkAddress" type="text" value="{{row.patientLinkAddress}}" maxlength="20" class="required" />
@@ -1084,7 +1165,7 @@
 								</select>
 							</td>
 							<td>
-								<input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required" />
+								<input id="patientLinkDList{{idx}}_patientLinkMobile" name="patientLinkDList[{{idx}}].patientLinkMobile" type="text" value="{{row.patientLinkMobile}}" maxlength="20" class="required phone" />
 							</td>
 
 
@@ -1131,7 +1212,7 @@
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeAgent" name="medicalOfficeEmpList[{{idx}}].medicalOfficeAgent" type="text" value="{{row.medicalOfficeAgent}}" maxlength="32" class="required" />
 							</td>
 							<td>
-								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeMobile" name="medicalOfficeEmpList[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="200" class="required" />
+								<input id="medicalOfficeEmpList{{idx}}_medicalOfficeMobile" name="medicalOfficeEmpList[{{idx}}].medicalOfficeMobile" type="text" value="{{row.medicalOfficeMobile}}" maxlength="200" class="required phone" />
 							</td>
 							<td>
 								<input id="medicalOfficeEmpList{{idx}}_medicalOfficePost" name="medicalOfficeEmpList[{{idx}}].medicalOfficePost" type="text" value="{{row.medicalOfficePost}}" maxlength="20" class="required" />
@@ -1344,8 +1425,8 @@
 		</tr>
 	</table>
 	<div class="form-actions">
-		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no'),removeCssClass()"/>&nbsp;</shiro:hasPermission>
+		<shiro:hasPermission name="assessappraisal:assessAppraisal:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no'),addCssClass()"/>&nbsp;</shiro:hasPermission>
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 	</div>
 	<act:histoicFlow procInsId="${assessAppraisal.complaintMain.procInsId}" />

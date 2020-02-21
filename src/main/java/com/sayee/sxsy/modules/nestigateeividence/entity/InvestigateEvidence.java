@@ -53,8 +53,16 @@ public class InvestigateEvidence extends DataEntity<InvestigateEvidence> {
     private InvestigateEvidence investigateEvidence;//医方信息
     private MachineAccount machineAccount;//台账信息
 	private List<String> list;//工作站人员list
-
+	private String addressLabel;//保单号
 	private String createUser;  //创建人员id
+
+	public String getAddressLabel() {
+		return addressLabel;
+	}
+
+	public void setAddressLabel(String addressLabel) {
+		this.addressLabel = addressLabel;
+	}
 
 	public String getCreateUser() {
 		return createUser;

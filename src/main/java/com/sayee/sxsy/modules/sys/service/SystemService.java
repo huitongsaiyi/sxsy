@@ -542,7 +542,7 @@ public class SystemService extends BaseService implements InitializingBean {
 
     public List<User> findUserByOfficeRoleId(String officeId, String role) {
         List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ROLE_ID_ + officeId);
-        if (list == null){
+        if (list == null || StringUtils.isNotBlank(role)){
             list = userDao.findUserByOfficeRoleId(officeId,role);
             CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ROLE_ID_ + officeId, list);
         }

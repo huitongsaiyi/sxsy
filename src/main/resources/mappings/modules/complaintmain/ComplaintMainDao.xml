@@ -42,6 +42,15 @@
 		<include refid="complaintMainJoins"/>
 		WHERE a.complaint_main_id = #{complaintMainId}
 	</select>
+
+	<select id="getRepeat" resultType="ComplaintMain">
+		SELECT
+		<include refid="complaintMainColumns"/>
+		FROM COMPLAINT_MAIN a
+		<include refid="complaintMainJoins"/>
+		WHERE a.patient_card=#{patientCard} and a.involve_hospital=#{involveHospital} and a.complaint_main_id != #{complaintMainId}and a.DEL_FLAG=0
+		GROUP BY a.COMPLAINT_MAIN_ID
+	</select>
 	
 	<select id="findList" resultType="ComplaintMain">
 		SELECT 
@@ -224,6 +233,17 @@
 		</if>
 	</select>
 
+	<select id="getMain" resultType="ComplaintMain">
+		SELECT
+		<include refid="complaintMainColumns"/>
+		,
+		c.TASK_DEF_KEY_ AS "taskDefKey",
+		c.NAME_ AS "nodeName"
+		FROM COMPLAINT_MAIN a
+		<include refid="complaintMainJoins"/>
+		LEFT JOIN ACT_HI_TASKINST c on a.PROC_INS_ID=c.PROC_INST_ID_
+		WHERE a.proc_ins_id = #{ins}
+	</select>
 
 	<select id="getMyDone" resultType="ComplaintMain">
 		SELECT

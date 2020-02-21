@@ -3,9 +3,7 @@
  */
 package com.sayee.sxsy.modules.complaintmain.service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.utils.BaseUtils;
@@ -13,6 +11,10 @@ import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,12 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	@Autowired
 	private ComplaintMainDao complaintMainDao;
 
+	@Autowired
+	private HistoryService historyService;
+
+	@Autowired
+	private TaskService taskService;
+
 	public ComplaintMain get(String id) {
 		return super.get(id);
 	}
@@ -54,7 +62,7 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		if(StringUtils.isBlank(complaintMain.getComplaintMainId())){
 			complaintMain.preInsert();
 			//防止案件编码 重复，在 查找 库一遍
-			complaintMain.setCaseNumber(BaseUtils.getCode("year","3","COMPLAINT_MAIN","case_number"));
+			complaintMain.setCaseNumber(BaseUtils.getCode("year","4","COMPLAINT_MAIN","case_number"));
 			complaintMain.setComplaintMainId(complaintMain.getId());
 			dao.insert(complaintMain);
 		}else{
@@ -76,11 +84,13 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
     }
 
 	public Page<ComplaintMain> selfList(Page<ComplaintMain> page, ComplaintMain complaintMain) {
+    	//  List<Task> taskList  = taskService.createTaskQuery().taskAssignee(assignee).list();
 		List<ComplaintMain> list=complaintMainDao.selfList(complaintMain.getUser().getLoginName());
+		page.setList(list);
+		page.setCount(list.size());
+		complaintMain.setPage(page);
 		//对 集合进行处理，把节点的 主键拿到 可是使其点击 详情与处理 按钮
 		this.format(list);
-		complaintMain.setPage(page);
-		page.setList(list);
 		return page;
 	}
 
@@ -182,13 +192,47 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	}
 
 
-    public List<ComplaintMain > getMyDone(String loginName) {
+    public List<ComplaintMain> getMyDone(String loginName) {
+    	//我的待办
+		List<HistoricTaskInstance> taskList  = historyService.createHistoricTaskInstanceQuery()
+				.taskAssignee(loginName)
+				.finished()
+				.list();
+		taskList.sort(new Comparator<HistoricTaskInstance>() {
+			@Override
+			public int compare(HistoricTaskInstance o1, HistoricTaskInstance o2) {
+				Date d1=o1.getEndTime();
+				Date d2=o2.getEndTime();
+				return d1.compareTo(d2);
+			}
+		});
+		Set<ComplaintMain> list=new HashSet<>();
+		for (HistoricTaskInstance his:taskList) {
+			//通过实例id 获取主表信息
+			ComplaintMain complaintMain=complaintMainDao.getMain(his.getProcessInstanceId());
+			if (complaintMain!=null){
+				complaintMain.setNodeName(his.getName());
+				complaintMain.setTaskDefKey(his.getTaskDefinitionKey());
+				list.add(complaintMain);
+			}
+		}
+		//我的发起
+		List<HistoricProcessInstance> fqList=historyService.createHistoricProcessInstanceQuery()
+				.startedBy(loginName)
+				.list();
+		for (HistoricProcessInstance processInstance:fqList) {
+			//通过实例id 获取主表信息
+			ComplaintMain complaintMain=complaintMainDao.getMain(processInstance.getId());
+			if (complaintMain!=null){
+				list.add(complaintMain);
+			}
+		}
     	//根据登录人 取得登陆人已经办理完成的数据
-		List<ComplaintMain> list=complaintMainDao.getMyDone(loginName);
+		//List<ComplaintMain> list=complaintMainDao.getMyDone(loginName);
 		//清除查到的  null  值
 		list.removeAll(Collections.singleton(null));
-		this.format(list);
-    	return list;
+		this.format(new ArrayList(list));
+    	return new ArrayList(list);
     }
 
     public List<Map<String, Object>> findTypeInfo(User user,String year,String beginMonthDate,String endMonthDate,String type) {
@@ -359,4 +403,11 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
         return map;
     }
 
+	public List<ComplaintMain> getRepeat(String card, String hospital,String complaintMainId) {
+    	ComplaintMain complaintMain=new ComplaintMain();
+    	complaintMain.setPatientCard(card);
+    	complaintMain.setInvolveHospital(hospital);
+    	complaintMain.setComplaintMainId(complaintMainId);
+    	return complaintMainDao.getRepeat(complaintMain);
+	}
 }

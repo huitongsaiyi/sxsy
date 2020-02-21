@@ -29,6 +29,7 @@
 		a.policy_number AS "policyNumber",
 		a.is_insured AS "isInsured",
 		a.insured_time AS "insuredTime",
+		a.insured_end_time AS "insuredEndTime",
 		a.useable AS useable,
 		a.primary_person AS "primaryPerson.id",
 		a.deputy_person AS "deputyPerson.id",
@@ -88,6 +89,9 @@
 		<if test="area!=null and area.id!=null and area.id!=''">
 			AND a.area_id LIKE CONCAT('%', #{area.id}, '%')
 		</if>
+		<if test="name!=null and name!=''">
+			AND a.name LIKE CONCAT('%', #{name}, '%')
+		</if>
 		ORDER BY a.code
 	</select>
 
@@ -134,7 +138,8 @@
 			deputy_person,
 			policy_number,
 			is_insured,
-			insured_time
+			insured_time,
+			insured_end_time
 		) VALUES (
 			#{id}, 
 			#{parent.id}, 
@@ -164,7 +169,8 @@
 			#{deputyPerson.id},
 			#{policyNumber},
 			#{isInsured},
-			#{insuredTime}
+			#{insuredTime},
+			#{insuredEndTime}
 		)
 	</insert>
 
@@ -193,7 +199,8 @@
 			deputy_person=#{deputyPerson.id},
 			policy_number=#{policyNumber},
 			is_insured=#{isInsured},
-			insured_time=#{insuredTime}
+			insured_time=#{insuredTime},
+			insured_end_time=#{insuredEndTime}
 		WHERE id = #{id}
 	</update>
 

@@ -49,15 +49,15 @@
 				<th class="sort-column case_number" style="text-align: center;">案件编号</th>
 				<th class="sort-column patient_name" style="text-align: center;">患者姓名</th>
 				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
-				<th class="sort-column b.hospital_grade" style="text-align: center;">纠纷概要</th>
+				<th class="sort-column sign.summary_of_disputes" style="text-align: center;">纠纷概要</th>
 				<th class="sort-column case_number" style="text-align: center;">案件分类</th>
-				<th class="sort-column report_emp" style="text-align: center;">诊疗方式</th>
-				<th class="sort-column dispute_time" style="text-align: center;">诊疗结果</th>
+				<th class="sort-column au.diagnosis_mode" style="text-align: center;">诊疗方式</th>
+				<th class="sort-column au.treatment_outcome" style="text-align: center;">诊疗结果</th>
 				<th class="sort-column r.patient_mobile" style="text-align: center;">调解结果</th>
-				<th class="sort-column r.patient_mobile" style="text-align: center;">是否重大</th>
-				<th class="sort-column r.patient_mobile" style="text-align: center;">是否媒体介入</th>
-				<th class="sort-column r.patient_mobile" style="text-align: center;">部门名称</th>
-				<th class="sort-column r.patient_mobile" style="text-align: center;">调解员</th>
+				<th class="sort-column b.is_major" style="text-align: center;">是否重大</th>
+				<th  style="text-align: center;">是否媒体介入</th>
+				<th  style="text-align: center;">部门名称</th>
+				<th  style="text-align: center;">调解员</th>
 				<shiro:hasPermission name="casefeedback:caseFeedback:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>

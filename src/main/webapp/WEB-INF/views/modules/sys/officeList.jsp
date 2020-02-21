@@ -39,9 +39,13 @@
 			<form:input type="hidden" path="parentIds" value="${empty office.parentIds ? '' : office.parentIds}"/>
 			<ul class="ul-form">
 				<li class="clearfix"></li>
-				<li><label>归属区域：</label>
+				<li>
+					<label>归属区域：</label>
 						<sys:treeselect id="area" name="area.id" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
 										title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					<label>医院名称：</label>
+					<form:input path="name" htmlEscape="false" maxlength="50"/>
+				</li>
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" />
 			</ul>
 		</form:form>

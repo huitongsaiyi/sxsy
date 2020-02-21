@@ -22,6 +22,7 @@ import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentSer
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.DictUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -215,17 +216,7 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 			params.put("pNum",reportRegistration.getPolicyNumber()==null?"":reportRegistration.getPolicyNumber());//保单号
 			params.put("disTime",reportRegistration.getDisputeTime()==null?"":reportRegistration.getDisputeTime());//纠纷发生时间
 			if(reportRegistration.getComplaintMain() !=null){
-				if("1".equals(reportRegistration.getComplaintMain().getHospitalGrade())){
-					params.put("g","特等");//机构等级
-				}else if("2".equals(reportRegistration.getComplaintMain().getHospitalGrade())){
-					params.put("g","甲等");//机构等级
-				}else if("3".equals(reportRegistration.getComplaintMain().getHospitalGrade())){
-					params.put("g","乙等");//机构等级
-				}else if("4".equals(reportRegistration.getComplaintMain().getHospitalGrade())){
-					params.put("g","丙等");//机构等级
-				}else{
-					params.put("g","");//机构等级
-				}
+				params.put("g",DictUtils.getDictLabel(reportRegistration.getComplaintMain().getHospitalGrade(),"hospital_grade","无"));//机构等级
 			}else{
 				params.put("g","");//机构等级
 			}
@@ -248,65 +239,7 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 			params.put("idCard",reportRegistration.getComplaintMain()==null?"":reportRegistration.getComplaintMain().getPatientCard()==null?"":reportRegistration.getComplaintMain().getPatientCard());//身份证号
 			params.put("reTime",reportRegistration.getReportTime()==null?"":reportRegistration.getReportTime());//出险时间
 			if(reportRegistration.getComplaintMain() !=null) {
-				if ("huxineike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "呼吸内科");
-				} else if ("erke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "儿科");
-				} else if ("fuke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "妇科");
-				} else if ("yanke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "眼科");
-				} else if ("erbihouke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "耳鼻喉科");
-				} else if ("kouqiangke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "口腔科");
-				} else if ("pifuke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "皮肤科");
-				} else if ("zhongyike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "中医科");
-				} else if ("zhenjiutuinake".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "针灸推拿科");
-				} else if ("xinlizixunshi".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "心理咨询室");
-				} else if ("xiaohuaneike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "消化内科");
-				} else if ("miniaoneike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "泌尿内科");
-				} else if ("xinneike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "心内科");
-				} else if ("xueyeke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "血液科");
-				} else if ("neifenmike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "内分泌科");
-				} else if ("shenjingneike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "神经内科");
-				} else if ("xiaoerke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "小儿科");
-				} else if ("ganranke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "感染科");
-				} else if ("puwaike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "普外科");
-				} else if ("guke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "骨科");
-				} else if ("shenjingwaike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "神经外科");
-				} else if ("gandanwaike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "肝胆外科");
-				} else if ("miniaowaike".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "泌尿外科");
-				} else if ("shaoshangke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "烧伤科");
-				} else if ("chanke".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "产科");
-				} else if ("xuetoushi".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "血透室");
-				} else if ("zhongzhengjianhushi".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "重症监护室");
-				} else if ("外科".equals(reportRegistration.getComplaintMain().getInvolveDepartment())) {
-					params.put("de", "");
-				} else {
-					params.put("de", "");
-				}
+                params.put("de", reportRegistration.getComplaintMain().getTestTree());
 			}else{
 				params.put("de", "");
 			}
@@ -314,10 +247,8 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 
 			if("1".equals(reportRegistration.getIsMajor())){
 				params.put("isMajor","是");
-			}else if("0".equals(reportRegistration.getIsMajor())){
-				params.put("isMajor","否");
 			}else{
-				params.put("isMajor","");
+				params.put("isMajor","否");
 			}
 			params.put("pMobile",reportRegistration.getPatientMobile()==null?"":reportRegistration.getPatientMobile());//患方联系电话
 			params.put("hMobile",reportRegistration.getDoctorMobile()==null?"":reportRegistration.getDoctorMobile());//医方联系电话
@@ -325,7 +256,7 @@ public class ReportRegistrationService extends CrudService<ReportRegistrationDao
 			params.put("focus",reportRegistration.getFocus()==null?"":reportRegistration.getFocus());//纠纷焦点
 			params.put("patientAsk",reportRegistration.getPatientAsk()==null?"":reportRegistration.getPatientAsk());//患方要求
 			params.put("tianbiao",reportRegistration.getDjEmployee()==null?"":reportRegistration.getDjEmployee().getName());//填表人签名
-			params.put("reTime",reportRegistration.getRegistrationTime()==null?"":reportRegistration.getRegistrationTime());//填表日期
+			params.put("tbTime",reportRegistration.getRegistrationTime()==null?"":reportRegistration.getRegistrationTime());//填表日期
 			params.put("caseNum",reportRegistration.getComplaintMain()==null?"":reportRegistration.getComplaintMain().getCaseNumber());//报案号
 			params.put("nextLink",reportRegistration.getNextLink()==null?"":reportRegistration.getNextLink());//审核人
 			params.put("pRelation",reportRegistration.getPatientRelation()==null?"":reportRegistration.getPatientRelation());//审核日期

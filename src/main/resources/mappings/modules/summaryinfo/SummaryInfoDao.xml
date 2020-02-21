@@ -10,6 +10,14 @@
 		a.summary AS "summary",
 		a.filing_time AS "filingTime",
 		a.file_number AS "fileNumber",
+		if(a.acceptance_time IS NULL,au.create_date,a.acceptance_time) AS "acceptanceTime",
+		if(a.ratify_accord IS NULL ,s.ratify_accord,a.ratify_accord) AS "ratifyAccord",
+		a.flow_days AS "flowDays",
+		if(a.responsibility_ratio IS NULL,if(aa.responsibility_ratio IS NULL,'未评估',aa.responsibility_ratio),a.responsibility_ratio) AS "responsibilityRatio",
+		a.meeting_frequency AS "meetingFrequency",
+		a.mediate_result AS "mediateResult",
+		a.mediate_pass AS "mediatePass",
+		a.other AS "other",
 		a.handle_people AS "handlePeople",
 		a.handle_time AS "handleTime",
 		a.next_link AS "nextLink",
@@ -43,27 +51,37 @@
 		au.policy_number AS "auditAcceptance.policyNumber",
 		au.create_date AS "auditAcceptance.createDate",
 		au.insurance_company AS "auditAcceptance.insuranceCompany",
+		au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
 		r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile",
 		s.ratify_accord AS "signAgreement.ratifyAccord",
+		ra.perform_agreement_id AS "performAgreement.performAgreementId",
 		ra.agreement_pay_amount AS "performAgreement.agreementPayAmount",
 		ra.hospital_pay_amount AS "performAgreement.hospitalPayAmount",
 		ra.hospital_pay_time AS "performAgreement.hospitalPayTime",
 		ra.insurance_pay_amount AS "performAgreement.insurancePayAmount",
 		ra.insurance_pay_time AS "performAgreement.insurancePayTime",
 		ra.claim_settlement_time AS "performAgreement.claimSettlementTime",
+		ra.patient_service_time AS "performAgreement.patientServiceTime",
+		ra.hospital_service_time AS "performAgreement.hospitalServiceTime",
+		ra.take_effect_time AS "performAgreement.takeEffectTime",
 		sm.stop_mediate_id AS "isStop",
-		te.name AS "complaintMainDetail.typeName"
+		te.name AS "complaintMainDetail.typeName",
+		me.mediate_evidence_id AS "mediateEvidenceId",
+		rm.reach_mediate_id AS "reachMediateId"
 	</sql>
 	
 	<sql id="summaryInfoJoins">
         LEFT JOIN SUMMARY_INFO a on a.complaint_main_id = b.complaint_main_id
+        LEFT JOIN ASSESS_APPRAISAL aa on aa.complaint_main_id = b.complaint_main_id
         LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
         LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
         LEFT JOIN SIGN_AGREEMENT s ON b.complaint_main_id=s.complaint_main_id
         LEFT JOIN PERFORM_AGREEMENT ra ON b.complaint_main_id=ra.complaint_main_id
         LEFT JOIN COMPLAINT_MAIN_DETAIL cm ON b.complaint_main_id=cm.complaint_main_id
+        LEFT JOIN MEDIATE_EVIDENCE me on me.complaint_main_id = b.complaint_main_id
+        LEFT JOIN REACH_MEDIATE rm on rm.complaint_main_id = b.complaint_main_id
         LEFT JOIN TEST_TREE te ON te.id = cm.is_major
         LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=b.PROC_INS_ID
         LEFT JOIN SYS_OFFICE o on o.id=b.involve_hospital
@@ -131,11 +149,19 @@
 		summ.summary_time AS "summaryTime",
 		summ.summary AS "summary",
 		summ.filing_time AS "filingTime",
-		summ.file_number AS "fileNumber",
+		MAX(summ.file_number) AS "fileNumber",
 		summ.create_by AS "createBy.id",
 		summ.create_date AS "createDate",
 		summ.update_by AS "updateBy.id",
 		summ.update_date AS "updateDate",
+		summ.acceptance_time AS "acceptanceTime",
+		summ.ratify_accord AS "ratifyAccord",
+		summ.flow_days AS "flowDays",
+		summ.responsibility_ratio AS "responsibilityRatio",
+		summ.meeting_frequency AS "meetingFrequency",
+		summ.mediate_result AS "mediateResult",
+		summ.mediate_pass AS "mediatePass",
+		summ.other AS "other",
 		summ.del_flag AS "delFlag"
 		FROM SUMMARY_INFO summ
 		<where>
@@ -170,6 +196,14 @@
 			summary,
 			filing_time,
 			file_number,
+			acceptance_time,
+			ratify_accord,
+			flow_days,
+			responsibility_ratio,
+			meeting_frequency,
+			mediate_result,
+			mediate_pass,
+			other,
 			handle_people,
 			handle_time,
 			next_link,
@@ -187,6 +221,14 @@
 			#{summary},
 			#{filingTime},
 			#{fileNumber},
+			#{acceptanceTime},
+			#{ratifyAccord},
+			#{flowDays},
+			#{responsibilityRatio},
+			#{meetingFrequency},
+			#{mediateResult},
+			#{mediatePass},
+			#{other},
 			#{handlePeople},
 			#{handleTime},
 			#{nextLink},
@@ -208,6 +250,14 @@
 			summary = #{summary},
 			filing_time = #{filingTime},
 			file_number = #{fileNumber},
+			acceptance_time= #{acceptanceTime},
+			ratify_accord = #{ratifyAccord},
+			flow_days = #{flowDays},
+			responsibility_ratio = #{responsibilityRatio},
+			meeting_frequency = #{meetingFrequency},
+			mediate_result = #{mediateResult},
+			mediate_pass = #{mediatePass},
+			other = #{other},
 			handle_people = #{handlePeople},
 			handle_time = #{handleTime},
 			next_link = #{nextLink},
@@ -215,6 +265,20 @@
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
 		WHERE summary_id = #{summaryId}
+	</update>
+
+	<update id="updatePerform">
+		UPDATE PERFORM_AGREEMENT SET
+		<if test="hospitalPayTime !=null and hospitalPayTime!= null ">
+
+		</if>
+			hospital_pay_time = #{hospitalPayTime},
+			insurance_pay_time = #{insurancePayTime},
+			patient_service_time = #{patientServiceTime},
+			hospital_service_time = #{hospitalServiceTime},
+			take_effect_time = #{takeEffectTime},
+			claim_settlement_time =  #{claimSettlementTime}
+		WHERE perform_agreement_id = #{performAgreementId}
 	</update>
 	
 	<update id="delete">

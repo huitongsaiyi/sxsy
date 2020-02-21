@@ -70,7 +70,7 @@
 			<th>归属部门</th>
 
 			<th class="sort-column name">姓名</th>
-			<c:if test="${user.office.officeType eq '2'}"><th>职能：</th></c:if>
+			<c:if test="${user.office.officeType eq '2'}"><th>区域：</th></c:if>
 			<th class="sort-column login_name">登录名</th>
 			<th>电话</th>
 
@@ -81,21 +81,22 @@
 		</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="user" varStatus="xuhao">
+		<c:forEach items="${page.list}" var="uu" varStatus="xuhao">
 			<tr>
 				<td>${xuhao.index+1}</td>
-				<td>${user.office.name}</td>
-				<td>${user.name}</td>
+				<td>${uu.office.name}</td>
+				<td>${uu.name}</td>
 				<c:if test="${user.office.officeType eq '2'}">
-					<td>${user.hospitalTitle}</td>
+
+					<td>${uu.company.area.name}</td>
 				</c:if>
-				<td><a href="${ctx}/sys/user/form?id=${user.id}">${user.loginName}</a></td>
-				<td>${user.phone}</td>
+				<td><a href="${ctx}/sys/user/form?id=${uu.id}">${uu.loginName}</a></td>
+				<td>${uu.phone}</td>
 				<%--
 				<td>${user.roleNames}</td> --%>
 				<shiro:hasPermission name="sys:user:edit"><td>
-    				<a href="${ctx}/sys/user/form?id=${user.id}&officeType=${user.office.officeType}">修改</a>
-					<a href="${ctx}/sys/user/delete?id=${user.id}&officeType=${user.office.officeType}" onclick="return confirmx('确认要删除该用户吗？', this.href)">删除</a>
+    				<a href="${ctx}/sys/user/form?id=${uu.id}&officeType=${user.office.officeType}">修改</a>
+					<a href="${ctx}/sys/user/delete?id=${uu.id}&officeType=${user.office.officeType}" onclick="return confirmx('确认要删除该用户吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

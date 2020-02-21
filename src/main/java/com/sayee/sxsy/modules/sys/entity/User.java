@@ -35,6 +35,7 @@ public class User extends DataEntity<User> {
 	private String password;// 密码
 	private String no;		// 工号
 	private String name;	// 姓名
+	private String areaName;	// 区域名称
 	private String email;	// 邮箱
 	private String phone;	// 电话
 	private String mobile;	// 手机
@@ -134,6 +135,15 @@ public class User extends DataEntity<User> {
 
 	public void setOffice(Office office) {
 		this.office = office;
+	}
+
+	@ExcelField(title="归属区域", align=2, sort=1)
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
 	}
 
 	@Length(min=1, max=100, message="登录名长度必须介于 1 和 100 之间")

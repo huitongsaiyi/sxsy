@@ -48,6 +48,8 @@ public class GuestbookService extends CrudService<GuestbookDao, Guestbook> {
 		//dao.updateDelFlag(id, isRe!=null&&isRe?Guestbook.DEL_FLAG_AUDIT:Guestbook.DEL_FLAG_DELETE);
 		if(true==isRe){
 			guestbook.setDelFlag("2");
+		}else {
+			guestbook.setDelFlag("1");
 		}
 		dao.delete(guestbook);
 	}

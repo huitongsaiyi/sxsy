@@ -18,10 +18,28 @@ public class Area extends TreeEntity<Area> {
 //	private Area parent;	// 父级编号
 //	private String parentIds; // 所有父级编号
 	private String code; 	// 区域编码
+	private String areaId; 	// sql 中过滤 省 下面的 省市县
+	private String city; 	// 是否只查询 省市
 //	private String name; 	// 区域名称
 //	private Integer sort;		// 排序
 	private String type; 	// 区域类型（1：国家；2：省份、直辖市；3：地市；4：区县）
-	
+
+	public String getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	public Area(){
 		super();
 		this.sort = 30;

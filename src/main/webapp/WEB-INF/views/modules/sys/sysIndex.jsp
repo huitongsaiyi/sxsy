@@ -143,11 +143,11 @@
 		// 获取通知数目
 		function getNotifyNum(){
 			$.get("${ctx}/oa/oaNotify/self/count?updateSession=0&t="+new Date().getTime(),function(data){
-				num += parseFloat(data);
+				num += parseFloat(data.size);
 				if (num > 0){
-					$("#notifyNum2").show().html("("+parseFloat(data)+")");
+					$("#notifyNum2").show().html("("+parseFloat(data.size)+")");
 					$("#notifyNum").show().html("("+num+")");
-					if(data>0){//如果通知公告有数据 则显示确认框来 强制进入看通知
+					if(data.jingtong>0){//如果通知公告有数据 则显示确认框来 强制进入看通知
 						top.$.jBox.confirm("请先查看您的通知!",'系统提示',function(v,h,f){
 
 						},{buttonsFocus:1, closed:function(){
@@ -164,7 +164,7 @@
 				}else{
 					$("#notifyNum,#notifyNum2").hide();
 				}
-			});
+			},"json");
 			return num;
 		}
 

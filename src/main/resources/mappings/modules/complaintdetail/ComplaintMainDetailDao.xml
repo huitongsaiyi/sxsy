@@ -29,12 +29,14 @@
 		b.patient_sex AS "complaintMain.patientSex",
 		b.patient_age AS "complaintMain.patientAge",
 		b.patient_card AS "complaintMain.patientCard",
-		b.involve_hospital AS "complaintMain.involveHospital",
+		if(b.involve_hospital IS NULL,ci.involve_hospital,b.involve_hospital) AS "complaintMain.involveHospital",
 		b.hospital_level AS "complaintMain.hospitalLevel",
 		b.hospital_grade AS "complaintMain.hospitalGrade",
-		b.involve_department AS "complaintMain.involveDepartment",
-		b.involve_employee AS "complaintMain.involveEmployee",
+		if(b.involve_department IS NULL,ci.involve_department,b.involve_department) AS "complaintMain.involveDepartment",
+		if(b.involve_employee IS NULL,ci.involve_employee,b.involve_employee) AS "complaintMain.involveEmployee",
 		b.PROC_INS_ID,
+		b.source AS "complaintMain.source",
+		ci.complaint_id AS "complaintMain.complaintId",
 		u.name AS "jdEmployee.name",
 		o.name AS "complaintMain.hospital.name",
 		o1.name AS "complaintMain.department.name",
@@ -48,6 +50,7 @@
 	
 	<sql id="complaintMainDetailJoins">
 		  LEFT JOIN COMPLAINT_MAIN b ON a.complaint_main_id = b.complaint_main_id
+		  LEFT JOIN COMPLAINT_INFO ci ON ci.complaint_main_id=b.complaint_main_id
 		  LEFT JOIN SYS_USER u ON u.id=a.reception_employee
 		  LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
 		  LEFT JOIN SYS_OFFICE o ON o.id=b.involve_hospital
@@ -205,5 +208,11 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE complaint_main_detail_id = #{id}
 	</update>
-	
+
+	<update id="saveShift">
+		UPDATE COMPLAINT_MAIN_DETAIL SET
+			create_by = #{nextLinkMan}
+		WHERE complaint_main_detail_id = #{complaintMainDetailId}
+	</update>
+
 </mapper>

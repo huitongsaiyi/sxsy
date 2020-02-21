@@ -9,10 +9,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sayee.sxsy.common.utils.DateUtils;
-import com.sayee.sxsy.common.utils.ObjectUtils;
-import com.sayee.sxsy.common.utils.StringUtils;
-import com.sayee.sxsy.common.utils.UserAgentUtils;
+import com.sayee.sxsy.common.utils.*;
+import com.sayee.sxsy.modules.auditacceptance.entity.AuditAcceptance;
 import com.sayee.sxsy.modules.complaintdetail.dao.ComplaintMainDetailDao;
 import com.sayee.sxsy.modules.complaintdetail.entity.ComplaintMainDetail;
 import com.sayee.sxsy.modules.complaintdetail.service.ComplaintMainDetailService;
@@ -20,6 +18,7 @@ import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
+import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
@@ -47,6 +46,8 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @Transactional(readOnly = true)
 public class ComplaintInfoService extends CrudService<ComplaintInfoDao, ComplaintInfo> {
+    @Autowired
+    private PreOperativeConsentService preOperativeConsentService;
 
     @Autowired
     private ComplaintMainDao complaintMainService;
@@ -69,47 +70,56 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     }
 
     public Page<ComplaintInfo> findPage(Page<ComplaintInfo> page, ComplaintInfo complaintInfo) {
+        String officeType=UserUtils.getUser().getCompany().getOfficeType();//查看当前人 属于医院 还是 医调委  还是 卫健委
         //如果当前人员角色 是 医调委主任 则看全部数据
-        List<String> aa=ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
-        if (aa.contains("commission")){//韩主任 医调委主任 看全部数据
+        if ("1".equals(officeType)){//医调委
+            List<String> aa=ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+            if (aa.contains("commission")){//韩主任 医调委主任 看全部数据
 
-        }else if(aa.contains("zwjw")){
-            //曹华磊 与韩主任 有全部数据的权限，为了看 看卫健委工作站人员 信息
-            List<String> list=new ArrayList<String>();
-            List<User> listUser=UserUtils.getUser("wjwgzzry");
+            }else if(aa.contains("zwjw")){
+                //曹华磊 与韩主任 有全部数据的权限，为了看 看卫健委工作站人员 信息
+                List<String> list=new ArrayList<String>();
+                List<User> listUser=UserUtils.getUser("wjwgzzry");
 
-            for (User user:listUser) {
-                list.add(user.getId());
-            }
-            if (list.size()>0){
-                complaintInfo.setList(list);
-            }else {
-                list.add(UserUtils.getUser().getId());
-                complaintInfo.setList(list);
-            }
-        }else if(aa.contains("DepartmentDeputyDirector")){
-            //风险管控部 部门副主任 看自己部门所有数据
-            List<String> list=new ArrayList<String>();
+                for (User user:listUser) {
+                    list.add(user.getId());
+                }
+                if (list.size()>0){
+                    complaintInfo.setList(list);
+                }else {
+                    list.add(UserUtils.getUser().getId());
+                    complaintInfo.setList(list);
+                }
+            }else if(aa.contains("DepartmentDeputyDirector")){
+                //风险管控部 部门副主任 看自己部门所有数据
+                List<String> list=new ArrayList<String>();
 
-            List<User> listUser=UserUtils.getUserByOffice(UserUtils.getUser().getOffice().getId());
-            for (User user:listUser) {
-                list.add(user.getId());
+                List<User> listUser=UserUtils.getUserByOffice(UserUtils.getUser().getOffice().getId());
+                for (User user:listUser) {
+                    list.add(user.getId());
+                }
+                if (list.size()>0){
+                    complaintInfo.setList(list);
+                }else {
+                    list.add(UserUtils.getUser().getId());
+                    complaintInfo.setList(list);
+                }
+            }else{
+                complaintInfo.setUser(UserUtils.getUser());
             }
-            if (list.size()>0){
-                complaintInfo.setList(list);
-            }else {
-                list.add(UserUtils.getUser().getId());
-                complaintInfo.setList(list);
-            }
-        }else{
-            complaintInfo.setUser(UserUtils.getUser());
+        }else if("2".equals(officeType)){
+            complaintInfo.setInvolveHospital(UserUtils.getUser().getCompany().getId());
+        }else {
+
         }
+
         return super.findPage(page, complaintInfo);
     }
 
     @Transactional(readOnly = false)
     public boolean save(ComplaintInfo complaintInfo, HttpServletRequest request) {
         boolean a = true;
+        complaintInfo.setAmountInvolved(StringUtils.isNumber(complaintInfo.getAmountInvolved())==true ? complaintInfo.getAmountInvolved():"0");
         if (StringUtils.isBlank(complaintInfo.getComplaintId())) {
             if (true == this.checkcaseNumber(complaintInfo.getComplaintMain().getCaseNumber(), complaintInfo.getComplaintMain().getComplaintMainId())) {
                 complaintInfo.preInsert();
@@ -125,6 +135,8 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             this.saveComplaint(complaintInfo);
             dao.update(complaintInfo);
         }
+        //保存附件
+        this.savefj(request,complaintInfo);
 
         String flag = request.getParameter("flag");
         if ("yes".equals(flag)) {
@@ -217,6 +229,41 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         }
 
         return complaintInfo;
+    }
+
+    @Transactional(readOnly = false)
+    public void savefj(HttpServletRequest request, ComplaintInfo complaintInfo){
+        String files1 = request.getParameter("files1");
+        String files2 = request.getParameter("files2");
+        String acceId = null;
+        String itemId = complaintInfo.getComplaintId();
+        String fjtype1 = request.getParameter("fjtype1");
+        String fjtype2 = request.getParameter("fjtype2");
+
+
+        if(StringUtils.isNotBlank(files1)){
+            String acceId1=request.getParameter("acceId1");
+            if(StringUtils.isNotBlank(acceId1)){
+                preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+            }else{
+                acceId = IdGen.uuid();
+                preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+            }
+        }else{
+            preOperativeConsentService.delefj(itemId,fjtype1);
+        }
+        if(StringUtils.isNotBlank(files2)){
+            String acceId2=request.getParameter("acceId2");
+            if(StringUtils.isNotBlank(acceId2)){
+                preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+            }else{
+                acceId = IdGen.uuid();
+                preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+            }
+        }else{
+            preOperativeConsentService.delefj(itemId,fjtype2);
+        }
+
     }
 
 

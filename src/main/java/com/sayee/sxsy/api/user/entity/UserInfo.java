@@ -17,6 +17,7 @@ public class UserInfo implements Serializable {
     private String workUnit;
     private Integer userStatu;
     private String sysUserId;
+    private Integer certificateMark;
 
     public String getWechatUserId() {
         return wechatUserId;
@@ -96,5 +97,13 @@ public class UserInfo implements Serializable {
 
     public void setSysUserId(String sysUserId) {
         this.sysUserId = sysUserId;
+    }
+
+    public Integer getCertificateMark() {
+        return certificateMark;
+    }
+
+    public void setCertificateMark(Integer certificateMark) {
+        this.certificateMark = certificateMark;
     }
 }

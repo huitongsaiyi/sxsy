@@ -170,6 +170,16 @@
             }
             intN++;
         }
+
+        function removeCssClass() {
+            $('#nextLinkManName').removeClass('required');
+            $('#aaName').removeClass('required');
+        }
+        function addCssClass() {
+            $('#nextLinkManName').addClass('required');
+            $('#aaName').addClass('required');
+        }
+
     </script>
 </head>
 <body>
@@ -683,7 +693,7 @@
                     </tr>
 
                 <td colspan="4" style="text-align: center;">
-                    <input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表" value="导 出"
+                    <input id="btnGenerate" class="btn btn-primary" type="submit" value="生成会议表"
                            onclick="return promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',document.getElementById('inputForm').action+'?mediateEvidenceId=${mediateEvidence.mediateEvidenceId}&export=meeting&nums=');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
                     <input id="btnGeneratePrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('meeting'); promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',exportWord);" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
@@ -763,12 +773,18 @@
                     <td colspan="3">
                         <form:textarea path="recordInfo.recordContent" htmlEscape="false" class="input-xlarge "
                                        style="margin: 0px; width: 938px; height: 125px;"/>
+                        </br>
+                        <span><font color="red" size="5">温馨提示：保存之前请先选择“调解程序表中的'时间'”,否则笔录内容不进行保存！</font></span>
                     </td>
                 </tr>
             </table>
             <div style="width: 200px;margin: auto">
-                <input id="pContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('pContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+               <%-- <input id="pContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('pContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
                 <input id="pContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('pContent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+                --%>
+                <input id="pContentExport" class="btn btn-primary" type="submit"  value="导 出"
+                       onclick="return promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',document.getElementById('inputForm').action+'?mediateEvidenceId=${mediateEvidence.mediateEvidenceId}&export=pContent&nums=');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                <input id="pContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('pContent'); promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',exportWord);" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
             </div>
         </div>
@@ -848,12 +864,18 @@
                         <form:textarea path="recordInfo.yrecordInfo.recordContent" htmlEscape="false"
                                        class="input-xlarge "
                                        style="margin: 0px; width: 938px; height: 125px;"/>
+                        </br>
+                        <span><font color="red" size="5">温馨提示：保存之前请先选择“调解程序表中的'时间'”,否则笔录内容不进行保存！</font></span>
                     </td>
                 </tr>
             </table>
             <div style="width: 200px;margin: auto">
-                <input id="dContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('dContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
+                <%--<input id="dContentExport" class="btn btn-primary" type="submit" value="导 出" onclick="$('#export').val('dContent')" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在生成意见书之前请先保存数据。</h4>"/>
                 <input id="dContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('dContent');exportWord();" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+--%>
+                    <input id="dContentExport" class="btn btn-primary" type="submit"  value="导 出"
+                           onclick="return promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',document.getElementById('inputForm').action+'?mediateEvidenceId=${mediateEvidence.mediateEvidenceId}&export=dContent&nums=');" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+                    <input id="dContentPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('dContent'); promptx('当前有${proSize}次会议记录','请选择某一次的会议记录',exportWord);" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
 
             </div>
         </div>
@@ -1046,10 +1068,10 @@
     <div class="form-actions">
         <shiro:hasPermission name="mediate:mediateEvidence:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                         type="submit" value="保 存"
-                                                                        onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                        onclick="$('#flag').val('no'),$('#export').val('no'),removeCssClass()"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="mediate:mediateEvidence:edit"><input id="btnSubmit" class="btn btn-primary"
                                                                         type="submit" value="下一步"
-                                                                        onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                        onclick="$('#flag').val('yes'),$('#export').val('no'),addCssClass()"/>&nbsp;</shiro:hasPermission>
 
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
@@ -1109,6 +1131,36 @@
             $("#other").removeClass("required");
         } else {
             $("#other").addClass("required");
+        }
+
+        if ($("#doctorOffice\\.name").hasClass("required") == true) {
+            $("#doctorOffice\\.name").removeClass("required");
+        } else {
+            $("#doctorOffice\\.name").addClass("required");
+        }
+
+        if ($("#doctorClear").hasClass("required") == true) {
+            $("#doctorClear").removeClass("required");
+        } else {
+            $("#doctorClear").addClass("required");
+        }
+
+        if ($("#patientClear").hasClass("required") == true) {
+            $("#patientClear").removeClass("required");
+        } else {
+            $("#patientClear").addClass("required");
+        }
+
+        if ($("#doctorAvoid").hasClass("required") == true) {
+            $("#doctorAvoid").removeClass("required");
+        } else {
+            $("#doctorAvoid").addClass("required");
+        }
+
+        if ($("#patientAvoid").hasClass("required") == true) {
+            $("#patientAvoid").removeClass("required");
+        } else {
+            $("#patientAvoid").addClass("required");
         }
     }
 </script>

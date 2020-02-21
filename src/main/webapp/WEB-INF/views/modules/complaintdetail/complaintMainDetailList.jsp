@@ -4,9 +4,21 @@
 <head>
 	<title>投诉接待管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
+	<script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#contentTable").colResizable({
+				liveDrag:true,//拖动列时更新表布局
+				gripInnerHtml:"<div class='grip'></div>",
+				draggingClass:"dragging",
+				resizeMode:'overflow',//允许溢出父容器
+				defaults : true,
+				/*//拖动事件
+                onDrag: function () {
+                    $('#contentTable').bootstrapTable("resetView")
+                }*/
+			});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -81,6 +93,7 @@
 				<th class="sort-column visitor_name" style="text-align: center;">访客姓名</th>
 				<th class="sort-column patient_relation" style="text-align: center;">与患者关系</th>
 				<th class="sort-column visitor_Number" style="text-align: center;">来访人数</th>
+				<th class="sort-column reception_employee" style="text-align: center;">接待人员</th>
 
 				<%--<th class="sort-column is_major" style="text-align: center;">案件分类</th>
 				<th class="sort-column visitor_mobile" style="text-align: center;">访客电话</th>
@@ -162,6 +175,9 @@
 				<td style="text-align: center;">
 						${complaintMainDetail.visitorNumber}
 				</td>
+				<td style="text-align: center;">
+						${complaintMainDetail.jdEmployee.name}
+				</td>
 				<%--<td style="text-align: center;">
 						${complaintMainDetail.visitorMobile}
 				</td>
@@ -173,9 +189,20 @@
 				<td style="text-align: center;">
 					<fmt:formatDate value="${complaintMainDetail.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>--%>
+
+			<c:forEach var="userList"  items="${fns:getUser().roleList}">
+				 <c:choose>
+					 <c:when test="${userList.roleType eq 'distribution'}">
+						 <c:set  var="list" value="${userList.roleType}"></c:set>
+					 </c:when>
+				 </c:choose>
+			</c:forEach>
 				<shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><td style="text-align: center;">
 					<c:if test="${fns:getUser().id eq complaintMainDetail.createBy}">
 						<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}">处理</a>
+					</c:if>
+					<c:if test="${complaintMainDetail.complaintMain.source eq '3' and  list eq 'distribution' }">
+						<a href="${ctx}/complaintdetail/complaintMainDetail/shift?id=${complaintMainDetail.complaintMainDetailId}">转办</a>
 					</c:if>
 					<a href="${ctx}/complaintdetail/complaintMainDetail/form?id=${complaintMainDetail.complaintMainDetailId}&type=view">详情</a>
 				</td></shiro:hasPermission>

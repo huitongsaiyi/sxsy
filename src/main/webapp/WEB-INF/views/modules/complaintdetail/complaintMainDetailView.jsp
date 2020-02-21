@@ -47,6 +47,9 @@
         <li>
             <a href="#hospital" data-toggle="tab">涉及医院信息</a>
         </li>
+        <li>
+            <a href="#annex" data-toggle="tab">附件</a>
+        </li>
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="visitor">
@@ -124,6 +127,34 @@
                 </tr>
             </table>
         </div>
+        <div class="tab-pane fade" id="annex">
+            <table style="height: 100px;" class="table-form">
+                <tr style=" ">
+                    <td style="text-align: center; width: 20px; font-weight: bolder;height: 50px;">患方材料：</td>
+                    <input type="hidden" name="fjtype1" value="2">
+                    <td style="width: 45px;">
+                        <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
+                               value="${files1}"/>
+                        <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"
+                                                                      uploadPath="/complaintDetail/Patient/apply" selectMultiple="true" readonly="true"/></div>
+                    </td>
+                </tr>
+                <tr style=" ">
+                    <td style="text-align: center; width: 20px; font-weight: bolder;height: 50px;">医方材料：</td>
+                    <input type="hidden" name="fjtype2" value="1">
+                    <td style="width: 45px;">
+                        <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
+                               value="${files2}"/>
+                        <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
+                        <div style="margin-bottom: 0px;margin-top: -45px;"><sys:ckfinder input="files2" type="files"
+                                                                                         uploadPath="/complaintDetail/Doctor/apply" selectMultiple="true" readonly="true"/></div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
     </div>
 
     <table class="table-form">

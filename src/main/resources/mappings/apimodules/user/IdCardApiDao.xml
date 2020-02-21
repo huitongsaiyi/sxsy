@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.user.dao.IdCardApiDao">
+    <insert id="insert">
+    INSERT INTO CMS_WECHATUSER_IDCARD(
+        card_id,
+        wechat_user_id,
+        card_a,
+        card_b,
+        card_hand,
+        create_date,
+		update_date,
+		del_flag
+    )VALUES(
+        #{cardId},
+        #{wechatUserId},
+        #{cardA},
+        #{cardB},
+        #{cardHand},
+        #{createDate},
+        #{updateDate},
+        0
+    )
+</insert>
+</mapper>

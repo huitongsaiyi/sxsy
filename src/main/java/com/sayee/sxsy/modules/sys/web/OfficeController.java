@@ -77,7 +77,7 @@ public class OfficeController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(Office office, Model model,HttpServletRequest request) {
 		User user = UserUtils.getUser();
-		if (office.getParent()==null || office.getParent().getId()==null){
+		if (  office.getParent()==null || StringUtils.isBlank(office.getParent().getId())){
 			office.setParent(user.getOffice());
 		}
 		office.setParent(officeService.get(office.getParent().getId()));
@@ -117,15 +117,13 @@ public class OfficeController extends BaseController {
 			return "redirect:" + adminPath + "/sys/office/";
 		}
 		//根据ID获取部门类别，set进去
-		if (office.getParent().getId()!=null && StringUtils.isNotBlank(office.getParent().getId())){
+		if (office.getParent()!=null && office.getParent().getId()!=null && StringUtils.isNotBlank(office.getParent().getId())){
 			Office office1=UserUtils.getOfficeId(office.getParent().getId());
 			office.setOfficeType(office1.getOfficeType());
-
 		}
-		if (!beanValidator(model, office)){
-
-			return form(office, model,request);
-		}
+//		if (!beanValidator(model, office)){
+//			return form(office, model,request);
+//		}
 		officeService.save(office);
 
 		if(office.getChildDeptList()!=null){
@@ -230,6 +228,22 @@ public class OfficeController extends BaseController {
 						}
 						mapList.add(map);
 					}
+				}else if(officeType !=null && officeType.equals(e.getOfficeType()) && next != null && StringUtils.isNotBlank(next)  && e.getParent()!=null   ){//&&   && StringUtils.isNotBlank(e.getParent().getName())
+					String area=UserUtils.getUser().getCompany().getArea().getName();
+					String deptName=area.substring(0,area.length()-1).equals("太原") ? "调解" : area.substring(0,area.length()-1);
+					if ( e.getName().indexOf(deptName)!=-1){
+						Map<String, Object> map = Maps.newHashMap();
+						map.put("id", e.getId());
+						map.put("pId", e.getParentId());
+						map.put("pIds", e.getParentIds());
+						map.put("name", e.getName());
+						if (type != null && "3".equals(type)) {
+							map.put("isParent", true);
+						}
+						mapList.add(map);
+					}
+
+
 
 				}
 			}

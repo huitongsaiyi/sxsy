@@ -4,8 +4,17 @@
 <head>
 	<title>投诉接待管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
+	<script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$("#contentTable").colResizable({
+				liveDrag:true,//拖动列时更新表布局
+				gripInnerHtml:"<div class='grip'></div>",
+				draggingClass:"dragging",
+				resizeMode:'overflow',//允许溢出父容器
+				defaults : true,
+			});
 			$("#btnImport").click(function(){
 				$.jBox($("#importBox").html(), {title:"导出模版", buttons:{"关闭":true},
 					bottomText:""});
@@ -36,7 +45,7 @@
         }
 
         #contentTable th:nth-of-type(23) {
-            width: 10em;
+            width: 20em;
         }
     </style>
 </head>
@@ -68,10 +77,12 @@
 			<li><label>患者姓名：</label>
 				<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
+			<c:if test="${fns:getUser().company.officeType eq '1'}">
 			<li><label>涉及医院：</label>
 				<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="hospitalName" labelValue="${complaintInfo.hospitalName}"
 					title="部门" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="input-small" allowClear="true" notAllowSelectParent="false"/>
 			</li>
+			</c:if>
 			<li><label>涉及科室：</label>
 				<sys:treeselect id="involveDepartment" name="involveDepartment" value="${complaintInfo.involveDepartment}" labelName="testTree"
 								labelValue="${complaintInfo.testTree}" title="涉及科室"
@@ -118,7 +129,7 @@
                 <th class="sort-column a.closing_method">结案方式</th>
                 <th class="sort-column a.amount_involved">涉及金额 </th>
 				<th>创建人</th>
-				<shiro:hasPermission name="complaint:complaintInfo:edit"><th>操作</th></shiro:hasPermission>
+				<shiro:hasPermission name="complaint:complaintInfo:edit"><th width="100px">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>

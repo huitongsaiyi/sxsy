@@ -198,7 +198,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.user = user;
 	}
 
-	@Length(min=1, message="处理经过不能为空。")
+	@Length(min=0, message="处理经过不能为空。")
     public String getHandlePass() {
         return handlePass;
     }
@@ -208,7 +208,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
     }
 
 
-    @Length(min=1, message="处理结果不能为空。")
+    @Length(min=0, message="处理结果不能为空。")
     public String getHandleResult() {
         return handleResult;
     }
@@ -334,7 +334,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.patientRelation = patientRelation;
 	}
 
-	@Length(min=0, max=20, message="患者姓名长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="患者姓名不能为空")
 	public String getPatientName() {
 		return patientName;
 	}
@@ -352,7 +352,7 @@ public class ComplaintInfo extends DataEntity<ComplaintInfo> {
 		this.patientSex = patientSex;
 	}
 
-	@Length(min=0, max=4, message="患者年龄长度必须介于 0 和 4 之间")
+	@Length(min=1, max=4, message="患者年龄不能为空")
 	public String getPatientAge() {
 		return patientAge;
 	}

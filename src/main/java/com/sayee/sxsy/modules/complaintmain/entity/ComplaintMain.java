@@ -20,6 +20,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 
 	private static final long serialVersionUID = 1L;
 	private String complaintMainId;		// 主键
+	private String complaintId;		// 医院投诉主键
 	private User employee;  //涉及人员
 	private User user;  //当前登录人员
 	private Office hospital; //涉及医院
@@ -45,6 +46,14 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 	private String source;		//案子的来源  1医调委录入 2 医院录入 默认是1
 	private String testTree;//涉及科室
 	private String isMajor;//是否重大 主表为主
+
+	public String getComplaintId() {
+		return complaintId;
+	}
+
+	public void setComplaintId(String complaintId) {
+		this.complaintId = complaintId;
+	}
 
 	public String getIsMajor() {
 		return isMajor;
@@ -257,7 +266,7 @@ public class ComplaintMain extends ActEntity<ComplaintMain> {
 		this.involveDepartment = involveDepartment;
 	}
 
-	@Length(min=1, max=32, message="涉及人员长度必须介于 1 和 32 之间")
+	@Length(min=0, max=32, message="涉及人员长度必须介于 0 和 32 之间")
 	public String getInvolveEmployee() {
 		return involveEmployee;
 	}

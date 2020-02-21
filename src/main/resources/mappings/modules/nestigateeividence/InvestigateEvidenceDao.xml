@@ -68,13 +68,15 @@
 		au.create_date AS "auditAcceptance.createDate",
         au.treatment_outcome AS "auditAcceptance.treatmentOutcome",
         au.insurance_company AS "auditAcceptance.insuranceCompany",
+        d.label AS "addressLabel",
+        dd.label AS "investigateEvidence.addressLabel",
 	    r.report_emp AS "reportRegistration.reportEmp",
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.patient_mobile AS "reportRegistration.patientMobile"
 	</sql>
 
 	<sql id="investigateEvidenceJoins">
-       LEFT JOIN INVESTIGATE_EVIDENCE a ON a.complaint_main_id = b.complaint_main_id AND a.investigate_type='1'
+       	LEFT JOIN INVESTIGATE_EVIDENCE a ON a.complaint_main_id = b.complaint_main_id AND a.investigate_type='1'
         LEFT JOIN INVESTIGATE_EVIDENCE aa ON aa.complaint_main_id = b.complaint_main_id AND aa.investigate_type='2'
         LEFT JOIN AUDIT_ACCEPTANCE au on b.complaint_main_id = au.complaint_main_id
         LEFT JOIN REPORT_REGISTRATION r ON b.complaint_main_id=r.complaint_main_id
@@ -85,6 +87,8 @@
         LEFT JOIN SYS_USER u1 ON u1.id=b.involve_employee
         LEFT JOIN SYS_USER u ON u.id=a.investigator
         LEFT JOIN SYS_USER u2 ON u2.id=a.next_link_man
+        LEFT JOIN SYS_DICT d ON d.value = a.address AND d.TYPE='meeting'
+        LEFT JOIN SYS_DICT dd ON dd.value = aa.address AND dd.TYPE='meeting'
 	</sql>
 
 	<select id="get" resultType="InvestigateEvidence">

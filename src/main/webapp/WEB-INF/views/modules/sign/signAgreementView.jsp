@@ -189,6 +189,7 @@
                     <tr>
                         <th class="hide"></th>
                         <th >姓名</th>
+                        <th >性别</th>
                         <th >与患者关系</th>
                         <th >身份证号</th>
                         <th >住址</th>
@@ -209,6 +210,12 @@
 							<td>
 								<input id="patientLinkEmpList{{idx}}_patientLinkName" name="patientLinkEmpList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled"/>
 							</td>
+                            <td>
+                                <select id="patientLinkEmpList{{idx}}_patientLinkSex" name="patientLinkEmpList[{{idx}}].patientLinkSex" value="{{row.patientLinkSex}}" data-value="{{row.patientLinkSex}}" class="input-mini" disabled="disabled">
+                                    <option value="1"  >男</option>
+                                    <option value="2"  >女</option>
+                                </select>
+                            </td>
 							<td>
 								<%--<input id="patientLinkEmpList{{idx}}_patientRelation" name="patientLinkEmpList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />--%>
 								<select id="patientLinkEmpList{{idx}}_patientRelation" name="patientLinkEmpList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini" disabled="disabled">
@@ -258,6 +265,12 @@
 							<td>
 								<input id="patientLinkDList{{idx}}_patientLinkName" name="patientLinkDList[{{idx}}].patientLinkName" type="text" value="{{row.patientLinkName}}" maxlength="100" class="required" disabled="disabled" />
 							</td>
+                            <td>
+                                <select id="patientLinkDList{{idx}}_patientLinkSex" name="patientLinkDList[{{idx}}].patientLinkSex" value="{{row.patientLinkSex}}" data-value="{{row.patientLinkSex}}" class="input-mini" disabled="disabled">
+                                    <option value="1"  >男</option>
+                                    <option value="2"  >女</option>
+                                </select>
+                            </td>
 							<td>
 								<%--<input id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" type="text" value="{{row.patientRelation}}" maxlength="100" class="required" />--%>
 								<select id="patientLinkDList{{idx}}_patientRelation" name="patientLinkDList[{{idx}}].patientRelation" value="{{row.patientRelation}}" data-value="{{row.patientRelation}}" class="input-mini" disabled="disabled">

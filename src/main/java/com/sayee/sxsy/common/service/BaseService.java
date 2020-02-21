@@ -72,7 +72,7 @@ public abstract class BaseService {
 //							if (StringUtils.isNotEmpty(officeIds)){
 //								sqlString.append(" OR " + oa + ".id IN ('" + officeIds + "')");
 //							}
-							sqlString.append(" OR EXISTS (SELECT 1 FROM sys_role_office WHERE role_id = '" + r.getId() + "'");
+							sqlString.append(" OR EXISTS (SELECT 1 FROM SYS_ROLE_OFFICE WHERE role_id = '" + r.getId() + "'");
 							sqlString.append(" AND office_id = " + oa +".id)");
 						}
 						//else if (Role.DATA_SCOPE_SELF.equals(r.getDataScope())){
@@ -169,7 +169,7 @@ public abstract class BaseService {
 				sqlString.append(" AND " + where +")");
 			}
 			else if (Role.DATA_SCOPE_CUSTOM.equals(dataScopeString)){
-				sqlString.append(" AND EXISTS (SELECT 1 FROM sys_role_office ro123456, sys_office o123456");
+				sqlString.append(" AND EXISTS (SELECT 1 FROM SYS_ROLE_OFFICE ro123456, sys_office o123456");
 				sqlString.append(" WHERE ro123456.office_id = o123456.id");
 				sqlString.append(" AND ro123456.role_id = '" + roleId + "'");
 				sqlString.append(" AND o123456." + where +")");

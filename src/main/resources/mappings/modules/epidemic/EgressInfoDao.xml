@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.epidemic.dao.EgressInfoDao">
+    
+	<sql id="egressInfoColumns">
+		a.egress_id AS "egressId",
+		a.epidemic_id AS "epidemicId",
+		a.egress_name AS "egressName",
+		a.egress_sex AS "egressSex",
+		a.egress_age AS "egressAge",
+		a.relation AS "relation",
+		a.train_flight AS "trainFlight",
+		a.user_address AS "userAddress",
+		a.temperature AS "temperature",
+		a.health_condition AS "healthCondition",
+		a.is_egress AS "isEgress",
+		a.egress_time AS "egressTime",
+		a.egress_mode AS "egressMode",
+		a.egress_place AS "egressPlace",
+		a.return_time AS "returnTime",
+		a.return_mode AS "returnMode",
+		a.return_place AS "returnPlace",
+		a.remark AS "remark",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="egressInfoJoins">
+		LEFT JOIN EPIDEMIC_DAILY b ON b.epidemic_id = a.epidemic_id
+	</sql>
+    
+	<select id="get" resultType="EgressInfo">
+		SELECT 
+			<include refid="egressInfoColumns"/>
+		FROM EGRESS_INFO a
+		<include refid="egressInfoJoins"/>
+		WHERE a.epidemic_id = #{id}
+	</select>
+
+	<select id="getAcquiesce" resultType="EgressInfo">
+		SELECT
+		a.egress_name AS "egressName",
+		if(a.egress_sex is null ,'1',a.egress_sex) AS "egressSex",
+		a.egress_age AS "egressAge",
+		if(a.relation is null ,'1',a.relation) AS "relation",
+		a.user_address AS "userAddress"
+		FROM EGRESS_INFO a
+		<include refid="egressInfoJoins"/>
+		WHERE a.egress_name = #{egressName} AND a.del_flag = '0'
+		GROUP BY a.egress_name
+		ORDER BY a.UPDATE_DATE
+	</select>
+	
+	<select id="findList" resultType="EgressInfo">
+		SELECT 
+			<include refid="egressInfoColumns"/>
+		FROM EGRESS_INFO a
+		<include refid="egressInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="epidemicId != null and epidemicId != ''">
+				AND a.epidemic_id = #{epidemicId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="EgressInfo">
+		SELECT 
+			<include refid="egressInfoColumns"/>
+		FROM EGRESS_INFO a
+		<include refid="egressInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO EGRESS_INFO(
+			egress_id,
+			epidemic_id,
+			egress_name,
+			egress_sex,
+			egress_age,
+			relation,
+			train_flight,
+			user_address,
+			temperature,
+			health_condition,
+			is_egress,
+			egress_time,
+			egress_mode,
+			egress_place,
+			return_time,
+			return_mode,
+			return_place,
+			remark,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{egressId},
+			#{epidemicId},
+			#{egressName},
+			#{egressSex},
+			#{egressAge},
+			#{relation},
+			#{trainFlight},
+			#{userAddress},
+			#{temperature},
+			#{healthCondition},
+			#{isEgress},
+			#{egressTime},
+			#{egressMode},
+			#{egressPlace},
+			#{returnTime},
+			#{returnMode},
+			#{returnPlace},
+			#{remark},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE EGRESS_INFO SET
+			egress_id = #{egressId},
+			epidemic_id = #{epidemicId},
+			egress_name = #{egressName},
+			egress_sex = #{egressSex},
+			egress_age = #{egressAge},
+			relation = #{relation},
+			train_flight = #{trainFlight},
+			user_address = #{userAddress},
+			temperature = #{temperature},
+			health_condition = #{healthCondition},
+			is_egress = #{isEgress},
+			egress_time = #{egressTime},
+			egress_mode = #{egressMode},
+			egress_place = #{egressPlace},
+			return_time = #{returnTime},
+			return_mode = #{returnMode},
+			return_place = #{returnPlace},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE egress_id = #{egressId}
+	</update>
+	
+	<update id="delete">
+		UPDATE EGRESS_INFO SET
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="egressId !=null and egressId != ''">
+				WHERE egress_id = #{egressId}
+			</when>
+			<otherwise>
+				WHERE epidemic_id = #{epidemicId}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

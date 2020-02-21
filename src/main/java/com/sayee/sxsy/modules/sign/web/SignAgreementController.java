@@ -18,6 +18,7 @@ import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
 import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
 import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
 import com.sayee.sxsy.modules.recordinfo.entity.RecordInfo;
+import com.sayee.sxsy.modules.signtype.entity.SignTypeInfo;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
@@ -129,20 +130,31 @@ public class SignAgreementController extends BaseController {
 			medicalOfficeEmp.setMedicalOfficeMobile(signAgreement.getAuditAcceptance().getMediateApplyInfo().getHospitalMobile());
 			medicalOfficeEmpList.add(medicalOfficeEmp);
 		}
-
+		List<TypeInfo> info=new ArrayList<>();
 		//在修改时 拿到 用逗号分割的数据  进行处理
-		List<TypeInfo> tjqk=BaseUtils.getType("3");
-		signAgreementService.label(tjqk,signAgreement.getMediation());
-		model.addAttribute("tjqk", tjqk);
-		List<TypeInfo> xyydsx=BaseUtils.getType("4");
-		signAgreementService.label(xyydsx,signAgreement.getAgreedMatter());
-		model.addAttribute("xyydsx", xyydsx);
-		List<TypeInfo> lxxyfs=BaseUtils.getType("5");
-		signAgreementService.label(lxxyfs,signAgreement.getPerformAgreementMode());
-		model.addAttribute("lxxyfs", lxxyfs);
-		List<TypeInfo> xysm=BaseUtils.getType("6");
-		signAgreementService.label(xysm,signAgreement.getAgreementExplain());
-		model.addAttribute("xysm", xysm);
+		info=BaseUtils.getType("3");
+		signAgreementService.label(info,signAgreement.getMediation());
+		List<SignTypeInfo> tjqk=BaseUtils.getType("3",signAgreement.getSignAgreementId());
+		signAgreementService.signLabel(tjqk,signAgreement.getMediation());
+		model.addAttribute("tjqk", tjqk.size()>0 ? tjqk : info );
+
+		info=BaseUtils.getType("4");
+		signAgreementService.label(info,signAgreement.getMediation());
+		List<SignTypeInfo> xyydsx=BaseUtils.getType("4",signAgreement.getSignAgreementId());
+		signAgreementService.signLabel(xyydsx,signAgreement.getAgreedMatter());
+		model.addAttribute("xyydsx", xyydsx.size()>0 ? xyydsx : info);
+
+		info=BaseUtils.getType("5");
+		signAgreementService.label(info,signAgreement.getMediation());
+		List<SignTypeInfo> lxxyfs=BaseUtils.getType("5",signAgreement.getSignAgreementId());
+		signAgreementService.signLabel(lxxyfs,signAgreement.getPerformAgreementMode());
+		model.addAttribute("lxxyfs", lxxyfs.size()>0 ? lxxyfs : info);
+
+		info=BaseUtils.getType("6");
+		signAgreementService.label(info,signAgreement.getMediation());
+		List<SignTypeInfo> xysm=BaseUtils.getType("6",signAgreement.getSignAgreementId());
+		signAgreementService.signLabel(xysm,signAgreement.getAgreementExplain());
+		model.addAttribute("xysm", xysm.size()>0 ? xysm : info);
 		//附件展示
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(signAgreement.getSignAgreementId());
 		for (Map<String, Object> map:filePath) {
@@ -202,7 +214,7 @@ public class SignAgreementController extends BaseController {
 					return "redirect:" + Global.getAdminPath() + "/sign/signAgreement/?repage";
 				} else {
 					model.addAttribute("message","保存签署协议成功");
-					return form(signAgreement, model, request);
+					return form(signAgreementService.get(signAgreement.getSignAgreementId()), model, request);
 				}
 			} catch (Exception e) {
 				logger.error("启动纠纷调解流程失败：", e);

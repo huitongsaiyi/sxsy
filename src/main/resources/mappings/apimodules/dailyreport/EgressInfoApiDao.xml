@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.api.dailyreport.dao.EgressInfoApiDao">
+    <insert id="insert">
+        INSERT INTO EGRESS_INFO(
+		egress_id,
+		epidemic_id,
+		relation,
+		egress_name,
+		egress_sex,
+		egress_age,
+		is_egress,
+		temperature,
+		health_condition,
+		train_flight,
+		egress_time,
+		egress_mode,
+		egress_place,
+		return_time,
+		return_mode,
+		return_place,
+		remark,
+		create_date,
+		create_by,
+		update_date,
+		update_by,
+		del_flag
+		) VALUES (
+		#{egressId},
+		#{epidemicId},
+		#{relation},
+		#{egressName},
+		#{egressSex},
+		#{egressAge},
+		#{isEgress},
+		#{temperature},
+		#{healthCondition},
+		#{trainFlight},
+		#{egressTime},
+		#{egressMode},
+		#{egressPlace},
+		#{returnTime},
+		#{returnMode},
+		#{returnPlace},
+		#{remark},
+		#{createDate},
+		#{createUser},
+		#{updateDate},
+		#{createUser},
+		'0'
+		)
+    </insert>
+
+</mapper>

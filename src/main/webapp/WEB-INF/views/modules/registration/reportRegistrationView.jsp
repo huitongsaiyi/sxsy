@@ -463,7 +463,7 @@
                 <input type="hidden" id="files" name="files" htmlEscape="false" class="input-xlarge" value="${files}"/>
                 <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
                 <sys:ckfinder input="files" type="files" uploadPath="/reportReigsation/annex" selectMultiple="true"
-                              maxWidth="100" maxHeight="100" readonly="true"/>
+                               readonly="true"/>
             </td>
         </div>
     </div>

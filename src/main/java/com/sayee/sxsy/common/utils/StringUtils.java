@@ -415,5 +415,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     	result.append(val.substring(1));
     	return result.toString();
     }
+
+    public static boolean isNumber(String str){
+		Boolean strResult = str.matches("-?[0-9]+.?[0-9]*");
+		if(strResult == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
     
 }

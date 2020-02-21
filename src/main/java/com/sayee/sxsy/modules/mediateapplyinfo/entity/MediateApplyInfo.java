@@ -147,7 +147,7 @@ public class MediateApplyInfo extends DataEntity<MediateApplyInfo> {
 	public void setInvolveHospital(String involveHospital) {
 		this.involveHospital = involveHospital;
 	}
-	@Length(min=1, max=10000, message="投诉纠纷概要长度必须介于 1 和 10000 之间")
+	@Length(min=1,  message="投诉纠纷概不能为空")
 	public String getSummaryOfDisputes() {
 		return summaryOfDisputes;
 	}

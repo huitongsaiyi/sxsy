@@ -73,13 +73,20 @@ public class ComplainController {
         mediateApiEntity.preInsert();
         String areaId=jsonObject.getString("areaId");
         String getUserId;
+        String getinvolveHospitalId= jsonObject.getString("involveHospitalId");
         String wechatUserId=jsonObject.getString("wechatUserId");
+        /*
         if(null==mediateApiService.getDistributionUser(areaId)||mediateApiService.getDistributionUser(areaId).isEmpty()){
             getUserId="5387a4ce17b14df2b7756c8714af2ed6";
         }else{
             getUserId=null==mediateApiService.getDistributionUser(areaId)||mediateApiService.getDistributionUser(areaId).isEmpty()?"5387a4ce17b14df2b7756c8714af2ed6":mediateApiService.getDistributionUser(areaId);
         }
-
+        */
+        if(null==mediateApiService.getDistribution(getinvolveHospitalId)||mediateApiService.getDistribution(getinvolveHospitalId).isEmpty()){
+            getUserId="5387a4ce17b14df2b7756c8714af2ed6";
+        }else{
+            getUserId=mediateApiService.getDistribution(getinvolveHospitalId);
+        }
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String caseNumber=getCaseMumber();
@@ -142,7 +149,7 @@ public class ComplainController {
         //mediateApiEntity.setINVOLVEEMPLOYEE(involveEmployee);
         //mediateApiEntity.setPROCINSID(procInsId);
         mediateApiEntity.setCreateUser(getUserId);
-        mediateApiEntity.setSource("0");
+        mediateApiEntity.setSource("3");
         mediateApiEntity.setCreateDate(new Date());
         mediateApiEntity.setUpdateDate(new Date());
         //投诉表信息
@@ -192,7 +199,7 @@ public class ComplainController {
                 R r=new R();
                 r.put("RtnCode",0);
                 r.put("RtnMsg","success");
-                r.put("RtnData","data");
+                r.put("RtnData","添加成功");
                 return r;
             }else{
                 R r=new R();

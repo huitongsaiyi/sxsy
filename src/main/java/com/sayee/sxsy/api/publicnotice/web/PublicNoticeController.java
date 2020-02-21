@@ -11,7 +11,6 @@ import com.sayee.sxsy.api.publicnotice.entity.LawCaseApi;
 import com.sayee.sxsy.api.publicnotice.entity.PublicNotice;
 import com.sayee.sxsy.api.publicnotice.service.LawCaseApiService;
 import com.sayee.sxsy.api.publicnotice.service.PublicNoticeApiService;
-import org.activiti.engine.impl.bpmn.data.SimpleDataInputAssociation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**

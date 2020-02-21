@@ -98,9 +98,9 @@ public class PerformAgreementService extends CrudService<PerformAgreementDao, Pe
 	
 	@Transactional(readOnly = false)
 	public void save(PerformAgreement performAgreement) {
-		performAgreement.setAgreementPayAmount(StringUtils.isNumeric(performAgreement.getAgreementPayAmount()) ==true ? performAgreement.getAgreementPayAmount() : "0");
-		performAgreement.setHospitalPayAmount(StringUtils.isNumeric(performAgreement.getHospitalPayAmount())==true ? performAgreement.getHospitalPayAmount() :"0");
-		performAgreement.setInsurancePayAmount(StringUtils.isNumeric(performAgreement.getInsurancePayAmount()) ==true ? performAgreement.getInsurancePayAmount():"0");
+		performAgreement.setAgreementPayAmount(StringUtils.isNumber(performAgreement.getAgreementPayAmount()) ==true ? performAgreement.getAgreementPayAmount() : "0");
+		performAgreement.setHospitalPayAmount(StringUtils.isNumber(performAgreement.getHospitalPayAmount())==true ? performAgreement.getHospitalPayAmount() :"0");
+		performAgreement.setInsurancePayAmount(StringUtils.isNumber(performAgreement.getInsurancePayAmount()) ==true ? performAgreement.getInsurancePayAmount():"0");
 		if (StringUtils.isBlank(performAgreement.getCreateBy().getId())){		//判断主键Id是否为空
 			performAgreement.preInsert();
 			performAgreement.setPerformAgreementId(performAgreement.getId());

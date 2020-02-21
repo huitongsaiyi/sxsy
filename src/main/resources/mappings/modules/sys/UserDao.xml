@@ -82,7 +82,7 @@
 		a.del_flag,
 		a.post As "post",
 		a.hospital_title AS "hospitalTitle",
-
+		ca.name AS "areaName",
 		c.name AS "company.name",
 		c.parent_id AS "company.parent.id",
 		c.parent_ids AS "company.parentIds",
@@ -224,6 +224,7 @@
 		</if>
 		ORDER BY a.name
 	</select>
+
 
 	<!-- 查询全部用户 -->
 	<select id="findAllList" resultType="User">

@@ -53,17 +53,17 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column case_number" style="text-align: center;">案件编号</th>
-				<th class="sort-column patient_name" style="text-align: center;">患者姓名</th>
-				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
-				<th class="sort-column b.hospital_grade" style="text-align: center;">卷宗归档时间</th>
-				<th class="sort-column case_number" style="text-align: center;">归档人</th>
-				<th class="sort-column report_emp" style="text-align: center;">接收人</th>
-				<th class="sort-column dispute_time" style="text-align: center;">卷宗编号</th>
-				<th class="sort-column r1.patient_mobile" style="text-align: center;">评分</th>
-				<th class="sort-column r1.patient_mobile" style="text-align: center;">评分人</th>
-				<th class="sort-column r1.patient_mobile" style="text-align: center;">部门名称</th>
-				<th class="sort-column r1.patient_mobile" style="text-align: center;">调解员</th>
+				<th class="sort-column b.case_number" style="text-align: center;">案件编号</th>
+				<th class="sort-column b.patient_name" style="text-align: center;">患者姓名</th>
+				<th class="sort-column b.involve_hospital" style="text-align: center;">涉及医院</th>
+				<th class="sort-column su.filing_time" style="text-align: center;">卷宗归档时间</th>
+				<th class="" style="text-align: center;">归档人</th>
+				<th class="" style="text-align: center;">接收人</th>
+				<th class="sort-column file_number" style="text-align: center;">卷宗编号</th>
+				<th class="sort-column a.assess_grade" style="text-align: center;">评分</th>
+				<th class="sort-column a.appraiser" style="text-align: center;">评分人</th>
+				<th  style="text-align: center;">部门名称</th>
+				<th  style="text-align: center;">调解员</th>
 				<shiro:hasPermission name="assessinfo:assessInfo:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -80,7 +80,7 @@
 						${assessInfo.complaintMain.hospital.name}
 				</td>
 				<td style="text-align: center;">
-						${assessInfo.summaryInfo.filingTime}
+						${assessInfo.handleTime}
 				</td>
 				<td style="text-align: center;">
 						${assessInfo.summaryInfo.user.name}
@@ -105,7 +105,9 @@
 						${fns:getUserById(assessInfo.createUser).name}
 				</td>
 				<shiro:hasPermission name="assessinfo:assessInfo:edit"><td style="text-align: center;">
-    				<a href="${ctx}/assessinfo/assessInfo/form?id=${assessInfo.assessId}">处理</a>
+					<c:if test="${empty assessInfo.handleTime}">
+						<a href="${ctx}/assessinfo/assessInfo/form?id=${assessInfo.assessId}">处理</a>
+					</c:if>
 					<a href="${ctx}/assessinfo/assessInfo/form?id=${assessInfo.assessId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>

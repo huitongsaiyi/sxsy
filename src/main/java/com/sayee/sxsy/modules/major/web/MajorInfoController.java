@@ -56,7 +56,7 @@ public class MajorInfoController extends BaseController {
 		return "modules/major/majorInfoList";
 	}
 
-	@RequiresPermissions("major:majorInfo:view")
+	//@RequiresPermissions("major:majorInfo:view")
 	@RequestMapping(value = "form")
 	public String form(MajorInfo majorInfo, Model model, HttpServletRequest request) {
 	    String com=request.getParameter("complaintMainId");
@@ -67,7 +67,7 @@ public class MajorInfoController extends BaseController {
 		return "modules/major/majorInfoForm";
 	}
 
-	@RequiresPermissions("major:majorInfo:edit")
+	//@RequiresPermissions("major:majorInfo:edit")
 	@RequestMapping(value = "save")
 	public String save(MajorInfo majorInfo, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		if (!beanValidator(model, majorInfo)){

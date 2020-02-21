@@ -3,6 +3,7 @@ package com.sayee.sxsy.common.utils;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.sayee.sxsy.modules.act.rest.servlet.FilterServletOutputStream;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPrintable;
 import org.apache.pdfbox.printing.Scaling;
@@ -106,6 +107,7 @@ public class WordExportUtil  {
                     while ((matcher = matcher(runText)).find()) {
                         runText = matcher.replaceFirst(String.valueOf(params.get(matcher.group(1))));
                     }
+                    runText = StringEscapeUtils.unescapeHtml4(runText);
                     para.removeRun(i);
                     //重新插入run里内容格式可能与原来模板的格式不一致
                     int num=i;

@@ -20,6 +20,10 @@ import java.util.Map;
 @MyBatisDao
 public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
     /**
+     * 根据身份证 医院 获取案件是否重复
+     */
+    public List<ComplaintMain> getRepeat(ComplaintMain complaintMain);
+    /**
      * 获取我的待办数目
      */
     public Long findCount(@Param("loginName") String loginName);
@@ -35,6 +39,11 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * 获取我的已办数据
      */
     public List<ComplaintMain> getMyDone(@Param("loginName") String loginName);
+    /**
+     * 通过实例id 获取主表信息
+     */
+    public ComplaintMain getMain(@Param("ins") String ins);
+
     /**
      * 获取案件类型条数
      */

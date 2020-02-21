@@ -5,7 +5,7 @@
 	<sql id="patientLinkEmpColumns">
 		a.patient_link_emp_id AS "patientLinkEmpId",
 		a.patient_link_name AS "patientLinkName",
-		a.patient_link_sex AS "patientLinkSex",
+		if(a.patient_link_sex IS NULL,cm.patient_sex,a.patient_link_sex) AS "patientLinkSex",
 		a.patient_link_age AS "patientLinkAge",
 		a.patient_link_work_unit AS "patientLinkWorkUnit",
 		a.patient_link_post AS "patientLinkPost",
@@ -60,7 +60,33 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="findSignList" resultType="PatientLinkEmp">
+		SELECT
+		<include refid="patientLinkEmpColumns"/>
+		FROM PATIENT_LINK_EMP a
+		LEFT JOIN SIGN_AGREEMENT ass ON ass.sign_agreement_id = a.relation_id
+		LEFT JOIN COMPLAINT_MAIN cm ON cm.complaint_main_id=ass.complaint_main_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="relationId != null and relationId != ''">
+				AND a.relation_id = #{relationId}
+			</if>
+			<if test="linkType != null and linkType != ''">
+				AND a.link_type = #{linkType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
 	<select id="findAllList" resultType="PatientLinkEmp">
 		SELECT 
 			<include refid="patientLinkEmpColumns"/>

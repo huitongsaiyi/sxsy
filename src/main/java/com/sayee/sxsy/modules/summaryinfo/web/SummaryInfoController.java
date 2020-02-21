@@ -6,8 +6,19 @@ package com.sayee.sxsy.modules.summaryinfo.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sayee.sxsy.common.utils.BaseUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.sayee.sxsy.common.utils.*;
+import com.sayee.sxsy.modules.act.entity.Act;
+import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.machine.service.MachineAccountService;
+import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
+import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
+import com.sayee.sxsy.modules.record.dao.MediateRecordDao;
+import com.sayee.sxsy.modules.record.entity.MediateRecord;
+import com.sayee.sxsy.modules.sign.entity.SignAgreement;
+import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,10 +33,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sayee.sxsy.common.config.Global;
 import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.web.BaseController;
-import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.summaryinfo.entity.SummaryInfo;
 import com.sayee.sxsy.modules.summaryinfo.service.SummaryInfoService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +48,12 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "${adminPath}/summaryinfo/summaryInfo")
 public class SummaryInfoController extends BaseController {
-
+    @Autowired
+    private SystemService systemService;
+	@Autowired
+	private MediateRecordDao mediateRecordDao;		//调解志DAO层
+	@Autowired
+	private ActTaskService actTaskService;
 	@Autowired
 	private SummaryInfoService summaryInfoService;
     @Autowired
@@ -66,34 +82,36 @@ public class SummaryInfoController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(HttpServletRequest request,SummaryInfo summaryInfo, Model model) {
 		String type = request.getParameter("type");
-		//卷宗编号
-		if(null==summaryInfo.getFileNumber()){
-			List<SummaryInfo> list = summaryInfoService.findListSummmary(summaryInfo);
-			if(list.size()==0){
-				String code = BaseUtils.getCode("time", "4", "SUMMARY_INFO", "file_number");
-				String num=code.substring(0,4);
-				summaryInfo.setFileNumber(num+"-0001");
-			}else{
-				int max=0;
-				for (int i=0;i<list.size();i++) {
-					String fileNumber = list.get(i).getFileNumber();
-					String n=fileNumber.substring(5,9);
-					int n1=Integer.valueOf(n);
-					if(n1>max){
-						max=n1;
-					}
-				}
-				int n2=max+1;
-				String format = String.format("%0" + 4 + "d", n2);
-				String code1 = BaseUtils.getCode("time", "4", "SUMMARY_INFO", "file_number");
-				String time= code1.substring(0,4);
-				String f1 =time+"-"+format;
-				summaryInfo.setFileNumber(f1);
+
+		summaryInfo.setMediateResult( StringUtils.isBlank(summaryInfo.getMediateResult()) ?  (StringUtils.isBlank(summaryInfo.getIsStop()) ? "1" : "2") : summaryInfo.getMediateResult()   );
+		List<Act> actList=actTaskService.histoicFlowList(summaryInfo.getComplaintMain().getProcInsId(), "check", "sign");
+		long flow=0;
+		for (Act act:actList) {
+			if (!"evaluation".equals(act.getHistIns().getActivityId()) && act.getHistIns().getDurationInMillis()!=null){
+				flow+=act.getHistIns().getDurationInMillis();
 			}
 		}
-
-
-		//附件
+		String flowDays=DateUtils.formatDateTime(flow,"chinese",false,false,false);
+		summaryInfo.setFlowDays(StringUtils.isBlank(summaryInfo.getFlowDays()) ? (!flowDays.contains("天") ?"1天" : flowDays) :summaryInfo.getFlowDays());
+		//根据得到的 执政调解 达成调解的主键  获取 调解志的次数
+		//调解志 明细查询
+		MediateRecord mediateRecord = new MediateRecord();
+		mediateRecord.setRelationId(StringUtils.isBlank(summaryInfo.getMediateEvidenceId())  ? "无" : summaryInfo.getMediateEvidenceId());
+		List<MediateRecord> aa=mediateRecordDao.findReachMediateList(mediateRecord);
+		mediateRecord.setRelationId(StringUtils.isBlank(summaryInfo.getReachMediateId())  ? "无" : summaryInfo.getReachMediateId());
+		aa.addAll(mediateRecordDao.findReachMediateList(mediateRecord));
+		summaryInfo.setMeetingFrequency(StringUtils.isBlank(summaryInfo.getMeetingFrequency()) ?   String.valueOf(aa.size())  : summaryInfo.getMeetingFrequency());
+		//下一步处理人 默认为 raters 角色
+        if (StringUtils.isBlank(summaryInfo.getNextLinkMan())){
+            List<User> list=systemService.findUserByOfficeRoleId("","raters");
+            if (list.size()>0){
+                for (User u:list) {
+                    summaryInfo.setNextLinkMan(u.getId());
+                    summaryInfo.setLinkEmployee(u);
+                }
+            }
+        }
+        //附件
 		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(summaryInfo.getSummaryId());
 		for(Map<String, Object> map:filePath){
 			if("25".equals(MapUtils.getString(map,"fjtype"))){
@@ -170,26 +188,34 @@ public class SummaryInfoController extends BaseController {
 
 	@RequiresPermissions("summaryinfo:summaryInfo:edit")
 	@RequestMapping(value = "save")
-	public String save(SummaryInfo summaryInfo, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
-		if (!beanValidator(model, summaryInfo)){
-			return form(request,summaryInfo, model);
-		}
-		try{
-			summaryInfoService.save(summaryInfo,request);
-			machineAccountService.savetz(summaryInfo.getMachineAccount(), "f", summaryInfo);
-			if("yes".equals(summaryInfo.getComplaintMain().getAct().getFlag())){
-				addMessage(redirectAttributes, "流程已启动，流程ID：" + summaryInfo.getComplaintMain().getProcInsId());
-				return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
-			}else {
-				model.addAttribute("message","保存结案总结成功");
-				return form(request,this.get(summaryInfo.getSummaryId()), model);
+	public String save(SummaryInfo summaryInfo, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request,HttpServletResponse response) {
+		String export=request.getParameter("export");
+		if (StringUtils.isNotBlank(export) && !export.equals("no")){
+//		    SignAgreement signAgreement1 = signAgreementService.get(signAgreement.getSignAgreementId());
+			String path = summaryInfoService.exportWord(summaryInfo,export,"false",request,response);
+			return path;
+		}else {
+			if (!beanValidator(model, summaryInfo) && "yes".equals(summaryInfo.getComplaintMain().getAct().getFlag())){
+				return form(request,summaryInfo, model);
 			}
+			try{
+				summaryInfoService.save(summaryInfo,request);
+				machineAccountService.savetz(summaryInfo.getMachineAccount(), "f", summaryInfo);
+				if("yes".equals(summaryInfo.getComplaintMain().getAct().getFlag())){
+					addMessage(redirectAttributes, "流程已启动，流程ID：" + summaryInfo.getComplaintMain().getProcInsId());
+					return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
+				}else {
+					model.addAttribute("message","保存结案总结成功");
+					return form(request,this.get(summaryInfo.getSummaryId()), model);
+				}
 
-		}catch(Exception e){
-			logger.error("启动鉴定评估流程失败：",e);
-			addMessage(redirectAttributes,"系统内部错误");
-			return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
+			}catch(Exception e){
+				logger.error("启动鉴定评估流程失败：",e);
+				addMessage(redirectAttributes,"系统内部错误");
+				return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
+			}
 		}
+
 
 	}
 	
@@ -199,6 +225,26 @@ public class SummaryInfoController extends BaseController {
 		summaryInfoService.delete(summaryInfo);
 		addMessage(redirectAttributes, "删除案件总结成功");
 		return "redirect:"+Global.getAdminPath()+"/summaryinfo/summaryInfo/?repage";
+	}
+
+    @RequestMapping(value = "getFileNum")
+    public void getFileNum(HttpServletRequest request,HttpServletResponse response) {
+        Map map=new HashMap();
+        map.put("number",summaryInfoService.getFileNum(request));
+        AjaxHelper.responseWrite(request,response,"1","success",map);
+    }
+
+	@RequestMapping(value = "pass")
+	public void pass(HttpServletRequest request,HttpServletResponse response) {
+		String code="";//1.成功 0失败
+		String summaryId=request.getParameter("summaryId");//前台传过来的状态
+		String export=request.getParameter("export");//前台传过来的状态
+		String print=request.getParameter("print");//前台传过来的状态
+		SummaryInfo summaryInfo = summaryInfoService.get(summaryId);
+		code=summaryInfoService.exportWord(summaryInfo,export,print,request,response);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("url",code);
+		AjaxHelper.responseWrite(request,response,"1","success",map);
 	}
 
 }

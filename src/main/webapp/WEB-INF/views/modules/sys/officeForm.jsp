@@ -28,12 +28,13 @@
 <body>
 <ul class="nav nav-tabs">
 	<li><a href="${ctx}/sys/office/list?id=${office.parent.id}&parentIds=${office.parentIds}&officeType=${office.officeType}">机构列表</a></li>
-	<li class="active"><a href="${ctx}/sys/office/form?id=${office.id}&parent.id=${office.parent.id}">机构<shiro:hasPermission name="sys:office:edit">${not empty office.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:office:edit">查看</shiro:lacksPermission></a></li>
+	<li class="active"><a href="${ctx}/sys/office/form?id=${office.id}&parent.id=${office.parent.id}&officeType=${office.officeType}">机构<shiro:hasPermission name="sys:office:edit">${not empty office.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:office:edit">查看</shiro:lacksPermission></a></li>
 </ul><br/>
 <form:form id="inputForm" modelAttribute="office" action="${ctx}/sys/office/save" method="post" class="form-horizontal">
 	<form:hidden path="id"/>
 	<form:hidden path="officeType" value="${officeType}"/>
 	<sys:message content="${message}"/>
+	<c:if test="${office.officeType ne '2'}">
 	<div class="control-group">
 		<label class="control-label">上级机构:</label>
 		<div class="controls">
@@ -41,6 +42,7 @@
 							title="机构" url="/sys/office/treeData?type=${office.type}&officeType=${office.officeType}" extId="${office.id}" cssClass="" allowClear="${office.currentUser.admin}"/>
 		</div>
 	</div>
+	</c:if>
 	<div class="control-group">
 		<label class="control-label">归属区域:</label>
 		<div class="controls">
@@ -51,7 +53,7 @@
 	<div class="control-group">
 		<label class="control-label">机构名称:</label>
 		<div class="controls">
-			<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
+			<form:input id="name" path="name" htmlEscape="false" maxlength="50" class="required"/>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
@@ -103,7 +105,7 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">参保日期:</label>
+				<label class="control-label">参保开始日期:</label>
 				<div class="controls">
 					<input name="insuredTime" type="text" readonly="readonly" maxlength="20"
 						   class="input-medium Wdate "
@@ -111,7 +113,15 @@
 						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});" />
 				</div>
 			</div>
-
+			<div class="control-group">
+				<label class="control-label">参保结束日期:</label>
+				<div class="controls">
+					<input name="insuredEndTime" type="text" readonly="readonly" maxlength="20"
+						   class="input-medium Wdate "
+						   value="${office.insuredEndTime}"
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});" />
+				</div>
+			</div>
 		</c:when>
 	</c:choose>
 	<div class="control-group">

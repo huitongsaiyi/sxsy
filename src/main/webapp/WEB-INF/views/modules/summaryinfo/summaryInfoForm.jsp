@@ -1,3 +1,4 @@
+<%@ taglib prefix="IntellijIdeaRulezzz" uri="http://java.sun.com/jsp/jstl/functionss" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
@@ -9,8 +10,17 @@
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
+				    var flag=$("#flag").val();
+				    if(flag=='yes'){
+                        getFileNum(form)
+                    }else{
+						var aa=$("#export").val();
+						if(aa=='no'){
+							loading('正在提交，请稍等...');
+						}
+                        form.submit();
+                    }
+
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
@@ -23,6 +33,62 @@
 				}
 			});
 		});
+        //下一步的时候 显示卷宗编号
+        function getFileNum(form) {//在保存前 获得卷宗编号
+            var path="${ctx}/summaryinfo/summaryInfo/getFileNum";
+            $.ajaxSettings.async = false;//ajax 要设置成同步，异步的情况下sucess方法里面设值还没成功，方法就先返回了，这样也取不到值
+            $.post(path,{'hospital':''},function(res){
+                if(res.data.number!='' && res.data.number!=null && res.data.number!=undefined){
+                    top.$.jBox.confirm("卷宗编号为    “"+res.data.number+"”   ，    请确认是否保存？","系统提示",function(v,h,f){
+                        if(v=="ok"){
+                            $("#fileNumber").val(res.data.number);
+                            loading('正在提交，请稍等...');
+                            form.submit();
+                        }
+                    },{buttonsFocus:1, closed:function(){
+                    }});
+                }else{
+                    alertx("卷宗编号生成失败，请联系工程师修复！");
+                }
+            },"json");
+        }
+
+		function exportWord() {
+			var aa=$("#export").val();
+			var path="${ctx}/summaryinfo/summaryInfo/pass";
+			$.ajaxSettings.async = true;
+			$.post(path,{'summaryId':"${summaryInfo.summaryId}",'export':aa,"print":"true"},function(res){
+				if(res.data.url!=''){
+					var url='${pageContext.request.contextPath}'+res.data.url;
+					windowOpen(url,"pdf",1500,700);
+				}else{
+				}
+			},"json");
+		}
+
+		//导出和打印加提示
+		$(function (){
+			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+		});
+
+		function removeCssClass() {
+			$('#nextLinkManName').removeClass('required');
+			$('#filingTime').removeClass('required');
+			$('#summaryEmp').removeClass('required');
+			$('#summaryTime').removeClass('required');
+			$('#summary').removeClass('required');
+			$('#mediatePass').removeClass('required');
+
+		}
+		function addCssClass() {
+			$('#nextLinkManName').addClass('required');
+			$('#filingTime').addClass('required');
+			$('#summaryEmp').addClass('required');
+			$('#summaryTime').addClass('required');
+			$('#summary').addClass('required');
+			$('#mediatePass').addClass('required');
+
+		}
 	</script>
 </head>
 <body>
@@ -31,7 +97,7 @@
 		<%--<li class="active"><a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.id}">案件总结<shiro:hasPermission name="summaryinfo:summaryInfo:edit">${not empty summaryInfo.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="summaryinfo:summaryInfo:edit">查看</shiro:lacksPermission></a></li>--%>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="summaryInfo" action="${ctx}/summaryinfo/summaryInfo/save" method="post" class="form-horizontal">
-		<form:hidden path="summaryId"/>
+        <form:hidden path="summaryId"/>
 		<form:hidden path="createDate"/>
 		<form:hidden path="createBy"/>
 		<form:hidden path="complaintMainId"/>
@@ -43,6 +109,7 @@
 		<form:hidden path="complaintMain.act.procDefId"/>
 		<form:hidden path="complaintMain.procInsId"/>
 		<form:hidden id="flag" path="complaintMain.act.flag"/>
+		<input type="hidden"  id="export" name="export"/>
 		<form:hidden path="fileNumber"/>
 		<sys:message content="${message}"/>
 		<ul id="myTab" class="nav nav-tabs">
@@ -57,7 +124,7 @@
 	<div id="myTabContent" class="tab-content">
 		<div class="tab-pane fade in active" id="Summary">
 			<table class="table-form">
-				<tr>
+				<%--<tr>
 					<td style="text-align: center;" >卷宗编号:</td>
 					<td >
 						${summaryInfo.fileNumber}
@@ -66,7 +133,7 @@
 				<tr>
 					<td style="text-align: center;">归档时间:</td>
 					<td>
-						<input name="filingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+						<input id="filingTime" name="filingTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${summaryInfo.filingTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:270px;"/>
 					</td>
@@ -80,7 +147,7 @@
 				<tr>
 					<td style="text-align: center;" >总结时间:</td>
 					<td>
-						<input name="summaryTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+						<input id="summaryTime" name="summaryTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 							   value="${summaryInfo.summaryTime}"
 							   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width:270px;"/>
 					</td>
@@ -90,7 +157,111 @@
 					<td>
 						<form:textarea path="summary" htmlEscape="false" rows="5" maxlength="500" class="input-xxlarge required" cssStyle="width: 1500px;"/>
 					</td>
+				</tr>--%>
+					<tr>
+						<td class="tit" style="text-align: center;" width="13%">受理时间:</td>
+						<td width="20%">
+							<input id="acceptanceTime" name="acceptanceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${summaryInfo.acceptanceTime}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"  disabled="disabled"/>
+						</td>
+						<td class="tit" style="text-align: center;" width="13%" >结案时间:</td>
+						<td width="20%">
+							<input id="ratifyAccord" name="ratifyAccord" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+								   value="${summaryInfo.ratifyAccord}"
+								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"  disabled="disabled"/>
+						</td>
+						<td class="tit" style="text-align: center;" width="13%">调解天数:</td>
+						<td>
+							<form:input path="flowDays" htmlEscape="false" maxlength="32" class="input-medium required"/>
+						</td>
+					</tr>
+					<tr>
+					<td style="text-align: center;">责任度:</td>
+					<td>
+						<form:input path="responsibilityRatio" htmlEscape="false" maxlength="32" class="input-medium required" readonly="true"/>
+					</td>
+					<td style="text-align: center;" >调解次数:</td>
+					<td>
+						<form:input path="meetingFrequency" htmlEscape="false" maxlength="32" class="input-medium required" readonly="true"/>
+					</td>
+					<td style="text-align: center;" >调解结果:</td>
+					<td>
+						<form:select  path="mediateResult"  class="input-medium">
+							<form:option value="1">成功</form:option>
+							<form:option value="2">终止</form:option>
+							<form:option value="3">销案</form:option>
+						</form:select>
+					</td>
 				</tr>
+                    <tr>
+                        <td  class="tit">患方协议送达时间：</td>
+                        <td>
+                            <input type="hidden"  name="performAgreement.performAgreementId" value="${summaryInfo.performAgreement.performAgreementId}"/>
+                            <input id="patientServiceTime" name="performAgreement.patientServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                                   value="${summaryInfo.performAgreement.patientServiceTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
+                            />
+                        </td>
+                        <td class="tit">医方协议送达时间：</td>
+                        <td>
+                            <input id="hospitalServiceTime" name="performAgreement.hospitalServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                                   value="${summaryInfo.performAgreement.hospitalServiceTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+                        <td class="tit">协议生效时间：</td>
+                        <td>
+                            <input id="takeEffectTime" name="performAgreement.takeEffectTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                                   value="${summaryInfo.performAgreement.takeEffectTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td  class="tit">交理赔时间：</td>
+                        <td>
+                            <input id="claimSettlementTime"name="performAgreement.claimSettlementTime"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                                   value="${summaryInfo.performAgreement.claimSettlementTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+                        <td class="tit">保险公司赔付时间：</td>
+                        <td>
+                            <input id="insurancePayTime" name="performAgreement.insurancePayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                                   value="${summaryInfo.performAgreement.insurancePayTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+                        <td class="tit">医院赔付时间：</td>
+                        <td>
+                            <input id="hospitalPayTime" name="performAgreement.hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+                                   value="${summaryInfo.performAgreement.hospitalPayTime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </td>
+
+                    </tr>
+					<tr>
+						<td style="text-align: center;" >调解经过:</td>
+						<td colspan="5">
+							<form:textarea path="mediatePass" htmlEscape="false" rows="4" maxlength="65535" class="input-xxlarge required" cssStyle="width: 1000px;"/>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center;" >经验总结:</td>
+						<td colspan="5">
+							<form:textarea path="summary" htmlEscape="false" rows="4" maxlength="65535" class="input-xxlarge required" cssStyle="width: 1000px;"/>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center;" >其他:</td>
+						<td colspan="5">
+							<form:textarea path="other" htmlEscape="false" rows="4" maxlength="65535" class="input-xxlarge" cssStyle="width: 1000px;"/>
+						</td>
+					</tr>
+					<td colspan="6" style="text-align: center;">
+						<input id="record" class="btn btn-primary" type="submit" value="导 出"
+							   onclick="$('#export').val('summ');removeCssClass()" data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在导出数据之前请先保存数据。</h4>"/>
+						<input id="recordPrint" class="btn btn-primary" type="button" value="打 印" onclick="$('#export').val('summ');exportWord();removeCssClass()"  data-toggle="tooltip" data-placement="top" title="<h4 style='color:yellow;'>在打印数据之前请先保存数据。</h4>"/>
+
+					</td>
 			</table>
 		</div>
 		<div class="tab-pane fade" id="attachment">
@@ -316,13 +487,13 @@
 				</td>
 				<td>
 					<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${summaryInfo.nextLinkMan}" labelName="" labelValue="${summaryInfo.linkEmployee.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required" isAll="true" allowClear="true" notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
+								title="用户" url="/sys/office/treeData?type=3&officeType=1" role="raters" cssClass="required" isAll="true" allowClear="true" notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
 				</td>
 	</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')">&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no');removeCssClass();$('#export').val('no');">&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="summaryinfo:summaryInfo:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes');addCssClass()"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 		<act:histoicFlow procInsId="${summaryInfo.complaintMain.procInsId}" />

@@ -46,6 +46,7 @@ public class Office extends TreeEntity<Office> {
 	private String policyNumber;		//保单号
 	private String isInsured;		//是否参保
 	private String insuredTime;		//参保时间
+	private String insuredEndTime;		//参保结束时间
 
 
 	public String getName1() { return name1; }
@@ -98,6 +99,14 @@ public class Office extends TreeEntity<Office> {
 
 	public void setInsuredTime(String insuredTime) {
 		this.insuredTime = insuredTime;
+	}
+
+	public String getInsuredEndTime() {
+		return insuredEndTime;
+	}
+
+	public void setInsuredEndTime(String insuredEndTime) {
+		this.insuredEndTime = insuredEndTime;
 	}
 
 	public Office(){
@@ -153,7 +162,6 @@ public class Office extends TreeEntity<Office> {
 	}
 
 	//	@JsonBackReference
-//	@NotNull
 	public Office getParent() {
 		return parent;
 	}

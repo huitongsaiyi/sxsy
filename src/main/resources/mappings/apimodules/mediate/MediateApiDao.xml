@@ -101,6 +101,9 @@
     <select id="getDistributionUser" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT SYS_USER.id FROM SYS_USER LEFT JOIN SYS_USER_ROLE ON SYS_USER.id=SYS_USER_ROLE.user_id LEFT JOIN SYS_OFFICE ON SYS_USER.office_id =SYS_OFFICE.id WHERE SYS_USER_ROLE.role_id=(SELECT id FROM SYS_ROLE WHERE enname='distribution') AND SYS_OFFICE.area_id=#{areaId} LIMIT 1
 	</select>
+	<select id="getDistribution" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT SYS_USER.id FROM SYS_USER  WHERE office_id=#{involveHospitalId} AND user_type=3 LIMIT 1
+	</select>
 	<!--患者用户投诉列表-->
 	<select id="getComplaintList" parameterType="java.lang.String" resultType="com.sayee.sxsy.api.complain.entity.ComplaintApi">
 		SELECT COMPLAINT_INFO.complaint_id AS complaintId,
@@ -108,12 +111,15 @@
 			   COMPLAINT_INFO.create_date AS createDate,
 			   COMPLAINT_INFO.summary_of_disputes AS summaryOfDisputes,
 			   COMPLAINT_INFO.handle_way AS handleWay,
+			   COMPLAINT_INFO.case_number AS caseNumber,
 			   ifnull(COMPLAINT_INFO.handle_result,"") AS handleResult,
 			   COMPLAINT_INFO.RECEPTION_DATE AS receptionDate,
-			   ifnull(SYS_USER.name,'') AS name
+			   ifnull(SYS_USER.name,'') AS name,
+			   SYS_OFFICE.name AS hospitalName
 			   FROM COMPLAINT_INFO
 			   LEFT JOIN CMS_WECHAT_COMPLAINT ON COMPLAINT_INFO.complaint_main_id=CMS_WECHAT_COMPLAINT.complaint_main_id
 			   LEFT JOIN SYS_USER ON SYS_USER.id = COMPLAINT_INFO.UPDATE_BY
+			   LEFT JOIN SYS_OFFICE ON SYS_OFFICE.id=COMPLAINT_INFO.involve_hospital
 			   WHERE CMS_WECHAT_COMPLAINT.wechat_user_id=#{wechatUserId}
 	</select>
 	<!--患者转医调委调解列表-->
@@ -143,13 +149,16 @@
 			   COMPLAINT_INFO.visitor_name AS visitorName,
 			   COMPLAINT_INFO.create_date AS createDate,
 			   COMPLAINT_INFO.summary_of_disputes AS summaryOfDisputes,
+			   COMPLAINT_INFO.case_number AS caseNumber,
 			   COMPLAINT_INFO.handle_way AS handleWay,
 			   ifnull(COMPLAINT_INFO.handle_result,"") AS handleResult,
 			   COMPLAINT_INFO.RECEPTION_DATE AS receptionDate,
-			   ifnull(SYS_USER.`NAME`,'') AS name
+			   ifnull(SYS_USER.`NAME`,'') AS name,
+			   SYS_OFFICE.name AS hospitalName
 			   FROM COMPLAINT_INFO
 			   LEFT JOIN CMS_WECHAT_COMPLAINT ON COMPLAINT_INFO.complaint_main_id=CMS_WECHAT_COMPLAINT.complaint_main_id
 			   LEFT JOIN SYS_USER ON SYS_USER.id = COMPLAINT_INFO.UPDATE_BY
+			   LEFT JOIN SYS_OFFICE ON SYS_OFFICE.id=COMPLAINT_INFO.involve_hospital
 	 		   WHERE COMPLAINT_INFO.involve_hospital = (SELECT SYS_USER.office_id FROM SYS_USER LEFT JOIN CMS_WECHATUSER ON CMS_WECHATUSER.sys_user_id=SYS_USER.id WHERE CMS_WECHATUSER.wechat_user_id=#{wechatUserId})
 	</select>
 	<!--获取下一环节处理人-->

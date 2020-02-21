@@ -8,10 +8,10 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var a=$("#ag").val();
-			var b=parseInt(a);
+			var b=parseFloat(a);
 			var a1=$("#in").val();
-			var b1=parseInt(a1);
-			var c=b-b1;
+			var b1=parseFloat(a1);
+			var c=accSub(b, b1);
 			if(c<=0){
 				$("#hos").val(0)
 			}else{
@@ -63,8 +63,10 @@
                 $("#hos").val(0);
                 hos=0;
             }
-            var one=parseInt(ag)-parseInt(com);//总 - 保险
-            var two=parseInt(ag)-parseInt(hos);//总 - 医院
+            var one=accSub(ag, com);
+					//parseFloat(ag)-parseFloat(com);//总 - 保险
+            var two=accSub(ag, hos);
+			//parseFloat(ag)-parseFloat(hos);//总 - 医院
 			if("hos"==type){
                 if(two <0){
                     alertx("保险赔付金额不能为负数,请重现填写金额!");
@@ -82,6 +84,43 @@
                     $("#hos").val(one);
                 }
 			}
+		}
+
+		//减法函数
+		function accSub(arg1, arg2) {
+			var r1, r2, m, n;
+			try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
+			try { r2 = arg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
+			m = Math.pow(10, Math.max(r1, r2));
+			//last modify by deeka
+			//动态控制精度长度
+			n = (r1 >= r2) ? r1 : r2;
+			return ((arg1 * m - arg2 * m) / m).toFixed(n);
+		}
+
+		function removeCssClass() {
+			$('#nextLinkManName').removeClass('required');
+			$('#agreementPayAmount').removeClass('required');
+			$('#insurancePayAmount').removeClass('required');
+			$('#hospitalPayAmount').removeClass('required');
+			//$('#patientServiceTime').removeClass('required');
+			//$('#hospitalServiceTime').removeClass('required');
+			//$('#takeEffectTime').removeClass('required');
+			//$('#claimSettlementTime').removeClass('required');
+			//$('#insurancePayTime').removeClass('required');
+			//$('#hospitalPayTime').removeClass('required');
+		}
+		function addCssClass() {
+			$('#nextLinkManName').addClass('required');
+			$('#agreementPayAmount').addClass('required');
+			$('#insurancePayAmount').addClass('required');
+			$('#hospitalPayAmount').addClass('required');
+			//$('#patientServiceTime').addClass('required');
+			//$('#hospitalServiceTime').addClass('required');
+			//$('#takeEffectTime').addClass('required');
+			//$('#claimSettlementTime').addClass('required');
+			//$('#insurancePayTime').addClass('required');
+			//$('#hospitalPayTime').addClass('required');
 		}
 	</script>
 </head>
@@ -133,20 +172,20 @@
                     <tr>
                         <td  class="tit">患方协议送达时间：</td>
                         <td>
-                            <input name="patientServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+                            <input id="patientServiceTime" name="patientServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
                                    value="${performAgreement.patientServiceTime}"
                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
                                    />
                         </td>
                         <td class="tit">医方协议送达时间：</td>
                         <td>
-                            <input name="hospitalServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+                            <input id="hospitalServiceTime" name="hospitalServiceTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
                                    value="${performAgreement.hospitalServiceTime}"
                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                         </td>
                         <td class="tit">协议生效时间：</td>
                         <td>
-                            <input name="takeEffectTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+                            <input id="takeEffectTime" name="takeEffectTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
                                    value="${performAgreement.takeEffectTime}"
                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
                         </td>
@@ -155,20 +194,20 @@
 					<tr>
 						<td  class="tit">交理赔时间：</td>
 						<td>
-							<input name="claimSettlementTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+							<input id="claimSettlementTime"name="claimSettlementTime"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 								   value="${performAgreement.claimSettlementTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"
 							onchange="DateDiff()"/>
 						</td>
 						<td class="tit">保险公司赔付时间：</td>
 						<td>
-							<input name="insurancePayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+							<input id="insurancePayTime" name="insurancePayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 								   value="${performAgreement.insurancePayTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 						</td>
 						<td class="tit">医院赔付时间：</td>
 						<td>
-							<input name="hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+							<input id="hospitalPayTime" name="hospitalPayTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 								   value="${performAgreement.hospitalPayTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 						</td>
@@ -226,8 +265,8 @@
 			</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="perform:performAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="perform:performAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="perform:performAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),removeCssClass()"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="perform:performAgreement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),addCssClass()"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 		<act:histoicFlow procInsId="${performAgreement.complaintMain.procInsId}" />

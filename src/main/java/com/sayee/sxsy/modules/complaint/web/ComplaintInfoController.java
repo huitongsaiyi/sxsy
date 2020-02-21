@@ -10,6 +10,8 @@ import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.excel.ExportExcel;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,9 +69,19 @@ public class ComplaintInfoController extends BaseController {
 	@RequiresPermissions("complaint:complaintInfo:view")
 	@RequestMapping(value = "form")
 	public String form(HttpServletRequest request, ComplaintInfo complaintInfo, Model model) {
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(complaintInfo.getComplaintId());
+		for (Map<String, Object> map:filePath){
+			if ("2".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("1".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+		}
 		if (null==complaintInfo.getCaseNumber()){
 			ComplaintMain complaintMain=new ComplaintMain();
-			complaintMain.setCaseNumber(BaseUtils.getCode("year","3","COMPLAINT_MAIN","case_number"));
+			complaintMain.setCaseNumber(BaseUtils.getCode("year","4","COMPLAINT_MAIN","case_number"));
 			complaintInfo.setCaseNumber(complaintMain.getCaseNumber());
 		}
 		String type=request.getParameter("type");

@@ -26,6 +26,7 @@ import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentSer
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.DictUtils;
 import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.MapUtils;
@@ -405,7 +406,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		if ("meeting".equals(export)){
 			if(mediateProgramList.size()!=0){
 				params.put("time", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
-				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":reachMediate.getMediateProgramList().get(b).getAddress());
+				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"": DictUtils.getDictLabel(reachMediate.getMediateProgramList().get(b).getAddress(),"meeting",""));
 				params.put("case",reachMediate.getComplaintMain().getPatientName()==null||reachMediate.getComplaintMain().getHospital().getName()==null?"":reachMediate.getComplaintMain().getPatientName()+"与"+reachMediate.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
 				params.put("tiao",reachMediate.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
 				params.put("pen",reachMediate.getMediateProgramList().get(b).getClerkuser().getName()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
@@ -438,7 +439,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		}else if("pContent".equals(export)){
 			if(mediateProgramList.size()!=0){
 				params.put("date", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
-				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":reachMediate.getMediateProgramList().get(b).getAddress());
+				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":DictUtils.getDictLabel(reachMediate.getMediateProgramList().get(b).getAddress(),"meeting",""));
 				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser()==null ? "" : reachMediate.getMediateProgramList().get(b).getMediatorUser().getName() == null ? "" :reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
 				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName() ==null ? "" :reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
 				params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());
@@ -465,7 +466,7 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		}else if("dContent".equals(export)){
 			if(mediateProgramList.size()!=0){
 				params.put("date", reachMediate.getMediateProgramList().get(b).getMeetingTime()==null?"":reachMediate.getMediateProgramList().get(b).getMeetingTime());
-				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":reachMediate.getMediateProgramList().get(b).getAddress());
+				params.put("address", reachMediate.getMediateProgramList().get(b).getAddress()==null?"":DictUtils.getDictLabel(reachMediate.getMediateProgramList().get(b).getAddress(),"meeting",""));
 				params.put("host",reachMediate.getMediateProgramList().get(b).getMediatorUser()==null ? "" : reachMediate.getMediateProgramList().get(b).getMediatorUser().getName() == null ? "" :reachMediate.getMediateProgramList().get(b).getMediatorUser().getName());
 				params.put("note",reachMediate.getMediateProgramList().get(b).getClerkuser()==null?"":reachMediate.getMediateProgramList().get(b).getClerkuser().getName() ==null ? "" :reachMediate.getMediateProgramList().get(b).getClerkuser().getName());
 				params.put("patient",reachMediate.getComplaintMain().getPatientName()==null?"":reachMediate.getComplaintMain().getPatientName());

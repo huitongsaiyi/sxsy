@@ -61,7 +61,7 @@
 			<label class="control-label">内容：</label>
 			<div class="controls">
 				<form:textarea path="content" htmlEscape="false" rows="6" maxlength="2000" class="input-xxlarge required"/>
-				<sys:ckeditor replace="content" />
+				<sys:ckeditor replace="content" uploadPath="/oaNotify/content" />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

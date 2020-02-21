@@ -69,7 +69,7 @@
 </head>
 <body>
 <br/>
-<form:form class="form-horizontal">
+<form:form id="inputForm" modelAttribute="summaryInfo" class="form-horizontal">
     <sys:message content="${message}"/>
     <fieldset>
         <legend>案件总结详情</legend>
@@ -90,29 +90,81 @@
             <div class="tab-pane fade in active" id="Summary">
                 <table class="table-form">
                     <tr>
-                        <td style="text-align: center;">卷宗编号:</td>
-                        <td>
+                        <td class="tit" style="text-align: center;" width="13%">受理时间:</td>
+                        <td width="20%" style="text-align: center;">
+                                ${summaryInfo.acceptanceTime}
+                        </td>
+                        <td class="tit" style="text-align: center;" width="13%" >结案时间:</td>
+                        <td width="20%" style="text-align: center;">
+                                ${summaryInfo.ratifyAccord}
+                        </td>
+                        <td class="tit" style="text-align: center;" width="13%">调解天数:</td>
+                        <td style="text-align: center;">
+                                ${summaryInfo.flowDays}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">责任度:</td>
+                        <td style="text-align: center;">
+                                ${summaryInfo.responsibilityRatio}
+                        </td>
+                        <td style="text-align: center;" >调解次数:</td>
+                        <td style="text-align: center;">
+                                ${summaryInfo.meetingFrequency}
+                        </td>
+                        <td style="text-align: center;" >调解结果:</td>
+                        <td style="text-align: center;">
+                                ${summaryInfo.mediateResult=='1' ? '成功' : summaryInfo.mediateResult=='2' ? '终止' : summaryInfo.mediateResult=='3' ? '销案' :''}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit" style="text-align: center;">卷宗编号:</td>
+                        <td style="text-align: center;">
                                 ${summaryInfo.fileNumber}
                         </td>
                         <td style="text-align: center;">归档时间:</td>
-                        <td>
-                                ${summaryInfo.filingTime}
+                        <td style="text-align: center;">
+                            <fmt:formatDate value="${empty summaryInfo.updateDate ? now : summaryInfo.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </td>
+                        <td class="tit" style="text-align: center;">总结人:</td>
+                        <td style="text-align: center;">
+                            ${fns:getUserById(summaryInfo.createBy).name}
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;">总结人:</td>
-                        <td>
-                                ${summaryInfo.summaryEmp}
-                        </td>
-                        <td style="text-align: center;">总结时间:</td>
-                        <td>
-                                ${summaryInfo.summaryTime}
+                        <td style="text-align: center;" >调解经过:</td>
+                        <td colspan="5">
+                            <form:textarea path="mediatePass" htmlEscape="false" rows="4"  cssStyle="width: 95%;" disabled="true"/>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;" colspan="1">总结:</td>
-                        <td>
-                                ${summaryInfo.summary}
+                        <td style="text-align: center;" >经验总结:</td>
+                        <td colspan="5">
+                            <form:textarea path="summary" htmlEscape="false" rows="4" disabled="true" cssStyle="width: 95%;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;" >其他:</td>
+                        <td colspan="5">
+                            <form:textarea path="other" htmlEscape="false" rows="4"  cssStyle="width: 95%;" disabled="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tit" style="text-align: center;" >总结时间:</td>
+                        <td colspan="2" style="text-align: center;">
+                            <c:set var="now" value="<%=new java.util.Date()%>" />
+                            <c:choose>
+                                <c:when test="${empty summaryInfo.summaryTime}">
+                                    <fmt:formatDate value="${empty summaryInfo.createDate ? now : summaryInfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                </c:when>
+                                <c:otherwise>
+                                    ${summaryInfo.summaryTime}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td style="text-align: center;" >下一步处理人:</td>
+                        <td colspan="2" style="text-align: center;">
+                                ${summaryInfo.linkEmployee.name}
                         </td>
                     </tr>
                 </table>

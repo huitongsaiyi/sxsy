@@ -91,7 +91,7 @@
             <div class="tab-pane fade in active" id="Summary">
                 <table class="table-form">
                     <tr>
-                        <td class="tit">评价人</td>
+                        <td class="tit" width="30%">评价人</td>
                         <td>
                                 ${assessInfo.user.name}
                         </td>

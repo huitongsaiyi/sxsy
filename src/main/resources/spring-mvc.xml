@@ -77,7 +77,7 @@
 	
 	<!-- 静态资源映射 -->
     <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
-	
+
 	<!-- 定义无Controller的path<->view直接映射 -->
 	<mvc:view-controller path="/" view-name="redirect:${web.view.index}"/>
 	
@@ -97,8 +97,16 @@
 			<mvc:mapping path="/**" />
 			<bean class="com.sayee.sxsy.modules.sys.interceptor.MobileInterceptor" />
 		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/sxsy/api/**" />
+			<mvc:exclude-mapping path="/sxsy/api/laissezpasser"/>
+			<mvc:exclude-mapping path="/sxsy/api/prohibit"/>
+			<bean class="com.sayee.sxsy.api.interceptor.ApiInterceptor" />
+		</mvc:interceptor>
+
 	</mvc:interceptors>
-	
+
 	<!-- 支持Shiro对Controller的方法级AOP安全控制 begin-->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
 		<property name="proxyTargetClass" value="true" />

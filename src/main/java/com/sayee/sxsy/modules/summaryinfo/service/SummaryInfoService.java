@@ -3,18 +3,29 @@
  */
 package com.sayee.sxsy.modules.summaryinfo.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 
 import com.google.common.collect.Lists;
-import com.sayee.sxsy.common.utils.IdGen;
-import com.sayee.sxsy.common.utils.ObjectUtils;
-import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.common.utils.*;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
+import com.sayee.sxsy.modules.machine.dao.MachineAccountDao;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
+import com.sayee.sxsy.modules.medicalofficeemp.entity.MedicalOfficeEmp;
+import com.sayee.sxsy.modules.patientlinkemp.entity.PatientLinkEmp;
+import com.sayee.sxsy.modules.perform.entity.PerformAgreement;
+import com.sayee.sxsy.modules.sign.entity.SignAgreement;
+import com.sayee.sxsy.modules.signtype.entity.SignTypeInfo;
 import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.DictUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import com.sayee.sxsy.modules.typeinfo.entity.TypeInfo;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +36,7 @@ import com.sayee.sxsy.modules.summaryinfo.entity.SummaryInfo;
 import com.sayee.sxsy.modules.summaryinfo.dao.SummaryInfoDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 案件总结Service
@@ -36,6 +48,10 @@ import javax.servlet.http.HttpServletRequest;
 public class SummaryInfoService extends CrudService<SummaryInfoDao, SummaryInfo>  {
 	@Autowired
 	private PreOperativeConsentService preOperativeConsentService;
+	@Autowired
+	private MachineAccountService machineAccountService;
+	@Autowired
+	private MachineAccountDao machineAccountDao;
 	@Autowired
 	private ActTaskService actTaskService;
 	@Autowired
@@ -106,12 +122,38 @@ public class SummaryInfoService extends CrudService<SummaryInfoDao, SummaryInfo>
 		if(StringUtils.isBlank(summaryInfo.getCreateBy().getId())){
 			summaryInfo.preInsert();
 			summaryInfo.setSummaryId(summaryInfo.getId());
+			summaryInfo.setSummaryTime(DateUtils.formatDateTime(summaryInfo.getCreateDate()));
 			dao.insert(summaryInfo);
 			this.fj(summaryInfo,request);
 		}else{
 			summaryInfo.preUpdate();
 			dao.update(summaryInfo);
 		}
+		//如果存在 签署协议的 主键 ，则修改签署协议那会应该填写的时间
+		if (summaryInfo.getPerformAgreement()!=null && StringUtils.isNotBlank(summaryInfo.getPerformAgreement().getPerformAgreementId())){
+			PerformAgreement performAgreement=summaryInfo.getPerformAgreement();
+			dao.updatePerform(performAgreement);
+			//修改台账
+			MachineAccount machineAccount = machineAccountService.getM(summaryInfo.getComplaintMainId());
+			if(machineAccount!=null){
+				machineAccount.preUpdate();
+				machineAccount.setClaimSettlementTime(performAgreement.getClaimSettlementTime()==null?"":performAgreement.getClaimSettlementTime());
+				machineAccount.setCompensateTime(performAgreement.getInsurancePayTime()==null?"":performAgreement.getInsurancePayTime());
+				//int assessTime=m.getAssessTime()==null ? 0 : Integer.valueOf(m.getAssessTime()) ;
+				//m.setFlowDays(this.TianShu(m.getRatifyAccord(),m.getAcceptanceTime(),StringUtils.toInteger(m.getAssessTime())));//流转天数  公式=签署协议时间-受理时间 剔除评估天数
+				machineAccount.setHospitalAmount(performAgreement.getHospitalPayAmount()==null?"0":performAgreement.getHospitalPayAmount());
+				//保险赔付时间
+				machineAccount.setInsurancePayTime(performAgreement.getInsurancePayTime()==null ? "" :performAgreement.getInsurancePayTime());
+				//医院赔付时间
+				machineAccount.setHospitalPayTime(performAgreement.getHospitalPayTime()==null ? "" :performAgreement.getHospitalPayTime());
+				//理赔流转天数（公式=保险赔付时间-提交理赔时间）
+				machineAccount.setSettlementFlowDays(machineAccountService.TianShu(machineAccount.getInsurancePayTime(),machineAccount.getClaimSettlementTime(),0));
+				//提交理赔天数(公式=提交理赔时间-协议生效时间）
+				machineAccount.setClaimSettlementDay(machineAccountService.TianShu(machineAccount.getClaimSettlementTime(),performAgreement.getTakeEffectTime(),0));
+				machineAccountDao.update(machineAccount);
+			}
+		}
+
 		if ("yes".equals(summaryInfo.getComplaintMain().getAct().getFlag())){
 			//List<Act> list = actTaskService.todoList(assessApply.getComplaintMain().getAct());
 			Map<String,Object> var=new HashMap<String, Object>();
@@ -392,4 +434,102 @@ public class SummaryInfoService extends CrudService<SummaryInfoDao, SummaryInfo>
 		Map<String,Object> map=dao.getViewDetail(complaintMainId);
 		return map;
     }
+
+	public String getFileNum(HttpServletRequest request) {
+		SummaryInfo summaryInfo=new SummaryInfo();
+		//卷宗编号
+			List<SummaryInfo> list = this.findListSummmary(summaryInfo);
+			String number="";
+			if(list.size()==0){
+				String code = BaseUtils.getCode("time", "4", "SUMMARY_INFO", "file_number");
+				String num=code.substring(0,4);
+				number=num+"-0001";
+			}else{
+				int max=0;
+				for (int i=0;i<list.size();i++) {
+					String fileNumber = list.get(i).getFileNumber();
+					String n=fileNumber.substring(5,9);
+					int n1=Integer.valueOf(n);
+					if(n1>max){
+						max=n1;
+					}
+				}
+				int n2=max+1;
+				String format = String.format("%0" + 4 + "d", n2);
+				String code1 = BaseUtils.getCode("time", "4", "SUMMARY_INFO", "file_number");
+				String time= code1.substring(0,4);
+				number =time+"-"+format;
+			}
+			return number;
+	}
+
+	//导出
+	public String exportWord(SummaryInfo summaryInfo, String export, String print, HttpServletRequest request, HttpServletResponse response){
+		summaryInfo =get(summaryInfo.getSummaryId());
+		String agreementExplain2 = request.getParameter("agreementExplain");
+		WordExportUtil wordExportUtil = new WordExportUtil();
+		String path = request.getSession().getServletContext().getRealPath("/");
+		String modelPath = path;
+		String returnPath="";
+		String newFileName = "无标题文件.docx";
+		String savaPath=path;
+		String pdfPath=path;
+		Map<String, Object> params = new HashMap<String, Object>();
+		//判断有无案件编号
+		//判断有无案件编号
+		String num=null;
+		if(summaryInfo.getComplaintMain()!=null){
+			num=summaryInfo.getComplaintMain().getCaseNumber()==null?"":summaryInfo.getComplaintMain().getCaseNumber()+"/";
+		}else{
+			num="";
+		}
+		if("summ".equals(export)){
+			if(summaryInfo!=null) {
+				params.put("name", summaryInfo.getComplaintMain() == null ? "" : summaryInfo.getComplaintMain().getPatientName()+"与"+ UserUtils.getOfficeId(summaryInfo.getComplaintMain().getInvolveHospital()).getName() );
+				params.put("number", summaryInfo.getFileNumber() == null ? "" : summaryInfo.getFileNumber());
+				params.put("acTime", summaryInfo.getAcceptanceTime() == null ? "" : summaryInfo.getAcceptanceTime());
+				params.put("sumTime", summaryInfo.getAcceptanceTime()==null ? "" :summaryInfo.getAcceptanceTime());
+				params.put("flowDays", summaryInfo.getFlowDays()==null ? "" :summaryInfo.getFlowDays());
+				params.put("radio", summaryInfo.getResponsibilityRatio() == null ? "" : summaryInfo.getResponsibilityRatio());
+				params.put("meetingFrequency", summaryInfo.getMeetingFrequency() == null ? "" : summaryInfo.getMeetingFrequency());
+				params.put("mediateResult", summaryInfo.getMediateResult() == null ? "" : ("1".equals(summaryInfo.getMediateResult()) ? "成功" :  "2".equals(summaryInfo.getMediateResult()) ? "终止" : "销案" ) );
+				params.put("mediatePass", summaryInfo.getMediatePass() == null ? "" : summaryInfo.getMediatePass());
+				params.put("summary", summaryInfo.getSummary() == null ? "" : summaryInfo.getSummary());
+				params.put("other", summaryInfo.getOther() == null ? "" : summaryInfo.getOther());
+			}else{
+				params.put("name", "");
+				params.put("number", "");
+				params.put("acTime", "");
+				params.put("sumTime", "");
+				params.put("flowDays", "");
+				params.put("radio", "");
+				params.put("meetingFrequency", "");
+				params.put("mediateResult","");
+				params.put("mediatePass", "");
+				params.put("summary","");
+				params.put("other","");
+			}
+			path += "/doc/summary.docx";  //模板文件位置
+			modelPath += "/doc/summary.docx";
+			savaPath +="/userfiles/summary/"+num+"summary.docx";
+			pdfPath +="/userfiles/summary/"+num+"summary.pdf";
+			returnPath="/userfiles/summary/"+num+"summary.pdf";
+			newFileName="结案总结.docx";
+		}
+		try{
+			File file =new File(request.getSession().getServletContext().getRealPath("/")+"/userfiles/summary/"+num);
+			if (!file.exists()){
+				file.mkdirs();
+			}
+			List<String[]> testList = new ArrayList<String[]>();
+			String fileName= new String(newFileName.getBytes("UTF-8"),"iso-8859-1");    //生成word文件的文件名
+			wordExportUtil.getWord(path,modelPath,savaPath,print,params,testList,fileName,response);
+			wordExportUtil.doc2pdf(savaPath,new FileOutputStream(pdfPath));
+			System.out.println("转pdf成功");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return returnPath;
+	}
+
 }

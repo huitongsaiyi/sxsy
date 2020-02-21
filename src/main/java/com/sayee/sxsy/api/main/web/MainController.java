@@ -1,6 +1,7 @@
 package com.sayee.sxsy.api.main.web;
 
 import com.sayee.sxsy.api.common.R;
+import com.sayee.sxsy.api.main.entity.Banner;
 import com.sayee.sxsy.api.main.entity.MainApi;
 import com.sayee.sxsy.api.main.service.MainApiService;
 import com.sayee.sxsy.api.publicnotice.entity.PublicNotice;
@@ -85,6 +86,16 @@ public class MainController {
         r.put("RtnCode",0);
         r.put("RtnMsg","success");
         r.put("RtnData",map);
+        return r;
+    }
+    @RequestMapping("getbanner")
+    @ResponseBody
+    public R getBanner(){
+        List<Banner> list= mainApiService.getBanner();
+        R r=new R();
+        r.put("RtnCode",0);
+        r.put("RtnMsg","success");
+        r.put("RtnData",list);
         return r;
     }
 }

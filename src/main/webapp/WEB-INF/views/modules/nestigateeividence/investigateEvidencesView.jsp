@@ -93,7 +93,7 @@
                 <tr >
                     <td class="tit"><font color="red">*</font>调查地点：</td>
                     <td >
-                            ${investigateEvidence.address}
+                            ${investigateEvidence.addressLabel}
                     </td>
                     <td class="tit"><font color="red">*</font>调查事由：</td>
 
@@ -112,12 +112,12 @@
                             ${investigateEvidence.noteTaker}
                     </td>
                 </tr>
-                <tr >
+                <%--<tr >
                     <td class="tit"><font color="red">*</font>反应焦点：</td>
                     <td >
                             ${investigateEvidence.focus}
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <td class="tit"><font color="red">*</font>笔录内容：</td>
                     <td colspan="3">
@@ -225,7 +225,7 @@
                 <tr >
                     <td class="tit" ><font color="red">*</font>调查地点：</td>
                     <td >
-                            ${investigateEvidence.investigateEvidence.address}
+                            ${investigateEvidence.investigateEvidence.addressLabel}
                     </td>
                     <td class="tit"><font color="red">*</font>调查事由：</td>
 

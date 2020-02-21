@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sayee.sxsy.common.persistence.BaseEntity;
+import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.common.utils.TimeUtils;
 import com.sayee.sxsy.modules.act.utils.Variable;
@@ -349,7 +350,7 @@ public class Act extends BaseEntity<Act> {
 	 */
 	public String getDurationTime(){
 		if (histIns!=null && histIns.getDurationInMillis() != null){
-			return TimeUtils.toTimeString(histIns.getDurationInMillis());
+			return  DateUtils.formatDateTime(histIns.getDurationInMillis(),"chinese",false,true,true);
 		}
 		return "";
 	}

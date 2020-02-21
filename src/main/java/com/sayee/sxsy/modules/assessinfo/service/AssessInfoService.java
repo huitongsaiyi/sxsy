@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -52,12 +53,20 @@ public class AssessInfoService extends CrudService<AssessInfoDao, AssessInfo> {
 			if(StringUtils.isBlank(assessInfo.getAssessGrade()) || "".equals(assessInfo.getAssessGrade())){         //判断评论分数是否为空
                 assessInfo.setAssessGrade("0");
             }
+			if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){
+				assessInfo.setHandleTime(DateUtils.getDateTime());
+				assessInfo.setHandlePeople(UserUtils.getUser().getName());
+			}
 			dao.insert(assessInfo);
 		}else{			//若存在进行更新
 			assessInfo.preUpdate();
+			if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){
+				assessInfo.setHandleTime(DateUtils.getDateTime());
+				assessInfo.setHandlePeople(UserUtils.getUser().getName());
+			}
 			dao.update(assessInfo);
 		}
-		if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){
+		/*if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){
 			//List<Act> list = actTaskService.todoList(assessApply.getComplaintMain().getAct());
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","0");
@@ -65,7 +74,7 @@ public class AssessInfoService extends CrudService<AssessInfoDao, AssessInfo> {
 			var.put("feedback_user",assigness.getLoginName());
 			// 执行流程
 			actTaskService.complete(assessInfo.getComplaintMain().getAct().getTaskId(), assessInfo.getComplaintMain().getAct().getProcInsId(), assessInfo.getComplaintMain().getAct().getComment(), assessInfo.getComplaintMain().getCaseNumber(), var);
-		}
+		}*/
 //	    super.save(assessInfo);
 	}
 	

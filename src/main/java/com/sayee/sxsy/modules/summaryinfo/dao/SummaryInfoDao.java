@@ -5,6 +5,7 @@ package com.sayee.sxsy.modules.summaryinfo.dao;
 
 import com.sayee.sxsy.common.persistence.CrudDao;
 import com.sayee.sxsy.common.persistence.annotation.MyBatisDao;
+import com.sayee.sxsy.modules.perform.entity.PerformAgreement;
 import com.sayee.sxsy.modules.summaryinfo.entity.SummaryInfo;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,6 @@ public interface SummaryInfoDao extends CrudDao<SummaryInfo> {
     * 详情需要参数
     * */
     public Map<String,Object> getViewDetail(@Param("complaintMainId") String complaintMainId);
+
+    public void updatePerform(PerformAgreement performAgreement);
 }

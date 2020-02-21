@@ -27,6 +27,7 @@ public interface MediateApiDao extends CrudDao<MediateApiEntity> {
     List<ActInst> getActInfo(String complaintMainId);
     MediateCommon getMediateInfo(String complaintMainId);
     String getDistributionUser(String areaId);
+    String getDistribution(String involveHospitalId);
     List<ComplaintApi> getComplaintList(String wechatUserId);
     List<ComplaintApi> complaintListForHos(String wechatUserId);
     Map getMediateUser(Map map);

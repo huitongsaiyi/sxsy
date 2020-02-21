@@ -84,7 +84,7 @@
 				</td>
 				<td>
 					<c:if test="${not empty complaintMain.url}">
-						<c:if test="${complaintMain.nodeName ne '案件评价' and complaintMain.nodeName ne '案件反馈' }">
+						<c:if test="${ complaintMain.nodeName ne '案件反馈' }">
 							<a href="${ctx}${complaintMain.url}form?id=${complaintMain.key}">处理</a>
 						</c:if>
 						<a href="${ctx}${complaintMain.url}form?id=${complaintMain.key}&type=view">详情</a>
@@ -96,6 +96,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<%--<div class="pagination">${page}</div>--%>
+	<div class="pagination">${page}</div>
 </body>
 </html>

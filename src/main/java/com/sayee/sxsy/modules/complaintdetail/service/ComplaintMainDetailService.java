@@ -12,9 +12,11 @@ import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.act.utils.ActUtils;
+import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.machine.entity.MachineAccount;
+import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentService;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
@@ -29,6 +31,8 @@ import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.modules.complaintdetail.entity.ComplaintMainDetail;
 import com.sayee.sxsy.modules.complaintdetail.dao.ComplaintMainDetailDao;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 医调委投诉接待Service
  * @author zhangfan
@@ -37,6 +41,8 @@ import com.sayee.sxsy.modules.complaintdetail.dao.ComplaintMainDetailDao;
 @Service
 @Transactional(readOnly = true)
 public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailDao, ComplaintMainDetail> {
+	@Autowired
+	private PreOperativeConsentService preOperativeConsentService;
 	@Autowired
 	private ActTaskService actTaskService;
 	@Autowired
@@ -100,7 +106,7 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(ComplaintMainDetail complaintMainDetail) {
+	public void save(ComplaintMainDetail complaintMainDetail,HttpServletRequest request) {
 		if (StringUtils.isNotBlank(complaintMainDetail.getComplaintMainDetailId())){
 			//说明是 进行修改
 			//修改主表信息
@@ -128,7 +134,7 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 			Office office=UserUtils.getOfficeId(complaintMain.getInvolveHospital());
 			complaintMain.setHospitalGrade(office==null ? "":office.getHospitalGrade());
 			complaintMain.setSource("1");//信息来源
-            complaintMain.setCaseNumber(BaseUtils.getCode("year","3","COMPLAINT_MAIN","case_number"));
+            complaintMain.setCaseNumber(BaseUtils.getCode("year","4","COMPLAINT_MAIN","case_number"));
             complaintMainDao.insert(complaintMain);
 			//在保存子表
 			complaintMainDetail.preInsert();
@@ -136,6 +142,8 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 			complaintMainDetail.setComplaintMainDetailId(complaintMainDetail.getId());
 			dao.insert(complaintMainDetail);
 		}
+		//保存附件
+		this.savefj(request,complaintMainDetail);
 		if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
 			Map<String,Object> var=new HashMap<String, Object>();
 			var.put("pass","1");
@@ -155,4 +163,43 @@ public class ComplaintMainDetailService extends CrudService<ComplaintMainDetailD
 		super.delete(complaintMainDetail);
 	}
 
+
+	@Transactional(readOnly = false)
+	public void savefj(HttpServletRequest request, ComplaintMainDetail complaintMainDetail){
+		String files1 = request.getParameter("files1");
+		String files2 = request.getParameter("files2");
+		String acceId = null;
+		String itemId = complaintMainDetail.getComplaintMainDetailId();
+		String fjtype1 = request.getParameter("fjtype1");
+		String fjtype2 = request.getParameter("fjtype2");
+
+
+		if(StringUtils.isNotBlank(files1)){
+			String acceId1=request.getParameter("acceId1");
+			if(StringUtils.isNotBlank(acceId1)){
+				preOperativeConsentService.updatefj(files1,itemId,fjtype1);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files1,fjtype1);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype1);
+		}
+		if(StringUtils.isNotBlank(files2)){
+			String acceId2=request.getParameter("acceId2");
+			if(StringUtils.isNotBlank(acceId2)){
+				preOperativeConsentService.updatefj(files2,itemId,fjtype2);
+			}else{
+				acceId = IdGen.uuid();
+				preOperativeConsentService.save1(acceId,itemId,files2,fjtype2);
+			}
+		}else{
+			preOperativeConsentService.delefj(itemId,fjtype2);
+		}
+
+	}
+	@Transactional(readOnly = false)
+    public void saveShift(ComplaintMainDetail complaintMainDetail) {
+		dao.saveShift(complaintMainDetail);
+    }
 }

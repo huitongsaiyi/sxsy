@@ -82,7 +82,8 @@ public class AssessInfoController extends BaseController {
 			}
 			assessInfoService.save(assessInfo);
 			if ("yes".equals(assessInfo.getComplaintMain().getAct().getFlag())){
-				addMessage(redirectAttributes, "流程已启动，流程ID：" + assessInfo.getComplaintMain().getProcInsId());
+				//addMessage(redirectAttributes, "流程已启动，流程ID：" + assessInfo.getComplaintMain().getProcInsId());
+				addMessage(redirectAttributes, "归档成功！");
 				return "redirect:"+Global.getAdminPath()+"/assessinfo/assessInfo/?repage";
 			}else {
 				model.addAttribute("message","保存案件评价成功");

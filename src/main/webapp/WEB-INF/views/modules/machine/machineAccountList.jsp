@@ -4,8 +4,22 @@
 <head>
     <title>台账信息展示管理</title>
     <meta name="decorator" content="default"/>
+    <script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
+    <script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $("#contentTable").colResizable({
+                liveDrag:true,//拖动列时更新表布局
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'overflow',//允许溢出父容器
+                defaults : true,
+                /*//拖动事件
+                onDrag: function () {
+                    $('#contentTable').bootstrapTable("resetView")
+                }*/
+            });
             $("#btnExportFiles").click(function () {
                 $.jBox($("#importExport").html(), {
                     title: "导出数据", buttons: {"关闭": true}
@@ -63,10 +77,10 @@
     <form id="importForm1" action="${ctx}/machine/machineAccount/export" method="post"
           enctype="multipart/form-data" class="form-search" style="padding-left:20px;text-align:center;"><br/>
 
-            <span>开始时间：</span>
-            <input name="startInsuranceTime1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-                   value="${machineAccount.startInsuranceTime1}"
-                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd 00:00',isShowClear:true});"/>
+        <span>开始时间：</span>
+        <input name="startInsuranceTime1" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+               value="${machineAccount.startInsuranceTime1}"
+               onclick="WdatePicker({dateFmt:'yyyy-MM-dd 00:00',isShowClear:true});"/>
         <br/>
         <br/>
 
@@ -74,7 +88,7 @@
         <input id="endInsuranceTime1" name="endInsuranceTime1" type="text" readonly="readonly" maxlength="20"
                class="input-medium Wdate" style="width:163px;"
                value="${machineAccount.endInsuranceTime1}"
-        onclick="WdatePicker({dateFmt:'yyyy-MM-dd 23:59'});"/>
+               onclick="WdatePicker({dateFmt:'yyyy-MM-dd 23:59'});"/>
 
         <br/>
         <br/>
@@ -92,6 +106,7 @@
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
+    <span class="dropdown-toggle" data-toggle="dropdown" data-target="#" >触发器</span>
     <ul class="ul-form">
         <li><label>报案时间：</label>
             <input id="reportingTime" name="reportingTime" type="text" readonly="readonly" maxlength="20"
@@ -146,7 +161,7 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-        <th class="sort-column case_number">案件编号</th>
+        <th class="sort-column a.case_number">案件编号</th>
         <th class="sort-column case_situation">案件情况</th>
         <th class="sort-column area_id">所属地区</th>
         <th class="sort-column dept_id">所属部门</th>
@@ -180,8 +195,8 @@
         <th class="sort-column mediate_result">调解结果	</th>
         <th class="sort-column is_judicial">是否司法确认</th>
         <th class="sort-column agreement_number">协议号</th>
-        <th width="100" class="sort-column ratify_accord">协议签署时间</th>
-        <th class="sort-column agreement_stamp_time">协议生效时间</th>
+        <th class="sort-column ratify_accord">协议签署时间</th>
+        <th class="sort-column agreement_stamp_time">协议盖章时间</th>
         <th class="sort-column flow_days">流转天数</th>
         <th class="sort-column agreement_amount">协议金额</th>
         <th width="100" class="sort-column insurance_amount">保险赔付金额</th>
@@ -214,24 +229,24 @@
             <td>
                     ${machineAccount.caseNumber}
             </td>
-            <%--<td>
-                    ${machineAccount.caseSituation}
-            </td>--%>
+                <%--<td>
+                        ${machineAccount.caseSituation}
+                </td>--%>
             <td>
 
                 <c:choose>
-                    <c:when test="${not empty machineAccount.nodeName }">
-                    <a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}&type=view">
-                            ${machineAccount.nodeName}
-                    </a></td>
-                    </c:when>
-                    <c:otherwise>
-                        ${machineAccount.caseSituation}
-                    </c:otherwise>
-                </c:choose>
+                <c:when test="${not empty machineAccount.nodeName }">
+                <a href="${ctx}/machine/machineAccount/form?id=${machineAccount.machineAccountId}&type=view">
+                        ${machineAccount.nodeName}
+                </a></td>
+            </c:when>
+            <c:otherwise>
+                ${machineAccount.caseSituation}
+            </c:otherwise>
+            </c:choose>
 
             <td>
-                    ${machineAccount.areaId}
+                    ${empty fns:getOfficeId(machineAccount.hospitalId).area.name  ? fns:officeId(machineAccount.hospitalId).area.name : fns:getOfficeId(machineAccount.hospitalId).area.name}
             </td>
             <td>
                 <c:choose>
@@ -245,7 +260,7 @@
                         ${machineAccount.office.name}
                     </c:otherwise>
                 </c:choose>
-                   <%--${fns:getUserById(machineAccount.createBy.id).office.name}--%>
+                    <%--${fns:getUserById(machineAccount.createBy.id).office.name}--%>
             </td>
             <td>
                 <c:choose>
@@ -259,7 +274,7 @@
                         ${machineAccount.user.name}
                     </c:otherwise>
                 </c:choose>
-                        <%--${fns:getUserById(machineAccount.createBy.id).name}--%>
+                    <%--${fns:getUserById(machineAccount.createBy.id).name}--%>
             </td>
             <td>
                     ${machineAccount.patientName}
@@ -363,7 +378,17 @@
                     ${machineAccount.assessNumber}
             </td>
             <td>
-                    ${machineAccount.mediateResult}
+                <c:choose>
+                    <c:when test="${machineAccount.mediateResult eq 1}">
+                        成功
+                    </c:when>
+                    <c:when test="${machineAccount.mediateResult eq 2}">
+                        终止
+                    </c:when>
+                    <c:otherwise>
+                        销案
+                    </c:otherwise>
+                </c:choose>
             </td>
             <td>
                     ${machineAccount.isJudicial}

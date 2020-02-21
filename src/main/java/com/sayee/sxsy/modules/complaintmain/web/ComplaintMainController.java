@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sayee.sxsy.common.utils.*;
+import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,33 @@ public class ComplaintMainController extends BaseController {
 		addMessage(redirectAttributes, "删除纠纷调解成功");
 		return "redirect:"+Global.getAdminPath()+"/complaintmain/complaintMain/?repage";
 	}
+
+	/**
+	 * 根据身份证 和 医院  判断是否重复
+	 */
+	@RequestMapping(value = "getRepeat")
+	public void getRepeat(HttpServletRequest request,HttpServletResponse response) {
+		String card=request.getParameter("card");//前台传过来的状态
+		String hospital=request.getParameter("hospital");//前台传过来的状态
+		String complaintMainId=request.getParameter("complaintMainId");//前台传过来的状态
+		List<ComplaintMain> list = complaintMainService.getRepeat(card,hospital,complaintMainId);
+		list.removeAll(Collections.singleton(null));
+		Map<String,Object> map=new HashMap<String,Object>();
+		if (!CollectionUtils.isEmpty(list) && list!=null){
+			StringBuffer number=new StringBuffer();
+			for (ComplaintMain c:list) {
+				number.append(c.getCaseNumber()+"，");
+			}
+			map.put("size",list.size());
+			map.put("number",number);
+			map.put("name",UserUtils.getOfficeId(hospital).getName());
+			AjaxHelper.responseWrite(request,response,"1","success",map);
+		}else {
+			AjaxHelper.responseWrite(request,response,"0","error",map);
+		}
+
+	}
+
 	/**
 	 * 我的待办列表
 	 */

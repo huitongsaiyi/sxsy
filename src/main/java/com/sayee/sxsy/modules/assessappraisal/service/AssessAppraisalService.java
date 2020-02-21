@@ -152,7 +152,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			assessAppraisal.setPatientAge(assessAppraisal.getComplaintMain().getPatientAge());
 			assessAppraisal.setPatientName(assessAppraisal.getComplaintMain().getPatientName());
 			assessAppraisal.setPatientSex(assessAppraisal.getComplaintMain().getPatientSex());
-			assessAppraisal.setCalculatedAmount(StringUtils.isNumeric(assessAppraisal.getCalculatedAmount())== true ?assessAppraisal.getCalculatedAmount() : "0" );
+			assessAppraisal.setCalculatedAmount(StringUtils.isNumber(assessAppraisal.getCalculatedAmount())== true ?assessAppraisal.getCalculatedAmount() : "0" );
 			if(StringUtils.isBlank(assessAppraisal.getPatientAge())){
 				assessAppraisal.setPatientAge("0");
 			}
@@ -165,7 +165,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			huanf.setType("1");
 			huanf.setModuleType("2");
 //			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
-			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
+//			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
  			huanf.setHost(assessAppraisal.getHost());
 			huanf.setNoteTaker(assessAppraisal.getClerk());
 			recordInfoDao.insert(huanf);
@@ -190,7 +190,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			RecordInfo huanf = assessAppraisal.getRecordInfo1();
 			huanf.preUpdate();
 //			huanf.setPatient(assessAppraisal.getComplaintMain().getPatientName());
-			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
+//			huanf.setDoctor(assessAppraisal.getComplaintMain().getInvolveHospital());
 			huanf.setHost(assessAppraisal.getHost());
 			huanf.setNoteTaker(assessAppraisal.getClerk());
 			recordInfoDao.update(huanf);
@@ -210,7 +210,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 			assessAppraisal.setPatientAge(assessAppraisal.getComplaintMain().getPatientAge());
 			assessAppraisal.setPatientName(assessAppraisal.getComplaintMain().getPatientName());
 			assessAppraisal.setPatientSex(assessAppraisal.getComplaintMain().getPatientSex());
-			assessAppraisal.setCalculatedAmount(StringUtils.isNumeric(assessAppraisal.getCalculatedAmount())== true ?assessAppraisal.getCalculatedAmount() : "0" );
+			assessAppraisal.setCalculatedAmount(StringUtils.isNumber(assessAppraisal.getCalculatedAmount())== true ?assessAppraisal.getCalculatedAmount() : "0" );
 			dao.update(assessAppraisal);
 
 		}

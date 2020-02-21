@@ -10,6 +10,7 @@ import com.sayee.sxsy.api.mediate.service.*;
 import com.sayee.sxsy.api.officeapi.entity.OrganizationApiEntity;
 import com.sayee.sxsy.api.officeapi.service.OfficeApiService;
 import com.sayee.sxsy.api.officeapi.service.OrganizationApiService;
+import com.sayee.sxsy.api.user.entity.UserInfo;
 import com.sayee.sxsy.api.user.service.UserApiService;
 import com.sayee.sxsy.modules.act.service.ActTaskService;
 import com.sayee.sxsy.modules.assessappraisal.service.AssessAppraisalService;
@@ -97,13 +98,20 @@ public class MediateApiController {
         mediateApiEntity.setCaseNumber(caseNumber);
         mediateApiEntity.setHospitalLevel(hospitalLevel);
         mediateApiEntity.setHospitalGrade(hospitalGrade);
-        mediateApiEntity.setSource("1");
+        mediateApiEntity.setSource("3");//默认案件来源
         mediateApiEntity.setSummaryOfDisputes(sumaryOfDisputes);
 
         mediateApiEntity.setCreateDate(new Date());
         mediateApiEntity.setUpdateDate(new Date());
         String wechatUserId = jsonObject.getString("wechatUserId");
-        String createUser = userApiService.getSysUserId(wechatUserId);
+        UserInfo userInfo=userApiService.getUserInfoByUserId(wechatUserId);
+        String createUser ="5387a4ce17b14df2b7756c8714af2ed6";
+        if(userInfo.getUserType()==2) {
+            //String createUser = userApiService.getSysUserId(wechatUserId);
+             createUser =userInfo.getSysUserId();
+        }else{
+             createUser ="5387a4ce17b14df2b7756c8714af2ed6";
+        }
         MediateDetail mediateDetail = JSON.toJavaObject(jsonObject, MediateDetail.class);
         mediateDetail.preInsert();
         mediateDetail.setComplaintMainDetailId(mediateDetail.getId());

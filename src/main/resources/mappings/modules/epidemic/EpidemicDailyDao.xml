@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.epidemic.dao.EpidemicDailyDao">
+    
+	<sql id="epidemicDailyColumns">
+		a.epidemic_id AS "epidemicId",
+		a.work_unit AS "workUnit",
+		a.filling_date AS "fillingDate",
+		a.user_name AS "userName",
+		a.user_sex AS "userSex",
+		a.user_age AS "userAge",
+		a.user_address AS "userAddress",
+		a.temperature AS "temperature",
+		a.health_condition AS "healthCondition",
+		a.is_egress AS "isEgress",
+		a.family_health_condition AS "familyHealthCondition",
+		a.remark AS "remark",
+		a.work_situation AS "workSituation",
+		a.work_remark AS "workRemark",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="epidemicDailyJoins">
+	</sql>
+    
+	<select id="get" resultType="EpidemicDaily">
+		SELECT 
+			<include refid="epidemicDailyColumns"/>
+		FROM EPIDEMIC_DAILY a
+		<include refid="epidemicDailyJoins"/>
+		WHERE a.epidemic_id = #{id}
+	</select>
+
+	<select id="findStatistics" resultType="Statis">
+		SELECT
+		o.id AS "deptId",
+		o.NAME AS "deptName",
+		count(a.CREATE_BY) AS "shibao",
+		count(IF (a.temperature >37.3, TRUE, NULL)) AS "dayu",
+		count(IF (a.is_egress = 1, TRUE, NULL)) AS "waichu"
+		FROM EPIDEMIC_DAILY a
+		LEFT JOIN SYS_USER s on a.CREATE_BY=s.ID
+		LEFT JOIN SYS_OFFICE o on s.OFFICE_ID=o.id
+		WHERE a.DEL_FLAG=0 AND a.work_remark IS NOT NULL AND a.work_remark !=''
+		<if test="list != null and list != ''">
+			AND a.create_by in
+			<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+		AND a.filling_date LIKE CONCAT('%', #{beginFillingDate}, '%')
+		GROUP BY o.id
+	</select>
+	
+	<select id="findList" resultType="EpidemicDaily">
+		SELECT 
+			<include refid="epidemicDailyColumns"/>
+		FROM EPIDEMIC_DAILY a
+		<include refid="epidemicDailyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.create_by LIKE CONCAT('%', #{user.id}, '%')
+			</if>
+			<if test="list != null and list != ''">
+				AND a.create_by in
+				<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
+			<if test="beginFillingDate != null and endFillingDate != null and beginFillingDate != '' and endFillingDate != ''">
+				AND a.filling_date BETWEEN #{beginFillingDate} AND #{endFillingDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="EpidemicDaily">
+		SELECT 
+			<include refid="epidemicDailyColumns"/>
+		FROM EPIDEMIC_DAILY a
+		<include refid="epidemicDailyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO EPIDEMIC_DAILY(
+			epidemic_id,
+			work_unit,
+			filling_date,
+			user_name,
+			user_sex,
+			user_age,
+			user_address,
+			temperature,
+			is_egress,
+			health_condition,
+			family_health_condition,
+			remark,
+			work_situation,
+			work_remark,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{epidemicId},
+			#{workUnit},
+			#{fillingDate},
+			#{userName},
+			#{userSex},
+			#{userAge},
+			#{userAddress},
+			#{temperature},
+			#{isEgress},
+			#{healthCondition},
+			#{familyHealthCondition},
+			#{remark},
+			#{workSituation},
+			#{workRemark},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE EPIDEMIC_DAILY SET
+			epidemic_id = #{epidemicId},
+			work_unit = #{workUnit},
+			filling_date = #{fillingDate},
+			user_name = #{userName},
+			user_sex = #{userSex},
+			user_age = #{userAge},
+			user_address = #{userAddress},
+			temperature = #{temperature},
+			health_condition = #{healthCondition},
+			is_egress = #{isEgress},
+			family_health_condition = #{familyHealthCondition},
+			remark = #{remark},
+			work_situation = #{workSituation},
+			work_remark = #{workRemark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE epidemic_id = #{epidemicId}
+	</update>
+	
+	<update id="delete">
+		UPDATE EPIDEMIC_DAILY SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE epidemic_id = #{id}
+	</update>
+	
+</mapper>

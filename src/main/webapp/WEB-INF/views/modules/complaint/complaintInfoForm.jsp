@@ -29,11 +29,26 @@
             next(value);
         });
         function next(value) {
+        	var name='${fns:getUser().company.officeType}';
+			if(name=='2'){//医院
+				$("#pass").hide();
+				$("#result").hide();
+				$("#yq").hide();
+				$("#method").hide();
+			}else{
+				$("#pass").show();
+				$("#result").show();
+				$("#yq").show();
+				$("#method").show();
+			}
+
+
             if(value==2){
                 document.getElementById("btnSubmit1").style.display="inline";
                 document.getElementById("btnSubmit").style.display="none";
 
                 $("#treeTr").show();
+
             }else{
                 document.getElementById("btnSubmit1").style.display="none";
                 document.getElementById("btnSubmit").style.display="inline";
@@ -100,6 +115,9 @@
 			</li>
 			<li>
 				<a href="#hospital" data-toggle="tab">涉及医院信息</a>
+			</li>
+			<li>
+				<a href="#annex" data-toggle="tab">附件</a>
 			</li>
 		</ul>
 
@@ -186,6 +204,34 @@
 					</tr>
 				</table>
 			</div>
+			<div class="tab-pane fade" id="annex">
+				<table style="height: 100px;" class="table-form">
+					<tr style=" ">
+						<td style="text-align: center; width: 20px; font-weight: bolder;height: 50px;">患方材料：</td>
+						<input type="hidden" name="fjtype1" value="2">
+						<td style="width: 45px;">
+							<input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
+								   value="${files1}"/>
+							<input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
+							<div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"
+																		  uploadPath="/complaint/Patient/apply" selectMultiple="true"/></div>
+						</td>
+					</tr>
+					<tr style=" ">
+						<td style="text-align: center; width: 20px; font-weight: bolder;height: 50px;">医方材料：</td>
+						<input type="hidden" name="fjtype2" value="1">
+						<td style="width: 45px;">
+							<input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
+								   value="${files2}"/>
+							<input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
+							<div style="margin-bottom: 0px;margin-top: -45px;"><sys:ckfinder input="files2" type="files"
+																		  uploadPath="/complaint/Doctor/apply" selectMultiple="true"/></div>
+						</td>
+					</tr>
+				</table>
+
+				</div>
+			</div>
 		</div>
 	<table class="table-form">
 		<tr >
@@ -268,28 +314,28 @@
 			</td>
 
 		</tr>
-		<tr>
+		<tr id="pass">
 			<td class="tit"><font color="red">*</font>处理经过：</td>
 			<td colspan="3">
 				<form:textarea path="handlePass" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
-		<tr>
+		<tr id="result">
 			<td class="tit">处理结果：</td>
 			<td colspan="3">
 				<form:textarea path="handleResult" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
-		<tr>
+		<tr id="method">
 			<td class="tit">结案方式：</td>
 			<td colspan="3">
 				<form:textarea path="closingMethod" htmlEscape="false" class="input-xlarge " style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
-		<tr>
+		<tr id="yq">
 			<td class="tit">结案预期：</td>
 			<td >
-				<input name="expectedClosure" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+				<input id="expectedClosure" name="expectedClosure" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 					   value="${complaintInfo.expectedClosure}"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
 			</td>
@@ -298,13 +344,12 @@
 				<form:input path="amountInvolved" htmlEscape="false" maxlength="50" class="input-xlarge  number" onchange="money(this.value);"/>
 			</td>
 		</tr>
-
 		<tr>
 			<td class="tit"><font color="red">*</font>接待人员：</td>
 			<td >
 				<%--<form:input path="receptionEmployee" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
 				<sys:treeselect id="receptionEmployee" name="receptionEmployee" value="${empty complaintInfo.receptionEmployee ? fns:getUser().id : complaintInfo.receptionEmployee}" labelName="employee.name" labelValue="${empty complaintInfo.employee.name ?fns:getUser().name : complaintInfo.employee.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1" isAll="true" cssClass="input-big required" dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true"/>
+								title="用户" url="/sys/office/treeData?type=3&${fns:getUser().company.officeType=='1' ? 'officeType=1&isAll=true' :'officeType=2'}"  cssClass="input-big required" dataMsgRequired="请选择接待人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 
 			<td class="tit"><font color="red">*</font>接待时间：</td>
@@ -332,7 +377,7 @@
 			<td >
 				<%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
 				<sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintInfo.nextLinkMan}" labelName="link.name" labelValue="${complaintInfo.link.name}"
-								title="用户" url="/sys/office/treeData?type=3&officeType=1${fn:contains(fns:getUser().office.name, '工作站') ? '': '&isAll=true'   }" role="distribution"  cssClass="required" dataMsgRequired="请选择下一环节处理人" allowClear="true" notAllowSelectParent="true"/>
+								title="用户" url="/sys/office/treeData?type=3&officeType=1${fn:contains(fns:getUser().office.name, '工作站') ? '': '&isAll=true' }${fns:getUser().company.officeType=='2' ? '&next=yy' : ''}" role="${fns:getUser().company.officeType=='1' ?'distribution':'' }"  cssClass="required" dataMsgRequired="请选择下一环节处理人" allowClear="true" notAllowSelectParent="true"/>
 			</td>
 		</tr>
 	</table>

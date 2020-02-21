@@ -10,6 +10,8 @@ import java.util.Date;
 public class ComplaintApi implements Serializable {
     private static final long serialVersionUID = 1L;
     private String complaintId;
+    private String caseNumber;//案件编号
+    private String hospitalName;//医院名称
     private String visitorName;//来访者姓名
     private String createDate;//创建时间
     private String handleWay;//处理方式
@@ -81,5 +83,21 @@ public class ComplaintApi implements Serializable {
 
     public void setHandleWay(String handleWay) {
         this.handleWay = handleWay;
+    }
+
+    public String getCaseNumber() {
+        return caseNumber;
+    }
+
+    public void setCaseNumber(String caseNumber) {
+        this.caseNumber = caseNumber;
+    }
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
     }
 }

@@ -12,7 +12,7 @@ public class SendTemplateMessage {
     private String form_id; //表单提交场景下，为 submit 事件带上的 formId；支付场景下，为本次支付的 prepay_id
     private Map<String,TemplateData> data; //模板内容，不填则下发空模板
     private String emphasis_keyword; //模板需要放大的关键词，不填则默认无放大
-
+    private String access_token;
     public String getTouser() {
         return touser;
     }
@@ -59,5 +59,13 @@ public class SendTemplateMessage {
 
     public void setEmphasis_keyword(String emphasis_keyword) {
         this.emphasis_keyword = emphasis_keyword;
+    }
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 }

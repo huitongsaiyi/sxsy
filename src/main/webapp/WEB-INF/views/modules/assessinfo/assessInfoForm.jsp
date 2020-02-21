@@ -59,8 +59,8 @@
                 <tr>
                     <td class="tit">评价人</td>
                     <td>
-                        <sys:treeselect id="appraiser" name="appraiser" value="${assessInfo.appraiser}" labelName=""
-                                        labelValue="${assessInfo.user.name}"
+                        <sys:treeselect id="appraiser" name="appraiser" value="${empty assessInfo.appraiser ? fns:getUser().id : assessInfo.appraiser}" labelName=""
+                                        labelValue="${empty assessInfo.user.name ? fns:getUser().name : assessInfo.user.name}"
                                         title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
                                         allowClear="true"
                                         notAllowSelectParent="true" dataMsgRequired="必填信息"/>
@@ -85,7 +85,7 @@
                     <td class="tit">评价内容</td>
                     <td>
                         <form:textarea path="assessContent" htmlEscape="false" class="input-xlarge required"
-                                       style="margin: 0px; width: 938px; height: 125px;"/>
+                                       style="margin: 0px; width: 500px; height: 125px;"/>
                     </td>
                 </tr>
             </table>
@@ -97,13 +97,13 @@
             <%--<td>--%>
                 <%--<form:input path="nextLink" htmlEscape="false" maxlength="32" class="input-xlarge"/>--%>
             <%--</td>--%>
-            <td class="tit">下一环节处理人</td>
+            <%--<td class="tit">下一环节处理人</td>
             <td>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${assessInfo.nextLinkMan}" labelName=""
                                 labelValue="${assessInfo.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="required"
                                 allowClear="true" notAllowSelectParent="true"  dataMsgRequired="必填信息"/>
-            </td>
+            </td>--%>
         </tr>
     </table>
     <div class="form-actions">
@@ -111,7 +111,7 @@
                                                                       type="submit" value="保 存"
                                                                       onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="assessinfo:assessInfo:edit"><input id="btnSubmit" class="btn btn-primary"
-                                                                      type="submit" value="下一步"
+                                                                      type="submit" value="归档"
                                                                       onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>

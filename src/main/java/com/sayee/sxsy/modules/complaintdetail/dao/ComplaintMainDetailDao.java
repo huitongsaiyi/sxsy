@@ -14,5 +14,6 @@ import com.sayee.sxsy.modules.complaintdetail.entity.ComplaintMainDetail;
  */
 @MyBatisDao
 public interface ComplaintMainDetailDao extends CrudDao<ComplaintMainDetail> {
-	
+
+    public void saveShift(ComplaintMainDetail complaintMainDetail);
 }

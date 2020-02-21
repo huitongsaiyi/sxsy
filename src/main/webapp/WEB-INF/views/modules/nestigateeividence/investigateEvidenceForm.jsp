@@ -45,6 +45,30 @@
 			$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
 		});
 
+        function removeCssClass() {
+            $('#startTime').removeClass('required');
+            $('#investigateEvidence\\.startTime').removeClass('required');
+            $('#endTime').removeClass('required');
+            $('#investigateEvidence\\.endTime').removeClass('required');
+            $('#investigator').removeClass('required');
+            $('#investigateEvidence\\.investigator').removeClass('required');
+            $('#noteTaker').removeClass('required');
+            $('#investigateEvidence\\.noteTaker').removeClass('required');
+            $('#content').removeClass('required');
+            $('#investigateEvidence\\.content').removeClass('required');
+        }
+        function addCssClass() {
+            $('#startTime').addClass('required');
+            $('#investigateEvidence\\.startTime').addClass('required');
+            $('#endTime').addClass('required');
+            $('#investigateEvidence\\.endTime').addClass('required');
+            $('#investigator').addClass('required');
+            $('#investigateEvidence\\.investigator').addClass('required');
+            $('#noteTaker').addClass('required');
+            $('#investigateEvidence\\.noteTaker').addClass('required');
+            $('#content').addClass('required');
+            $('#investigateEvidence\\.content').addClass('required');
+        }
 	</script>
 </head>
 <body>
@@ -95,7 +119,7 @@
 					<tr >
 						<td class="tit" width="140px" style=" border-right:1px #e2e2e2 solid;"><font color="red">*</font>调查时间：</td>
 						<td style="width: 105px;">
-							<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+							<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${investigateEvidence.startTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px;height: 25px;"/>
 							<span class="help-inline" style="width: 10px;"><font color="red" style="width: 10px;">*</font> </span>
@@ -103,7 +127,7 @@
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>结束时间：</td>
 
 						<td width="195px;">
-							<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+							<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 								   value="${investigateEvidence.endTime}"
 								   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});" style="width: 250px; height: 25px;"/>
 							<span class="help-inline"><font color="red" style="width: 10px;">*</font> </span>
@@ -143,7 +167,7 @@
 					<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; " ><font color="red">*</font>笔录内容：</td>
 						<td style="width: 105px;" colspan="3">
-							<form:textarea path="content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;"/>
+							<form:textarea path="content" htmlEscape="false" rows="15" class="input-xxlarge required" cssStyle="width:1300px;"/>
 						</td>
 					</tr>
 					<tr >
@@ -286,7 +310,7 @@
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid;border-Left:1px #e2e2e2 solid;"><font color="red">*</font>调查事由：</td>
 
 						<td width="195px;">
-							<form:input path="investigateEvidence.cause" htmlEscape="false" maxlength="500" class="input-xlarge required" cssStyle="width:480px;" />
+							<form:input path="investigateEvidence.cause" htmlEscape="false" maxlength="500" class="input-xlarge required" cssStyle="width:480px;" readonly="true"/>
 						</td>
 					</tr>
 					<tr >
@@ -309,7 +333,7 @@
 					<tr >
 						<td class="tit" width="140px" style="border-right:1px #e2e2e2 solid; "><font color="red">*</font>笔录内容：</td>
 						<td style="width: 105px;" colspan="3">
-							<form:textarea path="investigateEvidence.content" htmlEscape="false" rows="15" maxlength="500" class="input-xxlarge required" cssStyle="width:1300px;"/>
+							<form:textarea path="investigateEvidence.content" htmlEscape="false" rows="15" class="input-xxlarge required" cssStyle="width:1300px;"/>
 						</td>
 					</tr>
 					<tr >
@@ -510,8 +534,8 @@
 			</tr>
 		</table>
 		<div class="form-actions">
-			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
-			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no')"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" onclick="$('#flag').val('no'),$('#export').val('no'),removeCssClass()"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步" onclick="$('#flag').val('yes'),$('#export').val('no'),addCssClass()"/>&nbsp;</shiro:hasPermission>
 			<%--<shiro:hasPermission name="nestigateeividence:investigateEvidence:edit"><input id="btnSubmit" class="btn btn-primary"--%>
 																					<%--type="submit" value="导出全部"--%>
 																					<%--onclick="$('#export').val('all')"/>&nbsp;</shiro:hasPermission>--%>

@@ -28,6 +28,7 @@ import com.sayee.sxsy.modules.surgicalconsentbook.service.PreOperativeConsentSer
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
+import com.sayee.sxsy.modules.sys.utils.DictUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -351,7 +352,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
                 b=i;
             }
         }
-		int c = Integer.valueOf(nums);
+		int c = Integer.valueOf(StringUtils.isNumeric(nums)==true ? nums : "0");
 		if(c<=0 || c>=mediateProgramList.size()){
 			c=b;
 		}else{
@@ -381,7 +382,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		if ("meeting".equals(export)){
 			if(mediateProgramList.size()!=0){
 				params.put("time", mediateEvidence.getMediateProgramList().get(c).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(c).getMeetingTime());
-				params.put("address", mediateEvidence.getMediateProgramList().get(c).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(c).getAddress());
+				params.put("address", mediateEvidence.getMediateProgramList().get(c).getAddress()==null?"": DictUtils.getDictLabel(mediateEvidence.getMediateProgramList().get(c).getAddress(),"meeting","") );
 				params.put("case",mediateEvidence.getComplaintMain().getPatientName()==null||mediateEvidence.getComplaintMain().getHospital().getName()==null?"":mediateEvidence.getComplaintMain().getPatientName()+"与"+mediateEvidence.getComplaintMain().getHospital().getName()+"的医疗纠纷。");
 				params.put("tiao",mediateEvidence.getMediateProgramList().get(c).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(c).getMediatorUser().getName());
 				params.put("pen",mediateEvidence.getMediateProgramList().get(c).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(c).getClerkuser().getName());
@@ -413,7 +414,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		}else if("pContent".equals(export)){
 			if(mediateProgramList.size()!=0){
 				params.put("date", mediateEvidence.getMediateProgramList().get(b).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(b).getMeetingTime());
-				params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(b).getAddress());
+				params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":DictUtils.getDictLabel(mediateEvidence.getMediateProgramList().get(b).getAddress(),"meeting",""));
 				params.put("host",mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName());
 				params.put("note",mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName());
 				params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());
@@ -439,7 +440,7 @@ public class MediateEvidenceService extends CrudService<MediateEvidenceDao, Medi
 		}else if("dContent".equals(export)){
 			if(mediateProgramList.size()!=0){
 				params.put("date", mediateEvidence.getMediateProgramList().get(b).getMeetingTime()==null?"":mediateEvidence.getMediateProgramList().get(b).getMeetingTime());
-				params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":mediateEvidence.getMediateProgramList().get(b).getAddress());
+				params.put("address", mediateEvidence.getMediateProgramList().get(b).getAddress()==null?"":DictUtils.getDictLabel(mediateEvidence.getMediateProgramList().get(b).getAddress(),"meeting",""));
 				params.put("host",mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getMediatorUser().getName());
 				params.put("note",mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName()==null?"":mediateEvidence.getMediateProgramList().get(b).getClerkuser().getName());
 				params.put("patient",mediateEvidence.getComplaintMain().getPatientName()==null?"":mediateEvidence.getComplaintMain().getPatientName());

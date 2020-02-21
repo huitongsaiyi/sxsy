@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import com.sayee.sxsy.common.utils.BaseUtils;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.test.entity.TestTree;
 import com.sayee.sxsy.test.service.TestTreeService;
 import org.apache.commons.collections.MapUtils;
@@ -69,9 +70,26 @@ public class ComplaintMainDetailController extends BaseController {
 	@RequiresPermissions("complaintdetail:complaintMainDetail:view")
 	@RequestMapping(value = "form")
 	public String form(ComplaintMainDetail complaintMainDetail, Model model,HttpServletRequest request) {
+		List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(complaintMainDetail.getComplaintMainDetailId());
+		if (filePath.size()==0 && complaintMainDetail.getComplaintMain()!=null){
+			filePath = FileBaseUtils.getFilePath(complaintMainDetail.getComplaintMain().getComplaintId());
+			for (Map<String, Object> map:filePath){
+				map.remove("ACCE_ID");
+				map.remove("acce_id");
+			}
+		}
+		for (Map<String, Object> map:filePath){
+			if ("2".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}else if("1".equals(MapUtils.getString(map,"fjtype"))){
+				model.addAttribute("files2",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+				model.addAttribute("acceId2",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+			}
+		}
 		if (null==complaintMainDetail.getComplaintMain()){
 			ComplaintMain complaintMain=new ComplaintMain();
-			complaintMain.setCaseNumber(BaseUtils.getCode("year","3","COMPLAINT_MAIN","case_number"));
+			complaintMain.setCaseNumber(BaseUtils.getCode("year","4","COMPLAINT_MAIN","case_number"));
 			complaintMainDetail.setComplaintMain(complaintMain);
 		}
 		String type=request.getParameter("type");
@@ -98,7 +116,7 @@ public class ComplaintMainDetailController extends BaseController {
 			if (!beanValidator(model, complaintMainDetail)&&"yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag()) || !beanValidator(model, complaintMainDetail.getComplaintMain())&&"yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag()) ){
 				return form(complaintMainDetail, model,request);
 			}
-				complaintMainDetailService.save(complaintMainDetail);
+				complaintMainDetailService.save(complaintMainDetail,request);
 				if ("yes".equals(complaintMainDetail.getComplaintMain().getAct().getFlag())){
 					addMessage(redirectAttributes, "流程已启动");
 					return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
@@ -126,6 +144,19 @@ public class ComplaintMainDetailController extends BaseController {
 	public String delete(ComplaintMainDetail complaintMainDetail, RedirectAttributes redirectAttributes) {
 		complaintMainDetailService.delete(complaintMainDetail);
 		addMessage(redirectAttributes, "删除投诉接待成功");
+		return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
+	}
+
+	@RequestMapping(value = "shift")
+	public String shift(ComplaintMainDetail complaintMainDetail, Model model,HttpServletRequest request) {
+		model.addAttribute("complaintMainDetail", complaintMainDetail);
+		return "modules/complaintdetail/shift";
+	}
+
+	@RequestMapping(value = "saveShift")
+	public String saveShift(ComplaintMainDetail complaintMainDetail, RedirectAttributes redirectAttributes) {
+		complaintMainDetailService.saveShift(complaintMainDetail);
+		addMessage(redirectAttributes, "转交成功");
 		return "redirect:"+Global.getAdminPath()+"/complaintdetail/complaintMainDetail/?repage";
 	}
 

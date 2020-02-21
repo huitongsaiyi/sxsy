@@ -24,7 +24,7 @@ import java.util.List;
  * @version 2019-06-17
  */
 public class SummaryInfo extends DataEntity<SummaryInfo> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String summaryId;		// 总结主键
 	private String complaintMainId;		// 主表主键
@@ -51,6 +51,96 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
     private MachineAccount machineAccount;//台账信息
 	private List<String> list;//工作站人员list
 	private String createUser;  //创建人员id
+	private String acceptanceTime;  //创建人员id
+	private String ratifyAccord;  //创建人员id
+	private String flowDays;  //创建人员id
+	private String responsibilityRatio;  //创建人员id
+	private String meetingFrequency;  //创建人员id
+	private String mediateResult;  //创建人员id
+	private String mediatePass;  //创建人员id
+	private String other;  //创建人员id
+	private String mediateEvidenceId;  //质证调解 主键
+	private String reachMediateId;  //达成调解主键
+
+	public String getMediateEvidenceId() {
+		return mediateEvidenceId;
+	}
+
+	public void setMediateEvidenceId(String mediateEvidenceId) {
+		this.mediateEvidenceId = mediateEvidenceId;
+	}
+
+	public String getReachMediateId() {
+		return reachMediateId;
+	}
+
+	public void setReachMediateId(String reachMediateId) {
+		this.reachMediateId = reachMediateId;
+	}
+
+	public String getAcceptanceTime() {
+		return acceptanceTime;
+	}
+
+	public void setAcceptanceTime(String acceptanceTime) {
+		this.acceptanceTime = acceptanceTime;
+	}
+
+	public String getRatifyAccord() {
+		return ratifyAccord;
+	}
+
+	public void setRatifyAccord(String ratifyAccord) {
+		this.ratifyAccord = ratifyAccord;
+	}
+
+	public String getFlowDays() {
+		return flowDays;
+	}
+
+	public void setFlowDays(String flowDays) {
+		this.flowDays = flowDays;
+	}
+
+	public String getResponsibilityRatio() {
+		return responsibilityRatio;
+	}
+
+	public void setResponsibilityRatio(String responsibilityRatio) {
+		this.responsibilityRatio = responsibilityRatio;
+	}
+
+	public String getMeetingFrequency() {
+		return meetingFrequency;
+	}
+
+	public void setMeetingFrequency(String meetingFrequency) {
+		this.meetingFrequency = meetingFrequency;
+	}
+
+	public String getMediateResult() {
+		return mediateResult;
+	}
+
+	public void setMediateResult(String mediateResult) {
+		this.mediateResult = mediateResult;
+	}
+
+	public String getMediatePass() {
+		return mediatePass;
+	}
+
+	public void setMediatePass(String mediatePass) {
+		this.mediatePass = mediatePass;
+	}
+
+	public String getOther() {
+		return other;
+	}
+
+	public void setOther(String other) {
+		this.other = other;
+	}
 
 	public String getCreateUser() {
 		return createUser;
@@ -213,7 +303,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public void setSummaryId(String summaryId) {
 		this.summaryId = summaryId;
 	}
-	
+
 	@Length(min=0, max=32, message="主表主键长度必须介于 0 和 32 之间")
 	public String getComplaintMainId() {
 		return complaintMainId;
@@ -222,7 +312,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public void setComplaintMainId(String complaintMainId) {
 		this.complaintMainId = complaintMainId;
 	}
-	
+
 	@Length(min=1, max=32, message="总结人 关联用户长度必须介于 0 和 32 之间")
 	public String getSummaryEmp() {
 		return summaryEmp;
@@ -231,7 +321,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public void setSummaryEmp(String summaryEmp) {
 		this.summaryEmp = summaryEmp;
 	}
-	
+
 	@Length(min=1, max=20, message="总结时间长度必须介于 0 和 20 之间")
 	public String getSummaryTime() {
 		return summaryTime;
@@ -240,7 +330,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public void setSummaryTime(String summaryTime) {
 		this.summaryTime = summaryTime;
 	}
-	
+
 	public String getSummary() {
 		return summary;
 	}
@@ -248,7 +338,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
-	
+
 	@Length(min=1, max=20, message="归档时间长度必须介于 0 和 20 之间")
 	public String getFilingTime() {
 		return filingTime;
@@ -257,7 +347,7 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public void setFilingTime(String filingTime) {
 		this.filingTime = filingTime;
 	}
-	
+
 	@Length(min=1, max=10, message="卷宗编号长度必须介于 0 和 10 之间")
 	public String getFileNumber() {
 		return fileNumber;
@@ -266,5 +356,5 @@ public class SummaryInfo extends DataEntity<SummaryInfo> {
 	public void setFileNumber(String fileNumber) {
 		this.fileNumber = fileNumber;
 	}
-	
+
 }

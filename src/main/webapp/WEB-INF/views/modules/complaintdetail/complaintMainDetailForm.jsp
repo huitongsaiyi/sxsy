@@ -9,6 +9,7 @@
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function (form) {
+                    $("#visitorName").addClass("required");
                     loading('正在提交，请稍等...');
                     form.submit();
                 },
@@ -24,6 +25,42 @@
             });
             aa();
         });
+        function removeCssClass() {
+            $('#visitorName').removeClass('required');
+            $('#nextLinkManName').removeClass('required');
+            $('#receptionDate').removeClass('required');
+            $('#receptionEmployee').removeClass('required');
+            $('#appeal').removeClass('required');
+            $('#summaryOfDisputes').removeClass('required');
+            $('#isMajorName').removeClass('required');
+            $('#visitorDate').removeClass('required');
+            $('#complaintMain\\.involveEmployee').removeClass('required');
+            $('#involveDepartmentName').removeClass('required');
+            $('#involveHospitalName').removeClass('required');
+            $('#areaName').removeClass('required');
+            $('#visitorMobile').removeClass('required');
+            $('#visitorNumber').removeClass('required');
+            $('#complaintMain\\.patientName').removeClass('required');
+            $('#complaintMain\\.patientAge').removeClass('required');
+        }
+        function addCssClass() {
+            $('#visitorName').addClass('required');
+            $('#nextLinkManName').addClass('required');
+            $('#receptionDate').addClass('required');
+            $('#receptionEmployee').addClass('required');
+            $('#appeal').addClass('required');
+            $('#summaryOfDisputes').addClass('required');
+            $('#isMajorName').addClass('required');
+            $('#visitorDate').addClass('required');
+            $('#complaintMain\\.involveEmployee').addClass('required');
+            $('#involveDepartmentName').addClass('required');
+            $('#involveHospitalName').addClass('required');
+            $('#areaName').addClass('required');
+            $('#visitorMobile').addClass('required');
+            $('#visitorNumber').addClass('required');
+            $('#complaintMain\\.patientName').addClass('required');
+            $('#complaintMain\\.patientAge').addClass('required');
+        }
 
         function aa() {
             var a = '${complaintMainDetail.typeName}';
@@ -72,6 +109,9 @@
         </li>
         <li>
             <a href="#hospital" data-toggle="tab">涉及医院信息</a>
+        </li>
+        <li>
+            <a href="#annex" data-toggle="tab">附件</a>
         </li>
     </ul>
     <div id="myTabContent" class="tab-content">
@@ -137,7 +177,7 @@
                     <td class="controls" width="462px">
                         <sys:treeselect id="area" name="area.id" value="${office.area.id}" labelName="area.name"
                                         labelValue="${ empty office.area.name ? complaintMainDetail.complaintMain.hospital.area.name :office.area.name}"
-                                        title="区域" url="/sys/area/treeData" cssClass="required"/>
+                                        title="区域" url="/sys/area/treeData" cssClass="required" dataMsgRequired="请选择区域"/>
                     </td>
                     <td class="tit" width="180px"><font color="red">*</font>涉及医院：</td>
                     <td class="controls" width="">
@@ -168,14 +208,14 @@
                             <%--<form:options items="${fns:getDictList('department')}" itemLabel="label" itemValue="value"--%>
                                           <%--htmlEscape="false"/>--%>
                         <%--</form:select>--%>
-                            <sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="complaintMain.testTree"
+                            <sys:treeselect id="involveDepartment" name="complaintMain.involveDepartment" value="${complaintMainDetail.complaintMain.involveDepartment}" labelName="testTree"
                                             labelValue="${complaintMainDetail.complaintMain.testTree}" title="涉及科室"
-                                            url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
+                                            url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true" cssClass="required" dataMsgRequired="请选择科室"
                                             notAllowSelectParent="true" checked="true"/>
                     </td>
-                    <td class="tit">涉及人员：</td>
+                    <td class="tit"><font color="red">*</font>涉及人员：</td>
                     <td>
-                                <form:input path="complaintMain.involveEmployee" htmlEscape="false"
+                                <form:input path="complaintMain.involveEmployee" htmlEscape="false" class=" "
                                              value="${empty complaintMainDetail.complaintMain.employee.name?complaintMainDetail.complaintMain.involveEmployee:complaintMainDetail.complaintMain.employee.name}"/>
                         <%--<sys:treeselect id="involveEmployee" name="complaintMain.involveEmployee"--%>
                                         <%--value="${complaintMainDetail.complaintMain.involveEmployee}"--%>
@@ -189,6 +229,34 @@
                 </tr>
             </table>
         </div>
+        <div class="tab-pane fade" id="annex">
+            <table style="height: 100px;" class="table-form">
+                <tr style=" ">
+                    <td style="text-align: center; width: 20px; font-weight: bolder;height: 50px;">患方材料：</td>
+                    <input type="hidden" name="fjtype1" value="2">
+                    <td style="width: 45px;">
+                        <input type="hidden" id="files1" name="files1" htmlEscape="false" class="input-xlarge"
+                               value="${files1}"/>
+                        <input type="hidden" id="acceId1" name="acceId1" value="${acceId1}">
+                        <div style="margin-top: -45px;"><sys:ckfinder input="files1" type="files"
+                                                                      uploadPath="/complaintDetail/Patient/apply" selectMultiple="true"/></div>
+                    </td>
+                </tr>
+                <tr style=" ">
+                    <td style="text-align: center; width: 20px; font-weight: bolder;height: 50px;">医方材料：</td>
+                    <input type="hidden" name="fjtype2" value="1">
+                    <td style="width: 45px;">
+                        <input type="hidden" id="files2" name="files2" htmlEscape="false" class="input-xlarge"
+                               value="${files2}"/>
+                        <input type="hidden" id="acceId2" name="acceId2" value="${acceId2}">
+                        <div style="margin-bottom: 0px;margin-top: -45px;"><sys:ckfinder input="files2" type="files"
+                                                                                         uploadPath="/complaintDetail/Doctor/apply" selectMultiple="true"/></div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
     </div>
     <table class="table-form">
         <tr>
@@ -199,7 +267,7 @@
             </td>
             <td class="tit" width="180px"><font color="red">*</font>来访日期：</td>
             <td>
-                <input name="visitorDate" type="text" readonly="readonly" maxlength="20"
+                <input id="visitorDate" name="visitorDate" type="text" readonly="readonly" maxlength="20"
                        class="input-medium Wdate required"
                        value="${complaintMainDetail.visitorDate}"
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
@@ -219,8 +287,8 @@
             <td class="tit"><font color="red">*</font>案件分类：</td>
             <td>
                 <sys:treeselect id="isMajor" name="isMajor" value="${complaintMainDetail.isMajor}" labelName="typeName"
-                                labelValue="${complaintMainDetail.typeName}" title="案件分类"
-                                url="/test/testTree/treeData?mold=1" variable="qitaanjian" allowClear="true"
+                                labelValue="${complaintMainDetail.typeName}" title="案件分类" cssClass="required"
+                                url="/test/testTree/treeData?mold=1" variable="qitaanjian" allowClear="true" dataMsgRequired="请选择案件分类"
                                 notAllowSelectParent="true" isAll="true"/>
                     <%--<form:select path="isMajor" style='width:110px;text-align: center;'>--%>
                     <%--<form:option value="1">是</form:option>--%>
@@ -263,7 +331,7 @@
             <td class="tit"><font color="red">*</font>接待时间：</td>
             <td>
                     <%--<form:input path="receptionDate" htmlEscape="false" maxlength="20" class="input-xlarge "/>--%>
-                <input name="receptionDate" type="text" readonly="readonly" maxlength="20"
+                <input id="receptionDate" name="receptionDate" type="text" readonly="readonly" maxlength="20"
                        class="input-medium Wdate required"
                        value="${complaintMainDetail.receptionDate}"
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
@@ -278,7 +346,7 @@
             <td>
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan" value="${complaintMainDetail.nextLinkMan}"
-                                labelName="${complaintMainDetail.linkEmployee.name}"
+                                labelName="linkMan"
                                 labelValue="${complaintMainDetail.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-big required"
                                 dataMsgRequired="请选择处理人" allowClear="true" notAllowSelectParent="true" isAll="true"/>
@@ -290,11 +358,11 @@
         <shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><input id="btnSubmit"
                                                                                     class="btn btn-primary"
                                                                                     type="submit" value="保 存"
-                                                                                    onclick="$('#flag').val('no')"/>&nbsp;</shiro:hasPermission>
+                                                                                    onclick="$('#flag').val('no'),removeCssClass()"/>&nbsp;</shiro:hasPermission>
         <shiro:hasPermission name="complaintdetail:complaintMainDetail:edit"><input id="btnSubmit"
                                                                                     class="btn btn-primary"
                                                                                     type="submit" value="下一步"
-                                                                                    onclick="$('#flag').val('yes')"/>&nbsp;</shiro:hasPermission>
+                                                                                    onclick="$('#flag').val('yes'),addCssClass()"/>&nbsp;</shiro:hasPermission>
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <%--<c:if test="${not empty complaintMainDetail.complaintMainDetailId}">

@@ -107,6 +107,20 @@
                             </td>
                         </tr>
                         <tr>
+                            <td  class="tit">患方协议送达时间：</td>
+                            <td>
+                                    ${performAgreement.patientServiceTime}
+                            </td>
+                            <td class="tit">医方协议送达时间：</td>
+                            <td>
+                                    ${performAgreement.hospitalServiceTime}
+                            </td>
+                            <td class="tit">协议生效时间：</td>
+                            <td>
+                                    ${performAgreement.takeEffectTime}
+                            </td>
+                        </tr>
+                        <tr>
                             <td  class="tit">交理赔时间</td>
                             <td>
                                 ${performAgreement.claimSettlementTime}

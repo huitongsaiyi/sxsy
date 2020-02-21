@@ -4,9 +4,17 @@
 <head>
 	<title>报案信息管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
+	<script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#contentTable").colResizable({
+				liveDrag:true,//拖动列时更新表布局
+				gripInnerHtml:"<div class='grip'></div>",
+				draggingClass:"dragging",
+				resizeMode:'overflow',//允许溢出父容器
+				defaults : true,
+			});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -15,6 +23,27 @@
         	return false;
         }
 	</script>
+	<style type="text/css">
+		#contentTable {
+			table-layout: fixed;
+		}
+
+		#contentTable th {
+			text-align: center; /** 设置水平方向居中 */
+			vertical-align: middle; /** 设置垂直方向居中 */
+		}
+
+		#contentTable td {
+			word-break: keep-all; /* 不换行 */
+			white-space: nowrap; /* 不换行 */
+			overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+			text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+		}
+
+		#contentTable th:nth-of-type(23) {
+			width: 10em;
+		}
+	</style>
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -51,18 +80,18 @@
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table  table-bordered table-condensed">
 		<thead>
-			<tr><th class="sort-column case_number" style="text-align: center;">案件编号</th>
+			<tr><th class="sort-column b.case_number" style="text-align: center;">案件编号</th>
 				<th class="sort-column report_time" style="text-align: center;">报案时间</th>
-				<th class="sort-column patient_name" style="text-align: center;">患者姓名</th>
+				<th class="sort-column b.patient_name" style="text-align: center;">患者姓名</th>
 				<th class="sort-column involve_hospital" style="text-align: center;">涉及医院</th>
-				<th class="sort-column b.hospital_grade" style="text-align: center;">保险公司</th>
+				<%--<th class="sort-column b.hospital_grade" style="text-align: center;">保险公司</th>--%>
 				<th class="sort-column dispute_time" style="text-align: center;">纠纷发生时间</th>
 				<th class="sort-column report_emp" style="text-align: center;">报案人姓名</th>
-				<th class="sort-column a.patient_mobile" style="text-align: center;">涉及专业</th>
-				<th class="sort-column a.patient_mobile" style="text-align: center;">是否重大</th>
-				<th class="sort-column a.patient_mobile" style="text-align: center;">是否媒体介入</th>
-				<th class="sort-column r.patient_mobile" style="text-align:center;">部门名称</th>
-				<th class="sort-column r.patient_mobile" style="text-align:center;">调解员</th>
+				<th class="sort-column te.name" style="text-align: center;">涉及专业</th>
+				<th class="sort-column a.is_major" style="text-align: center;">是否重大</th>
+				<th  style="text-align: center;">是否媒体介入</th>
+				<th style="text-align:center;">部门名称</th>
+				<th style="text-align:center;">调解员</th>
 				<shiro:hasPermission name="registration:reportRegistration:edit"><th style="text-align: center;">操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -81,9 +110,9 @@
 				<td style="text-align: center;">
 						${reportRegistration.complaintMain.hospital.name}
 				</td>
-				<td style="text-align: center;">
+				<%--<td style="text-align: center;">
 
-				</td>
+				</td>--%>
 				<td style="text-align: center;">
 						${reportRegistration.disputeTime}
 				</td>
