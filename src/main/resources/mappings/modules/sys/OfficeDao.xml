@@ -30,6 +30,13 @@
 		a.is_insured AS "isInsured",
 		a.insured_time AS "insuredTime",
 		a.insured_end_time AS "insuredEndTime",
+		a.beds AS "beds",
+		a.legal_representative AS "legalRepresentative",
+		a.represent_phone AS "representPhone",
+		a.director_charge AS "directorCharge",
+		a.director_phone AS "directorPhone",
+		a.dispute_head AS "disputeHead",
+		a.dispute_phone AS "disputePhone",
 		a.useable AS useable,
 		a.primary_person AS "primaryPerson.id",
 		a.deputy_person AS "deputyPerson.id",
@@ -139,6 +146,13 @@
 			policy_number,
 			is_insured,
 			insured_time,
+			beds,
+			legal_representative,
+			represent_phone,
+			director_charge,
+			director_phone,
+			dispute_head,
+			dispute_phone,
 			insured_end_time
 		) VALUES (
 			#{id}, 
@@ -170,6 +184,13 @@
 			#{policyNumber},
 			#{isInsured},
 			#{insuredTime},
+			#{beds},
+			#{legalRepresentative},
+			#{representPhone},
+			#{directorCharge},
+			#{directorPhone},
+			#{disputeHead},
+			#{disputePhone},
 			#{insuredEndTime}
 		)
 	</insert>
@@ -200,6 +221,13 @@
 			policy_number=#{policyNumber},
 			is_insured=#{isInsured},
 			insured_time=#{insuredTime},
+			beds=#{beds},
+			legal_representative=#{legalRepresentative},
+			represent_phone=#{representPhone},
+			director_charge=#{directorCharge},
+			director_phone=#{directorPhone},
+			dispute_head=#{disputeHead},
+			dispute_phone=#{disputePhone},
 			insured_end_time=#{insuredEndTime}
 		WHERE id = #{id}
 	</update>

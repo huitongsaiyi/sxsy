@@ -71,17 +71,22 @@
 			</form:select>
 		</div>
 	</div>
-	<div class="control-group">
-		<label class="control-label">机构级别:</label>
-		<div class="controls">
-			<form:select path="grade" class="input-medium">
-				<form:options items="${fns:getDictList('sys_office_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</form:select>
-		</div>
-	</div>
 	<c:choose>
 		<c:when test="${office.officeType == '2'}">
-
+			<div class="control-group">
+				<label class="control-label">机构类别:</label>
+				<div class="controls">
+					<form:select path="grade" class="input-medium">
+						<form:options items="${fns:getDictList('sys_office_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					</form:select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">床位:</label>
+				<div class="controls">
+					<form:input path="beds" htmlEscape="false" maxlength="50" cssClass=""/>
+				</div>
+			</div>
 			<div class="control-group">
 				<label class="control-label">医院等级:</label>
 				<div class="controls">
@@ -122,7 +127,71 @@
 						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});" />
 				</div>
 			</div>
+			<div class="control-group">
+				<label class="control-label">法定代表人:</label>
+				<div class="controls">
+					<form:input path="legalRepresentative" htmlEscape="false" maxlength="50" cssClass=""/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">主要负责人:</label>
+				<div class="controls">
+					<form:input path="primaryPerson" htmlEscape="false" maxlength="50" cssClass=""/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">法人联系电话:</label>
+				<div class="controls">
+					<form:input path="representPhone" htmlEscape="false" maxlength="50" cssClass="phone"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">分管院长:</label>
+				<div class="controls">
+					<form:input path="directorCharge" htmlEscape="false" maxlength="50" cssClass=""/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">分管院长联系电话:</label>
+				<div class="controls">
+					<form:input path="directorPhone" htmlEscape="false" maxlength="50" cssClass="phone"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">医务科/纠纷办负责人:</label>
+				<div class="controls">
+					<form:input path="disputeHead" htmlEscape="false" maxlength="50" cssClass=""/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">医务科/纠纷办负责人联系电话:</label>
+				<div class="controls">
+					<form:input path="disputePhone" htmlEscape="false" maxlength="50" cssClass="phone"/>
+				</div>
+			</div>
 		</c:when>
+		<c:otherwise>
+			<div class="control-group">
+				<label class="control-label">主负责人:</label>
+				<div class="controls">
+					<sys:treeselect id="primaryPerson" name="primaryPerson.id" value="${office.primaryPerson.id}" labelName="office.primaryPerson.name" labelValue="${office.primaryPerson.name}"
+									title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">副负责人:</label>
+				<div class="controls">
+					<sys:treeselect id="deputyPerson" name="deputyPerson.id" value="${office.deputyPerson.id}" labelName="office.deputyPerson.name" labelValue="${office.deputyPerson.name}"
+									title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
+				</div>
+			</div>
+			<%--<div class="control-group">
+				<label class="control-label">传真:</label>
+				<div class="controls">
+					<form:input path="fax" htmlEscape="false" maxlength="50"/>
+				</div>
+			</div>--%>
+		</c:otherwise>
 	</c:choose>
 	<div class="control-group">
 		<label class="control-label">是否可用:</label>
@@ -133,21 +202,14 @@
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label">主负责人:</label>
-		<div class="controls">
-			<sys:treeselect id="primaryPerson" name="primaryPerson.id" value="${office.primaryPerson.id}" labelName="office.primaryPerson.name" labelValue="${office.primaryPerson.name}"
-							title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">副负责人:</label>
-		<div class="controls">
-			<sys:treeselect id="deputyPerson" name="deputyPerson.id" value="${office.deputyPerson.id}" labelName="office.deputyPerson.name" labelValue="${office.deputyPerson.name}"
-							title="用户" url="/sys/office/treeData?type=3&officeType=${office.officeType}" allowClear="true" notAllowSelectParent="true" dataMsgRequired="必填信息" cssClass=""/>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">联系地址:</label>
+		<c:choose>
+			<c:when test="${office.officeType == '2'}">
+				<label class="control-label">医院地址:</label>
+			</c:when>
+			<c:otherwise>
+				<label class="control-label">联系地址:</label>
+			</c:otherwise>
+		</c:choose>
 		<div class="controls">
 			<form:input path="address" htmlEscape="false" maxlength="50" cssClass=""/>
 		</div>
@@ -158,22 +220,16 @@
 			<form:input path="zipCode" htmlEscape="false" maxlength="50" cssClass=" "/>
 		</div>
 	</div>
-	<div class="control-group">
+	<%--<div class="control-group">
 		<label class="control-label">负责人:</label>
 		<div class="controls">
 			<form:input path="master" htmlEscape="false" maxlength="50" cssClass=""/>
 		</div>
-	</div>
+	</div>--%>
 	<div class="control-group">
-		<label class="control-label">电话:</label>
+		<label class="control-label">机构电话(办公):</label>
 		<div class="controls">
-			<form:input path="phone" htmlEscape="false" maxlength="50" cssClass="mobile"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">传真:</label>
-		<div class="controls">
-			<form:input path="fax" htmlEscape="false" maxlength="50"/>
+			<form:input path="phone" htmlEscape="false" maxlength="50" cssClass="phone"/>
 		</div>
 	</div>
 	<div class="control-group">
@@ -188,6 +244,15 @@
 			<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 		</div>
 	</div>
+	<c:if test="${office.officeType == '2'}">
+		<div class="control-group">
+			<label class="control-label">附件：</label>
+			<div class="controls">
+				<form:hidden id="fax" path="fax" htmlEscape="false" />
+				<sys:ckfinder input="fax" type="files" uploadPath="/office/fax" selectMultiple="true"/>
+		</div>
+		</div>
+	</c:if>
 	<c:if test="${empty office.id}">
 		<div class="control-group">
 			<label class="control-label">快速添加下级部门:</label>

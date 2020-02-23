@@ -119,7 +119,7 @@ public class OfficeController extends BaseController {
 		//根据ID获取部门类别，set进去
 		if (office.getParent()!=null && office.getParent().getId()!=null && StringUtils.isNotBlank(office.getParent().getId())){
 			Office office1=UserUtils.getOfficeId(office.getParent().getId());
-			office.setOfficeType(office1.getOfficeType());
+			office.setOfficeType(office1!=null ? office1.getOfficeType() :office.getOfficeType());
 		}
 //		if (!beanValidator(model, office)){
 //			return form(office, model,request);

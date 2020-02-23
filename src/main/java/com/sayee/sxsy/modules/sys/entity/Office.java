@@ -47,6 +47,13 @@ public class Office extends TreeEntity<Office> {
 	private String isInsured;		//是否参保
 	private String insuredTime;		//参保时间
 	private String insuredEndTime;		//参保结束时间
+	private String beds;		//参保结束时间
+	private String legalRepresentative;		//法定代表人
+	private String representPhone;		//法定人联系电话
+	private String directorCharge;		//分管院长
+	private String directorPhone;		//分管院长电话
+	private String disputeHead;		//医务科/纠纷办负责人
+	private String disputePhone;		//纠纷办负责人电话
 
 
 	public String getName1() { return name1; }
@@ -107,6 +114,62 @@ public class Office extends TreeEntity<Office> {
 
 	public void setInsuredEndTime(String insuredEndTime) {
 		this.insuredEndTime = insuredEndTime;
+	}
+
+	public String getBeds() {
+		return beds;
+	}
+
+	public void setBeds(String beds) {
+		this.beds = beds;
+	}
+
+	public String getLegalRepresentative() {
+		return legalRepresentative;
+	}
+
+	public void setLegalRepresentative(String legalRepresentative) {
+		this.legalRepresentative = legalRepresentative;
+	}
+
+	public String getRepresentPhone() {
+		return representPhone;
+	}
+
+	public void setRepresentPhone(String representPhone) {
+		this.representPhone = representPhone;
+	}
+
+	public String getDirectorCharge() {
+		return directorCharge;
+	}
+
+	public void setDirectorCharge(String directorCharge) {
+		this.directorCharge = directorCharge;
+	}
+
+	public String getDirectorPhone() {
+		return directorPhone;
+	}
+
+	public void setDirectorPhone(String directorPhone) {
+		this.directorPhone = directorPhone;
+	}
+
+	public String getDisputeHead() {
+		return disputeHead;
+	}
+
+	public void setDisputeHead(String disputeHead) {
+		this.disputeHead = disputeHead;
+	}
+
+	public String getDisputePhone() {
+		return disputePhone;
+	}
+
+	public void setDisputePhone(String disputePhone) {
+		this.disputePhone = disputePhone;
 	}
 
 	public Office(){

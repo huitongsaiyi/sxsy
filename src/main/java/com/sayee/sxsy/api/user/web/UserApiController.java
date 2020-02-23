@@ -127,7 +127,7 @@ public class UserApiController{
                 int complaintToYtwCount=0;
                 int complaintCount=0;
                 int complaintToOthersCount=0;
-                List<ComplaintApi> dataList3=mediateApiService.getComplaintList(wechatUserId);
+                List<ComplaintApi> dataList3=mediateApiService.complaintListForHos(wechatUserId);
                 for(int i=0;i<dataList3.size();i++){
                     String handleWay=dataList3.get(i).getHandleWay();
                     if(handleWay.equals("2")){
@@ -211,7 +211,7 @@ public class UserApiController{
             int complaintToYtwCount=0;
             int complaintCount=0;
             int complaintToOthersCount=0;
-            List<ComplaintApi> dataList3=mediateApiService.getComplaintList(wechatUserId);
+            List<ComplaintApi> dataList3=mediateApiService.complaintListForHos(wechatUserId);
             for(int i=0;i<dataList3.size();i++){
                 String handleWay=dataList3.get(i).getHandleWay();
                 if(handleWay.equals("2")){
