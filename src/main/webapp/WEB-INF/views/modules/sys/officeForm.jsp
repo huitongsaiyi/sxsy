@@ -106,7 +106,7 @@
 			<div class="control-group">
 				<label class="control-label">保险公司:</label>
 				<div class="controls">
-					<form:select path="insuranceCompany">
+					<form:select path="insuranceCompany" class="input-medium">
 						<form:options items="${fns:getDictList('sys_office_form')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 					</form:select>
 				</div>
