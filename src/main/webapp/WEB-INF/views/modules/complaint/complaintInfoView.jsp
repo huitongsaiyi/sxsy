@@ -13,17 +13,39 @@
             next(value);
         });
         function next(value) {
+            var name='${fns:getUser().company.officeType}';
+            if(name=='2'){//医院
+                $("#pass").hide();
+                $("#result").hide();
+                $("#yq").hide();
+                $("#method").hide();
+            }else{
+                $("#pass").show();
+                $("#result").show();
+                $("#yq").show();
+                $("#method").show();
+            }
 
-            if (value == 1) {
-                $("<td id='shiftBody' class='tit'>转办科室:</td>").insertAfter("#handleWay");
+
+            if(value==1){
+                $("<td id='shiftBody' class='tit'>转办科室：</td>").insertAfter("#handleWay");
                 $("#shiftHandle").show();
+                $("#statusBody").remove();
+                $("#statusHandle").hide();
                 // document.getElementById("shiftHead").style.display="inline";
                 // document.getElementById("shiftHandle").style.display="inline";
-            } else {
+            }else  if(value==0){
+                $("#shiftBody").remove();
+                $("#shiftHandle").hide();
+                $("<td id='statusBody' class='tit'>状态：</td>").insertAfter("#handleWay");
+                $("#statusHandle").show();
+            }else{
                 $("#shiftBody").remove();
                 $("#shiftHandle").hide();
                 // document.getElementById("shiftHead").style.display="none";
                 // document.getElementById("shiftHandle").style.display="none";
+                $("#statusBody").remove();
+                $("#statusHandle").hide();
             }
         }
     </script>
@@ -221,26 +243,49 @@
                         转办处理
                     </c:when>
                     <c:when test="${complaintInfo.handleWay == '2'}">
-                        转调解处理
+                        转医调委
+                    </c:when>
+                    <c:when test="${complaintInfo.handleWay == '3'}">
+                        法院诉讼
+                    </c:when>
+                    <c:when test="${complaintInfo.handleWay == '4'}">
+                        行政调解
                     </c:when>
                 </c:choose>
             </td>
             <td id="shiftHandle">
-                        ${fns:getDictLabel(complaintInfo.shiftHandle, 'department', '未知')}
+                            ${fns:getDictLabel(complaintInfo.shiftHandle, 'department','' )}
             </td>
+
+            <td id="statusHandle">
+                <c:choose>
+                    <c:when test="${complaintInfo.status == '0'}">
+                        处理中
+                    </c:when>
+                    <c:when test="${complaintInfo.status == '1'}">
+                        协调中
+                    </c:when>
+                    <c:when test="${complaintInfo.status == '2'}">
+                        结案
+                    </c:when>
+                </c:choose>
+            </td>
+
+
         </tr>
-        <tr>
+        <c:if test="${complaintInfo.handleWay != '2'}"><tr>
             <td class="tit"><font color="red">*</font>处理经过</td>
             <td colspan="3">
                     ${complaintInfo.handlePass}
             </td>
         </tr>
-        <tr>
-            <td class="tit"><font color="red">*</font>处理结果</td>
-            <td colspan="3">
-                    ${complaintInfo.handleResult}
-            </td>
-        </tr>
+            <tr>
+                <td class="tit"><font color="red">*</font>处理结果</td>
+                <td colspan="3">
+                        ${complaintInfo.handleResult}
+                </td>
+            </tr>
+        </c:if>
         <tr>
             <td class="tit"><font color="red">*</font>接待人员：</td>
             <td>

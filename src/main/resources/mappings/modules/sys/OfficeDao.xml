@@ -28,6 +28,7 @@
 		a.del_flag,
 		a.policy_number AS "policyNumber",
 		a.is_insured AS "isInsured",
+		a.insurance_company AS "insuranceCompany",
 		a.insured_time AS "insuredTime",
 		a.insured_end_time AS "insuredEndTime",
 		a.beds AS "beds",
@@ -145,6 +146,7 @@
 			deputy_person,
 			policy_number,
 			is_insured,
+			insurance_company,
 			insured_time,
 			beds,
 			legal_representative,
@@ -183,6 +185,7 @@
 			#{deputyPerson.id},
 			#{policyNumber},
 			#{isInsured},
+			#{insuranceCompany},
 			#{insuredTime},
 			#{beds},
 			#{legalRepresentative},
@@ -220,6 +223,7 @@
 			deputy_person=#{deputyPerson.id},
 			policy_number=#{policyNumber},
 			is_insured=#{isInsured},
+			insurance_company=#{insuranceCompany},
 			insured_time=#{insuredTime},
 			beds=#{beds},
 			legal_representative=#{legalRepresentative},
@@ -261,7 +265,8 @@
 		SELECT  id ,
 		hospital_grade AS "hospitalGrade"
 		FROM `SYS_OFFICE`
-		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) = #{name}
+		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) = #{name} and del_flag =0
+		GROUP BY name
 	</select>
 
     <!--根据部门名称获得部门主键，like sql-->
@@ -269,7 +274,8 @@
 		SELECT  id ,
 		hospital_grade AS "hospitalGrade"
 		FROM `SYS_OFFICE`
-		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) LIKE CONCAT('%,', #{name}, ',%')
+		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) LIKE CONCAT('%,', #{name}, ',%') and del_flag =0
+		GROUP BY name
 	</select>
 
 	<!--根据部门主键获得部门OFFICE-->

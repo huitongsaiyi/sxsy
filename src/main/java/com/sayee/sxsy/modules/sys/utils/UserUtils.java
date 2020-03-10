@@ -154,6 +154,19 @@ public class UserUtils {
 	}
 
 	/**
+	 * 根据区域id获取区域实体类
+	 * @param id
+	 * @return 取不到返回null
+	 */
+	public static Area getArea(String id){
+		Area area = areaDao.get(id);
+			if (area == null){
+				return null;
+			}
+		return area;
+	}
+
+	/**
 	 * 清除当前用户缓存
 	 */
 	public static void clearCache(){
@@ -264,7 +277,7 @@ public class UserUtils {
 	 */
 	public static List<Office> getOfficeList(){
 		@SuppressWarnings("unchecked")
-		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_LIST);
+		List<Office> officeList = null;
 		if (officeList == null){
 			User user = getUser();
 			if (user.isAdmin()){

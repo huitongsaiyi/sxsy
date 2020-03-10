@@ -6,9 +6,10 @@
     <meta name="decorator" content="default"/>
     <script src="${ctxStatic}/bootstrap/colResizable-1.6.min.js"></script>
     <script src="${ctxStatic}/bootstrap/bootstrap-table-resizable.js"></script>
+    <script src="${ctxStatic}/bootstrap/bootstrap-table-all.js"></script>
+    <script src="${ctxStatic}/bootstrap/bootstrap-table-zh-CN.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
             $("#contentTable").colResizable({
                 liveDrag:true,//拖动列时更新表布局
                 gripInnerHtml:"<div class='grip'></div>",
@@ -40,8 +41,18 @@
             $("#searchForm").submit();
             return false;
         }
+        var flag=true;
+        function show() {
+            if(flag==true){
+                $("#style").attr('disabled','disabled');
+                flag=false;
+            }else{
+                $("#style").removeAttr('disabled');
+                flag=true;
+            }
+        }
     </script>
-    <style type="text/css">
+    <style id="style" type="text/css">
         #contentTable {
             width: 400em;
             table-layout: fixed;
@@ -102,11 +113,11 @@
     </shiro:hasPermission>
 </ul>
 <form:form id="searchForm" modelAttribute="machineAccount" action="${ctx}/machine/machineAccount/" method="post"
+           onsubmit="loading('正在查询，请稍等...');"
            class="breadcrumb form-search">
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
-    <span class="dropdown-toggle" data-toggle="dropdown" data-target="#" >触发器</span>
     <ul class="ul-form">
         <li><label>报案时间：</label>
             <input id="reportingTime" name="reportingTime" type="text" readonly="readonly" maxlength="20"
@@ -122,13 +133,13 @@
         <li><label>部门：</label>
             <sys:treeselect id="deptId" name="deptId" value="${machineAccount.deptId}" labelName="office.name"
                             labelValue="${machineAccount.office.name}"
-                            title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true"
+                            title="部门" url="/sys/office/treeData?type=2&officeType=1" cssClass="input-small" allowClear="true"
                             notAllowSelectParent="true"/>
         </li>
         <li><label>调解员：</label>
             <sys:treeselect id="mediatorId" name="mediatorId" value="${machineAccount.mediatorId}" labelName="user.name"
                             labelValue="${machineAccount.user.name}"
-                            title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="false"
+                            title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-small" allowClear="false"
                             notAllowSelectParent="true"/>
         </li>
         <li><label>医院名称：</label>
@@ -158,13 +169,18 @@
     </ul>
 </form:form>
 <sys:message content="${message}"/>
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
+<table id="contentTable" class="table table-striped table-bordered table-condensed" data-toggle="table" data-url="./complaintMainDetail" data-method="post"
+       data-show-columns="true"
+       data-buttons-align="left"
+       data-show-toggle="true"
+       ontoggle="show()"
+>
     <thead>
     <tr>
         <th class="sort-column a.case_number">案件编号</th>
         <th class="sort-column case_situation">案件情况</th>
-        <th class="sort-column area_id">所属地区</th>
-        <th class="sort-column dept_id">所属部门</th>
+        <th class="sort-column a.area_id">所属地区</th>
+        <th class="sort-column a.dept_id">所属部门</th>
         <th class="sort-column mediator_id">调解员</th>
         <th class="sort-column patient_name">患者名称</th>
         <th class="sort-column hospital_id">涉及医院</th>
@@ -218,7 +234,7 @@
         <th class="sort-column a.update_by">更新人</th>
         <th width="150" class="sort-column a.update_date">修改时间</th>
         <shiro:hasPermission name="machine:machineAccount:edit">
-            <th>操作</th>
+            <th data-switchable="false">操作</th>
         </shiro:hasPermission>
     </tr>
     </thead>
@@ -246,7 +262,10 @@
             </c:choose>
 
             <td>
+                ${machineAccount.area.name}
+<%--
                     ${empty fns:getOfficeId(machineAccount.hospitalId).area.name  ? fns:officeId(machineAccount.hospitalId).area.name : fns:getOfficeId(machineAccount.hospitalId).area.name}
+--%>
             </td>
             <td>
                 <c:choose>
@@ -260,12 +279,11 @@
                         ${machineAccount.office.name}
                     </c:otherwise>
                 </c:choose>
-                    <%--${fns:getUserById(machineAccount.createBy.id).office.name}--%>
             </td>
             <td>
                 <c:choose>
                     <c:when test="${ empty machineAccount.mediatorId }">
-                        ${fns:getUserById(machineAccount.createBy.id).name}
+                        ${machineAccount.createBy.name}
                     </c:when>
                     <c:when test="${ empty machineAccount.user.name }">
                         ${machineAccount.mediatorId}
@@ -274,7 +292,6 @@
                         ${machineAccount.user.name}
                     </c:otherwise>
                 </c:choose>
-                    <%--${fns:getUserById(machineAccount.createBy.id).name}--%>
             </td>
             <td>
                     ${machineAccount.patientName}
@@ -347,7 +364,8 @@
                     ${machineAccount.acceptanceTime}
             </td>
             <td>
-                    ${machineAccount.eighteenItems}
+                ${machineAccount.eighteenItems}
+                    <%--${fns:getDictLabel(machineAccount.eighteenItems,'eighteen_items','未知')}--%>
             </td>
 
             <td>
@@ -357,10 +375,12 @@
                     ${machineAccount.assessTime}
             </td>
             <td>
-                    ${machineAccount.host}
+                    ${machineAccount.hostUser.name}
+                    <%--${fns:getUserById(machineAccount.host).name}--%>
             </td>
             <td>
-                    ${machineAccount.clerk}
+                    ${machineAccount.clerkUser.name}
+                    <%--${fns:getUserById(machineAccount.clerk).name}--%>
             </td>
             <td>
                     ${machineAccount.medicalExpert}
@@ -385,8 +405,11 @@
                     <c:when test="${machineAccount.mediateResult eq 2}">
                         终止
                     </c:when>
-                    <c:otherwise>
+                    <c:when test="${machineAccount.mediateResult eq 3}">
                         销案
+                    </c:when>
+                    <c:otherwise>
+
                     </c:otherwise>
                 </c:choose>
             </td>

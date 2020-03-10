@@ -176,7 +176,7 @@
 					<tr >
 						<td class="tit" width="160px"><font color="red">*</font>涉及医院：</td>
 						<td width="476px">
-							<sys:treeselect id="involveHospital" name="involveHospital" value="${complaintInfo.involveHospital}" labelName="hospitalName" labelValue="${complaintInfo.hospitalName}"
+							<sys:treeselect id="involveHospital" name="involveHospital" value="${not empty fns:getUser().company.officeType and  fns:getUser().company.officeType=='2' and empty complaintInfo.involveHospital ? fns:getUser().office.id : complaintInfo.involveHospital}" labelName="hospitalName" labelValue="${not empty fns:getUser().company.officeType and  fns:getUser().company.officeType=='2' and empty complaintInfo.involveHospital ? fns:getUser().office.name :  complaintInfo.hospitalName}"
 											title="机构" url="/sys/office/treeData?type=1&officeType=2" isAll="true" cssClass="required" dataMsgRequired="请选择医院" allowClear="true" notAllowSelectParent="false"/>
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>涉及科室：</td>
@@ -292,8 +292,9 @@
 				<form:select path="handleWay" style='width:110px;text-align: center;' onchange="next(this.value)">
 					<form:option value="0">当面处理</form:option>
 					<form:option value="1">转办处理</form:option>
-					<form:option value="2">转调解处理</form:option>
-					<form:option value="3">诉讼</form:option>
+					<form:option value="2">转医调委</form:option>
+					<form:option value="3">法院诉讼</form:option>
+					<form:option value="4">行政调解</form:option>
 				</form:select>
 			</td>
 			<td id="shiftHandle">

@@ -184,12 +184,12 @@ public class OfficeController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, @RequestParam(required=false) String type,
-											  @RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll,@RequestParam(required=false) String officeType,@RequestParam(required=false) String pid,@RequestParam(required=false) String next, HttpServletResponse response) {
+											  @RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll,@RequestParam(required=false) String officeType,@RequestParam(required=false) String officeTypes,@RequestParam(required=false) String pid,@RequestParam(required=false) String next, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<Office> list = officeService.findList(isAll);
 		for (int i=0; i<list.size(); i++){
 			Office e = list.get(i);
-			System.out.println(e.getParent().getName());
+			System.out.println(e.getName());
 			if ((StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
 					&& (type == null || (type != null && (type.equals("1") ? type.equals(e.getType()) : true)))
 					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))
@@ -206,7 +206,7 @@ public class OfficeController extends BaseController {
 						map.put("isParent", true);
 					}
 					mapList.add(map);
-				}else if(officeType !=null && officeType.equals(e.getOfficeType()) && (next == null || StringUtils.isBlank(next))){
+				}else if((officeType !=null || officeTypes!=null)  && (officeType.equals(e.getOfficeType()) || (StringUtils.isBlank(officeTypes) ? "" :officeTypes).equals(e.getOfficeType())) && (next == null || StringUtils.isBlank(next))){
 					Map<String, Object> map = Maps.newHashMap();
 					map.put("id", e.getId());
 					map.put("pId", e.getParentId());

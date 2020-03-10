@@ -11,7 +11,7 @@
 		a.patient_name AS "patientName",
 		a.hospital_id AS "hospitalId",
 		a.major AS "major",
-		a.insurance_company AS "insuranceCompany",
+		if(ss.`LABEL` is not null,ss.`LABEL`,a.insurance_company) AS "insuranceCompany",
 		a.policy_number AS "policyNumber",
 		a.start_insurance_time AS "startInsuranceTime",
 		a.disputes_time AS "disputesTime",
@@ -41,10 +41,10 @@
 		if(a.case_number IS NULL,c.case_number,a.case_number) as "caseNumber",
 		a.case_situation AS "caseSituation",
 		a.area_id as "areaId",
-		a.hospital_grade as "hospitalGrade",
+		sd.LABEL as "hospitalGrade",
 		a.is_media as "isMedia",
 		a.acceptance_time as "acceptanceTime",
-		a.eighteen_items as "eighteenItems",
+		s.LABEL as "eighteenItems",
 		a.meeting_frequency as "meetingFrequency",
 		a.host as "host",
 		a.clerk as "clerk",
@@ -70,7 +70,10 @@
 		u4.name AS "user.name",
 		u5.name AS "createBy.name",
 		u6.name AS "updateBy.name",
+		u7.name AS "hostUser.name",
+		u8.name AS "clerkUser.name",
 		o4.name AS "hospital.name",
+		ar.name as "area.name",
 		tt.name AS "relatedName",
 		t.NAME_ AS "nodeName"
 	</sql>
@@ -81,7 +84,13 @@
 		LEFT JOIN SYS_USER u4 ON u4.id = a.mediator_id
 		LEFT JOIN SYS_USER u5 ON u5.id = a.create_by
 		LEFT JOIN SYS_USER u6 ON u6.id = a.update_by
+		LEFT JOIN SYS_USER u7 ON u7.id = a.host
+		LEFT JOIN SYS_USER u8 ON u8.id = a.CLERK
 		LEFT JOIN SYS_OFFICE o4 ON o4.id = a.hospital_id
+		LEFT JOIN SYS_DICT sd on o4.HOSPITAL_GRADE=sd.value  and sd.TYPE='hospital_grade'
+		LEFT JOIN SYS_DICT s on a.eighteen_items=s.value  and s.TYPE='eighteen_items'
+		LEFT JOIN SYS_DICT ss on a.INSURANCE_COMPANY=ss.value  and ss.TYPE='sys_office_form'
+		LEFT JOIN SYS_AREA ar ON ar.id=o4.AREA_ID
 		LEFT JOIN COMPLAINT_MAIN c on c.complaint_main_id=a.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=c.PROC_INS_ID
 	</sql>
@@ -143,6 +152,9 @@
 				<if test="dbName == 'mssql'">'%'+#{fileNumber}+'%'</if>
 				<if test="dbName == 'mysql'">concat('%',#{fileNumber},'%')</if>
 			</if>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND ar.id = #{area.id}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -170,6 +182,17 @@
 				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
+	</select>
+
+	<select id="findPageCount" resultType="Long">
+		SELECT count(1)
+		FROM MACHINE_ACCOUNT a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="reportingTime != null and reportingTime != '' or  endReportingTime != null and endReportingTime != ''">
+				AND (a.reporting_time BETWEEN #{reportingTime} AND #{endReportingTime})
+			</if>
+		</where>
 	</select>
 
 	<insert id="insert">

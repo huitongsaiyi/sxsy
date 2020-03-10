@@ -190,10 +190,13 @@
                         转办处理
                     </c:if>
 					<c:if test="${complaintInfo.handleWay eq 2}">
-                        转调解处理
+						转医调委
 					</c:if>
                     <c:if test="${complaintInfo.handleWay eq 3}">
-                        诉讼
+						法院诉讼
+                    </c:if>
+					<c:if test="${complaintInfo.handleWay eq 4}">
+						行政调解
                     </c:if>
 
 				</td>

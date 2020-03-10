@@ -32,7 +32,8 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="oaNotify" action="${ctx}/oa/oaNotify/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>	
+		<sys:message content="${message}"/>
+		<c:if test="${oaNotify.status ne '1'}">
 		<div class="control-group">
 			<label class="control-label">类型：</label>
 			<div class="controls">
@@ -57,6 +58,7 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
+		</c:if>
 		<div class="control-group">
 			<label class="control-label">内容：</label>
 			<div class="controls">
@@ -84,7 +86,7 @@
 				<label class="control-label">接受人：</label>
 				<div class="controls">
 	                <sys:treeselect id="oaNotifyRecord" name="oaNotifyRecordIds" value="${oaNotify.oaNotifyRecordIds}" labelName="oaNotifyRecordNames" labelValue="${oaNotify.oaNotifyRecordNames}"
-						title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-xxlarge required" notAllowSelectParent="true" checked="true"/>
+						title="用户" url="/sys/office/treeData?type=3&officeType=1&officeTypes=3" cssClass="input-xxlarge required" notAllowSelectParent="true" checked="true"/>
 					<span class="help-inline"><font color="red">*</font> </span>
 				</div>
 			</div>
@@ -97,7 +99,7 @@
 					<sys:ckfinder input="files" type="files" uploadPath="/oa/notify" selectMultiple="true" readonly="true" />
 				</div>
 			</div>
-			<div class="control-group">
+			<%--<div class="control-group">
 				<label class="control-label">接受人：</label>
 				<div class="controls">
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
@@ -130,7 +132,7 @@
 					</table>
 					已查阅：${oaNotify.readNum} &nbsp; 未查阅：${oaNotify.unReadNum} &nbsp; 总共：${oaNotify.readNum + oaNotify.unReadNum}
 				</div>
-			</div>
+			</div>--%>
 		</c:if>
 		<div class="form-actions">
 			<c:if test="${oaNotify.status ne '1'}">
