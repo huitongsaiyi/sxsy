@@ -5,7 +5,7 @@
     <meta http-equiv= "Content-Type" content="text/html; charset=utf-8" >
     <title>首页</title>
 </head>
-
+<script src="${ctxStatic}/common/jeesite.js" type="text/javascript"></script>
 <link href="${ctxStatic}/index/files/styles.css" type="text/css" rel="stylesheet"/>
 <link href="${ctxStatic}/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
 
@@ -134,11 +134,11 @@
         <script>
             var md = document.getElementById("myData");
             md.onclick=function(){
-                window.location.href="${ctx}/complaintmain/complaintMain/self";
+                addTabPage('我的案件','${ctx}/complaintmain/complaintMain/self');
             }
             var notify = document.getElementById("notify");
             notify.onclick=function(){
-                window.location.href="${ctx}/oa/oaNotify/self";
+                addTabPage('我的通知','${ctx}/oa/oaNotify/self');
             }
             var tool = document.getElementById("tool");
             var s = document.getElementById("study");
