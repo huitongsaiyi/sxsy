@@ -28,7 +28,6 @@
 		a.del_flag,
 		a.policy_number AS "policyNumber",
 		a.is_insured AS "isInsured",
-		a.insurance_company AS "insuranceCompany",
 		a.insured_time AS "insuredTime",
 		a.insured_end_time AS "insuredEndTime",
 		a.beds AS "beds",
@@ -84,7 +83,9 @@
 		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-
+		<if test="area!=null and area.areaId!=null and area.areaId!=''">
+			AND a.area_id in (SELECT id FROM sys_area WHERE PARENT_ID LIKE CONCAT('%', #{area.areaId}, '%') or id= #{area.areaId})
+		</if>
 		ORDER BY a.code
 	</select>
 
@@ -94,9 +95,26 @@
 		FROM SYS_OFFICE a
 		<include refid="officeJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
-		<if test="area!=null and area.id!=null and area.id!=''">
-			AND a.area_id LIKE CONCAT('%', #{area.id}, '%')
+		<if test="area!=null and area.areaId!=null and area.areaId!=''">
+			AND a.area_id in (SELECT id FROM sys_area WHERE PARENT_ID LIKE CONCAT('%', #{area.areaId}, '%') or id= #{area.areaId})
 		</if>
+		<if test="name!=null and name!=''">
+			AND a.name LIKE CONCAT('%', #{name}, '%')
+		</if>
+		<if test="area.name!=null and area.name!=''">
+			AND ar.name LIKE CONCAT('%', #{area.name}, '%')
+
+		</if>
+		ORDER BY a.code
+	</select>
+
+	<select id="rootFindByParentIdsLike" resultType="Office">
+		SELECT
+		<include refid="officeColumns"/>
+		FROM SYS_OFFICE a
+		<include refid="officeJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds} AND a.office_type= #{officeType}
+
 		<if test="name!=null and name!=''">
 			AND a.name LIKE CONCAT('%', #{name}, '%')
 		</if>
@@ -146,7 +164,6 @@
 			deputy_person,
 			policy_number,
 			is_insured,
-			insurance_company,
 			insured_time,
 			beds,
 			legal_representative,
@@ -185,7 +202,6 @@
 			#{deputyPerson.id},
 			#{policyNumber},
 			#{isInsured},
-			#{insuranceCompany},
 			#{insuredTime},
 			#{beds},
 			#{legalRepresentative},
@@ -223,7 +239,6 @@
 			deputy_person=#{deputyPerson.id},
 			policy_number=#{policyNumber},
 			is_insured=#{isInsured},
-			insurance_company=#{insuranceCompany},
 			insured_time=#{insuredTime},
 			beds=#{beds},
 			legal_representative=#{legalRepresentative},
@@ -265,8 +280,7 @@
 		SELECT  id ,
 		hospital_grade AS "hospitalGrade"
 		FROM `SYS_OFFICE`
-		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) = #{name} and del_flag =0
-		GROUP BY name
+		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) = #{name}
 	</select>
 
     <!--根据部门名称获得部门主键，like sql-->
@@ -274,8 +288,7 @@
 		SELECT  id ,
 		hospital_grade AS "hospitalGrade"
 		FROM `SYS_OFFICE`
-		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) LIKE CONCAT('%,', #{name}, ',%') and del_flag =0
-		GROUP BY name
+		WHERE  trim( trim( BOTH '\r\n' FROM name ) ) LIKE CONCAT('%,', #{name}, ',%')
 	</select>
 
 	<!--根据部门主键获得部门OFFICE-->

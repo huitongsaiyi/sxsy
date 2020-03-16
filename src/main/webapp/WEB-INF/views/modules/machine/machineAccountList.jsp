@@ -34,7 +34,6 @@
                 });
             });
         });
-
         function page(n, s) {
             $("#pageNo").val(n);
             $("#pageSize").val(s);
@@ -57,19 +56,16 @@
             width: 400em;
             table-layout: fixed;
         }
-
         #contentTable th {
             text-align: center; /** 设置水平方向居中 */
             vertical-align: middle; /** 设置垂直方向居中 */
         }
-
         #contentTable td {
             word-break: keep-all; /* 不换行 */
             white-space: nowrap; /* 不换行 */
             overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
             text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
         }
-
         #contentTable th:nth-of-type(23) {
             width: 10em;
         }
@@ -244,8 +240,10 @@
         </shiro:hasPermission>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="as">
     <c:forEach items="${page.list}" var="machineAccount">
+        <c:choose>
+        <c:when test="${fn:contains(office,machineAccount.office.name)}">
         <tr>
 
             <td>
@@ -268,10 +266,10 @@
             </c:choose>
 
             <td>
-                ${machineAccount.area.name}
-<%--
-                    ${empty fns:getOfficeId(machineAccount.hospitalId).area.name  ? fns:officeId(machineAccount.hospitalId).area.name : fns:getOfficeId(machineAccount.hospitalId).area.name}
---%>
+                    ${machineAccount.area.name}
+                    <%--
+                                        ${empty fns:getOfficeId(machineAccount.hospitalId).area.name  ? fns:officeId(machineAccount.hospitalId).area.name : fns:getOfficeId(machineAccount.hospitalId).area.name}
+                    --%>
             </td>
             <td>
                 <c:choose>
@@ -370,7 +368,7 @@
                     ${machineAccount.acceptanceTime}
             </td>
             <td>
-                ${machineAccount.eighteenItems}
+                    ${machineAccount.eighteenItems}
                     <%--${fns:getDictLabel(machineAccount.eighteenItems,'eighteen_items','未知')}--%>
             </td>
 
@@ -498,6 +496,11 @@
                 </td>
             </shiro:hasPermission>
         </tr>
+        </c:when>
+            <c:otherwise>
+                ${page=null}
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
     </tbody>
 </table>

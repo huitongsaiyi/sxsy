@@ -218,6 +218,12 @@
 						<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">处理</a>
 						<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.complaintId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
 					</c:if>
+					<c:if test="${node eq 'sjy'}">
+						<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}&type=view&node=${node}">审核</a>
+					</c:if>
+					<c:if test="${node eq 'fpy'}">
+						<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}&type=view&node=${node}">分配</a>
+					</c:if>
 					<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>

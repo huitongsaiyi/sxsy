@@ -154,19 +154,6 @@ public class UserUtils {
 	}
 
 	/**
-	 * 根据区域id获取区域实体类
-	 * @param id
-	 * @return 取不到返回null
-	 */
-	public static Area getArea(String id){
-		Area area = areaDao.get(id);
-			if (area == null){
-				return null;
-			}
-		return area;
-	}
-
-	/**
 	 * 清除当前用户缓存
 	 */
 	public static void clearCache(){
@@ -277,7 +264,7 @@ public class UserUtils {
 	 */
 	public static List<Office> getOfficeList(){
 		@SuppressWarnings("unchecked")
-		List<Office> officeList = null;
+		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_LIST);
 		if (officeList == null){
 			User user = getUser();
 			if (user.isAdmin()){
@@ -302,7 +289,11 @@ public class UserUtils {
 		@SuppressWarnings("unchecked")
 		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_ALL_LIST);
 		if (officeList == null){
-			officeList = officeDao.findAllList(new Office());
+			Office office = new Office();
+			String areaId = UserUtils.getUser().getCompany().getArea().getId();
+			office.setArea(new Area());
+			office.getArea().setAreaId(areaId);
+			officeList = officeDao.findAllList(office);
 		}
 		return officeList;
 	}

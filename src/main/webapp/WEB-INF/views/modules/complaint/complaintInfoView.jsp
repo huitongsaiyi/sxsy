@@ -6,6 +6,23 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#inputForm").validate({
+                submitHandler: function(form){
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function(error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+
             var value='${complaintInfo.handleWay}';
             if(value==''){
                 value = 0;
@@ -51,10 +68,18 @@
     </script>
 </head>
 <body>
-<form:form class="form-horizontal">
+<form:form class="form-horizontal" id="inputForm" modelAttribute="complaintInfo" action="${ctx}/complaint/complaintInfo/audit?node=${node}" method="post">
     <input type="hidden" id="flag" name="flag"/>
+    <input type="hidden" id="status" name="status"/>
+    <form:hidden path="complaintMainId"/>
+    <form:hidden path="complaintMain.complaintMainId"/>
+    <form:hidden path="complaintMain.act.taskId"/>
+    <form:hidden path="complaintMain.act.taskName"/>
+    <form:hidden path="complaintMain.act.taskDefKey"/>
+    <form:hidden path="complaintMain.act.procInsId"/>
+    <form:hidden path="complaintMain.act.procDefId"/>
     <sys:message content="${message}"/>
-<fieldset>
+<br>
     <legend>医院投诉接待详情</legend>
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
@@ -319,12 +344,27 @@
             </td>
         </tr>
     </table>
+</br>
+    <table class="table-form">
+        <div class="control-group">
+            <label class="control-label">回复内容:</label>
+            <div class="controls">
+                <form:textarea path="complaintMain.act.comment" htmlEscape="false" rows="4" maxlength="200" class="required input-xxlarge"/>
+            </div>
+        </div>
+    </table>
 </fieldset>
+
     <c:if test="${empty show2}">
         <div class="form-actions">
+            <c:if test="${node eq 'sjy' }">
+                <input id="btnSubmit" class="btn btn-success" type="submit" value="通 过" onclick="$('#status').val('0')"/>&nbsp;
+                <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#status').val('1')"/>&nbsp;
+            </c:if>
             <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>
     </c:if>
+    <act:histoicFlow procInsId="${complaintInfo.complaintMain.procInsId}"/>
 </form:form>
 </body>
 </html>
