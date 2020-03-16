@@ -78,6 +78,8 @@
     <form:hidden path="complaintMain.act.taskDefKey"/>
     <form:hidden path="complaintMain.act.procInsId"/>
     <form:hidden path="complaintMain.act.procDefId"/>
+    <form:hidden path="createBy.id" />
+    <form:hidden path="createBy.loginName" />
     <sys:message content="${message}"/>
 <br>
     <legend>医院投诉接待详情</legend>

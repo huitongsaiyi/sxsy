@@ -419,8 +419,8 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
                 }
             }else {//驳回
                 var.put("pass","0");
-                User assigness=UserUtils.get(complaintInfo.getCreateBy().getLoginName());//驳回给 创建人
-                var.put("enrollment_user",assigness.getLoginName());
+                //驳回给 创建人
+                var.put("enrollment_user",complaintInfo.getCreateBy().getLoginName());
             }
         }else {//分配员  分配案件给调解员  进入审核受理
             var.put("pass","0");
