@@ -38,6 +38,7 @@
 		a.create_by AS "createBy.id",
 		u3.name AS "createBy.name",
 		u3.login_name AS "createBy.loginName",
+		r.report_registration_id AS "reportRegistration.reportRegistrationId",
 		r.dispute_time AS "reportRegistration.disputeTime",
 		r.policy_number AS "reportRegistration.policyNumber",
 		r.report_emp AS "reportRegistration.reportEmp",
