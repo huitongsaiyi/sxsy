@@ -212,7 +212,7 @@
                 </td>
                 <td>
                         ${complaintInfo.createBy.name}
-                </td>${ complaintInfo.complaintMain.act.assigneeName}
+                </td>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><td>
 					<c:if test="${complaintInfo.complaintMain.act.taskDefKey eq 'enrollment' or (complaintInfo.createBy.id eq fns:getUser().id and empty complaintInfo.complaintMain.procInsId)}">
 						<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">处理</a>
