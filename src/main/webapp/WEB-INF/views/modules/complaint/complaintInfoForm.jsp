@@ -275,13 +275,53 @@
         }
 
 		function involveHospitalTreeselectCallBack(v, h, f){
-
         	$("#hospitalName").text($("#involveHospitalName").val());
         }
 
 		function involveDepartmentTreeselectCallBack(v, h, f){
 			$("#keshi").text($("#involveDepartmentName").val());
 		}
+		//访客姓名 == 报案人
+        function visitorNameTreeselectCallBack() {
+            $("#visitorName2").text($("#visitorName").val());
+        }
+        //患者 == 患者
+        function patientNameTreeselectCallBack() {
+            $("#patientName2").text($("#patientName").val());
+        }
+
+        //患者性别
+        function patientSexCallBack() {
+            var sex = $("#patientSex").val();
+            if (sex == 1){
+                $("#patientSex2").text("男");
+			}else {
+                $("#patientSex2").text("女");
+			}
+
+        }
+        //患者年龄
+        function patientAgeCallBack() {
+			$("#age").text($("#patientAge").val());
+        }
+		//访客电话 == 患方（联系电话）
+        function visitorMobileCallBack() {
+            $("#reportRegistration.patientMobile").text($("#visitorMobile").val());
+        }
+
+        //投诉纠纷概要 == 纠纷概要
+        function summaryOfDisputesCallBack() {
+            $("#summaryOfDisputes2").text($("#summaryOfDisputes").val());
+        }
+
+        // 诉求 ==  患方要求
+		function appealCallBack() {
+            $("#patientAsk").text($("#appeal").val());
+        }
+        //案件编号 == 报案号
+        function caseNumberCallBack() {
+            $("#caseNumber2").text($("#caseNumber").val());
+        }
 	</script>
 </head>
 <body>
@@ -319,7 +359,7 @@
 			<li>
 				<a href="#hospital" data-toggle="tab" onclick="sj()">涉及医院信息</a>
 			</li>
-			<li id="badj" style="display: none">
+			<li id="badj" style="display: none" >
 				<a href="#report" data-toggle="tab" onclick="baoan()">报案信息登记表</a>
 			</li>
 			<li>
@@ -333,10 +373,10 @@
 					<tr >
 						<td class="tit" width="160px"><font color="red">*</font>访客姓名：</td>
 						<td width="476px">
-							<form:input path="visitorName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+							<form:input path="visitorName" onchange="visitorNameTreeselectCallBack()"  htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 						</td>
 						<td class="tit" width="180px">访客电话：</td>
-						<td >
+						<td onchange="visitorMobileCallBack()">
 							<form:input path="visitorMobile" htmlEscape="false" maxlength="15" class="input-xlarge phone"/>
 						</td>
 					</tr>
@@ -358,11 +398,11 @@
 				<table class="table-form">
 					<tr >
 						<td class="tit" width="160px"><font color="red">*</font>患者姓名：</td>
-						<td width="476px">
-							<form:input path="patientName" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+						<td width="476px" style="font-size: 16px; text-align: center">
+							<form:input  path="patientName"  onchange ="patientNameTreeselectCallBack()"  htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 						</td>
 						<td class="tit" width="180px"><font color="red">*</font>患者性别：</td>
-						<td >
+						<td onchange="patientSexCallBack()">
 							<%--<form:input path="patientSex" htmlEscape="false" maxlength="1" class="input-xlarge "/>--%>
 							<form:select path="patientSex" class="input-medium">
 								<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -371,7 +411,7 @@
 					</tr>
 					<tr >
 						<td class="tit"><font color="red">*</font>患者年龄：</td>
-						<td >
+						<td onchange="patientAgeCallBack()">
 							<form:input path="patientAge" htmlEscape="false" class="input-xlarge required digits " maxlength="3" onchange="num(this.value)"/>
 						</td>
 					</tr>
@@ -440,27 +480,27 @@
 								<%--${reportRegistration.complaintMain.hospital.area.name}--%>
 						</td>
 						<td class="tit" width="7%"><font color="red">*</font>报案人姓名:</td>
-						<td >
+						<td id="visitorName2">
 								${complaintInfo.visitorName}
 								<%--<form:input path="reportEmp" htmlEscape="false" maxlength="32" class="input-xlarge required" cssStyle="width: 90%;height: 30px;text-align: center;font-size: 16px;"/>--%>
 						</td>
 					</tr>
 					<tr>
 						<td class="tit">患者姓名:</td>
-						<td>
+						<td id="patientName2" style="text-align: center">
 							${complaintInfo.patientName}
 								<%--<form:input path="complaintMain.patientName" readonly="true" htmlEscape="false" maxlength="20" class="input-xlarge required" cssStyle="width: 90%;height: 30px;text-align: center;font-size: 16px;"/>--%>
 						</td>
 						<td class="tit">性別:</td>
-						<td>
-							<c:choose>
-								<c:when test="${complaintInfo.patientSex eq 1}">
-									男
-								</c:when>
-								<c:otherwise>
-									女
-								</c:otherwise>
-							</c:choose>
+						<td id="patientSex2" style="text-align: center">
+							<%--<c:choose>--%>
+								<%--<c:when test="${complaintInfo.patientSex eq 1}">--%>
+									<%--男--%>
+								<%--</c:when>--%>
+								<%--<c:otherwise>--%>
+									<%--女--%>
+								<%--</c:otherwise>--%>
+							<%--</c:choose>--%>
 						</td>
 						<td class="tit">年齡:</td>
 						<td id="age" style="text-align: center;">
@@ -516,12 +556,13 @@
                         </span>
 							</p></td>
 					</tr>
-					<tr>
+					<tr >
 						<td class="tit">
 							<font color="red">*</font>纠纷概要:
 						</td>
-						<td colspan="7">
+						<td colspan="7" id="summaryOfDisputes2">
 							<input type="hidden" name="reportRegistration.summaryOfDisputes" value="${complaintInfo.summaryOfDisputes}">
+							<%--<form:textarea path="reportRegistration.summaryOfDisputes" id="summaryOfDisputes2" htmlEscape="false" class="input-xlarge required" style="margin: 0px;width: 99%;font-size: 16px;" rows="5" />--%>
 								${complaintInfo.summaryOfDisputes}
 								<%--<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required"
 								style="margin: 0px;width: 99%;font-size: 16px;" rows="15"/>--%>
@@ -568,7 +609,7 @@
 					</tr>
 					<tr>
 						<td class="tit"><font color="red">*</font>报案号:</td>
-						<td colspan="3">
+						<td colspan="3" id="caseNumber2">
 							${complaintInfo.caseNumber}
 								<%--<form:input path="complaintMain.caseNumber" htmlEscape="false" maxlength="20" class="input-xlarge required" cssStyle="width: 90%;height: 30px;border:hidden; text-align: center;" readonly="true"/>--%>
 						</td>
@@ -649,7 +690,7 @@
 		<tr >
 			<td class="tit" width="160px"><font color="red">*</font>案件编号：</td>
 			<td width="476px">
-				<form:input path="caseNumber" htmlEscape="false" maxlength="20" readonly="true" class="input-xlarge required"/>
+				<form:input path="caseNumber" onchange="caseNumberCallBack()" htmlEscape="false" maxlength="20" readonly="true" class="input-xlarge required"/>
 			</td>
 			<td class="tit" width="180px"><font color="red">*</font>来访日期：</td>
 			<td >
@@ -688,7 +729,7 @@
 		</tr>
 		<tr>
 			<td class="tit"><font color="red">*</font>投诉纠纷概要：</td>
-			<td colspan="3">
+			<td colspan="3" onchange="summaryOfDisputesCallBack()">
 				<form:textarea path="summaryOfDisputes" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
@@ -800,6 +841,5 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
-	<act:histoicFlow procInsId="${complaintInfo.complaintMain.procInsId}"/>
 </body>
 </html>
