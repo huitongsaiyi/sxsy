@@ -188,6 +188,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.case_number DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -199,7 +200,7 @@
 		<include refid="complaintInfoJoins"/>
 		INNER JOIN  SYS_OFFICE o9 ON a.involve_hospital = o9.name
 		<where>
-			o9.id = a.a.involve_hospital
+			o9.id = a.involve_hospital
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

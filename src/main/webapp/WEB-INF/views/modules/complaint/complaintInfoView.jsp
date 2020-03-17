@@ -288,6 +288,11 @@
         function caseNumberCallBack() {
             $("#caseNumber2").text($("#caseNumber").val());
         }
+
+        //所属城市
+        function area() {
+            $("#area").text()
+        }
     </script>
 </head>
 <body>
@@ -404,7 +409,9 @@
                     </td>
                     <td class="tit" width="10%">保单号:</td>
                     <td colspan="3">
-                        <form:input path="reportRegistration.policyNumber" htmlEscape="false" maxlength="255" class="input-small required" value="${empty complaintInfo.reportRegistration.policyNumber ? (empty reportRegistration.complaintMain.hospital.policyNumber ? '未参保' : reportRegistration.complaintMain.hospital.policyNumber) : reportRegistration.policyNumber}" cssStyle="width: 87%;height: 30px; text-align: center;" /></td>
+                        <%--<form:input path="reportRegistration.policyNumber" htmlEscape="false" maxlength="255" class="input-small required" value="${empty complaintInfo.reportRegistration.policyNumber ? (empty reportRegistration.complaintMain.hospital.policyNumber ? '未参保' : reportRegistration.complaintMain.hospital.policyNumber) : reportRegistration.policyNumber}" cssStyle="width: 87%;height: 30px; text-align: center;" />--%>
+                                ${empty complaintInfo.reportRegistration.policyNumber ? (empty complaintInfo.reportRegistration.complaintMain.hospital.policyNumber ? '未参保' : complaintInfo.reportRegistration.complaintMain.hospital.policyNumber) : complaintInfo.reportRegistration.policyNumber}
+                    </td>
                 </tr>
                 <tr>
                     <td class="tit"><font color="red">*</font>纠纷发生时间:</td>
@@ -421,8 +428,8 @@
                         </form:select>
                     </td>
                     <td class="tit">所属城市:</td>
-                    <td width="10%" style="text-align: center;">
-                            <%--${reportRegistration.complaintMain.hospital.area.name}--%>
+                    <td width="10%" style="text-align: center;" id="area">
+                            ${fns:getOfficeId(complaintInfo.complaintMain.involveHospital).area.name}
                     </td>
                     <td class="tit" width="7%"><font color="red">*</font>报案人姓名:</td>
                     <td id="visitorName2" style="text-align: center">
@@ -487,17 +494,20 @@
                     <td colspan="3">
                         <p style="margin:0pt; orphans:0; widows:0"><font color="red">*</font>
                             <span style="font-family:宋体; font-size:12pt; font-weight:bold">患方：</span>
-                            <span style="font-family:宋体; font-size:12pt; font-weight:bold">
-										<form:input path="reportRegistration.patientMobile" htmlEscape="false" maxlength="15" class="input-xlarge required phone" cssStyle="width: 50%;height: 30px; font-size: 16px;"/>
+                            <span style="font-family:宋体; font-size:12pt; font-weight:bold;text-align: center">
+                                            ${complaintInfo.reportRegistration.patientMobile}
+										<%--<form:input path="reportRegistration.patientMobile"  htmlEscape="false" maxlength="15" class="input-xlarge required phone" cssStyle="width: 50%;height: 30px; font-size: 16px;"/>--%>
 								</span>
                         </p>
                     </td>
                     <td colspan="4">
                         <p style="margin:0pt; orphans:0; widows:0"><font color="red">*</font><span
                                 style="font-family:宋体; font-size:12pt; font-weight:bold">医方：</span>
-                            <span style="font-family:宋体; font-size:12pt; font-weight:bold">
-                            <form:input path="reportRegistration.doctorMobile" htmlEscape="false" maxlength="15"
-                                        class="input-xlarge required phone" cssStyle="width: 42%;height: 30px;font-size: 16px;"/>
+                            <span style="font-family:宋体; font-size:12pt; font-weight:bold;text-align: center">
+                                 ${complaintInfo.reportRegistration.doctorMobile}
+                            <%--<form:input path="reportRegistration.doctorMobile" htmlEscape="false" maxlength="15"--%>
+                                        <%--class="input-xlarge required phone" cssStyle="width: 42%;height: 30px;font-size: 16px;"--%>
+                                        <%--/>--%>
                         </span>
                         </p></td>
                 </tr>
@@ -518,7 +528,8 @@
                         <font color="red">*</font>纠纷焦点:
                     </td>
                     <td  colspan="7">
-                        <form:textarea path="reportRegistration.focus" htmlEscape="false" class="input-xlarge required" style="margin: 0px;width: 99%;font-size: 16px;" rows="5" />
+                        ${complaintInfo.reportRegistration.focus}
+                        <%--<form:textarea path="reportRegistration.focus" htmlEscape="false" class="input-xlarge required" style="margin: 0px;width: 99%;font-size: 16px;" rows="5" />--%>
                     </td>
                 </tr>
                 <tr>
@@ -526,7 +537,8 @@
                         <font color="red">*</font>患方要求:
                     </td>
                     <td  colspan="7">
-                        <form:textarea path="reportRegistration.patientAsk" htmlEscape="false" class="input-xlarge required" style="margin: 0px;width: 99%;font-size: 16px;" rows="2"/>
+                        ${complaintInfo.reportRegistration.patientAsk}
+                        <%--<form:textarea path="reportRegistration.patientAsk" htmlEscape="false" class="input-xlarge required" style="margin: 0px;width: 99%;font-size: 16px;" rows="2"/>--%>
                     </td>
                 </tr>
                 <tr>
