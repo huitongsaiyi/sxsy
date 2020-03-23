@@ -19,6 +19,7 @@
 
 
 <body>
+
 <form:form id="searchForm" action="${ctx}/complaintmain/complaintMain/head?type=tj&newType=amout" method="post" class="breadcrumb form-search">
     <ul class="ul-form" style="height: 35px;">
         <li id="year" style="">
@@ -241,13 +242,13 @@
                     }
                 },
                 <%--data: ${areaList.name},--%>
-                data: ['朔州', '长治', '吕梁', '大同', '晋中', '太原', '晋城','临汾','阳泉','运城']
+                data: ${name}
             }
         ],
         yAxis: [
             {
                 type: 'value',
-                name: '单位：万元',
+                name: '单位：元',
                 axisLabel: {
                     show: true,
                     interval: 'auto',
@@ -278,7 +279,7 @@
                 },
 
                 <%--data: ${areaTableInfo},--%>
-                data: [13.4 , 13.3 , 10.6 , 9.6 , 8.8 , 7.2 , 6.2 , 6.2 , 5.9 , 5.7]
+                data: ${cityMap}
             }
         ]
     };
@@ -347,15 +348,17 @@
                     show: true,
                     textStyle:{
                         color: 'black', //---x线下字的颜色
-                    }
+                    },
+                    interval:0,
+                    rotate:40
                 },
-                data: ['神外', '呼吸', '普外', '产科', '心内', '神内', '儿科','急诊','妇科','骨科']
+                data: ${departmentName}
             }
         ],
         yAxis: [
             {
                 type: 'value',
-                name: '单位：万元',
+                name: '单位：元',
                 nameLocation: 'end', //---单位的位置
                 axisLabel: {
                     show: true,
@@ -388,7 +391,7 @@
                 },
 
 
-                data: [12.8 , 10.5 , 9.5 , 9.2 , 8.8 , 8.7 , 8.5 , 7.7 , 7.1 , 6.9]
+                data: ${departmentMap}
             }
         ]
     };
@@ -396,7 +399,7 @@
     optionDB = {
         backgroundColor:'rgba(0, 0, 0, 0)', //rgba设置透明度0.1
         title : {
-            text: '赔付额年度对比分析',
+            text: '赔付额年度对比分析'${amountTableInfo},
             x: 'center',    //---主题居中
             y: 'top',
             textAlign: 'left',
@@ -459,7 +462,7 @@
                         color: 'black', //---x线下字的颜色
                     }
                 },
-                data: ['2万元以下', '2-10万元', '10-50万元', '50万元以上']
+                data: ${keyList}
             }
         ],
         yAxis: [
@@ -497,7 +500,7 @@
                 },
 
 
-                data: [13.41 , 13.3 , 10.6 , 9.6 , 8.8 , 7.2 , 6.2 , 6.2 , 5.9 , 5.7]
+                data: ${amountTableInfo}
             },
             {
                 name: '均赔额年度比例',

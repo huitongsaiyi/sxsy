@@ -329,7 +329,6 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		}else{
 			list=complaintMainDao.findGrade(year,beginMonthDate,endMonthDate,areaId);
 		}
-        System.out.println(list);
 		return list;
 	}
 
@@ -359,8 +358,7 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	@Transactional(readOnly = false)
 	public List<Map<String,Object>> findAreaName (User user,String year,String beginMonthDate,String endMonthDate,String type){
 
-			String areaId= UserUtils.getUser().getCompany().getArea().getId();
-		System.out.println(areaId);
+		String areaId= UserUtils.getUser().getCompany().getArea().getId();
 		if(StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
 			year =  DateUtils.getYear();
 		}
@@ -456,10 +454,8 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	 * @return
 	 */
 	public Map<String, Object> findAmountRatio(User user,String year,String beginMonthDate,String endMonthDate,String type) {
-
-
 	    String areaId=UserUtils.getUser().getCompany().getArea().getId();
-
+		System.out.println(areaId);
 		if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
 			year= DateUtils.getYear();
 		}
@@ -469,8 +465,53 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		}else{
 			//list=complaintMainDao.findTypeInfo(year,beginMonthDate,endMonthDate);
 		}
-        System.out.println(map);
+        System.out.println("map:"+map);
         return map;
+	}
+
+	/**
+	 * 根据城市获得每个城市的赔付总金额
+	 * @param user
+	 * @param year
+	 * @param beginMonthDate
+	 * @param endMonthDate
+	 * @param type
+	 * @return
+	 */
+
+	public List<Map<String, String>> findCityAmountRatio(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+		String areaId=UserUtils.getUser().getCompany().getArea().getId();
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
+			year= DateUtils.getYear();
+		}
+		List<Map<String, String>> cityMap=null;
+		if ("tj".equals(type)){
+			cityMap=complaintMainDao.findCityAmountRatio(year,beginMonthDate,endMonthDate,areaId);
+		}
+		System.out.println("cityMap:"+cityMap);
+		return cityMap;
+	}
+
+	/**
+	 * 根据科室获取每个科室的赔付总金额
+	 * @param user
+	 * @param year
+	 * @param beginMonthDate
+	 * @param endMonthDate
+	 * @param type
+	 * @return
+	 */
+	public List<Map<String, String>> findDepartmentAmountRatio(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+		String areaId=UserUtils.getUser().getCompany().getArea().getId();
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
+			year= DateUtils.getYear();
+		}
+		List<Map<String, String>> departmentMap=null;
+		if ("tj".equals(type)){
+			departmentMap=complaintMainDao.findDepartmentAmountRatio(year,beginMonthDate,endMonthDate,areaId);
+		}
+		System.out.println("departmentMap:"+departmentMap);
+		return departmentMap;
 	}
 
 	public List<ComplaintMain> getRepeat(String card, String hospital,String complaintMainId) {

@@ -433,7 +433,7 @@
 			</otherwise>
 		</choose>
 		<if test="officeId !=null and officeId !=''">
-			AND c.hospital_id = #{officeId}
+			AND sa.parent_id LIKE  concat('%',#{officeId},'%') or sa.id= #{officeId}
 		</if>
 		GROUP BY cc.hospital_grade
 	</select>
@@ -755,5 +755,63 @@
 			AND sa.parent_id LIKE CONCAT('%', #{officeId}, '%') or sa.id= #{officeId}
 		</if>
 	</select>
+	<select id="findCityAmountRatio" resultType="java.util.Map">
+		select sa.`name` as name, sum(m.AGREEMENT_AMOUNT) as value
+		FROM MACHINE_ACCOUNT m
+		LEFT JOIN SYS_OFFICE so on m.HOSPITAL_ID = so.id
+		LEFT JOIN SYS_AREA sa on so.AREA_ID = sa.ID
+		where m.AGREEMENT_AMOUNT is not null
+		<choose>
+			<when test="year !=null and year !=''">
+				AND m.reporting_time like concat('%',#{year},'%')
+			</when>
+			<when test="beginMonthDate !=null and beginMonthDate !='' and endMonthDate !=null and endMonthDate !='' and beginMonthDate!=endMonthDate">
+				AND m.reporting_time &gt;= #{beginMonthDate,jdbcType=VARCHAR} AND m.reporting_time &lt;= #{endMonthDate,jdbcType=VARCHAR}
+			</when>
+			<when test="beginMonthDate !=null and beginMonthDate !='' and endMonthDate !=null and endMonthDate !='' and beginMonthDate==endMonthDate">
+				AND m.reporting_time like concat('%',#{beginMonthDate},'%')
+			</when>
+			<when test="beginMonthDate !=null and beginMonthDate !='' and (endMonthDate ==null or endMonthDate =='')">
+				AND m.reporting_time like concat('%',#{beginMonthDate},'%')
+			</when>
+			<otherwise>
+				AND m.reporting_time like concat('%',#{endMonthDate},'%')
+			</otherwise>
+		</choose>
+		<if test="officeId !=null and officeId !=''">
+			AND sa.parent_id LIKE CONCAT('%', #{officeId}, '%') or sa.id= #{officeId}
+		</if>
+		GROUP BY name
+	</select>
+
+	<select id="findDepartmentAmountRatio" resultType="java.util.Map">
+		select m.RELATED_MAJOR as name, sum(m.AGREEMENT_AMOUNT) as value
+		FROM MACHINE_ACCOUNT m
+		LEFT JOIN SYS_OFFICE so on m.HOSPITAL_ID = so.id
+		LEFT JOIN SYS_AREA sa on so.AREA_ID = sa.ID
+		where m.AGREEMENT_AMOUNT is not null
+		<choose>
+			<when test="year !=null and year !=''">
+				AND m.reporting_time like concat('%',#{year},'%')
+			</when>
+			<when test="beginMonthDate !=null and beginMonthDate !='' and endMonthDate !=null and endMonthDate !='' and beginMonthDate!=endMonthDate">
+				AND m.reporting_time &gt;= #{beginMonthDate,jdbcType=VARCHAR} AND m.reporting_time &lt;= #{endMonthDate,jdbcType=VARCHAR}
+			</when>
+			<when test="beginMonthDate !=null and beginMonthDate !='' and endMonthDate !=null and endMonthDate !='' and beginMonthDate==endMonthDate">
+				AND m.reporting_time like concat('%',#{beginMonthDate},'%')
+			</when>
+			<when test="beginMonthDate !=null and beginMonthDate !='' and (endMonthDate ==null or endMonthDate =='')">
+				AND m.reporting_time like concat('%',#{beginMonthDate},'%')
+			</when>
+			<otherwise>
+				AND m.reporting_time like concat('%',#{endMonthDate},'%')
+			</otherwise>
+		</choose>
+		<if test="officeId !=null and officeId !=''">
+			AND sa.parent_id LIKE CONCAT('%', #{officeId}, '%') or sa.id= #{officeId}
+		</if>
+		GROUP BY name
+	</select>
+
 
 </mapper>
