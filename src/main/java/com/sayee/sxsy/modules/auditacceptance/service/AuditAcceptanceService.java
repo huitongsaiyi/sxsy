@@ -495,6 +495,13 @@ public class AuditAcceptanceService extends CrudService<AuditAcceptanceDao, Audi
 		String savaPath=path;
 		String pdfPath=path;
 		Map<String, Object> params = new HashMap<String, Object>();
+		String area="";
+		User user=UserUtils.getUser();
+		if ("广东省".equals(user.getAreaName())){
+			params.put("area",user.getCompany().getName().substring(0,3));
+		}else {
+			params.put("area",user.getAreaName());
+		}
 		//判断有无案件编号
 		String num=null;
 		if(auditAcceptance.getComplaintMain()!=null){

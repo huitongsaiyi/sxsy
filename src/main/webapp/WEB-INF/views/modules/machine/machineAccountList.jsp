@@ -138,10 +138,16 @@
                             title="用户" url="/sys/office/treeData?type=3&officeType=1" cssClass="input-small" allowClear="false"
                             notAllowSelectParent="true"/>
         </li>
-        <li><label>医院名称：</label>
-            <form:input path="hospitalId" htmlEscape="false" maxlength="32" class="input-medium"/>
+        <li><label>所属区域：</label>
+            <form:input path="areaId" htmlEscape="false" maxlength="50" class="input-medium"/>
         </li>
-        <li><label>保单号：</label>
+        <li><label>医院名称：</label>
+            <sys:treeselect id="hospitalId" name="hospitalId" value="${machineAccount.hospitalId}" labelName="hospital.name"
+                            labelValue="${machineAccount.hospital.name}"
+                            title="部门" url="/sys/office/treeData?type=2&officeType=2" cssClass="input-small" allowClear="true"
+                            notAllowSelectParent="true"/>
+        </li>
+        <%--<li><label>保单号：</label>
             <form:input path="policyNumber" htmlEscape="false" maxlength="50" class="input-medium"/>
         </li>
         <li><label>起保日期：</label>
@@ -160,7 +166,7 @@
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
             <input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
             <input id="btnExportFiles" class="btn btn-primary" type="button" value="导出"/>
-        </li>
+        </li>--%>
         <li class="clearfix"></li>
     </ul>
 </form:form>
@@ -307,7 +313,7 @@
                     ${machineAccount.hospitalGrade}
             </td>
             <td>
-                    ${machineAccount.insuranceCompany}
+                    ${fns:getDictLabel(machineAccount.insuranceCompany, 'sys_office_form',machineAccount.insuranceCompany)}
             </td>
             <td>
                     ${machineAccount.summaryOfDisputes}

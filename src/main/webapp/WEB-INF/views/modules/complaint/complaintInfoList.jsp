@@ -126,22 +126,22 @@
 		<thead>
 			<tr>
 				<th class="sort-column a.case_number">案件编号</th>
-				<th class="sort-column a.visitor_name">访客姓名</th>
+				<%--<th class="sort-column a.visitor_name">访客姓名</th>
 				<th class="sort-column a.visitor_mobile">访客电话</th>
-				<th class="sort-column a.patient_relation">与患者关系</th>
+				<th class="sort-column a.patient_relation">与患者关系</th>--%>
 				<th class="sort-column a.patient_name">患者姓名</th>
-				<th class="sort-column a.patient_sex">患者性别</th>
+				<%--<th class="sort-column a.patient_sex">患者性别</th>
 				<th class="sort-column a.patient_age">患者年龄</th>
-				<th class="sort-column a.visitor_number">来访人数</th>
+				<th class="sort-column a.visitor_number">来访人数</th>--%>
 				<th class="sort-column a.involve_hospital">涉及医院</th>
 				<th class="sort-column a.involve_department">涉及科室</th>
-				<th class="sort-column a.involve_employee">涉及人员</th>
+				<%--<th class="sort-column a.involve_employee">涉及人员</th>--%>
 				<th class="sort-column a.summary_of_disputes">投诉纠纷概要</th>
 				<th class="sort-column t.name">投诉原因</th>
 				<th class="sort-column a.is_mediate">处理情况</th>
-                <th class="sort-column a.expected_closure">结案预期</th>
+				<%--<th class="sort-column a.expected_closure">结案预期</th>
                 <th class="sort-column a.closing_method">结案方式</th>
-                <th class="sort-column a.amount_involved">涉及金额 </th>
+                <th class="sort-column a.amount_involved">涉及金额 </th>--%>
 				<th>创建人</th>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><th width="100px">操作</th></shiro:hasPermission>
 			</tr>
@@ -149,10 +149,10 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="complaintInfo">
 			<tr>
-				<td>
+				<td style="text-align: center">
 					    ${complaintInfo.caseNumber}
 				</td>
-				<td>
+				<%--<td>
 					    ${complaintInfo.visitorName}
 				</td>
 				<td>
@@ -160,11 +160,11 @@
 				</td>
 				<td>
 					    ${complaintInfo.relationName}
-				</td>
-				<td>
+				</td>--%>
+				<td style="text-align: center">
 					    ${complaintInfo.patientName}
 				</td>
-				<td>
+				<%--<td>
 					    ${complaintInfo.sexName}
 				</td>
 				<td>
@@ -172,23 +172,23 @@
 				</td>
 				<td>
 					    ${complaintInfo.visitorNumber}
-				</td>
-				<td>
+				</td>--%>
+				<td style="text-align: center">
 					    ${complaintInfo.hospitalName}
 				</td>
-				<td>
+				<td style="text-align: center">
 						${complaintInfo.testTree}
 				</td>
-				<td>
+				<%--<td>
 						${empty complaintInfo.employeeName?complaintInfo.involveEmployee:complaintInfo.employeeName}
-				</td>
-				<td>
+				</td>--%>
+				<td title="${complaintInfo.summaryOfDisputes}" style="text-align: center">
 					    ${complaintInfo.summaryOfDisputes}
 				</td>
-                <td>
+                <td style="text-align: center">
                         ${complaintInfo.typeName}
                 </td>
-				<td>
+				<td style="text-align: center">
                     <c:if test="${complaintInfo.handleWay eq 0}">
                         <c:if test="${complaintInfo.status eq 0}">
                             处理中
@@ -215,7 +215,7 @@
 
 				</td>
 
-                <td>
+                <%--<td>
                         ${complaintInfo.expectedClosure}
                 </td>
                 <td>
@@ -223,12 +223,12 @@
                 </td>
                 <td>
                         ${complaintInfo.amountInvolved}
-                </td>
-                <td>
+                </td>--%>
+                <td style="text-align: center">
                         ${complaintInfo.createBy.name}
                 </td>
 				<shiro:hasPermission name="complaint:complaintInfo:edit"><td>
-					<c:if test="${complaintInfo.complaintMain.act.taskDefKey eq 'enrollment' or (complaintInfo.createBy.id eq fns:getUser().id and empty complaintInfo.complaintMain.procInsId)}">
+					<c:if test="${(complaintInfo.complaintMain.act.taskDefKey eq 'enrollment' and complaintInfo.complaintMain.act.assigneeName eq fns:getUser().loginName) or (complaintInfo.createBy.id eq fns:getUser().id and empty complaintInfo.complaintMain.procInsId)}">
 						<a href="${ctx}/complaint/complaintInfo/form?id=${complaintInfo.complaintId}">处理</a>
 						<a href="${ctx}/complaint/complaintInfo/delete?id=${complaintInfo.complaintId}" onclick="return confirmx('确认要删除该投诉接待吗？', this.href)">删除</a>
 					</c:if>

@@ -20,6 +20,8 @@ import com.sayee.sxsy.modules.complaintdetail.service.ComplaintMainDetailService
 import com.sayee.sxsy.modules.complaintmain.dao.ComplaintMainDao;
 import com.sayee.sxsy.modules.complaintmain.entity.ComplaintMain;
 import com.sayee.sxsy.modules.complaintmain.service.ComplaintMainService;
+import com.sayee.sxsy.modules.machine.entity.MachineAccount;
+import com.sayee.sxsy.modules.machine.service.MachineAccountService;
 import com.sayee.sxsy.modules.registration.dao.ReportRegistrationDao;
 import com.sayee.sxsy.modules.registration.entity.ReportRegistration;
 import com.sayee.sxsy.modules.surgicalconsentbook.dao.PreOperativeConsentDao;
@@ -44,6 +46,7 @@ import com.sayee.sxsy.common.persistence.Page;
 import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
 import com.sayee.sxsy.modules.complaint.dao.ComplaintInfoDao;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,6 +77,9 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
 
     @Autowired
     private ComplaintInfoDao complaintInfoDao;
+
+    @Autowired
+    private MachineAccountService machineAccountService;
 
     @Autowired
     private PreOperativeConsentDao preOperativeConsentDao;
@@ -128,7 +134,7 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         }else if("2".equals(officeType)){
             complaintInfo.setInvolveHospital(u.getCompany().getId());
         }else {
-
+            complaintInfo.setUser(u);
         }
         complaintInfo.setAssignee(u.getLoginName());
         return super.findPage(page, complaintInfo);
@@ -165,7 +171,6 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             reportRegistration.setReportRegistrationId(reportRegistration.getId());//主键
             reportRegistration.setComplaintMainId(complaintInfo.getComplaintMainId());//主表主键
             reportRegistration.setSummaryOfDisputes(complaintInfo.getSummaryOfDisputes());//纠纷概要
-            reportRegistration.setFocus(complaintInfo.getSummaryOfDisputes());//纠纷概要
             reportRegistration.setPatientAsk(complaintInfo.getAppeal());//诉求 对要求
             reportRegistration.setPatientMobile(complaintInfo.getComplaintMain().getPatientMobile());
             //将主键ID设为UUID
@@ -175,7 +180,6 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             //修改报案登记表
             reportRegistration.preUpdate();
             reportRegistration.setSummaryOfDisputes(complaintInfo.getSummaryOfDisputes());//纠纷概要
-            reportRegistration.setFocus(complaintInfo.getSummaryOfDisputes());//焦点 对 纠纷概要
             reportRegistration.setPatientAsk(complaintInfo.getAppeal());//诉求 对 要求
             reportRegistration.setPatientMobile(complaintInfo.getComplaintMain().getPatientMobile());
             reportRegistrationDao.update(reportRegistration);
@@ -230,6 +234,9 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
                     break ;
                 }
             }
+            if (StringUtils.isBlank(MapUtils.getString(var,"datamember_user",""))){
+                var.put("datamember_user", UserUtils.getUser().getLoginName());
+            }
             actTaskService.completeFirstTask( act.getProcInsId(), "", complaintInfo.getCaseNumber(), var);
         }
 //		super.save(complaintInfo);
@@ -240,6 +247,7 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     @Transactional(readOnly = false)
     public void delete(ComplaintInfo complaintInfo) {
         super.delete(complaintInfo);
+        complaintMainService.delete(complaintInfo.getComplaintMain());
     }
 
     /**
@@ -418,21 +426,27 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
     /*
     * 数据员 分配员 操作后走的方法
     * */
-    public void audit(ComplaintInfo complaintInfo, HttpServletRequest request) {
+    @Transactional(readOnly = false)
+    public boolean audit(ComplaintInfo complaintInfo, HttpServletRequest request, Model model) {
+        boolean flag=true;
         String node=request.getParameter("node");
         String status=request.getParameter("status");
         Map<String,Object> var=new HashMap<String, Object>();
         if ("sjy".equals(node)){
             if ("0".equals(status)){//数据员 通过审核
                 var.put("pass","1");
-                List<User> u=systemService.findUserByOfficeRoleId("","anjianfenpeiyuan");
+                List<User> u=systemService.findUserByOfficeRoleId(StringUtils.isBlank(complaintInfo.getNextLinkMan()) ? "noChange" :complaintInfo.getNextLinkMan(),"anjianfenpeiyuan");
                 for (User user:u) {
-                    String aa=UserUtils.getOfficeId(complaintInfo.getInvolveHospital()).getArea().getParentIds();
-                    String bb=UserUtils.get(user.getId()).getCompany().getArea().getId();
-                    if (aa.indexOf(bb)!=-1){
+//                    String aa=UserUtils.getOfficeId(complaintInfo.getInvolveHospital()).getArea().getParentIds();
+//                    String bb=UserUtils.get(user.getId()).getCompany().getArea().getId();
+//                    if (aa.indexOf(bb)!=-1){
                         var.put("allocation_user", user.getLoginName());//根据角色编码 得到数据员的信息
                         break ;
-                    }
+//                    }
+                }
+                //var.put("allocation_user", StringUtils.isNotBlank(complaintInfo.getNextLinkMan()) ? UserUtils.get(complaintInfo.getNextLinkMan()).getLoginName() : UserUtils.getUser().getLoginName());//根据角色编码 得到数据员的信息
+                if (StringUtils.isBlank(MapUtils.getString(var,"allocation_user",""))){
+                   flag=false;
                 }
             }else {//驳回
                 var.put("pass","0");
@@ -444,8 +458,12 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             User assigness=UserUtils.get(complaintInfo.getReportRegistration().getNextLinkMan());// 分配给 审核受理的调解员
             var.put("check_user",assigness.getLoginName());
             reportRegistrationDao.updateLinkMan(complaintInfo.getReportRegistration().getNextLinkMan(),complaintInfo.getReportRegistration().getReportRegistrationId());
+            //根据 报案登记 获取台账
+            ReportRegistration reportRegistration=reportRegistrationDao.get(complaintInfo.getReportRegistration().getReportRegistrationId());
+            machineAccountService.savetz(reportRegistration.getMachineAccount(), "a", reportRegistration);
         }
         // 执行流程
         actTaskService.complete(complaintInfo.getComplaintMain().getAct().getTaskId(), complaintInfo.getComplaintMain().getProcInsId(), complaintInfo.getComplaintMain().getAct().getComment(), complaintInfo.getComplaintMain().getCaseNumber(), var);
+        return flag;
     }
 }

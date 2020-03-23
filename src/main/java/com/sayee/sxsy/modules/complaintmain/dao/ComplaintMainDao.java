@@ -32,6 +32,10 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * 获取我的待办数据
      */
     public List<ComplaintMain> selfList(@Param("loginName") String loginName);
+    /*
+    * 获取全部医调委人员信息
+    * */
+    public List<String> rootFindUserId ();
     /**
      * 获取某表的主键
      */
@@ -115,5 +119,5 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      */
     Map<String, Object> findAmountRatioTj(@Param("year") String year, @Param("beginMonthDate") String beginMonthDate, @Param("endMonthDate") String endMonthDate, @Param("officeId") String officeId);
 
-    List getMachine(@Param("reportingTime") String reportingTime, @Param("endReportingTime") String endReportingTime);
+    List getMachine(@Param("reportingTime") String reportingTime, @Param("endReportingTime") String endReportingTime, @Param("areaId") String areaId,@Param("hospitalId") String hospitalId);
 }

@@ -330,7 +330,10 @@
 	</update>
 	
 	<update id="delete">
-		DELETE FROM COMPLAINT_INFO
+		/*DELETE FROM COMPLAINT_INFO
+		WHERE complaint_id = #{complaintId}*/
+		UPDATE COMPLAINT_INFO SET
+		del_flag = #{DEL_FLAG_DELETE}
 		WHERE complaint_id = #{complaintId}
 	</update>
 

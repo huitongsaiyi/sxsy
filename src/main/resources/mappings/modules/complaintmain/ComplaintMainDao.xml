@@ -82,6 +82,10 @@
 		</choose>
 	</select>
 
+	<select id="rootFindUserId" resultType="String">
+		select u.LOGIN_NAME from SYS_OFFICE o LEFT JOIN SYS_USER u on u.OFFICE_ID = o.ID where o.OFFICE_TYPE = '1';
+	</select>
+
 	<select id="findAllList" resultType="ComplaintMain">
 		SELECT
 		<include refid="complaintMainColumns"/>
@@ -236,12 +240,19 @@
 		a.create_date AS "createDate"
 		FROM MACHINE_ACCOUNT a
 		LEFT JOIN SYS_OFFICE o4 ON o4.id = a.hospital_id
+		LEFT JOIN SYS_AREA sa ON sa.id = o4.area_id
 		LEFT JOIN COMPLAINT_MAIN c on c.complaint_main_id=a.complaint_main_id
 		LEFT JOIN ACT_RU_TASK t on t.PROC_INST_ID_=c.PROC_INS_ID
 		<where>
 			a.del_flag = 0 and a.case_number is not null and a.case_number!=''
 			<if test="reportingTime != null and reportingTime != '' or  endReportingTime != null and endReportingTime != ''">
 				AND (a.reporting_time BETWEEN #{reportingTime} AND #{endReportingTime})
+			</if>
+			<if test="areaId !=null and areaId !=''">
+				AND sa.parent_id like concat('%',#{areaId},'%') or sa.id= #{areaId}
+			</if>
+			<if test="hospitalId != null and hospitalId != ''">
+				AND a.hospital_id LIKE concat('%',#{hospitalId},'%')
 			</if>
 		</where>
 		limit 0,10
