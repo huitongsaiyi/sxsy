@@ -96,7 +96,22 @@ public class ReachMediateService extends CrudService<ReachMediateDao, ReachMedia
 		User user=UserUtils.getUser();
 		if (user.isAdmin() || aa.contains("quanshengtiaojiebuzhuren") || aa.contains("yitiaoweizhuren")
 				|| aa.contains("yitiaoweifuzhuren")|| aa.contains("shengzhitiaojiebuzhuren/fuzhuren")|| aa.contains("yitiaoweizhuren")
-		){	//!aa.contains("dept") &&
+		){
+			//最大权限的人员 也看 区域
+			if (!"山西省".equals(user.getAreaName())){
+				//工作站 主任 副主任 看自己 的员工
+				List<String> list=new ArrayList<String>();
+				List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+				for (User people:listUser) {
+					list.add(people.getLoginName());
+				}
+				if (list.size()>0){
+					reachMediate.setList(list);
+				}else {
+					list.add(user.getLoginName());
+					reachMediate.setList(list);
+				}
+			}
 		}else if((  aa.contains("gongzuozhanzhuren/fuzhuren")) ){
 			//工作站 主任 副主任 看自己 的员工
 			List<String> list=new ArrayList<String>();

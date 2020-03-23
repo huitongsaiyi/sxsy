@@ -99,7 +99,21 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         if ("1".equals(officeType)){//医调委
             List<String> aa=ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
             if (aa.contains("yitiaoweizhuren")){//韩主任 医调委主任 看全部数据  before commission
-
+                //最大权限的人员 也看 区域
+                if (!"山西省".equals(u.getAreaName())){
+                    //工作站 主任 副主任 看自己 的员工
+                    List<String> list=new ArrayList<String>();
+                    List<User> listUser=UserUtils.getUserByOffice(u.getOffice().getId());
+                    for (User user:listUser) {
+                        list.add(user.getId());
+                    }
+                    if (list.size()>0){
+                        complaintInfo.setList(list);
+                    }else {
+                        list.add(u.getId());
+                        complaintInfo.setList(list);
+                    }
+                }
             }else if(aa.contains("jinzhuxingzhengbumenzhuren")){// zwjw
                 //曹华磊 与韩主任 有全部数据的权限，为了看 看卫健委工作站人员 信息
                 List<String> list=new ArrayList<String>();
@@ -370,6 +384,32 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         if(CollectionUtils.isEmpty(every)){
             every=new ArrayList<Map<String,Object>>();
         }
+        String officeType=UserUtils.getUser().getCompany().getOfficeType();//查看当前人 属于医院 还是 医调委  还是 卫健委
+        List<String> aa= ObjectUtils.convert(UserUtils.getRoleList().toArray(),"enname",true);
+        //如果当前人员角色 是 医调委主任 则看全部数据
+        User u=UserUtils.getUser();
+        List<Map<String,Object>> removeEvery=new ArrayList<Map<String,Object>>();
+        for (Map map :every) {
+            if (MapUtils.getString(map,"parent_ids","").contains(u.getCompany().getArea().getId()) || MapUtils.getString(map,"id","").equals(u.getCompany().getArea().getId())){
+
+            }else {
+                removeEvery.add(map);
+            }
+        }
+        if (aa.contains("yitiaoweizhuren") && !"山西省".equals(UserUtils.getUser().getAreaName())) {//韩主任 医调委主任 看全部数据
+            every.removeAll(removeEvery);//去除不是自己区域的案件
+        }
+        List<Map<String,Object>> removeBook=new ArrayList<Map<String,Object>>();
+        for (Map map :book) {
+            if (MapUtils.getString(map,"parent_ids","").contains(u.getCompany().getArea().getId()) || MapUtils.getString(map,"id","").equals(u.getCompany().getArea().getId())){
+
+            }else {
+                removeBook.add(map);
+            }
+        }
+        if (aa.contains("yitiaoweizhuren") && !"山西省".equals(UserUtils.getUser().getAreaName())) {//韩主任 医调委主任 看全部数据
+            book.removeAll(removeBook);//去除不是自己区域的案件
+        }
         //根据拿到的所有人员数据 在进行 单个人员统计
         person(every,book,visitorDate,visitorDateEnd,visitorMonthDate,visitorMonthDateEnd);
         List<Map> maps = new ArrayList<Map>();
@@ -408,17 +448,17 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
         List<Map<String,Object>> newlist=new ArrayList<Map<String,Object>>();
         if (every.size()>0){
                 for (Map<String,Object> map: every) {
-                    Map<String,Object> person=complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by",""),visitorDate,visitorDateEnd,visitorMonthDate,visitorMonthDateEnd);
+                        Map<String,Object> person=complaintInfoDao.selectPerson(MapUtils.getString(map,"create_by",""),visitorDate,visitorDateEnd,visitorMonthDate,visitorMonthDateEnd);
                         if (MapUtils.isNotEmpty(person)){
                             map.putAll(person);
                         }
-                    //遍历术前同意书见证的list  有相同人员增加，且删除map
-                    for (Map<String,Object> bookMap: book) {
-                        if (MapUtils.getString(bookMap,"create_by").equals(MapUtils.getString(map,"create_by"))){
-                            map.put("sq",MapUtils.getString(bookMap,"sq"));
-                            newlist.add(bookMap);
+                        //遍历术前同意书见证的list  有相同人员增加，且删除map
+                        for (Map<String,Object> bookMap: book) {
+                            if (MapUtils.getString(bookMap,"create_by").equals(MapUtils.getString(map,"create_by"))){
+                                map.put("sq",MapUtils.getString(bookMap,"sq"));
+                                newlist.add(bookMap);
+                            }
                         }
-                    }
                 }
             }
         book.removeAll(newlist);

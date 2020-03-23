@@ -70,7 +70,25 @@ public class InvestigateEvidenceService extends CrudService<InvestigateEvidenceD
         User user=UserUtils.getUser();
         if (user.isAdmin() || aa.contains("quanshengtiaojiebuzhuren") || aa.contains("yitiaoweizhuren")
                 || aa.contains("yitiaoweifuzhuren")|| aa.contains("shengzhitiaojiebuzhuren/fuzhuren")|| aa.contains("yitiaoweizhuren")
-        ){    //!aa.contains("dept") &&
+        ){
+            //最大权限的人员 也看 区域
+            if (!"山西省".equals(user.getAreaName())){
+                //工作站 主任 副主任 看自己 的员工
+                List<String> list=new ArrayList<String>();
+                List<User> listUser=UserUtils.getUserByOffice(user.getOffice().getId());
+                for (User people:listUser) {
+                    list.add(people.getLoginName());
+                }
+                if (list.size()>0){
+                    investigateEvidence.setList(list);
+                }else {
+                    list.add(user.getLoginName());
+                    investigateEvidence.setList(list);
+                }
+            }
+
+
+
         }else if(aa.contains("szcz") || aa.contains("szjc") || aa.contains("szjz") || aa.contains("szgj") ||aa.contains("szyq") ||aa.contains("szsz") ||aa.contains("szxc") || aa.contains("szdt") || aa.contains("szll") ||aa.contains("szxy") || aa.contains("szyc") ||aa.contains("szlf") ||aa.contains("szybzg") ||aa.contains("szebzg")){
             List<Office> officeList = Lists.newArrayList();// 按明细设置数据范围s
             for (Role role:roleList) {
