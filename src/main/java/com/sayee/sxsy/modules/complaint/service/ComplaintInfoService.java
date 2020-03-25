@@ -503,7 +503,9 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             machineAccountService.savetz(reportRegistration.getMachineAccount(), "a", reportRegistration);
         }
         // 执行流程
-        actTaskService.complete(complaintInfo.getComplaintMain().getAct().getTaskId(), complaintInfo.getComplaintMain().getProcInsId(), complaintInfo.getComplaintMain().getAct().getComment(), complaintInfo.getComplaintMain().getCaseNumber(), var);
+        if (flag==true){
+            actTaskService.complete(complaintInfo.getComplaintMain().getAct().getTaskId(), complaintInfo.getComplaintMain().getProcInsId(), complaintInfo.getComplaintMain().getAct().getComment(), complaintInfo.getComplaintMain().getCaseNumber(), var);
+        }
         return flag;
     }
 }

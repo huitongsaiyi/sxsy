@@ -336,15 +336,22 @@ public class UserUtils {
 		@SuppressWarnings("unchecked")
 		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_ALL_LIST);
 		if (officeList == null){
-			Office office = new Office();
+			User user = getUser();
 			Area area = UserUtils.getUser().getCompany().getArea();
-			if(area.getId().equals("2")){
-				officeList = officeDao.findAllList(office);
+			String areaId=UserUtils.getUser().getCompany().getArea().getId();
+
+			if(user.isAdmin()){
+				officeList = officeDao.findAllList(new Office());
 			}else {
+				Office office = new Office();
+				office.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
 				office.setArea(area);
-				officeList = officeDao.findAllList(office);
+				office.setOfficeType("2");
+				office.getArea().setAreaId(areaId);
+				officeList = officeDao.findList(office);
 			}
 		}
+		System.out.println(officeList);
 		return officeList;
 	}
 

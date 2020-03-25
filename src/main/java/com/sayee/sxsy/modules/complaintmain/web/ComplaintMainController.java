@@ -56,7 +56,7 @@ public class ComplaintMainController extends BaseController {
 
 	@Autowired
 	private ComplaintMainService complaintMainService;
-	
+
 	@ModelAttribute
 	public ComplaintMain get(@RequestParam(required=false) String id) {
 		ComplaintMain entity = null;
@@ -333,8 +333,10 @@ public class ComplaintMainController extends BaseController {
                 return "modules/home/duty";
             }else {
                 Map<String,Object> map=new LinkedHashMap<>();
+
                 List<Map<String, String>> cityMap=null;
                 List<Map<String, String>> departmentMap=null;
+                List<Map<String, String>> fiveYearMap=null;
 				if ((StringUtils.isBlank(year) || "2019".equals(year)) && "tj".equals(type)){
 					map.put("2万及以下","165");
 					map.put("2万到10万及以下","88");
@@ -351,13 +353,13 @@ public class ComplaintMainController extends BaseController {
 					map=complaintMainService.findAmountRatio(user,year,beginMonthDate,endMonthDate,type);
                     cityMap=complaintMainService.findCityAmountRatio(user,year,beginMonthDate,endMonthDate,type);
                     departmentMap=complaintMainService.findDepartmentAmountRatio(user,year,beginMonthDate,endMonthDate,type);
+                    fiveYearMap=complaintMainService.fiveYearAmountRatio(user,year,beginMonthDate,endMonthDate,type);
 				}
-                System.out.println("cityMap:"+cityMap);
-                System.out.println("departmentMap:"+departmentMap);
                 List keyList = new ArrayList();
                 List valuesList = new ArrayList();
                 List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 				list.add(map);
+
 				//循环 得到总数
                 int sum=0;
                 for(String key : map.keySet()){
@@ -382,9 +384,10 @@ public class ComplaintMainController extends BaseController {
 					valuesList.add(valueList);
 					index++;
 				}
-                String lists = JsonUtil.toJson(list);
+				String lists = JsonUtil.toJson(list);
 				List name = null;
 				List departmentName = null;
+				List yearNewName = new ArrayList();
 				List newName = new ArrayList();
                 List newDepartmentName = new ArrayList();
                 String newDepartmentMap = null;
@@ -408,13 +411,35 @@ public class ComplaintMainController extends BaseController {
                         }
                     }
                     newDepartmentMap = JsonUtil.toJson(departmentMap);
+					//5年数据
+					yearNewName = this.convert(fiveYearMap.toArray(), "name", true);
+
                 }catch (Exception e){
                 }
-                model.addAttribute("departmentMap",newDepartmentMap);
+                //处理年度对比分析
+				List l = new ArrayList();
+				l.add(map);
+				String regEx="[\n`~!@#$%^&*()+|{}':;'\\[\\]<>/?~！@#￥……&*（）——+|{}【】‘；：”“’。， 、？]";
+				String a = "";
+				String s = l.toString().replaceAll(regEx,a);
+
+				List<Map<String,String>> newListMap = new ArrayList<Map<String,String>>();
+				String[] split = s.split(",");
+				for (String s1 : split) {
+					Map<String,String> newMap = new LinkedHashMap<>();
+					String[] split1 = s1.split("=");
+					newMap.put("name",split1[0]);
+					newMap.put("value",split1[1]);
+					newListMap.add(newMap);
+				}
+
+				model.addAttribute("yearName",yearNewName);
+				model.addAttribute("fiveYearInfo",JsonUtil.toJson(fiveYearMap));
+				model.addAttribute("departmentMap",newDepartmentMap);
                 model.addAttribute("departmentName",newDepartmentName);
                 model.addAttribute("cityMap",newCityMap);
                 model.addAttribute("name",newName);
-                model.addAttribute("amountTableInfo", lists);
+                model.addAttribute("amountTableInfo", JsonUtil.toJson(newListMap));
 				model.addAttribute("keyList", JsonUtil.toJson(keyList));
 				model.addAttribute("valueList", valuesList);
                 return "modules/home/amountRatio";

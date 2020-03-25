@@ -162,11 +162,11 @@
         </li>
         <li><label>卷宗编号：</label>
             <form:input path="fileNumber" htmlEscape="false" maxlength="20" class="input-medium"/>
-        </li>
+        </li>--%>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
             <input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
             <input id="btnExportFiles" class="btn btn-primary" type="button" value="导出"/>
-        </li>--%>
+        </li>
         <li class="clearfix"></li>
     </ul>
 </form:form>

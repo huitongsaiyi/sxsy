@@ -19,7 +19,6 @@
 
 
 <body>
-
 <form:form id="searchForm" action="${ctx}/complaintmain/complaintMain/head?type=tj&newType=duty" method="post" class="breadcrumb form-search">
     <ul class="ul-form" style="height: 35px;">
         <li id="year" style="">

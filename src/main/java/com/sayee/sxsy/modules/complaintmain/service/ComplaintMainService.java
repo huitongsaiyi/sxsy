@@ -12,10 +12,12 @@ import com.sayee.sxsy.common.utils.DateUtils;
 import com.sayee.sxsy.common.utils.ObjectUtils;
 import com.sayee.sxsy.common.utils.StringUtils;
 import com.sayee.sxsy.modules.complaintdetail.entity.ComplaintMainDetail;
+import com.sayee.sxsy.modules.complaintmain.web.ComplaintMainController;
 import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.Role;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import com.sayee.sxsy.test.dao.TestTreeDao;
 import com.sayee.sxsy.test.entity.TestTree;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.TaskService;
@@ -50,6 +52,8 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private TestTreeDao testTreeDao;
 
 	public ComplaintMain get(String id) {
 		return super.get(id);
@@ -115,9 +119,22 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 			for (String str:list) {
 				anjian.addAll(complaintMainDao.selfList(str));
 			}
+			for (ComplaintMain main : anjian) {
+				String[] split = main.getInvolveDepartment().split(",");
+				String departmentNewName = "";
+				for (String s : split) {
+					boolean br = s.matches(".*[a-z]+.*");
+					if(br){
+						departmentNewName += complaintMainDao.findDepartmentName(s)+"   ";
+					}
+				}
+				try{
+					main.setInvolveDepartment(departmentNewName);
+				}catch (Exception e){
+				}
+			}
 			page.setList(anjian);
 			page.setCount(list.size());
-			System.out.println(anjian);
 
 		}else if((aa.contains("gongzuozhanzhuren/fuzhuren")) ){
 			//工作站 主任 副主任 看自己 的员工
@@ -129,6 +146,20 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 			List<ComplaintMain> anjian=new ArrayList<>();
 			for (String str:list) {
 				anjian=complaintMainDao.selfList(str);
+			}
+			for (ComplaintMain main : anjian) {
+				String[] split = main.getInvolveDepartment().split(",");
+				String departmentNewName = "";
+				for (String s : split) {
+					boolean br = s.matches(".*[a-z]+.*");
+					if(br){
+						departmentNewName += complaintMainDao.findDepartmentName(s)+"   ";
+					}
+				}
+				try{
+					main.setInvolveDepartment(departmentNewName);
+				}catch (Exception e){
+				}
 			}
 			page.setList(anjian);
 			page.setCount(list.size());
@@ -151,14 +182,30 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 			for (String str:list) {
 				anjian.addAll(complaintMainDao.selfList(str));
 			}
+			for (ComplaintMain main : anjian) {
+				String[] split = main.getInvolveDepartment().split(",");
+				String departmentNewName = "";
+				for (String s : split) {
+					boolean br = s.matches(".*[a-z]+.*");
+					if(br){
+						departmentNewName += complaintMainDao.findDepartmentName(s)+"   ";
+					}
+				}
+				try{
+					main.setInvolveDepartment(departmentNewName);
+				}catch (Exception e){
+				}
+			}
 			page.setList(anjian);
 			page.setCount(list.size());
 		}else {//不是管理员查看自己创建的
 //			assessAppraisal.setUser(UserUtils.getUser());
 		}
+
 		complaintMain.setPage(page);
 		//对 集合进行处理，把节点的 主键拿到 可是使其点击 详情与处理 按钮
 		this.format(page.getList());
+		System.out.println("page.list:"+page.getList());
 		return page;
 	}
 
@@ -414,6 +461,7 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		}else{
 			list=complaintMainDao.findDepartment(year,beginMonthDate,endMonthDate,areaId);
 		}
+		System.out.println(list);
 		return list;
 	}
 	/**
@@ -512,6 +560,51 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 		}
 		System.out.println("departmentMap:"+departmentMap);
 		return departmentMap;
+	}
+
+	/**
+	 * 五年数据
+	 * @param user
+	 * @param year
+	 * @param beginMonthDate
+	 * @param endMonthDate
+	 * @param type
+	 * @return
+	 */
+	public List<Map<String, String>> fiveYearAmountRatio(User user,String year,String beginMonthDate,String endMonthDate,String type) {
+		String areaId=UserUtils.getUser().getCompany().getArea().getId();
+		if (StringUtils.isBlank(year) && StringUtils.isBlank(beginMonthDate) && StringUtils.isBlank(endMonthDate)){
+			year= DateUtils.getYear();
+		}
+		List<Map<String, String>> newfiveYearMap=null;
+		List<Map<String,String>> newListMap = new ArrayList<Map<String,String>>();
+		if ("tj".equals(type)){
+			List<String> fiveYearMap=null;
+			Integer newYear = Integer.parseInt(year);
+			for(int i=0;i<5;i++){
+				fiveYearMap=complaintMainDao.fiveYearAmountRatio(newYear.toString(),beginMonthDate,endMonthDate,areaId);
+				List value = null;
+				String newValue = null;
+				//Integer i1 = 0;
+				//int i2 = 0;
+				try {
+					value = ComplaintMainController.convert(fiveYearMap.toArray(), "value", true);
+					String regEx="[\n`~!@#$%^&*()+|{}':;'\\[\\]<>/?~！@#￥……&*（）——+|{}【】‘；：”“’。， 、？]";
+					String a = "";
+					newValue = value.toString().replaceAll(regEx,a);
+					//i1 = Integer.parseInt(newValue);
+					//i2 = i1 / 10000;
+				}catch (Exception e){
+				}
+				Map<String,String> newMap = new LinkedHashMap<>();
+				newMap.put("name","'"+newYear.toString()+"'");
+				newMap.put("value",newValue);
+				newListMap.add(newMap);
+				newYear--;
+			}
+		}
+		System.out.println("newListMap:"+newListMap);
+		return newListMap;
 	}
 
 	public List<ComplaintMain> getRepeat(String card, String hospital,String complaintMainId) {
