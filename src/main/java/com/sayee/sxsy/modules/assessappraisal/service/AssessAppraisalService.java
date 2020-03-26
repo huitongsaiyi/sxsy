@@ -641,19 +641,19 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
 		//患方调解笔录
 		if("content".equals(export)){
 			//开始时间
-			if(assessAppraisal.getRecordInfo1().getStartTime()!=null){
+			if(assessAppraisal.getRecordInfo1()!=null && assessAppraisal.getRecordInfo1().getStartTime()!=null){
 				params.put("date",assessAppraisal.getRecordInfo1().getStartTime()==null?"":assessAppraisal.getRecordInfo1().getStartTime());
 			}else{
                 params.put("date","");
             }
 			//结束时间
-			if(assessAppraisal.getRecordInfo1().getEndTime()!=null){
+			if(assessAppraisal.getRecordInfo1()!=null && assessAppraisal.getRecordInfo1().getEndTime()!=null){
 				params.put("time",assessAppraisal.getRecordInfo1().getEndTime()==null?"":assessAppraisal.getRecordInfo1().getEndTime());
 			}else{
                 params.put("time","");
             }
 			//地点
-			if(assessAppraisal.getRecordInfo1().getRecordAddress()!=null){
+			if(assessAppraisal.getRecordInfo1()!=null && assessAppraisal.getRecordInfo1().getRecordAddress()!=null){
 				params.put("address",assessAppraisal.getRecordInfo1().getRecordAddress()==null?"":assessAppraisal.getRecordInfo1().getRecordAddress());
 			}else{
                 params.put("address","");
@@ -671,7 +671,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
                 params.put("note","");
             }
 			//患方
-			if(assessAppraisal.getRecordInfo1().getPatient()!=null){
+			if(assessAppraisal.getRecordInfo1()!=null && assessAppraisal.getRecordInfo1().getPatient()!=null){
 				params.put("patient",assessAppraisal.getRecordInfo1().getPatient()==null?"":assessAppraisal.getRecordInfo1().getPatient());
 			}else{
                 params.put("patient","");
@@ -689,7 +689,7 @@ public class AssessAppraisalService extends CrudService<AssessAppraisalDao, Asse
                 params.put("other","");
             }
 			//笔录内容
-			if(assessAppraisal.getRecordInfo1().getRecordContent()!=null){
+			if(assessAppraisal.getRecordInfo1()!=null && assessAppraisal.getRecordInfo1().getRecordContent()!=null){
 				params.put("content",assessAppraisal.getRecordInfo1().getRecordContent()==null?"":assessAppraisal.getRecordInfo1().getRecordContent());
 			}else{
                 params.put("content","");
