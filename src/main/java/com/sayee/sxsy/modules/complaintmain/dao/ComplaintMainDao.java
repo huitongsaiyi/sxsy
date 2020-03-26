@@ -109,7 +109,8 @@ public interface ComplaintMainDao extends CrudDao<ComplaintMain> {
      * 各专业数据统计的专业名称转换
      */
     public TestTree findDepartmentNewName(@Param("newNameId") String newNameId);
-    public TestTree findDepartmentName(@Param("newNameId") String newNameId);
+
+    public String findDepartmentName(@Param("newNameId") String newNameId);
 
     /**
      * 调解数据统计中的 责任度 饼状图

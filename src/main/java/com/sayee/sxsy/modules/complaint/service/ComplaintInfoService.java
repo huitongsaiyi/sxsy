@@ -476,14 +476,17 @@ public class ComplaintInfoService extends CrudService<ComplaintInfoDao, Complain
             if ("0".equals(status)){//数据员 通过审核
                 var.put("pass","1");
                 List<User> u=systemService.findUserByOfficeRoleId(StringUtils.isBlank(complaintInfo.getNextLinkMan()) ? "noChange" :complaintInfo.getNextLinkMan(),"anjianfenpeiyuan");
-                for (User user:u) {
+
+                    for (User user:u) {
 //                    String aa=UserUtils.getOfficeId(complaintInfo.getInvolveHospital()).getArea().getParentIds();
 //                    String bb=UserUtils.get(user.getId()).getCompany().getArea().getId();
 //                    if (aa.indexOf(bb)!=-1){
                         var.put("allocation_user", user.getLoginName());//根据角色编码 得到数据员的信息
                         break ;
 //                    }
-                }
+                    }
+
+
                 //var.put("allocation_user", StringUtils.isNotBlank(complaintInfo.getNextLinkMan()) ? UserUtils.get(complaintInfo.getNextLinkMan()).getLoginName() : UserUtils.getUser().getLoginName());//根据角色编码 得到数据员的信息
                 if (StringUtils.isBlank(MapUtils.getString(var,"allocation_user",""))){
                    flag=false;
