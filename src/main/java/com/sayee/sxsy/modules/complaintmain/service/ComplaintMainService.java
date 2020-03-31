@@ -96,6 +96,14 @@ public class ComplaintMainService extends CrudService<ComplaintMainDao, Complain
 	public Page<ComplaintMain> selfList(Page<ComplaintMain> page, ComplaintMain complaintMain) {
 		//  List<Task> taskList  = taskService.createTaskQuery().taskAssignee(assignee).list();
 		List<ComplaintMain> list=complaintMainDao.selfList(complaintMain.getUser().getLoginName());
+
+		for (ComplaintMain main : list) {
+				boolean s2 = main.getInvolveDepartment().matches(".*[a-z]+.*");
+				if(s2==true){
+					String departmentName = complaintMainDao.findDepartmentName(main.getInvolveDepartment());
+					main.setInvolveDepartment(departmentName);
+				}
+		}
 		page.setList(list);
 		page.setCount(list.size());
 		complaintMain.setPage(page);

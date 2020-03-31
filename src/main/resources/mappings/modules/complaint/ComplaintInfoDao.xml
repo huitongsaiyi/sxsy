@@ -117,10 +117,14 @@
 	</select>
 	
 	<select id="findList" resultType="ComplaintInfo">
-		SELECT 
+		SELECT
+		pc.ns as "nameCount",
 			<include refid="complaintInfoColumns"/>
 		FROM COMPLAINT_INFO a
 		<include refid="complaintInfoJoins"/>
+		right JOIN (select PATIENT_NAME,COUNT(*) as ns FROM COMPLAINT_INFO c
+		where DEL_FLAG=0
+		GROUP BY PATIENT_NAME) pc on a.PATIENT_NAME=pc.PATIENT_NAME
 		<where>
             a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="node != null and node != '' and node=='sjy'">
