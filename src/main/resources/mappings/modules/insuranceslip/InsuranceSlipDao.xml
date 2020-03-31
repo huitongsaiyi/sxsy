@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sayee.sxsy.modules.insuranceslip.dao.InsuranceSlipDao">
+    
+	<sql id="insuranceSlipColumns">
+		a.insurance_policy_id AS "insurancePolicyId",
+		o2.name AS "office.name"
+	</sql>
+	
+	<sql id="insuranceSlipJoins">
+		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.office_id
+	</sql>
+    
+	<select id="get" resultType="InsuranceSlip">
+		SELECT 
+			<include refid="insuranceSlipColumns"/>
+		FROM INSURANCE_SLIP a
+		<include refid="insuranceSlipJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="InsuranceSlip">
+		SELECT 
+			<include refid="insuranceSlipColumns"/>
+		FROM INSURANCE_SLIP a
+		<include refid="insuranceSlipJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="office != null and office.id != null and office.id != ''">
+				AND a.office_id = #{office.id}
+			</if>
+			<if test="policyHolder != null and policyHolder != ''">
+				AND a.policy_holder = #{policyHolder}
+			</if>
+			<if test="policyPhone != null and policyPhone != ''">
+				AND a.policy_phone = #{policyPhone}
+			</if>
+			<if test="creationTime != null and creationTime != ''">
+				AND a.creation_time = #{creationTime}
+			</if>
+			<if test="grade != null and grade != ''">
+				AND a.grade = #{grade}
+			</if>
+			<if test="assumeNature != null and assumeNature != ''">
+				AND a.assume_nature = #{assumeNature}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="InsuranceSlip">
+		SELECT 
+			<include refid="insuranceSlipColumns"/>
+		FROM INSURANCE_SLIP a
+		<include refid="insuranceSlipJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO INSURANCE_SLIP(
+			insurance_policy_id,
+			office_id,
+			policy_holder,
+			policy_phone,
+			site_postcode,
+			email_address,
+			the_insured,
+			the_insured_phone,
+			the_insured_site,
+			postal_code,
+			insure_area,
+			creation_time,
+			practice_number,
+			grade,
+			mold,
+			nature,
+			department,
+			sickbed_number,
+			people_number,
+			medical_staff_number,
+			everyone_quota,
+			spirit_quota,
+			everytime_quota,
+			accumulated_quota,
+			law_everytime_quota,
+			law_accumulated_quota,
+			append_everytime_quota,
+			append_accumulated_quota,
+			bed_premium,
+			medical_premium,
+			insure_way,
+			all_medical_number,
+			all_everyone_premium,
+			all_premium_total,
+			sel_everyone_premium,
+			sel_clinic_operation_number,
+			sel_clinic_notoperation_number,
+			sel_medical_laboratory_number,
+			sel_premium_total,
+			basic_premium_total,
+			add_reduce,
+			enchance_deduction,
+			risk_float,
+			asleft_premium,
+			addittion_risk,
+			addittion_premium,
+			computational_formula,
+			oddicial_receipts_permium,
+			insurance_date,
+			insurance_start_time,
+			insurance_end_time,
+			retroactive_date,
+			retroactive_strat_date,
+			retroactive_end_date,
+			premium_delicery_time,
+			dispute,
+			arbitrator,
+			insure_conditions,
+			accident_conditions,
+			special_agreement,
+			signature,
+			insure_date,
+			assume_nature,
+			agency_code,
+			agency_name,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{insurancePolicyId},
+			#{office.id},
+			#{policyHolder},
+			#{policyPhone},
+			#{sitePostcode},
+			#{emailAddress},
+			#{theInsured},
+			#{theInsuredPhone},
+			#{theInsuredSite},
+			#{postalCode},
+			#{insureArea},
+			#{creationTime},
+			#{practiceNumber},
+			#{grade},
+			#{mold},
+			#{nature},
+			#{department},
+			#{sickbedNumber},
+			#{peopleNumber},
+			#{medicalStaffNumber},
+			#{everyoneQuota},
+			#{spiritQuota},
+			#{everytimeQuota},
+			#{accumulatedQuota},
+			#{lawEverytimeQuota},
+			#{lawAccumulatedQuota},
+			#{appendEverytimeQuota},
+			#{appendAccumulatedQuota},
+			#{bedPremium},
+			#{medicalPremium},
+			#{insureWay},
+			#{allMedicalNumber},
+			#{allEveryonePremium},
+			#{allPremiumTotal},
+			#{selEveryonePremium},
+			#{selClinicOperationNumber},
+			#{selClinicNotoperationNumber},
+			#{selMedicalLaboratoryNumber},
+			#{selPremiumTotal},
+			#{basicPremiumTotal},
+			#{addReduce},
+			#{enchanceDeduction},
+			#{riskFloat},
+			#{asleftPremium},
+			#{addittionRisk},
+			#{addittionPremium},
+			#{computationalFormula},
+			#{oddicialReceiptsPermium},
+			#{insuranceDate},
+			#{insuranceStartTime},
+			#{insuranceEndTime},
+			#{retroactiveDate},
+			#{retroactiveStratDate},
+			#{retroactiveEndDate},
+			#{premiumDeliceryTime},
+			#{dispute},
+			#{arbitrator},
+			#{insureConditions},
+			#{accidentConditions},
+			#{specialAgreement},
+			#{signature},
+			#{insureDate},
+			#{assumeNature},
+			#{agencyCode},
+			#{agencyName},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE INSURANCE_SLIP SET
+			insurance_policy_id = #{insurancePolicyId},
+			office_id = #{office.id},
+			policy_holder = #{policyHolder},
+			policy_phone = #{policyPhone},
+			site_postcode = #{sitePostcode},
+			email_address = #{emailAddress},
+			the_insured = #{theInsured},
+			the_insured_phone = #{theInsuredPhone},
+			the_insured_site = #{theInsuredSite},
+			postal_code = #{postalCode},
+			insure_area = #{insureArea},
+			creation_time = #{creationTime},
+			practice_number = #{practiceNumber},
+			grade = #{grade},
+			mold = #{mold},
+			nature = #{nature},
+			department = #{department},
+			sickbed_number = #{sickbedNumber},
+			people_number = #{peopleNumber},
+			medical_staff_number = #{medicalStaffNumber},
+			everyone_quota = #{everyoneQuota},
+			spirit_quota = #{spiritQuota},
+			everytime_quota = #{everytimeQuota},
+			accumulated_quota = #{accumulatedQuota},
+			law_everytime_quota = #{lawEverytimeQuota},
+			law_accumulated_quota = #{lawAccumulatedQuota},
+			append_everytime_quota = #{appendEverytimeQuota},
+			append_accumulated_quota = #{appendAccumulatedQuota},
+			bed_premium = #{bedPremium},
+			medical_premium = #{medicalPremium},
+			insure_way = #{insureWay},
+			all_medical_number = #{allMedicalNumber},
+			all_everyone_premium = #{allEveryonePremium},
+			all_premium_total = #{allPremiumTotal},
+			sel_everyone_premium = #{selEveryonePremium},
+			sel_clinic_operation_number = #{selClinicOperationNumber},
+			sel_clinic_notoperation_number = #{selClinicNotoperationNumber},
+			sel_medical_laboratory_number = #{selMedicalLaboratoryNumber},
+			sel_premium_total = #{selPremiumTotal},
+			basic_premium_total = #{basicPremiumTotal},
+			add_reduce = #{addReduce},
+			enchance_deduction = #{enchanceDeduction},
+			risk_float = #{riskFloat},
+			asleft_premium = #{asleftPremium},
+			addittion_risk = #{addittionRisk},
+			addittion_premium = #{addittionPremium},
+			computational_formula = #{computationalFormula},
+			oddicial_receipts_permium = #{oddicialReceiptsPermium},
+			insurance_date = #{insuranceDate},
+			insurance_start_time = #{insuranceStartTime},
+			insurance_end_time = #{insuranceEndTime},
+			retroactive_date = #{retroactiveDate},
+			retroactive_strat_date = #{retroactiveStratDate},
+			retroactive_end_date = #{retroactiveEndDate},
+			premium_delicery_time = #{premiumDeliceryTime},
+			dispute = #{dispute},
+			arbitrator = #{arbitrator},
+			insure_conditions = #{insureConditions},
+			accident_conditions = #{accidentConditions},
+			special_agreement = #{specialAgreement},
+			signature = #{signature},
+			insure_date = #{insureDate},
+			assume_nature = #{assumeNature},
+			agency_code = #{agencyCode},
+			agency_name = #{agencyName},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE INSURANCE_SLIP SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
