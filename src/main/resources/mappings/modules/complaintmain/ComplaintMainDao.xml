@@ -759,8 +759,8 @@
 	</select>
 
 	<select id="fiveYearAmountRatio" resultType="java.util.Map">
-		select sum(m.AGREEMENT_AMOUNT) as value
-		from machine_account m
+		SELECT sum(m.agreement_amount) as value
+		FROM MACHINE_ACCOUNT m
 		LEFT JOIN SYS_OFFICE so on m.HOSPITAL_ID = so.ID
 		LEFT JOIN SYS_AREA sa on so.AREA_ID = sa.id
 		where m.agreement_amount is not null

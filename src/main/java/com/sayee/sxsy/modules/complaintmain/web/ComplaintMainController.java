@@ -19,6 +19,7 @@ import com.sayee.sxsy.test.entity.TestTree;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.mgt.SimpleSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -194,7 +195,6 @@ public class ComplaintMainController extends BaseController {
 	public String selfList(ComplaintMain complaintMain, HttpServletRequest request, HttpServletResponse response, Model model) {
 		//在 task 表中 根据 处理人信息 来查询 当前登录人有几条待办信息，不同的节点返回不同的页面
 		complaintMain.setUser(UserUtils.getUser());
-		System.out.println("==="+complaintMain.getUser());
 		Page<ComplaintMain> page = complaintMainService.selfList(new Page<ComplaintMain>(request, response), complaintMain);
 		model.addAttribute("page", page);
 //		List<Map<String,Object>> list=complaintMainService.selfList(UserUtils.getUser());
@@ -211,6 +211,7 @@ public class ComplaintMainController extends BaseController {
 		//complaintMain.setUser(UserUtils.getUser());
 		Page<ComplaintMain> page = complaintMainService.workstation(new Page<ComplaintMain>(request, response), complaintMain);
 		model.addAttribute("page", page);
+		model.addAttribute("num","1");
 //    List<Map<String,Object>> list=complaintMainService.selfList(UserUtils.getUser());
 //    model.addAttribute("complaintMain", list);
 		return "modules/complaintmain/complaintMainList";
@@ -233,6 +234,12 @@ public class ComplaintMainController extends BaseController {
 		model.addAttribute("ywc", ywc);
 		model.addAttribute("wwc", complaintMainService.findCount(UserUtils.getUser()));
 		return "modules/home/homePage";
+	}
+
+	//
+	@RequestMapping(value = "aa")
+	public String aa(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "modules/home/aa";
 	}
 
 	/**

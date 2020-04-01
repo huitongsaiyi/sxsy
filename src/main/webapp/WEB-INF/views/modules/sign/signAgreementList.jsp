@@ -146,7 +146,7 @@
 						${signAgreement.ratifyAccord}
 				</td>
 				<td style="text-align:center;">
-						${signAgreement.agreementNumber}
+							${signAgreement.agreementNumber}
 				</td>
 				<td style="text-align:center;">
 						${signAgreement.agreementAmount}

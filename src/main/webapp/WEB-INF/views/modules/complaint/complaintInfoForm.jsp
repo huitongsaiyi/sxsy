@@ -420,7 +420,7 @@
 						<td class="tit">涉及人员：</td>
 						<td>
                                     <form:input path="involveEmployee" htmlEscape="false" onchange="relation(this.value,'chuxianyisheng')"
-                                                class="input-xlarge " value="${empty complaintInfo.employeeName?complaintInfo.involveEmployee:complaintInfo.employeeName}"/>
+                                                class="input-xlarge "/>
 							<%--<sys:treeselect id="involveEmployee" name="involveEmployee" value="${complaintInfo.involveEmployee}" labelName="employeeName" labelValue="${complaintInfo.employeeName}"--%>
 											<%--title="用户" url="/sys/office/treeData?type=3&officeType=2" pid="involveDepartment" isAll="true" cssClass="required" dataMsgRequired="请选择人员" allowClear="true" notAllowSelectParent="true"/>--%>
 						</td>

@@ -544,7 +544,7 @@
                 <tr>
                     <td class="tit"><font color="red">*</font>填表人签名:</td>
                     <td colspan="3">
-                            ${empty complaintInfo.reportRegistration.djEmployee.name ?  fns:getUser().name : complaintInfo.reportRegistration.djEmployee.name}
+                            ${fns:getUserById(complaintInfo.reportRegistration.registrationEmp).name }
                     </td>
                     <td class="tit"><font color="red">*</font>填表日期:</td>
                     <td colspan="3">

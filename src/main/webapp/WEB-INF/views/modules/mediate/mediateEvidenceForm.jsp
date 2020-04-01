@@ -1008,7 +1008,7 @@
             <td>
                     <%--<form:input path="nextLinkMan" htmlEscape="false" maxlength="32" class="input-xlarge "/>--%>
                 <sys:treeselect id="nextLinkMan" name="nextLinkMan"
-                                value="${empty mediateEvidence.nextLinkMan? (fn:contains(fns:getUser().office.name,'') ? '' : fns:getUser().id ):mediateEvidence.nextLinkMan}"
+                                value="${empty mediateEvidence.nextLinkMan? (fn:contains(fns:getUser().office.name,'工作站') ? '' : fns:getUser().id ):mediateEvidence.nextLinkMan}"
                                 labelName=""
                                 labelValue="${empty mediateEvidence.linkEmployee.name ? (fn:contains(fns:getUser().office.name,'工作站') ? '' : fns:getUser().name) : mediateEvidence.linkEmployee.name}"
                                 title="用户" url="/sys/office/treeData?type=3&officeType=1${fn:contains(fns:getUser().office.name,'工作站') ? '&next=sz' :''}" allowClear="true"
@@ -1023,7 +1023,7 @@
             </td>
 
         </tr>
-    </ta ble>
+    </table>
     <%--<div class="control-group">--%>
     <%--<label class="control-label"><font color="red">*</font>调解结果：</label>--%>
     <%--<div class="controls">--%>
@@ -1077,6 +1077,7 @@
     </div>
     <act:histoicFlow procInsId="${mediateEvidence.complaintMain.procInsId}"/>
 </form:form>
+
 <script type="text/javascript">
     var mediateEvidenceRowIdx = 0,
         mediateEvidenceTpl = $("#mediateEvidenceTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
