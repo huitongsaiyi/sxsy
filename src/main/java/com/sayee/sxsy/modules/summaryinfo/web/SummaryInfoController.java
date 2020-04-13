@@ -175,10 +175,12 @@ public class SummaryInfoController extends BaseController {
 		}
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");
+			String complaintId=request.getParameter("complaintId");
 			model.addAttribute("show2",show2);
 			Map<String,Object> map=summaryInfoService.getViewDetail(summaryInfo.getComplaintMainId());
 			model.addAttribute("summaryInfo", summaryInfo);
 			model.addAttribute("map", map);
+			model.addAttribute("complaintId", complaintId);
 			return "modules/summaryinfo/summaryInfoView";
 		}else {
 			model.addAttribute("summaryInfo", summaryInfo);

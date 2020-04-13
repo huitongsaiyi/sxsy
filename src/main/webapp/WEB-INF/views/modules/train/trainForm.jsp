@@ -7,10 +7,9 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//给多选框 赋值
-			var send = '${training.send}';
+			var send = '${train.send}';
 			var arr=send.split(",");
 			$("#send").val(arr).trigger('change');
-
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
@@ -29,12 +28,13 @@
 		});
 	</script>
 </head>
+<%--${ctx}/train/train/save--%>
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/train/train/">培训视频列表</a></li>
 		<li class="active"><a href="${ctx}/train/train/form?id=${train.id}">培训视频<shiro:hasPermission name="train:train:edit">${not empty train.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="train:train:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="train" action="${ctx}/train/train/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="train" action="${ctx}/train/train/save" method="post" class="form-horizontal" enctype="multipart/form-data">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
@@ -55,11 +55,10 @@
 		<div class="control-group">
 			<label class="control-label">科室：</label>
 			<div class="controls">
-				<sys:treeselect id="department" name="department" value="${training.department}" labelName="typeName"
-								labelValue="${training.testTree}" title="涉及科室"
-								url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
-								notAllowSelectParent="true"  cssClass="required" dataMsgRequired="请选择科室"/>
-
+                <sys:treeselect id="department" name="department" value="${train.department}" labelName="typeName"
+                                labelValue="${train.department}" title="涉及科室"
+                                url="/test/testTree/treeData?mold=2" isAll="true" allowClear="true"
+                                notAllowSelectParent="true"  cssClass="required" dataMsgRequired="请选择科室"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -71,7 +70,7 @@
 		<div class="control-group">
 			<label class="control-label">发往：</label>
 			<div class="controls">
-				<form:select path="send" class="input-xlarge required" multiple="true" >
+				<form:select path="send" class="input-xlarge required" multiple="true">
 					<form:option value="0">平台</form:option>
 					<form:option value="1">小程序</form:option>
 					<form:option value="2">网站</form:option>
@@ -83,7 +82,7 @@
 			<label class="control-label">视频文件：</label>
 			<div class="controls">
 				<form:hidden id="path" path="path" htmlEscape="false" maxlength="1000" class="input-xlarge"/>
-				<sys:ckfinder input="path" type="files" uploadPath="/train/training" selectMultiple="true"/>
+				<sys:ckfinder input="path" type="files" uploadPath="/train/train" selectMultiple="true"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -96,31 +95,46 @@
 			<label class="control-label">图片路径：</label>
 			<div class="controls">
 				<form:hidden id="picturePath" path="picturePath" htmlEscape="false" maxlength="1000" class="input-xlarge"/>
-				<sys:ckfinder input="picturePath" type="files" uploadPath="/train/train" selectMultiple="true"/>
+				<sys:ckfinder input="picturePath" type="files" uploadPath="" selectMultiple="true"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">是否付费：</label>
 			<div class="controls">
-				<form:select path="payment" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				<form:select path="payment" class="input-xlarge " id="con" onchange="aa()">
+					<form:option value="" label="" />
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select>
 			</div>
 		</div>
+        <script>
+
+            var num = document.getElementById("num");
+            var price = document.getElementById("price");
+            function aa(){
+                if($("#con").val()==0){
+                    $("#num").css("display","none");
+                    $("#price").css("display","none");
+                }else{
+                        $("#num").css("display","block");
+                        $("#price").css("display","block");
+                    }
+            }
+
+        </script>
 		<div class="control-group">
 			<label class="control-label">课程章节：</label>
 			<div class="controls">
 				<form:input path="courseChapter" htmlEscape="false" maxlength="10" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" id="num" style="display: none;">
 			<label class="control-label">购买人数：</label>
 			<div class="controls">
 				<form:input path="buyNumber" htmlEscape="false" maxlength="6" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" id="price" style="display: none;">
 			<label class="control-label">视频价格：</label>
 			<div class="controls">
 				<form:input path="videoPrice" htmlEscape="false" class="input-xlarge "/>

@@ -8,6 +8,7 @@
     <style type="text/css">
 
         html, body, table {
+            overflow-y: hidden !important;
             background-color: #f5f5f5;
             width: 100%;
             text-align: center;
@@ -16,26 +17,34 @@
             margin: 0;
             background: url('${ctxStatic}/images/new.png') no-repeat;
             background-size: cover;
+            line-height: 0px !important;
         }
 
         .form-signin-heading {
-            font-family: Helvetica, Georgia, Arial, sans-serif, 黑体;
-            font-size: 25px;
-            margin-bottom: 20px;
+
+            height: 120px;
+            padding: 20px;
+            font-family: Helvetica, Georgia, Arial, sans-serif, 微软雅黑;
+            font-size: 60px;
+            position: absolute;
+            letter-spacing: 10px;
+            left: 20%;
+            bottom: 30%;
+            background: linear-gradient(to top, #209cff, #68e0cf);
+            -webkit-background-clip: text;
+            color: transparent;
             text-align: center;
-            color: #0663a2;
         }
 
         .form-signin {
             position: relative;
             text-align: left;
-            width: 250px;
-            height: 300px;
+            width: 350px;
+            height: 280px;
             float: right;
             padding: 25px 29px 29px;
-            margin: 0 10% 20px;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
+            margin: 12.5% 8% 20px;
+            background-color: rgba(23,50,97,0.4);
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
@@ -50,12 +59,23 @@
         }
 
         .form-signin .input-label {
-            font-size: 16px;
+            width: 25%;
+            float: left;
+            font-size: 15px;
             line-height: 23px;
-            color: #999;
+            color: #fff;
         }
-
+        .form-signin .login-info {
+            width: 100%;
+            letter-spacing: 5px;
+            font-size:25px;
+            line-height: 40px;
+            color: #fff;
+            margin-bottom: 25px;
+        }
         .form-signin .input-block-level {
+            width: 75%;
+            float: left;
             font-size: 16px;
             height: auto;
             margin-bottom: 15px;
@@ -66,6 +86,7 @@
         }
 
         .form-signin .btn.btn-large {
+            width: 100%;
             font-size: 16px;
         }
 
@@ -113,6 +134,33 @@
             text-align: center;
             font-size: 16px;
         }
+        #pass-input{
+            letter-spacing: 10px;
+        }
+
+        .logo-box{
+            position: absolute;
+            left: 8%;
+            top: 33%;
+            width: 39.9%;
+            height: 26.2%;
+            background-image: url("${ctxStatic}/images/logo.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        .logo-box img{
+            width: 100%;
+            height: 100%;
+        }
+        .box{
+            width: 90%;
+            height: 90%;
+            margin: auto;
+        }
+        .bigbox{
+
+        }
+
     </style>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -143,20 +191,26 @@
     <div id="messageBox" class="alert alert-error ${empty message ? 'hide' : ''}"><button data-dismiss="alert" class="close">×</button>
         <label id="loginError" class="error">${message}</label>
     </div>
+    <div class="bigbox">
 </div>
+    <div class="logo-box">
+    <%--<img id="input-logo" src="${ctxStatic}/images/logo.png">--%>
+    </div>
 <form id="loginForm" class="form-signin" action="${ctx}/login" method="post">
-    <h1 class="form-signin-heading">${fns:getConfig('productName')}</h1>
-    <label class="input-label" for="username">登录名</label>
+    <div class="box">
+    <label class="login-info" for="username">欢迎登录</label>
+    <label class="input-label" for="username" style="letter-spacing: 3px;">用户名:</label>
     <input type="text" id="username" name="username" class="input-block-level required" value="${username}">
-    <label class="input-label" for="password">密码</label>
+    <label id="pass-input" class="input-label" for="password">密码:</label>
     <input type="password" id="password" name="password" class="input-block-level required">
     <c:if test="${isValidateCodeLogin}"><div class="validateCode">
         <label class="input-label mid" for="validateCode">验证码</label>
         <sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
     </div></c:if><%--
 		<label for="mobile" title="手机登录"><input type="checkbox" id="mobileLogin" name="mobileLogin" ${mobileLogin ? 'checked' : ''}/></label> --%>
-    <input class="btn btn-large btn-primary" type="submit" value="登 录"/>&nbsp;&nbsp;
-    <label for="rememberMe" title="下次不需要再登录"><input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}/> 记住我（公共场所慎用）</label>
+    <label for="rememberMe" title="下次不需要再登录" style="color:white; padding-left: 25%"><input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}/> 记住我（公共场所慎用）</label>
+    <input class="btn btn-large btn-primary" type="submit"  value="登 录" style="width: 100%; font-size:18px;letter-spacing: 5px;"/>&nbsp;&nbsp;
+    </div>
     <div id="themeSwitch" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -165,6 +219,7 @@
         <!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
     </div>
 </form>
+</div>
 <div class="footer">
     <%--${fns:getConfig('copyrightYear')}
             Copyright &copy; 2012-${fns:getConfig('copyrightYear')} <a href="${pageContext.request.contextPath}${fns:getFrontPath()}">${fns:getConfig('productName')}</a> - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')}

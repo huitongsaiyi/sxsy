@@ -14,5 +14,5 @@ import com.sayee.sxsy.modules.insuranceslip.entity.InsuranceSlip;
  */
 @MyBatisDao
 public interface InsuranceSlipDao extends CrudDao<InsuranceSlip> {
-	
+
 }

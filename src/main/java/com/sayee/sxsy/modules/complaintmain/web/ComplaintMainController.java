@@ -665,7 +665,6 @@ public class ComplaintMainController extends BaseController {
 				}else {
 					gradeList=complaintMainService.findGrade(user, year, beginMonthDate,endMonthDate,type);
 				}
-
                 gradeList.sort(new Comparator<Map<String, Object>>() {
                     @Override
                     public int compare(Map<String, Object> o1, Map<String, Object> o2) {

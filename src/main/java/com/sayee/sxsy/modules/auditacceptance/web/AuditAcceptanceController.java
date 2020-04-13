@@ -141,11 +141,15 @@ public class AuditAcceptanceController extends BaseController {
 		}
 		String type = request.getParameter("type");
 		String show2=request.getParameter("show2");
+		String complaintId = request.getParameter("id");
+		String complaintMainId = request.getParameter("mainId");
 		if("view".equals(type)) {
 			model.addAttribute("show2",show2);
-			Map<String, Object> map = summaryInfoService.getViewDetail(auditAcceptance.getComplaintMainId());
+			Map<String, Object> map = summaryInfoService.getViewDetail(complaintMainId);
 			model.addAttribute("map",map);
+			model.addAttribute("complaintId",complaintId);
 			model.addAttribute("auditAcceptance", auditAcceptance);
+			model.addAttribute("num","1");
 			return "modules/auditacceptance/auditAcceptanceView";
 		}else{
 			model.addAttribute("auditAcceptance", auditAcceptance);

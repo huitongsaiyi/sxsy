@@ -747,9 +747,9 @@
 
 		</tr>
 		<tr id="pass">
-			<td class="tit"><font color="red">*</font>处理经过：</td>
+			<td class="tit">处理经过：</td>
 			<td colspan="3">
-				<form:textarea path="handlePass" htmlEscape="false" class="input-xlarge required" style="margin: 0px; width: 938px; height: 125px;"/>
+				<form:textarea path="handlePass" htmlEscape="false" class="input-xlarge" style="margin: 0px; width: 938px; height: 125px;"/>
 			</td>
 		</tr>
 		<tr id="result">

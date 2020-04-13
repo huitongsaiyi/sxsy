@@ -52,7 +52,7 @@ public class User extends DataEntity<User> {
 	private Date oldLoginDate;	// 上次登陆日期
 	
 	private Role role;	// 根据角色查询用户条件
-	
+	private String auditing; //审核
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
     private String post;		//岗位（卫计委）
 	private String hospitalTitle;		//医院人员的职称
@@ -74,7 +74,13 @@ public class User extends DataEntity<User> {
 		super();
 		this.role = role;
 	}
+	public String getAuditing() {
+		return auditing;
+	}
 
+	public void setAuditing(String auditing) {
+		this.auditing = auditing;
+	}
 
 
 	public String getHospitalTitle() {
@@ -172,7 +178,7 @@ public class User extends DataEntity<User> {
 		return name;
 	}
 	
-	@Length(min=1, max=100, message="工号长度必须介于 1 和 100 之间")
+	@Length(min=0, max=100, message="工号长度必须介于 0 和 100 之间")
 	@ExcelField(title="工号", align=2, sort=45)
 	public String getNo() {
 		return no;

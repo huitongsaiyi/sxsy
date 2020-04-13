@@ -72,9 +72,11 @@
 
 	<select id="findList" resultType="PerformAgreement">
 		SELECT
+		ci.COMPLAINT_ID as "complaintMain.complaintId",
 		<include refid="performAgreementColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="performAgreementJoins"/>
+		LEFT JOIN COMPLAINT_INFO ci ON ci.COMPLAINT_MAIN_ID =b.COMPLAINT_MAIN_ID
 		<where>
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL AND t.TASK_DEF_KEY_='fulfill'
 			<if test="user != null and user.id != null and user.id != ''">

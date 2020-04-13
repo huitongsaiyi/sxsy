@@ -21,7 +21,10 @@ import com.sayee.sxsy.modules.sys.entity.Office;
 import com.sayee.sxsy.modules.sys.entity.User;
 import com.sayee.sxsy.modules.sys.service.SystemService;
 import com.sayee.sxsy.modules.sys.utils.DictUtils;
+import com.sayee.sxsy.modules.sys.utils.FileBaseUtils;
 import com.sayee.sxsy.modules.sys.utils.UserUtils;
+import com.sun.tools.javadoc.Start;
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,30 +72,48 @@ public class InsuranceSlipController extends BaseController {
 	@RequiresPermissions("insuranceslip:insuranceSlip:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(InsuranceSlip insuranceSlip, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<InsuranceSlip> page = insuranceSlipService.findPage(new Page<InsuranceSlip>(request, response), insuranceSlip); 
+		Page<InsuranceSlip> page = insuranceSlipService.findPage(new Page<InsuranceSlip>(request, response), insuranceSlip);
 		model.addAttribute("page", page);
 		return "modules/insuranceslip/insuranceSlipList";
 	}
 
 	@RequiresPermissions("insuranceslip:insuranceSlip:view")
 	@RequestMapping(value = "form")
-	public String form(InsuranceSlip insuranceSlip, Model model) {
+	public String form(InsuranceSlip insuranceSlip, Model model,HttpServletRequest request) {
+        List<Map<String, Object>> filePath = FileBaseUtils.getFilePath(insuranceSlip.getInsurancePolicyId());
+        if (filePath.size()==0 && insuranceSlip.getInsurancePolicyId()!=null){
+            filePath = FileBaseUtils.getFilePath(insuranceSlip.getInsurancePolicyId());
+            for (Map<String, Object> map:filePath){
+                map.remove("ACCE_ID");
+                map.remove("acce_id");
+            }
+        }
+        for (Map<String, Object> map:filePath){
+            model.addAttribute("files1",MapUtils.getString(map,"FILE_PATH",MapUtils.getString(map,"file_path","")));
+            model.addAttribute("acceId1",MapUtils.getString(map,"ACCE_ID",MapUtils.getString(map,"acce_id","")));
+        }
+		String type = request.getParameter("type");
 		model.addAttribute("insuranceSlip", insuranceSlip);
-		return "modules/insuranceslip/insuranceSlipForm";
+//		model.addAttribute("state", state);
+        if ("view".equals(type)){
+            return "modules/insuranceslip/insuranceSlipView";
+
+        }else {
+            return "modules/insuranceslip/insuranceSlipForm";
+        }
 	}
 
 	@RequiresPermissions("insuranceslip:insuranceSlip:edit")
 	@RequestMapping(value = "save")
 	public String save(InsuranceSlip insuranceSlip, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		if (!beanValidator(model, insuranceSlip)){
-			return form(insuranceSlip, model);
+			return form(insuranceSlip, model,request);
 		}
-		String start = request.getParameter("start");
-		insuranceSlip.setState(start);
-
-		insuranceSlipService.save(insuranceSlip);
+//		String state = request.getParameter("state");
+//		insuranceSlip.setState(state);
+		insuranceSlipService.save(insuranceSlip,request);
 		addMessage(redirectAttributes, "保存投保单成功");
-		return "redirect:"+Global.getAdminPath()+"/insuranceslip/insuranceSlip/?repage";
+		return "redirect:"+Global.getAdminPath()+"/insuranceslip/insuranceSlip/?repage&start=" +insuranceSlip.getState() +"";
 	}
 	
 	@RequiresPermissions("insuranceslip:insuranceSlip:edit")
@@ -130,13 +151,16 @@ public class InsuranceSlipController extends BaseController {
 			String label=DictUtils.getDictLabel(o.getHospitalGrade(),"hospital_grade","其他");
 			map.put("hospitalGrade",label); //医院等级
 		}
-		map.put("theInsured",o.getName1()); //医院名
+		map.put("theInsured",o.getName()); //医院名
 		map.put("policyPhone",o.getPhone()); //投保人联系电话
 		map.put("emailAddress",o.getEmail()); //投保人：电子邮箱
 		map.put("sitePostcode",o.getAddress()); //投保人：通信地址
 		map.put("postalCode",o.getZipCode()); //被保人：邮编
 		map.put("gradeValue",o.getHospitalGrade()); //医院等级 value
-		map.put("sickbedNumber",o.getBeds()); //床位数
+        if (StringUtils.isNotBlank(o.getBeds())){
+            map.put("sickbedNumber",o.getBeds()); //床位数
+        }
+
 		//医院类别
 		String dictLabel = DictUtils.getDictLabel(o.getGrade(), "sys_office_grade", "");
 		map.put("category",dictLabel);
@@ -145,20 +169,23 @@ public class InsuranceSlipController extends BaseController {
 
 		//基本费用
 		String bedsMoney = DictUtils.getDictValue("500", "beds", "");
-		String bedsNumber = o.getBeds();
-		int bedsM = Integer.parseInt(bedsMoney);	//床位单价
-		int bedsN = Integer.parseInt(bedsNumber);	//床位数
-		int medicalPremium = bedsM * bedsN; //医疗机构保险费
+		String bedsNumber =  o.getBeds();
+//		if (!bedsNumber.equals("")){
+		if (StringUtils.isNotBlank(bedsNumber)){
+            int bedsM = Integer.parseInt(bedsMoney);	//床位单价
+            int bedsN = Integer.parseInt(bedsNumber);	//床位数
+            int medicalPremium = bedsM * bedsN; //医疗机构保险费
+            map.put("medicalPremium",medicalPremium); //医疗机构保险费
+        }
 		map.put("bedPremium",bedsMoney);//每床位保险费
-		map.put("medicalPremium",medicalPremium); //医疗机构保险费
 		//每人基本保险费
 		String allEveryonePremium = DictUtils.getDictValue("400", "one_premium", "");
 		map.put("allEveryonePremium",allEveryonePremium);
 		//累计赔偿限额
 		String accumulatedQuota = DictUtils.getDictValue(o.getHospitalGrade(),"accumulated_quota","");
 		map.put("accumulatedQuota",accumulatedQuota);
-		String accumulatedQuotaBig = DictUtils.big(accumulatedQuota, "accumulated_quota", "");
-		map.put("accumulatedQuotaBig",accumulatedQuotaBig);
+//		String accumulatedQuotaBig = DictUtils.big(accumulatedQuota, "accumulated_quota", "");
+//		map.put("accumulatedQuotaBig",accumulatedQuotaBig);
 		//精神赔偿限额
 		String spiritQuota = DictUtils.getDictValue(o.getHospitalGrade(),"spirit_quota","");
 		map.put("spiritQuota",spiritQuota);
@@ -175,13 +202,13 @@ public class InsuranceSlipController extends BaseController {
 		//法律费用 累计限额
 		String lawAccumulatedQuota = DictUtils.getDictValue(o.getHospitalGrade(),"law_accumulated_quota","");
 		map.put("lawAccumulatedQuota",lawAccumulatedQuota);
-		String lawAccumulatedQuotaBig = DictUtils.big(lawAccumulatedQuota,"law_accumulated_quota","");
-		map.put("lawAccumulatedQuotaBig",lawAccumulatedQuotaBig);
+//		String lawAccumulatedQuotaBig = DictUtils.big(lawAccumulatedQuota,"law_accumulated_quota","");
+//		map.put("lawAccumulatedQuotaBig",lawAccumulatedQuotaBig);
 		//法律费用 每次限额
 		String lawEverytimeQuota = DictUtils.getDictValue(o.getHospitalGrade(),"law_everytime_quota","");
 		map.put("lawEverytimeQuota",lawEverytimeQuota);
-		String lawEverytimeQuotaBig = DictUtils.big(lawEverytimeQuota,"law_everytime_quota","");
-		map.put("lawEverytimeQuotaBig",lawEverytimeQuotaBig);
+//		String lawEverytimeQuotaBig = DictUtils.big(lawEverytimeQuota,"law_everytime_quota","");
+//		map.put("lawEverytimeQuotaBig",lawEverytimeQuotaBig);
 		//每床位保险费
 		String beds1 = DictUtils.getDictValue("500", "beds", "");
 		String beds = DictUtils.getDictValue(beds1,"beds","");
@@ -189,9 +216,10 @@ public class InsuranceSlipController extends BaseController {
 
 		//附加险
 		String addittionRisk = request.getParameter("addittionRisk"); //附加险选中内容
-		if (StringUtils.isNotBlank(addittionRisk)){
-			String beds2 = o.getBeds();
-			String beds02 = DictUtils.getDictLabel(o.getBeds(), "beds", "无法计算");
+		String bedsNum = request.getParameter("bedsNum"); //页面床位数
+		if (StringUtils.isNotBlank(addittionRisk) && StringUtils.isNotBlank(bedsNum)){
+//			String beds2 = o.getBeds();
+			String beds02 = DictUtils.getDictLabel(bedsNum, "beds", "无法计算");
 			if (addittionRisk.equals("changsuo")){
 				//获取字典
 				List<Dict> sitePremium = DictUtils.getDictList("site_premium");
@@ -203,7 +231,7 @@ public class InsuranceSlipController extends BaseController {
 					String[] split1 = s.split("-");
 					Integer minNum = Integer.valueOf(split1[0]);
 					Integer maxNum = Integer.valueOf(split1[1]);
-					Integer bed = Integer.valueOf(beds2);
+					Integer bed = Integer.valueOf(bedsNum);
 					if (bed >= minNum && bed <= maxNum ){
 						label = minNum + "-" + maxNum;
 						String sitePremium1 = DictUtils.getDictValue(label, "site_premium", "");
@@ -330,7 +358,7 @@ public class InsuranceSlipController extends BaseController {
     }
 
     /**
-     * 导出台账
+     * 导出花名册
      */
     @RequiresPermissions("insuranceslip:insuranceSlip:view")
     @RequestMapping(value = "export",method = RequestMethod.POST)

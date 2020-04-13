@@ -149,7 +149,7 @@
 					<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}">处理</a>
 					<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${assessAppraisal.complaintMainId}&taskId=${assessAppraisal.complaintMain.act.taskId}&module=badj&url4=/assessappraisal/assessAppraisal/?repage">终止调解</a>
 				</c:if>
-				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}&type=view">详情</a>
+				<a href="${ctx}/assessappraisal/assessAppraisal/form?id=${assessAppraisal.assessAppraisalId}&complaintId=${assessAppraisal.complaintMain.complaintId}&type=view">详情</a>
 			</td></shiro:hasPermission>
 		</tr>
 	</c:forEach>

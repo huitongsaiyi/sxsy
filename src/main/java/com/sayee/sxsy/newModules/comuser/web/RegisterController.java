@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.Cache;
 
+/**
+ * 用户注册
+ */
 @Controller
 public class RegisterController {
     @Autowired
@@ -27,11 +30,7 @@ public class RegisterController {
 
         SysComuser comuser = jsonObject.toJavaObject(SysComuser.class);
         String code = jsonObject.getString("code");
-
-        System.out.println(comuser.getLoginName());
         String random = CacheUtils.get("YSJ_CODE",comuser.getLoginName()).toString();
-        System.out.println(random);
-
 
         if (!code.equals(random)) {
             return ResponsesUtils.build(500, "验证码输入错误");

@@ -82,14 +82,16 @@
 					</c:otherwise>
 				</c:choose>
 				<td style="text-align: center">
-					<a href="javascript:" onclick="$('#e_${lawCase.lawCaseId}').toggle()">${fns:abbr(lawCase.content,30)}</a>
+					<a href="javascript:" onclick="$('#e_${lawCase.lawCaseId}').toggle()">
+							${fns:abbr(lawCase.content,100)}
+					</a>
 				</td>
 				<td style="text-align: center">
 					<fmt:formatDate value="${lawCase.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="law:lawCase:edit"><td style="text-align: center">
     				<a href="${ctx}/law/lawCase/form?id=${lawCase.lawCaseId}&law=${law}">修改</a>
-					<a href="${ctx}/law/lawCase/delete?id=${lawCase.lawCaseId}" onclick="return confirmx('确认要删除该信息吗？', this.href)">删除</a>
+					<a href="${ctx}/law/lawCase/delete?id=${lawCase.lawCaseId}&law=${lawCase.type}" onclick="return confirmx('确认要删除该信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 			<tr id="e_${lawCase.lawCaseId}" style="background:#fdfdfd;display:none;"><td colspan="6">${fns:replaceHtml2(lawCase.content)}</td></tr>

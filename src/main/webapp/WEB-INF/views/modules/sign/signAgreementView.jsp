@@ -34,7 +34,11 @@
 
 
             //投诉接待详情
-            $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view");
+            if(${map.tsjd==null || map.tsjd==""}){
+                $("#tsjdDetail").attr("src","${ctx}/complaint/complaintInfo/form?id=${complaintId}&num=1&type=view");
+            }else{
+                $("#tsjdDetail").attr("src","${ctx}/complaintdetail/complaintMainDetail/form?id=${map.tsjd}&type=view");
+            }
             var tsjd= document.getElementById("tsjdDetail");
             tsjd.height=document.documentElement.clientHeight-130;
             tsjd.width=document.documentElement.clientWidth;

@@ -145,7 +145,7 @@
 						<a href="${ctx}/mediate/mediateEvidence/form?id=${mediateEvidence.mediateEvidenceId}">处理</a>
 						<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${mediateEvidence.complaintMainId}&taskId=${mediateEvidence.complaintMain.act.taskId}&module=badj&url7=/mediate/mediateEvidence/?repage">终止调解</a>
 					</c:if>
-					<a href="${ctx}/mediate/mediateEvidence/form?id=${mediateEvidence.mediateEvidenceId}&type=view">详情</a>
+					<a href="${ctx}/mediate/mediateEvidence/form?id=${mediateEvidence.mediateEvidenceId}&complaintId=${mediateEvidence.complaintMain.complaintId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

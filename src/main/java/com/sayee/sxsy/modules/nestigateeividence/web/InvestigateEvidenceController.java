@@ -124,9 +124,11 @@ public class InvestigateEvidenceController extends BaseController {
 		String type=request.getParameter("type");
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");
+			String complaintId =request.getParameter("complaintId");
 			model.addAttribute("show2",show2);
 			Map<String, Object> map = summaryInfoService.getViewDetail(investigateEvidence.getComplaintMainId());
 			model.addAttribute("map",map);
+			model.addAttribute("complaintId",complaintId);
 			model.addAttribute("investigateEvidence", investigateEvidence);
 			return "modules/nestigateeividence/investigateEvidencesView";
 		}else{

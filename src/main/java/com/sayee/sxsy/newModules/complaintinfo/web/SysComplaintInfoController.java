@@ -24,6 +24,11 @@ public class SysComplaintInfoController {
     @Autowired
     SysComuserService sysComuserService;
 
+    /**
+     *
+     * @param jsonObject
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "ysj/complaint", method = RequestMethod.POST)
     public ResponsesUtils upDateComUser(@RequestBody JSONObject jsonObject) {

@@ -162,7 +162,7 @@
 						<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}">处理</a>
 						<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${investigateEvidence.complaintMainId}&taskId=${investigateEvidence.complaintMain.act.taskId}&module=badj&url3=/nestigateeividence/investigateEvidence/?repage">终止调解</a>
 					</c:if>
-					<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}&type=view">详情</a>
+					<a href="${ctx}/nestigateeividence/investigateEvidence/form?id=${investigateEvidence.investigateEvidenceId}&complaintId=${investigateEvidence.complaintMain.complaintId}&type=view">详情</a>
 <%--
 					<a href="${ctx}/nestigateeividence/investigateEvidence/delete?id=${investigateEvidence.id}" onclick="return confirmx('确认要删除该成功吗？', this.href)">删除</a>
 --%>

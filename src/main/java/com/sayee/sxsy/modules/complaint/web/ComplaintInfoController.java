@@ -112,6 +112,13 @@ public class ComplaintInfoController extends BaseController {
 			String show2=request.getParameter("show2");
 			model.addAttribute("show2",show2);
 			model.addAttribute("complaintInfo", complaintInfo);
+			String num = request.getParameter("num");
+			try {
+				if(num.equals("1")){
+					return "modules/complaint/complaintInfoView2";
+				}
+			}catch (Exception e){
+			}
 			return "modules/complaint/complaintInfoView";
 		}else {
 			model.addAttribute("complaintInfo", complaintInfo);

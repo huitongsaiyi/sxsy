@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sayee.sxsy.common.config.Global;
@@ -26,6 +27,7 @@ import com.sayee.sxsy.modules.train.service.TrainService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 培训视频Controller
@@ -57,12 +59,15 @@ public class TrainController extends BaseController {
 	public String list(Train train, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<Train> page = trainService.findPage(new Page<Train>(request, response), train);
 		List newName = new ArrayList();
-		for (Train train1 : page.getList()) {
-			boolean br = train1.getDepartment().matches(".*[a-z]+.*");
-			if (br == true) {
-				TestTree departmentNewName = testTreeDao.get(train1.getDepartment().replaceAll("\'", "").replaceAll("\"", ""));
-				train1.setDepartment(departmentNewName == null ? "" : departmentNewName.getName());
+		try {
+			for (Train train1 : page.getList()) {
+				boolean br = train1.getDepartment().matches(".*[a-z]+.*");
+				if (br == true) {
+					TestTree departmentNewName = testTreeDao.get(train1.getDepartment().replaceAll("\'", "").replaceAll("\"", ""));
+					train1.setDepartment(departmentNewName == null ? "" : departmentNewName.getName());
+				}
 			}
+		}catch (Exception e){
 		}
 			model.addAttribute("page", page);
 			return "modules/train/trainList";
@@ -70,16 +75,34 @@ public class TrainController extends BaseController {
 	@RequiresPermissions("train:train:view")
 	@RequestMapping(value = "form")
 	public String form(Train train, Model model) {
+        try {
+            boolean br = train.getDepartment().matches(".*[a-z]+.*");
+            if (br == true) {
+                TestTree departmentNewName = testTreeDao.get(train.getDepartment().replaceAll("\'", "").replaceAll("\"", ""));
+                train.setDepartment(departmentNewName == null ? "" : departmentNewName.getName());
+            }
+        }catch (Exception e){
+        }
 		model.addAttribute("train", train);
 		return "modules/train/trainForm";
 	}
 
 	@RequiresPermissions("train:train:edit")
 	@RequestMapping(value = "save")
-	public String save(Train train, Model model, RedirectAttributes redirectAttributes) {
+	public String save(Train train, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) {
 		if (!beanValidator(model, train)){
 			return form(train, model);
 		}
+		if(train.getTrainId()==null||train.getTrainId().equals("")){
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        train.setTrainId(uuid);
+        }
+		String path = train.getPath();
+		String newPath = path.replace("sayee", "file\\video");
+		train.setPath(newPath);
+		String picturePath = train.getPicturePath();
+		String newPicturePath = picturePath.replace("sayee", "file\\video");
+		train.setPicturePath(newPicturePath);
 		trainService.save(train);
 		addMessage(redirectAttributes, "保存培训视频成功");
 		return "redirect:"+Global.getAdminPath()+"/train/train/?repage";

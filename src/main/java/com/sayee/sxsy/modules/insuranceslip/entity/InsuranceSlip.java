@@ -3,8 +3,11 @@
  */
 package com.sayee.sxsy.modules.insuranceslip.entity;
 
+import com.sayee.sxsy.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.sayee.sxsy.common.persistence.DataEntity;
@@ -19,6 +22,7 @@ public class InsuranceSlip extends DataEntity<InsuranceSlip> {
 	private static final long serialVersionUID = 1L;
 	private String insurancePolicyId;		// 投保单ID
 	private String policyHolder;		// 投保人
+	private String area;		// 投保人所属区域
 	private String policyPhone;		// 投保人：联系电话
 	private String sitePostcode;		// 投保人：通信地址和邮编
 	private String emailAddress;		// 投保人：电子邮箱
@@ -62,7 +66,10 @@ public class InsuranceSlip extends DataEntity<InsuranceSlip> {
 	private String enchanceDeduction;		// 提高免赔后的保险费调整系数
 	private String riskFloat;		// 风险浮动系数
 	private String asleftPremium;		// 调整后的保险费
-	private String addittionRisk;		// 附加保险名称
+	private String addittionRiskOne;		// 附加保险名称1
+	private String addittionRiskTwo;		// 附加保险名称2
+	private String addittionRiskThree;		// 附加保险名称3
+	private String addittionRiskFour;		// 附加保险名称4
 	private String addittionPremium;		// 附加险保险费
 	private String computationalFormula;		// 计算公式
 	private String oddicialReceiptsPermium;		// 实收保险费
@@ -85,6 +92,142 @@ public class InsuranceSlip extends DataEntity<InsuranceSlip> {
 	private String agencyName;		// 业务员/代理人姓名
 	private String state; 			//状态
 	private String reject;		//驳回信息
+
+	private User user;          //当前登陆人
+	private List<String> list;//保单审核工作站人员list
+	private String node; //审核员
+	private String assignee; //审核时的人员
+
+	private String accidentInsuranceOne; //保费金额 一般
+	private String accidentInsuranceTwo; //保费金额 纠纷
+	private String accidentMedicalOne; //意外医疗 一般
+	private String accidentMedicalTwo; //意外医疗 纠纷
+	private String accidentPremium; //伤害险 保费
+	private String contagionPremium; //传染险 保费
+	private String contagionOneQuota; //每人累计限额
+	private String contagionYearQuota; //累计赔偿限额
+	private String ououtsourcing; //外聘 实习 保费系数
+	private String premiumFour; //第四个 附加费
+
+	public String getPremiumFour() {
+		return premiumFour;
+	}
+
+	public void setPremiumFour(String premiumFour) {
+		this.premiumFour = premiumFour;
+	}
+
+	public String getAccidentInsuranceOne() {
+		return accidentInsuranceOne;
+	}
+
+	public void setAccidentInsuranceOne(String accidentInsuranceOne) {
+		this.accidentInsuranceOne = accidentInsuranceOne;
+	}
+
+	public String getAccidentInsuranceTwo() {
+		return accidentInsuranceTwo;
+	}
+
+	public void setAccidentInsuranceTwo(String accidentInsuranceTwo) {
+		this.accidentInsuranceTwo = accidentInsuranceTwo;
+	}
+
+	public String getAccidentMedicalOne() {
+		return accidentMedicalOne;
+	}
+
+	public void setAccidentMedicalOne(String accidentMedicalOne) {
+		this.accidentMedicalOne = accidentMedicalOne;
+	}
+
+	public String getAccidentMedicalTwo() {
+		return accidentMedicalTwo;
+	}
+
+	public void setAccidentMedicalTwo(String accidentMedicalTwo) {
+		this.accidentMedicalTwo = accidentMedicalTwo;
+	}
+
+	public String getAccidentPremium() {
+		return accidentPremium;
+	}
+
+	public void setAccidentPremium(String accidentPremium) {
+		this.accidentPremium = accidentPremium;
+	}
+
+	public String getContagionPremium() {
+		return contagionPremium;
+	}
+
+	public void setContagionPremium(String contagionPremium) {
+		this.contagionPremium = contagionPremium;
+	}
+
+	public String getContagionOneQuota() {
+		return contagionOneQuota;
+	}
+
+	public void setContagionOneQuota(String contagionOneQuota) {
+		this.contagionOneQuota = contagionOneQuota;
+	}
+
+	public String getContagionYearQuota() {
+		return contagionYearQuota;
+	}
+
+	public void setContagionYearQuota(String contagionYearQuota) {
+		this.contagionYearQuota = contagionYearQuota;
+	}
+
+	public String getOuoutsourcing() {
+		return ououtsourcing;
+	}
+
+	public void setOuoutsourcing(String ououtsourcing) {
+		this.ououtsourcing = ououtsourcing;
+	}
+
+	public String getAssignee() {
+		return assignee;
+	}
+
+	public void setAssignee(String assignee) {
+		this.assignee = assignee;
+	}
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getNode() {
+		return node;
+	}
+
+	public void setNode(String node) {
+		this.node = node;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 
 	public String getReject() {
 		return reject;
@@ -495,16 +638,40 @@ public class InsuranceSlip extends DataEntity<InsuranceSlip> {
 		this.asleftPremium = asleftPremium;
 	}
 	
-	@Length(min=0, max=1000, message="附加保险名称长度必须介于 0 和 1000 之间")
-	public String getAddittionRisk() {
-		return addittionRisk;
+	@Length(min=0, max=1000, message="附加保险名称长度必须介于 0 和 100 之间")
+	public String getAddittionRiskOne() {
+		return addittionRiskOne;
 	}
 
-	public void setAddittionRisk(String addittionRisk) {
-		this.addittionRisk = addittionRisk;
+	public void setAddittionRiskOne(String addittionRiskOne) {
+		this.addittionRiskOne = addittionRiskOne;
 	}
-	
-	public String getAddittionPremium() {
+
+    public String getAddittionRiskTwo() {
+        return addittionRiskTwo;
+    }
+
+    public void setAddittionRiskTwo(String addittionRiskTwo) {
+        this.addittionRiskTwo = addittionRiskTwo;
+    }
+
+    public String getAddittionRiskThree() {
+        return addittionRiskThree;
+    }
+
+    public void setAddittionRiskThree(String addittionRiskThree) {
+        this.addittionRiskThree = addittionRiskThree;
+    }
+
+    public String getAddittionRiskFour() {
+        return addittionRiskFour;
+    }
+
+    public void setAddittionRiskFour(String addittionRiskFour) {
+        this.addittionRiskFour = addittionRiskFour;
+    }
+
+    public String getAddittionPremium() {
 		return addittionPremium;
 	}
 

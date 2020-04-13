@@ -23,7 +23,7 @@
 		function page(n,s){
 			if(n) $("#pageNo").val(n);
 			if(s) $("#pageSize").val(s);
-			$("#searchForm").attr("action","${ctx}/sys/user/list?officeType=${user.office.officeType}");
+			$("#searchForm").attr("action","${ctx}/sys/user/list?officeType=${user.office.officeType}&sh=${user.auditing}");
 			$("#searchForm").submit();
 	    	return false;
 	    }
@@ -95,7 +95,7 @@
 				<%--
 				<td>${user.roleNames}</td> --%>
 				<shiro:hasPermission name="sys:user:edit"><td>
-    				<a href="${ctx}/sys/user/form?id=${uu.id}&officeType=${user.office.officeType}">修改</a>
+    				<a href="${ctx}/sys/user/form?id=${uu.id}&officeType=${user.office.officeType}&sh=${user.auditing}">修改</a>
 					<a href="${ctx}/sys/user/delete?id=${uu.id}&officeType=${user.office.officeType}" onclick="return confirmx('确认要删除该用户吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

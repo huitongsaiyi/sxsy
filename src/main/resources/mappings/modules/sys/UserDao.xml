@@ -167,6 +167,12 @@
 		<if test="company !=null and company.id != null and company.id != ''">
 			AND a.company_id = #{company.id}
 		</if>
+		<if test="auditing=='sh'">
+			AND a.login_flag = 0
+		</if>
+		<if test="auditing !='sh'">
+			AND a.login_flag = 1
+		</if>
 		<if test="office !=null and office.id != null and office.id != ''">
 			AND a.office_id=#{office.id}
 		</if>

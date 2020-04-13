@@ -110,7 +110,7 @@
 	</sql>
     
 	<select id="get" resultType="ReachMediate">
-		SELECT 
+		SELECT
 			<include refid="reachMediateColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="reachMediateJoins"/>
@@ -118,10 +118,12 @@
 	</select>
 	
 	<select id="findList" resultType="ReachMediate">
-		SELECT 
+		SELECT
+		ci.COMPLAINT_ID as "complaintMain.complaintId",
 			<include refid="reachMediateColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="reachMediateJoins"/>
+		LEFT JOIN COMPLAINT_INFO ci ON b.COMPLAINT_MAIN_ID = ci.COMPLAINT_MAIN_ID
 		<where>
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r1.del_flag = #{DEL_FLAG_NORMAL})AND b.PROC_INS_ID is NOT null and t.TASK_DEF_KEY_='reach'
 			<if test="user != null and user.id != null and user.id != ''">

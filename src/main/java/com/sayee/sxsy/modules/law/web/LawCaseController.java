@@ -50,7 +50,11 @@ public class LawCaseController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(LawCase lawCase, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String law=request.getParameter("law");
-		lawCase.setType(law);
+		if(lawCase.getType()==null||lawCase.getType().equals("")){
+            lawCase.setType(law);
+        }else{
+		    lawCase.setContent(null);
+        }
 		Page<LawCase> page = lawCaseService.findPage(new Page<LawCase>(request, response), lawCase);
 		model.addAttribute("page", page);
 		model.addAttribute("law", law);
@@ -79,10 +83,14 @@ public class LawCaseController extends BaseController {
 	
 	@RequiresPermissions("law:lawCase:edit")
 	@RequestMapping(value = "delete")
-	public String delete(LawCase lawCase, RedirectAttributes redirectAttributes) {
+	public String delete(LawCase lawCase, RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response, Model model) {
 		lawCaseService.delete(lawCase);
 		addMessage(redirectAttributes, "删除信息成功");
-		return "redirect:"+Global.getAdminPath()+"/law/lawCase/?repage";
+		//return "redirect:"+Global.getAdminPath()+"/law/lawCase/?repage";
+        String law = request.getParameter("law");
+        lawCase.setType(law);
+        String list = list(lawCase, request, response, model);
+        return list;
 	}
 
 }

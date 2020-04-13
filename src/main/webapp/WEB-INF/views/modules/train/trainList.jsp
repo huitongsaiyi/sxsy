@@ -69,7 +69,15 @@
 					${train.path}
 				</td>
 				<td>
-					${fns:getDictLabel(train.send, '', '')}
+					<c:if test="${fn:contains(train.send,'0')}">
+                        平台
+                    </c:if>
+                    <c:if test="${fn:contains(train.send,'1')}">
+                        小程序
+                    </c:if>
+                    <c:if test="${fn:contains(train.send,'2')}">
+                        网站
+                    </c:if>
 				</td>
 				<td>
 					${train.introduce}

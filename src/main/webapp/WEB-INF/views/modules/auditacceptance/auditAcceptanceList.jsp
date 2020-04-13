@@ -157,7 +157,7 @@
 						<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}">处理</a>
 						<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${auditAcceptance.complaintMainId}&taskId=${auditAcceptance.complaintMain.act.taskId}&module=badj&url2=/auditacceptance/auditAcceptance/?repage">终止调解</a>
 					</c:if>
-					<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.auditAcceptanceId}&type=view">详情</a>
+					<a href="${ctx}/auditacceptance/auditAcceptance/form?id=${auditAcceptance.complaintMain.complaintId}&mainId=${auditAcceptance.complaintMainId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

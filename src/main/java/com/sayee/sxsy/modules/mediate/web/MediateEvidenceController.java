@@ -103,11 +103,13 @@ public class MediateEvidenceController extends BaseController {
 		List<MediateProgram> mediateProgramList = mediateEvidence.getMediateProgramList();
 		model.addAttribute("proSize",mediateProgramList.size());
 		String type = request.getParameter("type");		//接受从页面传回的数据
+		String complaintId = request.getParameter("complaintId");
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");
 			model.addAttribute("show2",show2);
 			Map<String, Object> map = summaryInfoService.getViewDetail(mediateEvidence.getComplaintMainId());
 			model.addAttribute("map",map);
+			model.addAttribute("complaintId",complaintId);
 			model.addAttribute("mediateEvidence", mediateEvidence);
 			return "modules/mediate/mediateEvidenceView";
 		}else{

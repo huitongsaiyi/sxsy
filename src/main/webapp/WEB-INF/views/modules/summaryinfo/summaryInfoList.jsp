@@ -187,7 +187,7 @@
 					<c:if test="${fns:getUser().loginName eq summaryInfo.complaintMain.act.assigneeName}">
 						<a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.summaryId}">处理</a>
 					</c:if>
-    				<a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.summaryId}&type=view">详情</a>
+    				<a href="${ctx}/summaryinfo/summaryInfo/form?id=${summaryInfo.summaryId}&complaintId=${summaryInfo.complaintMain.complaintId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

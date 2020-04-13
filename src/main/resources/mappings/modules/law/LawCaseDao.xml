@@ -55,6 +55,21 @@
 			<if test='type != null and type != "" and type =="4" '>
 				AND a.type = '4'
 			</if>
+			<if test='type != null and type != "" and type =="5" '>
+				AND a.type = '5'
+			</if>
+            <if test='type != null and type != "" and type =="6" '>
+                AND a.type = '6'
+            </if>
+            <if test='type != null and type != "" and type =="7" '>
+                AND a.type = '7'
+            </if>
+            <if test='type != null and type != "" and type =="8" '>
+                AND a.type = '8'
+            </if>
+            <if test='type != null and type != "" and type =="9" '>
+                AND a.type = '9'
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

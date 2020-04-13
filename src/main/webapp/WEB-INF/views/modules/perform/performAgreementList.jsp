@@ -185,7 +185,7 @@
 						<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}">处理</a>
 						<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${performAgreement.complaintMainId}&taskId=${performAgreement.complaintMain.act.taskId}&module=badj&url10=/perform/performAgreement/?repage">终止调解</a>
 					</c:if>
-					<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}&type=view">详情</a>
+					<a href="${ctx}/perform/performAgreement/form?id=${performAgreement.performAgreementId}&complaintId=${performAgreement.complaintMain.complaintId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

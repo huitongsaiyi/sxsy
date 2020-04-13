@@ -100,10 +100,12 @@
 	</select>
 	
 	<select id="findList" resultType="SignAgreement">
-		SELECT 
+		SELECT
+		ci.COMPLAINT_ID as "complaintMain.complaintId",
 			<include refid="signAgreementColumns"/>
 		FROM COMPLAINT_MAIN b
 		<include refid="signAgreementJoins"/>
+		LEFT JOIN COMPLAINT_INFO ci ON ci.COMPLAINT_MAIN_ID = b.COMPLAINT_MAIN_ID
 		<where>
 			if(a.del_flag IS NOT NULL,a.del_flag = #{DEL_FLAG_NORMAL},r.del_flag = #{DEL_FLAG_NORMAL})  AND b.PROC_INS_ID is NOT NULL AND t.TASK_DEF_KEY_='sign'
 			<if test="user != null and user.id != null and user.id != ''">
@@ -245,6 +247,6 @@
 		WHERE sign_agreement_id = #{signAgreementId}
 	</update>
 	<select id="selectAgreementNumber" resultType="SignAgreement">
-		select si.agreement_number from SIGN_AGREEMENT si where si.del_flag=0 and si.agreement_number is not null and si.agreement_number!=''
+		select si.agreement_number from SIGN_AGREEMENT si where si.del_flag=#{delFlag}
 	</select>
 </mapper>

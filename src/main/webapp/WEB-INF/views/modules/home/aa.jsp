@@ -30,9 +30,7 @@
 
 <body>
 <div id="div" style="width: 100%;">
-    <iframe  src="http://www.haspt.com/#/index?send=2" width="100%"  frameborder="0"  style="overflow:visible;" scrolling="yes" height="100%"></iframe>
-    <iframe  src="http://192.168.1.110:8080/#/index?send=2" width="100%"  frameborder="0"  style="overflow:visible;" scrolling="yes" height="100%"></iframe>
-
+    <iframe  src="http://www.haspt.com/#/index" width="100%"  frameborder="0"  style="overflow:visible;" scrolling="yes" height="100%"></iframe>
 </div>
 
 

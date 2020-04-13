@@ -10,7 +10,7 @@ import java.io.IOException;
 public class FileUpLoadUtils {
 
 
-    public ResponsesUtils ysjUpLoad(MultipartFile file){
+    public ResponsesUtils ysjUpLoad(MultipartFile file,String path){
         // 获取文件名称
         String fileName = file.getOriginalFilename();
         if (StringUtils.isBlank(fileName)) {
@@ -18,13 +18,12 @@ public class FileUpLoadUtils {
         }
         // 获取文件的大小
         long fileSize = file.getSize();
-        if (fileSize > 10 * 1024 * 1024) {
-            return ResponsesUtils.build(500,"上传文件大小超出限定大小10M");
+        if (fileSize > 1024 * 1024 * 1024) {
+            return ResponsesUtils.build(500,"上传文件大小超出限定大小1024M");
         }
         // 获取文件的扩展名
         // String extension = FilenameUtils.getExtension(fileName);
-        // 获取配置路径
-        String path = "/date/images/";
+
         String newPath = path + IdGen.uuid().replaceAll("-", "") + "\\";
         File newDir = new File(newPath);
         if (!newDir.exists()) {

@@ -1,5 +1,6 @@
 package com.sayee.sxsy.newModules.training.service;
 
+import com.sayee.sxsy.common.utils.IdGen;
 import com.sayee.sxsy.newModules.training.dao.TrainMapper;
 
 import com.sayee.sxsy.newModules.training.entity.Train;
@@ -22,6 +23,12 @@ public class TrainingService {
         List<Train> trainings = mapper.selectByExample(example);
 
         return ResponsesUtils.ok(trainings);
+
+    }
+    public Integer save(Train train){
+        train.setTrainId(IdGen.uuid());
+
+        return mapper.insertSelective(train);
 
     }
 }

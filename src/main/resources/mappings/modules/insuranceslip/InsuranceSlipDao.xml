@@ -31,6 +31,16 @@
 		a.law_accumulated_quota AS "lawAccumulatedQuota",
 		a.append_everytime_quota AS "appendEverytimeQuota",
 		a.append_accumulated_quota AS "appendAccumulatedQuota",
+		a.accident_premium AS "accidentPremium",
+		a.accident_insurance_one AS "accidentInsuranceOne",
+		a.accident_insurance_two AS "accidentInsuranceTwo",
+		a.accident_medical_one AS "accidentMedicalOne",
+		a.accident_medical_two AS "accidentMedicalTwo",
+		a.contagion_premium AS "contagionPremium",
+		a.contagion_one_quota AS "contagionOneQuota",
+		a.contagion_year_quota AS "contagionYearQuota",
+		a.ououtsourcing AS "ououtsourcing",
+		a.premium_four AS "premiumFour",
 		a.bed_premium AS "bedPremium",
 		a.medical_premium AS "medicalPremium",
 		a.all_way AS "allWay",
@@ -48,7 +58,10 @@
 		a.enchance_deduction AS "enchanceDeduction",
 		a.risk_float AS "riskFloat",
 		a.asleft_premium AS "asleftPremium",
-		a.addittion_risk AS "addittionRisk",
+		a.addittion_risk_one AS "addittionRiskOne",
+		a.addittion_risk_two AS "addittionRiskTwo",
+		a.addittion_risk_three AS "addittionRiskThree",
+		a.addittion_risk_four AS "addittionRiskFour",
 		a.addittion_premium AS "addittionPremium",
 		a.computational_formula AS "computationalFormula",
 		a.oddicial_receipts_permium AS "oddicialReceiptsPermium",
@@ -80,6 +93,7 @@
 	
 	<sql id="insuranceSlipJoins">
 		LEFT JOIN SYS_OFFICE o2 ON o2.id = a.policy_holder
+		LEFT JOIN SYS_AREA sa ON sa.id = o2.AREA_ID
 	</sql>
     
 	<select id="get" resultType="InsuranceSlip">
@@ -114,6 +128,12 @@
 					<if test="dbName == 'oracle'">'%'||#{sitePostcode}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{sitePostcode}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{sitePostcode},'%')</if>
+			</if>
+			<if test="state != null and state != '' and state== 1">
+				AND a.state LIKE CONCAT('%', #{state}, '%')
+			</if>
+			<if test="area != null and area != ''">
+				and sa.PARENT_IDS like concat('%',#{area},'%')
 			</if>
 		</where>
 		<choose>
@@ -174,6 +194,16 @@
 			law_accumulated_quota,
 			append_everytime_quota,
 			append_accumulated_quota,
+			accident_premium,
+			accident_insurance_one,
+			accident_insurance_two,
+			accident_medical_one,
+			accident_medical_two,
+			contagion_premium,
+			contagion_one_quota,
+			contagion_year_quota,
+			ououtsourcing,
+			premium_four,
 			bed_premium,
 			medical_premium,
 			all_way,
@@ -191,7 +221,10 @@
 			enchance_deduction,
 			risk_float,
 			asleft_premium,
-			addittion_risk,
+			addittion_risk_one,
+			addittion_risk_two,
+			addittion_risk_three,
+			addittion_risk_four,
 			addittion_premium,
 			computational_formula,
 			oddicial_receipts_permium,
@@ -248,6 +281,16 @@
 			#{lawAccumulatedQuota},
 			#{appendEverytimeQuota},
 			#{appendAccumulatedQuota},
+			#{accidentPremium},
+			#{accidentInsuranceOne},
+			#{accidentInsuranceTwo},
+			#{accidentMedicalOne},
+			#{accidentMedicalTwo},
+			#{contagionPremium},
+			#{contagionOneQuota},
+			#{contagionYearQuota},
+			#{ououtsourcing},
+			#{premiumFour},
 			#{bedPremium},
 			#{medicalPremium},
 			#{allWay},
@@ -265,7 +308,10 @@
 			#{enchanceDeduction},
 			#{riskFloat},
 			#{asleftPremium},
-			#{addittionRisk},
+			#{addittionRiskOne},
+			#{addittionRiskTwo},
+			#{addittionRiskThree},
+			#{addittionRiskFour},
 			#{addittionPremium},
 			#{computationalFormula},
 			#{oddicialReceiptsPermium},
@@ -326,6 +372,16 @@
 			law_accumulated_quota = #{lawAccumulatedQuota},
 			append_everytime_quota = #{appendEverytimeQuota},
 			append_accumulated_quota = #{appendAccumulatedQuota},
+			accident_premium = #{accidentPremium},
+			accident_insurance_one = #{accidentInsuranceOne},
+			accident_insurance_two = #{accidentInsuranceTwo},
+			accident_medical_one = #{accidentMedicalOne},
+			accident_medical_two = #{accidentMedicalTwo},
+			contagion_premium = #{contagionPremium},
+			contagion_one_quota = #{contagionOneQuota},
+			contagion_year_quota = #{contagionYearQuota},
+			ououtsourcing = #{ououtsourcing},
+			premium_four = #{premiumFour},
 			bed_premium = #{bedPremium},
 			medical_premium = #{medicalPremium},
 			all_way = #{allWay},
@@ -343,7 +399,10 @@
 			enchance_deduction = #{enchanceDeduction},
 			risk_float = #{riskFloat},
 			asleft_premium = #{asleftPremium},
-			addittion_risk = #{addittionRisk},
+			addittion_risk_one = #{addittionRiskOne},
+			addittion_risk_two = #{addittionRiskTwo},
+			addittion_risk_three = #{addittionRiskThree},
+			addittion_risk_four = #{addittionRiskFour},
 			addittion_premium = #{addittionPremium},
 			computational_formula = #{computationalFormula},
 			oddicial_receipts_permium = #{oddicialReceiptsPermium},

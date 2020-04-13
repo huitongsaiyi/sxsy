@@ -146,7 +146,7 @@
 						${signAgreement.ratifyAccord}
 				</td>
 				<td style="text-align:center;">
-							${signAgreement.agreementNumber}
+						${signAgreement.agreementNumber}
 				</td>
 				<td style="text-align:center;">
 						${signAgreement.agreementAmount}
@@ -188,7 +188,7 @@
 						<a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}">处理</a>
 						<a href="${ctx}/stopmediate/stopMediate/form?complaintMainId=${signAgreement.complaintMainId}&taskId=${signAgreement.complaintMain.act.taskId}&module=badj&url9=/sign/signAgreement/?repage">终止调解</a>
 					</c:if>
-					<a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}&type=view">详情</a>
+					<a href="${ctx}/sign/signAgreement/form?id=${signAgreement.signAgreementId}&complaintId=${signAgreement.complaintMain.complaintId}&type=view">详情</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

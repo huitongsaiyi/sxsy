@@ -2,7 +2,12 @@ package com.sayee.sxsy.api.train.service;
 
 import com.sayee.sxsy.api.train.dao.TrainApiDao;
 import com.sayee.sxsy.api.train.entity.TrainEntity;
+import com.sayee.sxsy.common.persistence.Page;
+import com.sayee.sxsy.common.service.CrudService;
 import com.sayee.sxsy.common.utils.StringUtils;
+import com.sayee.sxsy.modules.complaint.dao.ComplaintInfoDao;
+import com.sayee.sxsy.modules.complaint.entity.ComplaintInfo;
+import com.sayee.sxsy.modules.train.entity.Train;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +17,12 @@ import java.util.List;
  * @Description
  */
 @Service
-public class TrainApiService {
+public class TrainApiService extends CrudService<TrainApiDao, TrainEntity> {
     @Autowired
     private TrainApiDao trainDao;
 
-
-    public List<TrainEntity> getVideo(String s) {
-        TrainEntity train=new TrainEntity();
-        train.setSend(s);
-        List<TrainEntity> aa= trainDao.findList(train);
-        return aa;
+    public Page<TrainEntity> getVideo(Page<TrainEntity> page, TrainEntity train) {
+        return super.findPage(page, train);
     }
 
     public TrainEntity videoDetail(String id) {

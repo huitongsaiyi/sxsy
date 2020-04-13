@@ -32,6 +32,22 @@
         <property name="typeAliasesSuperType" value="com.sayee.sxsy.common.persistence.BaseEntity"/>
         <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+		<!-- 传入PageHelper 分页插件 -->
+		<property name="plugins">
+			<array>
+				<!-- 传入插件的对象 -->
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<props>
+							<!--数据库类型-->
+							<prop key="helperDialect">mysql</prop>
+							<!--页码超出范围自动修正-->
+							<prop key="reasonable">true</prop>
+						</props>
+					</property>
+				</bean>
+			</array>
+		</property>
     </bean>
     
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->

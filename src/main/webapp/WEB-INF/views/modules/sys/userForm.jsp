@@ -37,7 +37,7 @@
 		<li><a href="${ctx}/sys/user/list?officeType=${empty off ? officeType:off}">用户列表</a></li>
 		<li class="active"><a href="${ctx}/sys/user/form?id=${user.id}">用户<shiro:hasPermission name="sys:user:edit">${not empty user.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:user:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/save?officeType=${user.office.officeType}" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/save?officeType=${user.office.officeType}&sh=${sh}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
         <form:hidden path="office.officeType" value="${user.office.officeType}"/>
 		<input type="hidden" id="officeType" name="officeType" value="${officeType}">

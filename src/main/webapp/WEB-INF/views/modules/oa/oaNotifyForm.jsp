@@ -118,7 +118,7 @@
 				<label class="control-label">接受人：</label>
 				<div class="controls">
 	                <sys:treeselect id="oaNotifyRecord" name="oaNotifyRecordIds" value="${oaNotify.oaNotifyRecordIds}" labelName="oaNotifyRecordNames" labelValue="${oaNotify.oaNotifyRecordNames}"
-						title="用户" url="/sys/office/treeData?type=3&officeType=1&officeTypes=3" cssClass="input-xxlarge required" dataMsgRequired="请选择接受人" notAllowSelectParent="true" checked="true"/>
+						title="用户" url="/sys/office/treeData?type=3" cssClass="input-xxlarge required" dataMsgRequired="请选择接受人" notAllowSelectParent="true" checked="true"/>
 					<span class="help-inline"><font color="red">*</font> </span>
 				</div>
 			</div>

@@ -3,33 +3,46 @@
 <mapper namespace="com.sayee.sxsy.api.train.dao.TrainApiDao">
     
 	<sql id="trainingColumns">
-		a.training_id AS "trainingId",
+		a.train_id AS "trainId",
 		a.title AS "title",
 		a.vidio_type AS "vidioType",
-		a.send AS "send",
+		a.department AS "department",
 		a.path AS "path",
+		a.send AS "send",
+		a.introduce AS "introduce",
+		a.score AS "score",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.picture_path AS "picturePath",
+		a.payment AS "payment",
+		a.course_chapter AS "courseChapter",
+		a.buy_number AS "buyNumber",
+		a.video_price AS "videoPrice",
+		a.intended_for AS "intendedFor",
+		a.preknowledge AS "preknowledge",
+		a.lecturer_name AS "lecturerName",
+		a.lecturer_company AS "lecturerCompany"
 	</sql>
 	
 	<sql id="trainingJoins">
+		LEFT JOIN TEST_TREE t ON t.id=a.department
 	</sql>
     
-	<select id="get" resultType="Train">
+	<select id="get" resultType="TrainEntity">
 		SELECT 
 			<include refid="trainingColumns"/>
-		FROM TRAINING a
+		FROM TRAIN a
 		<include refid="trainingJoins"/>
-		WHERE a.training_id = #{id}
+		WHERE a.train_id = #{id}
 	</select>
 	
-	<select id="findList" resultType="Train">
+	<select id="findList" resultType="TrainEntity">
 		SELECT 
 			<include refid="trainingColumns"/>
-		FROM TRAINING a
+		FROM TRAIN a
 		<include refid="trainingJoins"/>
 		<where>
 			a.del_flag = '0'
@@ -45,6 +58,14 @@
 			<if test="send != null and send != ''">
 				AND a.send LIKE concat('%',#{send},'%')
 			</if>
+			<if test="keyWord != null and keyWord != ''">
+				AND (a.title LIKE concat('%',#{keyWord},'%')
+				OR t.name LIKE concat('%',#{keyWord},'%')
+				OR a.INTRODUCE LIKE concat('%',#{keyWord},'%')
+				OR a.LECTURER_NAME LIKE concat('%',#{keyWord},'%')
+
+				)
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -56,10 +77,10 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="Train">
+	<select id="findAllList" resultType="TrainEntity">
 		SELECT 
 			<include refid="trainingColumns"/>
-		FROM TRAINING a
+		FROM TRAIN a
 		<include refid="trainingJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -75,8 +96,8 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO TRAINING(
-			training_id,
+		INSERT INTO TRAIN(
+			train_id,
 			title,
 			vidio_type,
 			send,
@@ -87,7 +108,7 @@
 			update_date,
 			del_flag
 		) VALUES (
-			#{trainingId},
+			#{trainId},
 			#{title},
 			#{vidioType},
 			#{send},
@@ -101,20 +122,20 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE TRAINING SET
+		UPDATE TRAIN SET
 			title = #{title},
 			vidio_type = #{vidioType},
 			send = #{send},
 			path = #{path},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
-		WHERE training_id = #{trainingId}
+		WHERE train_id = #{trainId}
 	</update>
 	
 	<update id="delete">
-		UPDATE TRAINING SET
+		UPDATE TRAIN SET
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE training_id = #{trainingId}
+		WHERE train_id = #{trainId}
 	</update>
 	
 </mapper>

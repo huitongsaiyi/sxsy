@@ -23,4 +23,7 @@ public class TrainingController {
 
        return service.fandByVidioType(jsonObject.toJavaObject(Train.class));
     }
+
+
+
 }

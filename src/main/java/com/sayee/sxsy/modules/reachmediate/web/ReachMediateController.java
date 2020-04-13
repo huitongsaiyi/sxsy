@@ -95,11 +95,13 @@ public class ReachMediateController extends BaseController {
 		List<MediateProgram> mediateProgramList = reachMediate.getMediateProgramList();
 		model.addAttribute("proSize",mediateProgramList.size());
 		String type = request.getParameter("type");
+		String complaintId = request.getParameter("complaintId");
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");
 			model.addAttribute("show2",show2);
 			Map<String, Object> map = summaryInfoService.getViewDetail(reachMediate.getComplaintMainId());
 			model.addAttribute("map",map);
+			model.addAttribute("complaintId",complaintId);
 			model.addAttribute("reachMediate", reachMediate);
 			return "modules/reachmediate/reachMediateView";
 		}else {

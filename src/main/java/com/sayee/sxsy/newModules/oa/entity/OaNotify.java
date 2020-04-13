@@ -1,8 +1,11 @@
 package com.sayee.sxsy.newModules.oa.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Date;
 
 public class OaNotify {
+
     private String id;
 
     private String type;

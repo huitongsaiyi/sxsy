@@ -77,11 +77,13 @@ public class PerformAgreementController extends BaseController {
 			}
 		}
 		String type = request.getParameter("type");
+		String complaintId = request.getParameter("complaintId");
 		if("view".equals(type)){
 			String show2=request.getParameter("show2");
 			model.addAttribute("show2",show2);
 			Map<String, Object> map = summaryInfoService.getViewDetail(performAgreement.getComplaintMainId());
 			model.addAttribute("map",map);
+			model.addAttribute("complaintId",complaintId);
 			model.addAttribute("performAgreement", performAgreement);
 			return "modules/perform/performAgreementView";
 		}else {
